@@ -1,0 +1,10 @@
+# files that should be removed go here:
+**/.DS_Store
+**/thumbs.db
+**/Folder.jpg
+**/Extras/
+**/.project
+**/.gitattributes
+**/.buildpath
+**/.idea
+**/node_modules
