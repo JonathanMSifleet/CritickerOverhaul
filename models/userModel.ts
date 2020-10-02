@@ -11,7 +11,10 @@ const userSchema = new mongoose.Schema({
     unqiue: true,
     maxlength: [20, 'User name cannot be longer than 40 characters'],
     minlength: [3, 'User name cannot be shorter than 10 characters'],
-    validator: [isAlphanumeric, 'Username must not contain special characters']
+    validator: [
+      validator.isAlphanumeric,
+      'Username must not contain special characters'
+    ]
   },
   firstName: {
     type: String,
