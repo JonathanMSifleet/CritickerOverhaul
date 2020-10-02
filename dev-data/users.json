@@ -1,0 +1,14 @@
+[
+  {
+    "UserID": "1",
+    "UserName": "Jonathan",
+    "UserPassword": "$2y$10$iUvQPY8prbeM5NN0WHyarOzAU/F89n.ZxR/tic2B4lsvDvHEfkqsG",
+    "admin": "1"
+  },
+  {
+    "UserID": "7",
+    "UserName": "Lecturer",
+    "UserPassword": "$2y$10$SO2AdJGknOEW6UvsxHXKNutiCkMdjD5PPM5BagmzypwmCS4Q3dIae",
+    "admin": "1"
+  }
+]
