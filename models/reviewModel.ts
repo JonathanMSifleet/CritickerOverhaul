@@ -36,8 +36,12 @@ const reviewSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now.toISOString()
+    default: new Date().toISOString()
   }
 });
 
 // generate slug, use slug to get image path
+
+const Review = mongoose.model('Review', reviewSchema);
+
+export { Review };
