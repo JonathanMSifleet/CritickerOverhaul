@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-const express = require('express');
+import mongoose = require('mongoose');
+import dotenv = require('dotenv');
+import express = require('express');
 
 // catch exceptions:
 process.on('uncaughtException', (err) => {
