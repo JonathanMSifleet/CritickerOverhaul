@@ -21,7 +21,9 @@ const createSessionToken = (user, statusCode, res) => {
   res.cookie('jwt', token, cookieOptions);
 
   // remove password from output
-  //user.password = undefined;
+  user.password = undefined;
+
+  addJWTToDB(user._id, token);
 
   res.status(201).json({
     status: 'success',
@@ -30,6 +32,17 @@ const createSessionToken = (user, statusCode, res) => {
       user
     }
   });
+};
+
+// add token to database if in development mode:
+const addJWTToDB = async (id, token) => {
+  if (process.env.NODE_ENV === 'development') {
+    const user = await User.findOneAndUpdate(
+      { _id: id },
+      { $set: { token: token } },
+      { new: true }
+    );
+  }
 };
 
 exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
@@ -71,9 +84,5 @@ exports.login = catchAsyncErrors(async (req: any, res: any, next: any) => {
     return next(new AppError('Incorrect email or password', 401));
   }
 
-  res.status(201).json({
-    status: 'success'
-  });
-
-  createSessionToken(user, 201, res);
+  createSessionToken(user._id, 201, res);
 });
