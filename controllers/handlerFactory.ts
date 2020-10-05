@@ -1,7 +1,7 @@
-const catchAsyncErrors = require('./../utils/catchAsyncErrors');
+import { catchAsyncErrors } from './../utils/catchAsyncErrors';
 
-exports.createOne = (Model) =>
-  catchAsyncErrors(async (req, res, next) => {
+exports.createOne = (Model: any) =>
+  catchAsyncErrors(async (req: any, res: any, next: any) => {
     const doc = await Model.create(req.body);
 
     res.status(201).json({

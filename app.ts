@@ -1,6 +1,5 @@
-import express = require('express');
 const fs = require('fs');
-const express = require('express');
+import express from 'express';
 const morgan = require('morgan');
 
 const userRouter = require('./routes/userRoutes');

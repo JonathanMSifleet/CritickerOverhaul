@@ -1,7 +1,8 @@
-const catchAsyncErrors = require('./../utils/catchAsyncErrors');
+import { catchAsyncErrors } from './../utils/catchAsyncErrors';
+const AppError = require('./../utils/appError');
 const User = require('./../models/userModel');
 
-exports.signup = catchAsyncErrors(async (req, res, next) => {
+exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
   let tempUser = new User();
   tempUser.username = req.body.username;
   tempUser.firstName = req.body.firstName;

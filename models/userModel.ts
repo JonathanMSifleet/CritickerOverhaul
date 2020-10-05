@@ -1,7 +1,7 @@
-import crypto = require('crypto');
-import mongoose = require('mongoose');
-import validator = require('validator');
-import bcrypt = require('bcrypt');
+const crypto = require('crypto');
+const mongoose = require('mongoose');
+const validator = require('validator');
+const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -50,7 +50,6 @@ const userSchema = new mongoose.Schema({
 userSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   this.password = await bcrypt.hash(this.password, 12); // second parameter defines salt rounds
-  this.passwordConfirm = undefined; // remove passwordConfirm after validation as storing unecessary
   next();
 });
 
