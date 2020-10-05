@@ -9,7 +9,7 @@ const signToken = (id) => {
   });
 };
 
-const createSessionToken = (user, statusCode, res) => {
+const createSessionToken = (user, res) => {
   const token = signToken(user._id);
   const cookieOptions = {
     expires: new Date(
@@ -56,7 +56,7 @@ exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
   tempUser.password = password;
 
   const newUser = await User.create(tempUser);
-  createSessionToken(newUser, 201, res);
+  createSessionToken(newUser, res);
 
   // sign userID with secret value from
   const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
@@ -84,5 +84,5 @@ exports.login = catchAsyncErrors(async (req: any, res: any, next: any) => {
     return next(new AppError('Incorrect email or password', 401));
   }
 
-  createSessionToken(user._id, 201, res);
+  createSessionToken(user._id, res);
 });
