@@ -6,6 +6,7 @@
   "scripts": {
     "start": "ts-node-dev server.ts"
   },
+  "type": "module",
   "dependencies": {
     "@angular/cli": "^10.1.4",
     "bcrypt": "^5.0.0",
