@@ -53,3 +53,7 @@ userSchema.pre('save', async function (next) {
   this.passwordConfirm = undefined; // remove passwordConfirm after validation as storing unecessary
   next();
 });
+
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;
