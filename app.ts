@@ -9,6 +9,6 @@ const app = express();
 app.use(morgan('dev')); // use middleware
 app.use(express.json()); // use middleware
 
-app.use('/', userRouter);
+app.use('/user', userRouter);
 
 module.exports = app; // export app
