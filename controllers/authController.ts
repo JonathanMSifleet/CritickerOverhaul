@@ -88,6 +88,14 @@ exports.login = catchAsyncErrors(async (req: any, res: any, next: any) => {
   createSessionToken(user._id, res);
 });
 
+exports.signOut = (req: any, res: any) => {
+  res.cookie('jwt', 'loggedOut', {
+    expires: new Date(Date.now() + 1000),
+    httpOnly: true
+  });
+  res.status(200).json({ status: 'success' });
+};
+
 exports.deleteAccount = catchAsyncErrors(
   async (req: any, res: any, next: any) => {
     let validInput = true;
