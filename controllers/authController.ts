@@ -37,13 +37,11 @@ const createSessionToken = (user, res) => {
 
 // add token to database if in development mode:
 const addJWTToDB = async (id, token) => {
-  if (process.env.NODE_ENV === 'development') {
-    const user = await User.findOneAndUpdate(
-      { _id: id },
-      { $set: { token: token } },
-      { new: true }
-    );
-  }
+  const user = await User.findOneAndUpdate(
+    { _id: id },
+    { $set: { token: token } },
+    { new: true }
+  );
 };
 
 exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
@@ -61,7 +59,7 @@ exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
 
   // sign userID with secret value from
   const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN
+    expiresIn: '30d'
   });
 
   res.status(201).json({
@@ -88,13 +86,16 @@ exports.login = catchAsyncErrors(async (req: any, res: any, next: any) => {
   createSessionToken(user._id, res);
 });
 
-exports.signOut = (req: any, res: any) => {
-  res.cookie('jwt', 'loggedOut', {
-    expires: new Date(Date.now() + 1000),
-    httpOnly: true
+exports.signOut = catchAsyncErrors(async (req: any, res: any) => {
+  const user = await User.findOneAndUpdate({ _id: req.user.id }, { token: '' });
+  req.user = null;
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: user
+    }
   });
-  res.status(200).json({ status: 'success' });
-};
+});
 
 exports.deleteAccount = catchAsyncErrors(
   async (req: any, res: any, next: any) => {
@@ -122,9 +123,8 @@ exports.deleteAccount = catchAsyncErrors(
     });
   }
 );
-
 exports.protect = catchAsyncErrors(async (req, res, next) => {
-  //check if token exists
+  // 1) Getting token and check of it's there
   let token;
   if (
     req.headers.authorization &&
@@ -134,18 +134,19 @@ exports.protect = catchAsyncErrors(async (req, res, next) => {
   }
 
   if (!token) {
-    return next(new AppError('You are not logged in', 401));
+    return next(
+      new AppError('You are not logged in! Please log in to get access.', 401)
+    );
   }
-
-  // validate token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
-  // 3) Check if user still exists
   const currentUser = await User.findById(decoded.id);
-
   if (!currentUser) {
     return next(
-      new AppError('The user belonging to this token does no longer exist', 401)
+      new AppError(
+        'The user belonging to this token does no longer exist.',
+        401
+      )
     );
   }
 
