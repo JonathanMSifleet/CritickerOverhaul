@@ -1,6 +1,36 @@
 import { catchAsyncErrors } from './../utils/catchAsyncErrors';
 const AppError = require('./../utils/appError');
 const User = require('./../models/userModel');
+const jwt = require('jsonwebtoken');
+
+const signToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN
+  });
+};
+
+const createSessionToken = (user, statusCode, res) => {
+  const token = signToken(user._id);
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + parseInt(process.env.JWT_EXPIRES_IN) * 24 * 60 * 60 * 1000
+    ),
+    httpOnly: true
+  };
+
+  res.cookie('jwt', token, cookieOptions);
+
+  // remove password from output
+  //user.password = undefined;
+
+  res.status(201).json({
+    status: 'success',
+    token,
+    data: {
+      user
+    }
+  });
+};
 
 exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
   // destructuring:
@@ -13,7 +43,12 @@ exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
   tempUser.password = password;
 
   const newUser = await User.create(tempUser);
-  //createSendToken(newUser, 201, res);
+  createSessionToken(newUser, 201, res);
+
+  // sign userID with secret value from
+  const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN
+  });
 
   res.status(201).json({
     status: 'success',
@@ -40,5 +75,5 @@ exports.login = catchAsyncErrors(async (req: any, res: any, next: any) => {
     status: 'success'
   });
 
-  //createSendToken(user, 201, res);
+  createSessionToken(user, 201, res);
 });
