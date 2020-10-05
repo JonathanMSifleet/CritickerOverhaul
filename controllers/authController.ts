@@ -98,23 +98,20 @@ exports.deleteAccount = catchAsyncErrors(
 
     const user = await User.findById(req.user.id).select('+password'); //+ gets fields that are not select in model
 
-    if (
-      !(
-        password === passwordConfirm &&
-        (await user.correctPassword(password, user.password))
-      )
-    ) {
+    if (!(password === passwordConfirm)) {
+      return next(new AppError('Passwords do not match', 401));
+    } else if (await user.correctPassword(password, user.password == false)) {
       return next(new AppError('Incorrect email or password', 401));
-    } else {
-      await User.deleteOne({ _id: req.user.id }, function (err) {
-        if (err) return new AppError(err);
-      });
-
-      res.status(204).json({
-        status: 'success',
-        data: null
-      });
     }
+
+    await User.deleteOne({ _id: req.user.id }, function (err) {
+      if (err) return new AppError(err);
+    });
+
+    res.status(204).json({
+      status: 'success',
+      data: null
+    });
   }
 );
 
