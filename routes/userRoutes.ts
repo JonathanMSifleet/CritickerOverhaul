@@ -9,9 +9,12 @@ router.post('/login', authController.login);
 /* router.post('/forgotPassword', authController.forgotPassword);
 router.patch('/resetPassword/:token', authController.resetPassword); */
 
-// all middleware after this point are protected
 //router.use(authController.protect);
 
-//router.route('/').post(authController.createUser);
+router.delete(
+  '/deleteAccount',
+  authController.protect,
+  authController.deleteAccount
+);
 
 module.exports = router;

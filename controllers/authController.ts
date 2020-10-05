@@ -1,3 +1,4 @@
+const { promisify } = require('util');
 import { catchAsyncErrors } from './../utils/catchAsyncErrors';
 const AppError = require('./../utils/appError');
 const User = require('./../models/userModel');
@@ -5,7 +6,7 @@ const jwt = require('jsonwebtoken');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN
+    expiresIn: '30d'
   });
 };
 
@@ -85,4 +86,64 @@ exports.login = catchAsyncErrors(async (req: any, res: any, next: any) => {
   }
 
   createSessionToken(user._id, res);
+});
+
+exports.deleteAccount = catchAsyncErrors(
+  async (req: any, res: any, next: any) => {
+    let validInput = true;
+
+    const { password, passwordConfirm } = req.body; // use destructuring to get values from req.body
+
+    console.log('User.id', req.user.id);
+
+    const user = await User.findById(req.user.id).select('+password'); //+ gets fields that are not select in model
+
+    if (
+      !(
+        password === passwordConfirm &&
+        (await user.correctPassword(password, user.password))
+      )
+    ) {
+      return next(new AppError('Incorrect email or password', 401));
+    } else {
+      await User.deleteOne({ _id: req.user.id }, function (err) {
+        if (err) return new AppError(err);
+      });
+
+      res.status(204).json({
+        status: 'success',
+        data: null
+      });
+    }
+  }
+);
+
+exports.protect = catchAsyncErrors(async (req, res, next) => {
+  //check if token exists
+  let token;
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    token = req.headers.authorization.split(' ')[1];
+  }
+
+  if (!token) {
+    return next(new AppError('You are not logged in', 401));
+  }
+
+  // validate token
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+
+  // 3) Check if user still exists
+  const currentUser = await User.findById(decoded.id);
+
+  if (!currentUser) {
+    return next(
+      new AppError('The user belonging to this token does no longer exist', 401)
+    );
+  }
+
+  req.user = currentUser;
+  next();
 });
