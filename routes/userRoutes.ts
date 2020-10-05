@@ -9,12 +9,11 @@ router.post('/login', authController.login);
 /* router.post('/forgotPassword', authController.forgotPassword);
 router.patch('/resetPassword/:token', authController.resetPassword); */
 
-//router.use(authController.protect);
+// all routes after this are protected:
+router.use(authController.protect);
 
-router.delete(
-  '/deleteAccount',
-  authController.protect,
-  authController.deleteAccount
-);
+router.delete('/deleteAccount', authController.deleteAccount);
+
+router.get('/signOut', authController.signOut);
 
 module.exports = router;

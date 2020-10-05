@@ -98,9 +98,9 @@ exports.deleteAccount = catchAsyncErrors(
 
     const user = await User.findById(req.user.id).select('+password'); //+ gets fields that are not select in model
 
-    if (!(password === passwordConfirm)) {
+    if (password !== passwordConfirm) {
       return next(new AppError('Passwords do not match', 401));
-    } else if (await user.correctPassword(password, user.password == false)) {
+    } else if ((await user.correctPassword(password, user.password)) == false) {
       return next(new AppError('Incorrect email or password', 401));
     }
 
