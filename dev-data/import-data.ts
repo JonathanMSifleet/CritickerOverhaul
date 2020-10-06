@@ -1,8 +1,8 @@
 const dotenv = require('dotenv');
 const fs = require('fs');
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-import { Review } from './../models/reviewModel';
+const Review = require('./../models/reviewModel');
 
 dotenv.config({ path: './../config.env' });
 

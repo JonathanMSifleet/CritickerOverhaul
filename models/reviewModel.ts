@@ -49,7 +49,8 @@ const reviewSchema: Schema = new Schema({
   },
   createdAt: {
     type: Date,
-    default: new Date().toISOString()
+    default: Date.now(),
+    select: false
   },
   slug: String,
   image: String
