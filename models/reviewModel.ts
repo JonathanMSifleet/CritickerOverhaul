@@ -1,4 +1,5 @@
-import mongoose = require('mongoose');
+const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 const reviewSchema = new mongoose.Schema({
   gameName: {
@@ -37,10 +38,17 @@ const reviewSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: new Date().toISOString()
-  }
+  },
+  slug: String,
+  image: String
 });
 
 // generate slug, use slug to get image path
+reviewSchema.pre('save', function (next) {
+  this.slug = slugify(this.gameName, { lower: true });
+  this.image = this.slug + '.jpg';
+  next();
+});
 
 const Review = mongoose.model('Review', reviewSchema);
 
