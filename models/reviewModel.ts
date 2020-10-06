@@ -1,7 +1,19 @@
-const mongoose = require('mongoose');
-const slugify = require('slugify');
+import mongoose, { Schema, Document } from 'mongoose';
+import slugify from 'slugify';
 
-const reviewSchema = new mongoose.Schema({
+export interface IReview extends Document {
+  gameName: string;
+  tagline: string;
+  blurb: string;
+  review: string;
+  allowComments: boolean;
+  author: string;
+  createdAt: Date;
+  slug: string;
+  image: string;
+}
+
+const reviewSchema: Schema = new Schema({
   gameName: {
     type: String,
     required: [true, 'A review must be about a gane'],
@@ -24,7 +36,7 @@ const reviewSchema = new mongoose.Schema({
     minlength: [1, 'Review must be longer than 1 character'],
     trim: true
   },
-  allowsComments: {
+  allowComments: {
     type: Boolean,
     required: true
   },
@@ -44,12 +56,12 @@ const reviewSchema = new mongoose.Schema({
 });
 
 // generate slug, use slug to get image path
-reviewSchema.pre('save', function (next) {
+reviewSchema.pre<IReview>('save', function (next) {
   this.slug = slugify(this.gameName, { lower: true });
   this.image = this.slug + '.jpg';
   next();
 });
 
-const Review = mongoose.model('Review', reviewSchema);
+const Review = mongoose.model<IReview>('Review', reviewSchema);
 
-export { Review };
+module.exports = Review;
