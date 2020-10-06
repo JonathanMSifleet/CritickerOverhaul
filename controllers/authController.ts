@@ -3,6 +3,7 @@ import { catchAsyncErrors } from './../utils/catchAsyncErrors';
 const AppError = require('./../utils/appError');
 const User = require('./../models/userModel');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -37,6 +38,8 @@ const createSessionToken = (user, res) => {
 
 // add token to database if in development mode:
 const addJWTToDB = async (id, token) => {
+  token = await bcrypt.hash(token, 12);
+
   const user = await User.findOneAndUpdate(
     { _id: id },
     { $set: { token: token } },
@@ -89,6 +92,7 @@ exports.login = catchAsyncErrors(async (req: any, res: any, next: any) => {
 exports.signOut = catchAsyncErrors(async (req: any, res: any) => {
   const user = await User.findOneAndUpdate({ _id: req.user.id }, { token: '' });
   req.user = null;
+
   res.status(200).json({
     status: 'success',
     data: {
@@ -142,12 +146,7 @@ exports.protect = catchAsyncErrors(async (req, res, next) => {
 
   const currentUser = await User.findById(decoded.id);
   if (!currentUser) {
-    return next(
-      new AppError(
-        'The user belonging to this token does no longer exist.',
-        401
-      )
-    );
+    return next(new AppError('The active login token is invalid.', 401));
   }
 
   req.user = currentUser;
