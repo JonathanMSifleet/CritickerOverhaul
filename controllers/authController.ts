@@ -48,16 +48,14 @@ const addJWTToDB = async (id, token) => {
 };
 
 exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
-  // destructuring:
-  const { username, firstName, email, password } = req.body;
+  const jsonUser = {
+    username: req.body.username,
+    firstName: req.body.firstName,
+    email: req.body.email,
+    password: req.body.password
+  };
 
-  let tempUser = new User();
-  tempUser.username = username;
-  tempUser.firstName = firstName;
-  tempUser.email = email;
-  tempUser.password = password;
-
-  const newUser = await User.create(tempUser);
+  const newUser = await User.create(jsonUser);
   createSessionToken(newUser, res);
 
   // sign userID with secret value from
