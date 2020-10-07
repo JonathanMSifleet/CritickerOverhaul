@@ -80,7 +80,7 @@ exports.login = catchAsyncErrors(async (req: any, res: any, next: any) => {
     return next(new AppError('Incorrect email or password', 401));
   }
 
-  createSessionToken(user._id, res);
+  createSessionToken(user, res);
 });
 
 exports.signOut = catchAsyncErrors(async (req: any, res: any) => {
