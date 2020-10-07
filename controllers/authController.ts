@@ -14,9 +14,7 @@ const signToken = (id) => {
 const createSessionToken = (user, res) => {
   const token = signToken(user._id);
   const cookieOptions = {
-    expires: new Date(
-      Date.now() + parseInt(process.env.JWT_EXPIRES_IN) * 24 * 60 * 60 * 1000
-    ),
+    expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
     httpOnly: true
   };
 
@@ -42,12 +40,16 @@ const addJWTToDB = async (id, token) => {
 
   const user = await User.findOneAndUpdate(
     { _id: id },
-    { $set: { token: token } },
+    { $set: { token } },
     { new: true }
   );
 };
 
 exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
+  if (req.body.password !== req.body.passwordConfirm) {
+    return next(new AppError('Passwords do not match', 401));
+  }
+
   const jsonUser = {
     username: req.body.username,
     firstName: req.body.firstName,
@@ -56,19 +58,13 @@ exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
   };
 
   const newUser = await User.create(jsonUser);
-  createSessionToken(newUser, res);
 
   // sign userID with secret value from
   const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
     expiresIn: '30d'
   });
 
-  res.status(201).json({
-    status: 'success',
-    data: {
-      user: newUser
-    }
-  });
+  await createSessionToken(newUser, res);
 });
 
 exports.login = catchAsyncErrors(async (req: any, res: any, next: any) => {
@@ -78,7 +74,7 @@ exports.login = catchAsyncErrors(async (req: any, res: any, next: any) => {
     return next(new AppError('Please provide email and password!', 400));
   }
 
-  const user = await User.findOne({ email }).select('+password'); //+ gets fields that are not select in model
+  const user = await User.findOne({ email }).select('+password'); // + gets fields that are not select in model
 
   if (!user || !(await user.correctPassword(password, user.password))) {
     return next(new AppError('Incorrect email or password', 401));
@@ -101,22 +97,24 @@ exports.signOut = catchAsyncErrors(async (req: any, res: any) => {
 
 exports.deleteAccount = catchAsyncErrors(
   async (req: any, res: any, next: any) => {
-    let validInput = true;
-
     const { password, passwordConfirm } = req.body; // use destructuring to get values from req.body
 
     console.log('User.id', req.user.id);
 
-    const user = await User.findById(req.user.id).select('+password'); //+ gets fields that are not select in model
+    const user = await User.findById(req.user.id).select('+password'); // + gets fields that are not select in model
 
     if (password !== passwordConfirm) {
       return next(new AppError('Passwords do not match', 401));
-    } else if ((await user.correctPassword(password, user.password)) == false) {
+    } else if (
+      (await user.correctPassword(password, user.password)) === false
+    ) {
       return next(new AppError('Incorrect email or password', 401));
     }
 
     await User.deleteOne({ _id: req.user.id }, function (err) {
-      if (err) return new AppError(err);
+      if (err) {
+        return new AppError(err);
+      }
     });
 
     res.status(204).json({

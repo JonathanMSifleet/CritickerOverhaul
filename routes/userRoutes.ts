@@ -1,9 +1,14 @@
 import express from 'express';
+import cors = require('cors');
+
 const authController = require('./../controllers/authController');
 
 const router = express.Router();
 
-router.post('/signup', authController.signup);
+router.options('/signup', cors());
+router.post('/signup', cors(), authController.signup);
+
+router.options('/login', cors());
 router.post('/login', authController.login);
 
 /* router.post('/forgotPassword', authController.forgotPassword);
