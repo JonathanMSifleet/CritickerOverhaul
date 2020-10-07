@@ -38,3 +38,11 @@
   width: 50%;
   display: block;
 }
+
+.titleWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 0;
+}
