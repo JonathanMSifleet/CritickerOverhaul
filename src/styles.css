@@ -45,18 +45,6 @@ html * {
   float: left;
 }
 
-.navbar {
-  background-color: var(--container-dark) !important;
-  width: 100%;
-  margin-bottom: 1%;
-  box-shadow: 0 0 10px 10px var(--box-shadow);
-}
-
-.nav-link {
-  background-color: #535353;
-  color: white !important;
-}
-
 #review {
   width: 100%;
 }
@@ -165,80 +153,12 @@ body {
   background-color: var(--buttonBackground) !important;
 }
 
-.footerContainer {
-  float: left;
-  padding: 0;
-  width: 100%;
-  height: 7vh;
-  background-color: var(--container-dark);
-  margin: 0;
-  box-shadow: 0 0 10px 10px var(--box-shadow);
-}
-
-.footerContent {
-  float: left;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  background-color: var(--container-dark);
-  display: flex;
-  align-items: center;
-}
-
 .footerImageContainer {
   margin: 0;
   padding: 1% 1% 1% 0.5%;
 }
 
-#mmuLogo {
-  margin: 0;
-  padding: 1%;
-  height: 100%;
-  width: auto;
-  float: left;
-  align-self: center;
-}
-
-.gitHubContainerOuter {
-  margin: 0;
-  padding: 0.5%;
-  height: 5vh;
-  background-color: var(--container-light);
-  float: left;
-  display: flex;
-  align-items: center;
-}
-
-.gitHubContainerInner {
-  float: left;
-  margin: 0;
-  padding: 0;
-  height: 5vh;
-  display: flex;
-  white-space: nowrap;
-}
-
-#gitHubLink {
-  margin: auto;
-  text-align: center;
-}
-
-#gitHubLink,
-#gitHubLink:active,
-#gitHubLink:focus,
-#gitHubLink:visited {
-  color: var(--p-text);
-}
-
-#gitHubLink:hover {
-  color: var(--gitHubHyperlink);
-}
-
 #gameBlurb a,
-#gitHubLink a:active,
-#gitHubLink a:focus,
-#gitHubLink a:visited,
 #reviewText a,
 #reviewText:active,
 #reviewText:focus,
@@ -249,47 +169,6 @@ body {
 #gameBlurb a:hover,
 #reviewText a:hover {
   color: var(--reviewHyperlinkHover);
-}
-
-.loginContainer {
-  background-color: var(--container-light);
-  margin: 0 auto;
-  padding: 1%;
-  width: 40vw;
-  height: auto;
-  overflow: hidden;
-}
-
-.loginContainerContent {
-  float: left;
-  background-color: var(--container-dark);
-  display: block;
-  width: 100%;
-  height: auto;
-  padding: 2%;
-}
-
-#formLabel {
-  color: var(--p-text);
-}
-
-#loginButton {
-  background-color: var(--buttonBackground) !important;
-  margin: 0 auto;
-  width: 50%;
-  display: block;
-}
-
-#containerTitleHeader {
-  width: auto;
-  color: var(--p-text);
-  display: inline-block;
-  padding: 1% 1% 1% 1%;
-  margin: 1% 0 0;
-  text-align: center;
-  background-color: var(--container-light);
-  white-space: nowrap;
-  overflow: hidden;
 }
 
 .titleWrapper {
@@ -486,17 +365,6 @@ body {
   background-color: var(--buttonBackground) !important;
 }
 
-#searchButton {
-  display: none;
-}
-
-#searchForm {
-  margin-top: 1%;
-  width: 14vw;
-  margin-left: auto;
-  margin-right: auto;
-}
-
 #signInOutButtonContainer {
   display: flex;
   align-items: center;
@@ -506,19 +374,6 @@ body {
 #signInOutButton {
   margin: auto;
   padding: 0;
-}
-
-#changeThemeContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-#changeThemeButton {
-  float: right;
-  padding: 1%;
-  margin: 0;
-  height: 5vh;
 }
 
 #vueComments {
