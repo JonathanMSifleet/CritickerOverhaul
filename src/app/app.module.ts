@@ -8,6 +8,7 @@ import { PageFooterComponent } from './page-footer/page-footer.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { CardContainerComponent } from './card-container/card-container.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { SignupComponent } from './signup/signup.component';
     PageHeaderComponent,
     PageFooterComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    CardContainerComponent
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],

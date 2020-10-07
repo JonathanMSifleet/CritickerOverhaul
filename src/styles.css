@@ -22,29 +22,6 @@ html * {
   margin: auto auto 7%;
 }
 
-.card {
-  width: auto;
-  margin: 0 auto;
-  background-color: var(--container-light);
-}
-
-.card-title {
-  color: var(--title);
-}
-
-.card-text {
-  color: var(--p-text) !important;
-}
-
-.cardContainer {
-  margin: 1%;
-  padding: 1%;
-  width: 18vw;
-  background-color: var(--container-dark);
-  overflow: auto;
-  float: left;
-}
-
 #review {
   width: 100%;
 }
@@ -147,10 +124,6 @@ body {
   background-color: var(--body) !important;
   clear: right;
   height: auto;
-}
-
-#reviewButton {
-  background-color: var(--buttonBackground) !important;
 }
 
 .footerImageContainer {
