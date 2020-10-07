@@ -7,41 +7,74 @@
     </div>
 
     <!-- attempt sign up form -->
-    <form method="post" action="#">
+    <form #signupForm="ngForm" (ngSubmit)="signUp(signupForm.value)">
       <div class="form-group">
-        <label id="formLabel" for="inputUsername">Username</label>
+        <label id="formLabel" for="username">Username</label>
         <input
           type="text"
-          name="usernameInput"
           class="form-control"
-          id="inputUsername"
+          id="username"
+          required
+          ngModel
+          name="username"
           placeholder="Enter username"
         />
       </div>
       <div class="form-group">
-        <label id="formLabel" for="inputPassword">Password</label>
+        <label id="formLabel" for="firstName">First name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="firstName"
+          required
+          ngModel
+          name="firstName"
+          placeholder="Enter first name"
+        />
+      </div>
+      <div class="form-group">
+        <label id="formLabel" for="email">Email</label>
+        <input
+          type="text"
+          class="form-control"
+          id="email"
+          required
+          ngModel
+          name="email"
+          placeholder="Enter email address"
+        />
+      </div>
+      <div class="form-group">
+        <label id="formLabel" for="password">Password</label>
         <input
           type="password"
-          name="passwordInput"
-          class="form-control rounded"
-          id="inputPassword"
+          class="form-control"
+          id="password"
+          required
+          ngModel
+          name="password"
           placeholder="Enter password"
         />
       </div>
-
-      <!--
-			<?php
-			// if account exists display message
-			if (isset($accountExists)) {
-				if ($accountExists) {
-					echo "<p>Username in use, please try another</p>";
-				}
-			}
-			?>
-       -->
-
-      <button id="loginButton" type="submit" class="btn btn-primary">
-        Submit
+      <div class="form-group">
+        <label id="formLabel" for="passwordConfirm">Confirm Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="passwordConfirm"
+          required
+          ngModel
+          name="passwordConfirm"
+          placeholder="Confirm password"
+        />
+      </div>
+      <button
+        id="loginButton"
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!signupForm.form.valid"
+      >
+        Sign up
       </button>
     </form>
   </div>
