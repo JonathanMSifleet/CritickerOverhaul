@@ -10,10 +10,8 @@ export class CardContainerComponent implements OnInit {
 
   @Input() title: string;
   @Input() tagline: string;
+  @Input() slug: string;
   @Input() image: string;
 
-  ngOnInit(): void {
-    console.log(this.image);
-    this.image = this.image + '.jpg';
-  }
+  ngOnInit(): void {}
 }

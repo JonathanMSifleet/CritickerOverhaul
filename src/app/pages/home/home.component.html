@@ -27,7 +27,8 @@
         <app-card-container
           [title]="review.gameName"
           [tagline]="review.tagline"
-          [image]="review.slug"
+          [slug]="review.slug"
+          [image]="review.image"
         ></app-card-container> </ng-container
     ></ng-container>
     <p *ngIf="isFetching">Loading...</p>

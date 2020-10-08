@@ -26,7 +26,7 @@ exports.createReview = catchAsyncErrors(
 exports.getAllReviews = catchAsyncErrors(
   async (req: any, res: any, next: any) => {
     const reviews = await Review.find({})
-      .select({ gameName: 1, tagline: 1, slug: 1 })
+      .select({ gameName: 1, tagline: 1, slug: 1, image: 1 })
       .sort({ createdAt: -1 }); // sort broken
 
     res.status(201).json({
