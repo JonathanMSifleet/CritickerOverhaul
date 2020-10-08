@@ -8,3 +8,17 @@
 #searchButton {
   display: none;
 }
+
+.container-fluid {
+  margin-top: 1vh;
+  margin-bottom: 7vh;
+  width: auto;
+  background-color: var(--body);
+}
+
+.row {
+  margin: 0 auto;
+  align: centre;
+  clear: right;
+  height: auto;
+}

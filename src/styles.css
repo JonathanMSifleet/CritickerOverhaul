@@ -68,13 +68,6 @@ html * {
   font-size: 1.3em;
 }
 
-.row {
-  margin: 0 auto;
-  align: centre;
-  clear: right;
-  height: auto;
-}
-
 .commentsContainerOuter {
   clear: both;
   float: left;
@@ -110,13 +103,6 @@ h1 {
 
 .nav-item {
   background-color: transparent !important;
-}
-
-.container-fluid {
-  margin-top: 1vh;
-  margin-bottom: 7vh;
-  width: auto;
-  background-color: var(--body);
 }
 
 body {
