@@ -22,6 +22,9 @@
 
 <div class="container-fluid">
   <div class="row justify-content-center">
+    <p *ngIf="loadedReviews.length < 1">No reviews found</p>
+
+    <p>{{ loadedReviews.length }}</p>
     <!-- cards go here -->
   </div>
 </div>
