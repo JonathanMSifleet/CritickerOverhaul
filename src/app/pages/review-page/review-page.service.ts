@@ -10,11 +10,8 @@ export class ReviewsService {
   fetchReview(url: string) {
     return this.http.get<{ [key: string]: Review }>(url).pipe(
       map((responseData) => {
-        for (const key in responseData.data) {
-          if (responseData.hasOwnProperty(key)) {
-            return { ...responseData[key], title: key }; // return first object as only one response should be sent
-          }
-        }
+        // ignore error:
+        return responseData.data.data;
       })
     );
   }

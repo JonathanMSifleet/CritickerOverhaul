@@ -29,16 +29,13 @@ export class ReviewPageComponent implements OnInit {
   }
 
   private fetchReviews(url) {
-    this.reviewsService.fetchReview(url).subscribe((fetchedReviews) => {
+    this.reviewsService.fetchReview(url).subscribe((fetchedReview) => {
       this.isFetching = false;
 
-      // ignore this error:
-      console.log('review', fetchedReviews.data);
-
-      this.title = fetchedReviews.data.title;
-      this.image = fetchedReviews.data.image;
-      this.blurb = fetchedReviews.data.blurb;
-      this.reviewText = fetchedReviews.data.review;
+      this.title = fetchedReview.title;
+      this.image = fetchedReview.image;
+      this.blurb = fetchedReview.blurb;
+      this.reviewText = fetchedReview.review;
     });
   }
 }
