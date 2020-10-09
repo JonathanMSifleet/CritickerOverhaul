@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, Input } from '@angular/core';
-import { Review } from './review-page-review.model';
 import { ReviewsService } from './review-page.service';
 import { Router } from '@angular/router';
 
@@ -16,10 +15,9 @@ export class ReviewPageComponent implements OnInit {
     private router: Router
   ) {}
 
-  review: Review;
   isFetching = false;
 
-  title: string;
+  gameName: string;
   image: string;
   blurb: string;
   reviewText: string;
@@ -32,7 +30,7 @@ export class ReviewPageComponent implements OnInit {
     this.reviewsService.fetchReview(url).subscribe((fetchedReview) => {
       this.isFetching = false;
 
-      this.title = fetchedReview.title;
+      this.gameName = fetchedReview.gameName;
       this.image = fetchedReview.image;
       this.blurb = fetchedReview.blurb;
       this.reviewText = fetchedReview.review;
