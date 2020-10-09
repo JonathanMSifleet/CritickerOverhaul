@@ -6,8 +6,8 @@
     <!-- display review poster image -->
     <div class="reviewImageContainer rounded" id="reviewImageContainer">
       <img
-        src="$imagePath"
-        alt="Poster image for $gameName"
+        src="./../../../assets/images/{{ image }}"
+        alt="Poster image for review"
         class="reviewImage rounded"
       />
     </div>
@@ -15,12 +15,14 @@
     <div class="reviewTextContainer rounded">
       <!-- display game blurb -->
       <div class="textContainer rounded" id="gameBlurb">
-        <p><i>$gameBlurb</i></p>
+        <p>
+          <i>{{ blurb }}</i>
+        </p>
       </div>
 
       <!-- display game review -->
       <div class="textContainer rounded" id="reviewText">
-        <p>$gameReview</p>
+        <p>{{ reviewText }}</p>
       </div>
     </div>
   </div>

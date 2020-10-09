@@ -3,6 +3,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router'; // CLI imports router
+import { ReviewPageComponent } from './pages/review-page/review-page.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,10 @@ const routes: Routes = [
     path: 'signup',
     pathMatch: 'full',
     component: SignupComponent
+  },
+  {
+    path: 'review/:slug',
+    component: ReviewPageComponent
   }
 ]; // sets up routes constant where you define your routes
 

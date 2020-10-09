@@ -11,8 +11,8 @@ const router = express.Router();
 router.options('/getAllReviews', cors());
 router.get('/getAllReviews', cors(), reviewController.getAllReviews);
 
-router.options('/id', cors());
-router.get('/:id', cors(), reviewController.getReview);
+router.options('/:slug', cors());
+router.get('/:slug', cors(), reviewController.getReview);
 
 router.post(
   '/createReview',

@@ -27,7 +27,9 @@ exports.createReview = catchAsyncErrors(
 
 exports.getReview = catchAsyncErrors(async (req: any, res: any, next: any) => {
   // get review from slug
-  const review = await Review.findById(req.params.id);
+  const review = await Review.findOne({ slug: req.params.slug });
+
+  console.log(review);
 
   if (!review) {
     return next(new AppError('No review found with that ID', 404));
@@ -43,9 +45,12 @@ exports.getReview = catchAsyncErrors(async (req: any, res: any, next: any) => {
 
 exports.getAllReviews = catchAsyncErrors(
   async (req: any, res: any, next: any) => {
-    const reviews = await Review.find({})
-      .select({ gameName: 1, tagline: 1, slug: 1, image: 1 })
-      .sort({ createdAt: -1 }); // sort broken
+    const reviews = await Review.find({}).select({
+      gameName: 1,
+      tagline: 1,
+      slug: 1,
+      image: 1
+    });
 
     res.status(201).json({
       status: 'success',
