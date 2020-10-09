@@ -27,14 +27,7 @@ exports.createReview = catchAsyncErrors(
 
 exports.getReview = catchAsyncErrors(async (req: any, res: any, next: any) => {
   // get review from slug
-  const review = await Review.findOne({ slug: req.params.slug }).select({
-    gameName: 1,
-    reviewText: 1,
-    slug: 1,
-    image: 1,
-    allowComments: 1,
-    author: 1
-  });
+  const review = await Review.findOne({ slug: req.params.slug });
 
   console.log(review);
 
