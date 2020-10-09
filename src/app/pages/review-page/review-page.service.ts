@@ -10,7 +10,7 @@ export class ReviewsService {
   fetchReview(url: string) {
     return this.http.get<{ [key: string]: Review }>(url).pipe(
       map((responseData) => {
-        // ignore error:
+        // @ts-expect-error
         return responseData.data.data;
       })
     );

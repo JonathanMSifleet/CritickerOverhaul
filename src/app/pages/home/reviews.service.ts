@@ -16,7 +16,7 @@ export class ReviewsService {
       .pipe(
         map((responseData) => {
           const reviewArray: Review[] = [];
-          // ignore error:
+          // @ts-expect-error
           return responseData.data.data;
         })
       );
