@@ -1,0 +1,37 @@
+#review {
+  width: 100%;
+}
+
+.reviewTextContainer {
+  float: left;
+  background-color: var(--container-light);
+  margin: 1% 1% 1% 0;
+  display: inline-block;
+  width: 77%;
+}
+
+.reviewImageContainer {
+  margin: 1%;
+  padding: 1%;
+  width: 20%;
+  background-color: var(--container-light);
+  float: left;
+}
+
+.reviewImage {
+  width: 100%;
+  height: auto;
+  float: left;
+}
+
+#gameBlurb {
+  float: left;
+  width: auto;
+  font-size: 1.3em;
+}
+
+#reviewText {
+  float: left;
+  clear: left;
+  font-size: 1.3em;
+}
