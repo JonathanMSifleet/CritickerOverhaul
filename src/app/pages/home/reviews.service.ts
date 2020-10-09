@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Review } from './review.model';
+import { Review } from './home-review.model';
 import { map } from 'rxjs/operators';
 import { response } from 'express';
 
@@ -16,12 +16,8 @@ export class ReviewsService {
       .pipe(
         map((responseData) => {
           const reviewArray: Review[] = [];
-          for (const key in responseData.data) {
-            if (responseData.hasOwnProperty(key)) {
-              reviewArray.push({ ...responseData[key], _id: key }); // spread
-            }
-          }
-          return reviewArray;
+          // ignore error:
+          return responseData.data.data;
         })
       );
   }

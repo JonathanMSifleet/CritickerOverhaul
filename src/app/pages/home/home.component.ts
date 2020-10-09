@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Review } from './review.model';
+import { Review } from './home-review.model';
 import { ReviewsService } from './reviews.service';
 
 @Component({
@@ -10,7 +10,6 @@ import { ReviewsService } from './reviews.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  tempLoadedReviews: Review[] = []; // store reviews here
   loadedReviews: Review[] = [];
 
   isFetching = false;
@@ -26,14 +25,8 @@ export class HomeComponent implements OnInit {
 
   private fetchReviews(): void {
     this.reviewsService.fetchReviews().subscribe((reviews) => {
+      this.loadedReviews = reviews;
       this.isFetching = false;
-      this.tempLoadedReviews = reviews;
-
-      // ignore this error:
-      this.loadedReviews = this.tempLoadedReviews[0].data;
-      this.tempLoadedReviews = undefined;
-
-      console.log(this.loadedReviews);
     });
   }
 }
