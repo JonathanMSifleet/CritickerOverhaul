@@ -1,6 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 
+const authController = require('./../controllers/authController');
+
 const reviewController = require('./../controllers/reviewController');
 
 const router = express.Router();
@@ -9,6 +11,13 @@ const router = express.Router();
 router.options('/getAllReviews', cors());
 router.get('/getAllReviews', cors(), reviewController.getAllReviews);
 
-router.post('/createReview', reviewController.createReview);
+router.options('/id', cors());
+router.get('/:id', cors(), reviewController.getReview);
+
+router.post(
+  '/createReview',
+  authController.protect,
+  reviewController.createReview
+);
 
 module.exports = router;

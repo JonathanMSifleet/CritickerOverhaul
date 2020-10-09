@@ -1,4 +1,6 @@
 import { catchAsyncErrors } from '../utils/catchAsyncErrors';
+const AppError = require('./../utils/appError');
+
 const Review = require('./../models/reviewModel');
 
 exports.createReview = catchAsyncErrors(
@@ -22,6 +24,22 @@ exports.createReview = catchAsyncErrors(
     });
   }
 );
+
+exports.getReview = catchAsyncErrors(async (req: any, res: any, next: any) => {
+  // get review from slug
+  const review = await Review.findById(req.params.id);
+
+  if (!review) {
+    return next(new AppError('No review found with that ID', 404));
+  }
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      data: review
+    }
+  });
+});
 
 exports.getAllReviews = catchAsyncErrors(
   async (req: any, res: any, next: any) => {

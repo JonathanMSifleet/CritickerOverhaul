@@ -11,6 +11,7 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { CardContainerComponent } from './components/card-container/card-container.component';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { ReviewPageComponent } from './pages/review-page/review-page.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { FormsModule } from '@angular/forms';
     PageFooterComponent,
     LoginComponent,
     SignupComponent,
-    CardContainerComponent
+    CardContainerComponent,
+    ReviewPageComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],

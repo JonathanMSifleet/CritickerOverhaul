@@ -1,0 +1,27 @@
+<!-- display review title from database -->
+<title>{{ title }}</title>
+
+<body>
+  <div id="review">
+    <!-- display review poster image -->
+    <div class="reviewImageContainer rounded" id="reviewImageContainer">
+      <img
+        src="$imagePath"
+        alt="Poster image for $gameName"
+        class="reviewImage rounded"
+      />
+    </div>
+
+    <div class="reviewTextContainer rounded">
+      <!-- display game blurb -->
+      <div class="textContainer rounded" id="gameBlurb">
+        <p><i>$gameBlurb</i></p>
+      </div>
+
+      <!-- display game review -->
+      <div class="textContainer rounded" id="reviewText">
+        <p>$gameReview</p>
+      </div>
+    </div>
+  </div>
+</body>
