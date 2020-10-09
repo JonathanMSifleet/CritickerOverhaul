@@ -7,24 +7,28 @@
     </div>
 
     <!-- attempt sign in form -->
-    <form method="post" action="#">
+    <form #signInForm="ngForm" (ngSubmit)="signIn(signInForm.value)">
       <div class="form-group">
-        <label id="formLabel" for="inputUsername">Username</label>
+        <label id="formLabel" for="email">Email address</label>
         <input
           type="text"
-          name="usernameInput"
           class="form-control"
-          id="inputUsername"
-          placeholder="Enter username"
+          id="email"
+          required
+          ngModel
+          name="email"
+          placeholder="Enter email address"
         />
       </div>
       <div class="form-group">
-        <label id="formLabel" for="inputPassword">Password</label>
+        <label id="formLabel" for="password">Password</label>
         <input
           type="password"
-          name="passwordInput"
           class="form-control rounded"
-          id="inputPassword"
+          required
+          ngModel
+          id="password"
+          name="password"
           placeholder="Enter password"
         />
       </div>
@@ -38,8 +42,13 @@
 			?>
       -->
 
-      <button id="loginButton" type="submit" class="btn btn-primary">
-        Submit
+      <button
+        id="loginButton"
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="!signInForm.form.valid"
+      >
+        Login
       </button>
     </form>
   </div>

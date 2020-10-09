@@ -9,7 +9,7 @@ router.options('/signup', cors());
 router.post('/signup', cors(), authController.signup);
 
 router.options('/login', cors());
-router.post('/login', authController.login);
+router.post('/login', cors(), authController.login);
 
 /* router.post('/forgotPassword', authController.forgotPassword);
 router.patch('/resetPassword/:token', authController.resetPassword); */

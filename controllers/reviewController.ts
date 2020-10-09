@@ -29,8 +29,6 @@ exports.getReview = catchAsyncErrors(async (req: any, res: any, next: any) => {
   // get review from slug
   const review = await Review.findOne({ slug: req.params.slug });
 
-  console.log(review);
-
   if (!review) {
     return next(new AppError('No review found with that ID', 404));
   }

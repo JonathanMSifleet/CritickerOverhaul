@@ -99,8 +99,6 @@ exports.deleteAccount = catchAsyncErrors(
   async (req: any, res: any, next: any) => {
     const { password, passwordConfirm } = req.body; // use destructuring to get values from req.body
 
-    console.log('User.id', req.user.id);
-
     const user = await User.findById(req.user.id).select('+password'); // + gets fields that are not select in model
 
     if (password !== passwordConfirm) {

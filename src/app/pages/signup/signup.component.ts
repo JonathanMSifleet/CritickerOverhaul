@@ -12,12 +12,8 @@ export class SignupComponent implements OnInit {
   ngOnInit(): void {}
 
   signUp(postData: { username; firstName; email; password }) {
-    console.log(postData);
-
     this.http
       .post('http://127.0.0.1:3000/user/signup', postData)
-      .subscribe((responseData) => {
-        console.log(responseData);
-      });
+      .subscribe((responseData) => {});
   }
 }
