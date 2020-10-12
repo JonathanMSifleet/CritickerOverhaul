@@ -1,3 +1,4 @@
+import { SignupService } from './signup.service';
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -8,17 +9,12 @@ import { Router } from '@angular/router';
   styleUrls: ['./signup.component.css', './../../shared-css/loginSignup.css']
 })
 export class SignupComponent implements OnInit {
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private signupService: SignupService, private router: Router) {}
 
   ngOnInit(): void {}
 
   signUp(postData: { username; firstName; email; password }) {
-    this.http
-      .post('http://127.0.0.1:3000/user/signup', postData)
-      .subscribe((responseData) => {
-        this.router.navigate(['/login']);
-      },
-      errorMessage => {
-      });
-  }
+    this.signupService.signUp(postData);
+    this.router.navigate(['/login']);
+}
 }
