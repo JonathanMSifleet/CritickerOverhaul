@@ -15,8 +15,6 @@ export class ReviewPageComponent implements OnInit {
     private router: Router
   ) {}
 
-  isFetching = false;
-
   gameName: string;
   image: string;
   blurb: string;
@@ -28,7 +26,6 @@ export class ReviewPageComponent implements OnInit {
 
   private fetchReviews(url) {
     this.reviewsService.fetchReview(url).subscribe((fetchedReview) => {
-      this.isFetching = false;
 
       this.gameName = fetchedReview.gameName;
       this.image = fetchedReview.image;

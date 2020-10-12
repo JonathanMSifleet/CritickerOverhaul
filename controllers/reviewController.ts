@@ -18,9 +18,7 @@ exports.createReview = catchAsyncErrors(
 
     res.status(201).json({
       status: 'success',
-      data: {
-        review: newReview
-      }
+      review: newReview
     });
   }
 );
@@ -30,14 +28,15 @@ exports.getReview = catchAsyncErrors(async (req: any, res: any, next: any) => {
   const review = await Review.findOne({ slug: req.params.slug });
 
   if (!review) {
-    return next(new AppError('No review found with that ID', 404));
+    // return next(new AppError('No review found with that ID', 404));
+    res.status(404).json({
+      message: 'No review found with that ID'
+    });
   }
 
   res.status(200).json({
     status: 'success',
-    data: {
-      data: review
-    }
+    data: review
   });
 });
 
@@ -52,9 +51,7 @@ exports.getAllReviews = catchAsyncErrors(
 
     res.status(201).json({
       status: 'success',
-      data: {
-        data: reviews
-      }
+      data: reviews
     });
   }
 );
