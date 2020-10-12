@@ -28,9 +28,7 @@ const createSessionToken = (user, res) => {
   res.status(201).json({
     status: 'success',
     token,
-    data: {
       user
-    }
   });
 };
 
@@ -64,7 +62,12 @@ exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
     expiresIn: '30d'
   });
 
-  await createSessionToken(newUser, res);
+  res.status(201).json({
+    status: 'success',
+    token,
+      user: newUser
+  });
+
 });
 
 exports.login = catchAsyncErrors(async (req: any, res: any, next: any) => {
@@ -89,9 +92,7 @@ exports.signOut = catchAsyncErrors(async (req: any, res: any) => {
 
   res.status(200).json({
     status: 'success',
-    data: {
       data: user
-    }
   });
 });
 
