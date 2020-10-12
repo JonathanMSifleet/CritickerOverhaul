@@ -10,7 +10,7 @@ import { CardContainerComponent } from './components/card-container/card-contain
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ReviewPageComponent } from './pages/review-page/review-page.component';
-import { AuthComponent } from './components/auth/auth.component';
+import { AuthComponent } from './pages/auth/auth.component';
 
 @NgModule({
   declarations: [
