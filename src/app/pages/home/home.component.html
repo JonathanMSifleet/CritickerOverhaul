@@ -22,7 +22,6 @@
 
 <div class="container-fluid">
   <div class="row justify-content-center">
-    <ng-container *ngIf="loadedReviews.length >= 1 && !isFetching">
       <ng-container *ngFor="let review of loadedReviews">
         <app-card-container
           [title]="review.gameName"
@@ -30,7 +29,6 @@
           [slug]="review.slug"
           [image]="review.image"
         ></app-card-container> </ng-container
-    ></ng-container>
-    <p *ngIf="isFetching">Loading...</p>
+    >
   </div>
 </div>
