@@ -7,26 +7,24 @@ import { Router } from '@angular/router';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent {
 
-constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
-isLoginMode = true;
+  isLoginMode = true;
 
-ngOnInit(): void {}
+  switchMode() {
+    this.isLoginMode = !this.isLoginMode;
+  }
 
-switchMode() {
-  this.isLoginMode = this.isLoginMode;
-}
+  signIn(postData): void {
+    this.authService.signIn(postData);
+    this.router.navigate(['']);
+  }
 
-signIn(postData): void {
-  this.authService.signIn(postData);
-  this.router.navigate(['']);
-}
-
-signUp(postData: { username; firstName; email; password }) {
-  this.authService.signUp(postData);
-  this.router.navigate(['/login']);
-}
+  signUp(postData: { username; firstName; email; password }) {
+    this.authService.signUp(postData);
+    this.switchMode();
+  }
 
 }

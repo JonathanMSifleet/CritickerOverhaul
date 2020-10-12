@@ -1,9 +1,9 @@
-<title>Sign in</title>
+<title>{{isLoginMode ? 'Login' : 'Sign up'}}</title>
 
 <div class="loginContainer rounded">
   <div class="loginContainerContent rounded">
     <div class="titleWrapper">
-      <h2 id="containerTitleHeader" class="rounded">Sign-in</h2>
+      <h2 id="containerTitleHeader" class="rounded">{{isLoginMode ? 'Login' : 'Sign up'}}</h2>
     </div>
 
     <ng-container *ngIf="isLoginMode">
@@ -109,7 +109,7 @@
         />
       </div>
       <button
-        id="loginButton"
+        id="signupButton"
         type="submit"
         class="btn btn-primary"
         [disabled]="!signupForm.form.valid"
@@ -118,6 +118,10 @@
       </button>
     </form>
   </ng-container>
-
+  <button
+  id="switchButton"
+  class="btn btn-primary"
+  (click)="switchMode()">
+{{isLoginMode ? 'Sign up instead' : 'Log in instead'}}    </button>
   </div>
 </div>
