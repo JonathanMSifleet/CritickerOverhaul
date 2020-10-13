@@ -1,3 +1,4 @@
+import { EventEmitterService } from './event-emitter/event-emitter.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -24,7 +25,7 @@ import { GlobalVariables } from './common/global-variables';
     AuthComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule  ],
-  providers: [GlobalVariables],
+  providers: [GlobalVariables, EventEmitterService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

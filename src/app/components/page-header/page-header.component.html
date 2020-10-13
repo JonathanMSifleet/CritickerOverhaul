@@ -43,39 +43,14 @@ _END;
         >
       </li> -->
     </ul>
-    <!--
-        <?php
-        // display appropriate buttons depending on whether user is logged in or not
-        if (isset($_SESSION['loggedIn'])) {
-            if ($_SESSION['loggedIn']) {
-                echo "<a class='nav-link rounded' href='" . base_url() . "SignOut'>Sign-out (" . $_SESSION['loggedInUsername'] . ") <span class='sr-only'>(current)</span></a>";
-            } else {
-                echo "<a class='nav-link rounded' href='" . base_url() . "SignUp'>Sign-up <span class='sr-only'>(current)</span></a>";
 
-                echo "<a class='nav-link rounded' href='" . base_url() . "Sign-in'>Sign-in <span class='sr-only'>(current)</span></a>";
-            }
-        } else {
-            echo "<a class='nav-link rounded' href='" . base_url() . "SignUp'>Sign-up <span class='sr-only'>(current)</span></a>";
-
-            echo "<a class='nav-link rounded' href='" . base_url() . "SignIn'>Sign-in <span class='sr-only'>(current)</span></a>";
-        }
-        ?>
-      -->
-
-    <a class="nav-link rounded" routerLink="auth"
-      >Login / Sign-in <span class="sr-only">(current)</span></a
-    >
-
-    <!-- display change theme button
-    <div id="changeThemeContainer">
-      <button
-        class="btn btn-outline-success my-2 my-sm-0"
-        type="button"
-        name="theme"
-        id="changeThemeButton"
-      >
-        Change theme
-      </button>
-    </div> -->
+    <ng-container *ngIf="isLoggedIn; else loggedOut">
+      <a class="nav-link rounded" routerLink="auth"
+        > {{loggedInUsername}}<span class="sr-only">(current)</span></a>
+    </ng-container>
+    <ng-template #loggedOut>
+      <a class="nav-link rounded" routerLink="auth"
+        > Login / Sign-in <span class="sr-only">(current)</span></a>
+    </ng-template>
   </div>
 </nav>
