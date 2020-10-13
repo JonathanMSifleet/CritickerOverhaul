@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ReviewPageComponent } from './pages/review-page/review-page.component';
 import { AuthComponent } from './pages/auth/auth.component';
+import { GlobalVariables } from './common/global-variables';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,7 @@ import { AuthComponent } from './pages/auth/auth.component';
     AuthComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule  ],
-  providers: [],
+  providers: [GlobalVariables],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

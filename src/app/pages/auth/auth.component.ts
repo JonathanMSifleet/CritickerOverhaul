@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
+import { GlobalVariables } from './../../common/global-variables';
 
 @Component({
   selector: 'app-auth',
@@ -9,22 +10,27 @@ import { Router } from '@angular/router';
 })
 export class AuthComponent {
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private globals: GlobalVariables) {}
 
   isLoginMode = true;
 
-  switchMode() {
+  switchMode(): void {
     this.isLoginMode = !this.isLoginMode;
   }
 
   signIn(postData): void {
-    this.authService.signIn(postData);
-    this.router.navigate(['']);
+    this.authService.signIn(postData).subscribe((responseData) => {
+      // @ts-expect-error
+      this.globals.setLoggedInUsername(responseData.user.username);
+
+      this.router.navigate(['']);
+    });
   }
 
-  signUp(postData: { username; firstName; email; password }) {
-    this.authService.signUp(postData);
-    this.switchMode();
+  signUp(postData: { username; firstName; email; password }): void {
+    this.authService.signUp(postData).subscribe((responseData) => {
+      this.switchMode();
+    });
   }
 
 }
