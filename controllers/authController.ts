@@ -11,38 +11,6 @@ const signToken = (id) => {
   });
 };
 
-const createSessionToken = (user, res) => {
-  const token = signToken(user._id);
-  const cookieOptions = {
-    expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
-    httpOnly: true
-  };
-
-  res.cookie('jwt', token, cookieOptions);
-
-  // remove password from output
-  user.password = undefined;
-
-  addJWTToDB(user._id, token);
-
-  res.status(201).json({
-    status: 'success',
-    token,
-      user
-  });
-};
-
-// add token to database if in development mode:
-const addJWTToDB = async (id, token) => {
-  token = await bcrypt.hash(token, 12);
-
-  const user = await User.findOneAndUpdate(
-    { _id: id },
-    { $set: { token } },
-    { new: true }
-  );
-};
-
 exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
   if (req.body.password !== req.body.passwordConfirm) {
     return next(new AppError('Passwords do not match', 401));
@@ -110,7 +78,7 @@ exports.deleteAccount = catchAsyncErrors(
       return next(new AppError('Incorrect email or password', 401));
     }
 
-    await User.deleteOne({ _id: req.user.id }, function (err) {
+    await User.deleteOne({ _id: req.user.id }, (err) => {
       if (err) {
         return new AppError(err);
       }
@@ -147,3 +115,37 @@ exports.protect = catchAsyncErrors(async (req, res, next) => {
   req.user = currentUser;
   next();
 });
+
+const createSessionToken = (user, res) => {
+  const token = signToken(user._id);
+  const cookieOptions = {
+    expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+    httpOnly: true
+  };
+
+  res.cookie('jwt', token, cookieOptions);
+
+  // remove unused user properties from output
+  user.password = undefined;
+  user.role = undefined;
+  user.token = undefined;
+
+  addJWTToDB(user._id, token);
+
+  res.status(201).json({
+    status: 'success',
+    token,
+    user
+  });
+};
+
+// add token to database if in development mode:
+const addJWTToDB = async (id, token) => {
+  token = await bcrypt.hash(token, 12);
+
+  const user = await User.findOneAndUpdate(
+    { _id: id },
+    { $set: { token } },
+    { new: true }
+  );
+};
