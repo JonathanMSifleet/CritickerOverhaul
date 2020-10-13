@@ -1,30 +1,3 @@
-<!--
-<?php
-// load appropriate scripts depending on page type:
-switch ($page) {
-	case "chat_server" :
-		$chatSource = base_url("application/scripts/chat.js");
-		$downloadChat = base_url("application/scripts/DownloadChat.js");
-		$chatRooms = base_url("application/scripts/ChatRooms.js");
-		echo <<<_END
-				<script src=$chatSource></script>
-				<script src=$downloadChat></script>
-				<script src=$chatRooms></script>
-_END;
-		break;
-	case "review":
-		$jumpToComments = base_url("application/scripts/JumpToComments.js");
-		$loadComments = base_url("application/scripts/CommentsVue.js");
-		echo <<<_END
-			<script src=$jumpToComments></script>
-			<script src=$loadComments></script>
-_END;
-		break;
-	default :
-		break;
-}
-?>
--->
 <!-- nav bar -->
 <nav
   class="navbar navbar-fixed-top navbar-expand-lg navbar-dark bg-dark"

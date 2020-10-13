@@ -1,4 +1,3 @@
-import { EventEmitterService } from './event-emitter/event-emitter.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -12,7 +11,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ReviewPageComponent } from './pages/review-page/review-page.component';
 import { AuthComponent } from './pages/auth/auth.component';
-import { GlobalVariables } from './common/global-variables';
 
 @NgModule({
   declarations: [
@@ -25,7 +23,7 @@ import { GlobalVariables } from './common/global-variables';
     AuthComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule  ],
-  providers: [GlobalVariables, EventEmitterService],
+  providers: [ ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
