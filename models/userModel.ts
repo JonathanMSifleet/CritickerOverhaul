@@ -50,17 +50,17 @@ const userSchema = new mongoose.Schema({
 });
 
 // encrypt password:
-userSchema.pre('save', async function (next) {
-  if (!this.isModified('password')) return next();
+userSchema.pre('save', async function(next) {
+  if (!this.isModified('password')) { return next(); }
   this.password = await bcrypt.hash(this.password, 12); // second parameter defines salt rounds
   next();
 });
 
 // check if password is correct:
-userSchema.methods.correctPassword = async function (
+userSchema.methods.correctPassword = async (
   candidatePassword,
   userPassword
-) {
+) =>{
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
