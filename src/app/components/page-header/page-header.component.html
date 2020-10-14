@@ -17,9 +17,9 @@
       </li> -->
     </ul>
 
-    <ng-container *ngIf="isLoggedIn; else loggedOut">
-      <a class="nav-link rounded" routerLink="auth"
-        > {{loggedInUsername}}<span class="sr-only">(current)</span></a>
+    <ng-container *ngIf="loggedInUsername!==''; else loggedOut">
+      <a class="nav-link rounded" href='#'
+        > {{loggedInUsername}} (Log out)<span class="sr-only">(current)</span></a>
     </ng-container>
     <ng-template #loggedOut>
       <a class="nav-link rounded" routerLink="auth"

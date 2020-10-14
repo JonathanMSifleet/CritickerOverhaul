@@ -7,10 +7,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PageHeaderComponent implements OnInit {
 
-  constructor() {
-  }
-  isLoggedIn= false;
-  loggedInUsername = '';
+  constructor() {}
+  loggedInUsername: string;
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loggedInUsername = localStorage.getItem('loggedInUsername');
+  }
 }
