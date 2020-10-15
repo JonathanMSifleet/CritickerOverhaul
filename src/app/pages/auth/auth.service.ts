@@ -1,13 +1,20 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    // console.log('auth service initialised', window.location.href);
+  }
 
-  loggedInUsername = new Subject<string>();
+  private usernameSource = new BehaviorSubject<string>(undefined);
+  loggedInUsername = this.usernameSource.asObservable();
+
+  updateUsername(newUsername: string): void {
+    this.usernameSource.next(newUsername);
+  }
 
   signUp(postData): Observable<object> {
     return this.http

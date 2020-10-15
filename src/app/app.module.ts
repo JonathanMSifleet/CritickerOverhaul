@@ -1,3 +1,4 @@
+import { AuthService } from './pages/auth/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -25,7 +26,7 @@ import { SignoutComponent } from './components/signout/signout.component';
     SignoutComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule  ],
-  providers: [ ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
