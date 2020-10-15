@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from './../../pages/auth/auth.service';
 
 @Component({
   selector: 'app-page-header',
@@ -7,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PageHeaderComponent implements OnInit {
 
-  constructor() {}
-  loggedInUsername: string;
+  // inject auth service rather than create new instance:
+  constructor(public authService: AuthService) {}
 
-  ngOnInit(): void {
-    this.loggedInUsername = localStorage.getItem('loggedInUsername');
+  loggedInUsername;
+  usernameSubscription;
+
+  ngOnInit() {
+    this.usernameSubscription = this.authService.loggedInUsername.subscribe((data) => {
+      this.loggedInUsername = data;
+    });
   }
+
 }

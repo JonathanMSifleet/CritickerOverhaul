@@ -17,13 +17,19 @@
       </li> -->
     </ul>
 
-    <ng-container *ngIf="loggedInUsername!==''; else loggedOut">
-      <a class="nav-link rounded" href='#'
+    <!-- <ng-container *ngIf="loggedInUsername!==undefined; else loggedOut">
+      <a class="nav-link rounded" routerLink="signOut"
         > {{loggedInUsername}} (Log out)<span class="sr-only">(current)</span></a>
     </ng-container>
     <ng-template #loggedOut>
       <a class="nav-link rounded" routerLink="auth"
         > Login / Sign-in <span class="sr-only">(current)</span></a>
-    </ng-template>
+    </ng-template> -->
+
+    <ng-container #loggedOut>
+      <a class="nav-link rounded" routerLink="auth"
+        > Login / Sign-in <span class="sr-only">(current)</span></a>
+    </ng-container>
+
   </div>
 </nav>
