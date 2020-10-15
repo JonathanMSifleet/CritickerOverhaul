@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
 
@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
 
   // passing auth service in constructor injects it
   constructor(
@@ -20,6 +20,10 @@ export class AuthComponent implements OnInit {
 
   ngOnInit() {
     this.usernameSubscription = this.authService.loggedInUsername.subscribe();
+  }
+
+  ngOnDestroy() {
+    this.usernameSubscription.unsubscribe();
   }
 
   switchMode(): void {
@@ -40,7 +44,7 @@ export class AuthComponent implements OnInit {
     });
   }
 
-  setUsername(username: string) {
+  setUsername(username: string): void {
     this.authService.loggedInUsername.next(username);
   }
 
