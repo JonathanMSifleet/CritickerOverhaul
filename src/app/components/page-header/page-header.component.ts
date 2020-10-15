@@ -14,11 +14,16 @@ export class PageHeaderComponent implements OnInit {
   loggedInUsername: string;
 
   ngOnInit(): void {
-
     this.authService.loggedInUsername.subscribe(data => {
-      console.log('page header data: "', data, '"');
       this.loggedInUsername = data;
     });
+
+    if (this.loggedInUsername === undefined) {
+      this.loggedInUsername = localStorage.getItem('loggedInUsername');
+    }
+
+    console.log(this.loggedInUsername);
+
   }
 
 }

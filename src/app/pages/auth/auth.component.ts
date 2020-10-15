@@ -30,7 +30,6 @@ export class AuthComponent implements OnInit {
     this.authService.signIn(postData).subscribe((responseData) => {
       // @ts-expect-error
       this.setUsername(responseData.user.username);
-
       this.router.navigate(['/home']);
     });
   }
@@ -42,7 +41,8 @@ export class AuthComponent implements OnInit {
   }
 
   setUsername(username: string): void {
-  this.authService.updateUsername(username);
+    this.authService.updateUsername(username);
+    localStorage.setItem('loggedInUsername', username);
   }
 
 }
