@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ReviewPageComponent } from './pages/review-page/review-page.component';
 import { AuthComponent } from './pages/auth/auth.component';
+import { SignoutComponent } from './components/signout/signout.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { AuthComponent } from './pages/auth/auth.component';
     PageFooterComponent,
     CardContainerComponent,
     ReviewPageComponent,
-    AuthComponent
+    AuthComponent,
+    SignoutComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule  ],
   providers: [ ],

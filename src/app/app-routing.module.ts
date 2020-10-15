@@ -1,3 +1,4 @@
+import { SignoutComponent } from './components/signout/signout.component';
 import { AuthComponent } from './pages/auth/auth.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NgModule } from '@angular/core';
@@ -14,6 +15,11 @@ const routes: Routes = [
     path: 'auth',
     pathMatch: 'full',
     component: AuthComponent
+  },
+  {
+    path: 'signOut',
+    pathMatch: 'full',
+    component: SignoutComponent
   },
   {
     path: 'review/:slug',
