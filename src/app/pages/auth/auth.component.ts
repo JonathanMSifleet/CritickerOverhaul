@@ -18,11 +18,11 @@ export class AuthComponent implements OnInit, OnDestroy {
   isLoginMode = true;
   usernameSubscription;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.usernameSubscription = this.authService.loggedInUsername.subscribe();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.usernameSubscription.unsubscribe();
   }
 

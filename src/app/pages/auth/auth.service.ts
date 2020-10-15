@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -9,12 +9,12 @@ export class AuthService {
 
   loggedInUsername = new Subject<string>();
 
-  signUp(postData) {
+  signUp(postData): Observable<object> {
     return this.http
       .post('http://127.0.0.1:3000/user/signup', postData);
   }
 
-  signIn(postData: { email; password }) {
+  signIn(postData: { email; password }): Observable<object> {
     return this.http
       .post('http://127.0.0.1:3000/user/login', postData);
   }

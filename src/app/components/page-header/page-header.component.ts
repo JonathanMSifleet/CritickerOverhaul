@@ -14,13 +14,13 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
   loggedInUsername;
   usernameSubscription;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.usernameSubscription = this.authService.loggedInUsername.subscribe((data) => {
       this.loggedInUsername = data;
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.usernameSubscription.unsubscribe();
   }
 

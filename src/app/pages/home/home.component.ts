@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 
 import { Review } from './home-review.model';
 import { ReviewsService } from './reviews.service';
@@ -13,11 +12,10 @@ export class HomeComponent implements OnInit {
   loadedReviews: Review;
 
   constructor(
-    private http: HttpClient,
-    private reviewsService: ReviewsService
+    private reviewsService: ReviewsService,
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.fetchReviews();
   }
 

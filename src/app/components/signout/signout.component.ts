@@ -1,7 +1,6 @@
 import { SignoutService } from './signout.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../pages/auth/auth.service';
 
 @Component({
   selector: 'app-signout',
