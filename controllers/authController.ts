@@ -54,8 +54,8 @@ exports.login = catchAsyncErrors(async (req: any, res: any, next: any) => {
   createSessionToken(user, res);
 });
 
-exports.signOut = catchAsyncErrors(async (req: any, res: any) => {
-  const user = await User.findOneAndUpdate({ _id: req.user.id }, { token: '' });
+exports.signOut = catchAsyncErrors(async (req: any, res: any, usernameToFind: string) => {
+  const user = await User.findOneAndUpdate({ username: usernameToFind}, { token: '' });
   req.user = null;
 
   res.status(200).json({
