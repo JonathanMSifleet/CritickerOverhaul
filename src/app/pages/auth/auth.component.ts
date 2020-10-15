@@ -34,7 +34,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.authService.signIn(postData).subscribe((responseData) => {
       // @ts-expect-error
       this.setUsername(responseData.user.username);
-      this.router.navigate(['']);
+      this.router.navigate(['/home']);
     });
   }
 

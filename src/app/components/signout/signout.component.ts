@@ -20,7 +20,7 @@ export class SignoutComponent implements OnInit {
 
   private signOut(): void {
     this.signoutService.signout().subscribe(responseData => {
-      this.router.navigate(['']);
+      this.router.navigate(['/home']);
     });
   }
 
