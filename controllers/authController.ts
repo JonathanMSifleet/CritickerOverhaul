@@ -54,6 +54,41 @@ exports.login = catchAsyncErrors(async (req: any, res: any, next: any) => {
   createSessionToken(user, res);
 });
 
+const createSessionToken = (user, res) => {
+  const token = signToken(user._id);
+  const cookieOptions = {
+    expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
+    httpOnly: true
+  };
+
+  res.cookie('jwt', token, cookieOptions);
+
+  // remove unused user properties from output
+  user.password = undefined;
+  user.role = undefined;
+  user.token = undefined;
+
+  addJWTToDB(user._id, token);
+
+  res.status(201).json({
+    status: 'success',
+    token,
+    user
+  });
+};
+
+// add token to database if in development mode:
+const addJWTToDB = async (id, token) => {
+  token = await bcrypt.hash(token, 12);
+
+  const user = await User.findOneAndUpdate(
+    { _id: id },
+    { $set: { token } },
+    { new: true }
+  );
+};
+
+
 exports.signOut = catchAsyncErrors(async (req: any, res: any, usernameToFind: string) => {
   const user = await User.findOneAndUpdate({ username: usernameToFind}, { token: '' });
   req.user = null;
@@ -115,37 +150,3 @@ exports.protect = catchAsyncErrors(async (req, res, next) => {
   req.user = currentUser;
   next();
 });
-
-const createSessionToken = (user, res) => {
-  const token = signToken(user._id);
-  const cookieOptions = {
-    expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
-    httpOnly: true
-  };
-
-  res.cookie('jwt', token, cookieOptions);
-
-  // remove unused user properties from output
-  user.password = undefined;
-  user.role = undefined;
-  user.token = undefined;
-
-  addJWTToDB(user._id, token);
-
-  res.status(201).json({
-    status: 'success',
-    token,
-    user
-  });
-};
-
-// add token to database if in development mode:
-const addJWTToDB = async (id, token) => {
-  token = await bcrypt.hash(token, 12);
-
-  const user = await User.findOneAndUpdate(
-    { _id: id },
-    { $set: { token } },
-    { new: true }
-  );
-};

@@ -10,7 +10,6 @@ To run:
 *******************
 
 To Do:
-- Persisting user data (username in header)
 - Client-side route protection
 - Error handling (404 etc.)
 - Client-side Form validation messages

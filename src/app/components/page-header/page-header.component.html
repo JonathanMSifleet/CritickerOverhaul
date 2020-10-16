@@ -20,7 +20,6 @@
     <ng-container *ngIf="loggedInUsername === undefined || loggedInUsername === null; else loggedIn">
       <a class="nav-link rounded" routerLink="auth"
         > Login / Sign-in <span class="sr-only">(current)</span></a>
-
     </ng-container>
     <ng-template #loggedIn>
       <a class="nav-link rounded" routerLink="signOut"

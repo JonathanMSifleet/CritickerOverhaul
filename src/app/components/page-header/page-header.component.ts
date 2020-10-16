@@ -18,12 +18,10 @@ export class PageHeaderComponent implements OnInit {
       this.loggedInUsername = data;
     });
 
+    // load username from local storage if user refreshes
     if (this.loggedInUsername === undefined) {
       this.loggedInUsername = localStorage.getItem('loggedInUsername');
     }
-
-    console.log(this.loggedInUsername);
-
   }
 
 }
