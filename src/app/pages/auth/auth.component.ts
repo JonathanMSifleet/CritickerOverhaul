@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 })
 export class AuthComponent implements OnInit {
 
+  error: string = null;
+
   // passing auth service in constructor injects it
   constructor(
     public authService: AuthService,
@@ -24,6 +26,7 @@ export class AuthComponent implements OnInit {
 
   switchMode(): void {
     this.isLoginMode = !this.isLoginMode;
+    this.error = null;
   }
 
   signIn(postData): void {
@@ -37,6 +40,9 @@ export class AuthComponent implements OnInit {
   signUp(postData: { username; firstName; email; password }): void {
     this.authService.signUp(postData).subscribe((responseData) => {
       this.switchMode();
+    }, error => {
+      this.error = error.error.message;
+      console.log(this.error);
     });
   }
 

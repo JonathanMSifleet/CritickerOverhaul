@@ -13,42 +13,51 @@ const signToken = (id) => {
 
 exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
   if (req.body.password !== req.body.passwordConfirm) {
-    return next(new AppError('Passwords do not match', 401));
+    AppError(res, 401, 'Passwords do not match');
   }
 
-  const jsonUser = {
+  const newUser = new User ({
     username: req.body.username,
     firstName: req.body.firstName,
     email: req.body.email,
     password: req.body.password
-  };
-
-  const newUser = await User.create(jsonUser);
-
-  // sign userID with secret value from
-  const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-    expiresIn: '30d'
   });
 
-  res.status(201).json({
-    status: 'success',
-    token,
-      user: newUser
-  });
+  newUser.save((err) => {
+    if (err) {
+      if (err.name === 'MongoError' && err.code === 11000) {
+        // User already exists
+        res.status(422).json({
+          status: 'success',
+          message: 'Email already in use'
+        });
+      }
+    } else {
+      // sign userID with secret value from
+      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+        expiresIn: '30d'
+      });
 
+      res.status(201).json({
+        status: 'success',
+        token,
+        user: newUser
+      });
+    }
+  });
 });
 
 exports.login = catchAsyncErrors(async (req: any, res: any, next: any) => {
   const { email, password } = req.body; // use destructuring to get values from req.body
 
   if (!email || !password) {
-    return next(new AppError('Please provide email and password!', 400));
+    AppError(res, 400, 'Please provide email and password!');
   }
 
   const user = await User.findOne({ email }).select('+password'); // + gets fields that are not select in model
 
   if (!user || !(await user.correctPassword(password, user.password))) {
-    return next(new AppError('Incorrect email or password', 401));
+    AppError(res, 401, 'Incorrect email or password');
   }
 
   createSessionToken(user, res);
@@ -106,22 +115,21 @@ exports.deleteAccount = catchAsyncErrors(
     const user = await User.findById(req.user.id).select('+password'); // + gets fields that are not select in model
 
     if (password !== passwordConfirm) {
-      return next(new AppError('Passwords do not match', 401));
+      AppError(res, 401, 'Passwords do not match');
     } else if (
       (await user.correctPassword(password, user.password)) === false
     ) {
-      return next(new AppError('Incorrect email or password', 401));
+      AppError(res, 401, 'Incorrect email or password');
     }
 
     await User.deleteOne({ _id: req.user.id }, (err) => {
       if (err) {
-        return new AppError(err);
+        AppError(res, 404, err);
       }
     });
 
     res.status(204).json({
-      status: 'success',
-      data: null
+      status: 'success'
     });
   }
 );
@@ -137,14 +145,14 @@ exports.protect = catchAsyncErrors(async (req, res, next) => {
 
   if (!token) {
     return next(
-      new AppError('You are not logged in! Please log in to get access.', 401)
+      AppError(res, 401, 'You are not logged in! Please log in to get access.')
     );
   }
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
   const currentUser = await User.findById(decoded.id);
   if (!currentUser) {
-    return next(new AppError('The active login token is invalid.', 401));
+    AppError(res, 401, 'The active login token is invalid.');
   }
 
   req.user = currentUser;

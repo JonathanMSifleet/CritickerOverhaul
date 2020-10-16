@@ -1,5 +1,4 @@
 import { catchAsyncErrors } from '../utils/catchAsyncErrors';
-const AppError = require('./../utils/appError');
 
 const Review = require('./../models/reviewModel');
 
