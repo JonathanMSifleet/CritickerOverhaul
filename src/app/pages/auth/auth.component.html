@@ -5,7 +5,9 @@
     <div class="titleWrapper">
       <h2 id="containerTitleHeader" class="rounded">{{isLoginMode ? 'Login' : 'Sign up'}}</h2>
     </div>
-
+    <div class="alert alert-danger" *ngIf="error">
+      <p>{{error}}</p>
+    </div>
     <ng-container *ngIf="isLoginMode">
 
     <!-- attempt sign in form -->
