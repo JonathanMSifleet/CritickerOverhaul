@@ -2,7 +2,7 @@
 	background-color: var(--container-light);
 	margin: 0 auto;
 	padding: 1%;
-	width: 40vw;
+	width: 30vw;
 	height: auto;
 	overflow: hidden;
 }
@@ -42,7 +42,10 @@
 
 #loginButton, #signupButton, #switchButton {
 	background-color: var(--buttonBackground) !important;
-	margin: 0 auto;
-	width: 50%;
+  margin: 0 auto;
+  float: left;
+  margin-left: 5%;
+  margin-right: 5%;
+	width: 40%;
 	display: block;
 }

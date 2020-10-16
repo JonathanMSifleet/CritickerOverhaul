@@ -43,6 +43,12 @@
       >
         Login
       </button>
+      <button
+        id="switchButton"
+        class="btn btn-primary"
+        (click)="switchMode()">
+        {{isLoginMode ? 'Sign up instead' : 'Log in instead'}}
+      </button>
     </form>
   </ng-container>
 
@@ -116,12 +122,13 @@
       >
         Sign up
       </button>
+      <button
+        id="switchButton"
+        class="btn btn-primary"
+        (click)="switchMode()">
+        {{isLoginMode ? 'Sign up instead' : 'Log in instead'}}
+      </button>
     </form>
   </ng-container>
-  <button
-  id="switchButton"
-  class="btn btn-primary"
-  (click)="switchMode()">
-{{isLoginMode ? 'Sign up instead' : 'Log in instead'}}    </button>
   </div>
 </div>
