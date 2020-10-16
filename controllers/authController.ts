@@ -1,6 +1,6 @@
 const { promisify } = require('util');
 import { catchAsyncErrors } from './../utils/catchAsyncErrors';
-const AppError = require('./../utils/appError');
+const createResErr = require('./../utils/createResErr');
 const User = require('./../models/userModel');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
@@ -12,26 +12,21 @@ const signToken = (id) => {
 };
 
 exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
-  if (req.body.password !== req.body.passwordConfirm) {
-    AppError(res, 401, 'Passwords do not match');
-  }
-
   const newUser = new User ({
     username: req.body.username,
     firstName: req.body.firstName,
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
+    passwordConfirm: req.body.passwordConfirm
   });
 
   newUser.save((err) => {
     if (err) {
-      if (err.name === 'MongoError' && err.code === 11000) {
-        // User already exists
-        res.status(422).json({
-          status: 'success',
-          message: 'Email already in use'
-        });
-      }
+      console.log('error on save', err);
+
+      // send error response:
+      createResErr(res, 500, err.message);
+
     } else {
       // sign userID with secret value from
       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
@@ -51,13 +46,13 @@ exports.login = catchAsyncErrors(async (req: any, res: any, next: any) => {
   const { email, password } = req.body; // use destructuring to get values from req.body
 
   if (!email || !password) {
-    AppError(res, 400, 'Please provide email and password!');
+    createResErr(res, 400, 'Please provide email and password!');
   }
 
   const user = await User.findOne({ email }).select('+password'); // + gets fields that are not select in model
 
   if (!user || !(await user.correctPassword(password, user.password))) {
-    AppError(res, 401, 'Incorrect email or password');
+    createResErr(res, 401, 'Incorrect email or password');
   }
 
   createSessionToken(user, res);
@@ -115,16 +110,16 @@ exports.deleteAccount = catchAsyncErrors(
     const user = await User.findById(req.user.id).select('+password'); // + gets fields that are not select in model
 
     if (password !== passwordConfirm) {
-      AppError(res, 401, 'Passwords do not match');
+      createResErr(res, 401, 'Passwords do not match');
     } else if (
       (await user.correctPassword(password, user.password)) === false
     ) {
-      AppError(res, 401, 'Incorrect email or password');
+      createResErr(res, 401, 'Incorrect email or password');
     }
 
     await User.deleteOne({ _id: req.user.id }, (err) => {
       if (err) {
-        AppError(res, 404, err);
+        createResErr(res, 404, err);
       }
     });
 
@@ -145,14 +140,14 @@ exports.protect = catchAsyncErrors(async (req, res, next) => {
 
   if (!token) {
     return next(
-      AppError(res, 401, 'You are not logged in! Please log in to get access.')
+      createResErr(res, 401, 'You are not logged in! Please log in to get access.')
     );
   }
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
   const currentUser = await User.findById(decoded.id);
   if (!currentUser) {
-    AppError(res, 401, 'The active login token is invalid.');
+    createResErr(res, 401, 'The active login token is invalid.');
   }
 
   req.user = currentUser;

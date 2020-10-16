@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
     trim: true,
     maxlength: [16, 'User name cannot be longer than 40 characters'],
     minlength: [3, 'User name cannot be shorter than 10 characters'],
-    validator: [validator.isAlpha, 'Username must only contain  characters']
+    validator: [validator.isAlpha, 'Username must only contain characters']
   },
   email: {
     type: String,
@@ -44,6 +44,19 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Please enter a password'],
     select: false
   },
+  passwordConfirm: {
+    type: String,
+    maxlength: [64, 'Password max length is 64 characters'],
+    minlength: [8, 'Password min length is 8 characters'],
+    required: [true, 'Please confirm your password'],
+    validate: {
+      validator(val): boolean {
+        // Only works on .save, accept if value returns true:
+        return val === this.password;
+      },
+      message: 'Passwords do not match' // use mongoose value
+    }
+  },
   token: {
     type: String
   }
@@ -53,6 +66,7 @@ const userSchema = new mongoose.Schema({
 userSchema.pre('save', async function(next) {
   if (!this.isModified('password')) { return next(); }
   this.password = await bcrypt.hash(this.password, 12); // second parameter defines salt rounds
+  this.passwordConfirm = undefined; // remove passwordConfirm after validation as storing unecessary
   next();
 });
 
@@ -60,7 +74,7 @@ userSchema.pre('save', async function(next) {
 userSchema.methods.correctPassword = async (
   candidatePassword,
   userPassword
-) =>{
+) => {
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 

@@ -34,15 +34,18 @@ export class AuthComponent implements OnInit {
       // @ts-expect-error
       this.setUsername(responseData.user.username);
       this.router.navigate(['/home']);
+    }, errorRes => {
+      this.error = errorRes.error.error;
     });
   }
 
   signUp(postData: { username; firstName; email; password }): void {
     this.authService.signUp(postData).subscribe((responseData) => {
       this.switchMode();
-    }, error => {
-      this.error = error.error.message;
-      console.log(this.error);
+    }, errorRes => {
+      console.log(errorRes)
+      this.error = errorRes.error.error;
+      // console.log(this.error);
     });
   }
 

@@ -52,12 +52,11 @@
 
 .alert {
   background-color: #C0466A;
-  padding: 0;
+  padding: 1%;
   margin-top: 5%;
   margin-left: 20%;
   margin-right: 20%;
   display: flex;
   justify-content: center;
   align-items: center;
-  max-width: 60%;
 }
