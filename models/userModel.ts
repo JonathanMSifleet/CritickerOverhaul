@@ -75,6 +75,14 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
+// format username:
+userSchema.pre('save', async function(next) {
+  this.firstName = this.firstName.toLowerCase();
+  // make first character upper case:
+  this.firstName = this.firstName.charAt(0).toUpperCase() + this.firstName.slice(1);
+  next();
+});
+
 // check if password is correct:
 userSchema.methods.correctPassword = async (
   candidatePassword,
