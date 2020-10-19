@@ -7,7 +7,7 @@ import { ReviewPageComponent } from './pages/review-page/review-page.component';
 
 const routes: Routes = [
   {
-    path: 'home',
+    path: '',
     pathMatch: 'full',
     component: HomeComponent
   },
