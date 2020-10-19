@@ -22,7 +22,6 @@ exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
 
   newUser.save((err) => {
     if (err) {
-      console.log('error on save', err);
 
       // send error response:
       createResErr(res, 500, err.message);

@@ -29,7 +29,6 @@ const userSchema = new mongoose.Schema({
     required: [true, 'EMAIL REQUIRED'],
     unique: true,
     trim: true,
-    lowercase: [true, 'EMAIL MUST BE LOWERCASE'],
     validate: [validator.isEmail, 'INVALID EMAIL']
   },
   role: {
@@ -71,7 +70,7 @@ userSchema.pre('save', async function(next) {
 });
 
 // make user email lower case:
-userSchema.pre('save', async function(next): {
+userSchema.pre('save', async function(next) {
   this.email = this.email.toLowerCase();
   next();
 });
