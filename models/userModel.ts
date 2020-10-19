@@ -6,31 +6,31 @@ const bcrypt = require('bcrypt');
 const userSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: [true, ' A user must have a name'],
+    required: [true, 'USERNAME REQUIRED'],
     trim: true,
     unqiue: true,
-    maxlength: [20, 'User name cannot be longer than 40 characters'],
-    minlength: [3, 'User name cannot be shorter than 10 characters'],
+    maxlength: [20, 'USERNAME TOO LONG '],
+    minlength: [3, 'USERNAME TOO SHORT '],
     validator: [
       validator.isAlphanumeric,
-      'Username must not contain special characters'
+      'USERNAME MUST BE ALPHANUMERIC'
     ]
   },
   firstName: {
     type: String,
-    required: [true, ' A user must have a name'],
+    required: [true, 'NAME REQUIRED'],
     trim: true,
-    maxlength: [16, 'User name cannot be longer than 40 characters'],
-    minlength: [3, 'User name cannot be shorter than 10 characters'],
-    validator: [validator.isAlpha, 'Username must only contain characters']
+    maxlength: [16, 'NAME TOO LONG'],
+    minlength: [3, 'NAME TOO SHORT'],
+    validator: [validator.isAlpha, 'NAME MUST CONTAIN ONLY CHARACTERS']
   },
   email: {
     type: String,
-    required: [true, 'Email required'],
+    required: [true, 'EMAIL REQUIRED'],
     unique: true,
     trim: true,
-    lowercase: [true, 'Email address must be lowercase'],
-    validate: [validator.isEmail, 'Not a valid email']
+    lowercase: [true, 'EMAIL MUST BE LOWERCASE'],
+    validate: [validator.isEmail, 'INVALID EMAIL']
   },
   role: {
     type: String,
@@ -39,22 +39,22 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    maxlength: [64, 'Password max length is 64 characters'],
-    minlength: [8, 'Password min length is 8 characters'],
-    required: [true, 'Please enter a password'],
+    maxlength: [64, 'PASSWORD TOO LONG'],
+    minlength: [8, 'PASSWORD TOO SHORT'],
+    required: [true, 'PASSWORD REQUIRED'],
     select: false
   },
   passwordConfirm: {
     type: String,
-    maxlength: [64, 'Password max length is 64 characters'],
-    minlength: [8, 'Password min length is 8 characters'],
-    required: [true, 'Please confirm your password'],
+    maxlength: [64, 'CONFIRMATION PASSWORD TOO SHORT'],
+    minlength: [8, 'CONFIRMATION PASSWORD TOO LONG'],
+    required: [true, 'CONFIRMATION PASSWORD REQUIRED'],
     validate: {
       validator(val): boolean {
         // Only works on .save, accept if value returns true:
         return val === this.password;
       },
-      message: 'Passwords do not match' // use mongoose value
+      message: 'PASSWORDS DO NOT MATCH' // use mongoose value
     }
   },
   token: {
