@@ -11,6 +11,5 @@ To run:
 
 To Do:
 - Client-side route protection
-- Error handling (404 etc.)
-- Client-side Form validation messages
-- Creation of review
+- Error handling
+- Optional: creation of reviews

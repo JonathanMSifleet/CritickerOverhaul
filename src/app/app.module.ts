@@ -1,4 +1,3 @@
-import { AuthService } from './pages/auth/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -13,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { ReviewPageComponent } from './pages/review-page/review-page.component';
 import { AuthComponent } from './pages/auth/auth.component';
 import { SignoutComponent } from './components/signout/signout.component';
+import { FourOhFourComponent } from './pages/four-oh-four/four-oh-four.component';
 
 @NgModule({
   declarations: [
@@ -23,9 +23,10 @@ import { SignoutComponent } from './components/signout/signout.component';
     CardContainerComponent,
     ReviewPageComponent,
     AuthComponent,
-    SignoutComponent
+    SignoutComponent,
+    FourOhFourComponent
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule  ],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
   bootstrap: [AppComponent]
 })
