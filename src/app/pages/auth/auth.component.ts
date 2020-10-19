@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
 
   error: string = null;
   unfriendlyErrors: string[];
@@ -29,7 +29,7 @@ export class AuthComponent implements OnInit {
     this.usernameSubsciption = this.authService.loggedInUsername.subscribe(data => {});
   }
 
-  onDestroy(): void {
+  ngOnDestroy(): void {
     this.usernameSubsciption.unsubscribe();
     this.signinSubscription.unsubscribe();
     this.signupSubscription.unsubscribe();

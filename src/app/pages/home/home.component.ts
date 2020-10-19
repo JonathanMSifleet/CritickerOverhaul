@@ -8,7 +8,7 @@ import { ReviewsService } from './reviews.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
   loadedReviews: Review;
 
   constructor(
@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
     this.fetchReviews();
   }
 
-  onDestroy(): void {
+  ngOnDestroy(): void {
     this.reviewSubscription.unsubscribe();
   }
 

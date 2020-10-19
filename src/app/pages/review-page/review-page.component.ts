@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   templateUrl: './review-page.component.html',
   styleUrls: ['./review-page.component.css']
 })
-export class ReviewPageComponent implements OnInit {
+export class ReviewPageComponent implements OnInit, OnDestroy {
   constructor(
     private http: HttpClient,
     private reviewsService: ReviewsService,
@@ -26,7 +26,7 @@ export class ReviewPageComponent implements OnInit {
     this.fetchReviews('http://127.0.0.1:3000' + this.router.url);
   }
 
-  onDestroy(): void {
+  ngOnDestroy(): void {
     this.reviewSubscription.unsubscribe();
   }
 

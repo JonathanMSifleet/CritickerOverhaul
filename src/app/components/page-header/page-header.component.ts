@@ -6,7 +6,7 @@ import { AuthService } from './../../pages/auth/auth.service';
   templateUrl: './page-header.component.html',
   styleUrls: ['./page-header.component.css']
 })
-export class PageHeaderComponent implements OnInit {
+export class PageHeaderComponent implements OnInit, OnDestroy {
 
   // inject auth service rather than create new instance:
   constructor(public authService: AuthService) {}
@@ -25,7 +25,7 @@ export class PageHeaderComponent implements OnInit {
     }
   }
 
-  onDestroy(): void {
+  ngOnDestroy(): void {
     this.usernameSubscription.unsubscribe();
   }
 
