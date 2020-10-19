@@ -28,9 +28,11 @@ export class AuthComponent implements OnInit {
   switchMode(): void {
     this.isLoginMode = !this.isLoginMode;
     this.error = null;
+    this.friendlyErrors = [];
   }
 
   signIn(postData): void {
+    this.friendlyErrors = [];
     this.authService.signIn(postData).subscribe((responseData) => {
       // @ts-expect-error
       this.setUsername(responseData.user.username);
@@ -44,7 +46,7 @@ export class AuthComponent implements OnInit {
     this.authService.signUp(postData).subscribe((responseData) => {
       this.switchMode();
     }, errorRes => {
-      console.log('test', errorRes);
+      this.friendlyErrors = [];
       this.error = errorRes.error.error;
       this.handleErrors();
     });
@@ -56,11 +58,20 @@ export class AuthComponent implements OnInit {
   }
 
   private handleErrors(): void {
+    console.log('this.error', this.error)
     this.unfriendlyErrors = this.error.split(',');
 
+
     this.unfriendlyErrors.forEach(element => {
-      // required as cannot set custom validation message:
-      this.friendlyErrors.push(this.createUserFriendlyErrMessage(element));
+      // first two ifs required as mongoose
+      // database message requires separate handling:
+      if (element.includes('email_1 dup key')) {
+        this.friendlyErrors.push('Email address already in use');
+      } else if (element.includes('username dup key')){
+        this.friendlyErrors.push('Username already in use');
+      } else {
+        this.friendlyErrors.push(this.createUserFriendlyErrMessage(element));
+      }
     });
 
     console.log('friendly errors', this.friendlyErrors);
@@ -69,8 +80,6 @@ export class AuthComponent implements OnInit {
 
   private createUserFriendlyErrMessage(message): string {
     switch (true) {
-      case message.includes('E11000'):
-      return 'Email address is already in use';
       case message.includes('USERNAME REQUIRED'):
       return 'Username field must not be empty';
       case message.includes('USERNAME TOO LONG'):
