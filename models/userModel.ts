@@ -62,7 +62,7 @@ const userSchema = new mongoose.Schema({
 });
 
 // encrypt password:
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function(next): Promise<any> {
   if (!this.isModified('password')) { return next(); }
   this.password = await bcrypt.hash(this.password, 12); // second parameter defines salt rounds
   this.passwordConfirm = undefined; // remove passwordConfirm after validation as storing unecessary
@@ -70,13 +70,13 @@ userSchema.pre('save', async function(next) {
 });
 
 // make user email lower case:
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function(next): Promise <any> {
   this.email = this.email.toLowerCase();
   next();
 });
 
 // format username:
-userSchema.pre('save', async function(next) {
+userSchema.pre('save', async function(next): Promise<any> {
   this.firstName = this.firstName.toLowerCase();
   // make first character upper case:
   this.firstName = this.firstName.charAt(0).toUpperCase() + this.firstName.slice(1);

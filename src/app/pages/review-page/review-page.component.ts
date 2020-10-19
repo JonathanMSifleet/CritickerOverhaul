@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ReviewsService } from './review-page.service';
 import { Router } from '@angular/router';
 
@@ -20,12 +20,18 @@ export class ReviewPageComponent implements OnInit {
   blurb: string;
   reviewText: string;
 
+  reviewSubscription;
+
   ngOnInit(): void {
     this.fetchReviews('http://127.0.0.1:3000' + this.router.url);
   }
 
-  private fetchReviews(url) {
-    this.reviewsService.fetchReview(url).subscribe((fetchedReview) => {
+  onDestroy(): void {
+    this.reviewSubscription.unsubscribe();
+  }
+
+  private fetchReviews(url): void {
+    this.reviewSubscription = this.reviewsService.fetchReview(url).subscribe((fetchedReview) => {
 
       this.gameName = fetchedReview.gameName;
       this.image = fetchedReview.image;

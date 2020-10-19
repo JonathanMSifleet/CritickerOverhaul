@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from './../../pages/auth/auth.service';
 
 @Component({
@@ -12,9 +12,10 @@ export class PageHeaderComponent implements OnInit {
   constructor(public authService: AuthService) {}
 
   loggedInUsername: string;
+  usernameSubscription;
 
   ngOnInit(): void {
-    this.authService.loggedInUsername.subscribe(data => {
+    this.usernameSubscription = this.authService.loggedInUsername.subscribe(data => {
       this.loggedInUsername = data;
     });
 
@@ -22,6 +23,10 @@ export class PageHeaderComponent implements OnInit {
     if (this.loggedInUsername === undefined) {
       this.loggedInUsername = localStorage.getItem('loggedInUsername');
     }
+  }
+
+  onDestroy(): void {
+    this.usernameSubscription.unsubscribe();
   }
 
 }

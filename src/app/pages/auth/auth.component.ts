@@ -13,6 +13,10 @@ export class AuthComponent implements OnInit {
   unfriendlyErrors: string[];
   friendlyErrors = [];
 
+  usernameSubsciption;
+  signinSubscription;
+  signupSubscription;
+
   // passing auth service in constructor injects it
   constructor(
     public authService: AuthService,
@@ -22,7 +26,13 @@ export class AuthComponent implements OnInit {
   isLoginMode = true;
 
   ngOnInit(): void {
-    this.authService.loggedInUsername.subscribe(data => {});
+    this.usernameSubsciption = this.authService.loggedInUsername.subscribe(data => {});
+  }
+
+  onDestroy(): void {
+    this.usernameSubsciption.unsubscribe();
+    this.signinSubscription.unsubscribe();
+    this.signupSubscription.unsubscribe();
   }
 
   switchMode(): void {
@@ -33,7 +43,7 @@ export class AuthComponent implements OnInit {
 
   signIn(postData): void {
     this.friendlyErrors = [];
-    this.authService.signIn(postData).subscribe((responseData) => {
+    this.signinSubscription = this.authService.signIn(postData).subscribe((responseData) => {
       // @ts-expect-error
       this.setUsername(responseData.user.username);
       this.router.navigate(['/home']);
@@ -43,7 +53,7 @@ export class AuthComponent implements OnInit {
   }
 
   signUp(postData: { username; firstName; email; password }): void {
-    this.authService.signUp(postData).subscribe((responseData) => {
+    this.signupSubscription = this.authService.signUp(postData).subscribe((responseData) => {
       this.switchMode();
     }, errorRes => {
       this.friendlyErrors = [];

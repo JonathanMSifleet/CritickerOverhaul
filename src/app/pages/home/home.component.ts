@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Review } from './home-review.model';
 import { ReviewsService } from './reviews.service';
@@ -15,12 +15,18 @@ export class HomeComponent implements OnInit {
     private reviewsService: ReviewsService,
   ) { }
 
+  reviewSubscription;
+
   ngOnInit(): void {
     this.fetchReviews();
   }
 
+  onDestroy(): void {
+    this.reviewSubscription.unsubscribe();
+  }
+
   private fetchReviews(): void {
-    this.reviewsService.fetchReviews().subscribe((reviews) => {
+    this.reviewSubscription = this.reviewsService.fetchReviews().subscribe((reviews) => {
       this.loadedReviews = reviews;
     });
   }
