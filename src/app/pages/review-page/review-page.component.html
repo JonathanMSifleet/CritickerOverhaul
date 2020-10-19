@@ -1,33 +1,42 @@
 <title>{{ gameName }}</title>
 <body>
-  <div id="review">
-    <div clas="reviewTitle">
-      <!-- <button type="button" class="btn btn-light" id="jumpToComments">
-        Jump to comments
-      </button> -->
-      <h1>{{ gameName }}</h1>
-    </div>
-    <!-- display review poster image -->
-    <div class="reviewImageContainer rounded" id="reviewImageContainer">
-      <img
-        src="./../../../assets/images/{{ image }}"
-        alt="Poster image for review"
-        class="reviewImage rounded"
-      />
-    </div>
-
-    <div class="reviewTextContainer rounded">
-      <!-- display game blurb -->
-      <div class="textContainer rounded" id="gameBlurb" >
-        <p>
-          <i [innerHTML]="blurb"></i>
-        </p>
+  <ng-container *ngIf="!error; else errorExperienced">
+    <div id="review">
+      <div clas="reviewTitle">
+        <!-- <button type="button" class="btn btn-light" id="jumpToComments">
+          Jump to comments
+        </button> -->
+        <h1>{{ gameName }}</h1>
+      </div>
+      <!-- display review poster image -->
+      <div class="reviewImageContainer rounded" id="reviewImageContainer">
+        <img
+          src="./../../../assets/images/{{ image }}"
+          alt="Poster image for review"
+          class="reviewImage rounded"
+        />
       </div>
 
-      <!-- display game review -->
-      <div class="textContainer rounded" id="reviewText">
-        <p [innerHTML]="reviewText"></p>
+      <div class="reviewTextContainer rounded">
+        <!-- display game blurb -->
+        <div class="textContainer rounded" id="gameBlurb" >
+          <p>
+            <i [innerHTML]="blurb"></i>
+          </p>
+        </div>
+
+        <!-- display game review -->
+        <div class="textContainer rounded" id="reviewText">
+          <p [innerHTML]="reviewText"></p>
+        </div>
       </div>
     </div>
-  </div>
+  </ng-container>
+
+  <ng-template #errorExperienced>
+    <div class="alert alert-danger">
+      <p id="alertText"> {{ error }}. It may have been deleted, or never even existed... </p>
+    </div>
+  </ng-template>
+
 </body>

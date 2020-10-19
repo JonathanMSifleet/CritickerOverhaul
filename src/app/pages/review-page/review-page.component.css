@@ -35,3 +35,23 @@
   clear: left;
   font-size: 1.3em;
 }
+
+.alert {
+  background-color: #C0466A;
+  padding: 1%;
+  margin-top: 5%;
+  margin-left: 40%;
+  margin-right: 40%;
+  width: 20%;
+  height: auto;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+#alertText {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}

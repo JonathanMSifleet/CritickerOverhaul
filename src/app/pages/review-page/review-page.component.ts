@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 })
 export class ReviewPageComponent implements OnInit, OnDestroy {
   constructor(
-    private http: HttpClient,
     private reviewsService: ReviewsService,
     private router: Router
   ) {}
@@ -19,6 +18,8 @@ export class ReviewPageComponent implements OnInit, OnDestroy {
   image: string;
   blurb: string;
   reviewText: string;
+
+  error: string;
 
   reviewSubscription;
 
@@ -32,11 +33,12 @@ export class ReviewPageComponent implements OnInit, OnDestroy {
 
   private fetchReviews(url): void {
     this.reviewSubscription = this.reviewsService.fetchReview(url).subscribe((fetchedReview) => {
-
       this.gameName = fetchedReview.gameName;
       this.image = fetchedReview.image;
       this.blurb = fetchedReview.blurb;
       this.reviewText = fetchedReview.review;
+    }, errorRes => {
+      this.error = errorRes.error.error;
     });
   }
 }
