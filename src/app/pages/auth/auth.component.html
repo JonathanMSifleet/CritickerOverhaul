@@ -5,12 +5,14 @@
     <div class="titleWrapper">
       <h2 id="containerTitleHeader" class="rounded">{{isLoginMode ? 'Login' : 'Sign up'}}</h2>
     </div>
-    <div class="alert alert-danger" *ngIf="error">
-      <p>{{error}}</p>
-    </div>
-    <ng-container *ngIf="isLoginMode">
+    <ng-container *ngFor="let errorToDisplay of friendlyErrors">
+      <div class="alert alert-danger">
+        <p>{{errorToDisplay}}</p>
+      </div>
+    </ng-container>
 
     <!-- attempt sign in form -->
+    <ng-container *ngIf="isLoginMode">
     <form #signInForm="ngForm" (ngSubmit)="signIn(signInForm.value)">
       <div class="form-group">
         <label id="formLabel" for="email">Email address</label>

@@ -10,7 +10,8 @@ import { Router } from '@angular/router';
 export class AuthComponent implements OnInit {
 
   error: string = null;
-  errors: string[];
+  unfriendlyErrors: string[];
+  friendlyErrors = [];
 
   // passing auth service in constructor injects it
   constructor(
@@ -55,32 +56,21 @@ export class AuthComponent implements OnInit {
   }
 
   private handleErrors(): void {
-    this.errors = this.error.split(',');
-    this.error = '';
+    this.unfriendlyErrors = this.error.split(',');
 
-    console.log('this.errors:', this.errors);
-    this.errors.forEach(element => {
-      // required if as cannot set custom validation message:
-      if (element.includes('E11000')) {
-        element = 'Email address already in use';
-      } else {
-        element = this.createUserFriendlyErrMessage(element);
-        console.log('element:', element);
-      }
-
-      this.error = this.error + element;
-      // console.log(this.error);
+    this.unfriendlyErrors.forEach(element => {
+      // required as cannot set custom validation message:
+      this.friendlyErrors.push(this.createUserFriendlyErrMessage(element));
     });
 
-    // remove trailing comma:
-    // this.error = this.error.slice(0, -2);
-
-    console.log('concatenated error:', this.error);
+    console.log('friendly errors', this.friendlyErrors);
 
   }
 
   private createUserFriendlyErrMessage(message): string {
     switch (true) {
+      case message.includes('E11000'):
+      return 'Email address is already in use';
       case message.includes('USERNAME REQUIRED'):
       return 'Username field must not be empty';
       case message.includes('USERNAME TOO LONG'):
@@ -116,7 +106,7 @@ export class AuthComponent implements OnInit {
       case message.includes('PASSWORDS DO NOT MATCH'):
       return 'Passwords do not match';
       default:
-      return 'Unhandled error, please contact support';
+      return 'Unhandled error, please contact support, ' + message;
     }
   }
 }
