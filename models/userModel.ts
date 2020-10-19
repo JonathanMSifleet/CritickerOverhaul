@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
     trim: true,
     maxlength: [16, 'NAME TOO LONG'],
     minlength: [3, 'NAME TOO SHORT'],
-    validator: [validator.isAlpha, 'NAME MUST CONTAIN ONLY CHARACTERS']
+    validate: [validator.isAlpha, 'NAME MUST CONTAIN ONLY CHARACTERS']
   },
   email: {
     type: String,
