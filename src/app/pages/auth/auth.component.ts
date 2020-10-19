@@ -38,7 +38,7 @@ export class AuthComponent implements OnInit {
       this.setUsername(responseData.user.username);
       this.router.navigate(['/home']);
     }, errorRes => {
-      this.error = errorRes.error.error;
+      this.friendlyErrors.push(errorRes.error.error);
     });
   }
 
@@ -58,9 +58,7 @@ export class AuthComponent implements OnInit {
   }
 
   private handleErrors(): void {
-    console.log('this.error', this.error)
     this.unfriendlyErrors = this.error.split(',');
-
 
     this.unfriendlyErrors.forEach(element => {
       // first two ifs required as mongoose
@@ -73,9 +71,6 @@ export class AuthComponent implements OnInit {
         this.friendlyErrors.push(this.createUserFriendlyErrMessage(element));
       }
     });
-
-    console.log('friendly errors', this.friendlyErrors);
-
   }
 
   private createUserFriendlyErrMessage(message): string {
@@ -115,7 +110,7 @@ export class AuthComponent implements OnInit {
       case message.includes('PASSWORDS DO NOT MATCH'):
       return 'Passwords do not match';
       default:
-      return 'Unhandled error, please contact support, ' + message;
+      return 'Unhandled error, please contact support with steps to reproduce';
     }
   }
 }
