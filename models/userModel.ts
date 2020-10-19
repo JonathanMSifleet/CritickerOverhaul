@@ -70,6 +70,12 @@ userSchema.pre('save', async function(next) {
   next();
 });
 
+// make user email lower case:
+userSchema.pre('save', async function(next): {
+  this.email = this.email.toLowerCase();
+  next();
+});
+
 // check if password is correct:
 userSchema.methods.correctPassword = async (
   candidatePassword,
