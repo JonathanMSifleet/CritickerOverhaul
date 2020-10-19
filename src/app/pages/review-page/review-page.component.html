@@ -18,15 +18,15 @@
 
     <div class="reviewTextContainer rounded">
       <!-- display game blurb -->
-      <div class="textContainer rounded" id="gameBlurb">
+      <div class="textContainer rounded" id="gameBlurb" >
         <p>
-          <i>{{ blurb }}</i>
+          <i [innerHTML]="blurb"></i>
         </p>
       </div>
 
       <!-- display game review -->
       <div class="textContainer rounded" id="reviewText">
-        <p>{{ reviewText }}</p>
+        <p [innerHTML]="reviewText"></p>
       </div>
     </div>
   </div>
