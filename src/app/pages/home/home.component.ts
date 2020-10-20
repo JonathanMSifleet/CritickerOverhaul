@@ -15,14 +15,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     private reviewsService: ReviewsService,
   ) { }
 
-  reviewSubscription;
+  reviewSubscription = null;
 
   ngOnInit(): void {
-    this.fetchReviews();
+      this.fetchReviews();
   }
 
   ngOnDestroy(): void {
-    this.reviewSubscription.unsubscribe();
+    if (this.reviewSubscription !== null) {
+      this.reviewSubscription.unsubscribe();
+    }
   }
 
   private fetchReviews(): void {

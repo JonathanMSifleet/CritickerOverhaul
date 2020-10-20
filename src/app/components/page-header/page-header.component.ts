@@ -12,7 +12,7 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
   constructor(public authService: AuthService) {}
 
   loggedInUsername: string;
-  usernameSubscription;
+  usernameSubscription = null;
 
   ngOnInit(): void {
     this.usernameSubscription = this.authService.loggedInUsername.subscribe(data => {
@@ -26,7 +26,8 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.usernameSubscription.unsubscribe();
+    if(this.usernameSubscription !== null) {
+      this.usernameSubscription.unsubscribe();
+    }
   }
-
 }

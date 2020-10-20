@@ -21,14 +21,16 @@ export class ReviewPageComponent implements OnInit, OnDestroy {
 
   error: string;
 
-  reviewSubscription;
+  reviewSubscription = null;
 
   ngOnInit(): void {
     this.fetchReviews('http://127.0.0.1:3000' + this.router.url);
   }
 
   ngOnDestroy(): void {
-    this.reviewSubscription.unsubscribe();
+    if (this.reviewSubscription !== null) {
+      this.reviewSubscription.unsubscribe();
+    }
   }
 
   private fetchReviews(url): void {

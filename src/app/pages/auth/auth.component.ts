@@ -12,10 +12,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   error: string = null;
   unfriendlyErrors: string[];
   friendlyErrors = [];
-
-  usernameSubsciption;
-  signinSubscription;
-  signupSubscription;
+  subscriptions = {'username': null, 'signin': null, 'signup': null};
 
   // passing auth service in constructor injects it
   constructor(
@@ -26,13 +23,16 @@ export class AuthComponent implements OnInit, OnDestroy {
   isLoginMode = true;
 
   ngOnInit(): void {
-    this.usernameSubsciption = this.authService.loggedInUsername.subscribe(data => {});
+    this.subscriptions.username = this.authService.loggedInUsername.subscribe(data => {});
   }
 
   ngOnDestroy(): void {
-    this.usernameSubsciption.unsubscribe();
-    this.signinSubscription.unsubscribe();
-    this.signupSubscription.unsubscribe();
+
+    for(let key in this.subscriptions) {
+      if (this.subscriptions[key] !== null) {
+        this.subscriptions[key].unsubscribe();
+      }
+    }
   }
 
   switchMode(): void {
@@ -43,7 +43,7 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   signIn(postData): void {
     this.friendlyErrors = [];
-    this.signinSubscription = this.authService.signIn(postData).subscribe((responseData) => {
+    this.subscriptions.signin = this.authService.signIn(postData).subscribe((responseData) => {
       // @ts-expect-error
       this.setUsername(responseData.user.username);
       this.router.navigate(['']);
@@ -53,7 +53,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   signUp(postData: { username; firstName; email; password }): void {
-    this.signupSubscription = this.authService.signUp(postData).subscribe((responseData) => {
+    this.subscriptions.signup = this.authService.signUp(postData).subscribe((responseData) => {
       this.switchMode();
     }, errorRes => {
       this.friendlyErrors = [];
