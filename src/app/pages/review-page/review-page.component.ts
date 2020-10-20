@@ -1,14 +1,14 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ReviewsService } from './review-page.service';
 import { Router } from '@angular/router';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-review-page',
   templateUrl: './review-page.component.html',
   styleUrls: ['./review-page.component.css']
 })
-export class ReviewPageComponent implements OnInit, OnDestroy {
+export class ReviewPageComponent implements OnInit {
   constructor(
     private reviewsService: ReviewsService,
     private router: Router
@@ -21,20 +21,12 @@ export class ReviewPageComponent implements OnInit, OnDestroy {
 
   error: string;
 
-  reviewSubscription = null;
-
   ngOnInit(): void {
-    this.fetchReviews('http://127.0.0.1:3000' + this.router.url);
+    this.fetchReview('http://127.0.0.1:3000' + this.router.url);
   }
 
-  ngOnDestroy(): void {
-    if (this.reviewSubscription !== null) {
-      this.reviewSubscription.unsubscribe();
-    }
-  }
-
-  private fetchReviews(url): void {
-    this.reviewSubscription = this.reviewsService.fetchReview(url).subscribe((fetchedReview) => {
+  private fetchReview(url): void {
+   this.reviewsService.fetchReview(url).pipe(take(1)).subscribe((fetchedReview) => {
       this.gameName = fetchedReview.gameName;
       this.image = fetchedReview.image;
       this.blurb = fetchedReview.blurb;

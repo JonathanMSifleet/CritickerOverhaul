@@ -8,7 +8,7 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  private userDataSource = new BehaviorSubject<UserData>(undefined);
+  private userDataSource = new BehaviorSubject<UserData>(null);
   loggedInUserData = this.userDataSource.asObservable();
 
   updateUserData(newUserData: UserData): void {

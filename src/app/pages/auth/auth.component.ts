@@ -2,6 +2,7 @@ import { UserData } from './user-data.model';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-auth',
@@ -13,7 +14,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   error: string = null;
   unfriendlyErrors: string[];
   friendlyErrors = [];
-  subscriptions = {username: null, signin: null, signup: null};
+  userDataSubscription = null;
 
   // passing auth service in constructor injects it
   constructor(
@@ -24,15 +25,12 @@ export class AuthComponent implements OnInit, OnDestroy {
   isLoginMode = true;
 
   ngOnInit(): void {
-    this.subscriptions.username = this.authService.loggedInUserData.subscribe(data => {});
+    this.userDataSubscription = this.authService.loggedInUserData.subscribe(data => {});
   }
 
   ngOnDestroy(): void {
-
-    for (const key in this.subscriptions) {
-      if (this.subscriptions[key] !== null) {
-        this.subscriptions[key].unsubscribe();
-      }
+    if (this.userDataSubscription !== null) {
+      this.userDataSubscription.unsubscribe();
     }
   }
 
@@ -44,11 +42,10 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   signIn(postData): void {
     this.friendlyErrors = [];
-    this.subscriptions.signin = this.authService.signIn(postData).subscribe((responseData) => {
+    this.authService.signIn(postData).pipe(take(1)).subscribe((responseData) => {
 
       // @ts-expect-error
-      const tempUserData = new UserData(responseData.user.username, responseData.tokenData[0], responseData.tokenData[1]);
-      this.updateUserData(tempUserData);
+      this.authService.updateUserData(new UserData(responseData.user.username, responseData.tokenData[0], responseData.tokenData[1]));
 
       this.router.navigate(['']);
     }, errorRes => {
@@ -58,19 +55,13 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   signUp(postData: { username; firstName; email; password }): void {
-    this.subscriptions.signup = this.authService.signUp(postData).subscribe((responseData) => {
+    this.authService.signUp(postData).pipe(take(1)).subscribe((responseData) => {
       this.switchMode();
     }, errorRes => {
       this.friendlyErrors = [];
       this.error = errorRes.error.error;
       this.handleErrors();
     });
-  }
-
-  updateUserData(userData: UserData): void {
-    this.authService.updateUserData(userData);
-
-    localStorage.setItem('loggedInUsername', JSON.stringify(userData));
   }
 
   private handleErrors(): void {
