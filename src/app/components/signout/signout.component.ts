@@ -1,4 +1,4 @@
-import { SignoutService } from './signout.service';
+import { AuthService } from './../../pages/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -10,8 +10,8 @@ import { Router } from '@angular/router';
 export class SignoutComponent implements OnInit {
 
   constructor(
-    private signoutService: SignoutService,
     private router: Router,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -19,9 +19,10 @@ export class SignoutComponent implements OnInit {
   }
 
   private signOut(): void {
-    this.signoutService.signout().subscribe(responseData => {
-      this.router.navigate(['/home']);
-    });
-  }
+    this.authService.updateUserData(null);
 
+    localStorage.removeItem('loggedInUserData');
+
+    this.router.navigate(['']);
+  }
 }

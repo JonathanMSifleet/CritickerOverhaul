@@ -45,7 +45,10 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.authService.signIn(postData).pipe(take(1)).subscribe((responseData) => {
 
       // @ts-expect-error
-      this.authService.updateUserData(new UserData(responseData.user.username, responseData.tokenData[0], responseData.tokenData[1]));
+      let newUserData = new UserData(responseData.user.username, responseData.tokenData[0], responseData.tokenData[1]);
+
+      this.authService.updateUserData(newUserData);
+      localStorage.setItem('loggedInUserData', JSON.stringify(newUserData));
 
       this.router.navigate(['']);
     }, errorRes => {
@@ -55,7 +58,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   signUp(postData: { username; firstName; email; password }): void {
-    this.authService.signUp(postData).pipe(take(1)).subscribe((responseData) => {
+    this.authService.signUp(postData).pipe(take(1)).subscribe(() => {
       this.switchMode();
     }, errorRes => {
       this.friendlyErrors = [];

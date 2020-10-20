@@ -6,10 +6,18 @@ To run:
 1. Open terminal in project root
 2. Enter "npm install"
 3. Enter "npm start"
+4. Open second terminal in roject root
+5. Enter "ng serve"
 
 *******************
 
 To Do:
 - Client-side route protection
-- Error handling
+- Check for missing error handling
+- Optimisatiosn e.g. lazy loading etc.
 - Optional: creation of reviews
+
+*******************
+- TS-Lint auto-fix is broken
+- Some HTML elements such as header may overlap other elements
+- Page elements do not scale well with resolution / zoom
