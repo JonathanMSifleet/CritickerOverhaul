@@ -1,3 +1,4 @@
+import { UserData } from './user-data.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -5,15 +6,13 @@ import { Observable, BehaviorSubject } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-  constructor(private http: HttpClient) {
-    // console.log('auth service initialised', window.location.href);
-  }
+  constructor(private http: HttpClient) {}
 
-  private usernameSource = new BehaviorSubject<string>(undefined);
-  loggedInUsername = this.usernameSource.asObservable();
+  private userDataSource = new BehaviorSubject<UserData>(undefined);
+  loggedInUserData = this.userDataSource.asObservable();
 
-  updateUsername(newUsername: string): void {
-    this.usernameSource.next(newUsername);
+  updateUserData(newUserData: UserData): void {
+    this.userDataSource.next(newUserData);
   }
 
   signUp(postData): Observable<object> {

@@ -41,14 +41,14 @@ exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
   });
 });
 
-exports.login = catchAsyncErrors(async (req: any, res: any, next: any) => {
+exports.login = catchAsyncErrors(async (req: any, res: any) => {
   const { email, password } = req.body; // use destructuring to get values from req.body
 
   if (!email || !password) {
     createResErr(res, 400, 'Please provide email and password!');
   }
 
-  const user = await User.findOne({ email }).select('+password'); // + gets fields that are not select in model
+  const user = await User.findOne({ email }).select('+password +token +tokenExpiry'); // + gets fields that are not select in model
 
   if (!user || !(await user.correctPassword(password, user.password))) {
     createResErr(res, 401, 'Incorrect email or password');
@@ -57,38 +57,39 @@ exports.login = catchAsyncErrors(async (req: any, res: any, next: any) => {
   createSessionToken(user, res);
 });
 
-const createSessionToken = (user, res) => {
+const createSessionToken = async (user, res) => {
   const token = signToken(user._id);
-  const cookieOptions = {
-    expires: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
-    httpOnly: true
-  };
-
-  res.cookie('jwt', token, cookieOptions);
 
   // remove unused user properties from output
   user.password = undefined;
   user.role = undefined;
+  user.firstName = undefined;
   user.token = undefined;
+  user.tokenExpiry = undefined;
 
-  addJWTToDB(user._id, token);
+  const tokenData = await addJWTToDB(user._id, token);
 
   res.status(201).json({
     status: 'success',
-    token,
-    user
+    user,
+    tokenData
   });
 };
 
-// add token to database if in development mode:
+// add token to database
 const addJWTToDB = async (id, token) => {
   token = await bcrypt.hash(token, 12);
+  const tokenExpiry = Date.now() + (1000 * 60 * 60 * 24);
 
+  // token lasts 24 hours
   const user = await User.findOneAndUpdate(
     { _id: id },
-    { $set: { token } },
+    { $set: { token, tokenExpiry} },
     { new: true }
   );
+
+  return [token, tokenExpiry];
+
 };
 
 

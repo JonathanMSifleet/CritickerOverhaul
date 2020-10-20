@@ -1,3 +1,4 @@
+import { UserData } from './user-data.model';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
@@ -12,7 +13,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   error: string = null;
   unfriendlyErrors: string[];
   friendlyErrors = [];
-  subscriptions = {'username': null, 'signin': null, 'signup': null};
+  subscriptions = {username: null, signin: null, signup: null};
 
   // passing auth service in constructor injects it
   constructor(
@@ -23,12 +24,12 @@ export class AuthComponent implements OnInit, OnDestroy {
   isLoginMode = true;
 
   ngOnInit(): void {
-    this.subscriptions.username = this.authService.loggedInUsername.subscribe(data => {});
+    this.subscriptions.username = this.authService.loggedInUserData.subscribe(data => {});
   }
 
   ngOnDestroy(): void {
 
-    for(let key in this.subscriptions) {
+    for (const key in this.subscriptions) {
       if (this.subscriptions[key] !== null) {
         this.subscriptions[key].unsubscribe();
       }
@@ -44,10 +45,14 @@ export class AuthComponent implements OnInit, OnDestroy {
   signIn(postData): void {
     this.friendlyErrors = [];
     this.subscriptions.signin = this.authService.signIn(postData).subscribe((responseData) => {
+
       // @ts-expect-error
-      this.setUsername(responseData.user.username);
+      const tempUserData = new UserData(responseData.user.username, responseData.tokenData[0], responseData.tokenData[1]);
+      this.updateUserData(tempUserData);
+
       this.router.navigate(['']);
     }, errorRes => {
+      console.log('errorRes', errorRes);
       this.friendlyErrors.push(errorRes.error.error);
     });
   }
@@ -62,9 +67,10 @@ export class AuthComponent implements OnInit, OnDestroy {
     });
   }
 
-  setUsername(username: string): void {
-    this.authService.updateUsername(username);
-    localStorage.setItem('loggedInUsername', username);
+  updateUserData(userData: UserData): void {
+    this.authService.updateUserData(userData);
+
+    localStorage.setItem('loggedInUsername', JSON.stringify(userData));
   }
 
   private handleErrors(): void {

@@ -1,3 +1,4 @@
+import { UserData } from './../../pages/auth/user-data.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from './../../pages/auth/auth.service';
 
@@ -11,23 +12,23 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
   // inject auth service rather than create new instance:
   constructor(public authService: AuthService) {}
 
-  loggedInUsername: string;
-  usernameSubscription = null;
+  loggedInUserData: UserData;
+  userDataSubscription = null;
 
   ngOnInit(): void {
-    this.usernameSubscription = this.authService.loggedInUsername.subscribe(data => {
-      this.loggedInUsername = data;
+    this.userDataSubscription = this.authService.loggedInUserData.subscribe(data => {
+      this.loggedInUserData = data;
     });
 
     // load username from local storage if user refreshes
-    if (this.loggedInUsername === undefined) {
-      this.loggedInUsername = localStorage.getItem('loggedInUsername');
+    if (this.loggedInUserData === undefined) {
+      this.loggedInUserData = JSON.parse(localStorage.getItem('loggedInUserData'));
     }
   }
 
   ngOnDestroy(): void {
-    if(this.usernameSubscription !== null) {
-      this.usernameSubscription.unsubscribe();
+    if (this.userDataSubscription !== null) {
+      this.userDataSubscription.unsubscribe();
     }
   }
 }
