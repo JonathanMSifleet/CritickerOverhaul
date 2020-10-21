@@ -11,11 +11,13 @@ To run:
 
 *******************
 
-To Do:
+To Do (incomplete list):
 - Client-side route protection
 - Check for missing error handling
-- Optimisatiosn e.g. lazy loading etc.
-- Optional: creation of reviews
+- Optimisation e.g. lazy loading etc.
+- Optional:
+  - creation of reviews
+  - Front-end for deleting user account
 
 *******************
 - TS-Lint auto-fix is broken
