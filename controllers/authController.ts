@@ -116,6 +116,8 @@ exports.deleteAccount = catchAsyncErrors(
     //   createResErr(res, 401, 'Incorrect password');
     // }
 
+    console.log('res', res);
+
     await User.deleteOne({ username: 'JonathanSifleet' }, (err) => {
       if (err) {
         createResErr(res, 404, err);
@@ -144,22 +146,26 @@ exports.protect = catchAsyncErrors(async (req, res, next) => {
     );
   }
 
+  let isValid = true;
   let decoded = null;
   try{
     decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
   } catch(e) {}
 
-  console.log('auth controller decoded:', decoded);
-
   if(decoded) {
     const currentUser = await User.findById(decoded.id);
+
     if (!currentUser) {
-      createResErr(res, 401, 'The active login token is invalid.');
+      isValid = false;
     }
 
-    req.user = currentUser;
+  } else {
+    isValid = false;
+  }
+
+  if(isValid) {
+    next();
   } else {
     createResErr(res, 401, 'The active login token is invalid.');
   }
-  next();
 });
