@@ -127,6 +127,7 @@ exports.deleteAccount = catchAsyncErrors(
     });
   }
 );
+
 exports.protect = catchAsyncErrors(async (req, res, next) => {
   // 1) Getting token and check of it's there
   let token;
@@ -139,16 +140,26 @@ exports.protect = catchAsyncErrors(async (req, res, next) => {
 
   if (!token) {
     return next(
-      createResErr(res, 401, `Unauthorised action, please use a valid authentication token. Current token: ${token}`)
+      createResErr(res, 401, 'Unauthorised action, please use a valid authentication token.')
     );
   }
-  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
 
-  const currentUser = await User.findById(decoded.id);
-  if (!currentUser) {
+  let decoded = null;
+  try{
+    decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+  } catch(e) {}
+
+  console.log('auth controller decoded:', decoded);
+
+  if(decoded) {
+    const currentUser = await User.findById(decoded.id);
+    if (!currentUser) {
+      createResErr(res, 401, 'The active login token is invalid.');
+    }
+
+    req.user = currentUser;
+  } else {
     createResErr(res, 401, 'The active login token is invalid.');
   }
-
-  req.user = currentUser;
   next();
 });
