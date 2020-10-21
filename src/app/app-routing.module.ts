@@ -5,6 +5,7 @@ import { FourOhFourComponent } from './pages/four-oh-four/four-oh-four.component
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router'; // CLI imports router
 import { ReviewPageComponent } from './pages/review-page/review-page.component';
+import { DeleteAccountComponent } from './components/delete-account/delete-account.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,11 @@ const routes: Routes = [
     path: 'signOut',
     pathMatch: 'full',
     component: SignoutComponent
+  },
+  {
+    path: 'deleteAccount',
+    pathMatch: 'full',
+    component: DeleteAccountComponent
   },
   {
     path: 'review/:slug',

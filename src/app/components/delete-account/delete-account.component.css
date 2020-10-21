@@ -1,0 +1,18 @@
+.alert {
+  background-color: #C0466A;
+  padding: 1%;
+  margin-top: 5%;
+  margin-left: 10%;
+  margin-right: 10%;
+  max-width: 80%;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+p {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}

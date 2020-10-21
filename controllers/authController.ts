@@ -78,7 +78,6 @@ const createSessionToken = async (user, res) => {
 
 // add token to database
 const addJWTToDB = async (id, token) => {
-  token = await bcrypt.hash(token, 12);
   const tokenExpiry = Date.now() + (1000 * 60 * 60 * 24);
 
   // token lasts 24 hours
@@ -105,19 +104,19 @@ exports.signOut = catchAsyncErrors(async (req: any, res: any, usernameToFind: st
 
 exports.deleteAccount = catchAsyncErrors(
   async (req: any, res: any, next: any) => {
-    const { password, passwordConfirm } = req.body; // use destructuring to get values from req.body
+    // const { password, passwordConfirm } = req.body; // use destructuring to get values from req.body
 
-    const user = await User.findById(req.user.id).select('+password'); // + gets fields that are not select in model
+    // const user = await User.findById(req.user.id).select('+password'); // + gets fields that are not select in model
 
-    if (password !== passwordConfirm) {
-      createResErr(res, 401, 'Passwords do not match');
-    } else if (
-      (await user.correctPassword(password, user.password)) === false
-    ) {
-      createResErr(res, 401, 'Incorrect email or password');
-    }
+    // if (password !== passwordConfirm) {
+    //   createResErr(res, 401, 'Passwords do not match');
+    // } else if (
+    //   (await user.correctPassword(password, user.password)) === false
+    // ) {
+    //   createResErr(res, 401, 'Incorrect email or password');
+    // }
 
-    await User.deleteOne({ _id: req.user.id }, (err) => {
+    await User.deleteOne({ username: 'JonathanSifleet' }, (err) => {
       if (err) {
         createResErr(res, 404, err);
       }
@@ -140,7 +139,7 @@ exports.protect = catchAsyncErrors(async (req, res, next) => {
 
   if (!token) {
     return next(
-      createResErr(res, 401, 'You are not logged in! Please log in to get access.')
+      createResErr(res, 401, `Unauthorised action, please use a valid authentication token. Current token: ${token}`)
     );
   }
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);

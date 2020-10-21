@@ -13,6 +13,7 @@ import { ReviewPageComponent } from './pages/review-page/review-page.component';
 import { AuthComponent } from './pages/auth/auth.component';
 import { SignoutComponent } from './components/signout/signout.component';
 import { FourOhFourComponent } from './pages/four-oh-four/four-oh-four.component';
+import { DeleteAccountComponent } from './components/delete-account/delete-account.component'
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { FourOhFourComponent } from './pages/four-oh-four/four-oh-four.component
     ReviewPageComponent,
     AuthComponent,
     SignoutComponent,
-    FourOhFourComponent
+    FourOhFourComponent,
+    DeleteAccountComponent
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [],
