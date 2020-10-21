@@ -31,7 +31,9 @@ export class DeleteAccountComponent implements OnInit {
     } catch (e) {}
 
     if (token) {
-      this.deleteService.deleteAccount(token).pipe(take(1)).subscribe(() => {
+      const username = JSON.parse(sessionStorage.getItem('loggedInUserData')).username;
+
+      this.deleteService.deleteAccount(username, token).pipe(take(1)).subscribe(() => {
 
         sessionStorage.removeItem('loggedInUserData');
         this.authService.updateUserData(null);

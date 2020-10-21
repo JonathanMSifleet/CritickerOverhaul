@@ -116,9 +116,9 @@ exports.deleteAccount = catchAsyncErrors(
     //   createResErr(res, 401, 'Incorrect password');
     // }
 
-    console.log('res', res);
+    const username = req.query.username;
 
-    await User.deleteOne({ username: 'JonathanSifleet' }, (err) => {
+    await User.deleteOne({ username: username }, (err) => {
       if (err) {
         createResErr(res, 404, err);
       }
