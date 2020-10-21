@@ -25,17 +25,22 @@ export class DeleteAccountComponent implements OnInit {
 
   deleteAccount(): void {
 
-    const token = JSON.parse(sessionStorage.getItem('loggedInUserData'))._clientToken;
-    this.deleteService.deleteAccount(token).pipe(take(1)).subscribe(() => {
+    let token = null;
+     try {
+      token = JSON.parse(sessionStorage.getItem('loggedInUserData'))._clientToken;
+     } catch (e) {}
 
-      sessionStorage.removeItem('loggedInUserData');
-      this.authService.updateUserData(null);
+    if (token) {
+      this.deleteService.deleteAccount(token).pipe(take(1)).subscribe(() => {
 
-      this.router.navigate(['']);
-    }, errorRes => {
-      this.error = errorRes.error.error;
-    });
+        sessionStorage.removeItem('loggedInUserData');
+        this.authService.updateUserData(null);
+
+        this.router.navigate(['']);
+      });
+    } else {
+      this.error = 'Unauthorised action. Please use a valid token.';
+    }
   }
-
 
 }
