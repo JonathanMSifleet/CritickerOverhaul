@@ -140,14 +140,14 @@ exports.protect = catchAsyncErrors(async (req, res, next) => {
     token = req.headers.authorization.split(' ')[1];
   }
 
+  let isValid = true;
+
   if (!token) {
-    return next(
-      createResErr(res, 401, 'Unauthorised action, please use a valid authentication token.')
-    );
+    isValid = false;
   }
 
-  let isValid = true;
   let decoded = null;
+
   try{
     decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
   } catch(e) {}
