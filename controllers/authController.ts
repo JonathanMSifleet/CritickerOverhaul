@@ -113,7 +113,7 @@ exports.deleteAccount = catchAsyncErrors(
     // } else if (
     //   (await user.correctPassword(password, user.password)) === false
     // ) {
-    //   createResErr(res, 401, 'Incorrect email or password');
+    //   createResErr(res, 401, 'Incorrect password');
     // }
 
     await User.deleteOne({ username: 'JonathanSifleet' }, (err) => {

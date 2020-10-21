@@ -1,6 +1,5 @@
 import express from 'express';
 import cors = require('cors');
-
 const authController = require('./../controllers/authController');
 
 const router = express.Router();
@@ -20,8 +19,5 @@ router.delete(
   authController.protect,
   authController.deleteAccount
 );
-
-/* router.post('/forgotPassword', authController.forgotPassword);
-router.patch('/resetPassword/:token', authController.resetPassword); */
 
 module.exports = router;
