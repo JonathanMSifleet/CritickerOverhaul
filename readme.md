@@ -12,12 +12,13 @@ To run:
 *******************
 
 To Do (incomplete list):
-- Client-side route protection
-- Check for missing error handling
 - Optimisation e.g. lazy loading etc.
 - Optional:
-  - creation of reviews
-  - Front-end for deleting user account
+  - Creation of reviews
+  - Password validation (form) for deleting user account
+  - Modify user account information
+  - Review searching
+  - CSS fixes
 
 *******************
 - TS-Lint auto-fix is broken
