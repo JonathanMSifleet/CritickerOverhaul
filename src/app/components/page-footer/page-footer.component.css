@@ -21,6 +21,7 @@
 
 .gitHubContainerOuter {
   margin: 0;
+  margin-left: 1%;
   padding: 0.5%;
   height: 5vh;
   background-color: var(--container-light);
