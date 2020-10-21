@@ -48,7 +48,7 @@ export class AuthComponent implements OnInit, OnDestroy {
       let newUserData = new UserData(responseData.user.username, responseData.tokenData[0], responseData.tokenData[1]);
 
       this.authService.updateUserData(newUserData);
-      localStorage.setItem('loggedInUserData', JSON.stringify(newUserData));
+      sessionStorage.setItem('loggedInUserData', JSON.stringify(newUserData));
 
       this.router.navigate(['']);
     }, errorRes => {

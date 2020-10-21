@@ -22,7 +22,7 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
 
     // load username from local storage if user refreshes
     if (this.loggedInUserData === null) {
-      this.loggedInUserData = JSON.parse(localStorage.getItem('loggedInUserData'));
+      this.loggedInUserData = JSON.parse(sessionStorage.getItem('loggedInUserData'));
     }
   }
 

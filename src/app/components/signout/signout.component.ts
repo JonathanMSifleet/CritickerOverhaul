@@ -21,7 +21,7 @@ export class SignoutComponent implements OnInit {
   private signOut(): void {
     this.authService.updateUserData(null);
 
-    localStorage.removeItem('loggedInUserData');
+    sessionStorage.removeItem('loggedInUserData');
 
     this.router.navigate(['']);
   }
