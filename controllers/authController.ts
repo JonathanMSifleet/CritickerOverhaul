@@ -118,7 +118,7 @@ exports.deleteAccount = catchAsyncErrors(
 
     const username = req.query.username;
 
-    await User.deleteOne({ username: username }, (err) => {
+    await User.deleteOne({ username }, (err) => {
       if (err) {
         createResErr(res, 404, err);
       }
@@ -150,9 +150,9 @@ exports.protect = catchAsyncErrors(async (req, res, next) => {
 
   try{
     decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  } catch(e) {}
+  } catch (e) {}
 
-  if(decoded) {
+  if (decoded) {
     const currentUser = await User.findById(decoded.id);
 
     if (!currentUser) {
@@ -163,7 +163,7 @@ exports.protect = catchAsyncErrors(async (req, res, next) => {
     isValid = false;
   }
 
-  if(isValid) {
+  if (isValid) {
     next();
   } else {
     createResErr(res, 401, 'The active login token is invalid.');
