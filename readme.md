@@ -1,26 +1,16 @@
-This is a recreation of my [university project](https://github.com/JonathanMSifleet/GameReviewWebsite)
+This is a recreation of [my MEAN-stack game-review website](https://github.com/JonathanMSifleet/MEANReviewWebsite) which is a recreation of my [university project](https://github.com/JonathanMSifleet/GameReviewWebsite), which was made using PHP/CodeIgniter. This project will use DynamoDB and AWS instead of MongoDB and Express.
 
 *******************
 To run:
 
 1. Open terminal in project root
-2. Enter "npm install"
-3. Enter "npm start"
+2. Enter "serverless deploy -v"
 4. Open second terminal in roject root
 5. Enter "ng serve"
 
 *******************
 
 To Do (incomplete list):
-- Optimisation e.g. lazy loading etc.
-- Optional:
-  - Creation of reviews
-  - Password validation (form) for deleting user account
-  - Modify user account information
-  - Review searching
-  - CSS fixes
+- Everything
 
 *******************
-- TS-Lint auto-fix is broken
-- Some HTML elements such as header may overlap other elements
-- Page elements do not scale well with resolution / zoom
