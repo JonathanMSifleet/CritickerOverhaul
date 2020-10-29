@@ -1,6 +1,4 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "Node 12",
   "compilerOptions": {
     "experimentalDecorators": true,
     "lib": ["es2020", "dom"],
@@ -9,6 +7,20 @@
     "strict": false,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
-  }
+    "forceConsistentCasingInFileNames": true,
+    "removeComments": true,
+    "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "sourceMap": true,
+    "outDir": "lib"
+  },
+  "include": ["./**/*.ts"],
+  "exclude": [
+    "node_modules/**/*",
+    ".serverless/**/*",
+    ".webpack/**/*",
+    "_warmup/**/*",
+    ".vscode/**/*"
+  ]
 }
