@@ -38,7 +38,7 @@ exports.getReview = catchAsyncErrors(async (req: any, res: any) => {
 });
 
 exports.getAllReviews = catchAsyncErrors(
-  async (res: any) => {
+  async (_req: any, res: any) => {
     const reviews = await Review.find({}).select({
       gameName: 1,
       tagline: 1,
