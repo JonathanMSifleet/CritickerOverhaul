@@ -1,6 +1,7 @@
 import { APIGatewayProxyHandler } from 'aws-lambda';
 import 'source-map-support/register';
 
+// tslint:disable-next-line: variable-name
 export const hello: APIGatewayProxyHandler = async (event, _context) => {
   return {
     statusCode: 200,

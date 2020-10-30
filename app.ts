@@ -1,5 +1,5 @@
 import express from 'express';
-const morgan = require('morgan');
+import morgan from 'morgan';
 
 const userRouter = require('./routes/userRoutes');
 const reviewRouter = require('./routes/reviewRoutes');

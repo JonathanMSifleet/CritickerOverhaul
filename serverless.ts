@@ -2,20 +2,14 @@ import type { Serverless } from 'serverless/aws';
 
 const serverlessConfiguration: Serverless = {
   service: {
-    name: 'myservice',
+    name: 'AWSReviewWebsite',
     // app and org for use with dashboard.serverless.com
     // app: your-app-name,
     // org: your-org-name,
   },
   frameworkVersion: '2',
-  custom: {
-    webpack: {
-      webpackConfig: './webpack.config.js',
-      includeModules: true
-    }
-  },
   // Add the serverless-webpack plugin
-  plugins: ['serverless-webpack'],
+  // plugins: ['serverless-webpack'],
   provider: {
     name: 'aws',
     runtime: 'nodejs12.x',
@@ -39,6 +33,6 @@ const serverlessConfiguration: Serverless = {
       ]
     }
   }
-}
+};
 
 module.exports = serverlessConfiguration;

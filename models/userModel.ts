@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const validator = require('validator');
-const bcrypt = require('bcrypt');
+import mongoose from 'mongoose';
+import validator from 'validator';
+import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -68,21 +68,26 @@ const userSchema = new mongoose.Schema({
 // encrypt password:
 userSchema.pre('save', async function(next): Promise<any> {
   if (!this.isModified('password')) { return next(); }
+  // @ts-expect-error
   this.password = await bcrypt.hash(this.password, 12); // second parameter defines salt rounds
+  // @ts-expect-error
   this.passwordConfirm = undefined; // remove passwordConfirm after validation as storing unecessary
   next();
 });
 
 // make user email lower case:
 userSchema.pre('save', async function(next): Promise <any> {
+  // @ts-expect-error
   this.email = this.email.toLowerCase();
   next();
 });
 
 // format username:
 userSchema.pre('save', async function(next): Promise<any> {
+  // @ts-expect-error
   this.firstName = this.firstName.toLowerCase();
   // make first character upper case:
+  // @ts-expect-error
   this.firstName = this.firstName.charAt(0).toUpperCase() + this.firstName.slice(1);
   next();
 });

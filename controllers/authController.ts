@@ -10,6 +10,40 @@ const signToken = (id) => {
   });
 };
 
+// add token to database
+const addJWTToDB = async (id, token) => {
+  const tokenExpiry = Date.now() + (1000 * 60 * 60 * 24);
+
+  // token lasts 24 hours
+  await User.findOneAndUpdate(
+    { _id: id },
+    { $set: { token, tokenExpiry} },
+    { new: true }
+  );
+
+  return [token, tokenExpiry];
+
+};
+
+const createSessionToken = async (user, res) => {
+  const token = signToken(user._id);
+
+  // remove unused user properties from output
+  user.password = undefined;
+  user.role = undefined;
+  user.firstName = undefined;
+  user.token = undefined;
+  user.tokenExpiry = undefined;
+
+  const tokenData = await addJWTToDB(user._id, token);
+
+  res.status(201).json({
+    status: 'success',
+    user,
+    tokenData
+  });
+};
+
 exports.signup = catchAsyncErrors(async (req: any, res: any) => {
   const newUser = new User ({
     username: req.body.username,
@@ -55,41 +89,6 @@ exports.login = catchAsyncErrors(async (req: any, res: any) => {
 
   createSessionToken(user, res);
 });
-
-const createSessionToken = async (user, res) => {
-  const token = signToken(user._id);
-
-  // remove unused user properties from output
-  user.password = undefined;
-  user.role = undefined;
-  user.firstName = undefined;
-  user.token = undefined;
-  user.tokenExpiry = undefined;
-
-  const tokenData = await addJWTToDB(user._id, token);
-
-  res.status(201).json({
-    status: 'success',
-    user,
-    tokenData
-  });
-};
-
-// add token to database
-const addJWTToDB = async (id, token) => {
-  const tokenExpiry = Date.now() + (1000 * 60 * 60 * 24);
-
-  // token lasts 24 hours
-  await User.findOneAndUpdate(
-    { _id: id },
-    { $set: { token, tokenExpiry} },
-    { new: true }
-  );
-
-  return [token, tokenExpiry];
-
-};
-
 
 exports.signOut = catchAsyncErrors(async (req: any, res: any, usernameToFind: string) => {
   const user = await User.findOneAndUpdate({ username: usernameToFind}, { token: '' });
@@ -145,28 +144,22 @@ exports.protect = catchAsyncErrors(async (req, res, next) => {
 
   if (!token) {
     isValid = false;
-  }
-
-  let decoded = null;
-
-  try{
-    decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  } catch (e) {}
-
-  if (decoded) {
-    const currentUser = await User.findById(decoded.id);
-
-    if (!currentUser) {
+  } else {
+    try{
+      const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
+      const currentUser = await User.findById(decoded.id);
+      if (currentUser) {
+        next();
+      } else {
+        isValid = false;
+      }
+    } catch (e) {
       isValid = false;
     }
-
-  } else {
-    isValid = false;
   }
 
-  if (isValid) {
-    next();
-  } else {
+  if (!isValid) {
     createResErr(res, 401, 'The active login token is invalid.');
   }
+
 });

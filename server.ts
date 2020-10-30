@@ -1,6 +1,8 @@
 import mongoose = require('mongoose');
 import dotenv = require('dotenv');
 import cors = require('cors');
+// @ts-expect-error
+import express = require('express');
 
 // catch exceptions:
 process.on('uncaughtException', (err) => {
