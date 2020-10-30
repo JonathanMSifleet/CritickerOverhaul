@@ -8,3 +8,4 @@
 **/.buildpath
 **/.idea
 **/node_modules
+**/.webpack
