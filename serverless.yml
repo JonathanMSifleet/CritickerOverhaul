@@ -11,6 +11,12 @@ provider:
   memorySize: 256
   stage: ${opt:stage, 'dev'}
   region: eu-west-2
+  environment:
+    REVIEW_TABLE_NAME: ${self:custom.ReviewTable.name}
+
+resources:
+  Resources:
+    ReviewTable: ${file(aws/resources/ReviewTable.yml):ReviewTable}
 
 functions:
   logSomething:
@@ -22,5 +28,8 @@ functions:
           # authorizer: ${self:custom.authorizer}
 
 custom:
+  ReviewTable:
+    name: !Ref ReviewTable
+    arn: !GetAtt ReviewTable.Arn
   bundle:
     linting: true
