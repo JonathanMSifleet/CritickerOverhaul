@@ -1,0 +1,1 @@
+curl --location --request POST "https://dev-3u8cne4p.eu.auth0.com/oauth/token" --header "Content-Type: application/x-www-form-urlencoded" --data-urlencode "client_id=Sb03T4iIIIwy4ivlCYlCLTfpbFUD9Q5s" --data-urlencode "username=jonathans@apadmi.com" --data-urlencode "password=T$DSe6h$j{B7!B@" --data-urlencode "grant_type=password" --data-urlencode "scope=openid"

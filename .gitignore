@@ -11,3 +11,4 @@
 **/.webpack
 **/.serverless
 **/.vscode
+**/secret.pem
