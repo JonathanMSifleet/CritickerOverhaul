@@ -1,7 +1,10 @@
 {
   "compilerOptions": {
+    "baseUrl": "/",
     "experimentalDecorators": true,
     "lib": ["es2020", "dom"],
+    "allowJs": true,
+    "checkJs": true,
     "module": "commonjs",
     "target": "es2019",
     "strict": false,
@@ -15,12 +18,12 @@
     "sourceMap": true,
     "outDir": "lib"
   },
-  "include": ["./**/*.ts"],
+  "include": ["./**/*.ts", "./**/*.js"],
   "exclude": [
-    "node_modules/**/*",
-    ".serverless/**/*",
-    ".webpack/**/*",
-    "_warmup/**/*",
-    ".vscode/**/*"
+    "./node_modules/**/*",
+    "./.serverless/**/*",
+    "./.webpack/**/*",
+    "./_warmup/**/*",
+    "./.vscode/**/*"
   ]
 }

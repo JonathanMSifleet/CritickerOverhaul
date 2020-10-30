@@ -1,6 +1,5 @@
 import mongoose = require('mongoose');
 import dotenv = require('dotenv');
-import express = require('express');
 import cors = require('cors');
 
 // catch exceptions:
@@ -34,6 +33,6 @@ mongoose
 
 // create server:
 const port = process.env.PORT || 3000;
-const server = app.listen(port, () => {
+app.listen(port, () => {
   console.log('CORS-enabled App running on port', port);
 });

@@ -4,7 +4,7 @@ const createResErr = require('./../utils/createResErr');
 const Review = require('./../models/reviewModel');
 
 exports.createReview = catchAsyncErrors(
-  async (req: any, res: any, next: any) => {
+  async (req: any, res: any) => {
     const jsonReview = {
       gameName: req.body.gameName,
       tagline: req.body.tagline,
@@ -23,7 +23,7 @@ exports.createReview = catchAsyncErrors(
   }
 );
 
-exports.getReview = catchAsyncErrors(async (req: any, res: any, next: any) => {
+exports.getReview = catchAsyncErrors(async (req: any, res: any) => {
   // get review from slug
   const review = await Review.findOne({ slug: req.params.slug });
 
@@ -38,7 +38,7 @@ exports.getReview = catchAsyncErrors(async (req: any, res: any, next: any) => {
 });
 
 exports.getAllReviews = catchAsyncErrors(
-  async (req: any, res: any, next: any) => {
+  async (res: any) => {
     const reviews = await Review.find({}).select({
       gameName: 1,
       tagline: 1,

@@ -3,7 +3,6 @@ import { catchAsyncErrors } from './../utils/catchAsyncErrors';
 const createResErr = require('./../utils/createResErr');
 const User = require('./../models/userModel');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
 
 const signToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -11,7 +10,7 @@ const signToken = (id) => {
   });
 };
 
-exports.signup = catchAsyncErrors(async (req: any, res: any, next: any) => {
+exports.signup = catchAsyncErrors(async (req: any, res: any) => {
   const newUser = new User ({
     username: req.body.username,
     firstName: req.body.firstName,
@@ -81,7 +80,7 @@ const addJWTToDB = async (id, token) => {
   const tokenExpiry = Date.now() + (1000 * 60 * 60 * 24);
 
   // token lasts 24 hours
-  const user = await User.findOneAndUpdate(
+  await User.findOneAndUpdate(
     { _id: id },
     { $set: { token, tokenExpiry} },
     { new: true }
@@ -103,7 +102,9 @@ exports.signOut = catchAsyncErrors(async (req: any, res: any, usernameToFind: st
 });
 
 exports.deleteAccount = catchAsyncErrors(
-  async (req: any, res: any, next: any) => {
+  async (req: any, res: any) => {
+
+    // verify password:
     // const { password, passwordConfirm } = req.body; // use destructuring to get values from req.body
 
     // const user = await User.findById(req.user.id).select('+password'); // + gets fields that are not select in model

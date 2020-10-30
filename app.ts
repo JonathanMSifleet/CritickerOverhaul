@@ -1,4 +1,3 @@
-const fs = require('fs');
 import express from 'express';
 const morgan = require('morgan');
 
