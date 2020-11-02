@@ -1,7 +1,6 @@
-// import { json } from 'express';
 // import { createAWSResErr } from '../../utils/createAWSResErr';
 // const jwt = require('jsonwebtoken');
-// const User = require('../../models/userModel');
+const User = require('../../models/userModel');
 const middy = require('middy');
 const { cors } = require('middy/middlewares');
 
@@ -19,7 +18,7 @@ async function signup(event, context) {
 
   return {
     statusCode: 201,
-    body: JSON.stringify('check cloudwatch log')
+    body: JSON.stringify(newUser)
   };
 
   // newUser.save((err) => {

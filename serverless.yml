@@ -13,9 +13,11 @@ provider:
   region: eu-west-2
   environment:
     REVIEW_TABLE_NAME: ${self:custom.ReviewTable.name}
+    USER_TABLE_NAME: ${self:custom.UserTable.name}
     AUTH0_PUBLIC_KEY: ${file(secret.pem)}  
   iamRoleStatements:
     - ${file(aws/iam/ReviewTableIAM.yml):ReviewTableIAM} 
+    - ${file(aws/iam/UserTableIAM.yml):UserTableIAM} 
 functions:
   auth:
     handler: aws/handlers/auth.handler
@@ -61,6 +63,7 @@ functions:
 resources:
   Resources:
     ReviewTable: ${file(aws/resources/ReviewTable.yml):ReviewTable}
+    UserTable: ${file(aws/resources/UserTable.yml):UserTable}
     # This response is needed for custom authorizer failures cors support
     GatewayResponse:
       Type: 'AWS::ApiGateway::GatewayResponse'
@@ -88,5 +91,8 @@ custom:
   ReviewTable:
     name: !Ref ReviewTable
     arn: !GetAtt ReviewTable.Arn
+  UserTable:
+    name: !Ref UserTable
+    arn: !GetAtt UserTable.Arn
   bundle:
     linting: true
