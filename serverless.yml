@@ -13,9 +13,35 @@ provider:
   region: eu-west-2
   environment:
     REVIEW_TABLE_NAME: ${self:custom.ReviewTable.name}
-    AUTH0_PUBLIC_KEY: ${file(secret.pem)}
-    iamRoleStatements:
-      - ${file(aws/iam/ReviewTableIAM.yml):ReviewTableIAM} 
+    AUTH0_PUBLIC_KEY: ${file(secret.pem)}  
+  iamRoleStatements:
+    - ${file(aws/iam/ReviewTableIAM.yml):ReviewTableIAM} 
+functions:
+  auth:
+    handler: aws/handlers/auth.handler
+    cors: true
+  publicEndpoint:
+    handler: aws/handlers/public.handler
+    events:
+      - http:
+          path: public
+          method: POST
+          cors: true
+  privateEndpoint:
+    handler: aws/handlers/private.handler
+    events:
+      - http:
+          path: private
+          method: POST
+          authorizer: auth
+          cors: true
+  getReviews:
+    handler: aws/handlers/getReviews.handler
+    events:
+      - http:
+          method: GET
+          path: /getreviews
+          cors: true
 
 resources:
   Resources:
@@ -41,32 +67,6 @@ resources:
         RestApiId:
           Ref: 'ApiGatewayRestApi'
         StatusCode: '401'
-functions:
-  auth:
-    handler: aws/handlers/auth.handler
-    cors: true
-  publicEndpoint:
-    handler: aws/handlers/public.handler
-    events:
-      - http:
-          path: public
-          method: POST
-          cors: true
-  privateEndpoint:
-    handler: aws/handlers/private.handler
-    events:
-      - http:
-          path: private
-          method: POST
-          authorizer: auth
-          cors: true
-  getReviews:
-    handler: aws/handlers/getReviews.handler
-    events:
-      - http:
-          method: GET
-          path: /getReviews
-          authorizer: ${self:custom.authorizer}
 
 custom:
   authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:AWSReviewWebsite-${self:provider.stage}-auth

@@ -8,7 +8,7 @@ export async function handler(event, context) {
       'Access-Control-Allow-Credentials': true,
     },
     body: JSON.stringify({
-      message: 'Hi ⊂◉‿◉つ from Public API',
+      message: 'Hello from Public API',
     }),
   };
 }
