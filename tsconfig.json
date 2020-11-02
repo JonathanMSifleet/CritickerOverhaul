@@ -19,7 +19,7 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
   },
-  "include": ["./**/*.ts"],
+  "include": ["./**/*.ts", "utils/createAWSResErr.js"],
   "exclude": [
     "./node_modules/**/*",
     "./.serverless/**/*",

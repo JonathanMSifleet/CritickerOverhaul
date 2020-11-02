@@ -44,36 +44,6 @@ const createSessionToken = async (user, res) => {
   });
 };
 
-exports.signup = catchAsyncErrors(async (req: any, res: any) => {
-  const newUser = new User ({
-    username: req.body.username,
-    firstName: req.body.firstName,
-    email: req.body.email,
-    password: req.body.password,
-    passwordConfirm: req.body.passwordConfirm
-  });
-
-  newUser.save((err) => {
-    if (err) {
-
-      // send error response:
-      createResErr(res, 500, err.message);
-
-    } else {
-      // sign userID with secret value from
-      const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-        expiresIn: '30d'
-      });
-
-      res.status(201).json({
-        status: 'success',
-        token,
-        user: newUser
-      });
-    }
-  });
-});
-
 exports.login = catchAsyncErrors(async (req: any, res: any) => {
   const { email, password } = req.body; // use destructuring to get values from req.body
 
@@ -99,36 +69,6 @@ exports.signOut = catchAsyncErrors(async (req: any, res: any, usernameToFind: st
       data: user
   });
 });
-
-exports.deleteAccount = catchAsyncErrors(
-  async (req: any, res: any) => {
-
-    // verify password:
-    // const { password, passwordConfirm } = req.body; // use destructuring to get values from req.body
-
-    // const user = await User.findById(req.user.id).select('+password'); // + gets fields that are not select in model
-
-    // if (password !== passwordConfirm) {
-    //   createResErr(res, 401, 'Passwords do not match');
-    // } else if (
-    //   (await user.correctPassword(password, user.password)) === false
-    // ) {
-    //   createResErr(res, 401, 'Incorrect password');
-    // }
-
-    const username = req.query.username;
-
-    await User.deleteOne({ username }, (err) => {
-      if (err) {
-        createResErr(res, 404, err);
-      }
-    });
-
-    res.status(204).json({
-      status: 'success'
-    });
-  }
-);
 
 exports.protect = catchAsyncErrors(async (req, res, next) => {
   // 1) Getting token and check of it's there

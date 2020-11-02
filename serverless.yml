@@ -42,7 +42,22 @@ functions:
           method: GET
           path: /getreviews
           cors: true
-
+  signup:
+    handler: aws/handlers/signup.handler
+    events:
+      - http:
+          method: POST
+          path: signup
+          cors: true
+  deleteAccount:
+    handler: aws/handlers/deleteAccount.handler
+    events:
+      - http:
+          method: DELETE
+          path: deleteaccount
+          authorizer: auth
+          cors: true
+          
 resources:
   Resources:
     ReviewTable: ${file(aws/resources/ReviewTable.yml):ReviewTable}

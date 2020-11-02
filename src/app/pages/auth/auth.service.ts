@@ -16,8 +16,9 @@ export class AuthService {
   }
 
   signUp(postData): Observable<object> {
+    // console.log('sign up called');
     return this.http
-      .post('http://127.0.0.1:3000/user/signup', postData);
+      .post('https://rdqp3qblje.execute-api.eu-west-2.amazonaws.com/dev/signup', postData);
   }
 
   signIn(postData: { email; password }): Observable<object> {
