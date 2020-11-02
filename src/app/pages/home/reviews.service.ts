@@ -11,11 +11,11 @@ export class ReviewsService {
   fetchReviews(): Observable<Review> {
     return this.http
       .get<{ [key: string]: Review }>(
-        'http://127.0.0.1:3000/review/getAllReviews'
+        'https://rvyjxebd11.execute-api.eu-west-2.amazonaws.com/dev/getreviews'
       )
       .pipe(
         map((responseData) => {
-          return responseData.data;
+          return responseData.reviews;
         })
       );
   }

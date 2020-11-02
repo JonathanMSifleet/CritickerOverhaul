@@ -1,5 +1,7 @@
 import AWS from 'aws-sdk';
 import createError from 'http-errors';
+const middy = require('middy');
+const { cors } = require('middy/middlewares');
 
 // import getReviewsSchema from '../lib'
 const dynamodb = new AWS.DynamoDB.DocumentClient();
@@ -35,4 +37,5 @@ async function getReviews(event, context) {
   };
 };
 
-export const handler = getReviews;
+export const handler = middy(getReviews)
+  .use(cors());
