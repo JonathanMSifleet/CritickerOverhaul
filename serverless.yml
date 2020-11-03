@@ -51,6 +51,13 @@ functions:
           method: POST
           path: signup
           cors: true
+  login:
+    handler: aws/handlers/login.handler
+    events:
+      - http:
+          method: POST
+          path: login
+          cors: true
   deleteAccount:
     handler: aws/handlers/deleteAccount.handler
     events:

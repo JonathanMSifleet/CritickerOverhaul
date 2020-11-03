@@ -1,5 +1,4 @@
 // import { createAWSResErr } from '../../utils/createAWSResErr';
-// const jwt = require('jsonwebtoken');
 const middy = require('middy');
 const { cors } = require('middy/middlewares');
 import AWS from 'aws-sdk';

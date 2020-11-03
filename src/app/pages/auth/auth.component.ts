@@ -44,7 +44,8 @@ export class AuthComponent implements OnInit, OnDestroy {
   signIn(postData): void {
     this.friendlyErrors = [];
     this.authService.signIn(postData).pipe(take(1)).subscribe((responseData) => {
-
+      console.log('sign in resp data', responseData);
+      
       // @ts-expect-error
       const newUserData = new UserData(responseData.user.username, responseData.tokenData[0], responseData.tokenData[1]);
 
