@@ -1,5 +1,5 @@
-const middy = require('middy');
-const { cors } = require('middy/middlewares');
+// const middy = require('middy');
+// const { cors } = require('middy/middlewares');
 import { createAWSResErr } from '../../utils/createAWSResErr';
 import AWS from 'aws-sdk';
 import bcrypt from 'bcryptjs';
@@ -36,6 +36,12 @@ async function login(event, context) {
 
   return {
     statusCode: 201,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Credentials': true,
+      'Content-Type': 'application/json'
+    },
     body: user
   };
 }
