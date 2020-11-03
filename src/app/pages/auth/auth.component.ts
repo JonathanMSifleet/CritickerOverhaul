@@ -3,6 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
+import bcrypt from 'bcryptjs';
 
 @Component({
   selector: 'app-auth',
@@ -58,6 +59,9 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   signUp(postData: { username; firstName; email; password }): void {
+
+    postData.password = bcrypt.hashSync(postData.password, 12); // second parameter defines salt rounds
+
     this.authService.signUp(postData).pipe(take(1)).subscribe(() => {
       this.switchMode();
     }, errorRes => {

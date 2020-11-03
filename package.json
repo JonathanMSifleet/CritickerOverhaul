@@ -18,7 +18,7 @@
     "@angular/router": "~10.1.4",
     "@types/jest": "^26.0.14",
     "aws-sdk": "^2.782.0",
-    "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
     "bootstrap": "^4.5.2",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -89,6 +89,9 @@
     "webpack-cli": "^4.1.0",
     "webpack-dev-server": "^3.11.0",
     "webpack-node-externals": "^1.7.2"
+  },
+  "browser": {
+    "crypto": false
   },
   "repository": {
     "type": "git",

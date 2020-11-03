@@ -10,6 +10,4 @@ router.post('/login', cors(), authController.login);
 router.options('/signOut', cors());
 router.patch('/signOut',  cors(), authController.protect, authController.signOut);
 
-router.options('/deleteAccount', cors());
-
 module.exports = router;
