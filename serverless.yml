@@ -57,13 +57,7 @@ functions:
       - http:
           method: POST
           path: login
-          cors:
-            origin: '*'
-            headers:
-              - Access-Control-Allow-Headers
-              - Access-Control-Allow-Origin
-              - Access-Control-Allow-Credentials
-              - Content-Type
+          cors: true
   deleteAccount:
     handler: aws/handlers/deleteAccount.handler
     events:

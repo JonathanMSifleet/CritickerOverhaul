@@ -1,4 +1,3 @@
-import { UserData } from './../../pages/auth/user-data.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from './../../pages/auth/auth.service';
 
@@ -12,7 +11,7 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
   // inject auth service rather than create new instance:
   constructor(public authService: AuthService) {}
 
-  loggedInUserData: UserData;
+  loggedInUserData: string;
   userDataSubscription = null;
 
   ngOnInit(): void {

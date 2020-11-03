@@ -17,4 +17,10 @@ UserTable:
           - AttributeName: username
             KeyType: HASH
         Projection:
-          ProjectionType: ALL    
+          ProjectionType: ALL
+      - IndexName: email
+        KeySchema:
+          - AttributeName: email
+            KeyType: HASH
+        Projection:
+          ProjectionType: ALL

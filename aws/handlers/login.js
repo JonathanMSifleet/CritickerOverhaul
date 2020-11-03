@@ -1,5 +1,5 @@
-// const middy = require('middy');
-// const { cors } = require('middy/middlewares');
+const middy = require('middy');
+const { cors } = require('middy/middlewares');
 import { createAWSResErr } from '../../utils/createAWSResErr';
 import AWS from 'aws-sdk';
 import bcrypt from 'bcryptjs';
@@ -32,24 +32,14 @@ async function login(event, context) {
     createAWSResErr(401, 'Incorrect email or password');
   }
 
-  console.log('User found, and password authenticated');
-
   return {
     statusCode: 201,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Content-Type',
-      'Access-Control-Allow-Credentials': true,
-      'Content-Type': 'application/json'
-    },
-    body: user
+    body: JSON.stringify(user)
   };
 }
 
 async function verifyPassword (candidatePassword, userPassword) {
-
-  const correctPassword = await bcrypt.compareSync(candidatePassword, userPassword);
-  return correctPassword;
+  return bcrypt.compareSync(candidatePassword, userPassword);
 }
 
 export const handler = middy(login)

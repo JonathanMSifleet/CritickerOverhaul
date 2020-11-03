@@ -1,4 +1,3 @@
-import { UserData } from './user-data.model';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
@@ -47,10 +46,10 @@ export class AuthComponent implements OnInit, OnDestroy {
       console.log('sign in resp data', responseData);
       
       // @ts-expect-error
-      const newUserData = new UserData(responseData.user.username, responseData.tokenData[0], responseData.tokenData[1]);
+      const newUserData = JSON.stringify(responseData.username);
 
       this.authService.updateUserData(newUserData);
-      sessionStorage.setItem('loggedInUserData', JSON.stringify(newUserData));
+      sessionStorage.setItem('loggedInUserData', newUserData);
 
       this.router.navigate(['']);
     }, errorRes => {

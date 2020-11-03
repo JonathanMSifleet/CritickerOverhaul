@@ -1,4 +1,3 @@
-import { UserData } from './user-data.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -8,10 +7,10 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  private userDataSource = new BehaviorSubject<UserData>(null);
+  private userDataSource = new BehaviorSubject<string>(null);
   loggedInUserData = this.userDataSource.asObservable();
 
-  updateUserData(newUserData: UserData): void {
+  updateUserData(newUserData: string): void {
     this.userDataSource.next(newUserData);
   }
 
