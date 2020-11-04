@@ -17,7 +17,6 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userDataSubscription = this.authService.loggedInUserData.subscribe(data => {
-      console.log('subscription data', data);
       this.loggedInUserData = data;
     });
 

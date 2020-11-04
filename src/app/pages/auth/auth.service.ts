@@ -12,7 +12,6 @@ export class AuthService {
   loggedInUserData = this.userDataSource.asObservable();
 
   updateUserData(newUserData: UserData): void {
-    console.log('new user data', newUserData);
     this.userDataSource.next(newUserData);
   }
 

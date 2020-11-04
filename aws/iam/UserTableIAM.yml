@@ -4,6 +4,7 @@ UserTableIAM:
     - dynamodb:PutItem
     - dynamodb:Scan
     - dynamodb:GetItem
+    - dynamodb:DeleteItem
     - dynamodb:UpdateItem
     - dynamodb:Query
   Resource:
