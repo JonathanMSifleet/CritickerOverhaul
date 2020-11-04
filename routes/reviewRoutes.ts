@@ -5,9 +5,6 @@ const reviewController = require('./../controllers/reviewController');
 const router = express.Router();
 
 // routes:
-router.options('/getAllReviews', cors());
-router.get('/getAllReviews', cors(), reviewController.getAllReviews);
-
 router.options('/:slug', cors());
 router.get('/:slug', cors(), reviewController.getReview);
 

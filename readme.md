@@ -11,7 +11,7 @@ To run:
 *******************
 
 To Do (incomplete list):
-- Convert express routes to AWS
+- Convert get review route to AWS
 - Validation
 
 *******************

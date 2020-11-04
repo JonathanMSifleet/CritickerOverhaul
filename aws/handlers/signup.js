@@ -1,4 +1,4 @@
-// import { createAWSResErr } from '../../utils/createAWSResErr';
+import { createAWSResErr } from '../../utils/createAWSResErr';
 const middy = require('middy');
 const { cors } = require('middy/middlewares');
 import AWS from 'aws-sdk';
@@ -9,7 +9,13 @@ async function signup(event, context) {
 
   const { username, firstName, email, password } = JSON.parse(event.body);
 
-  const result = await insertUserToDB(username, firstName, email, password);
+  let result;
+  try {
+    result = await insertUserToDB(username, firstName, email, password);
+  } catch (e) {
+    console.error(e);
+    createAWSResErr(404, e)
+  }
 
   return {
     statusCode: 201,

@@ -23,8 +23,12 @@ async function deleteAccount(event, context) {
         ":email": email
     }
   };
-
-  const result = await dynamodb.delete(params).promise();
+  try {
+    const result = await dynamodb.delete(params).promise();
+  } catch ( e ) {
+    console.error(e);
+    throw new createError.InternalServerError(e);
+  }
 
   return {
     statusCode: 204,

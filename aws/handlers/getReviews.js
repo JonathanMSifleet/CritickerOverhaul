@@ -1,34 +1,26 @@
 import AWS from 'aws-sdk';
-import createError from 'http-errors';
+import { createAWSResErr } from '../../utils/createAWSResErr';
 const middy = require('middy');
 const { cors } = require('middy/middlewares');
 
 // import getReviewsSchema from '../lib'
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-async function getReviews(event, context) {
+async function getReviews() {
 
   let reviews;
 
   const params = {
     TableName: process.env.REVIEW_TABLE_NAME,
     IndexName: 'reviewTitle'
-    // KeyConditionExpression: '#id !== :id',
-    // ExpressionAttributeValues: {
-    //   ':id': '',
-    // },
-    // ExpressionAttributeNames: {
-    //   '#id': 'id'
-    // }
   };
 
   try {
     const result = await dynamodb.scan(params).promise();
-
     reviews = result.Items;
   } catch (e) {
     console.error(e);
-    throw new createError.InternalServerError(e);
+    createAWSResErr(404, e);
   }
 
   return {
