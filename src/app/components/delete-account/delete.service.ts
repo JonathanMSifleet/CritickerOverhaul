@@ -8,8 +8,6 @@ export class DeleteService {
   constructor(private http: HttpClient) {}
 
   deleteAccount(username, token): Observable<object> {
-    console.log('delete service component username', username);
-
     let headers = new HttpHeaders();
     headers = headers.set('Authorization', 'Bearer ' + token);
 

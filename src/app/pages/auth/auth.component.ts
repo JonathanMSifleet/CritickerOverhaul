@@ -1,3 +1,4 @@
+import { UserData } from './user-data.model';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
@@ -43,13 +44,12 @@ export class AuthComponent implements OnInit, OnDestroy {
   signIn(postData): void {
     this.friendlyErrors = [];
     this.authService.signIn(postData).pipe(take(1)).subscribe((responseData) => {
-      console.log('sign in resp data', responseData);
       
       // @ts-expect-error
-      const newUserData = JSON.stringify(responseData.username);
+      const newUserData = responseData.username;
 
       this.authService.updateUserData(newUserData);
-      sessionStorage.setItem('loggedInUserData', newUserData);
+      sessionStorage.setItem('loggedInUserData', JSON.stringify(newUserData));
 
       this.router.navigate(['']);
     }, errorRes => {

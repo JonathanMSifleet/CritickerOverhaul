@@ -1,3 +1,4 @@
+import { UserData } from './user-data.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
@@ -7,15 +8,15 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  private userDataSource = new BehaviorSubject<string>(null);
+  private userDataSource = new BehaviorSubject<UserData>(null);
   loggedInUserData = this.userDataSource.asObservable();
 
-  updateUserData(newUserData: string): void {
+  updateUserData(newUserData: UserData): void {
+    console.log('new user data', newUserData);
     this.userDataSource.next(newUserData);
   }
 
   signUp(postData): Observable<object> {
-    // console.log('sign up called');
     return this.http
       .post('https://h8stv3r5xl.execute-api.eu-west-2.amazonaws.com/dev/signup', postData);
   }
