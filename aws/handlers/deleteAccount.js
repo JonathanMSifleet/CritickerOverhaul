@@ -3,6 +3,7 @@
 const middy = require('middy');
 const { cors } = require('middy/middlewares');
 import AWS from 'aws-sdk';
+import { createAWSResErr } from '../../utils/createAWSResErr';
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 // const User = require('../../models/userModel');
@@ -23,11 +24,13 @@ async function deleteAccount(event, context) {
         ":email": email
     }
   };
+
+  let result;
   try {
-    const result = await dynamodb.delete(params).promise();
+    result = await dynamodb.delete(params).promise();
   } catch ( e ) {
     console.error(e);
-    throw new createError.InternalServerError(e);
+    createAWSResErr(404, e);
   }
 
   return {
