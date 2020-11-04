@@ -11,6 +11,7 @@ To run:
 *******************
 
 To Do (incomplete list):
-- Everything
+- Convert express routes to AWS
+- Validation
 
 *******************

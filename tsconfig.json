@@ -18,8 +18,9 @@
     "outDir": "lib",
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
+    "importHelpers": true
   },
-  "include": ["./**/*.ts", "utils/createAWSResErr.js"],
+  "include": ["./**/*.ts"],
   "exclude": [
     "./node_modules/**/*",
     "./.serverless/**/*",

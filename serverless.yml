@@ -42,7 +42,7 @@ functions:
     events:
       - http:
           method: GET
-          path: /getreviews
+          path: getreviews
           cors: true
   signup:
     handler: aws/handlers/signup.handler

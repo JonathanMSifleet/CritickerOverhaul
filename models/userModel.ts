@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import validator from 'validator';
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -69,7 +69,7 @@ const userSchema = new mongoose.Schema({
 userSchema.pre('save', async function(next): Promise<any> {
   if (!this.isModified('password')) { return next(); }
   // @ts-expect-error
-  this.password = await bcrypt.hash(this.password, 12); // second parameter defines salt rounds
+  this.password = await bcrypt.hashSync(this.password, 12); // second parameter defines salt rounds
   // @ts-expect-error
   this.passwordConfirm = undefined; // remove passwordConfirm after validation as storing unecessary
   next();
@@ -97,7 +97,7 @@ userSchema.methods.correctPassword = async (
   candidatePassword,
   userPassword
 ) => {
-  return await bcrypt.compare(candidatePassword, userPassword);
+  return await bcrypt.compareSync(candidatePassword, userPassword);
 };
 
 const User = mongoose.model('User', userSchema);
