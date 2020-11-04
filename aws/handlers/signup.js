@@ -14,7 +14,7 @@ async function signup(event, context) {
     result = await insertUserToDB(username, firstName, email, password);
   } catch (e) {
     console.error(e);
-    createAWSResErr(404, e)
+    createAWSResErr(404, e);
   }
 
   return {
