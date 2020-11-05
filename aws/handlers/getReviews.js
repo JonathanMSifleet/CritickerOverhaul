@@ -12,7 +12,7 @@ async function getReviews() {
 
   const params = {
     TableName: process.env.REVIEW_TABLE_NAME,
-    IndexName: 'reviewTitle'
+    IndexName: 'reviewId'
   };
 
   try {

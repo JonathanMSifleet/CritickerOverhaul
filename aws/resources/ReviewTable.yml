@@ -6,15 +6,15 @@ ReviewTable:
     AttributeDefinitions:
       - AttributeName: id
         AttributeType: S
-      - AttributeName: gameName
+      - AttributeName: slug
         AttributeType: S
     KeySchema:
-      - AttributeName: id
+      - AttributeName: slug
         KeyType: HASH
     GlobalSecondaryIndexes:
-      - IndexName: reviewTitle
+      - IndexName: reviewId
         KeySchema:
-          - AttributeName: gameName
+          - AttributeName: id
             KeyType: HASH
         Projection:
-          ProjectionType: ALL    
+          ProjectionType: ALL
