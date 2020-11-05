@@ -7,7 +7,11 @@ import { map } from 'rxjs/operators';
 export class ReviewsService {
   constructor(private http: HttpClient) {}
 
-  fetchReview(url: string) {
+  fetchReview(slug: string) {
+
+    const url = 'https://lvsrmt8ev9.execute-api.eu-west-2.amazonaws.com/review/' + slug;
+    console.log('url to load:', url);
+
     return this.http.get<{ [key: string]: Review }>(url).pipe(
       map((responseData) => {
         return responseData.data;

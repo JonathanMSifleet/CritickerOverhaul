@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ReviewsService } from './review-page.service';
-import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 
 @Component({
@@ -10,8 +9,7 @@ import { take } from 'rxjs/operators';
 })
 export class ReviewPageComponent implements OnInit {
   constructor(
-    private reviewsService: ReviewsService,
-    private router: Router
+    private reviewsService: ReviewsService
   ) {}
 
   gameName: string;
@@ -22,11 +20,13 @@ export class ReviewPageComponent implements OnInit {
   error: string;
 
   ngOnInit(): void {
-    this.fetchReview('http://127.0.0.1:3000' + this.router.url);
+    // get slug from the end of URL:
+    const urlSegments = window.location.pathname.split('/');
+    this.fetchReview(urlSegments[urlSegments.length - 1]);
   }
 
-  private fetchReview(url): void {
-   this.reviewsService.fetchReview(url).pipe(take(1)).subscribe((fetchedReview) => {
+  private fetchReview(slug): void {
+   this.reviewsService.fetchReview(slug).pipe(take(1)).subscribe((fetchedReview) => {
       this.gameName = fetchedReview.gameName;
       this.image = fetchedReview.image;
       this.blurb = fetchedReview.blurb;
