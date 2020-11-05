@@ -12,6 +12,7 @@ To run:
 
 To Do (incomplete list):
 - Convert get review route to AWS
+- Refactor
 - Validation
 
 *******************
