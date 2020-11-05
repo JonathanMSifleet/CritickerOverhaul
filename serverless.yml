@@ -49,7 +49,7 @@ functions:
       events:
         - http:
             method: GET
-            path: review/{id}
+            path: review/{slug}
             cors: true
   signup:
     handler: aws/handlers/signup.handler

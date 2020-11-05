@@ -1,14 +1,14 @@
 import AWS from 'aws-sdk';
-// const middy = require('middy');
-// const { cors } = require('middy/middlewares');
+const middy = require('middy');
+const { cors } = require('middy/middlewares');
 import { createAWSResErr } from '../../utils/createAWSResErr';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function getReview(event, context) {
 
-  // const { slug } = event.pathParameters;
-  const slug = 'mass-effect-3';
+  const { slug } = event.pathParameters;
+  // const slug = 'mass-effect-3';
   console.log(slug);
 
   const review = await getReviewBySlug(slug);
@@ -16,10 +16,6 @@ async function getReview(event, context) {
 
   return {
     statusCode: 200,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Credentials': true
-    },
     body: JSON.stringify(review)
   };
 }
@@ -46,5 +42,5 @@ async function getReviewBySlug(slug) {
   return review;
 };
 
-export const handler = getReview; // middy(getReview)
-  // .use(cors());
+export const handler = middy(getReview)
+  .use(cors());

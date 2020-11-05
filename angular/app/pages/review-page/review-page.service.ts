@@ -9,12 +9,11 @@ export class ReviewsService {
 
   fetchReview(slug: string) {
 
-    const url = 'https://lvsrmt8ev9.execute-api.eu-west-2.amazonaws.com/review/' + slug;
-    console.log('url to load:', url);
-
-    return this.http.get<{ [key: string]: Review }>(url).pipe(
+    return this.http.get<{ [key: string]: Review }>(
+      'https://lvsrmt8ev9.execute-api.eu-west-2.amazonaws.com/dev/review/' + slug
+    ).pipe(
       map((responseData) => {
-        return responseData.data;
+        return responseData;
       }
     ));
   }

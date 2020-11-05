@@ -27,12 +27,18 @@ export class ReviewPageComponent implements OnInit {
 
   private fetchReview(slug): void {
    this.reviewsService.fetchReview(slug).pipe(take(1)).subscribe((fetchedReview) => {
-      this.gameName = fetchedReview.gameName;
-      this.image = fetchedReview.image;
-      this.blurb = fetchedReview.blurb;
-      this.reviewText = fetchedReview.review;
+    this.extractReviewData(fetchedReview);
     }, errorRes => {
+      console.log('error res', errorRes);
       this.error = errorRes.error.error;
     });
   }
+
+  private extractReviewData(fetchedReview) {
+    this.gameName = fetchedReview.gameName;
+    this.image = fetchedReview.image;
+    this.blurb = fetchedReview.blurb;
+    this.reviewText = fetchedReview.review;
+  }
+
 }
