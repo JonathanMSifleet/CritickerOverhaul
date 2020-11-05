@@ -11,7 +11,7 @@ export class ReviewsService {
   fetchReviews(): Observable<Review> {
     return this.http
       .get<{ [key: string]: Review }>(
-        'https://h8stv3r5xl.execute-api.eu-west-2.amazonaws.com/dev/getreviews'
+        'https://lvsrmt8ev9.execute-api.eu-west-2.amazonaws.com/dev/getreviews'
       )
       .pipe(
         map((responseData) => {

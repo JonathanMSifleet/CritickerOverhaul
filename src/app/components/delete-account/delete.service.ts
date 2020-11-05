@@ -9,7 +9,7 @@ export class DeleteService {
 
   deleteAccount(): Observable<object> {
     return this.http
-      .delete('https://h8stv3r5xl.execute-api.eu-west-2.amazonaws.com/dev/deleteAccount');
+      .delete('https://lvsrmt8ev9.execute-api.eu-west-2.amazonaws.com/dev/deleteAccount');
   }
 
 }
