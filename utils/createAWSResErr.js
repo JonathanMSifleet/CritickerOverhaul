@@ -7,6 +7,6 @@ export function createAWSResErr(code, message) {
       'Access-Control-Allow-Credentials': true,
       'Content-Type': 'application/json'
     },
-    error: message,
+    error: JSON.stringify(message)
   };
 }
