@@ -11,5 +11,5 @@
 **/.webpack
 **/.serverless
 **/.vscode
-**/.curlCreateTestToken.txt
+**/curlCreateTestToken.txt
 # **/secret.pem
