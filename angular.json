@@ -14,14 +14,14 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/MEANReviewWebsite",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
+            "index": "angular/index.html",
+            "main": "angular/main.ts",
+            "polyfills": "angular/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "aot": true,
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": ["angular/favicon.ico", "angular/assets"],
             "styles": [
-              "src/styles.css",
+              "angular/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": [
@@ -33,8 +33,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "replace": "angular/environments/environment.ts",
+                  "with": "angular/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -80,12 +80,12 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
+            "main": "angular/test.ts",
+            "polyfills": "angular/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "karmaConfig": "karma.conf.js",
-            "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.css"],
+            "assets": ["angular/favicon.ico", "angular/assets"],
+            "styles": ["angular/styles.css"],
             "scripts": []
           }
         },
