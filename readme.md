@@ -4,15 +4,18 @@ This is a recreation of my [my MEAN-stack game-review website](https://github.co
 To run:
 
 1. Open terminal in project root
-2. Enter "serverless deploy -v"
-4. Open second terminal in roject root
-5. Enter "ng serve"
+2. Enter "npm i"
+3. Open a second terminal in roject root
+2. Enter "npm start"
+5. Open a third terminal in roject root
+6. Enter "ng serve"
 
 *******************
 
 To Do (incomplete list):
-- Convert get review route to AWS
+- Finish converting GetReview functionality to AWS
 - Refactor
 - Validation
+- Add comments
 
 *******************
