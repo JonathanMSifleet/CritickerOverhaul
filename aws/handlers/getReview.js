@@ -8,11 +8,8 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 async function getReview(event, context) {
 
   const { slug } = event.pathParameters;
-  // const slug = 'mass-effect-3';
-  console.log(slug);
 
   const review = await getReviewBySlug(slug);
-  console.log('review:', JSON.stringify(review));
 
   return {
     statusCode: 200,
