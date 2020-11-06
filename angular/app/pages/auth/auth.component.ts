@@ -44,8 +44,12 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   signIn(postData): void {
     this.friendlyErrors = [];
+
     this.authService.signIn(postData).pipe(take(1)).subscribe((responseData) => {
       
+
+      console.log('auth service resp data', responseData);
+
       // @ts-expect-error
       const { username, email} = responseData;
 
@@ -61,6 +65,7 @@ export class AuthComponent implements OnInit, OnDestroy {
     }, errorRes => {
       console.log('errorRes', errorRes);
       this.friendlyErrors.push(errorRes.error.error);
+      this.friendlyErrors.push('Incorrect email or password');
     });
   }
 
