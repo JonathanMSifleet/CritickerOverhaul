@@ -4,6 +4,7 @@ import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
 import { take } from 'rxjs/operators';
 import bcrypt from 'bcryptjs';
+import * as EmailValidator from 'email-validator';
 
 @Component({
   selector: 'app-auth',
@@ -13,8 +14,7 @@ import bcrypt from 'bcryptjs';
 export class AuthComponent implements OnInit, OnDestroy {
 
   error: string = null;
-  unfriendlyErrors: string[];
-  friendlyErrors = [];
+  friendlyErrors: string[];
   userDataSubscription = null;
 
   // passing auth service in constructor injects it
@@ -26,6 +26,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   isLoginMode = true;
 
   ngOnInit(): void {
+    this.friendlyErrors = [];
     this.userDataSubscription = this.authService.loggedInUserData.subscribe();
   }
 
@@ -65,71 +66,91 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   signUp(postData: { username; firstName; email; password }): void {
 
-    postData.password = bcrypt.hashSync(postData.password, 12); // second parameter defines salt rounds
+    this.validateUserInputs(postData);
+    if (this.friendlyErrors.length === 0) {
 
-    this.authService.signUp(postData).pipe(take(1)).subscribe(() => {
-      this.switchMode();
-    }, errorRes => {
-      this.friendlyErrors = [];
-      this.error = errorRes.error.error;
-      this.handleErrors();
-    });
-  }
+      postData.password = bcrypt.hashSync(postData.password, 12); // second parameter defines salt rounds
 
-  private handleErrors(): void {
-    this.unfriendlyErrors = this.error.split(',');
-
-    this.unfriendlyErrors.forEach(element => {
-      // first two ifs required as mongoose
-      // database message requires separate handling:
-      if (element.includes('email_1 dup key')) {
-        this.friendlyErrors.push('Email address already in use');
-      } else if (element.includes('username dup key')){
-        this.friendlyErrors.push('Username already in use');
-      } else {
-        this.friendlyErrors.push(this.createUserFriendlyErrMessage(element));
-      }
-    });
-  }
-
-  private createUserFriendlyErrMessage(message): string {
-    switch (true) {
-      case message.includes('USERNAME REQUIRED'):
-      return 'Username field must not be empty';
-      case message.includes('USERNAME TOO LONG'):
-      return 'Username must be between 3 and 20 chracters';
-      case message.includes('USERNAME TOO SHORT'):
-      return 'Username must be between 3 and 20 chracters';
-      case message.includes('USERNAME MUST BE ALPHANUMERIC'):
-      return 'Username cannot contain special characters, only A-Z, 0-9';
-      case message.includes('NAME REQUIRED'):
-      return 'First name field must not be empty';
-      case message.includes('NAME TOO LONG'):
-      return 'First name must be between 3 and 16 characters';
-      case message.includes('NAME TOO SHORT'):
-      return 'First name must be between 3 and 16 characters';
-      case message.includes('NAME MUST CONTAIN ONLY CHARACTERS'):
-      return 'First name can only contain characters in the alphabet';
-      case message.includes('EMAIL REQUIRED'):
-      return 'Emaill field must not be empty';
-      case message.includes('INVALID EMAIL'):
-      return 'Please enter a valid email address';
-      case message.includes('PASSWORD TOO LONG'):
-      return 'Password must be between 8 and 64 characters';
-      case message.includes('PASSWORD TOO SHORT'):
-      return 'Password must be between 8 and 64 characters';
-      case message.includes('PASSWORD REQUIRED'):
-      return 'Password field must not be empty';
-      case message.includes('CONFIRMATION PASSWORD TOO SHORT'):
-      return 'Password must be between 8 and 64 characters';
-      case message.includes('CONFIRMATION PASSWORD TOO LONG'):
-      return 'Password must be between 8 and 64 characters';
-      case message.includes('CONFIRMATION PASSWORD REQUIRED'):
-      return ' Confirmation password field must not be empty';
-      case message.includes('PASSWORDS DO NOT MATCH'):
-      return 'Passwords do not match';
-      default:
-      return 'Unhandled error, please contact support with steps to reproduce';
+      this.authService.signUp(postData).pipe(take(1)).subscribe(() => {
+        this.switchMode();
+      }, errorRes => {
+        this.error = errorRes.error.error;
+      });
     }
   }
+
+  private validateUserInputs(postData): void {
+
+    this.validateInput(postData.username, 'Username');
+    this.validateInput(postData.firstName, 'First name');
+    this.validateInput(postData.email, 'Email');
+    this.validateInput(postData.password, 'Password');
+
+    // remove 'empty' errors:
+    let arrayLength = this.friendlyErrors.length;
+    while (arrayLength--) {
+      if (this.friendlyErrors[arrayLength] === undefined) { 
+        this.friendlyErrors.splice(arrayLength, 1);
+      } 
+    }
+
+  }
+
+  private validateInput(value, name): void {
+
+    // validation to do goes here:
+    /*
+      validate confirm password
+      check passwords match
+    */
+
+    switch (name) {
+      case 'Username':
+        this.friendlyErrors.push(this.validateNotEmpty(value, name));
+        this.friendlyErrors.push(this.validateLength(value, name, 3, 16));
+        this.friendlyErrors.push(this.validateAgainstRegex(value, name, /[^A-Za-z0-9]+/, 'cannot contain special characters'));
+        break;
+      case 'First name':
+        this.friendlyErrors.push(this.validateNotEmpty(value, name));
+        this.friendlyErrors.push(this.validateLength(value, name, 3, 20));
+        this.friendlyErrors.push(this.validateAgainstRegex(value, name, /[^A-Za-z]+/, 'can only contain letters'));
+        break;
+      case 'Email':
+        this.friendlyErrors.push(this.validateNotEmpty(value, name));
+        this.friendlyErrors.push(this.validateLength(value, name, 3, 256));
+        this.friendlyErrors.push(this.validateIsEmail(value));
+        break;
+      case 'Password':
+        this.friendlyErrors.push(this.validateNotEmpty(value, name));
+        this.friendlyErrors.push(this.validateLength(value, name, 8, 64));
+        break;
+      default:
+        this.friendlyErrors.push('Unexpected error');
+    }
+  }
+
+  private validateNotEmpty(value, name): string {
+    if (value === null || value === '' || value === undefined) {
+      return `${name} must not be empty`;
+    }
+  }
+
+  private validateLength(value, name, min, max): string {
+    if (value.length < min || value.length > max) {
+      return `${name} must be between ${min} and ${max} chracters`;
+    }
+  }
+
+  private validateAgainstRegex(value, name, regex, message): string {
+    if (value !== regex) {
+      return `${name} ${message}`;
+    }
+  }
+
+  private validateIsEmail(value) {
+    if (!EmailValidator.validate(value)) {
+      return `Email must be valid`;
+    }
+  }
+
 }
