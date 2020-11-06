@@ -66,7 +66,7 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   signUp(postData: { username; firstName; email; password; passwordConfirm }): void {
     this.friendlyErrors = [];
-    this.validateUserInputs(postData, true);
+    this.validateUserInputs(postData);
 
     if (this.friendlyErrors.length === 0) {
       postData.password = bcrypt.hashSync(postData.password, 12); // second parameter defines salt rounds
@@ -83,25 +83,23 @@ export class AuthComponent implements OnInit, OnDestroy {
     }
   }
 
-  private validateUserInputs(postData, isSignup): void {
-    if (isSignup) {
-    this.validateInput(postData.username, 'Username');
-    this.validateInput(postData.firstName, 'First name');
-    }
-    this.validateInput(postData.email, 'Email');
-    this.validateInput(postData.password, 'Password');
+  private validateUserInputs(postData): void {
+      this.validateInput(postData.username, 'Username');
+      this.validateInput(postData.firstName, 'First name');
+      this.validateInput(postData.email, 'Email');
+      this.validateInput(postData.password, 'Password');
 
-    if (postData.password !== postData.passwordConfirm) {
-      this.friendlyErrors.push('Passwords do not match');
-    }
+      if (postData.password !== postData.passwordConfirm) {
+        this.friendlyErrors.push('Passwords do not match');
+      }
 
-    // remove 'empty' errors:
-    let arrayLength = this.friendlyErrors.length;
-    while (arrayLength--) {
-      if (this.friendlyErrors[arrayLength] === undefined) { 
-        this.friendlyErrors.splice(arrayLength, 1);
-      } 
-    }
+      // remove 'empty' errors:
+      let arrayLength = this.friendlyErrors.length;
+      while (arrayLength--) {
+        if (this.friendlyErrors[arrayLength] === undefined) { 
+          this.friendlyErrors.splice(arrayLength, 1);
+        } 
+      }
   }
 
   private validateInput(value, name): void {
