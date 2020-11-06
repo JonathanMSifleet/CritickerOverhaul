@@ -33,16 +33,16 @@ async function login(event, context) {
 
     if (!(await verifyPassword(password, user.password))) {
       createAWSResErr(401, 'Incorrect email or password');
+    } else {
+      return {
+        statusCode: 201,
+        body: JSON.stringify(user)
+      };
     }
   } catch (e) {
     console.error(e);
     createAWSResErr(404, e);
   }
-
-  return {
-    statusCode: 201,
-    body: JSON.stringify(user)
-  };
 }
 
 async function verifyPassword (candidatePassword, userPassword) {
