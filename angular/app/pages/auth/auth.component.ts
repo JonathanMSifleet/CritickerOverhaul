@@ -44,26 +44,23 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   signIn(postData): void {
     this.friendlyErrors = [];
-
     this.authService.signIn(postData).pipe(take(1)).subscribe((responseData) => {
+      try {
+        // @ts-expect-error
+        const { username, email} = responseData;
 
-      console.log('auth service resp data', responseData);
+        const newUserData = new UserData(
+          username,
+          email
+        );
 
-      // @ts-expect-error
-      const { username, email} = responseData;
+        this.authService.updateUserData(newUserData);
+        sessionStorage.setItem('loggedInUserData', JSON.stringify(newUserData));
 
-      const newUserData = new UserData(
-        username,
-        email
-      );
-
-      this.authService.updateUserData(newUserData);
-      sessionStorage.setItem('loggedInUserData', JSON.stringify(newUserData));
-
-      this.router.navigate(['']);
-    }, errorRes => {
-      console.log('errorRes', errorRes);
-      this.friendlyErrors.push('Incorrect email or password');
+        this.router.navigate(['']);
+      } catch (e ) {
+        this.friendlyErrors.push('Incorrect email or password');
+      }
     });
   }
 
@@ -108,12 +105,6 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   private validateInput(value, name): void {
-
-    // validation to do goes here:
-    /*
-      validate confirm password
-      check passwords match
-    */
 
     switch (name) {
       case 'Username':
