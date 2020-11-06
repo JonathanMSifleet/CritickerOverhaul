@@ -46,7 +46,6 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.friendlyErrors = [];
 
     this.authService.signIn(postData).pipe(take(1)).subscribe((responseData) => {
-      
 
       console.log('auth service resp data', responseData);
 
@@ -64,16 +63,15 @@ export class AuthComponent implements OnInit, OnDestroy {
       this.router.navigate(['']);
     }, errorRes => {
       console.log('errorRes', errorRes);
-      this.friendlyErrors.push(errorRes.error.error);
       this.friendlyErrors.push('Incorrect email or password');
     });
   }
 
-  signUp(postData: { username; firstName; email; password }): void {
+  signUp(postData: { username; firstName; email; password; passwordConfirm }): void {
+    this.friendlyErrors = [];
+    this.validateUserInputs(postData, true);
 
-    this.validateUserInputs(postData);
     if (this.friendlyErrors.length === 0) {
-
       postData.password = bcrypt.hashSync(postData.password, 12); // second parameter defines salt rounds
 
       this.authService.signUp(postData).pipe(take(1)).subscribe(() => {
@@ -81,15 +79,24 @@ export class AuthComponent implements OnInit, OnDestroy {
       }, errorRes => {
         this.error = errorRes.error.error;
       });
+    } else {
+      this.friendlyErrors.forEach(element => {
+        console.error(element);
+      });
     }
   }
 
-  private validateUserInputs(postData): void {
-
+  private validateUserInputs(postData, isSignup): void {
+    if (isSignup) {
     this.validateInput(postData.username, 'Username');
     this.validateInput(postData.firstName, 'First name');
+    }
     this.validateInput(postData.email, 'Email');
     this.validateInput(postData.password, 'Password');
+
+    if (postData.password !== postData.passwordConfirm) {
+      this.friendlyErrors.push('Passwords do not match');
+    }
 
     // remove 'empty' errors:
     let arrayLength = this.friendlyErrors.length;
@@ -98,7 +105,6 @@ export class AuthComponent implements OnInit, OnDestroy {
         this.friendlyErrors.splice(arrayLength, 1);
       } 
     }
-
   }
 
   private validateInput(value, name): void {
@@ -147,12 +153,12 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   private validateAgainstRegex(value, name, regex, message): string {
-    if (value !== regex) {
+    if (regex.test(value)) {
       return `${name} ${message}`;
     }
   }
 
-  private validateIsEmail(value) {
+  private validateIsEmail(value): string {
     if (!EmailValidator.validate(value)) {
       return `Email must be valid`;
     }
