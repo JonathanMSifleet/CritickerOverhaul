@@ -11,7 +11,7 @@ async function login(event, context) {
   const { email, password } = JSON.parse(event.body);
 
   if (!email || !password) {
-    return createAWSResErr(400, 'Please provide email and password!');
+    return createAWSResErr(401, 'Please provide email and password!');
   }
 
   const params = {

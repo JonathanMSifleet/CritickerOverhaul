@@ -14,21 +14,19 @@ async function signup(event, context) {
   errors = await removeEmptyErrors(errors);
 
   if(errors.length === 0) {
-    let result;
-    try {
-      result = await insertUserToDB(username, firstName, email, password);
+    const result = await insertUserToDB(username, firstName, email, password);
 
+    if(result !== null) {
       return {
         statusCode: 201,
         body: JSON.stringify(result)
       };
-    } catch (e) {
-      console.error(e);
-      return createAWSResErr(404, e);
+    } else {
+      return createAWSResErr(403, "Unknown error");
     }
   } else {
     logErrors(errors);
-    return createAWSResErr(404, errors);
+    return createAWSResErr(400, errors);
   }
 }
 
@@ -45,9 +43,7 @@ async function insertUserToDB(username, firstName, email, password) {
     TableName: process.env.USER_TABLE_NAME
   };
 
-  const result = await dynamodb.put(params).promise();
-  return result.Attributes;
-
+  return await dynamodb.put(params).promise();
 }
 
 async function validateUserInputs(username, firstName, email, password) {
