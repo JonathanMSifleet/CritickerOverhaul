@@ -8,16 +8,12 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function signup(event, context) {
 
-  // const { username, firstName, email, password } = JSON.parse(event.body);
+  const { username, firstName, email, password } = JSON.parse(event.body);
 
+  let errors = await validateUserInputs(username, firstName, email, password);
+  errors = await removeEmptyErrors(errors);
 
-  const username = 'Jonathan1!';
-  const firstName = '!1';
-  const email = '!1';
-  const password = 'neenaw';
-
-  const errors = await validateUserInputs(username, firstName, email, password);
-  if(errors.length !== 0) {
+  if(errors.length === 0) {
     let result;
     try {
       result = await insertUserToDB(username, firstName, email, password);
@@ -28,12 +24,11 @@ async function signup(event, context) {
       };
     } catch (e) {
       console.error(e);
-      createAWSResErr(404, e);
+      return createAWSResErr(404, e);
     }
   } else {
-    errors.forEach(element => {
-      console.error(element);
-    });
+    logErrors(errors);
+    return createAWSResErr(404, errors);
   }
 }
 
@@ -57,47 +52,60 @@ async function insertUserToDB(username, firstName, email, password) {
 
 async function validateUserInputs(username, firstName, email, password) {
   let errors = [];
-  errors.push(await validateInput(username, 'Username'));
-  errors.push(await validateInput(firstName, 'First name'));
-  errors.push(await validateInput(email, 'Email'));
-  errors.push(await validateInput(password, 'Password'));
+  errors.push(... await validateInput(username, 'Username'));
+  errors.push(... await validateInput(firstName, 'First name'));
+  errors.push(... await validateInput(email, 'Email'));
+  errors.push(... await validateInput(password, 'Password'));
+
   return errors;
 }
 
-
 async function validateInput(value, name) {
-  let errors = [];
+
+  let localErrors = [];
+
   switch (name) {
     case 'Username':
-      errors.push(this.validateNotEmpty(value, name));
-      errors.push(this.validateLength(value, name, 3, 16));
-      errors.push(this.validateAgainstRegex(value, name, /[^A-Za-z0-9]+/, 'cannot contain special characters'));
+      localErrors.push(await validateNotEmpty(value, name));
+      localErrors.push(await validateLength(value, name, 3, 16));
+      localErrors.push(await validateAgainstRegex(value, name, /[^A-Za-z0-9]+/, 'cannot contain special characters'));
       break;
     case 'First name':
-      errors.push(validateNotEmpty(value, name));
-      errors.push(validateLength(value, name, 3, 20));
-      errors.push(validateAgainstRegex(value, name, /[^A-Za-z]+/, 'can only contain letters'));
+      localErrors.push(await validateNotEmpty(value, name));
+      localErrors.push(await validateLength(value, name, 3, 20));
+      localErrors.push(await validateAgainstRegex(value, name, /[^A-Za-z]+/, 'can only contain letters'));
       break;
     case 'Email':
-      errors.push(validateNotEmpty(value, name));
-      errors.push(validateLength(value, name, 3, 256));
-      errors.push(validateIsEmail(value));
+      localErrors.push(await validateNotEmpty(value, name));
+      localErrors.push(await validateLength(value, name, 3, 256));
+      localErrors.push(await validateIsEmail(value));
       break;
     case 'Password':
-      errors.push(validateNotEmpty(value, name));
-      errors.push(validateLength(value, name, 55, 128));
+      localErrors.push(await validateNotEmpty(value, name));
+      localErrors.push(await validateLength(value, name, 55, 128));
       break;
     default:
-      errors.push('Unexpected error');
+      localErrors.push('Unexpected error');
   }
+  return localErrors;
+}
 
-  let arrayLength = this.errors.length;
+async function removeEmptyErrors(errors) {
+  let arrayLength = errors.length;
   while (arrayLength--) {
     if (errors[arrayLength] === undefined) {
       errors.splice(arrayLength, 1);
     }
   }
   return errors;
+}
+
+async function logErrors(errors) {
+  let i = 0;
+  errors.forEach(element => {
+    i++;
+    console.error(`${i}) ${element}`);
+  });
 }
 
 async function validateNotEmpty(value, name) {

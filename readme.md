@@ -13,9 +13,9 @@ To run:
 *******************
 
 To Do (incomplete list):
-- Finish converting GetReview functionality to AWS
-- Refactor
 - Validation
+- Fix DynamoDB updating object if primary key already in use
+- Refactor
 - Add comments
 
 *******************
