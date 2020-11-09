@@ -20,7 +20,7 @@ async function getReviews() {
     reviews = result.Items;
   } catch (e) {
     console.error(e);
-    createAWSResErr(404, e);
+    return createAWSResErr(404, e);
   }
 
   return {

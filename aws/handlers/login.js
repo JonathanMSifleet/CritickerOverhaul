@@ -11,7 +11,7 @@ async function login(event, context) {
   const { email, password } = JSON.parse(event.body);
 
   if (!email || !password) {
-    createAWSResErr(400, 'Please provide email and password!');
+    return createAWSResErr(400, 'Please provide email and password!');
   }
 
   const params = {
@@ -32,7 +32,7 @@ async function login(event, context) {
     user = result.Items[0];
 
     if (!(await verifyPassword(password, user.password))) {
-      createAWSResErr(401, 'Incorrect email or password');
+      return createAWSResErr(401, 'Incorrect email or password');
     } else {
       return {
         statusCode: 201,
@@ -41,7 +41,7 @@ async function login(event, context) {
     }
   } catch (e) {
     console.error(e);
-    createAWSResErr(404, e);
+    return createAWSResErr(404, e);
   }
 }
 

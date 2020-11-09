@@ -33,7 +33,7 @@ async function getReviewBySlug(slug) {
     review = result.Item;
   } catch (e) {
     console.error(e);
-    createAWSResErr(404, e);
+    return createAWSResErr(404, e);
   }
 
   return review;

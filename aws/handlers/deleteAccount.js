@@ -30,7 +30,7 @@ async function deleteAccount(event, context) {
     result = await dynamodb.delete(params).promise();
   } catch ( e ) {
     console.error(e);
-    createAWSResErr(404, e);
+    return createAWSResErr(404, e);
   }
 
   return {
