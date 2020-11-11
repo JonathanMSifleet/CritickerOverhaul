@@ -71,7 +71,8 @@ export class AuthComponent implements OnInit, OnDestroy {
     if (this.friendlyErrors.length === 0) {
       postData.password = bcrypt.hashSync(postData.password, 12); // second parameter defines salt rounds
 
-      this.authService.signUp(postData).pipe(take(1)).subscribe(() => {
+      this.authService.signUp(postData).pipe(take(1)).subscribe(data => {
+        console.log('auth component signup data', data);
         this.switchMode();
       }, errorRes => {
         this.error = errorRes.error.error;

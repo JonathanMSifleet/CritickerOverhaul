@@ -9,4 +9,4 @@ UserTableIAM:
     - dynamodb:Query
   Resource:
     - ${self:custom.UserTable.arn}
-    - !Join ['/', [ '${self:custom.UserTable.arn}', 'index', 'username' ]]
+    - !Join ['/', [ '${self:custom.UserTable.arn}', 'index', 'email' ]]

@@ -12,12 +12,6 @@ UserTable:
       - AttributeName: email
         KeyType: HASH
     GlobalSecondaryIndexes:
-      - IndexName: username
-        KeySchema:
-          - AttributeName: username
-            KeyType: HASH
-        Projection:
-          ProjectionType: ALL
       - IndexName: email
         KeySchema:
           - AttributeName: email
