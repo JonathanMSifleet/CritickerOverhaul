@@ -16,10 +16,10 @@ To run:
  * Allowed Callback URLS: [http:/localhost:3000](http:/localhost:3000)
  * Allowed Web Origins: [http:/localhost:3000](http:/localhost:3000)
  * Grant Types:
-  * Implicit
-  * Authorization Code
-  * Refresh Token
-  * Password
+   * Implicit
+   * Authorization Code
+   * Refresh Token
+   * Password
 4. Settings (left-hand side):
   * Default directory: "Username-Password-Authentication"
 5. User management (left-hand side):
