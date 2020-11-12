@@ -6,13 +6,13 @@ All details from previous commits, i.e. token details and secret.pem have been u
 
 *******************
 To run:
-1. Sign up for an (auth0 account)[auth0.com]
+1. Sign up for an https://auth0.com
 2. Set up an auth0 application:
 3. Create an application:
 - Single-Page Web Application
-- Allowed Logout URLS: "(http:/localhost:3000)[http:/localhost:3000]"
-- Allowed Callback URLS: "(http:/localhost:3000)[http:/localhost:3000]"
-- Allowed Web Origins: "(http:/localhost:3000)[http:/localhost:3000]"
+- Allowed Logout URLS: http:/localhost:3000
+- Allowed Callback URLS: http:/localhost:3000
+- Allowed Web Origins: http:/localhost:3000
 - Grant Types:
  - Implicit
  - Authorization Code
@@ -23,7 +23,7 @@ To run:
 5. User management (left-hand side):
 - Create role:
  - Enter your details
-6. Create a (CURL token)[https://gist.github.com/arielweinberger/21d3b72bb4f345a410abb7e98a17cc96]. This is for postman
+6. Create a [CURL token](https://gist.github.com/arielweinberger/21d3b72bb4f345a410abb7e98a17cc96). This is for postman
 7. Back to Application settings:
  - Copy certificate
  - Save in project root as "secret.pem"
