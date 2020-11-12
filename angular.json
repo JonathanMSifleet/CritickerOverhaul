@@ -77,18 +77,6 @@
             "browserTarget": "MEANReviewWebsite:build"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "angular/test.ts",
-            "polyfills": "angular/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "assets": ["angular/favicon.ico", "angular/assets"],
-            "styles": ["angular/styles.css"],
-            "scripts": []
-          }
-        },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
