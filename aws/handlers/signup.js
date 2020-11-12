@@ -35,12 +35,6 @@ async function signup(event, context) {
       return createAWSResErr(400, errors);
     }
   } else {
-    // console.log('to return to client: user: Email already in use');
-    // return {
-    //   statusCode: 403,
-    //   body: JSON.stringify('Email already in use')
-    // };
-    console.log('to return to client: user:', createAWSResErr(403, 'Email already in use'));
     return createAWSResErr(403, 'Email already in use');
   }
 }
@@ -128,8 +122,6 @@ async function validateInput(value, name) {
 }
 
 async function checkExistsInDB(email) {
-
-  console.log('check existing user input:', email);
 
   let user;
   try {
