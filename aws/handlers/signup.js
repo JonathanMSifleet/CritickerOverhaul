@@ -10,9 +10,11 @@ async function signup(event, context) {
 
   const { username, firstName, email, password } = JSON.parse(event.body);
 
+  // test data for serverless invoke:
+  // const username = 'JonathanSifleet';
   // const firstName = 'Jonathan';
   // const email = 'jonathans@apadmi.com';
-  // // should be bcrypt hash but using test string for now:
+  // // should be bcrypt hash but using string from random.org that validates successfully for now:
   // const password = 'hSSFbwmJUHn88gm36TwqKAPqXEO5fS9IJuAwImBUQ7iLVizbDFF4iIYLUbOg';
 
   const existingUser = await checkExistsInDB(email);
