@@ -6,33 +6,34 @@ All details from previous commits, i.e. token details and secret.pem have been u
 
 *******************
 To run:
-1. Sign up for an (auth0 account)[auth0.com]
+1. Sign up for an https://auth0.com
 2. Set up an auth0 application:
 3. Create an application:
- - Single-Page Web Application
- - Allowed Logout URLS: "(http:/localhost:3000)[http:/localhost:3000]"
- - Allowed Callback URLS: "(http:/localhost:3000)[http:/localhost:3000]"
- - Allowed Web Origins: "(http:/localhost:3000)[http:/localhost:3000]"
- - Grant Types:
-   - Implicit
-   - Authorization Code
-   - Refresh Token
-   - Password
+..* Single-Page Web Application
+..* Allowed Logout URLS: [http:/localhost:3000](http:/localhost:3000)
+..* Allowed Callback URLS: [http:/localhost:3000](http:/localhost:3000)
+..* Allowed Web Origins: [http:/localhost:3000](http:/localhost:3000)
+..* Grant Types:
+..* ..* Implicit
+..* ..* Authorization Code
+..* ..* Refresh Token
+..* ..* Password
 4. Settings (left-hand side):
-    - Default directory: "Username-Password-Authentication"
-5. User management (left-hand side)L
-  - Create role:
-    - Enter your details
-5. Create a (CURL token)[https://gist.github.com/arielweinberger/21d3b72bb4f345a410abb7e98a17cc96]. This is for postman
-6. Back to Application settings:
- - Copy certificate
- - Save in project root as "secret.pem"
+..* Default directory: "Username-Password-Authentication"
+5. User management (left-hand side):
+..* Create role:
+..* ..* Enter your details
+6. Create a [CURL token](https://gist.github.com/arielweinberger/21d3b72bb4f345a410abb7e98a17cc96). This is for postman
+7. Back to Application settings:
+..* Copy certificate
+..* Save in project root as "secret.pem"
 7. Open terminal in project root
 8. Enter "npm i"
 9. Open a second terminal in roject root
 10. Enter "npm start"
 11. Open a third terminal in roject root
 12. Enter "ng serve"
+
 - Any changes to AWS must be deploy with "serverless deploy -v"
 - Changes to singular AWS lambdas can be deployed with "serverless deploy -f "functionName" -v
 
