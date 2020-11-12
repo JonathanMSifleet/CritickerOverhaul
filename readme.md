@@ -10,9 +10,9 @@ To run:
 2. Set up an auth0 application:
 3. Create an application:
 - Single-Page Web Application
-- Allowed Logout URLS: http:/localhost:3000
-- Allowed Callback URLS: http:/localhost:3000
-- Allowed Web Origins: http:/localhost:3000
+- Allowed Logout URLS: [http:/localhost:3000](http:/localhost:3000)
+- Allowed Callback URLS: [http:/localhost:3000](http:/localhost:3000)
+- Allowed Web Origins: [http:/localhost:3000](http:/localhost:3000)
 - Grant Types:
  - Implicit
  - Authorization Code
