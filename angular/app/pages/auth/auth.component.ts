@@ -58,7 +58,7 @@ export class AuthComponent implements OnInit, OnDestroy {
         sessionStorage.setItem('loggedInUserData', JSON.stringify(newUserData));
 
         this.router.navigate(['']);
-      } catch (e ) {
+      } catch ( e ) {
         this.friendlyErrors.push('Incorrect email or password');
       }
     });
@@ -71,9 +71,11 @@ export class AuthComponent implements OnInit, OnDestroy {
     if (this.friendlyErrors.length === 0) {
       postData.password = bcrypt.hashSync(postData.password, 12); // second parameter defines salt rounds
 
-      this.authService.signUp(postData).pipe(take(1)).subscribe(() => {
+      this.authService.signUp(postData).pipe(take(1)).subscribe((resData) => {
+        console.log('success res', resData);
         this.switchMode();
       }, errorRes => {
+        console.log('error res', errorRes);
         this.error = errorRes.error.error;
       });
     } else {
