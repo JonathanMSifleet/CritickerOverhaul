@@ -1,4 +1,4 @@
-import { createAWSResErr } from '../../utils/createAWSResErr';
+import { createAWSResErr } from '../util/createAWSResErr';
 const middy = require('middy');
 const { cors } = require('middy/middlewares');
 import AWS from 'aws-sdk';
@@ -35,6 +35,11 @@ async function signup(event, context) {
       return createAWSResErr(400, errors);
     }
   } else {
+    // console.log('to return to client: user: Email already in use');
+    // return {
+    //   statusCode: 403,
+    //   body: JSON.stringify('Email already in use')
+    // };
     console.log('to return to client: user:', createAWSResErr(403, 'Email already in use'));
     return createAWSResErr(403, 'Email already in use');
   }

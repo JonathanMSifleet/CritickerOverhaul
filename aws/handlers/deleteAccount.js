@@ -1,9 +1,7 @@
-// import { catchAsyncErrors } from '../../utils/catchAsyncErrors';
-// import { createAWSResErr } from '../../utils/createAWSResErr';
 const middy = require('middy');
 const { cors } = require('middy/middlewares');
 import AWS from 'aws-sdk';
-import { createAWSResErr } from '../../utils/createAWSResErr';
+import { createAWSResErr } from '../util/createAWSResErr';
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 // const User = require('../../models/userModel');

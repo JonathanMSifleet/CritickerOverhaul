@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk';
-import { createAWSResErr } from '../../utils/createAWSResErr';
+import { createAWSResErr } from '../util/createAWSResErr';
 const middy = require('middy');
 const { cors } = require('middy/middlewares');
 
