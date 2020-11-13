@@ -7,8 +7,8 @@
 **/.gitattributes
 **/.buildpath
 **/.idea
-node_modules
-!node_modules/@angular-devkit/build-angular/src/angular-cli-files/models/webpack-configs/browser.js
+# node_modules
+# !node_modules/@angular-devkit/build-angular/src/angular-cli-files/models/webpack-configs/browser.js
 **/.webpack
 **/.serverless
 **/.vscode
