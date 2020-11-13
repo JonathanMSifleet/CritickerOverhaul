@@ -29,13 +29,15 @@ To run:
 7. Back to Application settings:
   * Copy certificate
   * Save in project root as "secret.pem"
-8. Open terminal in project root
-9. Enter "npm i"
-10. Discard change to singular file in node_modules via git or GitHub
-11. Open a second terminal in roject root
-12. Enter "npm start"
-13. Open a third terminal in roject root
-14. Enter "ng serve"
+9. Clone project
+10. Delete node_modules folder
+11. Open terminal in project root
+12. Enter "npm i"
+13. Discard change to singular file in node_modules via git or GitHub
+14. Open a second terminal in roject root
+15. Enter "npm start"
+16. Open a third terminal in roject root
+17. Enter "ng serve"
 
 - Any changes to AWS must be deploy with "serverless deploy -v"
 - Changes to singular AWS lambdas can be deployed with "serverless deploy -f "functionName" -v
