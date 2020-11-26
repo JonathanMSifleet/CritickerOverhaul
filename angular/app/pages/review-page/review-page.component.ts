@@ -34,7 +34,7 @@ export class ReviewPageComponent implements OnInit {
     });
   }
 
-  private extractReviewData(fetchedReview) {
+  private extractReviewData(fetchedReview): void {
     this.gameName = fetchedReview.gameName;
     this.image = fetchedReview.image;
     this.blurb = fetchedReview.blurb;
