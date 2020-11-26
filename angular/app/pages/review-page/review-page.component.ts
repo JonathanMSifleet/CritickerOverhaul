@@ -29,7 +29,7 @@ export class ReviewPageComponent implements OnInit {
    this.reviewsService.fetchReview(slug).pipe(take(1)).subscribe((fetchedReview) => {
     this.extractReviewData(fetchedReview);
     }, errorRes => {
-      console.log('error res', errorRes);
+      // console.log('error res', errorRes);
       this.error = errorRes.error.error;
     });
   }

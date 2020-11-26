@@ -1,7 +1,6 @@
 const dotenv = require('dotenv');
 const fs = require('fs');
 import mongoose from 'mongoose';
-
 const Review = require('./../models/reviewModel');
 
 dotenv.config({ path: './../config.env' });
@@ -20,18 +19,19 @@ mongoose
     useFindAndModify: false,
     useUnifiedTopology: true
   })
-  .then(() => console.log('DB connection successful!'));
+  .then();
+  // .then(() => console.log('DB connection successful!'));
 
-// read JSON file:
+  // read JSON file:
 const reviews = JSON.parse(fs.readFileSync('./activeReviews.json', 'utf-8'));
 
 // import data into db:
 const importData = async () => {
   try {
     await Review.create(reviews, { validateBeforeSave: false });
-    console.log('Data successfully loaded');
+    // console.log('Data successfully loaded');
   } catch (err) {
-    console.log(err);
+    // console.log(err);
   }
   process.exit();
 };
