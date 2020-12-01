@@ -14,10 +14,12 @@ provider:
   environment:
     REVIEW_TABLE_NAME: ${self:custom.ReviewTable.name}
     USER_TABLE_NAME: ${self:custom.UserTable.name}
-    AUTH0_PUBLIC_KEY: ${file(secret.pem)}  
+    REVIEW_BUCKET_NAME: ${self:custom.ReviewBucket.name}
+    AUTH0_PUBLIC_KEY: ${file(secret.pem)}
   iamRoleStatements:
-    - ${file(aws/iam/ReviewTableIAM.yml):ReviewTableIAM} 
-    - ${file(aws/iam/UserTableIAM.yml):UserTableIAM} 
+    - ${file(aws/iam/ReviewTableIAM.yml):ReviewTableIAM}
+    - ${file(aws/iam/UserTableIAM.yml):UserTableIAM}
+    - ${file(aws/iam/ReviewBucketIAM.yml):ReviewBucketIAM}
 functions:
   auth:
     handler: aws/handlers/auth.handler
@@ -37,6 +39,14 @@ functions:
           method: POST
           authorizer: auth
           cors: true
+  uploadReviewPicture:
+    handler: aws/handlers/uploadReviewPicture.handler
+    events:
+      - http:
+          method: PATCH
+          path: review/{id}/picture
+          cors: true
+          authorizer: ${self:custom.authorizer}
   getReviews:
     handler: aws/handlers/getReviews.handler
     events:
@@ -44,13 +54,13 @@ functions:
           method: GET
           path: getreviews
           cors: true
-  getReview:
-      handler: aws/handlers/getReview.handler
-      events:
-        - http:
-            method: GET
-            path: review/{slug}
-            cors: true
+  # getReview:
+  #     handler: aws/handlers/getReview.handler
+  #     events:
+  #       - http:
+  #           method: GET
+  #           path: review/{slug}
+  #           cors: true
   signup:
     handler: aws/handlers/signup.handler
     events:
@@ -73,11 +83,12 @@ functions:
           path: deleteAccount
           authorizer: auth
           cors: true
-          
 resources:
   Resources:
     ReviewTable: ${file(aws/resources/ReviewTable.yml):ReviewTable}
     UserTable: ${file(aws/resources/UserTable.yml):UserTable}
+    ReviewBucket: ${file(aws/resources/ReviewBucket.yml):ReviewBucket}
+    ReviewBucketPolicy: ${file(aws/resources/ReviewBucket.yml):ReviewBucketPolicy}
     # This response is needed for custom authorizer failures cors support
     GatewayResponse:
       Type: 'AWS::ApiGateway::GatewayResponse'
@@ -108,5 +119,7 @@ custom:
   UserTable:
     name: !Ref UserTable
     arn: !GetAtt UserTable.Arn
+  ReviewBucket:
+    name: review-bucket-w3ygx8fd-${self:provider.stage}
   bundle:
     linting: true
