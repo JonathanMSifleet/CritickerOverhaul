@@ -12,9 +12,9 @@ ReviewTable:
       - AttributeName: id
         KeyType: HASH
     GlobalSecondaryIndexes:
-      - IndexName: reviewId
+      - IndexName: reviewSlug
         KeySchema:
-          - AttributeName: id
+          - AttributeName: slug
             KeyType: HASH
         Projection:
           ProjectionType: ALL

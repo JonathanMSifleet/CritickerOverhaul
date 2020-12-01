@@ -44,7 +44,7 @@ functions:
     events:
       - http:
           method: PATCH
-          path: review/{id}/picture
+          path: review/{slug}/picture
           cors: true
           authorizer: ${self:custom.authorizer}
   getReviews:
@@ -54,13 +54,13 @@ functions:
           method: GET
           path: getreviews
           cors: true
-  # getReview:
-  #     handler: aws/handlers/getReview.handler
-  #     events:
-  #       - http:
-  #           method: GET
-  #           path: review/{slug}
-  #           cors: true
+  getReview:
+      handler: aws/handlers/getReview.handler
+      events:
+        - http:
+            method: GET
+            path: review/{slug}
+            cors: true
   signup:
     handler: aws/handlers/signup.handler
     events:

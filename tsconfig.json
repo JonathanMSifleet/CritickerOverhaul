@@ -22,7 +22,7 @@
   },
   "include": ["./**/*.ts"],
   "exclude": [
-    "./**/*.ts",
+    "./**/*.bak",
     "./node_modules/**/*",
     "./.serverless/**/*",
     "./.webpack/**/*",
