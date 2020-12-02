@@ -5,7 +5,7 @@ import { createAWSResErr } from '../util/createAWSResErr';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-async function getReview(event, context) {
+export async function getReview(event, context) {
 
   const { slug } = event.pathParameters;
 
@@ -17,15 +17,23 @@ async function getReview(event, context) {
   };
 }
 
-async function getReviewBySlug(slug) {
+export async function getReviewBySlugLocal(slug) {
+  const review = await getReviewBySlug(slug);
+  console.log('review:', review);
+  return {
+    statusCode: 200,
+    body: JSON.stringify(review)
+  };
+}
 
+async function getReviewBySlug(slug) {
   let review;
   try {
 
     const params = {
       TableName: process.env.REVIEW_TABLE_NAME,
       Key: {
-        slug: slug
+        slug: slug,
       }
     };
 

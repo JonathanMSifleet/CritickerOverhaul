@@ -2,15 +2,15 @@ import middy from '@middy/core';
 import httpErrorHandler from '@middy/http-error-handler';
 import validator from '@middy/validator';
 import createError from 'http-errors';
-import { getReview } from './getReview';
+import { getReviewBySlugLocal } from './getReview';
 import { uploadPictureToS3 } from '../lib/uploadPictureToS3';
-import { setReviewPictureUrl } from '../lib/setReviewPictureUrl';
-import uploadReviewPictureSchmea from '../lib/schemas/uploadReviewPictureSchema';
+import { setReviewPictureUrl } from '../lib/setReviewPictureURL';
+import uploadReviewPictureSchema from '../lib/schemas/uploadReviewPictureSchema';
 
 export async function uploadReviewPicture(event) {
-  const { id } = event.pathParameters;
+  const slug = event.pathParameters;
   // const { email } = event.requestContext.authorizer;
-  const review = await getReview(id);
+  const review = await getReviewBySlugLocal(slug);
 
   // // Validate review ownership
   // if (auction.seller !== email) {
@@ -21,6 +21,8 @@ export async function uploadReviewPicture(event) {
   const buffer = Buffer.from(base64, 'base64');
 
   let updatedReview;
+
+  console.log('console.log(review):', review);
 
   try {
     const pictureUrl = await uploadPictureToS3(review.id + '.jpg', buffer);
@@ -38,4 +40,4 @@ export async function uploadReviewPicture(event) {
 
 export const handler = middy(uploadReviewPicture)
   .use(httpErrorHandler())
-  .use(validator({ inputSchema: uploadReviewPictureSchmea }));
+  .use(validator({ inputSchema: uploadReviewPictureSchema }));
