@@ -3,6 +3,8 @@ import { createAWSResErr } from '../util/createAWSResErr';
 const middy = require('middy');
 const { cors } = require('middy/middlewares');
 
+// const AWS = AWSXRay.capture
+
 // import getReviewsSchema from '../lib'
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
@@ -12,7 +14,7 @@ async function getReviews() {
 
   const params = {
     TableName: process.env.REVIEW_TABLE_NAME,
-    IndexName: 'reviewSlug'
+    IndexName: 'slug'
   };
 
   try {

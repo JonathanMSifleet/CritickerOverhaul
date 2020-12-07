@@ -45,8 +45,8 @@ functions:
       - http:
           method: PATCH
           path: review/{slug}/picture
-          cors: true
           authorizer: ${self:custom.authorizer}
+          cors: true
   getReviews:
     handler: aws/handlers/getReviews.handler
     events:

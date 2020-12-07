@@ -9,7 +9,9 @@ import uploadReviewPictureSchema from '../lib/schemas/uploadReviewPictureSchema'
 
 export async function uploadReviewPicture(event) {
   const slug = event.pathParameters;
+
   // const { email } = event.requestContext.authorizer;
+
   const review = await getReviewBySlugLocal(slug);
 
   // // Validate review ownership
@@ -21,8 +23,6 @@ export async function uploadReviewPicture(event) {
   const buffer = Buffer.from(base64, 'base64');
 
   let updatedReview;
-
-  console.log('console.log(review):', review);
 
   try {
     const pictureUrl = await uploadPictureToS3(review.id + '.jpg', buffer);

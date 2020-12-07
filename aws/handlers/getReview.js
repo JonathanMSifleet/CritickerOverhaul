@@ -8,7 +8,6 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 export async function getReview(event, context) {
 
   const { slug } = event.pathParameters;
-
   const review = await getReviewBySlug(slug);
 
   return {
@@ -18,7 +17,10 @@ export async function getReview(event, context) {
 }
 
 export async function getReviewBySlugLocal(slug) {
-  const review = await getReviewBySlug(slug);
+
+  const decodedSlug = slug.slug;
+  const review = await getReviewBySlug(decodedSlug);
+
   console.log('review:', review);
   return {
     statusCode: 200,
@@ -26,15 +28,15 @@ export async function getReviewBySlugLocal(slug) {
   };
 }
 
-async function getReviewBySlug(slug) {
+async function getReviewBySlug(decodedSlug) {
   let review;
-  try {
 
+  console.log('decoded slug:', decodedSlug);
+
+  try {
     const params = {
       TableName: process.env.REVIEW_TABLE_NAME,
-      Key: {
-        slug: slug,
-      }
+      Key: { slug: decodedSlug }
     };
 
     const result = await dynamodb.get(params).promise();

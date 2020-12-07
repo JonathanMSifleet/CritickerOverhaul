@@ -1,6 +1,6 @@
 ReviewTableIAM:
   Effect: Allow
-  Action: 
+  Action:
     - dynamodb:PutItem
     - dynamodb:Scan
     - dynamodb:GetItem
@@ -8,4 +8,4 @@ ReviewTableIAM:
     - dynamodb:Query
   Resource:
     - ${self:custom.ReviewTable.arn}
-    - !Join ['/', [ '${self:custom.ReviewTable.arn}', 'index', 'reviewSlug' ]]
+    - !Join ['/', [ '${self:custom.ReviewTable.arn}', 'index', 'slug' ]]
