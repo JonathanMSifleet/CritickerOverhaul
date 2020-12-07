@@ -14,3 +14,5 @@ node_modules
 **/.vscode
 **/createSecret.txt
 **/secret.pem
+.editorconfig
+.browserslistrc
