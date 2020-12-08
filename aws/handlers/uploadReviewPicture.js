@@ -2,9 +2,9 @@ import middy from '@middy/core';
 import httpErrorHandler from '@middy/http-error-handler';
 import validator from '@middy/validator';
 import createError from 'http-errors';
-import { getReviewBySlugLocal } from './getReview';
-import { uploadPictureToS3 } from '../lib/uploadPictureToS3';
-import { setReviewPictureUrl } from '../lib/setReviewPictureURL';
+import { uploadPictureToS3 } from '../lib/review/uploadPictureToS3';
+import { setReviewPictureUrl } from '../lib/review/setReviewPictureURL';
+import { getReviewBySlug } from '../lib/review/getReviewBySlug';
 import uploadReviewPictureSchema from '../lib/schemas/uploadReviewPictureSchema';
 
 export async function uploadReviewPicture(event) {
@@ -27,15 +27,24 @@ export async function uploadReviewPicture(event) {
   try {
     const pictureUrl = await uploadPictureToS3(review.id + '.jpg', buffer);
     updatedReview = await setReviewPictureUrl(review.id, pictureUrl);
+
+    return {
+      statusCode: 200,
+      body: JSON.stringify(updatedReview),
+    };
+
   } catch (error) {
     console.error(error);
     throw new createError.InternalServerError(error);
   }
+}
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(updatedReview),
-  };
+async function getReviewBySlugLocal(slug) {
+
+  const decodedSlug = slug.slug;
+  const review = await getReviewBySlug(decodedSlug);
+
+  return review;
 }
 
 export const handler = middy(uploadReviewPicture)
