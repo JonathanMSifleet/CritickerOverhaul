@@ -23,18 +23,16 @@ async function deleteAccount(event, context) {
     }
   };
 
-  let result;
   try {
-    result = await dynamodb.delete(params).promise();
+    const result = await dynamodb.delete(params).promise();
+    return {
+      statusCode: 204,
+      body: JSON.stringify(result)
+    };
   } catch ( e ) {
     console.error(e);
     return createAWSResErr(403, e);
   }
-
-  return {
-    statusCode: 204,
-    body: JSON.stringify(result)
-  };
 }
 
 export const handler = middy(deleteAccount)

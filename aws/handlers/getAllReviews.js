@@ -8,26 +8,20 @@ const { cors } = require('middy/middlewares');
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function getAllReviews() {
-
-  let reviews;
-
   const params = {
-    TableName: process.env.REVIEW_TABLE_NAME,
-    IndexName: 'slug'
+    TableName: process.env.REVIEW_TABLE_NAME
   };
 
   try {
     const result = await dynamodb.scan(params).promise();
-    reviews = result.Items;
+    return {
+      statusCode: 200,
+      body: JSON.stringify(result.Items)
+    };
   } catch (e) {
     console.error(e);
     return createAWSResErr(404, e);
   }
-
-  return {
-    statusCode: 200,
-    body: JSON.stringify({reviews})
-  };
 };
 
 export const handler = middy(getAllReviews)

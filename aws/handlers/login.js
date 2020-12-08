@@ -25,11 +25,9 @@ async function login(event, context) {
     }
   };
 
-  let user;
-
   try {
     const result = await dynamodb.query(params).promise();
-    user = result.Items[0];
+    const user = result.Items[0];
 
     if (!(await verifyPassword(password, user.password))) {
       return createAWSResErr(401, 'Incorrect email or password');

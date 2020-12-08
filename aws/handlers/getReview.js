@@ -5,12 +5,17 @@ import { getReviewBySlug } from '../lib/review/getReviewBySlug';
 export async function getReview(event, context) {
 
   const { slug } = event.pathParameters;
-  const review = await getReviewBySlug(slug);
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(review)
-  };
+  try {
+    const review = await getReviewBySlug(slug);
+    return {
+      statusCode: 200,
+      body: JSON.stringify(review)
+    };
+  } catch (e) {
+    console.error(e);
+    return createAWSResErr(404, e);
+  }
 }
 
 export const handler = middy(getReview)

@@ -122,21 +122,18 @@ async function validateInput(value, name) {
 
 async function checkExistsInDB(email) {
 
-  let user;
+  const params = {
+    TableName: process.env.USER_TABLE_NAME,
+    Key: { email }
+  };
+
   try {
-    const params = {
-      TableName: process.env.USER_TABLE_NAME,
-      Key: {
-        email: email
-      }
-    };
     const result = await dynamodb.get(params).promise();
-    user = result.Item;
+    return result.Item;
   } catch (e) {
     console.error(e);
     return createAWSResErr(404, e);
   }
-  return user;
 }
 
 async function insertUserToDB(username, firstName, email, password) {
