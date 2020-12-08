@@ -18,7 +18,6 @@ async function signup(event, context) {
   // const password = 'hSSFbwmJUHn88gm36TwqKAPqXEO5fS9IJuAwImBUQ7iLVizbDFF4iIYLUbOg';
 
   const existingUser = await checkExistsInDB(email);
-  console.log('existing user:', existingUser);
 
   if(existingUser === undefined) {
     let errors = await validateUserInputs(username, firstName, email, password);
@@ -132,7 +131,6 @@ async function checkExistsInDB(email) {
       }
     };
     const result = await dynamodb.get(params).promise();
-    console.log('result:', result);
     user = result.Item;
   } catch (e) {
     console.error(e);
