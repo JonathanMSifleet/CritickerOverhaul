@@ -6,14 +6,16 @@ ReviewTable:
     AttributeDefinitions:
       - AttributeName: slug
         AttributeType: S
+      - AttributeName: id
+        AttributeType: S
     KeySchema:
       - AttributeName: slug
         KeyType: HASH
-    # # use GSI for querying on non primary key
-    # GlobalSecondaryIndexes:
-    #   - IndexName: slug
-    #     KeySchema:
-    #       - AttributeName: slug
-    #         KeyType: HASH
-    #     Projection:
-    #       ProjectionType: ALL
+    # use GSI for querying on non primary key
+    GlobalSecondaryIndexes:
+      - IndexName: uid
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        Projection:
+          ProjectionType: ALL
