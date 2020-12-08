@@ -14,9 +14,10 @@ async function getAllReviews() {
 
   try {
     const result = await dynamodb.scan(params).promise();
+    const reviews = result.Items;
     return {
       statusCode: 200,
-      body: JSON.stringify(result.Items)
+      body: JSON.stringify({reviews})
     };
   } catch (e) {
     console.error(e);
