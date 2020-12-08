@@ -47,8 +47,8 @@ functions:
           path: review/{slug}/picture
           authorizer: ${self:custom.authorizer}
           cors: true
-  getReviews:
-    handler: aws/handlers/getReviews.handler
+  getAllReviews:
+    handler: aws/handlers/getAllReviews.handler
     events:
       - http:
           method: GET

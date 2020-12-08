@@ -5,10 +5,9 @@ const { cors } = require('middy/middlewares');
 
 // const AWS = AWSXRay.capture
 
-// import getReviewsSchema from '../lib'
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-async function getReviews() {
+async function getAllReviews() {
 
   let reviews;
 
@@ -31,5 +30,5 @@ async function getReviews() {
   };
 };
 
-export const handler = middy(getReviews)
+export const handler = middy(getAllReviews)
   .use(cors());
