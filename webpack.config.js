@@ -1,12 +1,17 @@
 const path = require('path');
+const slsw = require('serverless-webpack');
 
 const nodeExternals = require('webpack-node-externals');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const PnpWebpackPlugin = require(`pnp-webpack-plugin`);
 
 module.exports = {
   devtool: 'eval-cheap-module-source-map',
-  // Specify the entry point for our app.
-  entry: './angular/main.ts',
+  // Specify the entry point for our app.#
+  entry: [
+    // slsw.lib.entries,
+    './angular/main.ts'
+  ],
   resolve: {
     extensions: ['.mjs', '.json', '.ts'],
     symlinks: false,
