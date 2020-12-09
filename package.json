@@ -6,7 +6,8 @@
   "scripts": {
     "start": "ts-node-dev server.ts",
     "slsstart": "set SLS_DEBUG=* serverless deploy -v",
-    "test": "jest --watchAll"
+    "test": "jest --watchAll",
+    "fullDeploy": "serverless deploy -v || RMDIR /Q/S .build "
   },
   "dependencies": {
     "@angular/animations": "~10.1.4",
@@ -50,6 +51,8 @@
     "prettier": "^2.1.2",
     "promisify": "0.0.3",
     "rxjs": "~6.6.0",
+    "serverless": "^2.15.0",
+    "serverless-plugin-typescript": "^1.1.9",
     "serverless-s3-deploy": "^0.9.0",
     "slugify": "^1.4.5",
     "source-map-support": "^0.5.19",
