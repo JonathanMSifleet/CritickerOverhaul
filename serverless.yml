@@ -2,14 +2,18 @@ service:
   name: AWSReviewWebsite
 
 plugins:
-  - serverless-bundle
+  # - serverless-bundle
   - serverless-pseudo-parameters
+  - serverless-webpack
 
 provider:
   name: aws
   runtime: nodejs12.x
+  apiGateway:
+    minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
   memorySize: 256
-  stage: ${opt:stage, 'dev'}
+  provider.apiGateway.shouldStartNameWithService: true
+  # stage: ${opt:stage, 'dev'}
   region: eu-west-2
   environment:
     REVIEW_TABLE_NAME: ${self:custom.ReviewTable.name}
@@ -23,7 +27,6 @@ provider:
 functions:
   auth:
     handler: aws/handlers/auth.handler
-    cors: true
   publicEndpoint:
     handler: aws/handlers/public.handler
     events:
@@ -112,6 +115,9 @@ resources:
         StatusCode: '401'
 
 custom:
+  webpack:
+    webpackConfig: ./webpack.config.js
+    includeModules: true
   authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:AWSReviewWebsite-${self:provider.stage}-auth
   ReviewTable:
     name: !Ref ReviewTable
