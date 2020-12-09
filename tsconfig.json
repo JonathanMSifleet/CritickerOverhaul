@@ -20,13 +20,15 @@
     "esModuleInterop": true,
     "importHelpers": true
   },
-  "include": ["./**/*.ts"],
+  "include": ["**/*.ts"],
   "exclude": [
-    "./**/*.bak",
-    "./node_modules/**/*",
-    "./.serverless/**/*",
-    "./.webpack/**/*",
-    "./_warmup/**/*",
-    "./.vscode/**/*"
+    "**/*.bak",
+    "node_modules/**/*",
+    ".serverless/**/*",
+    ".webpack/**/*",
+    "_warmup/**/*",
+    ".vscode/**/*",
+    "*.config.js",
+    "**/*.js"
   ]
 }
