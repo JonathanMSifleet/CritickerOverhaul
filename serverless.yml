@@ -20,6 +20,7 @@ provider:
     USER_TABLE_NAME: ${self:custom.UserTable.name}
     REVIEW_BUCKET_NAME: ${self:custom.ReviewBucket.name}
     AUTH0_PUBLIC_KEY: ${file(secret.pem)}
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
   iamRoleStatements:
     - ${file(aws/iam/ReviewTableIAM.yml):ReviewTableIAM}
     - ${file(aws/iam/UserTableIAM.yml):UserTableIAM}
