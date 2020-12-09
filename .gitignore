@@ -19,8 +19,8 @@ node_modules
 **/dist
 **/.build
 .yarn/*
-!.yarn/cache
 !.yarn/releases
 !.yarn/plugins
 !.yarn/sdks
 !.yarn/versions
+.pnp.*
