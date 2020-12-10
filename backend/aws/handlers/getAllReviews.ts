@@ -1,7 +1,7 @@
-const AWS = require('aws-sdk');
+import AWS from 'aws-sdk';
 import { createAWSResErr } from '../util/createAWSResErr';
-const middy = require('middy');
-const cors = require('middy/middlewares');
+import middy from 'middy';
+import { cors } from 'middy/middlewares';
 
 // const AWS = AWSXRay.capture
 

@@ -1,5 +1,5 @@
-const middy = require('middy');
-const cors = require('middy/middlewares');
+import middy from 'middy';
+import { cors } from 'middy/middlewares';
 import { getReviewBySlug } from '../lib/review/getReviewBySlug';
 import { createAWSResErr } from '../util/createAWSResErr';
 

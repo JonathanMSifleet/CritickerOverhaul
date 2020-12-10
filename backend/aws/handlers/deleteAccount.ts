@@ -1,6 +1,6 @@
-const middy = require('middy');
-const cors = require('middy/middlewares');
-const AWS = require('aws-sdk');
+import middy from 'middy';
+import { cors } from 'middy/middlewares';
+import AWS from 'aws-sdk';
 import { createAWSResErr } from '../util/createAWSResErr';
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 

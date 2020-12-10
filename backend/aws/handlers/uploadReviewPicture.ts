@@ -1,7 +1,7 @@
-const middy = require('@middy/core');
-const httpErrorHandler = require('@middy/http-error-handler');
-const validator = require('@middy/validator');
-const createError = require('http-errors');
+import middy from '@middy/core';
+import httpErrorHandler from '@middy/http-error-handler';
+import validator from '@middy/validator';
+import createError from 'http-errors';
 import { uploadPictureToS3 } from '../lib/review/uploadPictureToS3';
 import { setReviewPictureUrl } from '../lib/review/setReviewPictureURL';
 import { getReviewBySlug } from '../lib/review/getReviewBySlug';

@@ -1,8 +1,8 @@
 import { createAWSResErr } from '../util/createAWSResErr';
-const middy = require('middy');
-const cors = require('middy/middlewares');
-const AWS = require('aws-sdk');
-const EmailValidator = require('email-validator');
+import middy from 'middy';
+import { cors } from 'middy/middlewares';
+import AWS from 'aws-sdk';
+import EmailValidator from 'email-validator';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
