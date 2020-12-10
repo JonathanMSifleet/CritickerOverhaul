@@ -1,12 +1,12 @@
 import { createAWSResErr } from '../util/createAWSResErr';
 const middy = require('middy');
 const { cors } = require('middy/middlewares');
-import AWS from 'aws-sdk';
-import * as EmailValidator from 'email-validator';
+const AWS = require('aws-sdk');
+const EmailValidator = require('email-validator');
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-async function signup(event, context) {
+async function signup(event, _context) {
 
   const { username, firstName, email, password } = JSON.parse(event.body);
 

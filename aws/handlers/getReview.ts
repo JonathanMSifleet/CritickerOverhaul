@@ -1,8 +1,9 @@
 const middy = require('middy');
 const { cors } = require('middy/middlewares');
 import { getReviewBySlug } from '../lib/review/getReviewBySlug';
+import { createAWSResErr } from '../util/createAWSResErr';
 
-export async function getReview(event, context) {
+export async function getReview(event, _context) {
 
   const { slug } = event.pathParameters;
 

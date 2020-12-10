@@ -1,12 +1,12 @@
 const middy = require('middy');
-const { cors } = require('middy/middlewares');
-import AWS from 'aws-sdk';
+const cors = require('middy/middlewares');
+const AWS = require('aws-sdk');
 import { createAWSResErr } from '../util/createAWSResErr';
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 // const User = require('../../models/userModel');
 
-async function deleteAccount(event, context) {
+async function deleteAccount(event, _context) {
 
   const { email } = event.requestContext.authorizer;
 

@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+const jwt = require('jsonwebtoken');
 
 // By default, API Gateway authorizations are cached (TTL) for 300 seconds.
 // This policy will authorize all requests to the same API Gateway instance where the
@@ -21,7 +21,7 @@ const generatePolicy = (principalId, methodArn) => {
   };
 };
 
-export async function handler(event, context) {
+export async function handler(event, _context) {
   if (!event.authorizationToken) {
     throw 'Unauthorized';
   }

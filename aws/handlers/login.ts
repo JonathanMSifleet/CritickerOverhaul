@@ -1,12 +1,12 @@
 const middy = require('middy');
 const { cors } = require('middy/middlewares');
 import { createAWSResErr } from '../util/createAWSResErr';
-import AWS from 'aws-sdk';
-import bcrypt from 'bcryptjs';
+const AWS =require('aws-sdk');
+const bcrypt = require( 'bcryptjs');
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-async function login(event, context) {
+async function login(event, _context) {
 
   const { email, password } = JSON.parse(event.body);
 
