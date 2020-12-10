@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test": "jest --watchAll",
-    "deploy": "cd ./backend && serverless deploy -v || RMDIR /Q/S .build",
+    "deploy": "cd ./backend && serverless deploy -v || RMDIR /Q/S ../.build",
     "delPackages": "RMDIR /Q/S node_modules",
     "installPackages": "npm i && node bcryptPatch.js",
     "ngServe": "cd ./client && ng serve"

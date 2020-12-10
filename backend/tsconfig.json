@@ -2,7 +2,7 @@
   "compilerOptions": {
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "/",
+    "baseUrl": "/client",
     "checkJs": false,
     "esModuleInterop": true,
     "experimentalDecorators": true,
@@ -26,6 +26,6 @@
     ".serverless/**/*",
     ".webpack/**/*",
     "_warmup/**/*",
-    ".vscode/**/*",
+    ".vscode/**/*"
   ]
 }
