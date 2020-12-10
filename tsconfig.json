@@ -1,34 +1,32 @@
 {
   "compilerOptions": {
-    "baseUrl": "/",
-    "experimentalDecorators": true,
-    "lib": ["es2020", "dom"],
+
     "allowJs": true,
-    "checkJs": false,
-    "module": "commonjs",
-    "target": "es2019",
-    "strict": false,
-    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "baseUrl": "/",
+    "checkJs": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "removeComments": true,
+    "importHelpers": true,
+    "lib": ["es2020", "dom"],
+    "module": "commonjs",
     "moduleResolution": "node",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "sourceMap": true,
     "outDir": "lib",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "importHelpers": true
+    "removeComments": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "strict": false,
+    "target": "es2019"
   },
   "include": ["**/*.ts"],
   "exclude": [
-    "**/*.bak",
     "node_modules/**/*",
     ".serverless/**/*",
     ".webpack/**/*",
     "_warmup/**/*",
     ".vscode/**/*",
-    "*.config.js",
-    "**/*.js"
   ]
 }

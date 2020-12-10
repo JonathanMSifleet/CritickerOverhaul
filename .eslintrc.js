@@ -33,7 +33,8 @@ module.exports = {
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
     "no-console": 0,
-    "@typescript-eslint/no-var-requires": 0,
-    "no-spaced-func": 0
+    // "@typescript-eslint/no-var-requires": 0,
+    "no-spaced-func": 0,
+    "trailing-comma": false
     }
   }

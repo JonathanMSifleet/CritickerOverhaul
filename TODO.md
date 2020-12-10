@@ -1,0 +1,5 @@
+- Convert JS to TS
+- Add Unit / Integration tests
+- Load review images from s3 bucket
+- Divorce angular and aws
+- Set up webpack for aws
