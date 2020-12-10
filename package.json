@@ -2,13 +2,12 @@
   "name": "awsreviewwebsite",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev server.ts",
-    "slsstart": "set SLS_DEBUG=* serverless deploy -v",
     "test": "jest --watchAll",
-    "deploy": "serverless deploy -v || RMDIR /Q/S .build",
-    "deletePackages": "RMDIR /Q/S node_modules"
+    "deploy": "cd ./backend && serverless deploy -v || RMDIR /Q/S .build",
+    "delPackages": "RMDIR /Q/S node_modules",
+    "installPackages": "npm i && node bcryptPatch.js",
+    "ngServe": "cd ./client && ng serve"
   },
   "scriptsComments": {
     "deploy": "deploy to aws, if it fails delete .build folder"
@@ -97,9 +96,6 @@
     "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.11.0",
     "webpack-node-externals": "^2.5.2"
-  },
-  "browser": {
-    "crypto": false
   },
   "repository": {
     "type": "git",
