@@ -3,7 +3,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 import { createAWSResErr } from '../../util/createAWSResErr';
 
-export async function getReviewBySlug(decodedSlug) {
+export async function getReviewBySlug(decodedSlug: string) {
   try {
     const params = {
       TableName: process.env.REVIEW_TABLE_NAME,
