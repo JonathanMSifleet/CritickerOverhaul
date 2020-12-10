@@ -6,6 +6,8 @@ All details from previous commits, i.e. token details and secret.pem have been u
 
 *******************
 
+UNFINISHED:
+
 Learning how to use markdown ignore that it's broken:
 To run:
 1. Sign up for an https://auth0.com
@@ -43,12 +45,4 @@ To run:
 - Changes to singular AWS lambdas can be deployed with "serverless deploy -f "functionName" -v
 
 If deploying to your own server, all AWS end points will have to be udated
-*******************
-
-To Do (incomplete list):
-- Reset password field after form submit
-  - Password form variable is hashed on client-end so when errors are returned and the form is resubmitted the value in the form is hashed whilst passwordConfirm doesn't change. Setting passwordConfirm = the hash of the original password would then has the already-hashed password causing user to be unable to login due to double hashing
-- Refactor
-- Add comments
-
 *******************

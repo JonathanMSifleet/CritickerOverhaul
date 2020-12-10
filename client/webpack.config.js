@@ -10,9 +10,7 @@ module.exports = {
   mode: "development",
   devtool: 'eval-cheap-module-source-map',
   // Specify the entry point for our app.#
-  entry: _.assign({
-    angular: './angular/main.ts'
-  }, slsw.lib.entries),
+  entry: './angular/main.ts',
   resolve: {
     extensions: ['.mjs', '.json', '.ts'],
     symlinks: false,
