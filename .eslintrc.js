@@ -3,7 +3,8 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
-    "standard"
+    "standard",
+    "plugin:prettier/recommended"
   ],
   "env": {
     "node": true
@@ -11,6 +12,7 @@ module.exports = {
   "parser": "@typescript-eslint/parser",
   "plugins": [
     "@typescript-eslint",
+    "prettier"
   ],
   "settings": {
     "import/parsers": {
@@ -33,8 +35,8 @@ module.exports = {
   "rules": {
     "@typescript-eslint/no-explicit-any": "off",
     "no-console": 0,
-    // "@typescript-eslint/no-var-requires": 0,
     "no-spaced-func": 0,
-    "trailing-comma": false
+    "trailing-comma": false,
+    "prettier/prettier": "error"
     }
   }
