@@ -16,4 +16,4 @@ export async function getReviewBySlug(decodedSlug: string) {
     console.error(e);
     return createAWSResErr(404, e);
   }
-};
+}

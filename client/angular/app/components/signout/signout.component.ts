@@ -8,11 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./signout.component.css']
 })
 export class SignoutComponent implements OnInit {
-
-  constructor(
-    private router: Router,
-    private authService: AuthService
-  ) { }
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
     this.signOut();

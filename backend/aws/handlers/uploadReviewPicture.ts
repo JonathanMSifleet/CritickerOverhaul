@@ -1,7 +1,7 @@
-const middy = require ('@middy/core');
-const httpErrorHandler = require ('@middy/http-error-handler');
-const validator = require ('@middy/validator');
-const createError = require ('http-errors');
+const middy = require('@middy/core');
+const httpErrorHandler = require('@middy/http-error-handler');
+const validator = require('@middy/validator');
+const createError = require('http-errors');
 import { uploadPictureToS3 } from '../lib/review/uploadPictureToS3';
 import { setReviewPictureUrl } from '../lib/review/setReviewPictureURL';
 import { getReviewBySlug } from '../lib/review/getReviewBySlug';
@@ -21,7 +21,7 @@ export async function uploadReviewPicture(event) {
 
     return {
       statusCode: 200,
-      body: JSON.stringify(updatedReview),
+      body: JSON.stringify(updatedReview)
     };
   } catch (e) {
     console.error(e);
@@ -32,11 +32,9 @@ export async function uploadReviewPicture(event) {
   // if (review.email !== email) {
   //   throw new createError.Forbidden(`You are not the author of this review!`);
   // }
-  
 }
 
 async function getReviewBySlugLocal(slug) {
-
   const decodedSlug = slug.slug;
   const review = await getReviewBySlug(decodedSlug);
 

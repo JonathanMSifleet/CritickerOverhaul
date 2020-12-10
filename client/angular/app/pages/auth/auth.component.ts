@@ -12,16 +12,12 @@ import * as EmailValidator from 'email-validator';
   styleUrls: ['./auth.component.css']
 })
 export class AuthComponent implements OnInit, OnDestroy {
-
   error: string = null;
   friendlyErrors: string[];
   userDataSubscription = null;
 
   // passing auth service in constructor injects it
-  constructor(
-    public authService: AuthService,
-    private router: Router
-  ) {}
+  constructor(public authService: AuthService, private router: Router) {}
 
   isLoginMode = true;
 
@@ -44,72 +40,100 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   signIn(postData): void {
     this.friendlyErrors = [];
-    this.authService.signIn(postData).pipe(take(1)).subscribe((responseData) => {
-      try {
-        // @ts-expect-error
-        const { username, email} = responseData;
+    this.authService
+      .signIn(postData)
+      .pipe(take(1))
+      .subscribe((responseData) => {
+        try {
+          // @ts-expect-error
+          const { username, email } = responseData;
 
-        const newUserData = new UserData(
-          username,
-          email
-        );
+          const newUserData = new UserData(username, email);
 
-        this.authService.updateUserData(newUserData);
-        sessionStorage.setItem('loggedInUserData', JSON.stringify(newUserData));
+          this.authService.updateUserData(newUserData);
+          sessionStorage.setItem(
+            'loggedInUserData',
+            JSON.stringify(newUserData)
+          );
 
-        this.router.navigate(['']);
-      } catch ( e ) {
-        this.friendlyErrors.push('Incorrect email or password');
-      }
-    });
+          this.router.navigate(['']);
+        } catch (e) {
+          this.friendlyErrors.push('Incorrect email or password');
+        }
+      });
   }
 
-  signUp(postData: { username; firstName; email; password; passwordConfirm }): void {
+  signUp(postData: {
+    username;
+    firstName;
+    email;
+    password;
+    passwordConfirm;
+  }): void {
     this.friendlyErrors = [];
     this.validateUserInputs(postData);
 
     if (this.friendlyErrors.length === 0) {
       postData.password = bcrypt.hashSync(postData.password, 12); // second parameter defines salt rounds
 
-      this.authService.signUp(postData).pipe(take(1)).subscribe(() => {
-        this.switchMode();
-      }, errorRes => {
-        this.friendlyErrors.push(errorRes.error);
-      });
+      this.authService
+        .signUp(postData)
+        .pipe(take(1))
+        .subscribe(
+          () => {
+            this.switchMode();
+          },
+          (errorRes) => {
+            this.friendlyErrors.push(errorRes.error);
+          }
+        );
     }
   }
 
   private validateUserInputs(postData): void {
-      this.validateInput(postData.username, 'Username');
-      this.validateInput(postData.firstName, 'First name');
-      this.validateInput(postData.email, 'Email');
-      this.validateInput(postData.password, 'Password');
+    this.validateInput(postData.username, 'Username');
+    this.validateInput(postData.firstName, 'First name');
+    this.validateInput(postData.email, 'Email');
+    this.validateInput(postData.password, 'Password');
 
-      if (postData.password !== postData.passwordConfirm) {
-        this.friendlyErrors.push('Passwords do not match');
-      }
+    if (postData.password !== postData.passwordConfirm) {
+      this.friendlyErrors.push('Passwords do not match');
+    }
 
-      // remove 'empty' errors:
-      let arrayLength = this.friendlyErrors.length;
-      while (arrayLength--) {
-        if (this.friendlyErrors[arrayLength] === undefined) { 
-          this.friendlyErrors.splice(arrayLength, 1);
-        } 
+    // remove 'empty' errors:
+    let arrayLength = this.friendlyErrors.length;
+    while (arrayLength--) {
+      if (this.friendlyErrors[arrayLength] === undefined) {
+        this.friendlyErrors.splice(arrayLength, 1);
       }
+    }
   }
 
   private validateInput(value, name): void {
-
     switch (name) {
       case 'Username':
         this.friendlyErrors.push(this.validateNotEmpty(value, name));
         this.friendlyErrors.push(this.validateLength(value, name, 3, 16));
-        this.friendlyErrors.push(this.validateAgainstRegex(value, name, /[^A-Za-z0-9]+/, 'cannot contain special characters'));
+        this.friendlyErrors.push(
+          this.validateAgainstRegex(
+            value,
+            name,
+            /[^A-Za-z0-9]+/,
+            'cannot contain special characters'
+          )
+        );
         break;
       case 'First name':
         this.friendlyErrors.push(this.validateNotEmpty(value, name));
         this.friendlyErrors.push(this.validateLength(value, name, 3, 20));
-        this.friendlyErrors.push(this.validateAgainstRegex(value, name, /[^A-Za-z]+/, 'can only contain letters'));
+        this.friendlyErrors.push(
+          this.validateAgainstRegex(
+            value,
+            name,
+            /[^A-Za-z]+/,
+            'can only contain letters'
+          )
+        );
         break;
       case 'Email':
         this.friendlyErrors.push(this.validateNotEmpty(value, name));
@@ -148,5 +172,4 @@ export class AuthComponent implements OnInit, OnDestroy {
       return `Email must be valid`;
     }
   }
-
 }

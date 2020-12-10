@@ -8,13 +8,15 @@ export class ReviewsService {
   constructor(private http: HttpClient) {}
 
   fetchReview(slug: string): any {
-
-    return this.http.get<{ [key: string]: Review }>(
-      'https://lvsrmt8ev9.execute-api.eu-west-2.amazonaws.com/dev/review/' + slug
-    ).pipe(
-      map((responseData) => {
-        return responseData;
-      }
-    ));
+    return this.http
+      .get<{ [key: string]: Review }>(
+        'https://lvsrmt8ev9.execute-api.eu-west-2.amazonaws.com/dev/review/' +
+          slug
+      )
+      .pipe(
+        map((responseData) => {
+          return responseData;
+        })
+      );
   }
 }

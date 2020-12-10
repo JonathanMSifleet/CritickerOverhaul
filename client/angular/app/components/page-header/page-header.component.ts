@@ -8,7 +8,6 @@ import { AuthService } from './../../pages/auth/auth.service';
   styleUrls: ['./page-header.component.css']
 })
 export class PageHeaderComponent implements OnInit, OnDestroy {
-
   // inject auth service rather than create new instance:
   constructor(public authService: AuthService) {}
 
@@ -16,13 +15,17 @@ export class PageHeaderComponent implements OnInit, OnDestroy {
   userDataSubscription = null;
 
   ngOnInit(): void {
-    this.userDataSubscription = this.authService.loggedInUserData.subscribe(data => {
-      this.loggedInUserData = data;
-    });
+    this.userDataSubscription = this.authService.loggedInUserData.subscribe(
+      (data) => {
+        this.loggedInUserData = data;
+      }
+    );
 
     // load username from local storage if user refreshes
     if (this.loggedInUserData === null) {
-      this.loggedInUserData = JSON.parse(sessionStorage.getItem('loggedInUserData'));
+      this.loggedInUserData = JSON.parse(
+        sessionStorage.getItem('loggedInUserData')
+      );
     }
   }
 

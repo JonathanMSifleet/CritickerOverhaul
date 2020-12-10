@@ -17,13 +17,12 @@ async function getAllReviews() {
     const reviews = result.Items;
     return {
       statusCode: 200,
-      body: JSON.stringify({reviews})
+      body: JSON.stringify({ reviews })
     };
   } catch (e) {
     console.error(e);
     return createAWSResErr(404, e);
   }
-};
+}
 
-export const handler = middy(getAllReviews)
-  .use(cors());
+export const handler = middy(getAllReviews).use(cors());

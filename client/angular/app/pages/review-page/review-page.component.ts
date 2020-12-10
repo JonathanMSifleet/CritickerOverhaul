@@ -8,9 +8,7 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./review-page.component.css']
 })
 export class ReviewPageComponent implements OnInit {
-  constructor(
-    private reviewsService: ReviewsService
-  ) {}
+  constructor(private reviewsService: ReviewsService) {}
 
   gameName: string;
   image: string;
@@ -26,12 +24,18 @@ export class ReviewPageComponent implements OnInit {
   }
 
   private fetchReview(slug): void {
-   this.reviewsService.fetchReview(slug).pipe(take(1)).subscribe((fetchedReview) => {
-    this.extractReviewData(fetchedReview);
-    }, errorRes => {
-      // console.log('error res', errorRes);
-      this.error = errorRes.error.error;
-    });
+    this.reviewsService
+      .fetchReview(slug)
+      .pipe(take(1))
+      .subscribe(
+        (fetchedReview) => {
+          this.extractReviewData(fetchedReview);
+        },
+        (errorRes) => {
+          // console.log('error res', errorRes);
+          this.error = errorRes.error.error;
+        }
+      );
   }
 
   private extractReviewData(fetchedReview): void {
@@ -40,5 +44,4 @@ export class ReviewPageComponent implements OnInit {
     this.blurb = fetchedReview.blurb;
     this.reviewText = fetchedReview.review;
   }
-
 }

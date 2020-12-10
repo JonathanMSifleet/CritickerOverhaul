@@ -12,17 +12,18 @@ import { ReviewsService } from './reviews.service';
 export class HomeComponent implements OnInit {
   loadedReviews: Review;
 
-  constructor(
-    private reviewsService: ReviewsService,
-  ) { }
+  constructor(private reviewsService: ReviewsService) {}
 
   ngOnInit(): void {
     this.fetchReviews();
   }
 
   private fetchReviews(): void {
-    this.reviewsService.fetchReviews().pipe(take(1)).subscribe((reviews) => {
-      this.loadedReviews = reviews;
-    });
+    this.reviewsService
+      .fetchReviews()
+      .pipe(take(1))
+      .subscribe((reviews) => {
+        this.loadedReviews = reviews;
+      });
   }
 }
