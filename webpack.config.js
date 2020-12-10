@@ -1,4 +1,5 @@
 const path = require('path');
+const _ = require('lodash');
 const slsw = require('serverless-webpack');
 
 const nodeExternals = require('webpack-node-externals');
@@ -6,12 +7,12 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const PnpWebpackPlugin = require(`pnp-webpack-plugin`);
 
 module.exports = {
+  mode: "development",
   devtool: 'eval-cheap-module-source-map',
   // Specify the entry point for our app.#
-  entry: [
-    // slsw.lib.entries,
-    './angular/main.ts'
-  ],
+  entry: _.assign({
+    angular: './angular/main.ts'
+  }, slsw.lib.entries),
   resolve: {
     extensions: ['.mjs', '.json', '.ts'],
     symlinks: false,
@@ -21,7 +22,7 @@ module.exports = {
   output: {
     libraryTarget: 'commonjs',
     path: path.join(__dirname, '.webpack'),
-    filename: 'bundle.js'
+    chunkFilename: '[id].[chunkhash].js'
   },
   target: 'node',
   externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
