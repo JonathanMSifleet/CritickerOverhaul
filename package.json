@@ -7,11 +7,11 @@
     "start": "ts-node-dev server.ts",
     "slsstart": "set SLS_DEBUG=* serverless deploy -v",
     "test": "jest --watchAll",
-    "fullDeploy": "serverless deploy -v || RMDIR /Q/S .build",
+    "deploy": "serverless deploy -v || RMDIR /Q/S .build",
     "deletePackages": "RMDIR /Q/S node_modules"
   },
   "scriptsComments": {
-    "fullDeploy": "deploy to aws, if it fails delete .build folder"
+    "deploy": "deploy to aws, if it fails delete .build folder"
   },
   "dependencies": {
     "@angular/animations": "~10.1.4",

@@ -1,10 +1,9 @@
 {
   "compilerOptions": {
-
-    "allowJs": true,
+    "allowJs": false,
     "allowSyntheticDefaultImports": true,
     "baseUrl": "/",
-    "checkJs": true,
+    "checkJs": false,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
