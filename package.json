@@ -7,7 +7,8 @@
     "deploy": "cd ./backend && serverless deploy -v || RMDIR /Q/S ../.build",
     "delPackages": "RMDIR /Q/S node_modules",
     "installPackages": "npm i && node bcryptPatch.js",
-    "ngServe": "cd ./client && ng serve"
+    "ngServe": "cd ./client && ng serve",
+    "slsDeploy": "cd ./backend && serverless deploy -v"
   },
   "scriptsComments": {
     "deploy": "deploy to aws, if it fails delete .build folder"
@@ -94,8 +95,7 @@
     "typescript": "^4.1.2",
     "webpack": "^4.44.2",
     "webpack-cli": "^4.2.0",
-    "webpack-dev-server": "^3.11.0",
-    "webpack-node-externals": "^2.5.2"
+    "webpack-dev-server": "^3.11.0"
   },
   "repository": {
     "type": "git",

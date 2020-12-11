@@ -3,8 +3,6 @@ import { createAWSResErr } from '../util/createAWSResErr';
 import middy from 'middy';
 import { cors } from 'middy/middlewares';
 
-// const AWS = AWSXRay.capture
-
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function getAllReviews() {

@@ -1,27 +1,26 @@
+// using webpack 4
+// see https://itnext.io/how-to-optimise-your-serverless-typescript-webpack-eslint-setup-for-performance-86d052284505
+
 const path = require('path');
 const slsw = require('serverless-webpack');
 
-const nodeExternals = require('webpack-node-externals');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
-  mode: "development",
+  mode: 'development',
   devtool: 'eval-cheap-module-source-map',
-  // Specify the entry point for our app.#
   entry: slsw.lib.entries,
   resolve: {
     extensions: ['.mjs', '.json', '.ts'],
     symlinks: false,
-    cacheWithContext: false,
+    cacheWithContext: false
   },
-  // Specify the output file containing our bundled code
   output: {
     libraryTarget: 'commonjs',
     path: path.join(__dirname, '.webpack'),
     chunkFilename: '[id].[chunkhash].js'
   },
   target: 'node',
-  externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
   module: {
     rules: [
       {
@@ -33,11 +32,7 @@ module.exports = {
         // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
         test: /\.(tsx?)$/,
         loader: 'ts-loader',
-        exclude: [
-          [/node_modules/],
-          [/.serverless/],
-          [/.webpack/]
-        ],
+        exclude: [[/.serverless/], [/.webpack/]],
         options: {
           transpileOnly: true,
           experimentalWatchApi: true
@@ -52,5 +47,5 @@ module.exports = {
         cache: true
       }
     })
-  ],
-}
+  ]
+};
