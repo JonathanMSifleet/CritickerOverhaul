@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "test": "jest --watchAll",
-    "deploy": "cd ./backend && serverless deploy -v || RMDIR /Q/S ../.build",
+    "deploy": "cd ./backend && serverless deploy -v || RMDIR /Q/S .build",
     "delPackages": "RMDIR /Q/S node_modules",
     "installPackages": "npm i && node bcryptPatch.js",
     "ngServe": "cd ./client && ng serve",
@@ -95,7 +95,11 @@
     "typescript": "^4.1.2",
     "webpack": "^4.44.2",
     "webpack-cli": "^4.2.0",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "webpack-node-externals": "^2.5.2"
+  },
+  "browser": {
+    "crypto": false
   },
   "repository": {
     "type": "git",

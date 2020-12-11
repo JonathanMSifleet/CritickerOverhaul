@@ -20,9 +20,9 @@ mongoose
     useUnifiedTopology: true
   })
   .then();
-// .then(() => console.log('DB connection successful!'));
+  // .then(() => console.log('DB connection successful!'));
 
-// read JSON file:
+  // read JSON file:
 const reviews = JSON.parse(fs.readFileSync('./activeReviews.json', 'utf-8'));
 
 // import data into db:
