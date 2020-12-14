@@ -11,7 +11,7 @@
       <!-- display review poster image -->
       <div class="reviewImageContainer rounded" id="reviewImageContainer">
         <img
-          src="./../../../assets/images/{{ image }}"
+          src="{{ imageToLoad }}"
           alt="Poster image for review"
           class="reviewImage rounded"
         />
@@ -19,7 +19,7 @@
 
       <div class="reviewTextContainer rounded">
         <!-- display game blurb -->
-        <div class="textContainer rounded" id="gameBlurb" >
+        <div class="textContainer rounded" id="gameBlurb">
           <p>
             <i [innerHTML]="blurb"></i>
           </p>
@@ -35,8 +35,9 @@
 
   <ng-template #errorExperienced>
     <div class="alert alert-danger">
-      <p id="alertText"> {{ error }}. It may have been deleted, or never even existed... </p>
+      <p id="alertText">
+        {{ error }}. It may have been deleted, or never even existed...
+      </p>
     </div>
   </ng-template>
-
 </body>
