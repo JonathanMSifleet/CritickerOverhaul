@@ -18,7 +18,8 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": false,
-    "target": "es2019"
+    "target": "es2019",
+    "types": ["node"]
   },
   "include": ["**/*.ts"],
   "exclude": [

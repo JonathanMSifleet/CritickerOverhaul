@@ -3,8 +3,8 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": []
+    "types": ["node"]
   },
   "files": ["client/src/main.ts", "client/src/polyfills.ts"],
-  "include": ["angular/**/*.d.ts"]
+  "exclude": ["**/*.bak"]
 }
