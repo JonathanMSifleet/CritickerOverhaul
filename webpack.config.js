@@ -9,18 +9,24 @@ const nodeExternals = require('webpack-node-externals');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
+  context: __dirname,
   mode: 'development',
   devtool: 'eval-cheap-module-source-map',
-  // entry: _.assign(
-  //   {
-  //     angular: './angular/main.ts'
-  //   },
-  //   slsw.lib.entries
-  // ),
-  entry: '.client/angular/main.ts',
+  entry: {
+    angular: './client/src/main.ts',
+    auth: './backend/aws/handlers/auth.ts',
+    deleteAccount: './backend/aws/handlers/deleteAccount.ts',
+    getAllReviews: './backend/aws/handlers/getAllReviews.ts',
+    getReview: './backend/aws/handlers/getReview.ts',
+    login: './backend/aws/handlers/login.ts',
+    private: './backend/aws/handlers/private.ts',
+    public: './backend/aws/handlers/public.ts',
+    signup: './backend/aws/handlers/signup.ts',
+    uploadReviewPicture: './backend/aws/handlers/uploadReviewPicture.ts'
+  },
   resolve: {
     extensions: ['.mjs', '.json', '.ts'],
-    symlinks: false,
+    symlinks: true,
     cacheWithContext: false
   },
   output: {

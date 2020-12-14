@@ -59,12 +59,12 @@ functions:
           path: getreviews
           cors: true
   getReview:
-      handler: aws/handlers/getReview.handler
-      events:
-        - http:
-            method: GET
-            path: review/{slug}
-            cors: true
+    handler: aws/handlers/getReview.handler
+    events:
+      - http:
+          method: GET
+          path: review/{slug}
+          cors: true
   signup:
     handler: aws/handlers/signup.handler
     events:
@@ -117,7 +117,7 @@ resources:
 
 custom:
   webpack:
-    webpackConfig: ./webpack.config.js
+    webpackConfig: ../webpack.config.js
     includeModules: true
   authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:AWSReviewWebsite-${self:provider.stage}-auth
   ReviewTable:

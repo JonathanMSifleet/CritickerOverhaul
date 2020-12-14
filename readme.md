@@ -6,7 +6,8 @@ Set-up:
 
 1. Open terminal in project root
 2. Enter "npm run installPackages" NOT 'npm i' (mandatory to fix bcrypt error)
-3. Enter "npm run deploy"
+3. Create a symlink from root/node_modules to root/backend
+4. Enter "npm run deploy"
 
 Notes:
 Back end can be deployed separately via:
