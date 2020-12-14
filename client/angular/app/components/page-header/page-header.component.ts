@@ -1,6 +1,6 @@
-import { UserData } from './../../pages/auth/user-data.model';
+import { UserData } from '../../pages/auth/user-data.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AuthService } from './../../pages/auth/auth.service';
+import { AuthService } from '../../pages/auth/auth.service';
 
 @Component({
   selector: 'app-page-header',
