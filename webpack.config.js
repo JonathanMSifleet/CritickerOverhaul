@@ -17,7 +17,7 @@ module.exports = {
   //   },
   //   slsw.lib.entries
   // ),
-  entry: './angular/main.ts',
+  entry: '.client/angular/main.ts',
   resolve: {
     extensions: ['.mjs', '.json', '.ts'],
     symlinks: false,
