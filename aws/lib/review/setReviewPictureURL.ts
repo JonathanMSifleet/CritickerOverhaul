@@ -2,10 +2,10 @@ import AWS from 'aws-sdk';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-export async function setReviewPictureUrl(id, pictureUrl) {
+export async function setReviewPictureUrl(slug: any, pictureUrl: string) {
   const params = {
     TableName: process.env.REVIEW_TABLE_NAME,
-    Key: { id },
+    Key: { slug },
     UpdateExpression: 'set pictureUrl = :pictureUrl',
     ExpressionAttributeValues: {
       ':pictureUrl': pictureUrl

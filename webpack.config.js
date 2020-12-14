@@ -11,12 +11,13 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 module.exports = {
   mode: 'development',
   devtool: 'eval-cheap-module-source-map',
-  entry: _.assign(
-    {
-      angular: './angular/main.ts'
-    },
-    slsw.lib.entries
-  ),
+  // entry: _.assign(
+  //   {
+  //     angular: './angular/main.ts'
+  //   },
+  //   slsw.lib.entries
+  // ),
+  entry: './angular/main.ts',
   resolve: {
     extensions: ['.mjs', '.json', '.ts'],
     symlinks: false,
