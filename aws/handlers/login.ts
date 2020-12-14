@@ -1,5 +1,5 @@
 const middy = require('middy');
-const cors = require('middy/middlewares');
+const cors = require('@middy/http-cors')
 import { createAWSResErr } from '../util/createAWSResErr';
 const AWS =require('aws-sdk');
 const bcrypt = require( 'bcryptjs');

@@ -1,13 +1,12 @@
 import { createAWSResErr } from '../util/createAWSResErr';
 const middy = require('middy');
-const cors = require('middy/middlewares');
+const cors = require('@middy/http-cors');
 const AWS = require('aws-sdk');
 const EmailValidator = require('email-validator');
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function signup(event, _context) {
-
   const { username, firstName, email, password } = JSON.parse(event.body);
 
   // test data for serverless invoke:
@@ -19,11 +18,11 @@ async function signup(event, _context) {
 
   const existingUser = await checkExistsInDB(email);
 
-  if(existingUser === undefined) {
+  if (existingUser === undefined) {
     let errors = await validateUserInputs(username, firstName, email, password);
     errors = await removeEmptyErrors(errors);
 
-    if(errors.length === 0) {
+    if (errors.length === 0) {
       const result = await insertUserToDB(username, firstName, email, password);
       return {
         statusCode: 201,
@@ -50,7 +49,7 @@ async function removeEmptyErrors(errors) {
 
 async function logErrors(errors) {
   let i = 0;
-  errors.forEach(element => {
+  errors.forEach((element) => {
     i++;
     console.error(`${i}) ${element}`);
   });
@@ -83,27 +82,40 @@ async function validateIsEmail(value) {
 async function validateUserInputs(username, firstName, email, password) {
   let errors = [];
   // ... pushes items in array to array rather than array to array:
-  errors.push(... await validateInput(username, 'Username'));
-  errors.push(... await validateInput(firstName, 'First name'));
-  errors.push(... await validateInput(email, 'Email'));
-  errors.push(... await validateInput(password, 'Password'));
+  errors.push(...(await validateInput(username, 'Username')));
+  errors.push(...(await validateInput(firstName, 'First name')));
+  errors.push(...(await validateInput(email, 'Email')));
+  errors.push(...(await validateInput(password, 'Password')));
   return errors;
 }
 
 async function validateInput(value, name) {
-
   let localErrors = [];
 
   switch (name) {
     case 'Username':
       localErrors.push(await validateNotEmpty(value, name));
       localErrors.push(await validateLength(value, name, 3, 16));
-      localErrors.push(await validateAgainstRegex(value, name, /[^A-Za-z0-9]+/, 'cannot contain special characters'));
+      localErrors.push(
+        await validateAgainstRegex(
+          value,
+          name,
+          /[^A-Za-z0-9]+/,
+          'cannot contain special characters'
+        )
+      );
       break;
     case 'First name':
       localErrors.push(await validateNotEmpty(value, name));
       localErrors.push(await validateLength(value, name, 3, 20));
-      localErrors.push(await validateAgainstRegex(value, name, /[^A-Za-z]+/, 'can only contain letters'));
+      localErrors.push(
+        await validateAgainstRegex(
+          value,
+          name,
+          /[^A-Za-z]+/,
+          'can only contain letters'
+        )
+      );
       break;
     case 'Email':
       localErrors.push(await validateNotEmpty(value, name));
@@ -121,7 +133,6 @@ async function validateInput(value, name) {
 }
 
 async function checkExistsInDB(email) {
-
   const params = {
     TableName: process.env.USER_TABLE_NAME,
     Key: { email }
@@ -137,21 +148,18 @@ async function checkExistsInDB(email) {
 }
 
 async function insertUserToDB(username, firstName, email, password) {
-
   const params = {
     TableName: process.env.USER_TABLE_NAME,
     Item: {
-      "username": username,
-      "firstName": firstName,
-      "email": email,
-      "password": password
+      username: username,
+      firstName: firstName,
+      email: email,
+      password: password
     },
-    ReturnConsumedCapacity: "TOTAL"
+    ReturnConsumedCapacity: 'TOTAL'
   };
 
   return await dynamodb.put(params).promise();
-
 }
 
-export const handler = middy(signup)
-  .use(cors());
+export const handler = middy(signup).use(cors());
