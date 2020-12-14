@@ -2,11 +2,8 @@ service:
   name: AWSReviewWebsite
 
 plugins:
-  # - serverless-bundle
   - serverless-pseudo-parameters
   - serverless-webpack
-  - serverless-single-page-app-plugin
-  - serverless-dotenv-plugin
 
 provider:
   name: aws
@@ -130,8 +127,5 @@ custom:
     arn: !GetAtt UserTable.Arn
   ReviewBucket:
     name: review-bucket-w3ygx8fd-${self:provider.stage}
-  AngularBucket:
-    name: angular-bucket-hlqfz4hy-${self:provider.stage}
-  distFolder: dist/AWSReviewWebsite
   bundle:
     linting: true
