@@ -27,5 +27,6 @@
     ".webpack/**/*",
     "_warmup/**/*",
     ".vscode/**/*",
+    "*/*.bak"
   ]
 }
