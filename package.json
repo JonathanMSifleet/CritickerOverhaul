@@ -8,7 +8,9 @@
     "delPackages": "RMDIR /Q/S node_modules",
     "installPackages": "npm i && cd ./client && node bcryptPatch.js",
     "ngServe": "cd ./client && ng serve",
-    "slsDeploy": "cd ./backend && serverless deploy -v"
+    "ngBuild": "cd ./client && ng build",
+    "slsDeploy": "cd ./backend && serverless deploy -v",
+    "syncToS3": "cd ./backend && serverless syncToS3"
   },
   "scriptsComments": {
     "deploy": "deploy to aws, if it fails delete .build folder"
@@ -32,8 +34,6 @@
     "aws-xray-sdk-core": "^3.2.0",
     "bcryptjs": "^2.4.3",
     "bootstrap": "^4.5.2",
-    "cookie-parser": "^1.4.5",
-    "dotenv": "^8.2.0",
     "email-validator": "^2.0.4",
     "helmet": "^4.1.1",
     "hpp": "^0.2.3",
@@ -46,7 +46,9 @@
     "promisify": "0.0.3",
     "rxjs": "~6.6.0",
     "serverless": "^2.15.0",
+    "serverless-dotenv-plugin": "^3.1.0",
     "serverless-s3-deploy": "^0.9.0",
+    "serverless-single-page-app-plugin": "^1.0.2",
     "slugify": "^1.4.5",
     "source-map-support": "^0.5.19",
     "supertest": "^6.0.1",

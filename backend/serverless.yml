@@ -5,6 +5,8 @@ plugins:
   # - serverless-bundle
   - serverless-pseudo-parameters
   - serverless-webpack
+  - serverless-single-page-app-plugin
+  - serverless-dotenv-plugin
 
 provider:
   name: aws
@@ -13,7 +15,7 @@ provider:
     minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
   memorySize: 256
   provider.apiGateway.shouldStartNameWithService: true
-  # stage: ${opt:stage, 'dev'}
+  stage: ${opt:stage, 'dev'}
   region: eu-west-2
   environment:
     REVIEW_TABLE_NAME: ${self:custom.ReviewTable.name}
@@ -117,7 +119,7 @@ resources:
 
 custom:
   webpack:
-    webpackConfig: ../webpack.config.js
+    webpackConfig: webpack.config.js
     includeModules: true
   authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:AWSReviewWebsite-${self:provider.stage}-auth
   ReviewTable:
@@ -128,5 +130,8 @@ custom:
     arn: !GetAtt UserTable.Arn
   ReviewBucket:
     name: review-bucket-w3ygx8fd-${self:provider.stage}
+  AngularBucket:
+    name: angular-bucket-hlqfz4hy-${self:provider.stage}
+  distFolder: dist/AWSReviewWebsite
   bundle:
     linting: true

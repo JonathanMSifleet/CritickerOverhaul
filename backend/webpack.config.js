@@ -2,8 +2,6 @@
 // see https://itnext.io/how-to-optimise-your-serverless-typescript-webpack-eslint-setup-for-performance-86d052284505
 
 const path = require('path');
-const _ = require('lodash');
-const slsw = require('serverless-webpack');
 
 const nodeExternals = require('webpack-node-externals');
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
@@ -13,16 +11,15 @@ module.exports = {
   mode: 'development',
   devtool: 'eval-cheap-module-source-map',
   entry: {
-    angular: './client/src/main.ts',
-    auth: './backend/aws/handlers/auth.ts',
-    deleteAccount: './backend/aws/handlers/deleteAccount.ts',
-    getAllReviews: './backend/aws/handlers/getAllReviews.ts',
-    getReview: './backend/aws/handlers/getReview.ts',
-    login: './backend/aws/handlers/login.ts',
-    private: './backend/aws/handlers/private.ts',
-    public: './backend/aws/handlers/public.ts',
-    signup: './backend/aws/handlers/signup.ts',
-    uploadReviewPicture: './backend/aws/handlers/uploadReviewPicture.ts'
+    auth: './aws/handlers/auth.ts',
+    deleteAccount: './aws/handlers/deleteAccount.ts',
+    getAllReviews: './aws/handlers/getAllReviews.ts',
+    getReview: './aws/handlers/getReview.ts',
+    login: './aws/handlers/login.ts',
+    private: './aws/handlers/private.ts',
+    public: './aws/handlers/public.ts',
+    signup: './aws/handlers/signup.ts',
+    uploadReviewPicture: './aws/handlers/uploadReviewPicture.ts'
   },
   resolve: {
     extensions: ['.mjs', '.json', '.ts'],
