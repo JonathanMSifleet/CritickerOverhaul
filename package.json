@@ -6,7 +6,7 @@
     "test": "jest --watchAll",
     "deploy": "cd ./backend && serverless deploy -v || RMDIR /Q/S .build",
     "delPackages": "RMDIR /Q/S node_modules",
-    "installPackages": "npm i && node bcryptPatch.js",
+    "installPackages": "npm i && cd ./client && node bcryptPatch.js",
     "ngServe": "cd ./client && ng serve",
     "slsDeploy": "cd ./backend && serverless deploy -v"
   },
