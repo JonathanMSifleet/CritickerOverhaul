@@ -18,12 +18,14 @@ provider:
     REVIEW_TABLE_NAME: ${self:custom.ReviewTable.name}
     USER_TABLE_NAME: ${self:custom.UserTable.name}
     REVIEW_BUCKET_NAME: ${self:custom.ReviewBucket.name}
+    ANGULAR_BUCKET_NAME: ${self:custom.AngularBucket.name}
     AUTH0_PUBLIC_KEY: ${file(secret.pem)}
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
   iamRoleStatements:
     - ${file(aws/iam/ReviewTableIAM.yml):ReviewTableIAM}
     - ${file(aws/iam/UserTableIAM.yml):UserTableIAM}
     - ${file(aws/iam/ReviewBucketIAM.yml):ReviewBucketIAM}
+    - ${file(aws/iam/AngularBucketIAM.yml):AngularBucketIAM}
 functions:
   auth:
     handler: aws/handlers/auth.handler
@@ -92,6 +94,8 @@ resources:
     UserTable: ${file(aws/resources/UserTable.yml):UserTable}
     ReviewBucket: ${file(aws/resources/ReviewBucket.yml):ReviewBucket}
     ReviewBucketPolicy: ${file(aws/resources/ReviewBucket.yml):ReviewBucketPolicy}
+    AngularBucket: ${file(aws/resources/AngluarBucket.yml):AngularBucket}
+    AngularBucketPolicy: ${file(aws/resources/AngularBucket.yml):AngularBucketPolicy}
     # This response is needed for custom authorizer failures cors support
     GatewayResponse:
       Type: 'AWS::ApiGateway::GatewayResponse'
@@ -127,5 +131,7 @@ custom:
     arn: !GetAtt UserTable.Arn
   ReviewBucket:
     name: review-bucket-w3ygx8fd-${self:provider.stage}
+  AngularBucket:
+    name: angular-bucket-nggzh66p-${self:provider.stage}
   bundle:
     linting: true
