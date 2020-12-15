@@ -1,4 +1,4 @@
-- Set up webpack for aws
+- Deploy angular to S3 bucket
 - Add Unit / Integration tests (const AWS = AWSXRay.capture)
 - Tidy dependencies / devDependencies
 
