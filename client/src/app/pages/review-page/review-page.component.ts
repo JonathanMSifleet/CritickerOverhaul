@@ -17,6 +17,8 @@ export class ReviewPageComponent implements OnInit {
 
   error: string;
 
+  isLoading = false;
+
   ngOnInit(): void {
     // get slug from the end of URL:
     const urlSegments = window.location.pathname.split('/');
@@ -24,24 +26,31 @@ export class ReviewPageComponent implements OnInit {
   }
 
   private fetchReview(slug): void {
+    this.isLoading = true;
     this.reviewsService
       .fetchReview(slug)
       .pipe(take(1))
       .subscribe(
-        (fetchedReview) => {
+        (fetchedReview: any) => {
           this.extractReviewData(fetchedReview);
           const imageUrl =
             'https://review-bucket-w3ygx8fd-dev.s3.eu-west-2.amazonaws.com/';
           this.imageToLoad = `${imageUrl}${slug}.jpg`;
+          this.isLoading = false;
         },
-        (errorRes) => {
+        (errorRes: { error: { error: string } }) => {
+          this.isLoading = false;
           // console.log('error res', errorRes);
           this.error = errorRes.error.error;
         }
       );
   }
 
-  private extractReviewData(fetchedReview): void {
+  private extractReviewData(fetchedReview: {
+    gameName: string;
+    blurb: string;
+    review: string;
+  }): void {
     this.gameName = fetchedReview.gameName;
     this.blurb = fetchedReview.blurb;
     this.reviewText = fetchedReview.review;

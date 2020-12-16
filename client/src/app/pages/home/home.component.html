@@ -20,14 +20,15 @@
   </button>
 </form> -->
 
-<div class="container-fluid">
+<app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+<div class="container-fluid" *ngIf="!isLoading">
   <div class="row justify-content-center">
-      <ng-container *ngFor="let review of loadedReviews">
-        <app-card-container
-          [title]="review.gameName"
-          [tagline]="review.tagline"
-          [slug]="review.slug"
-        ></app-card-container> </ng-container
-    >
+    <ng-container *ngFor="let review of loadedReviews">
+      <app-card-container
+        [title]="review.gameName"
+        [tagline]="review.tagline"
+        [slug]="review.slug"
+      ></app-card-container>
+    </ng-container>
   </div>
 </div>

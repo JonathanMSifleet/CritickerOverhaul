@@ -1,6 +1,7 @@
 <title>{{ gameName }}</title>
 <body>
-  <ng-container *ngIf="!error; else errorExperienced">
+  <app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+  <ng-container *ngIf="!isLoading && !error; else errorExperienced">
     <div id="review">
       <div clas="reviewTitle">
         <!-- <button type="button" class="btn btn-light" id="jumpToComments">
@@ -34,7 +35,7 @@
   </ng-container>
 
   <ng-template #errorExperienced>
-    <div class="alert alert-danger">
+    <div class="alert alert-danger" *ngIf="!isLoading">
       <p id="alertText">
         {{ error }}. It may have been deleted, or never even existed...
       </p>

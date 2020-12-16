@@ -4,6 +4,7 @@ service:
 plugins:
   - serverless-pseudo-parameters
   - serverless-webpack
+  - serverless-s3-deploy
 
 provider:
   name: aws

@@ -11,6 +11,7 @@ import { ReviewsService } from './reviews.service';
 })
 export class HomeComponent implements OnInit {
   loadedReviews: Review;
+  isLoading = false;
 
   constructor(private reviewsService: ReviewsService) {}
 
@@ -19,11 +20,13 @@ export class HomeComponent implements OnInit {
   }
 
   private fetchReviews(): void {
+    this.isLoading = true;
     this.reviewsService
       .fetchReviews()
       .pipe(take(1))
       .subscribe((reviews) => {
         this.loadedReviews = reviews;
+        this.isLoading = false;
       });
   }
 }
