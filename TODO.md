@@ -1,5 +1,5 @@
-- Fix angular sign in not erroring properly if details do not exist
 - Automate deploying angular to S3 bucket
+- Fix warning whens running ng serve
 - Add Unit / Integration tests (const AWS = AWSXRay.capture)
 - Tidy dependencies / devDependencies
 
