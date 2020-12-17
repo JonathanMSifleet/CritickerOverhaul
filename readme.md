@@ -1,4 +1,4 @@
-This is a recreation of my [my MEAN-stack game-review website](https://github.com/JonathanMSifleet/MEANReviewWebsite), which in itself is a recreation of [a piece of university coursework](https://github.com/JonathanMSifleet/GameReviewWebsite) which was produced using PHP/CodeIgniter. This project will use DynamoDB and AWS instead of MongoDB and Express. 
+This is a recreation of my [my MEAN-stack game-review website](https://github.com/JonathanMSifleet/MEANReviewWebsite), which in itself is a recreation of [a piece of university coursework](https://github.com/JonathanMSifleet/GameReviewWebsite) which was produced using PHP/CodeIgniter. This project will use DynamoDB and AWS instead of MongoDB and Express.
 
 ---
 

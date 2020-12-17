@@ -5,10 +5,10 @@ export async function handler(_event, _context) {
       /* Required for CORS support to work */
       'Access-Control-Allow-Origin': '*',
       /* Required for cookies, authorization headers with HTTPS */
-      'Access-Control-Allow-Credentials': true,
+      'Access-Control-Allow-Credentials': true
     },
     body: JSON.stringify({
-      message: 'Hello from Public API',
-    }),
+      message: 'Hello from Public API'
+    })
   };
 }

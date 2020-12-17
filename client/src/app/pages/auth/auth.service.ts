@@ -5,7 +5,6 @@ import { Observable, BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-
   constructor(private http: HttpClient) {}
 
   private userDataSource = new BehaviorSubject<UserData>(null);
@@ -16,13 +15,16 @@ export class AuthService {
   }
 
   signUp(postData): Observable<object> {
-    return this.http
-      .post('https://lvsrmt8ev9.execute-api.eu-west-2.amazonaws.com/dev/signup', postData);
+    return this.http.post(
+      'https://lvsrmt8ev9.execute-api.eu-west-2.amazonaws.com/dev/signup',
+      postData
+    );
   }
 
   signIn(postData: { email; password }): Observable<object> {
-    return this.http
-      .post('https://lvsrmt8ev9.execute-api.eu-west-2.amazonaws.com/dev/login', postData);
+    return this.http.post(
+      'https://lvsrmt8ev9.execute-api.eu-west-2.amazonaws.com/dev/login',
+      postData
+    );
   }
-
 }

@@ -1,10 +1,9 @@
 const middy = require('middy');
-const cors = require('@middy/http-cors')
+const cors = require('@middy/http-cors');
 import { getReviewBySlug } from '../lib/review/getReviewBySlug';
 import { createAWSResErr } from '../util/createAWSResErr';
 
 export async function getReview(event, _context) {
-
   const { slug } = event.pathParameters;
 
   try {
@@ -19,5 +18,4 @@ export async function getReview(event, _context) {
   }
 }
 
-export const handler = middy(getReview)
-  .use(cors());
+export const handler = middy(getReview).use(cors());

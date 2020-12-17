@@ -1,57 +1,59 @@
 .loginContainer {
-	background-color: var(--container-light);
-	margin: 0 auto;
-	padding: 1%;
-	width: 30vw;
-	height: auto;
-	overflow: hidden;
+  background-color: var(--container-light);
+  margin: 0 auto;
+  padding: 1%;
+  width: 30vw;
+  height: auto;
+  overflow: hidden;
 }
 
 .loginContainerContent {
-	float: left;
-	background-color: var(--container-dark);
-	display: block;
-	width: 100%;
-	height: auto;
-	padding: 2%;
+  float: left;
+  background-color: var(--container-dark);
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: 2%;
 }
 
 .titleWrapper {
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	margin: 0 auto;
-	padding: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 0;
 }
 
 #containerTitleHeader {
-	width: auto;
-	color: var(--p-text);
-	display: inline-block;
-	padding: 1% 1% 1% 1%;
-	margin: 1% 0 0;
-	text-align: center;
-	background-color: var(--container-light);
-	white-space: nowrap;
-	overflow: hidden;
+  width: auto;
+  color: var(--p-text);
+  display: inline-block;
+  padding: 1% 1% 1% 1%;
+  margin: 1% 0 0;
+  text-align: center;
+  background-color: var(--container-light);
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 #formLabel {
-	color: var(--p-text);
+  color: var(--p-text);
 }
 
-#loginButton, #signupButton, #switchButton {
-	background-color: var(--buttonBackground) !important;
+#loginButton,
+#signupButton,
+#switchButton {
+  background-color: var(--buttonBackground) !important;
   margin: 0 auto;
   float: left;
   margin-left: 5%;
   margin-right: 5%;
-	width: 40%;
-	display: block;
+  width: 40%;
+  display: block;
 }
 
 .alert {
-  background-color: #C0466A;
+  background-color: #c0466a;
   padding: 1%;
   margin-top: 5%;
   margin-left: 10%;

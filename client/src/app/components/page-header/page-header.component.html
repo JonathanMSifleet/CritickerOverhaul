@@ -18,17 +18,21 @@
     </ul>
 
     <ng-container *ngIf="loggedInUserData !== null">
-      <a class="nav-link rounded" routerLink="deleteAccount"
-        > Delete Account <span class="sr-only">(current)</span></a>
+      <a class="nav-link rounded" routerLink="deleteAccount">
+        Delete Account <span class="sr-only">(current)</span></a
+      >
     </ng-container>
     <ng-container *ngIf="loggedInUserData === null; else loggedIn">
-      <a class="nav-link rounded" routerLink="auth"
-        > Login / Sign-in <span class="sr-only">(current)</span></a>
+      <a class="nav-link rounded" routerLink="auth">
+        Login / Sign-in <span class="sr-only">(current)</span></a
+      >
     </ng-container>
     <ng-template #loggedIn>
-      <a class="nav-link rounded" routerLink="signOut"
-        > {{loggedInUserData.username}} (Log out)<span class="sr-only">(current)</span></a>
+      <a class="nav-link rounded" routerLink="signOut">
+        {{ loggedInUserData.username }} (Log out)<span class="sr-only"
+          >(current)</span
+        ></a
+      >
     </ng-template>
-
   </div>
 </nav>

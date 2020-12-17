@@ -10,12 +10,11 @@ import { AuthService } from '../../pages/auth/auth.service';
   styleUrls: ['./delete-account.component.css']
 })
 export class DeleteAccountComponent implements OnInit {
-
   constructor(
     public deleteService: DeleteService,
     public authService: AuthService,
     private router: Router
-  ) { }
+  ) {}
 
   error = '';
 
@@ -25,16 +24,21 @@ export class DeleteAccountComponent implements OnInit {
 
   deleteAccount(): void {
     try {
-      this.deleteService.deleteAccount().pipe(take(1)).subscribe(() => {
-        this.authService.updateUserData(null);
-        sessionStorage.removeItem('loggedInUserData');
-        this.router.navigate(['']);
-      }, errorRes => {
-        this.error = errorRes.error.error;
-      });
+      this.deleteService
+        .deleteAccount()
+        .pipe(take(1))
+        .subscribe(
+          () => {
+            this.authService.updateUserData(null);
+            sessionStorage.removeItem('loggedInUserData');
+            this.router.navigate(['']);
+          },
+          (errorRes) => {
+            this.error = errorRes.error.error;
+          }
+        );
     } catch (e) {
       this.error = 'Unauthorised action. Please use a valid token.';
     }
   }
-
 }

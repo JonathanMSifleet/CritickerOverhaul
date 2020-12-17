@@ -4,9 +4,9 @@ const schema = {
       type: 'string',
       minLength: 1,
       pattern: '\=$'
-    },
+    }
   },
-  required: ['body'],
+  required: ['body']
 };
 
 export default schema;

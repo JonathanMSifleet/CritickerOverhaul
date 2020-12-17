@@ -1,13 +1,12 @@
 const middy = require('middy');
-const cors = require('@middy/http-cors')
+const cors = require('@middy/http-cors');
 import { createAWSResErr } from '../util/createAWSResErr';
-const AWS =require('aws-sdk');
-const bcrypt = require( 'bcryptjs');
+const AWS = require('aws-sdk');
+const bcrypt = require('bcryptjs');
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function login(event, _context) {
-
   const { email, password } = JSON.parse(event.body);
 
   if (!email || !password) {
@@ -18,7 +17,7 @@ async function login(event, _context) {
     TableName: process.env.USER_TABLE_NAME,
     KeyConditionExpression: '#email = :email',
     ExpressionAttributeNames: {
-      "#email": "email"
+      '#email': 'email'
     },
     ExpressionAttributeValues: {
       ':email': email
@@ -43,9 +42,8 @@ async function login(event, _context) {
   }
 }
 
-async function verifyPassword (candidatePassword, userPassword) {
+async function verifyPassword(candidatePassword, userPassword) {
   return bcrypt.compareSync(candidatePassword, userPassword);
 }
 
-export const handler = middy(login)
-  .use(cors());
+export const handler = middy(login).use(cors());

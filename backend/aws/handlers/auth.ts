@@ -40,4 +40,4 @@ export async function handler(event, _context) {
     console.log(error);
     throw 'Unauthorized';
   }
-};
+}
