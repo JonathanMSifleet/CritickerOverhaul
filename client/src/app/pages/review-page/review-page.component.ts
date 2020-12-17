@@ -25,7 +25,7 @@ export class ReviewPageComponent implements OnInit {
     this.fetchReview(urlSegments[urlSegments.length - 1]);
   }
 
-  private fetchReview(slug): void {
+  private fetchReview(slug: string): void {
     this.isLoading = true;
     this.reviewsService
       .fetchReview(slug)
@@ -40,7 +40,6 @@ export class ReviewPageComponent implements OnInit {
         },
         (errorRes: { error: { error: string } }) => {
           this.isLoading = false;
-          // console.log('error res', errorRes);
           this.error = errorRes.error.error;
         }
       );

@@ -27,7 +27,7 @@ module.exports = {
     ecmaFeatures: { legacyDecorators: true }
   },
   rules: {
-    '@typescript-eslint/no-explicit-any': 'off',
+    // '@typescript-eslint/no-explicit-any': 'off',
     'no-console': 0,
     'no-spaced-func': 0,
     'trailing-comma': false,

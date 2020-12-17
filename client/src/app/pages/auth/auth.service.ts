@@ -14,14 +14,20 @@ export class AuthService {
     this.userDataSource.next(newUserData);
   }
 
-  signUp(postData): Observable<object> {
+  signUp(postData: {
+    username: string;
+    firstName: string;
+    email: string;
+    password: string;
+    passwordConfirm: string;
+  }): Observable<object> {
     return this.http.post(
       'https://lvsrmt8ev9.execute-api.eu-west-2.amazonaws.com/dev/signup',
       postData
     );
   }
 
-  signIn(postData: { email; password }): Observable<object> {
+  signIn(postData: { email: string; password: string }): Observable<object> {
     return this.http.post(
       'https://lvsrmt8ev9.execute-api.eu-west-2.amazonaws.com/dev/login',
       postData
