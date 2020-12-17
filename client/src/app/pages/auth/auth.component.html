@@ -1,6 +1,5 @@
 <title>{{ isLoginMode ? 'Login' : 'Sign up' }}</title>
 
-<app-loading-spinner></app-loading-spinner>
 <div class="loginContainer rounded">
   <div class="loginContainerContent rounded">
     <div class="titleWrapper">
@@ -8,7 +7,6 @@
         {{ isLoginMode ? 'Login' : 'Sign up' }}
       </h2>
     </div>
-    <app-loading-spinner *nfIf="isLoading"></app-loading-spinner>
     <ng-container *ngFor="let errorToDisplay of friendlyErrors">
       <div class="alert alert-danger">
         <p>{{ errorToDisplay }}</p>

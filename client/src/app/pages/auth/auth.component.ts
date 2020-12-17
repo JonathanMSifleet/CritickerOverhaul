@@ -20,6 +20,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   constructor(public authService: AuthService, private router: Router) {}
 
   isLoginMode = true;
+  isLoading = false;
 
   ngOnInit(): void {
     this.friendlyErrors = [];
@@ -38,13 +39,16 @@ export class AuthComponent implements OnInit, OnDestroy {
     this.friendlyErrors = [];
   }
 
-  signIn(postData): void {
+  signIn(postData: { email: string; password: string }): void {
     this.friendlyErrors = [];
+
+    this.isLoading = true;
     this.authService
       .signIn(postData)
       .pipe(take(1))
-      .subscribe((responseData) => {
-        try {
+      .subscribe(
+        (responseData) => {
+          this.isLoading = false;
           // @ts-expect-error
           const { username, email } = responseData;
 
@@ -57,18 +61,19 @@ export class AuthComponent implements OnInit, OnDestroy {
           );
 
           this.router.navigate(['']);
-        } catch (e) {
+        },
+        (_errorRes) => {
           this.friendlyErrors.push('Incorrect email or password');
         }
-      });
+      );
   }
 
   signUp(postData: {
-    username;
-    firstName;
-    email;
-    password;
-    passwordConfirm;
+    username: string;
+    firstName: string;
+    email: string;
+    password: string;
+    passwordConfirm: string;
   }): void {
     this.friendlyErrors = [];
     this.validateUserInputs(postData);
@@ -76,11 +81,13 @@ export class AuthComponent implements OnInit, OnDestroy {
     if (this.friendlyErrors.length === 0) {
       postData.password = bcrypt.hashSync(postData.password, 12); // second parameter defines salt rounds
 
+      this.isLoading = true;
       this.authService
         .signUp(postData)
         .pipe(take(1))
         .subscribe(
           () => {
+            this.isLoading = false;
             this.switchMode();
           },
           (errorRes) => {
@@ -90,7 +97,13 @@ export class AuthComponent implements OnInit, OnDestroy {
     }
   }
 
-  private validateUserInputs(postData): void {
+  private validateUserInputs(postData: {
+    username: string;
+    firstName: string;
+    email: string;
+    password: string;
+    passwordConfirm: string;
+  }): void {
     this.validateInput(postData.username, 'Username');
     this.validateInput(postData.firstName, 'First name');
     this.validateInput(postData.email, 'Email');
@@ -109,11 +122,13 @@ export class AuthComponent implements OnInit, OnDestroy {
     }
   }
 
-  private validateInput(value, name): void {
+  private validateInput(value: string, name: string): void {
     switch (name) {
       case 'Username':
         this.friendlyErrors.push(this.validateNotEmpty(value, name));
-        this.friendlyErrors.push(this.validateLength(value, name, 3, 16));
+        this.friendlyErrors.push(
+          this.validateLength({ value, name, min: 3, max: 16 })
+        );
         this.friendlyErrors.push(
           this.validateAgainstRegex(
             value,
@@ -125,7 +140,9 @@ export class AuthComponent implements OnInit, OnDestroy {
         break;
       case 'First name':
         this.friendlyErrors.push(this.validateNotEmpty(value, name));
-        this.friendlyErrors.push(this.validateLength(value, name, 3, 20));
+        this.friendlyErrors.push(
+          this.validateLength({ value, name, min: 3, max: 20 })
+        );
         this.friendlyErrors.push(
           this.validateAgainstRegex(
             value,
@@ -137,37 +154,56 @@ export class AuthComponent implements OnInit, OnDestroy {
         break;
       case 'Email':
         this.friendlyErrors.push(this.validateNotEmpty(value, name));
-        this.friendlyErrors.push(this.validateLength(value, name, 3, 256));
+        this.friendlyErrors.push(
+          this.validateLength({ value, name, min: 3, max: 256 })
+        );
         this.friendlyErrors.push(this.validateIsEmail(value));
         break;
       case 'Password':
         this.friendlyErrors.push(this.validateNotEmpty(value, name));
-        this.friendlyErrors.push(this.validateLength(value, name, 8, 64));
+        this.friendlyErrors.push(
+          this.validateLength({ value, name, min: 8, max: 64 })
+        );
         break;
       default:
         this.friendlyErrors.push('Unexpected error');
     }
   }
 
-  private validateNotEmpty(value, name): string {
+  private validateNotEmpty(value: string, name: string): string {
     if (value === null || value === '' || value === undefined) {
       return `${name} must not be empty`;
     }
   }
 
-  private validateLength(value, name, min, max): string {
+  private validateLength({
+    value,
+    name,
+    min,
+    max
+  }: {
+    value: string;
+    name: string;
+    min: number;
+    max: number;
+  }): string {
     if (value.length < min || value.length > max) {
       return `${name} must be between ${min} and ${max} chracters`;
     }
   }
 
-  private validateAgainstRegex(value, name, regex, message): string {
+  private validateAgainstRegex(
+    value: string,
+    name: string,
+    regex: RegExp,
+    message: string
+  ): string {
     if (regex.test(value)) {
       return `${name} ${message}`;
     }
   }
 
-  private validateIsEmail(value): string {
+  private validateIsEmail(value: string): string {
     if (!EmailValidator.validate(value)) {
       return `Email must be valid`;
     }
