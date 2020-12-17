@@ -1,4 +1,4 @@
-export async function handler(_event, _context) {
+export async function handler(_event: any, _context: any) {
   return {
     statusCode: 200,
     headers: {

@@ -6,7 +6,10 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 // const User = require('../../models/userModel');
 
-async function deleteAccount(event, _context) {
+async function deleteAccount(
+  event: { requestContext: { authorizer: { email: string } } },
+  _context: any
+) {
   const { email } = event.requestContext.authorizer;
 
   console.log('user email', email);

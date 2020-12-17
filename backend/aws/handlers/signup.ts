@@ -6,7 +6,7 @@ const EmailValidator = require('email-validator');
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-async function signup(event, _context) {
+async function signup(event: { body: string }, _context: any) {
   const { username, firstName, email, password } = JSON.parse(event.body);
 
   // test data for serverless invoke:
@@ -37,7 +37,7 @@ async function signup(event, _context) {
   }
 }
 
-async function removeEmptyErrors(errors) {
+async function removeEmptyErrors(errors: string[]) {
   let arrayLength = errors.length;
   while (arrayLength--) {
     if (errors[arrayLength] === undefined) {
@@ -47,7 +47,7 @@ async function removeEmptyErrors(errors) {
   return errors;
 }
 
-async function logErrors(errors) {
+async function logErrors(errors: string[]) {
   let i = 0;
   errors.forEach((element) => {
     i++;
@@ -55,31 +55,46 @@ async function logErrors(errors) {
   });
 }
 
-async function validateNotEmpty(value, name) {
+async function validateNotEmpty(value: string, name: string) {
   if (value === null || value === '' || value === undefined) {
     return `${name} must not be empty`;
   }
 }
 
-async function validateLength(value, name, min, max) {
+async function validateLength(
+  value: string,
+  name: string,
+  min: number,
+  max: number
+) {
   if (value.length < min || value.length > max) {
     return `${name} must be between ${min} and ${max} chracters`;
   }
 }
 
-async function validateAgainstRegex(value, name, regex, message) {
+async function validateAgainstRegex(
+  value: string,
+  name: string,
+  regex: RegExp,
+  message: string
+) {
   if (regex.test(value)) {
     return `${name} ${message}`;
   }
 }
 
-async function validateIsEmail(value) {
+async function validateIsEmail(value: string) {
   if (!EmailValidator.validate(value)) {
     return `Email must be valid`;
   }
 }
 
-async function validateUserInputs(username, firstName, email, password) {
+async function validateUserInputs(
+  username: string,
+  firstName: string,
+  email: string,
+  password: string
+) {
   let errors = [];
   // ... pushes items in array to array rather than array to array:
   errors.push(...(await validateInput(username, 'Username')));
@@ -89,7 +104,7 @@ async function validateUserInputs(username, firstName, email, password) {
   return errors;
 }
 
-async function validateInput(value, name) {
+async function validateInput(value: string, name: string) {
   let localErrors = [];
 
   switch (name) {
@@ -132,7 +147,7 @@ async function validateInput(value, name) {
   return localErrors;
 }
 
-async function checkExistsInDB(email) {
+async function checkExistsInDB(email: string) {
   const params = {
     TableName: process.env.USER_TABLE_NAME,
     Key: { email }
@@ -147,7 +162,12 @@ async function checkExistsInDB(email) {
   }
 }
 
-async function insertUserToDB(username, firstName, email, password) {
+async function insertUserToDB(
+  username: string,
+  firstName: string,
+  email: string,
+  password: string
+) {
   const params = {
     TableName: process.env.USER_TABLE_NAME,
     Item: {

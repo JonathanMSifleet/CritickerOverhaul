@@ -3,7 +3,10 @@ const cors = require('@middy/http-cors');
 import { getReviewBySlug } from '../lib/review/getReviewBySlug';
 import { createAWSResErr } from '../util/createAWSResErr';
 
-export async function getReview(event, _context) {
+export async function getReview(
+  event: { pathParameters: { slug: string } },
+  _context: any
+) {
   const { slug } = event.pathParameters;
 
   try {

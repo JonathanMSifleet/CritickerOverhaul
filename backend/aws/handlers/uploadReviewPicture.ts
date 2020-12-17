@@ -37,7 +37,7 @@ export async function uploadReviewPicture(event: {
   // }
 }
 
-async function getReviewBySlugLocal(slug) {
+async function getReviewBySlugLocal(slug: { slug: string }) {
   const decodedSlug = slug.slug;
   const review = await getReviewBySlug(decodedSlug);
 
