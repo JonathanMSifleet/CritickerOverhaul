@@ -133,6 +133,6 @@ custom:
   ReviewBucket:
     name: review-bucket-w3ygx8fd-${self:provider.stage}
   AngularBucket:
-    name: angular-bucket-nggzh66p-${self:provider.stage}
+    name: angular-bucket-j5zca3nz-${self:provider.stage}
   bundle:
     linting: true

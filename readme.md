@@ -2,6 +2,10 @@ This is a recreation of my [my MEAN-stack game-review website](https://github.co
 
 ---
 
+If deploying to your own AWS account, all AWS end points, resource names etc. will have to be updated
+
+---
+
 Preliminary setup:
 
 1. Sign up for an https://auth0.com
@@ -31,6 +35,13 @@ Preliminary setup:
 7. Back to Application settings:
 
 - Copy certificate
-- Save in project root as "secret.pem"
+- Save in project root/backend as "secret.pem"
 
-If deploying to your own AWS account, all AWS end points will have to be updated
+---
+
+Set-up:
+
+1. Run "npm i" in terminal
+2. Create a symlink from root/node_modules to backend/node_modules
+3. Run 'npm run fullDeploy' in terminal
+4. Update bucket names and other relevant names in project root/backend/serverless.yml

@@ -8,8 +8,8 @@
     "installPackages": "npm i && cd ./client && node bcryptPatch.js",
     "ngServe": "cd ./client && ng serve",
     "ngBuild": "cd ./client && ng build",
-    "slsDeploy": "cd ./backend && serverless deploy -v",
-    "fullDeploy": "cd ./client && ng build && cd ../backend && serverless deploy -v && cd ../ && aws s3 rm s3://angular-bucket-nggzh66p-dev --recursive && aws s3 sync ./client/dist s3://angular-bucket-nggzh66p-dev && cd ./backend && RMDIR /Q/S .serverless && cd ../client && RMDIR /Q/S dist"
+    "slsDeploy": "cd ./backend && serverless deploy -v && RMDIR /Q/S .serverless",
+    "fullDeploy": "cd ./client && ng build && cd ../backend && serverless deploy -v && cd ../ && aws s3 rm s3://angular-bucket-j5zca3nz-dev --recursive && aws s3 sync ./client/dist s3://angular-bucket-j5zca3nz-dev && cd ./backend && RMDIR /Q/S .serverless && cd ../client && RMDIR /Q/S dist"
   },
   "comments": {
     "fullDeploy": "run ng build, deploy serverless files, remove existing files from s3 bucket, upload ng build result to S3 bucket, delete uncessary build and serverless files"
@@ -44,7 +44,7 @@
     "popper.js": "^1.16.1",
     "promisify": "0.0.3",
     "rxjs": "~6.6.0",
-    "serverless": "^2.15.0",
+    "serverless": "^2.16.0",
     "serverless-s3-deploy": "^0.9.0",
     "slugify": "^1.4.5",
     "source-map-support": "^0.5.19",
