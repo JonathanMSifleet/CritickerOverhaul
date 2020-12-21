@@ -2,6 +2,9 @@ AngularBucket:
   Type: AWS::S3::Bucket
   Properties:
     BucketName: ${self:custom.AngularBucket.name}
+    WebsiteConfiguration:
+      IndexDocument: index.html
+      ErrorDocument: index.html
 
 AngularBucketPolicy:
   Type: AWS::S3::BucketPolicy

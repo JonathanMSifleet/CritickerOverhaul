@@ -97,6 +97,45 @@ resources:
     ReviewBucketPolicy: ${file(aws/resources/ReviewBucket.yml):ReviewBucketPolicy}
     AngularBucket: ${file(aws/resources/AngularBucket.yml):AngularBucket}
     AngularBucketPolicy: ${file(aws/resources/AngularBucket.yml):AngularBucketPolicy}
+
+    # Cloudfront
+    CloudFrontOriginAccessIdentity:
+      Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
+      Properties:
+        CloudFrontOriginAccessIdentityConfig:
+          Comment: Origin Access Identity for ${self:provider.stage} Angular Bucket
+    CloudFrontDistribution:
+      Type: AWS::CloudFront::Distribution
+      Properties:
+        DistributionConfig:
+          CustomErrorResponses:
+            - ErrorCachingMinTTL: 300
+              ErrorCode: 403
+              ResponseCode: 200
+              ResponsePagePath: /index.html
+          DefaultCacheBehavior:
+            Compress: true
+            ForwardedValues:
+              QueryString: false
+            TargetOriginId: S3-angular-bucket-j5zca3nz-dev/AWSReviewWebsite
+            # TargetOriginId: S3-${self:custom.AngularBucket.name)-${self:provider.stage}/${self:custom.BucketFolder.name}
+            ViewerProtocolPolicy: 'redirect-to-https'
+          DefaultRootObject: index.html
+          Enabled: true
+          HttpVersion: http2
+          Origins:
+            - DomainName:
+                Fn::GetAtt:
+                  - AngularBucket
+                  - DomainName
+              # Id: S3-${self:custom.AngularBucket.name}-${self:provider.stage}/${self:custom.BucketFolder.name}
+              Id: S3-angular-bucket-j5zca3nz-dev/AWSReviewWebsite
+              S3OriginConfig:
+                OriginAccessIdentity:
+                  Fn::Join:
+                    - ''
+                    - - origin-access-identity/cloudfront/
+                      - Ref: CloudFrontOriginAccessIdentity
     # This response is needed for custom authorizer failures cors support
     GatewayResponse:
       Type: 'AWS::ApiGateway::GatewayResponse'
@@ -134,5 +173,7 @@ custom:
     name: review-bucket-w3ygx8fd-${self:provider.stage}
   AngularBucket:
     name: angular-bucket-j5zca3nz-${self:provider.stage}
+  BucketFolder:
+    name: AWSReviewWebsite
   bundle:
     linting: true
