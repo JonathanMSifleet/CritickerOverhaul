@@ -9,7 +9,7 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 module.exports = {
   context: __dirname,
   mode: 'development',
-  devtool: 'eval-cheap-module-source-map',
+  devtool: 'prod-quality-module-source-map',
   entry: './src/main.ts',
   resolve: {
     extensions: ['.mjs', '.json', '.ts'],

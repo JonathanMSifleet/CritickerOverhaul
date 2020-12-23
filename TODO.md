@@ -1,6 +1,5 @@
-- Automate deploying angular to S3 bucket
-- Fix warning whens running ng serve
 - Add Unit / Integration tests (const AWS = AWSXRay.capture)
+- Fix warning whens running ng serve
 - Tidy dependencies / devDependencies
 - Fix CSS issues
 - Comments
