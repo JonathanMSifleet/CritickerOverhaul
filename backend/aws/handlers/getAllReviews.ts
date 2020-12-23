@@ -17,9 +17,9 @@ async function getAllReviews() {
       statusCode: 200,
       body: JSON.stringify({ reviews })
     };
-  } catch (e) {
-    console.error(e);
-    return createAWSResErr(404, e);
+  } catch (errorMessage) {
+    console.error(errorMessage);
+    return createAWSResErr(404, errorMessage);
   }
 }
 
