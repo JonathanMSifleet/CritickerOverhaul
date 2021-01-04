@@ -4,7 +4,6 @@ const GetAllReviews = require('../../backend/aws/handlers/getAllReviews');
 const allReviews = require('../mock-data/all-reviews.json');
 
 jest.mock('aws-sdk');
-const dynamoDB = new aws.DynamoDB.DocumentClient();
 
 GetAllReviews.getAllReviews = jest.fn();
 
