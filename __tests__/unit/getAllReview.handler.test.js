@@ -17,19 +17,23 @@ describe('GetAllReviews.getAllReviews', () => {
     statusCode = 200;
     errorMessage = 'Error finding';
   });
+
   it('should have a getAllReviews function', () => {
     expect(typeof GetAllReviews.getAllReviews).toBe('function');
   });
+
   it('should call GetAllReviews.getAllReviews', () => {
     GetAllReviews.getAllReviews();
     expect(GetAllReviews.getAllReviews).toHaveBeenCalledWith();
   });
+
   it('should return 200 response code and all reviews', async () => {
     GetAllReviews.getAllReviews.mockReturnValue(statusCode, body);
     await GetAllReviews.getAllReviews();
     expect(statusCode).toBe(200);
     expect(body).toStrictEqual(allReviews);
   });
+
   it('should handle errors in getAllReviews', async () => {
     statusCode = 404;
     GetAllReviews.getAllReviews.mockReturnValue(statusCode, errorMessage);

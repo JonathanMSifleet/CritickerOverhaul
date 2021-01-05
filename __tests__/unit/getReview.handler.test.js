@@ -16,7 +16,6 @@ let body;
 let errorMessage;
 
 const reviewSlug = 'borderlands-3';
-const slugObject = { pathParameters: { slug: 'borderlands-3' } };
 
 describe(GetReviewBySlug.getReviewBySlug, () => {
   it('should have a getReviewBySlug function', () => {
@@ -50,11 +49,25 @@ describe('GetReview.getReview', () => {
   // it('should call GetReview.getReview with route parameters', async () => {});
 
   it('should return json body and response code 200', async () => {
-    GetReview.getReview.mockReturnValue(mockReview);
+    GetReview.getReview.mockReturnValueOnce(mockReview);
 
     // must use lambdaTester due to event.pathParameter
+    // counts as one test, will fail if either expect fails
     await LambdaTester(GetReview.handler)
-      .event(slugObject)
+      .event({ pathParameters: { slug: reviewSlug } })
+      .expectResult((result) => {
+        expect(JSON.parse(result.statusCode)).toBe(200);
+        expect(JSON.parse(result.body)).toStrictEqual(mockReview);
+      });
+  });
+
+  it('should do error handling', async () => {
+    GetReview.getReview.mockReturnValue(null);
+
+    // must use lambdaTester due to event.pathParameter
+    // counts as one test, will fail if either expect fails
+    await LambdaTester(GetReview.handler)
+      .event({ pathParameters: { slug: null } })
       .expectResult((result) => {
         expect(JSON.parse(result.statusCode)).toBe(200);
         expect(JSON.parse(result.body)).toStrictEqual(mockReview);
