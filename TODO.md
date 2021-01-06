@@ -1,4 +1,4 @@
-- Add Unit / Integration tests (const AWS = AWSXRay.capture)
+- Add Unit / Integration tests
 - Fix warning whens running ng serve
 - Tidy dependencies / devDependencies
 - Fix CSS issues

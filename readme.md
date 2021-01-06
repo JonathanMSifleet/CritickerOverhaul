@@ -41,7 +41,6 @@ Preliminary setup:
 
 Set-up:
 
-1. Run "npm i" in terminal
-2. Create a symlink from root/node_modules to backend/node_modules
-3. Run 'npm run fullDeploy' in terminal
-4. Update bucket names and other relevant names in project root/backend/serverless.yml
+1. Run "npm run iPax" in terminal
+2. Run "npm run fullDeploy" in terminal
+3. Update bucket names and other deployment specific details such as endpoint URLs in project root/backend/serverless.yml and services in root/client/src/app
