@@ -1,7 +1,6 @@
 import { SignoutComponent } from './components/signout/signout.component';
 import { AuthComponent } from './pages/auth/auth.component';
 import { HomeComponent } from './pages/home/home.component';
-import { FourOhFourComponent } from './pages/four-oh-four/four-oh-four.component';
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router'; // CLI imports router
 import { ReviewPageComponent } from './pages/review-page/review-page.component';
@@ -31,10 +30,6 @@ const routes: Routes = [
   {
     path: 'review/:slug',
     component: ReviewPageComponent
-  },
-  {
-    path: '**',
-    component: FourOhFourComponent
   }
 ]; // sets up routes constant where you define your routes
 
