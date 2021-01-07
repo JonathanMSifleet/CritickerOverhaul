@@ -40,9 +40,9 @@ async function login(event: { body: string }, _context: any) {
       statusCode: 201,
       body: JSON.stringify(user)
     };
-  } catch (e) {
-    console.error(e);
-    return createAWSResErr(404, e);
+  } catch (error) {
+    console.error(error);
+    return createAWSResErr(404, error);
   }
 }
 

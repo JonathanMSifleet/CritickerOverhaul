@@ -12,8 +12,6 @@ async function deleteAccount(
 ) {
   const { email } = event.requestContext.authorizer;
 
-  console.log('user email', email);
-
   var params = {
     TableName: process.env.USER_TABLE_NAME,
     Key: {
@@ -31,9 +29,9 @@ async function deleteAccount(
       statusCode: 204,
       body: JSON.stringify(result)
     };
-  } catch (e) {
-    console.error(e);
-    return createAWSResErr(403, e);
+  } catch (error) {
+    console.error(error);
+    return createAWSResErr(403, error);
   }
 }
 

@@ -12,8 +12,8 @@ export async function getReviewBySlug(decodedSlug: string) {
 
     const result = await dynamodb.get(params).promise();
     return result.Item;
-  } catch (e) {
-    console.error(e);
-    return createAWSResErr(404, e);
+  } catch (error) {
+    console.error(error);
+    return createAWSResErr(404, error);
   }
 }

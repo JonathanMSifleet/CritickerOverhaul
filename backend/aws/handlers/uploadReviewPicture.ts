@@ -26,9 +26,9 @@ export async function uploadReviewPicture(event: {
       statusCode: 200,
       body: JSON.stringify(updatedReview)
     };
-  } catch (e) {
-    console.error(e);
-    throw new createError.InternalServerError(e);
+  } catch (error) {
+    console.error(error);
+    throw new createError.InternalServerError(error);
   }
 
   // // Validate review author

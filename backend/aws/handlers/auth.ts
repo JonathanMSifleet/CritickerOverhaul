@@ -21,7 +21,10 @@ const generatePolicy = (principalId: any, methodArn: string) => {
   };
 };
 
-export async function handler(event: { authorizationToken: string; methodArn: string; }, _context: any) {
+export async function handler(
+  event: { authorizationToken: string; methodArn: string },
+  _context: any
+) {
   if (!event.authorizationToken) {
     throw 'Unauthorized';
   }
@@ -37,7 +40,7 @@ export async function handler(event: { authorizationToken: string; methodArn: st
       context: claims
     };
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw 'Unauthorized';
   }
 }

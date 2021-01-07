@@ -20,6 +20,7 @@ export async function getReview(
       body: JSON.stringify(review)
     };
   } catch (errorMessage) {
+    console.error(errorMessage);
     return createAWSResErr(404, errorMessage);
   }
 }
