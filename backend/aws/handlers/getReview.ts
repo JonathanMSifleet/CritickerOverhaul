@@ -11,12 +11,15 @@ export async function getReview(
 
   try {
     const review = await getReviewBySlug(slug);
+    if (review === undefined) {
+      throw 'Invalid slug';
+    }
+
     return {
       statusCode: 200,
       body: JSON.stringify(review)
     };
   } catch (errorMessage) {
-    console.error(errorMessage);
     return createAWSResErr(404, errorMessage);
   }
 }

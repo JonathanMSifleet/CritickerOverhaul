@@ -37,6 +37,7 @@
   <ng-template #errorExperienced>
     <div class="alert alert-danger" *ngIf="!isLoading">
       <p id="alertText">
+        Error: {{ statusCode }} <br />
         {{ error }}. It may have been deleted, or never even existed...
       </p>
     </div>

@@ -15,6 +15,7 @@ export class ReviewPageComponent implements OnInit {
   reviewText: string;
   imageToLoad: string;
 
+  statusCode: number;
   error: string;
 
   isLoading = false;
@@ -38,9 +39,10 @@ export class ReviewPageComponent implements OnInit {
           this.imageToLoad = `${imageUrl}${slug}.jpg`;
           this.isLoading = false;
         },
-        (errorRes: { error: { error: string } }) => {
+        (errorRes: { status: number; error: string }) => {
           this.isLoading = false;
-          this.error = errorRes.error.error;
+          this.statusCode = errorRes.status;
+          this.error = errorRes.error;
         }
       );
   }

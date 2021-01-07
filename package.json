@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "iPax": "npm i && cd ./client && node bcryptPatch.js",
-    "delPax": "RMDIR /Q/S node_modules 2>nul",
+    "iPax": "RMDIR /Q/S node_modules 2>nul && npm i && cd ./client && node bcryptPatch.js",
     "createSymlinks": "mklink .\\backend\\package.json ..\\package.json & mklink .\\backend\\package-lock.json ..\\package-lock.json & mklink /D .\\backend\\node_modules ..\\node_modules",
     "delSymlinks": "del .\\backend\\package.json & del .\\backend\\package-lock.json & RMDIR /Q/S backend\\node_modules 2>nul",
     "updateSymlinks": "npm run delSymlinks && npm run createSymlinks",
@@ -27,7 +26,7 @@
   "dependencies": {
     "@angular/animations": "~10.1.4",
     "@angular/common": "~10.1.4",
-    "@angular/compiler": "^10.2.4",
+    "@angular/compiler": "^10.1.6",
     "@angular/core": "~10.1.4",
     "@angular/forms": "~10.1.4",
     "@angular/platform-browser": "~10.1.4",
@@ -55,7 +54,7 @@
     "popper.js": "^1.16.1",
     "promisify": "0.0.3",
     "rxjs": "~6.6.0",
-    "serverless": "^2.16.0",
+    "serverless": "^2.17.0",
     "serverless-s3-deploy": "^0.9.0",
     "slugify": "^1.4.5",
     "source-map-support": "^0.5.19",
