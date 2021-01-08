@@ -30,6 +30,7 @@ const routes: Routes = [
   },
   {
     path: 'review/:slug',
+    pathMatch: 'full',
     component: ReviewPageComponent
   },
   {
