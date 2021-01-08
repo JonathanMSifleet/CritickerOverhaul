@@ -12,6 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { ReviewPageComponent } from './pages/review-page/review-page.component';
 import { AuthComponent } from './pages/auth/auth.component';
 import { SignoutComponent } from './components/signout/signout.component';
+import { FourOhFourComponent } from './pages/four-oh-four/four-oh-four.component';
 import { DeleteAccountComponent } from './components/delete-account/delete-account.component';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
@@ -25,6 +26,7 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
     ReviewPageComponent,
     AuthComponent,
     SignoutComponent,
+    FourOhFourComponent,
     DeleteAccountComponent,
     LoadingSpinnerComponent
   ],
