@@ -127,6 +127,7 @@ resources:
           DefaultRootObject: index.html
           Enabled: true
           HttpVersion: http2
+          PriceClass: PriceClass_100
           Origins:
             - DomainName:
                 Fn::GetAtt:
