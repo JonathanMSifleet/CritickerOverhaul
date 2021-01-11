@@ -1,7 +1,7 @@
 const aws = require('aws-sdk');
 
 const GetAllReviews = require('../../backend/aws/handlers/getAllReviews');
-const allReviews = require('../mock-data/all-reviews.json');
+const allReviews = require('../../libData/all-reviews.json');
 
 jest.mock('aws-sdk');
 

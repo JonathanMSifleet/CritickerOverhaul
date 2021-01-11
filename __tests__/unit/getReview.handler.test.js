@@ -3,7 +3,7 @@ const aws = require('aws-sdk');
 const GetReview = require('../../backend/aws/handlers/getReview');
 const GetReviewBySlug = require('../../backend/aws/lib/review/getReviewBySlug');
 
-const mockReview = require('../mock-data/mockReview.json');
+const mockReview = require('../../libData/mockReview.json');
 
 // required to simulate event.pathParameters
 const LambdaTester = require('lambda-tester');
