@@ -2,7 +2,7 @@ import AWS from 'aws-sdk';
 
 const s3 = new AWS.S3();
 
-export async function uploadPictureToS3(key, body) {
+export async function uploadPictureToS3(key: string, body: Buffer) {
   const result = await s3
     .upload({
       Bucket: process.env.REVIEW_BUCKET_NAME,
