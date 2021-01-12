@@ -11,16 +11,8 @@ export async function uploadReviewPicture(event: {
   pathParameters: any;
   body: string;
 }) {
-  const slug = event.pathParameters;
-
-  // const { email } = event.requestContext.authorizer;
   try {
-    const review = await getReviewBySlugLocal(slug);
-    const base64 = event.body.replace(/^data:image\/\w+;base64,/, '');
-    const buffer = Buffer.from(base64, 'base64');
-
-    const pictureUrl = await uploadPictureToS3(review.slug + '.jpg', buffer);
-    const updatedReview = await setReviewPictureUrl(review.slug, pictureUrl);
+    const updatedReview = updateReviewPicture(event);
 
     return {
       statusCode: 200,
@@ -30,11 +22,6 @@ export async function uploadReviewPicture(event: {
     console.error(error);
     throw new createError.InternalServerError(error);
   }
-
-  // // Validate review author
-  // if (review.email !== email) {
-  //   throw new createError.Forbidden(`You are not the author of this review!`);
-  // }
 }
 
 async function getReviewBySlugLocal(slug: { slug: string }) {
@@ -42,6 +29,17 @@ async function getReviewBySlugLocal(slug: { slug: string }) {
   const review = await getReviewBySlug(decodedSlug);
 
   return review;
+}
+
+async function updateReviewPicture(event) {
+  const slug = event.pathParameters;
+
+  const review = await getReviewBySlugLocal(slug);
+  const base64 = event.body.replace(/^data:image\/\w+;base64,/, '');
+  const buffer = Buffer.from(base64, 'base64');
+
+  const pictureUrl = await uploadPictureToS3(review.slug + '.jpg', buffer);
+  return await setReviewPictureUrl(review.slug, pictureUrl);
 }
 
 export const handler = middy(uploadReviewPicture)
