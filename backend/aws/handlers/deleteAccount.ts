@@ -4,18 +4,16 @@ const AWS = require('aws-sdk');
 import { createAWSResErr } from '../util/createAWSResErr';
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-// const User = require('../../models/userModel');
-
 async function deleteAccount(
   event: { requestContext: { authorizer: { email: string } } },
   _context: any
 ) {
   const { email } = event.requestContext.authorizer;
 
-  var params = {
+  const params = {
     TableName: process.env.USER_TABLE_NAME,
     Key: {
-      email: email
+      email
     },
     ConditionExpression: 'email = :email',
     ExpressionAttributeValues: {
@@ -30,7 +28,6 @@ async function deleteAccount(
       body: JSON.stringify(result)
     };
   } catch (error) {
-    console.error(error);
     return createAWSResErr(403, error);
   }
 }

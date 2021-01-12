@@ -18,7 +18,6 @@ async function getAllReviews() {
       body: JSON.stringify({ reviews })
     };
   } catch (errorMessage) {
-    console.error(errorMessage);
     return createAWSResErr(404, errorMessage);
   }
 }

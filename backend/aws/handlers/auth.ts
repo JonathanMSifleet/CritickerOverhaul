@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 // By default, API Gateway authorizations are cached (TTL) for 300 seconds.
 // This policy will authorize all requests to the same API Gateway instance where the
 // request is coming from, thus being efficient and optimising costs.
-const generatePolicy = (principalId: any, methodArn: string) => {
+async function generatePolicy(principalId: any, methodArn: string) {
   const apiGatewayWildcard = methodArn.split('/', 2).join('/') + '/*';
 
   return {
@@ -19,21 +19,29 @@ const generatePolicy = (principalId: any, methodArn: string) => {
       ]
     }
   };
-};
+}
+
+// authorise token then generate policy and claims
+async function verifyToken(event: {
+  authorizationToken: string;
+  methodArn: string;
+}) {
+  const token = event.authorizationToken.replace('Bearer ', '');
+  const claims = jwt.verify(token, process.env.AUTH0_PUBLIC_KEY);
+  const policy = await generatePolicy(claims.sub, event.methodArn);
+  return { policy, claims };
+}
 
 export async function handler(
   event: { authorizationToken: string; methodArn: string },
   _context: any
 ) {
-  if (!event.authorizationToken) {
-    throw 'Unauthorized';
-  }
-
-  const token = event.authorizationToken.replace('Bearer ', '');
-
   try {
-    const claims = jwt.verify(token, process.env.AUTH0_PUBLIC_KEY);
-    const policy = generatePolicy(claims.sub, event.methodArn);
+    if (!event.authorizationToken) {
+      throw 'Unauthorized';
+    }
+
+    const { policy, claims } = await verifyToken(event);
 
     return {
       ...policy,

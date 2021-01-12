@@ -9,13 +9,6 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 async function signup(event: { body: string }, _context: any) {
   const { username, firstName, email, password } = JSON.parse(event.body);
 
-  // test data for serverless invoke:
-  // const username = 'JonathanSifleet';
-  // const firstName = 'Jonathan';
-  // const email = 'jonathans@apadmi.com';
-  // // should be bcrypt hash but using string from random.org that validates successfully for now:
-  // const password = 'hSSFbwmJUHn88gm36TwqKAPqXEO5fS9IJuAwImBUQ7iLVizbDFF4iIYLUbOg';
-
   const existingUser = await checkExistsInDB(email);
 
   if (existingUser === undefined) {
@@ -29,7 +22,6 @@ async function signup(event: { body: string }, _context: any) {
         body: JSON.stringify(result)
       };
     } else {
-      logErrors(errors);
       return createAWSResErr(400, errors);
     }
   } else {
@@ -47,13 +39,7 @@ async function removeEmptyErrors(errors: string[]) {
   return errors;
 }
 
-async function logErrors(errors: string[]) {
-  let i = 0;
-  errors.forEach((element) => {
-    i++;
-    console.error(`${i}) ${element}`);
-  });
-}
+
 
 async function validateNotEmpty(value: string, name: string) {
   if (value === null || value === '' || value === undefined) {
@@ -157,7 +143,6 @@ async function checkExistsInDB(email: string) {
     const result = await dynamodb.get(params).promise();
     return result.Item;
   } catch (e) {
-    console.error(e);
     return createAWSResErr(404, e);
   }
 }

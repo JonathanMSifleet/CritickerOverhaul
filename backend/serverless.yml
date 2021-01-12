@@ -97,7 +97,6 @@ resources:
     ReviewBucketPolicy: ${file(aws/resources/ReviewBucket.yml):ReviewBucketPolicy}
     AngularBucket: ${file(aws/resources/AngularBucket.yml):AngularBucket}
     AngularBucketPolicy: ${file(aws/resources/AngularBucket.yml):AngularBucketPolicy}
-
     # Cloudfront
     CloudFrontOriginAccessIdentity:
       Type: AWS::CloudFront::CloudFrontOriginAccessIdentity

@@ -41,7 +41,6 @@ async function login(event: { body: string }, _context: any) {
       body: JSON.stringify(user)
     };
   } catch (error) {
-    console.error(error);
     return createAWSResErr(404, error);
   }
 }
