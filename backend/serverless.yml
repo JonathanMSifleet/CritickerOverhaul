@@ -45,12 +45,20 @@ functions:
           method: POST
           authorizer: auth
           cors: true
-  uploadReviewPicture:
-    handler: aws/handlers/uploadReviewPicture.handler
+  setReviewPicture:
+    handler: aws/handlers/setReviewPicture.handler
     events:
       - http:
           method: PATCH
           path: review/{slug}/picture
+          authorizer: ${self:custom.authorizer}
+          cors: true
+  updateReview:
+    handler: aws/handlers/updateReview.handler
+    events:
+      - http:
+          method: PATCH
+          path: review
           authorizer: ${self:custom.authorizer}
           cors: true
   getAllReviews:

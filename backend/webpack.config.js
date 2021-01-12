@@ -4,6 +4,7 @@
 const path = require('path');
 
 const nodeExternals = require('webpack-node-externals');
+// runs TypeScript linting on separate process
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
@@ -18,8 +19,9 @@ module.exports = {
     login: './aws/handlers/login.ts',
     private: './aws/handlers/private.ts',
     public: './aws/handlers/public.ts',
+    setReviewPicture: './aws/handlers/setReviewPictures.ts',
     signup: './aws/handlers/signup.ts',
-    uploadReviewPicture: './aws/handlers/uploadReviewPicture.ts'
+    updateReview: './aws/handlers/updateReview.ts'
   },
   resolve: {
     extensions: ['.mjs', '.json', '.ts'],

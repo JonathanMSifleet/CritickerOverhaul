@@ -18,7 +18,7 @@
     "clean": "npm run delServerless & npm run delDist",
     "fullDeploy": "npm run preBuild && npm run build && npm run postBuild && npm run clean",
     "slsDeploy": "cd ./backend && serverless deploy -v",
-    "test": "jest --watchAll --detectOpenHandles --testPathPattern=__tests__/"
+    "test": "jest --watchAll --detectOpenHandles --testPathPattern=__tests__/ --coverage"
   },
   "comments": {
     "fullDeploy": "run ng build, deploy serverless files, remove existing files from s3 bucket, upload ng build result to S3 bucket, delete uncessary build and serverless files"
