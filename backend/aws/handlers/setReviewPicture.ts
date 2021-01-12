@@ -1,19 +1,18 @@
+import AWS from 'aws-sdk';
+const s3 = new AWS.S3();
 const middy = require('@middy/core');
 const httpErrorHandler = require('@middy/http-error-handler');
-import { uploadPictureToS3 } from '../lib/review/uploadPictureToS3';
-import { setReviewPictureUrl } from '../lib/review/setReviewPictureURL';
 import { createAWSResErr } from '../util/createAWSResErr';
 
-export async function uploadReviewPicture(event: {
+export async function setReviewPicture(event: {
   pathParameters: any;
   body: string;
 }) {
   try {
-    const updatedReview = await updateReviewPicture(event);
-
+    const updatedReviewLocation = await updateReviewPicture(event);
     return {
       statusCode: 200,
-      body: JSON.stringify(updatedReview)
+      body: JSON.stringify(`Success! Found at: Bucket/${updatedReviewLocation}.jpg`)
     };
   } catch (error) {
     return createAWSResErr(500, error);
@@ -30,8 +29,21 @@ async function updateReviewPicture(event: { pathParameters: any; body: any }) {
   const base64 = event.body.replace(/^data:image\/\w+;base64,/, '');
   const buffer = Buffer.from(base64, 'base64');
 
-  const pictureUrl = await uploadPictureToS3(slug + '.jpg', buffer);
-  return await setReviewPictureUrl(slug, pictureUrl);
+  return await uploadPictureToS3(slug + '.jpg', buffer);
 }
 
-export const handler = middy(uploadReviewPicture).use(httpErrorHandler());
+async function uploadPictureToS3(key: string, body: Buffer): Promise<string> {
+  const result = await s3
+    .upload({
+      Bucket: process.env.REVIEW_BUCKET_NAME,
+      Key: key,
+      Body: body,
+      ContentEncoding: 'base64',
+      ContentType: 'image/jpg'
+    })
+    .promise();
+
+  return result.Location;
+}
+
+export const handler = middy(setReviewPicture).use(httpErrorHandler());
