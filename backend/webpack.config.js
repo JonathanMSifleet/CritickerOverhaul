@@ -19,7 +19,7 @@ module.exports = {
     login: './aws/handlers/login.ts',
     private: './aws/handlers/private.ts',
     public: './aws/handlers/public.ts',
-    setReviewPicture: './aws/handlers/setReviewPictures.ts',
+    setReviewPicture: './aws/handlers/setReviewPicture.ts',
     signup: './aws/handlers/signup.ts',
     updateReview: './aws/handlers/updateReview.ts'
   },

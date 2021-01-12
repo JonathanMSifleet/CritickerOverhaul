@@ -12,7 +12,9 @@ export async function setReviewPicture(event: {
     const updatedReviewLocation = await updateReviewPicture(event);
     return {
       statusCode: 200,
-      body: JSON.stringify(`Success! Found at: Bucket/${updatedReviewLocation}.jpg`)
+      body: JSON.stringify(
+        `Success! Found at: Bucket/${updatedReviewLocation}.jpg`
+      )
     };
   } catch (error) {
     return createAWSResErr(500, error);
@@ -33,17 +35,25 @@ async function updateReviewPicture(event: { pathParameters: any; body: any }) {
 }
 
 async function uploadPictureToS3(key: string, body: Buffer): Promise<string> {
-  const result = await s3
-    .upload({
-      Bucket: process.env.REVIEW_BUCKET_NAME,
-      Key: key,
-      Body: body,
-      ContentEncoding: 'base64',
-      ContentType: 'image/jpg'
-    })
-    .promise();
+  try {
+    await s3
+      .deleteObject({ Bucket: process.env.REVIEW_BUCKET_NAME, Key: key })
+      .promise();
+  } catch (error) {
+    // file doesn't exist, upload anyway
+  } finally {
+    const result = await s3
+      .upload({
+        Bucket: process.env.REVIEW_BUCKET_NAME,
+        Key: key,
+        Body: body,
+        ContentEncoding: 'base64',
+        ContentType: 'image/jpg'
+      })
+      .promise();
 
-  return result.Location;
+    return result.Location;
+  }
 }
 
 export const handler = middy(setReviewPicture).use(httpErrorHandler());
