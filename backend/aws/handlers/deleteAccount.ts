@@ -12,10 +12,10 @@ async function deleteAccount(
 ) {
   const { email } = event.requestContext.authorizer;
 
-  const params = {
+  var params = {
     TableName: process.env.USER_TABLE_NAME,
     Key: {
-      email
+      email: email
     },
     ConditionExpression: 'email = :email',
     ExpressionAttributeValues: {
