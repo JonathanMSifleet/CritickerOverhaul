@@ -154,10 +154,10 @@ async function insertUserToDB(
   const params = {
     TableName: process.env.USER_TABLE_NAME,
     Item: {
-      username: username,
-      firstName: firstName,
-      email: email,
-      password: password
+      username,
+      firstName,
+      email,
+      password
     },
     ReturnConsumedCapacity: 'TOTAL'
   };
