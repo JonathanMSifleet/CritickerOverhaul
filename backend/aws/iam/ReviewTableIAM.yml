@@ -8,4 +8,4 @@ ReviewTableIAM:
     - dynamodb:Query
   Resource:
     - ${self:custom.ReviewTable.arn}
-    - !Join ['/', ['${self:custom.ReviewTable.arn}', 'index', 'uid']]
+    - !Join ['/', ['${self:custom.ReviewTable.arn}', 'index', 'slug']]
