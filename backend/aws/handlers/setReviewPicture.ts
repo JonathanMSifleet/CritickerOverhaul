@@ -1,7 +1,7 @@
 import AWS from 'aws-sdk';
 const s3 = new AWS.S3();
 const middy = require('@middy/core');
-const httpErrorHandler = require('@middy/http-error-handler');
+const cors = require('@middy/http-cors');
 import { createAWSResErr } from '../util/createAWSResErr';
 
 export async function setReviewPicture(event: {
@@ -9,12 +9,10 @@ export async function setReviewPicture(event: {
   body: string;
 }) {
   try {
-    const updatedReviewLocation = await updateReviewPicture(event);
+    const updatedReviewLocation = await prepareImage(event);
     return {
       statusCode: 200,
-      body: JSON.stringify(
-        `Success! Found at: Bucket/${updatedReviewLocation}.jpg`
-      )
+      body: JSON.stringify(`Found at: ${updatedReviewLocation}`)
     };
   } catch (error) {
     return createAWSResErr(500, error);
@@ -26,34 +24,50 @@ export async function setReviewPicture(event: {
   // }
 }
 
-async function updateReviewPicture(event: { pathParameters: any; body: any }) {
+async function prepareImage(event: {
+  pathParameters: { slug: string };
+  body: string;
+}) {
   const { slug } = event.pathParameters;
   const base64 = event.body.replace(/^data:image\/\w+;base64,/, '');
   const buffer = Buffer.from(base64, 'base64');
 
-  return await uploadPictureToS3(slug + '.jpg', buffer);
+  return await updatePicture(slug + '.jpg', buffer);
 }
 
-async function uploadPictureToS3(key: string, body: Buffer): Promise<string> {
+async function updatePicture(key: string, body: Buffer) {
   try {
-    await s3
-      .deleteObject({ Bucket: process.env.REVIEW_BUCKET_NAME, Key: key })
-      .promise();
-  } catch (error) {
-    // file doesn't exist, upload anyway
-  } finally {
-    const result = await s3
-      .upload({
-        Bucket: process.env.REVIEW_BUCKET_NAME,
-        Key: key,
-        Body: body,
-        ContentEncoding: 'base64',
-        ContentType: 'image/jpg'
-      })
-      .promise();
-
+    await deletePicure(key);
+    const result = await uploadPicture(key, body);
     return result.Location;
+  } catch (error) {
+    return createAWSResErr(500, error);
   }
 }
 
-export const handler = middy(setReviewPicture).use(httpErrorHandler());
+async function deletePicure(key: string) {
+  const params = {
+    Bucket: process.env.REVIEW_BUCKET_NAME,
+    Key: key
+  };
+
+  try {
+    return await s3.deleteObject(params).promise();
+  } catch (error) {
+    return createAWSResErr(500, error);
+  }
+}
+
+async function uploadPicture(key: string, body: Buffer) {
+  return await s3
+    .upload({
+      Bucket: process.env.REVIEW_BUCKET_NAME,
+      Key: key,
+      Body: body,
+      ContentEncoding: 'base64',
+      ContentType: 'image/jpg'
+    })
+    .promise();
+}
+
+export const handler = middy(setReviewPicture).use(cors());
