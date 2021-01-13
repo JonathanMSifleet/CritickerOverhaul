@@ -1,7 +1,7 @@
 import AWS from 'aws-sdk';
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-import { createAWSResErr } from '../../util/createAWSResErr';
+import { createAWSResErr } from './createAWSResErr';
 
 export async function getReviewBySlug(slug: string) {
   try {
