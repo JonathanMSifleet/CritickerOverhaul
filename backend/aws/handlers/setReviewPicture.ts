@@ -35,20 +35,20 @@ async function prepareImage(event: {
   return await updatePicture(slug + '.jpg', buffer);
 }
 
-async function updatePicture(key: string, body: Buffer) {
+async function updatePicture(slug: string, body: Buffer) {
   try {
-    await deletePicure(key);
-    const result = await uploadPicture(key, body);
+    await deletePicure(slug);
+    const result = await uploadPicture(slug, body);
     return result.Location;
   } catch (error) {
     return createAWSResErr(500, error);
   }
 }
 
-async function deletePicure(key: string) {
+async function deletePicure(slug: string) {
   const params = {
     Bucket: process.env.REVIEW_BUCKET_NAME,
-    Key: key
+    Key: slug
   };
 
   try {
@@ -58,11 +58,11 @@ async function deletePicure(key: string) {
   }
 }
 
-async function uploadPicture(key: string, body: Buffer) {
+async function uploadPicture(slug: string, body: Buffer) {
   return await s3
     .upload({
       Bucket: process.env.REVIEW_BUCKET_NAME,
-      Key: key,
+      Key: slug,
       Body: body,
       ContentEncoding: 'base64',
       ContentType: 'image/jpg'

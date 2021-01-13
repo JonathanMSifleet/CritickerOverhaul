@@ -39,8 +39,6 @@ async function removeEmptyErrors(errors: string[]) {
   return errors;
 }
 
-
-
 async function validateNotEmpty(value: string, name: string) {
   if (value === null || value === '' || value === undefined) {
     return `${name} must not be empty`;
@@ -136,7 +134,7 @@ async function validateInput(value: string, name: string) {
 async function checkExistsInDB(email: string) {
   const params = {
     TableName: process.env.USER_TABLE_NAME,
-    Key: { email }
+    Key: email
   };
 
   try {
