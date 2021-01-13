@@ -2,8 +2,8 @@ import AWS from 'aws-sdk';
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 const middy = require('middy');
 const cors = require('@middy/http-cors');
-import { getReviewBySlug } from '../lib/review/getReviewBySlug';
-import { createAWSResErr } from '../util/createAWSResErr';
+import { getReviewBySlug } from '../sharedFunctions/getReviewBySlug';
+import { createAWSResErr } from '../sharedFunctions/createAWSResErr';
 
 export async function updateReview(
   _event: { pathParameters: { slug: string } },

@@ -1,4 +1,4 @@
-import { createAWSResErr } from '../util/createAWSResErr';
+import { createAWSResErr } from '../sharedFunctions/createAWSResErr';
 const middy = require('middy');
 const cors = require('@middy/http-cors');
 const AWS = require('aws-sdk');

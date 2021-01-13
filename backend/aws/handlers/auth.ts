@@ -1,4 +1,4 @@
-import { createAWSResErr } from '../util/createAWSResErr';
+import { createAWSResErr } from '../sharedFunctions/createAWSResErr';
 
 const jwt = require('jsonwebtoken');
 

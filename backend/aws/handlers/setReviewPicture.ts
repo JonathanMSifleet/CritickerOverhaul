@@ -2,7 +2,7 @@ import AWS from 'aws-sdk';
 const s3 = new AWS.S3();
 const middy = require('@middy/core');
 const cors = require('@middy/http-cors');
-import { createAWSResErr } from '../util/createAWSResErr';
+import { createAWSResErr } from '../sharedFunctions/createAWSResErr';
 
 export async function setReviewPicture(event: {
   pathParameters: any;

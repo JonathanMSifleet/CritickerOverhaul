@@ -1,7 +1,7 @@
 const middy = require('middy');
 const cors = require('@middy/http-cors');
 const AWS = require('aws-sdk');
-import { createAWSResErr } from '../util/createAWSResErr';
+import { createAWSResErr } from '../sharedFunctions/createAWSResErr';
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 async function deleteAccount(
