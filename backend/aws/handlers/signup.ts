@@ -9,7 +9,7 @@ const dynamodb = new AWS.DynamoDB.DocumentClient();
 async function signup(event: { body: string }, _context: any) {
   const { username, firstName, email, password } = JSON.parse(event.body);
 
-  const existingUser = await checkExistsInDB(email);
+  const existingUser = await checkUserExists(email);
 
   if (existingUser === undefined) {
     let errors = await validateUserInputs(username, firstName, email, password);
@@ -131,14 +131,15 @@ async function validateInput(value: string, name: string) {
   return localErrors;
 }
 
-async function checkExistsInDB(email: string) {
+async function checkUserExists(email: string) {
   const params = {
     TableName: process.env.USER_TABLE_NAME,
-    Key: email
+    Key: { email }
   };
 
   try {
     const result = await dynamodb.get(params).promise();
+
     return result.Item;
   } catch (e) {
     return createAWSResErr(404, e);

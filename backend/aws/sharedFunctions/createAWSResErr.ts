@@ -1,5 +1,5 @@
 export async function createAWSResErr(statusCode: number, message: any) {
-  if (message.isArray()) {
+  if (Array.isArray(message)) {
     await logErrors(message);
   } else {
     console.error(message);
