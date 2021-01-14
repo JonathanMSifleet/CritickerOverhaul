@@ -8,44 +8,24 @@ export async function setReviewPicture(event: {
   pathParameters: any;
   body: string;
 }) {
+  const { slug } = event.pathParameters;
   try {
-    const updatedReviewLocation = await prepareImage(event);
+    await deletePicture(slug);
+    const buffer = await prepareImage(event.body);
+    const result = await uploadPicture(slug, buffer);
     return {
       statusCode: 200,
-      body: JSON.stringify(`Found at: ${updatedReviewLocation}`)
+      body: JSON.stringify(`Found at: ${result}`)
     };
   } catch (error) {
     return createAWSResErr(500, error);
   }
-
-  // // Validate review author
-  // if (review.email !== email) {
-  //   throw new createError.Forbidden(`You are not the author of this review!`);
-  // }
 }
-
-async function prepareImage(event: {
-  pathParameters: { slug: string };
-  body: string;
-}) {
-  const { slug } = event.pathParameters;
-  const base64 = event.body.replace(/^data:image\/\w+;base64,/, '');
-  const buffer = Buffer.from(base64, 'base64');
-
-  return await updatePicture(slug + '.jpg', buffer);
-}
-
-async function updatePicture(slug: string, body: Buffer) {
-  try {
-    await deletePicure(slug);
-    const result = await uploadPicture(slug, body);
-    return result.Location;
-  } catch (error) {
-    return createAWSResErr(500, error);
-  }
-}
-
-async function deletePicure(slug: string) {
+async function deletePicture(slug: string) {
+  console.log(
+    '🚀 ~ file: setReviewPicture.ts ~ line 26 ~ deletePicture ~ slug',
+    slug
+  );
   const params = {
     Bucket: process.env.REVIEW_BUCKET_NAME,
     Key: slug
@@ -58,8 +38,13 @@ async function deletePicure(slug: string) {
   }
 }
 
+async function prepareImage(body: string) {
+  const base64 = body.replace(/^data:image\/\w+;base64,/, '');
+  return Buffer.from(base64, 'base64');
+}
+
 async function uploadPicture(slug: string, body: Buffer) {
-  return await s3
+  const result = await s3
     .upload({
       Bucket: process.env.REVIEW_BUCKET_NAME,
       Key: slug,
@@ -68,6 +53,8 @@ async function uploadPicture(slug: string, body: Buffer) {
       ContentType: 'image/jpg'
     })
     .promise();
+
+  return result.Location;
 }
 
 export const handler = middy(setReviewPicture).use(cors());
