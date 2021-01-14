@@ -6,3 +6,4 @@
 - Refactor where appropriate
 - Implement postComment functionality
 - Implement ability to add reviews without manually using DynamoDB
+- Fix in-line html in reviews
