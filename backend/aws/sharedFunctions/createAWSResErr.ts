@@ -1,20 +1,19 @@
-export function createAWSResErr(code: number, message: any) {
+export async function createAWSResErr(statusCode: number, message: any) {
   if (message.isArray()) {
-    logErrors(message);
+    await logErrors(message);
   } else {
     console.error(message);
   }
 
   return {
-    statusCode: code,
+    statusCode,
     body: JSON.stringify(message)
   };
 }
 
 async function logErrors(errors: string[]) {
-  let i = 0;
-  errors.forEach((element) => {
-    i++;
+  console.error('Errors:');
+  errors.forEach((element, i) => {
     console.error(`${i}) ${element}`);
   });
 }

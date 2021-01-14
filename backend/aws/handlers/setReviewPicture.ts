@@ -5,14 +5,18 @@ const cors = require('@middy/http-cors');
 import { createAWSResErr } from '../sharedFunctions/createAWSResErr';
 
 export async function setReviewPicture(event: {
-  pathParameters: any;
+  pathParameters: { slug: string };
   body: string;
 }) {
-  const { slug } = event.pathParameters;
+  console.log(
+    '🚀 ~ file: setReviewPicture.ts ~ line 11 ~ slug',
+    event.pathParameters.slug
+  );
+  const filename = `${event.pathParameters.slug}.jpg`;
   try {
-    await deletePicture(slug);
+    await deletePicture(filename);
     const buffer = await prepareImage(event.body);
-    const result = await uploadPicture(slug, buffer);
+    const result = await uploadPicture(filename, buffer);
     return {
       statusCode: 200,
       body: JSON.stringify(`Found at: ${result}`)
@@ -21,14 +25,10 @@ export async function setReviewPicture(event: {
     return createAWSResErr(500, error);
   }
 }
-async function deletePicture(slug: string) {
-  console.log(
-    '🚀 ~ file: setReviewPicture.ts ~ line 26 ~ deletePicture ~ slug',
-    slug
-  );
+async function deletePicture(filename: string) {
   const params = {
     Bucket: process.env.REVIEW_BUCKET_NAME,
-    Key: slug
+    Key: filename
   };
 
   try {
@@ -43,11 +43,11 @@ async function prepareImage(body: string) {
   return Buffer.from(base64, 'base64');
 }
 
-async function uploadPicture(slug: string, body: Buffer) {
+async function uploadPicture(filename: string, body: Buffer) {
   const result = await s3
     .upload({
       Bucket: process.env.REVIEW_BUCKET_NAME,
-      Key: slug,
+      Key: filename,
       Body: body,
       ContentEncoding: 'base64',
       ContentType: 'image/jpg'
