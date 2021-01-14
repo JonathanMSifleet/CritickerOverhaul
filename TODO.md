@@ -1,6 +1,5 @@
 - Add Unit / Integration tests
-- Fix warning whens running ng serve
-- Tidy dependencies / devDependencies
+- Handle missing information e.g. images
 - Fix CSS issues
 - Comments
 - Refactor where possible
