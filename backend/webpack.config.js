@@ -17,11 +17,11 @@ module.exports = {
     getAllReviews: './aws/handlers/getAllReviews.ts',
     getReview: './aws/handlers/getReview.ts',
     login: './aws/handlers/login.ts',
+    // postComment: './aws/handlers/postComment.ts',
     private: './aws/handlers/private.ts',
     public: './aws/handlers/public.ts',
     setReviewPicture: './aws/handlers/setReviewPicture.ts',
-    signup: './aws/handlers/signup.ts',
-    updateReview: './aws/handlers/updateReview.ts'
+    signup: './aws/handlers/signup.ts'
   },
   resolve: {
     extensions: ['.mjs', '.json', '.ts'],

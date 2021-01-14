@@ -53,14 +53,14 @@ functions:
           path: review/{slug}/picture
           authorizer: ${self:custom.authorizer}
           cors: true
-  updateReview:
-    handler: aws/handlers/updateReview.handler
-    events:
-      - http:
-          method: PATCH
-          path: review
-          authorizer: ${self:custom.authorizer}
-          cors: true
+  # postComment:
+  #   handler: aws/handlers/postComment.handler
+  #   events:
+  #     - http:
+  #         method: PATCH
+  #         path: review
+  #         authorizer: ${self:custom.authorizer}
+  #         cors: true
   getAllReviews:
     handler: aws/handlers/getAllReviews.handler
     events:
