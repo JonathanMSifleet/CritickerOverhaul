@@ -1,6 +1,5 @@
-import { createAWSResErr } from '../sharedFunctions/createAWSResErr';
-
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
+import { createAWSResErr } from '../shared/createAWSResErr';
 
 // By default, API Gateway authorizations are cached (TTL) for 300 seconds.
 // This policy will authorize all requests to the same API Gateway instance where the
@@ -23,10 +22,10 @@ const generatePolicy = (principalId: any, methodArn: string) => {
   };
 };
 
-export async function handler(
+export const handler = async (
   event: { authorizationToken: string; methodArn: string },
   _context: any
-) {
+) => {
   if (!event.authorizationToken) {
     throw 'Unauthorized';
   }
@@ -44,4 +43,4 @@ export async function handler(
   } catch (error) {
     return createAWSResErr(401, error);
   }
-}
+};

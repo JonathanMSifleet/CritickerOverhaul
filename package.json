@@ -25,7 +25,6 @@
   "dependencies": {
     "@middy/core": "^2.0.1",
     "@middy/http-cors": "^2.0.1",
-    "@types/react": "^17.0.3",
     "aws-sdk": "^2.888.0",
     "bcryptjs": "^2.4.3",
     "create-react-app": "^4.0.3",
@@ -44,7 +43,9 @@
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.75",
+    "@types/jsonwebtoken": "^8.5.1",
     "@types/node": "^14.14.41",
+    "@types/react": "^17.0.3",
     "@types/serverless": "^1.78.25",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
@@ -77,68 +78,5 @@
   "bugs": {
     "url": "https://github.com/JonathanMSifleet/FinalYearProject/issues"
   },
-  "homepage": "https://github.com/JonathanMSifleet/FinalYearProject#readme",
-  "eslintConfig": {
-    "extends": [
-      "plugin:react/recommended",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:prettier/recommended",
-      "eslint-config-prettier"
-    ],
-    "env": {
-      "node": true
-    },
-    "parser": "@typescript-eslint/parser",
-    "plugins": [
-      "react",
-      "@typescript-eslint",
-      "prettier"
-    ],
-    "settings": {
-      "import/parsers": {
-        "@typescript-eslint/parser": [
-          ".ts",
-          ".tsx"
-        ]
-      },
-      "react": {
-        "version": "detect"
-      }
-    },
-    "parserOptions": {
-      "ecmaVersion": 2020,
-      "ecmaFeatures": {
-        "jsx": true,
-        "legacyDecorators": true
-      },
-      "project": "./tsconfig.json",
-      "sourceType": "module",
-      "tsconfigRootDir": "./"
-    },
-    "rules": {
-      "@typescript-eslint/no-explicit-any": "off",
-      "react/no-unescaped-entities": 0,
-      "react/jsx-first-prop-new-line": [
-        2,
-        "multiline"
-      ],
-      "react/jsx-max-props-per-line": [
-        2,
-        {
-          "maximum": 1,
-          "when": "multiline"
-        }
-      ],
-      "react/jsx-indent-props": [
-        2,
-        2
-      ],
-      "react/jsx-closing-bracket-location": [
-        2,
-        "tag-aligned"
-      ],
-      "@typescript-eslint/ban-ts-comment": "off",
-      "@typescript-eslint/no-non-null-assertion": 0
-    }
-  }
+  "homepage": "https://github.com/JonathanMSifleet/FinalYearProject#readme"
 }

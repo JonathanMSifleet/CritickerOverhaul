@@ -12,8 +12,8 @@
 .serverless
 .vscode
 .webpack
+Extras/
 createSecret.txt
 dist
-Extras/
 node_modules
 secret.pem

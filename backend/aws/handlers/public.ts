@@ -1,14 +1,14 @@
-export async function handler(_event: any, _context: any) {
+import { Context } from 'aws-sdk';
+
+export const handler = async (_event: any, _context: Context) => {
   return {
     statusCode: 200,
     headers: {
-      /* Required for CORS support to work */
       'Access-Control-Allow-Origin': '*',
-      /* Required for cookies, authorization headers with HTTPS */
       'Access-Control-Allow-Credentials': true
     },
     body: JSON.stringify({
       message: 'Hello from Public API'
     })
   };
-}
+};

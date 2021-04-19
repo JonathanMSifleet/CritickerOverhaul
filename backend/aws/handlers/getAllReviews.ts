@@ -1,11 +1,11 @@
-const AWS = require('aws-sdk');
-import { createAWSResErr } from '../sharedFunctions/createAWSResErr';
-const middy = require('middy');
-const cors = require('@middy/http-cors');
+import cors from '@middy/http-cors';
+import AWS from 'aws-sdk';
+import middy from 'middy';
+import { createAWSResErr } from '../shared/createAWSResErr';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-async function getAllReviews() {
+const getAllReviews = async () => {
   const params = {
     TableName: process.env.REVIEW_TABLE_NAME
   };
@@ -20,6 +20,6 @@ async function getAllReviews() {
   } catch (errorMessage) {
     return createAWSResErr(404, errorMessage);
   }
-}
+};
 
 export const handler = middy(getAllReviews).use(cors());

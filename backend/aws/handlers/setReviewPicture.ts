@@ -1,17 +1,14 @@
+import middy from '@middy/core';
+import cors from '@middy/http-cors';
 import AWS from 'aws-sdk';
+import { createAWSResErr } from '../shared/functions/createAWSResErr';
+import IHTTP from '../shared/interfaces/IHTTP';
 const s3 = new AWS.S3();
-const middy = require('@middy/core');
-const cors = require('@middy/http-cors');
-import { createAWSResErr } from '../sharedFunctions/createAWSResErr';
 
-export async function setReviewPicture(event: {
+export const setReviewPicture = async (event: {
   pathParameters: { slug: string };
   body: string;
-}) {
-  console.log(
-    '🚀 ~ file: setReviewPicture.ts ~ line 11 ~ slug',
-    event.pathParameters.slug
-  );
+}): Promise<IHTTP> => {
   const filename = `${event.pathParameters.slug}.jpg`;
   try {
     await deletePicture(filename);
@@ -24,11 +21,12 @@ export async function setReviewPicture(event: {
   } catch (error) {
     return createAWSResErr(500, error);
   }
-}
-async function deletePicture(filename: string) {
+};
+
+const deletePicture = async (filename: string) => {
   const params = {
-    Bucket: process.env.REVIEW_BUCKET_NAME,
-    Key: filename
+    Bucket: process.env.REVIEW_BUCKET_NAME!,
+    Key: { filename }
   };
 
   try {
@@ -36,17 +34,17 @@ async function deletePicture(filename: string) {
   } catch (error) {
     return createAWSResErr(500, error);
   }
-}
+};
 
-async function prepareImage(body: string) {
+const prepareImage = async (body: string) => {
   const base64 = body.replace(/^data:image\/\w+;base64,/, '');
   return Buffer.from(base64, 'base64');
-}
+};
 
-async function uploadPicture(filename: string, body: Buffer) {
+const uploadPicture = async (filename: string, body: Buffer) => {
   const result = await s3
     .upload({
-      Bucket: process.env.REVIEW_BUCKET_NAME,
+      Bucket: process.env.REVIEW_BUCKET_NAME!,
       Key: filename,
       Body: body,
       ContentEncoding: 'base64',
@@ -55,6 +53,6 @@ async function uploadPicture(filename: string, body: Buffer) {
     .promise();
 
   return result.Location;
-}
+};
 
 export const handler = middy(setReviewPicture).use(cors());

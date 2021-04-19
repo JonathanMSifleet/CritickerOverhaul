@@ -1,12 +1,12 @@
-const middy = require('middy');
-const cors = require('@middy/http-cors');
-import { getReviewBySlug } from '../sharedFunctions/getReviewBySlug';
-import { createAWSResErr } from '../sharedFunctions/createAWSResErr';
+import cors from '@middy/http-cors';
+import middy from 'middy';
+import { createAWSResErr } from '../shared/createAWSResErr';
+import { getReviewBySlug } from '../shared/functions/getReviewBySlug';
 
-export async function getReview(
+export const getReview = async (
   event: { pathParameters: { slug: string } },
   _context: any
-) {
+) => {
   const { slug } = event.pathParameters;
 
   try {
@@ -22,6 +22,6 @@ export async function getReview(
   } catch (errorMessage) {
     return createAWSResErr(404, errorMessage);
   }
-}
+};
 
 export const handler = middy(getReview).use(cors());

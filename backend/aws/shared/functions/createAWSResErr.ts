@@ -1,4 +1,9 @@
-export async function createAWSResErr(statusCode: number, message: any) {
+import IHTTP from '../interfaces/IHTTP';
+
+export const createAWSResErr = async (
+  statusCode: number,
+  message: string | string[]
+): Promise<IHTTP> => {
   if (Array.isArray(message)) {
     await logErrors(message);
   } else {
@@ -9,11 +14,11 @@ export async function createAWSResErr(statusCode: number, message: any) {
     statusCode,
     body: JSON.stringify(message)
   };
-}
+};
 
-async function logErrors(errors: string[]) {
+const logErrors = async (errors: string[]) => {
   console.error('Errors:');
   errors.forEach((element, i) => {
     console.error(`${i}) ${element}`);
   });
-}
+};

@@ -25,17 +25,17 @@ module.exports = {
     project: './tsconfig.json',
     tsconfigRootDir: './',
     sourceType: 'module',
-    ecmaVersion: 2020,
+    ecmaVersion: 2021,
     ecmaFeatures: { jsx: true, legacyDecorators: true }
   },
   rules: {
-    '@typescript-eslint/no-explicit-any': 'off',
-    'react/no-unescaped-entities': 0,
-    'react/jsx-first-prop-new-line': [2, 'multiline'],
-    'react/jsx-max-props-per-line': [2, { maximum: 1, when: 'multiline' }],
-    'react/jsx-indent-props': [2, 2],
-    'react/jsx-closing-bracket-location': [2, 'tag-aligned'],
     '@typescript-eslint/ban-ts-comment': 'off',
-    '@typescript-eslint/no-non-null-assertion': 0
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-non-null-assertion': 0,
+    'react/jsx-closing-bracket-location': [2, 'tag-aligned'],
+    'react/jsx-first-prop-new-line': [2, 'multiline'],
+    'react/jsx-indent-props': [2, 2],
+    'react/jsx-max-props-per-line': [2, { maximum: 1, when: 'multiline' }],
+    'react/no-unescaped-entities': 0
   }
 };

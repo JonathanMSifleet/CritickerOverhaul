@@ -1,18 +1,23 @@
-import { createAWSResErr } from '../sharedFunctions/createAWSResErr';
-const middy = require('middy');
-const cors = require('@middy/http-cors');
-const AWS = require('aws-sdk');
-const EmailValidator = require('email-validator');
+import cors from '@middy/http-cors';
+import AWS, { DynamoDB } from 'aws-sdk';
+import EmailValidator from 'email-validator';
+import middy from 'middy';
+import { createAWSResErr } from '../shared/functions/createAWSResErr';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-async function signup(event: { body: string }, _context: any) {
+const signup = async (event: { body: string }) => {
   const { username, firstName, email, password } = JSON.parse(event.body);
 
   const existingUser = await checkUserExists(email);
 
-  if (existingUser === undefined) {
-    let errors = await validateUserInputs(username, firstName, email, password);
+  if (!existingUser) {
+    let errors = (await validateUserInputs(
+      username,
+      firstName,
+      email,
+      password
+    )) as string[];
     errors = await removeEmptyErrors(errors);
 
     if (errors.length === 0) {
@@ -27,9 +32,9 @@ async function signup(event: { body: string }, _context: any) {
   } else {
     return createAWSResErr(403, 'Email already in use');
   }
-}
+};
 
-async function removeEmptyErrors(errors: string[]) {
+const removeEmptyErrors = async (errors: string[]) => {
   let arrayLength = errors.length;
   while (arrayLength--) {
     if (errors[arrayLength] === undefined) {
@@ -37,59 +42,59 @@ async function removeEmptyErrors(errors: string[]) {
     }
   }
   return errors;
-}
+};
 
-async function validateNotEmpty(value: string, name: string) {
+const validateNotEmpty = async (value: string, name: string) => {
   if (value === null || value === '' || value === undefined) {
     return `${name} must not be empty`;
   }
-}
+};
 
-async function validateLength(
+const validateLength = async (
   value: string,
   name: string,
   min: number,
   max: number
-) {
+) => {
   if (value.length < min || value.length > max) {
     return `${name} must be between ${min} and ${max} chracters`;
   }
-}
+};
 
-async function validateAgainstRegex(
+const validateAgainstRegex = async (
   value: string,
   name: string,
   regex: RegExp,
   message: string
-) {
+) => {
   if (regex.test(value)) {
     return `${name} ${message}`;
   }
-}
+};
 
-async function validateIsEmail(value: string) {
+const validateIsEmail = async (value: string) => {
   if (!EmailValidator.validate(value)) {
     return `Email must be valid`;
   }
-}
+};
 
-async function validateUserInputs(
+const validateUserInputs = async (
   username: string,
   firstName: string,
   email: string,
   password: string
-) {
-  let errors = [];
+) => {
+  const errors = [];
   // ... pushes items in array to array rather than array to array:
   errors.push(...(await validateInput(username, 'Username')));
   errors.push(...(await validateInput(firstName, 'First name')));
   errors.push(...(await validateInput(email, 'Email')));
   errors.push(...(await validateInput(password, 'Password')));
   return errors;
-}
+};
 
-async function validateInput(value: string, name: string) {
-  let localErrors = [];
+const validateInput = async (value: string, name: string) => {
+  const localErrors = [];
 
   switch (name) {
     case 'Username':
@@ -129,31 +134,30 @@ async function validateInput(value: string, name: string) {
       localErrors.push('Unexpected error');
   }
   return localErrors;
-}
+};
 
-async function checkUserExists(email: string) {
-  const params = {
-    TableName: process.env.USER_TABLE_NAME,
+const checkUserExists = async (email: string) => {
+  const params: DynamoDB.DocumentClient.GetItemInput = {
+    TableName: process.env.USER_TABLE_NAME!,
     Key: { email }
   };
 
   try {
-    const result = await dynamodb.get(params).promise();
-
+    const result = (await dynamodb.get(params).promise()) as { Item: any };
     return result.Item;
   } catch (e) {
     return createAWSResErr(404, e);
   }
-}
+};
 
-async function insertUserToDB(
+const insertUserToDB = async (
   username: string,
   firstName: string,
   email: string,
   password: string
-) {
-  const params = {
-    TableName: process.env.USER_TABLE_NAME,
+) => {
+  const params: DynamoDB.DocumentClient.PutItemInput = {
+    TableName: process.env.USER_TABLE_NAME!,
     Item: {
       username,
       firstName,
@@ -164,6 +168,6 @@ async function insertUserToDB(
   };
 
   return await dynamodb.put(params).promise();
-}
+};
 
 export const handler = middy(signup).use(cors());
