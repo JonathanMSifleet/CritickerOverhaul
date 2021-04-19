@@ -1,6 +1,3 @@
-// using webpack 4
-// see https://itnext.io/how-to-optimise-your-serverless-typescript-webpack-eslint-setup-for-performance-86d052284505
-
 const path = require('path');
 
 const nodeExternals = require('webpack-node-externals');
@@ -10,21 +7,20 @@ const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 module.exports = {
   context: __dirname,
   mode: 'development',
-  devtool: 'prod-quality-module-source-map',
+  devtool: 'eval-cheap-source-map',
   entry: {
     auth: './aws/handlers/auth.ts',
     deleteAccount: './aws/handlers/deleteAccount.ts',
     getAllReviews: './aws/handlers/getAllReviews.ts',
     getReview: './aws/handlers/getReview.ts',
     login: './aws/handlers/login.ts',
-    // postComment: './aws/handlers/postComment.ts',
     private: './aws/handlers/private.ts',
     public: './aws/handlers/public.ts',
     setReviewPicture: './aws/handlers/setReviewPicture.ts',
     signup: './aws/handlers/signup.ts'
   },
   resolve: {
-    extensions: ['.mjs', '.json', '.ts'],
+    extensions: ['.ts', '.tsx', '.json'],
     symlinks: true,
     cacheWithContext: false
   },
@@ -48,18 +44,17 @@ module.exports = {
         loader: 'ts-loader',
         exclude: [[/node_modules/], [/.serverless/], [/.webpack/]],
         options: {
-          transpileOnly: true,
-          experimentalWatchApi: true
+          transpileOnly: true
         }
       }
     ]
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin({
-      eslint: true,
-      eslintOptions: {
-        cache: true
-      }
+      eslint: {
+        files: './aws/**/*.{ts,tsx,js,jsx}'
+      },
+      typescript: true
     })
   ]
 };

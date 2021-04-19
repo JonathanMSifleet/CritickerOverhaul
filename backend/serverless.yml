@@ -10,7 +10,7 @@ provider:
   name: aws
   runtime: nodejs12.x
   apiGateway:
-    minimumCompressionSize: 1024 # Enable gzip compression for responses > 1 KB
+    minimumCompressionSize: 1024
   memorySize: 256
   provider.apiGateway.shouldStartNameWithService: true
   stage: ${opt:stage, 'dev'}
@@ -53,14 +53,6 @@ functions:
           path: review/{slug}/picture
           authorizer: ${self:custom.authorizer}
           cors: true
-  # postComment:
-  #   handler: aws/handlers/postComment.handler
-  #   events:
-  #     - http:
-  #         method: PATCH
-  #         path: review
-  #         authorizer: ${self:custom.authorizer}
-  #         cors: true
   getAllReviews:
     handler: aws/handlers/getAllReviews.handler
     events:
