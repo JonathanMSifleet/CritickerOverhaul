@@ -1,22 +1,24 @@
 module.exports = {
   extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
-    'standard',
-    'plugin:prettier/recommended'
+    'plugin:prettier/recommended',
+    'eslint-config-prettier'
   ],
   env: {
     node: true
   },
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'prettier'],
+  plugins: ['react', '@typescript-eslint', 'prettier'],
   settings: {
     'import/parsers': {
       '@typescript-eslint/parser': ['.ts', '.tsx']
     },
     'import/resolver': {
       typescript: {}
+    },
+    react: {
+      version: 'detect' // Tells eslint-plugin-react to automatically detect the version of React to use
     }
   },
   parserOptions: {
@@ -24,13 +26,16 @@ module.exports = {
     tsconfigRootDir: './',
     sourceType: 'module',
     ecmaVersion: 2020,
-    ecmaFeatures: { legacyDecorators: true }
+    ecmaFeatures: { jsx: true, legacyDecorators: true }
   },
   rules: {
-    // '@typescript-eslint/no-explicit-any': 'off',
-    'no-console': 0,
-    'no-spaced-func': 0,
-    'trailing-comma': false,
-    'prettier/prettier': 'error'
+    '@typescript-eslint/no-explicit-any': 'off',
+    'react/no-unescaped-entities': 0,
+    'react/jsx-first-prop-new-line': [2, 'multiline'],
+    'react/jsx-max-props-per-line': [2, { maximum: 1, when: 'multiline' }],
+    'react/jsx-indent-props': [2, 2],
+    'react/jsx-closing-bracket-location': [2, 'tag-aligned'],
+    '@typescript-eslint/ban-ts-comment': 'off',
+    '@typescript-eslint/no-non-null-assertion': 0
   }
 };
