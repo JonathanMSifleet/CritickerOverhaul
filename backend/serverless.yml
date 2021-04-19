@@ -1,5 +1,5 @@
 service:
-  name: AWSReviewWebsite
+  name: FinalYearProject
 
 plugins:
   - serverless-pseudo-parameters
@@ -8,7 +8,7 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs14.x
   apiGateway:
     minimumCompressionSize: 1024
   memorySize: 256
@@ -164,7 +164,7 @@ custom:
   webpack:
     webpackConfig: webpack.config.js
     includeModules: true
-  authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:AWSReviewWebsite-${self:provider.stage}-auth
+  authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:FinalYearProject-${self:provider.stage}-auth
   ReviewTable:
     name: !Ref ReviewTable
     arn: !GetAtt ReviewTable.Arn
@@ -176,7 +176,7 @@ custom:
   AngularBucket:
     name: angular-bucket-j5zca3nz-${self:provider.stage}
   BucketFolder:
-    name: AWSReviewWebsite
+    name: FinalYearProject
   AngularBucketTargetOrigin:
     name: S3-${self:custom.AngularBucket.name}/${self:custom.BucketFolder.name}
   bundle:
