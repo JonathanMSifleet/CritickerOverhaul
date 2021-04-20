@@ -26,7 +26,7 @@ export const setReviewPicture = async (event: {
 const deletePicture = async (filename: string) => {
   const params = {
     Bucket: process.env.REVIEW_BUCKET_NAME!,
-    Key: { filename }
+    Key: filename
   };
 
   try {

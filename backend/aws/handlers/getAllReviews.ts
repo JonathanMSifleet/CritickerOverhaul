@@ -1,13 +1,13 @@
+import middy from '@middy/core';
 import cors from '@middy/http-cors';
-import AWS from 'aws-sdk';
-import middy from 'middy';
-import { createAWSResErr } from '../shared/createAWSResErr';
+import AWS, { DynamoDB } from 'aws-sdk';
+import { createAWSResErr } from '../shared/functions/createAWSResErr';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 const getAllReviews = async () => {
-  const params = {
-    TableName: process.env.REVIEW_TABLE_NAME
+  const params: DynamoDB.DocumentClient.ScanInput = {
+    TableName: process.env.REVIEW_TABLE_NAME!
   };
 
   try {

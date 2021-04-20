@@ -1,4 +1,7 @@
-export const handler = async (event: any, context: any) => {
+import { APIGatewayEvent, Context } from 'aws-lambda';
+import IHTTP from '../shared/interfaces/IHTTP';
+
+export const handler = (event: APIGatewayEvent, context: Context): IHTTP => {
   return {
     statusCode: 200,
     headers: {

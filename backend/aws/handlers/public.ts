@@ -1,6 +1,6 @@
-import { Context } from 'aws-sdk';
+import IHTTP from '../shared/interfaces/IHTTP';
 
-export const handler = async (_event: any, _context: Context) => {
+export const handler = (): IHTTP => {
   return {
     statusCode: 200,
     headers: {

@@ -1,7 +1,8 @@
+import middy from '@middy/core';
 import cors from '@middy/http-cors';
+import { Context } from 'aws-lambda';
 import AWS, { DynamoDB } from 'aws-sdk';
 import EmailValidator from 'email-validator';
-import middy from 'middy';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 
 const dynamodb = new AWS.DynamoDB.DocumentClient();
