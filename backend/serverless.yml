@@ -172,9 +172,9 @@ custom:
     name: !Ref UserTable
     arn: !GetAtt UserTable.Arn
   ReviewBucket:
-    name: review-bucket-w3ygx8fd-${self:provider.stage}
+    name: review-bucket-xw23me9x-${self:provider.stage}
   AngularBucket:
-    name: angular-bucket-j5zca3nz-${self:provider.stage}
+    name: angular-bucket-t6aius2j-${self:provider.stage}
   BucketFolder:
     name: FinalYearProject
   AngularBucketTargetOrigin:

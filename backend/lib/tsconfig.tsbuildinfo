@@ -247,8 +247,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/@types/react/index.d.ts": {
-        "version": "5d708266116e778d6a4140fca2ac36f71d99b4c68bc3be63a45ba8bf5ade5348",
-        "signature": "5d708266116e778d6a4140fca2ac36f71d99b4c68bc3be63a45ba8bf5ade5348",
+        "version": "09f93eb1a5f70b195569f58a3d7852d64e3b293d773cd35f332079efc75ded56",
+        "signature": "09f93eb1a5f70b195569f58a3d7852d64e3b293d773cd35f332079efc75ded56",
         "affectsGlobalScope": true
       },
       "../../node_modules/@types/react/jsx-runtime.d.ts": {
@@ -256,24 +256,489 @@
         "signature": "af7fd2870746deed40e130fc0a3966de74e8f52a97ec114d0fbb35876ab05ca9",
         "affectsGlobalScope": false
       },
-      "../aws/sharedFunctions/createAWSResErr.ts": {
-        "version": "3c62af7f47fe9490f822448609feb7827d261542c58d8b5f4e5de7e45b6be268",
-        "signature": "a23322cbbe3c97b26288a78d9d47ec7c1e0063d36f42a1d22a4d2784ecf4a853",
+      "../../node_modules/@types/node/globals.d.ts": {
+        "version": "25b4a0c4fab47c373ee49df4c239826ee3430019fc0c1b5e59edc3e398b7468d",
+        "signature": "25b4a0c4fab47c373ee49df4c239826ee3430019fc0c1b5e59edc3e398b7468d",
+        "affectsGlobalScope": true
+      },
+      "../../node_modules/@types/node/async_hooks.d.ts": {
+        "version": "e23424b97418eca3226fd24de079f1203eb70360622e4e093af2aff14d4be6ec",
+        "signature": "e23424b97418eca3226fd24de079f1203eb70360622e4e093af2aff14d4be6ec",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/buffer.d.ts": {
+        "version": "a473cf45c3d9809518f8af913312139d9f4db6887dc554e0d06d0f4e52722e6b",
+        "signature": "a473cf45c3d9809518f8af913312139d9f4db6887dc554e0d06d0f4e52722e6b",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/child_process.d.ts": {
+        "version": "a668dfae917097b30fc29bbebeeb869cee22529f2aa9976cea03c7e834a1b841",
+        "signature": "a668dfae917097b30fc29bbebeeb869cee22529f2aa9976cea03c7e834a1b841",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/cluster.d.ts": {
+        "version": "04eaa93bd75f937f9184dcb95a7983800c5770cf8ddd8ac0f3734dc02f5b20ef",
+        "signature": "04eaa93bd75f937f9184dcb95a7983800c5770cf8ddd8ac0f3734dc02f5b20ef",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/console.d.ts": {
+        "version": "c8155caf28fc7b0a564156a5df28ad8a844a3bd32d331d148d8f3ce88025c870",
+        "signature": "c8155caf28fc7b0a564156a5df28ad8a844a3bd32d331d148d8f3ce88025c870",
+        "affectsGlobalScope": true
+      },
+      "../../node_modules/@types/node/constants.d.ts": {
+        "version": "45ac321f2e15d268fd74a90ddaa6467dcaaff2c5b13f95b4b85831520fb7a491",
+        "signature": "45ac321f2e15d268fd74a90ddaa6467dcaaff2c5b13f95b4b85831520fb7a491",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/crypto.d.ts": {
+        "version": "aab38abd210255237d4dc101c9e5b5f8d746fd75aeb30cc77b6a4d322b06693d",
+        "signature": "aab38abd210255237d4dc101c9e5b5f8d746fd75aeb30cc77b6a4d322b06693d",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/dgram.d.ts": {
+        "version": "797a9d37eb1f76143311c3f0a186ce5c0d8735e94c0ca08ff8712a876c9b4f9e",
+        "signature": "797a9d37eb1f76143311c3f0a186ce5c0d8735e94c0ca08ff8712a876c9b4f9e",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/dns.d.ts": {
+        "version": "bc31e01146eec89eb870b9ad8c55d759bcbc8989a894e6f0f81f832e0d10eb04",
+        "signature": "bc31e01146eec89eb870b9ad8c55d759bcbc8989a894e6f0f81f832e0d10eb04",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/domain.d.ts": {
+        "version": "2866a528b2708aa272ec3eaafd3c980abb23aec1ef831cfc5eb2186b98c37ce5",
+        "signature": "2866a528b2708aa272ec3eaafd3c980abb23aec1ef831cfc5eb2186b98c37ce5",
+        "affectsGlobalScope": true
+      },
+      "../../node_modules/@types/node/events.d.ts": {
+        "version": "153d835dc32985120790e10102834b0a5bd979bb5e42bfbb33c0ff6260cf03ce",
+        "signature": "153d835dc32985120790e10102834b0a5bd979bb5e42bfbb33c0ff6260cf03ce",
+        "affectsGlobalScope": true
+      },
+      "../../node_modules/@types/node/fs.d.ts": {
+        "version": "a44c87a409b60f211a240341905d818f5f173420dcf7f989ee6c8a1a3d812ae9",
+        "signature": "a44c87a409b60f211a240341905d818f5f173420dcf7f989ee6c8a1a3d812ae9",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/fs/promises.d.ts": {
+        "version": "bdaf554ae2d9d09e2a42f58a29ef7f80e5b5c1d7b96bfb717243dc91a477216e",
+        "signature": "bdaf554ae2d9d09e2a42f58a29ef7f80e5b5c1d7b96bfb717243dc91a477216e",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/http.d.ts": {
+        "version": "ea194ae7fee69ab77ee0ff7b7f35227eb09515583f6c08988a59fa65661af990",
+        "signature": "ea194ae7fee69ab77ee0ff7b7f35227eb09515583f6c08988a59fa65661af990",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/http2.d.ts": {
+        "version": "321ea733ae7f611077a2d7b4bc378ac4a6b7e365e1a51c71a7e5b2818e1e310a",
+        "signature": "321ea733ae7f611077a2d7b4bc378ac4a6b7e365e1a51c71a7e5b2818e1e310a",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/https.d.ts": {
+        "version": "13257840c0850d4ebd7c2b17604a9e006f752de76c2400ebc752bc465c330452",
+        "signature": "13257840c0850d4ebd7c2b17604a9e006f752de76c2400ebc752bc465c330452",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/inspector.d.ts": {
+        "version": "42176966283d3835c34278b9b5c0f470d484c0c0c6a55c20a2c916a1ce69b6e8",
+        "signature": "42176966283d3835c34278b9b5c0f470d484c0c0c6a55c20a2c916a1ce69b6e8",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/module.d.ts": {
+        "version": "0cff7901aedfe78e314f7d44088f07e2afa1b6e4f0473a4169b8456ca2fb245d",
+        "signature": "0cff7901aedfe78e314f7d44088f07e2afa1b6e4f0473a4169b8456ca2fb245d",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/net.d.ts": {
+        "version": "ae7b9d7ab1652cc1866ba6e269d0eeaf1708d07327714124ed2cbd059f5e4766",
+        "signature": "ae7b9d7ab1652cc1866ba6e269d0eeaf1708d07327714124ed2cbd059f5e4766",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/os.d.ts": {
+        "version": "69640cc2e76dad52daeb9914e6b70c5c9a5591a3a65190a2d3ea432cf0015e16",
+        "signature": "69640cc2e76dad52daeb9914e6b70c5c9a5591a3a65190a2d3ea432cf0015e16",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/path.d.ts": {
+        "version": "21e64a125f65dff99cc3ed366c96e922b90daed343eb52ecdace5f220401dcda",
+        "signature": "21e64a125f65dff99cc3ed366c96e922b90daed343eb52ecdace5f220401dcda",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/perf_hooks.d.ts": {
+        "version": "4982d94cb6427263c8839d8d6324a8bbe129e931deb61a7380f8fad17ba2cfc0",
+        "signature": "4982d94cb6427263c8839d8d6324a8bbe129e931deb61a7380f8fad17ba2cfc0",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/process.d.ts": {
+        "version": "b0b00cf2e8107ab671243a73d2fbd6296a853bebe3fcfaaca293f65aaa245eaf",
+        "signature": "b0b00cf2e8107ab671243a73d2fbd6296a853bebe3fcfaaca293f65aaa245eaf",
+        "affectsGlobalScope": true
+      },
+      "../../node_modules/@types/node/punycode.d.ts": {
+        "version": "7f77304372efe3c9967e5f9ea2061f1b4bf41dc3cda3c83cdd676f2e5af6b7e6",
+        "signature": "7f77304372efe3c9967e5f9ea2061f1b4bf41dc3cda3c83cdd676f2e5af6b7e6",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/querystring.d.ts": {
+        "version": "992c6f6be16c0a1d2eec13ece33adeea2c747ba27fcd078353a8f4bb5b4fea58",
+        "signature": "992c6f6be16c0a1d2eec13ece33adeea2c747ba27fcd078353a8f4bb5b4fea58",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/readline.d.ts": {
+        "version": "3b790d08129aca55fd5ae1672d1d26594147ac0d5f2eedc30c7575eb18daef7e",
+        "signature": "3b790d08129aca55fd5ae1672d1d26594147ac0d5f2eedc30c7575eb18daef7e",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/repl.d.ts": {
+        "version": "a6b0abdb67d63ebe964ba5fee31bc3daf10c12eecd46b24d778426010c04c67e",
+        "signature": "a6b0abdb67d63ebe964ba5fee31bc3daf10c12eecd46b24d778426010c04c67e",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/stream.d.ts": {
+        "version": "e7b5a3f40f19d9eea71890c70dfb37ac5dd82cbffe5f95bc8f23c536455732d0",
+        "signature": "e7b5a3f40f19d9eea71890c70dfb37ac5dd82cbffe5f95bc8f23c536455732d0",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/string_decoder.d.ts": {
+        "version": "4fd3c4debadce3e9ab9dec3eb45f7f5e2e3d4ad65cf975a6d938d883cfb25a50",
+        "signature": "4fd3c4debadce3e9ab9dec3eb45f7f5e2e3d4ad65cf975a6d938d883cfb25a50",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/timers.d.ts": {
+        "version": "0953427f9c2498f71dd912fdd8a81b19cf6925de3e1ad67ab9a77b9a0f79bf0b",
+        "signature": "0953427f9c2498f71dd912fdd8a81b19cf6925de3e1ad67ab9a77b9a0f79bf0b",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/tls.d.ts": {
+        "version": "f89a6d56f0267f6e73c707f8a89d2f38e9928e10bfa505f39a4f4bf954093aee",
+        "signature": "f89a6d56f0267f6e73c707f8a89d2f38e9928e10bfa505f39a4f4bf954093aee",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/trace_events.d.ts": {
+        "version": "7df562288f949945cf69c21cd912100c2afedeeb7cdb219085f7f4b46cb7dde4",
+        "signature": "7df562288f949945cf69c21cd912100c2afedeeb7cdb219085f7f4b46cb7dde4",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/tty.d.ts": {
+        "version": "9d16690485ff1eb4f6fc57aebe237728fd8e03130c460919da3a35f4d9bd97f5",
+        "signature": "9d16690485ff1eb4f6fc57aebe237728fd8e03130c460919da3a35f4d9bd97f5",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/url.d.ts": {
+        "version": "dcc6910d95a3625fd2b0487fda055988e46ab46c357a1b3618c27b4a8dd739c9",
+        "signature": "dcc6910d95a3625fd2b0487fda055988e46ab46c357a1b3618c27b4a8dd739c9",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/util.d.ts": {
+        "version": "e649840284bab8c4d09cadc125cd7fbde7529690cc1a0881872b6a9cd202819b",
+        "signature": "e649840284bab8c4d09cadc125cd7fbde7529690cc1a0881872b6a9cd202819b",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/v8.d.ts": {
+        "version": "a364b4a8a015ae377052fa4fac94204d79a69d879567f444c7ceff1b7a18482d",
+        "signature": "a364b4a8a015ae377052fa4fac94204d79a69d879567f444c7ceff1b7a18482d",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/vm.d.ts": {
+        "version": "60c9e27816ec8ac8df7240598bb086e95b47edfb454c5cbf4003c812e0ed6e39",
+        "signature": "60c9e27816ec8ac8df7240598bb086e95b47edfb454c5cbf4003c812e0ed6e39",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/worker_threads.d.ts": {
+        "version": "6c63cb179eda2be5ab45dc146fa4151bec8ce4781986935fe40adfc69cbbf214",
+        "signature": "6c63cb179eda2be5ab45dc146fa4151bec8ce4781986935fe40adfc69cbbf214",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/zlib.d.ts": {
+        "version": "4926467de88a92a4fc9971d8c6f21b91eca1c0e7fc2a46cc4638ab9440c73875",
+        "signature": "4926467de88a92a4fc9971d8c6f21b91eca1c0e7fc2a46cc4638ab9440c73875",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/globals.global.d.ts": {
+        "version": "2708349d5a11a5c2e5f3a0765259ebe7ee00cdcc8161cb9990cb4910328442a1",
+        "signature": "2708349d5a11a5c2e5f3a0765259ebe7ee00cdcc8161cb9990cb4910328442a1",
+        "affectsGlobalScope": true
+      },
+      "../../node_modules/@types/node/wasi.d.ts": {
+        "version": "4e0a4d84b15692ea8669fe4f3d05a4f204567906b1347da7a58b75f45bae48d3",
+        "signature": "4e0a4d84b15692ea8669fe4f3d05a4f204567906b1347da7a58b75f45bae48d3",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/ts3.6/base.d.ts": {
+        "version": "ae68a04912ee5a0f589276f9ec60b095f8c40d48128a4575b3fdd7d93806931c",
+        "signature": "ae68a04912ee5a0f589276f9ec60b095f8c40d48128a4575b3fdd7d93806931c",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/assert.d.ts": {
+        "version": "b3593bd345ebea5e4d0a894c03251a3774b34df3d6db57075c18e089a599ba76",
+        "signature": "b3593bd345ebea5e4d0a894c03251a3774b34df3d6db57075c18e089a599ba76",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/base.d.ts": {
+        "version": "e61a21e9418f279bc480394a94d1581b2dee73747adcbdef999b6737e34d721b",
+        "signature": "e61a21e9418f279bc480394a94d1581b2dee73747adcbdef999b6737e34d721b",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/node/index.d.ts": {
+        "version": "49daf80661034e07d919f1c716aef69324e34d18a63a282f8100f52c961b58a7",
+        "signature": "49daf80661034e07d919f1c716aef69324e34d18a63a282f8100f52c961b58a7",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/jsonwebtoken/index.d.ts": {
+        "version": "82cffc446a000271c34cdf657c5aaa397c87183762431efe5e09660979cce586",
+        "signature": "82cffc446a000271c34cdf657c5aaa397c87183762431efe5e09660979cce586",
+        "affectsGlobalScope": false
+      },
+      "../aws/shared/interfaces/IHTTP.ts": {
+        "version": "0c62deaf8a925d010b8fd65f54b948a29fcaa04c51b6e2bdeee9e7f74ab40966",
+        "signature": "ec4256d64d01ddb20c188f0116410f1661f0417375c86858c825ef2d5b612a44",
+        "affectsGlobalScope": false
+      },
+      "../aws/shared/functions/createAWSResErr.ts": {
+        "version": "83281a349ec982c845805aab874f43ebc2cd9c00b69895d324eac5b4742e6cb3",
+        "signature": "4ae4efab948239b0a2fbfad5afd9cca07246b6d80ad9f83dcc18ac30eb6917a3",
         "affectsGlobalScope": false
       },
       "../aws/handlers/auth.ts": {
-        "version": "727c7c5aa7f82dd7b5218825610593e3b8e93c98998d04e0cb24be7d7a95d5d0",
-        "signature": "c1e89c4c94cc96cbea5a309e7dd0c2a18999ff46d7b0adbe10547c6df97b29d5",
+        "version": "92548bf1c9750702845dabf4e2951aae65caf2fdf93497cb29e9fef0e0ed0946",
+        "signature": "569506cd5b25b8b739d59acb5ebe53e7868ebc4bc54d191f27eb54e9eeb65171",
         "affectsGlobalScope": false
       },
-      "../aws/handlers/deleteAccount.ts": {
-        "version": "0b327dc5d9027a9b38f0d14c67294d3c4e6764efdd6ccd4c396b357d7d73fa74",
-        "signature": "71aeeb6d027cef27f7f348e451e9fad5dc836f0669481d7f2ff04fcb399d4416",
+      "../../node_modules/@types/aws-lambda/handler.d.ts": {
+        "version": "6d366f0f11c05a273060e686ea770c869e9d7b9aa2ba8a40b8bce3de82bd183f",
+        "signature": "6d366f0f11c05a273060e686ea770c869e9d7b9aa2ba8a40b8bce3de82bd183f",
         "affectsGlobalScope": false
       },
-      "../aws/handlers/getAllReviews.ts": {
-        "version": "577cf9a7795bfca0f8617ac5e5614c5ee3f0f6c7ba980092b52c1990ec2b8788",
-        "signature": "71aeeb6d027cef27f7f348e451e9fad5dc836f0669481d7f2ff04fcb399d4416",
+      "../../node_modules/@types/aws-lambda/common/api-gateway.d.ts": {
+        "version": "145bdd6eb032a800b625f8a03ed454e86ec82e9043ebc5daa443181f8a0a19c5",
+        "signature": "145bdd6eb032a800b625f8a03ed454e86ec82e9043ebc5daa443181f8a0a19c5",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/common/cloudfront.d.ts": {
+        "version": "2c797c3cd77017ea810b8f324ffa354af0d5d4f4693eed3740ebd144ec66c5d0",
+        "signature": "2c797c3cd77017ea810b8f324ffa354af0d5d4f4693eed3740ebd144ec66c5d0",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/alb.d.ts": {
+        "version": "72dc564d9b9ce07e2fe333396656bd4cde1378e473c3c8220979c778bc277897",
+        "signature": "72dc564d9b9ce07e2fe333396656bd4cde1378e473c3c8220979c778bc277897",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/api-gateway-authorizer.d.ts": {
+        "version": "1db77b70f2314e470ef0717c02fe165cef07fdd57bbb90aebaf31dc92a6e9054",
+        "signature": "1db77b70f2314e470ef0717c02fe165cef07fdd57bbb90aebaf31dc92a6e9054",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/api-gateway-proxy.d.ts": {
+        "version": "510d11b8fe5916cdd859af9aec4d1a8642aa426f50c4a71e45ceb7e9dd5d3e32",
+        "signature": "510d11b8fe5916cdd859af9aec4d1a8642aa426f50c4a71e45ceb7e9dd5d3e32",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/appsync-resolver.d.ts": {
+        "version": "861c713b8060998b826a9edcc1b15c25c3784a0b620d8407718ab2ecfd104265",
+        "signature": "861c713b8060998b826a9edcc1b15c25c3784a0b620d8407718ab2ecfd104265",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/cloudformation-custom-resource.d.ts": {
+        "version": "a88df8c14fe431e22abe399ea2acfacf1c552c1fa16cc7e2b66d81180f3001ea",
+        "signature": "a88df8c14fe431e22abe399ea2acfacf1c552c1fa16cc7e2b66d81180f3001ea",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/cloudfront-request.d.ts": {
+        "version": "d12b75f884942952f25c2e9d27d4ac149e518286167c78a292deb89b59f65b22",
+        "signature": "d12b75f884942952f25c2e9d27d4ac149e518286167c78a292deb89b59f65b22",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/cloudfront-response.d.ts": {
+        "version": "0dad26ffdf5cae28cb67ac9c0ce06c7ec732001b01046f47eeaa4ee5a3655f5d",
+        "signature": "0dad26ffdf5cae28cb67ac9c0ce06c7ec732001b01046f47eeaa4ee5a3655f5d",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/eventbridge.d.ts": {
+        "version": "a3083d0ef2ab7bd00f400ce61035ab38f211cd848ebca9164d7410afeed9fad7",
+        "signature": "a3083d0ef2ab7bd00f400ce61035ab38f211cd848ebca9164d7410afeed9fad7",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/cloudwatch-events.d.ts": {
+        "version": "4194cc6e823aa830a71c733b18d0de1c29323b102c6460e9fe835ac5f8b8a9ba",
+        "signature": "4194cc6e823aa830a71c733b18d0de1c29323b102c6460e9fe835ac5f8b8a9ba",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/cloudwatch-logs.d.ts": {
+        "version": "564f20cc47ce1ea2b8784a1f5117c66838d10b770851d4325f79c1b451a7c3f5",
+        "signature": "564f20cc47ce1ea2b8784a1f5117c66838d10b770851d4325f79c1b451a7c3f5",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/codebuild-cloudwatch-state.d.ts": {
+        "version": "df0e79fd71b86b3f4a612c862238c1169e3eb8fceaef68ef090e04b66b04445c",
+        "signature": "df0e79fd71b86b3f4a612c862238c1169e3eb8fceaef68ef090e04b66b04445c",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/codepipeline.d.ts": {
+        "version": "126cdd1c40798a3101234f838fe0be59dec0c01b97d43b113c766a31918ef9b0",
+        "signature": "126cdd1c40798a3101234f838fe0be59dec0c01b97d43b113c766a31918ef9b0",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-action.d.ts": {
+        "version": "f4922a1814e47fdb4d93c2cf27968ea30c174e04d4a3374774046a9307dbbaf0",
+        "signature": "f4922a1814e47fdb4d93c2cf27968ea30c174e04d4a3374774046a9307dbbaf0",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-pipeline.d.ts": {
+        "version": "bfff1bb349423cc262a88775d8233f7ea2b87d66ba1f0631eec0c30bea097dd5",
+        "signature": "bfff1bb349423cc262a88775d8233f7ea2b87d66ba1f0631eec0c30bea097dd5",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-stage.d.ts": {
+        "version": "a177f76c040e29b9c31adfc93225c273828ff784b592bf56c6131771e624f628",
+        "signature": "a177f76c040e29b9c31adfc93225c273828ff784b592bf56c6131771e624f628",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch.d.ts": {
+        "version": "06236dfec90a14b0c3db8249831069ea3f90b004d73d496a559a4466e5a344a4",
+        "signature": "06236dfec90a14b0c3db8249831069ea3f90b004d73d496a559a4466e5a344a4",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts": {
+        "version": "436992b7035b789a73baf1f51d66a64c218badcf1e17edd67dcb44fe6d3d009e",
+        "signature": "436992b7035b789a73baf1f51d66a64c218badcf1e17edd67dcb44fe6d3d009e",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/create-auth-challenge.d.ts": {
+        "version": "c1a4394c95ed285f9108d293b19572edf21c1b29125f8a17e85f8375054f5645",
+        "signature": "c1a4394c95ed285f9108d293b19572edf21c1b29125f8a17e85f8375054f5645",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/custom-message.d.ts": {
+        "version": "3070ce9849d477db20a1e6b03a430c4340e91ea3b048b2afbfb7d21d36d553d1",
+        "signature": "3070ce9849d477db20a1e6b03a430c4340e91ea3b048b2afbfb7d21d36d553d1",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/custom-email-sender.d.ts": {
+        "version": "e9ffab2434fd9963052f973bf9375b82f0f5aaf5ef430eee393add2f899692af",
+        "signature": "e9ffab2434fd9963052f973bf9375b82f0f5aaf5ef430eee393add2f899692af",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/define-auth-challenge.d.ts": {
+        "version": "335b1f84324d637d116d8b7c430dfb80bf96c90c54aedaa133d43e805e41f6c6",
+        "signature": "335b1f84324d637d116d8b7c430dfb80bf96c90c54aedaa133d43e805e41f6c6",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/post-authentication.d.ts": {
+        "version": "f7fc1c5f6c6b4e78879225e83d35775e1fd54accffce10526bab0434f9096ab4",
+        "signature": "f7fc1c5f6c6b4e78879225e83d35775e1fd54accffce10526bab0434f9096ab4",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/post-confirmation.d.ts": {
+        "version": "51099791f268d0ca2763789d3d0a01c05c8e064b7ff7eb468e8d2be25b277c8d",
+        "signature": "51099791f268d0ca2763789d3d0a01c05c8e064b7ff7eb468e8d2be25b277c8d",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/pre-authentication.d.ts": {
+        "version": "37a51347f3dccdeef5d8a40dab80b2e5a115465f7bb4268a042947e3a5c55187",
+        "signature": "37a51347f3dccdeef5d8a40dab80b2e5a115465f7bb4268a042947e3a5c55187",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/pre-signup.d.ts": {
+        "version": "5ff48985020588ec458560204aa20862faf4ea5f0c139c7d57264babc3e4a7c5",
+        "signature": "5ff48985020588ec458560204aa20862faf4ea5f0c139c7d57264babc3e4a7c5",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/pre-token-generation.d.ts": {
+        "version": "99eadde7ee869925e07537b978a7716eb2c852598ad49ca5889fe638d7cc6b5d",
+        "signature": "99eadde7ee869925e07537b978a7716eb2c852598ad49ca5889fe638d7cc6b5d",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/user-migration.d.ts": {
+        "version": "405bb4cc7a0ca92a73b99e06838ab08fae8b9e0a138e48d6cd15ed009d275275",
+        "signature": "405bb4cc7a0ca92a73b99e06838ab08fae8b9e0a138e48d6cd15ed009d275275",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/verify-auth-challenge-response.d.ts": {
+        "version": "e67bda6aa3fc9f8f19ea9dc66de06025c5525919c7134fe1f9ede4ed174476aa",
+        "signature": "e67bda6aa3fc9f8f19ea9dc66de06025c5525919c7134fe1f9ede4ed174476aa",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/index.d.ts": {
+        "version": "beb8c24ac2dd4256f392d6cd878e6e9b288e7ab654e3310dc68c5e74a936f6f2",
+        "signature": "beb8c24ac2dd4256f392d6cd878e6e9b288e7ab654e3310dc68c5e74a936f6f2",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/connect-contact-flow.d.ts": {
+        "version": "b12effb4e275d1e3516506c030f4046283cc7a4d7e2b4e316b4397446444aa22",
+        "signature": "b12effb4e275d1e3516506c030f4046283cc7a4d7e2b4e316b4397446444aa22",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/dynamodb-stream.d.ts": {
+        "version": "de92ccb3b28e3c059cba235188d687743270d5a82b5b521e914e45be4dccf169",
+        "signature": "de92ccb3b28e3c059cba235188d687743270d5a82b5b521e914e45be4dccf169",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/iot.d.ts": {
+        "version": "66738976a7aa2d5fb2770a1b689f8bc643af958f836b7bc08e412d4092de3ab9",
+        "signature": "66738976a7aa2d5fb2770a1b689f8bc643af958f836b7bc08e412d4092de3ab9",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/kinesis-firehose-transformation.d.ts": {
+        "version": "0cae9cd75264a10fab3a1beb5c78070fdfa964117064f2d8d95818b4391cd465",
+        "signature": "0cae9cd75264a10fab3a1beb5c78070fdfa964117064f2d8d95818b4391cd465",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/kinesis-stream.d.ts": {
+        "version": "ea7abdaf48601d8d84e0962f628f61d3738637ff26f2362c90f514a337bc8305",
+        "signature": "ea7abdaf48601d8d84e0962f628f61d3738637ff26f2362c90f514a337bc8305",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/lex.d.ts": {
+        "version": "c05725e489b642c7b8feb7dac47bdde4075655405f0d9f1d28761176cbe4bd7c",
+        "signature": "c05725e489b642c7b8feb7dac47bdde4075655405f0d9f1d28761176cbe4bd7c",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/s3.d.ts": {
+        "version": "cf4eaba5fbc5d8a451480bd6b5e1439edfc3fbc0a7be8fca33d1d6078514b2ee",
+        "signature": "cf4eaba5fbc5d8a451480bd6b5e1439edfc3fbc0a7be8fca33d1d6078514b2ee",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/s3-batch.d.ts": {
+        "version": "47ffa0bd85219fa1551c7cb128e3e1b44f980c9eb5baee26b0164db191ab917b",
+        "signature": "47ffa0bd85219fa1551c7cb128e3e1b44f980c9eb5baee26b0164db191ab917b",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/ses.d.ts": {
+        "version": "8c1b8d086ae2b780328ca36a6ae7c5f8ffd5be765ef17c8f73b03425e388085d",
+        "signature": "8c1b8d086ae2b780328ca36a6ae7c5f8ffd5be765ef17c8f73b03425e388085d",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/sns.d.ts": {
+        "version": "33db1b492d92effbcc562388b6d448e28e8304d6a926f513dd760a6bc4cba2b3",
+        "signature": "33db1b492d92effbcc562388b6d448e28e8304d6a926f513dd760a6bc4cba2b3",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/sqs.d.ts": {
+        "version": "1d5690b86bc265d65446675bd52c29d502bad14702aa356e0cbf87341c7e2193",
+        "signature": "1d5690b86bc265d65446675bd52c29d502bad14702aa356e0cbf87341c7e2193",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/trigger/msk.d.ts": {
+        "version": "b7917163a8867f4c952a8968ae0157bb52461b739ae96727e36699715f9b014f",
+        "signature": "b7917163a8867f4c952a8968ae0157bb52461b739ae96727e36699715f9b014f",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/aws-lambda/index.d.ts": {
+        "version": "279aaf653a0d8b30854be4eb5ecea8cfa50b5985dcb08a30560c4e5712d64434",
+        "signature": "279aaf653a0d8b30854be4eb5ecea8cfa50b5985dcb08a30560c4e5712d64434",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@middy/core/index.d.ts": {
+        "version": "ae71216250617d5117a5cf0e939abeffa05042a11d4138480e8a5651abd18e62",
+        "signature": "ae71216250617d5117a5cf0e939abeffa05042a11d4138480e8a5651abd18e62",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@middy/http-cors/index.d.ts": {
+        "version": "6e576bc405d632500285bcecec4d1b344e256eadf601632e34fba9c06be4e334",
+        "signature": "6e576bc405d632500285bcecec4d1b344e256eadf601632e34fba9c06be4e334",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/lib/error.d.ts": {
@@ -347,8 +812,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/autoscaling.d.ts": {
-        "version": "e75b5a6a9653091fb9dc6664313eabdb482b71f66b928ce3a7df832a499a2612",
-        "signature": "e75b5a6a9653091fb9dc6664313eabdb482b71f66b928ce3a7df832a499a2612",
+        "version": "13e8a3f91dfad721ea56f6e70857f8655dae4afd47be6583ea3ebb393ac020b5",
+        "signature": "13e8a3f91dfad721ea56f6e70857f8655dae4afd47be6583ea3ebb393ac020b5",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/batch.d.ts": {
@@ -367,8 +832,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/cloudformation.d.ts": {
-        "version": "0f6c439908126270bd5e1491e60cef3c49d5d9ce9b008fd633a94cbd03967e09",
-        "signature": "0f6c439908126270bd5e1491e60cef3c49d5d9ce9b008fd633a94cbd03967e09",
+        "version": "d24dacff8ce26a95f38e030356cb28ad2fadb3999678068c190fe9f2309413f9",
+        "signature": "d24dacff8ce26a95f38e030356cb28ad2fadb3999678068c190fe9f2309413f9",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/lib/cloudfront/signer.d.ts": {
@@ -382,8 +847,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/cloudfront.d.ts": {
-        "version": "22424d0cf6da8e8dce0f00700665959914b1c85c2cc4fec6cb0e0c4d7ebff62c",
-        "signature": "22424d0cf6da8e8dce0f00700665959914b1c85c2cc4fec6cb0e0c4d7ebff62c",
+        "version": "2bc014ac83ae90aca12f1fc93f1b766663191d0c88b80412304afa59c998490a",
+        "signature": "2bc014ac83ae90aca12f1fc93f1b766663191d0c88b80412304afa59c998490a",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/cloudhsm.d.ts": {
@@ -417,8 +882,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/cloudwatchlogs.d.ts": {
-        "version": "90e267e6df43aae7b600a7fc534a4941708b4fd55b6eaac7c948b99b5b204bf9",
-        "signature": "90e267e6df43aae7b600a7fc534a4941708b4fd55b6eaac7c948b99b5b204bf9",
+        "version": "c18cf7665e657a3418811faf1d03cf8bc606b673ba42ae68c7542b5512bf63ea",
+        "signature": "c18cf7665e657a3418811faf1d03cf8bc606b673ba42ae68c7542b5512bf63ea",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/codebuild.d.ts": {
@@ -447,8 +912,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/cognitoidentityserviceprovider.d.ts": {
-        "version": "e82195bc6b561297463d9d3525ae713689c3622dd5d9df354da3372cd4ba79dc",
-        "signature": "e82195bc6b561297463d9d3525ae713689c3622dd5d9df354da3372cd4ba79dc",
+        "version": "c467059b26555e35915a0c33386ae48ed59dd600375fc072c77acb189935ff14",
+        "signature": "c467059b26555e35915a0c33386ae48ed59dd600375fc072c77acb189935ff14",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/cognitosync.d.ts": {
@@ -472,8 +937,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/devicefarm.d.ts": {
-        "version": "ab1e6bcc05b708796c08d816d6f5f34cc0826df56d53144ef82615ae2c31a23b",
-        "signature": "ab1e6bcc05b708796c08d816d6f5f34cc0826df56d53144ef82615ae2c31a23b",
+        "version": "82bb6f56bfdf01ca320fd9f793f66e64fdfa7c8f3ed770f85b4bf5f8bbc6572e",
+        "signature": "82bb6f56bfdf01ca320fd9f793f66e64fdfa7c8f3ed770f85b4bf5f8bbc6572e",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/directconnect.d.ts": {
@@ -522,8 +987,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/ec2.d.ts": {
-        "version": "1b33de03f7ddbb5566819842fd26df217e6d89f9425974a9cb5c280905eec5e8",
-        "signature": "1b33de03f7ddbb5566819842fd26df217e6d89f9425974a9cb5c280905eec5e8",
+        "version": "6da778af65f27482422b516283eed2689babb119b51eaed05c1eed1874640cd8",
+        "signature": "6da778af65f27482422b516283eed2689babb119b51eaed05c1eed1874640cd8",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/ecr.d.ts": {
@@ -532,18 +997,18 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/ecs.d.ts": {
-        "version": "29f5cd178671be7740b3ff51d4dd3ed0d1d4cadb84f247457cd4774ea4aa48a0",
-        "signature": "29f5cd178671be7740b3ff51d4dd3ed0d1d4cadb84f247457cd4774ea4aa48a0",
+        "version": "757419357467a55db24cc99b71dffcc2ba67580a9054cdd539a1612b275a4752",
+        "signature": "757419357467a55db24cc99b71dffcc2ba67580a9054cdd539a1612b275a4752",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/efs.d.ts": {
-        "version": "10dbf0fa1d558474b39f3e660b30389cb6643f934e749f9a846017d53f0e2caf",
-        "signature": "10dbf0fa1d558474b39f3e660b30389cb6643f934e749f9a846017d53f0e2caf",
+        "version": "21305c19ab3fec96d67e64f4857db83e92acf2bc5e0668143b1988d1597bcade",
+        "signature": "21305c19ab3fec96d67e64f4857db83e92acf2bc5e0668143b1988d1597bcade",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/elasticache.d.ts": {
-        "version": "46a4d088d43e6c22cbc876685e9f470280eedddf22243efba9fb80d33ff83a60",
-        "signature": "46a4d088d43e6c22cbc876685e9f470280eedddf22243efba9fb80d33ff83a60",
+        "version": "2e07706e9f0c21f47eac290eb0b994a139838a17c2b18f2b27a6d20eb302ddae",
+        "signature": "2e07706e9f0c21f47eac290eb0b994a139838a17c2b18f2b27a6d20eb302ddae",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/elasticbeanstalk.d.ts": {
@@ -567,8 +1032,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/es.d.ts": {
-        "version": "1ede536b8973e710cf534693ca51e29482908b3aa202b45a735a367faf8c0379",
-        "signature": "1ede536b8973e710cf534693ca51e29482908b3aa202b45a735a367faf8c0379",
+        "version": "d7182d1e8b554e197fe1becdbf790a437323818658ca93dca559ec26966d524f",
+        "signature": "d7182d1e8b554e197fe1becdbf790a437323818658ca93dca559ec26966d524f",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/elastictranscoder.d.ts": {
@@ -597,13 +1062,13 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/health.d.ts": {
-        "version": "6899885e0117316cff4ba26ae70e7525d3ee9de5d3c180abd16d607ca191c38c",
-        "signature": "6899885e0117316cff4ba26ae70e7525d3ee9de5d3c180abd16d607ca191c38c",
+        "version": "0502f40b5ef10eaeff27f9863d01a0e1fcb0666a4c455aa97e3fbee9d8fdd32b",
+        "signature": "0502f40b5ef10eaeff27f9863d01a0e1fcb0666a4c455aa97e3fbee9d8fdd32b",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/iam.d.ts": {
-        "version": "8b468d0cdeb6ef3e07e623ea00af05930261486c58ea2543bf25062996dc80eb",
-        "signature": "8b468d0cdeb6ef3e07e623ea00af05930261486c58ea2543bf25062996dc80eb",
+        "version": "6b69132423ee69264094eaa8549abb6f5d83001f42de3547aa64b03cb5c00f62",
+        "signature": "6b69132423ee69264094eaa8549abb6f5d83001f42de3547aa64b03cb5c00f62",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/importexport.d.ts": {
@@ -617,8 +1082,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/iot.d.ts": {
-        "version": "112b1ca7edcad37af82406f0c5a3ce74c3cd871df9e59819ee5857d33c1cf70d",
-        "signature": "112b1ca7edcad37af82406f0c5a3ce74c3cd871df9e59819ee5857d33c1cf70d",
+        "version": "a03197367e6b966342dc1a3987a137138ce11c5049753c81b937a8e9d51495a2",
+        "signature": "a03197367e6b966342dc1a3987a137138ce11c5049753c81b937a8e9d51495a2",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/iotdata.d.ts": {
@@ -652,8 +1117,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/lightsail.d.ts": {
-        "version": "4c68f254429a0c65d69b5aa6f60ce4be44a90fcda4c1016b02aa4e16522c63ab",
-        "signature": "4c68f254429a0c65d69b5aa6f60ce4be44a90fcda4c1016b02aa4e16522c63ab",
+        "version": "ab8c7e93ab5b75d8ca04daafc17f3d3b7e5b49f4490692e18c9b0f7b552c130c",
+        "signature": "ab8c7e93ab5b75d8ca04daafc17f3d3b7e5b49f4490692e18c9b0f7b552c130c",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/machinelearning.d.ts": {
@@ -672,8 +1137,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/mturk.d.ts": {
-        "version": "67ce650c8c2555c9385f9a4ef0873947ac76606c1cb84b09ecbb330aacafd794",
-        "signature": "67ce650c8c2555c9385f9a4ef0873947ac76606c1cb84b09ecbb330aacafd794",
+        "version": "359f880e973fd4cf2bd75f153376b2b618fa151921aecf7052a5461fc30e2f62",
+        "signature": "359f880e973fd4cf2bd75f153376b2b618fa151921aecf7052a5461fc30e2f62",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/mobileanalytics.d.ts": {
@@ -687,13 +1152,13 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/opsworkscm.d.ts": {
-        "version": "4d056f6ed308749009c19831b27fb72c7a3069cd2978ecf321eedbfa3b901cef",
-        "signature": "4d056f6ed308749009c19831b27fb72c7a3069cd2978ecf321eedbfa3b901cef",
+        "version": "d1531c12a09ea37a8159d33b7f4f34ea189aa33ac398f3e2bd1f790c1a985ed2",
+        "signature": "d1531c12a09ea37a8159d33b7f4f34ea189aa33ac398f3e2bd1f790c1a985ed2",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/organizations.d.ts": {
-        "version": "a5d95c0cd5bfffe7af0889ea789d045d514a417ca5e27251deeee0e1098abd37",
-        "signature": "a5d95c0cd5bfffe7af0889ea789d045d514a417ca5e27251deeee0e1098abd37",
+        "version": "5445a7b550a31f6304a432dce04eae65741924450bf21bf45fde60f95ea9d009",
+        "signature": "5445a7b550a31f6304a432dce04eae65741924450bf21bf45fde60f95ea9d009",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/pinpoint.d.ts": {
@@ -727,13 +1192,13 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/redshift.d.ts": {
-        "version": "97d8080fdb57265a12a972e0dcd747f1727e4180ebdb1a241b7c752f98ec345e",
-        "signature": "97d8080fdb57265a12a972e0dcd747f1727e4180ebdb1a241b7c752f98ec345e",
+        "version": "1b1aa7407f0c412cc67fc54a4ae1cf3d1d1d4815108d571894d1f2f06f60e76e",
+        "signature": "1b1aa7407f0c412cc67fc54a4ae1cf3d1d1d4815108d571894d1f2f06f60e76e",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/rekognition.d.ts": {
-        "version": "523d71519ef47e67a47027eeb4f6d13503c9ecd313242f94c9c753bafc9d4342",
-        "signature": "523d71519ef47e67a47027eeb4f6d13503c9ecd313242f94c9c753bafc9d4342",
+        "version": "ba34afdf0abfc37c9ec7a7e497d2ae3c5cf0d2a5005429843c5381497776bcac",
+        "signature": "ba34afdf0abfc37c9ec7a7e497d2ae3c5cf0d2a5005429843c5381497776bcac",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/resourcegroupstaggingapi.d.ts": {
@@ -777,13 +1242,13 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/s3.d.ts": {
-        "version": "aa214c96afef1e7faef70755dadb542a269316feb625fe4c7d83bebf55d5722c",
-        "signature": "aa214c96afef1e7faef70755dadb542a269316feb625fe4c7d83bebf55d5722c",
+        "version": "cd767a20c0ec56b67874af1e6e163d512d6efd14e8c64e5ba37e3d8adc743a0f",
+        "signature": "cd767a20c0ec56b67874af1e6e163d512d6efd14e8c64e5ba37e3d8adc743a0f",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/s3control.d.ts": {
-        "version": "9c6e12e77a2f326b5b6d50fab88faaaa484ee2087de691ff6c5442a705a20fd5",
-        "signature": "9c6e12e77a2f326b5b6d50fab88faaaa484ee2087de691ff6c5442a705a20fd5",
+        "version": "d501f90283a75de2aebef9f292789053735aecc6902bd403413a536b21b4ed23",
+        "signature": "d501f90283a75de2aebef9f292789053735aecc6902bd403413a536b21b4ed23",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/servicecatalog.d.ts": {
@@ -812,23 +1277,23 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/snowball.d.ts": {
-        "version": "24928bf83efacd7dc33f0c518ada0321e62e3610950c49e5604b81aad0d544a2",
-        "signature": "24928bf83efacd7dc33f0c518ada0321e62e3610950c49e5604b81aad0d544a2",
+        "version": "69e970ac4e34f4da91cb2941ae849de7c4055123e695322d269350821b93a024",
+        "signature": "69e970ac4e34f4da91cb2941ae849de7c4055123e695322d269350821b93a024",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/sns.d.ts": {
-        "version": "4e5b63c74fbe03a71c922bb737ac1220994cd9f2ba31443753bc42390a00045d",
-        "signature": "4e5b63c74fbe03a71c922bb737ac1220994cd9f2ba31443753bc42390a00045d",
+        "version": "cdc467f1d33fa7dcc91b9e2ae2677912f4ba4efde6813d145c5dd8e38d22448d",
+        "signature": "cdc467f1d33fa7dcc91b9e2ae2677912f4ba4efde6813d145c5dd8e38d22448d",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/sqs.d.ts": {
-        "version": "3fcb8fe677f48e95f6e0765dc1fb9d8859b10c46dee1f7482fc22120927aa847",
-        "signature": "3fcb8fe677f48e95f6e0765dc1fb9d8859b10c46dee1f7482fc22120927aa847",
+        "version": "f9a5f5fc2c3803f438c7657c1964ec06f569e61cb274e2c492a76fba327077df",
+        "signature": "f9a5f5fc2c3803f438c7657c1964ec06f569e61cb274e2c492a76fba327077df",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/ssm.d.ts": {
-        "version": "c4645fdac9a8e72d1b91968f1824fccb7a91c739328f0732efd26f05c631e0c8",
-        "signature": "c4645fdac9a8e72d1b91968f1824fccb7a91c739328f0732efd26f05c631e0c8",
+        "version": "8f1262d2a90af4d02b00926d0425418dab4d9016d2f7685fb23be6f79982d46e",
+        "signature": "8f1262d2a90af4d02b00926d0425418dab4d9016d2f7685fb23be6f79982d46e",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/storagegateway.d.ts": {
@@ -847,8 +1312,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/support.d.ts": {
-        "version": "7da528a34adddb7385d09ed0cc53f9b21ad2ee807a747d0379c18065e12dd9e3",
-        "signature": "7da528a34adddb7385d09ed0cc53f9b21ad2ee807a747d0379c18065e12dd9e3",
+        "version": "3784403b752ac90861e9b9f0bee9f4942108d0d8d9380e3c4fd79e70d8128d74",
+        "signature": "3784403b752ac90861e9b9f0bee9f4942108d0d8d9380e3c4fd79e70d8128d74",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/swf.d.ts": {
@@ -877,8 +1342,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/workspaces.d.ts": {
-        "version": "4a5c748d785ff56626c0f05b520250b627113d655f8e0bf3a7aa54b53d5680ab",
-        "signature": "4a5c748d785ff56626c0f05b520250b627113d655f8e0bf3a7aa54b53d5680ab",
+        "version": "3dce0b99ed799c1a35d75ae9c62cdd85de4629540356ca3a9962318200b20b42",
+        "signature": "3dce0b99ed799c1a35d75ae9c62cdd85de4629540356ca3a9962318200b20b42",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/codestar.d.ts": {
@@ -922,8 +1387,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/glue.d.ts": {
-        "version": "751927e97fb0a3cef307cbff936c7fa4bc262f6b6fa2b4aff3cdde4630585c91",
-        "signature": "751927e97fb0a3cef307cbff936c7fa4bc262f6b6fa2b4aff3cdde4630585c91",
+        "version": "4b823b88425cd48a975c29de9034fe307da2ad2ce6dc20faae5cc412a9d1f5ab",
+        "signature": "4b823b88425cd48a975c29de9034fe307da2ad2ce6dc20faae5cc412a9d1f5ab",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/mobile.d.ts": {
@@ -937,13 +1402,13 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/costexplorer.d.ts": {
-        "version": "3c0767fc2d7feb96fef3a898ccacca5f2c415a6d48d74b4d193097fd08ee0d5e",
-        "signature": "3c0767fc2d7feb96fef3a898ccacca5f2c415a6d48d74b4d193097fd08ee0d5e",
+        "version": "3bc70c7d3ece5483d8263888529b2debf4caf79de8b2454e488f77b4311bed03",
+        "signature": "3bc70c7d3ece5483d8263888529b2debf4caf79de8b2454e488f77b4311bed03",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/mediaconvert.d.ts": {
-        "version": "a58ddbf12fb09bcf8d30527b27239dc25ec26e9b7750bf1ba86bd4e88e348d2c",
-        "signature": "a58ddbf12fb09bcf8d30527b27239dc25ec26e9b7750bf1ba86bd4e88e348d2c",
+        "version": "0740babbf335bdf0f90ca7cba90e2b6084017d2fa1f399a3988f8b53fd82c44c",
+        "signature": "0740babbf335bdf0f90ca7cba90e2b6084017d2fa1f399a3988f8b53fd82c44c",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/medialive.d.ts": {
@@ -952,8 +1417,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/mediapackage.d.ts": {
-        "version": "f36a9d9d16e2514a47d996f9c3bb3de29674632368dca592a0adf4153b410355",
-        "signature": "f36a9d9d16e2514a47d996f9c3bb3de29674632368dca592a0adf4153b410355",
+        "version": "12b4fd574f52fdc26baacc0e0b3f63e0b303ee9db30e70ec1e4856d3c938873d",
+        "signature": "12b4fd574f52fdc26baacc0e0b3f63e0b303ee9db30e70ec1e4856d3c938873d",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/mediastore.d.ts": {
@@ -1012,8 +1477,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/sagemaker.d.ts": {
-        "version": "d02643ae6b124190935e9194fa13f879992ee48a75831967e3f6183c691ee078",
-        "signature": "d02643ae6b124190935e9194fa13f879992ee48a75831967e3f6183c691ee078",
+        "version": "a186928eb135e457b62889d8d2e2e3178c597da63c3a7aada80fa7f1280aa31e",
+        "signature": "a186928eb135e457b62889d8d2e2e3178c597da63c3a7aada80fa7f1280aa31e",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/translate.d.ts": {
@@ -1022,8 +1487,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/resourcegroups.d.ts": {
-        "version": "9444b35b14d0e7354946732c347f01a2c9fa6385b701c821f9a6531c422d8a46",
-        "signature": "9444b35b14d0e7354946732c347f01a2c9fa6385b701c821f9a6531c422d8a46",
+        "version": "08f4bd88df2ae6761710c3c79641363d3fcea1483ab65175db3322f505e439da",
+        "signature": "08f4bd88df2ae6761710c3c79641363d3fcea1483ab65175db3322f505e439da",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/alexaforbusiness.d.ts": {
@@ -1042,8 +1507,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/servicediscovery.d.ts": {
-        "version": "c95053dd952df81031cf4771179a2cbe535f59f877e335f792dcb21cc7298345",
-        "signature": "c95053dd952df81031cf4771179a2cbe535f59f877e335f792dcb21cc7298345",
+        "version": "0389f4738700688c09fcebf2cd03bf7960fc57d11f6df073b9615a3abea05803",
+        "signature": "0389f4738700688c09fcebf2cd03bf7960fc57d11f6df073b9615a3abea05803",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/workmail.d.ts": {
@@ -1057,18 +1522,18 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/transcribeservice.d.ts": {
-        "version": "d66f766d903ea6726d5f308149fc1cd86c4fbd20a9228c3a9c1a9898e574b94e",
-        "signature": "d66f766d903ea6726d5f308149fc1cd86c4fbd20a9228c3a9c1a9898e574b94e",
+        "version": "20d574f0f2e6b20dc83343a7ec0a8adc5b5981211cf1e434e3d23aea0ac08afa",
+        "signature": "20d574f0f2e6b20dc83343a7ec0a8adc5b5981211cf1e434e3d23aea0ac08afa",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/connect.d.ts": {
-        "version": "3a423e5cbe5781e3c268c65ab022bd0adc111c1566d43c4232703967aec1bd46",
-        "signature": "3a423e5cbe5781e3c268c65ab022bd0adc111c1566d43c4232703967aec1bd46",
+        "version": "0ecf7da5e8796344e5afb83e0c224699fe22276b242979140da845314d46b19b",
+        "signature": "0ecf7da5e8796344e5afb83e0c224699fe22276b242979140da845314d46b19b",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/acmpca.d.ts": {
-        "version": "523190eb8d2c64fce6f433731b6460aa0df6b7248c999c2f5a4bad40d5da51b6",
-        "signature": "523190eb8d2c64fce6f433731b6460aa0df6b7248c999c2f5a4bad40d5da51b6",
+        "version": "a85600aa1b772c4117bed8efc6cad26f4955ac44f8b97f560be116599135a23e",
+        "signature": "a85600aa1b772c4117bed8efc6cad26f4955ac44f8b97f560be116599135a23e",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/fms.d.ts": {
@@ -1102,8 +1567,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/neptune.d.ts": {
-        "version": "80a0d90f6a8892da4bc46267e0519c87d21b06cdca990f9eea3e4a29a976c4a9",
-        "signature": "80a0d90f6a8892da4bc46267e0519c87d21b06cdca990f9eea3e4a29a976c4a9",
+        "version": "92da99144ca57e15c2b6fd0df0abbcb22a86b036f55c6eebed4531b5c6cb5ff9",
+        "signature": "92da99144ca57e15c2b6fd0df0abbcb22a86b036f55c6eebed4531b5c6cb5ff9",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/mediatailor.d.ts": {
@@ -1112,8 +1577,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/eks.d.ts": {
-        "version": "58d88c470b15df55fe68aa3d9b0de22259676183e4bf3a7a9f2823ee4a44bdb8",
-        "signature": "58d88c470b15df55fe68aa3d9b0de22259676183e4bf3a7a9f2823ee4a44bdb8",
+        "version": "37b50b530d5d8dd561a22f645b3bc5b510f27c241957873adf4b188909db5138",
+        "signature": "37b50b530d5d8dd561a22f645b3bc5b510f27c241957873adf4b188909db5138",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/macie.d.ts": {
@@ -1132,8 +1597,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/chime.d.ts": {
-        "version": "0e00f02f33b36e471c00fcc335fce3922611310d2dfb3969926043c6996554f8",
-        "signature": "0e00f02f33b36e471c00fcc335fce3922611310d2dfb3969926043c6996554f8",
+        "version": "fa8c72a8941bd4bcb958a7ed61ff9fb42d31135002b86cef792aa91ee8a519b1",
+        "signature": "fa8c72a8941bd4bcb958a7ed61ff9fb42d31135002b86cef792aa91ee8a519b1",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/pinpointemail.d.ts": {
@@ -1157,8 +1622,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/quicksight.d.ts": {
-        "version": "dfa22b5c7faefca1fa3667d42d1370a609e8460af874414fb6377cd88622ec47",
-        "signature": "dfa22b5c7faefca1fa3667d42d1370a609e8460af874414fb6377cd88622ec47",
+        "version": "3af34065f78cdeaa67587192104a3e32e77e1c12e43809608eff1cca283f328a",
+        "signature": "3af34065f78cdeaa67587192104a3e32e77e1c12e43809608eff1cca283f328a",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/rdsdataservice.d.ts": {
@@ -1172,18 +1637,18 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/datasync.d.ts": {
-        "version": "1668fafbe93de752ca697bdbd6fdf2697d9bd9bed4c56696a35647721b75484a",
-        "signature": "1668fafbe93de752ca697bdbd6fdf2697d9bd9bed4c56696a35647721b75484a",
+        "version": "dcf5a29a7e192609c2620a7c687149024be96b3df883f7fb14e8a450d5bb9c37",
+        "signature": "dcf5a29a7e192609c2620a7c687149024be96b3df883f7fb14e8a450d5bb9c37",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/robomaker.d.ts": {
-        "version": "4d7135db592c8f27244432ba11d761aa70c3592dd9b56bfc6430205c3ad6520a",
-        "signature": "4d7135db592c8f27244432ba11d761aa70c3592dd9b56bfc6430205c3ad6520a",
+        "version": "64df62debfebc13bc2ee6857d0515a5b69a5e020887c399c7e954e2ad56f0e5c",
+        "signature": "64df62debfebc13bc2ee6857d0515a5b69a5e020887c399c7e954e2ad56f0e5c",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/transfer.d.ts": {
-        "version": "7820ef0c0c57117e31288a9880c86bcedbc42d363359230e3a404a01fd56a8c4",
-        "signature": "7820ef0c0c57117e31288a9880c86bcedbc42d363359230e3a404a01fd56a8c4",
+        "version": "bbe5d770d88a8feeadd18b2940760109d0778dda5582f51bd939489ea0fbb2b3",
+        "signature": "bbe5d770d88a8feeadd18b2940760109d0778dda5582f51bd939489ea0fbb2b3",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/globalaccelerator.d.ts": {
@@ -1197,23 +1662,23 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/kinesisanalyticsv2.d.ts": {
-        "version": "8141bf730459dbe30faa9d3f73d415e65b7f2918a8b8cee058a769ca7cb18d65",
-        "signature": "8141bf730459dbe30faa9d3f73d415e65b7f2918a8b8cee058a769ca7cb18d65",
+        "version": "b2d36a7db39c5dd66b0e1eb71b5b83935efb6f7a52db5d79c089d6d0857a1d4d",
+        "signature": "b2d36a7db39c5dd66b0e1eb71b5b83935efb6f7a52db5d79c089d6d0857a1d4d",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/mediaconnect.d.ts": {
-        "version": "66f71e049e72199e05b17da968d64dcfef1a60a7681f035070f4d8f79c0e8886",
-        "signature": "66f71e049e72199e05b17da968d64dcfef1a60a7681f035070f4d8f79c0e8886",
+        "version": "176746e1189f175f60458982c2f4e4a58c2b7d2f89fcc9d2e29eb399952d12c5",
+        "signature": "176746e1189f175f60458982c2f4e4a58c2b7d2f89fcc9d2e29eb399952d12c5",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/fsx.d.ts": {
-        "version": "460753ddfd17183a0773c0420a143adb63f232da651a6046db353156aa654569",
-        "signature": "460753ddfd17183a0773c0420a143adb63f232da651a6046db353156aa654569",
+        "version": "394c51248294c80a849b5bebeafb24a682d4dad354f2ceae4db723c01cef2767",
+        "signature": "394c51248294c80a849b5bebeafb24a682d4dad354f2ceae4db723c01cef2767",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/securityhub.d.ts": {
-        "version": "9ba20be07263de01f3edad0b7ad45ab0f275016d4a9ac4b0c2ad041f2439f7cb",
-        "signature": "9ba20be07263de01f3edad0b7ad45ab0f275016d4a9ac4b0c2ad041f2439f7cb",
+        "version": "cdd58810ef53865122d04a3a458295af9a4d93406eb815724a4fb1fe4c9740af",
+        "signature": "cdd58810ef53865122d04a3a458295af9a4d93406eb815724a4fb1fe4c9740af",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/appmesh.d.ts": {
@@ -1222,13 +1687,13 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/licensemanager.d.ts": {
-        "version": "c1231f8fbdcfb91d9cdb4fd47b5acb050ccd5defde98ab4fcd7f1e6549a14c4d",
-        "signature": "c1231f8fbdcfb91d9cdb4fd47b5acb050ccd5defde98ab4fcd7f1e6549a14c4d",
+        "version": "1683496ce695cf09e7ef798a1ea0c033d989c35ae9c9127ba74aaacb72dc51e7",
+        "signature": "1683496ce695cf09e7ef798a1ea0c033d989c35ae9c9127ba74aaacb72dc51e7",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/kafka.d.ts": {
-        "version": "9af115fd61b5da363e9daf817a5ab08cb79f7df53e2af1c4d7f7194d01ff883f",
-        "signature": "9af115fd61b5da363e9daf817a5ab08cb79f7df53e2af1c4d7f7194d01ff883f",
+        "version": "fe6aae74d50685e75c5347468dc1f15790da7abca3eb6185bcdafa63ff76d7f3",
+        "signature": "fe6aae74d50685e75c5347468dc1f15790da7abca3eb6185bcdafa63ff76d7f3",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/apigatewaymanagementapi.d.ts": {
@@ -1267,13 +1732,13 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/mediapackagevod.d.ts": {
-        "version": "d9c55ced9a87ea156cf2f19cac4111bdd082b81291361ab5fdf712dc66402114",
-        "signature": "d9c55ced9a87ea156cf2f19cac4111bdd082b81291361ab5fdf712dc66402114",
+        "version": "3305824b3c2e3dbece93ea5db7028d4f8fdb63de0445feff36dddb53685bf821",
+        "signature": "3305824b3c2e3dbece93ea5db7028d4f8fdb63de0445feff36dddb53685bf821",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/groundstation.d.ts": {
-        "version": "6b8a56b84455129cd37862831ea5f89fcb49c7d7392ed005e5b826d4c61f5163",
-        "signature": "6b8a56b84455129cd37862831ea5f89fcb49c7d7392ed005e5b826d4c61f5163",
+        "version": "3b5939c032e88ef371f8933960e584cf5c18b77fb2bab3759ae52013d7d44944",
+        "signature": "3b5939c032e88ef371f8933960e584cf5c18b77fb2bab3759ae52013d7d44944",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/iotthingsgraph.d.ts": {
@@ -1282,18 +1747,18 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/iotevents.d.ts": {
-        "version": "c7f372113efeee2e387753e671feb6d863d0d9a7e9ec61fd6b442e722ae9dd69",
-        "signature": "c7f372113efeee2e387753e671feb6d863d0d9a7e9ec61fd6b442e722ae9dd69",
+        "version": "c8a91ecf377d9a7378d51022d6fbf8f6b3faa55938717388ff3d95b91cf9f69c",
+        "signature": "c8a91ecf377d9a7378d51022d6fbf8f6b3faa55938717388ff3d95b91cf9f69c",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/ioteventsdata.d.ts": {
-        "version": "df5b6e9f1f8ca320daf4b5b169890061688360beecb574b3bcf8ed0efeaaec8b",
-        "signature": "df5b6e9f1f8ca320daf4b5b169890061688360beecb574b3bcf8ed0efeaaec8b",
+        "version": "4e3a2b16ce736f539e9a109b14de194fa6d823026541a3fead8fe0727c2ba89a",
+        "signature": "4e3a2b16ce736f539e9a109b14de194fa6d823026541a3fead8fe0727c2ba89a",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/personalize.d.ts": {
-        "version": "aba024bf35002d28e86f838b5d8e46c91436c60960afd06234f9ca859a9c84a9",
-        "signature": "aba024bf35002d28e86f838b5d8e46c91436c60960afd06234f9ca859a9c84a9",
+        "version": "7b4c8edd456c7c8b1df3ce5cd210c07714d69b66c6d27711d0603d550ccceb69",
+        "signature": "7b4c8edd456c7c8b1df3ce5cd210c07714d69b66c6d27711d0603d550ccceb69",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/personalizeevents.d.ts": {
@@ -1327,13 +1792,13 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/lakeformation.d.ts": {
-        "version": "046be8db1c478917ee00a22e1eb6fbc6c206fc9e8e4b2e730a5c9ab5e98f13aa",
-        "signature": "046be8db1c478917ee00a22e1eb6fbc6c206fc9e8e4b2e730a5c9ab5e98f13aa",
+        "version": "59c05b7a252af7bbfd02ba9151aa4dfea87bb1a962f125b031d1fdf047d2db51",
+        "signature": "59c05b7a252af7bbfd02ba9151aa4dfea87bb1a962f125b031d1fdf047d2db51",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/forecastservice.d.ts": {
-        "version": "0a87942bc0891dd34c02ccd1bbd0cf513331b692c3a8f1b26d3e313472de9f6d",
-        "signature": "0a87942bc0891dd34c02ccd1bbd0cf513331b692c3a8f1b26d3e313472de9f6d",
+        "version": "082dee245f9f00d610112a57b42cc08bc129130cb15f258fc7d67daad421b152",
+        "signature": "082dee245f9f00d610112a57b42cc08bc129130cb15f258fc7d67daad421b152",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/forecastqueryservice.d.ts": {
@@ -1342,8 +1807,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/qldb.d.ts": {
-        "version": "64e8c0e51a7424178b11e747a4010bcdaaa055e87f42ed33808d2304c13cf226",
-        "signature": "64e8c0e51a7424178b11e747a4010bcdaaa055e87f42ed33808d2304c13cf226",
+        "version": "ab4646aa36896c7e3d2989fdbf6f6e2f959ded98e89dc451359c2277c6c7331b",
+        "signature": "ab4646aa36896c7e3d2989fdbf6f6e2f959ded98e89dc451359c2277c6c7331b",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/qldbsession.d.ts": {
@@ -1362,8 +1827,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/savingsplans.d.ts": {
-        "version": "ef3a5b6d66e0a1cf42513f15524516f5d05e2b578cc71a66a84957f6406077b2",
-        "signature": "ef3a5b6d66e0a1cf42513f15524516f5d05e2b578cc71a66a84957f6406077b2",
+        "version": "179eb0da4aa5b69f3182803da096a040ca7c95432ef90531ae1f1f3ac2d957d8",
+        "signature": "179eb0da4aa5b69f3182803da096a040ca7c95432ef90531ae1f1f3ac2d957d8",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/sso.d.ts": {
@@ -1377,8 +1842,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/marketplacecatalog.d.ts": {
-        "version": "fc28c53ab377a82a7c5edb44ab4564034a636045e79c802e8b836986dc22a7ab",
-        "signature": "fc28c53ab377a82a7c5edb44ab4564034a636045e79c802e8b836986dc22a7ab",
+        "version": "8122fcf3475d4ab077e4c3bee68f7b933be11f0d554bf9aba2c1228c50598bb6",
+        "signature": "8122fcf3475d4ab077e4c3bee68f7b933be11f0d554bf9aba2c1228c50598bb6",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/dataexchange.d.ts": {
@@ -1422,8 +1887,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/imagebuilder.d.ts": {
-        "version": "8d46973e1f2603f1a1deefc89fb848b7f5f8c190039a3bbd407d4ff07efbbe0c",
-        "signature": "8d46973e1f2603f1a1deefc89fb848b7f5f8c190039a3bbd407d4ff07efbbe0c",
+        "version": "6db61c33e91179655b5b7e45c5d8c2cd5635b1051786076c6c8e7274249c8550",
+        "signature": "6db61c33e91179655b5b7e45c5d8c2cd5635b1051786076c6c8e7274249c8550",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/schemas.d.ts": {
@@ -1437,8 +1902,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/codegurureviewer.d.ts": {
-        "version": "2312caeabcb246cae49de04771b37e8c94625d0f551e68196008c49ae1357d86",
-        "signature": "2312caeabcb246cae49de04771b37e8c94625d0f551e68196008c49ae1357d86",
+        "version": "9969aab6fce84b8d81367d8212410b4d930daeee9af60810ed82130e563784a7",
+        "signature": "9969aab6fce84b8d81367d8212410b4d930daeee9af60810ed82130e563784a7",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/codeguruprofiler.d.ts": {
@@ -1447,8 +1912,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/computeoptimizer.d.ts": {
-        "version": "d3be7c2acb670c5044b36b0f93a9f3b3225613766b58463d4a0318119009c669",
-        "signature": "d3be7c2acb670c5044b36b0f93a9f3b3225613766b58463d4a0318119009c669",
+        "version": "fcecfb615d0e25188c1de2450a1dae70829d48762beb2cdee8db53227a66e019",
+        "signature": "fcecfb615d0e25188c1de2450a1dae70829d48762beb2cdee8db53227a66e019",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/frauddetector.d.ts": {
@@ -1457,8 +1922,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/kendra.d.ts": {
-        "version": "f4d31ccf886b9d4d333d4fbbb26e47c3cbc05715ec08bbadb2ec21c175119e98",
-        "signature": "f4d31ccf886b9d4d333d4fbbb26e47c3cbc05715ec08bbadb2ec21c175119e98",
+        "version": "95d0c49a2b28ea0a2200f5bcc2778943a97e850d66356df32380e15e1d4e1f4e",
+        "signature": "95d0c49a2b28ea0a2200f5bcc2778943a97e850d66356df32380e15e1d4e1f4e",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/networkmanager.d.ts": {
@@ -1467,13 +1932,13 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/outposts.d.ts": {
-        "version": "b277e2503256e3852d44ee123101454e483b52a08af01147a3f2ca51bc2b3c36",
-        "signature": "b277e2503256e3852d44ee123101454e483b52a08af01147a3f2ca51bc2b3c36",
+        "version": "3e41900726b7191c87b982ee70f88847355bcffce0bf1771964f6cc5fd225a7b",
+        "signature": "3e41900726b7191c87b982ee70f88847355bcffce0bf1771964f6cc5fd225a7b",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/augmentedairuntime.d.ts": {
-        "version": "df5876c374ca65b471ec67c3e97474c950b2a434a3650fbfc73e1e4fd25042e4",
-        "signature": "df5876c374ca65b471ec67c3e97474c950b2a434a3650fbfc73e1e4fd25042e4",
+        "version": "0e81c3314f4b049834403deae6924c02b103ccc91108c12691e7b39806a0d29b",
+        "signature": "0e81c3314f4b049834403deae6924c02b103ccc91108c12691e7b39806a0d29b",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/ebs.d.ts": {
@@ -1487,8 +1952,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/detective.d.ts": {
-        "version": "de43573c8d0d6182309efb0c7d22367d8ebc3abc3536b790234d3d554d064283",
-        "signature": "de43573c8d0d6182309efb0c7d22367d8ebc3abc3536b790234d3d554d064283",
+        "version": "1edc513882ba9ff88df0044d9c6d50e726853512334dde47602909798982a50b",
+        "signature": "1edc513882ba9ff88df0044d9c6d50e726853512334dde47602909798982a50b",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/codestarconnections.d.ts": {
@@ -1502,18 +1967,18 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/iotsitewise.d.ts": {
-        "version": "07ef794798559186f2cb7ba7b4a4270294638fd7f18b0e6b84bd700e45f712e6",
-        "signature": "07ef794798559186f2cb7ba7b4a4270294638fd7f18b0e6b84bd700e45f712e6",
+        "version": "a18511724dbedc0e68b422a9188473d5b2a7e89e5d9dd1e3bf814eeafa5e70db",
+        "signature": "a18511724dbedc0e68b422a9188473d5b2a7e89e5d9dd1e3bf814eeafa5e70db",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/macie2.d.ts": {
-        "version": "f7daf5f31a3a7f96f5addf84a9806a9f7da490e289b32fa527b65889c0cbffce",
-        "signature": "f7daf5f31a3a7f96f5addf84a9806a9f7da490e289b32fa527b65889c0cbffce",
+        "version": "e877267dbaede28dd7e5c82532c63f820469dd08d7bed9ded249b6a441f93c16",
+        "signature": "e877267dbaede28dd7e5c82532c63f820469dd08d7bed9ded249b6a441f93c16",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/codeartifact.d.ts": {
-        "version": "b04a43e3f22daa2c55e1888ea40b7a2e0d9d14033810a1a8d806b0f48c2be22a",
-        "signature": "b04a43e3f22daa2c55e1888ea40b7a2e0d9d14033810a1a8d806b0f48c2be22a",
+        "version": "c7ba1c8e534145cfc55468e1bc51181f387cfe9576dd00b07177fcc81507fafa",
+        "signature": "c7ba1c8e534145cfc55468e1bc51181f387cfe9576dd00b07177fcc81507fafa",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/honeycode.d.ts": {
@@ -1582,8 +2047,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/mwaa.d.ts": {
-        "version": "51cab831edcc7ad8894277066f63f3d965cfc0dee3e43be43a90d946d8d9f584",
-        "signature": "51cab831edcc7ad8894277066f63f3d965cfc0dee3e43be43a90d946d8d9f584",
+        "version": "c28deccfe1ddcd36bab1f6ea65668dbf14ec83c42d6114abbc7185bf4045febc",
+        "signature": "c28deccfe1ddcd36bab1f6ea65668dbf14ec83c42d6114abbc7185bf4045febc",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/amplifybackend.d.ts": {
@@ -1602,8 +2067,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/devopsguru.d.ts": {
-        "version": "54698a13753b3d8d5fcb3f56006f108bb4091bd53b8cb2d04e03a2aefe994856",
-        "signature": "54698a13753b3d8d5fcb3f56006f108bb4091bd53b8cb2d04e03a2aefe994856",
+        "version": "27913a26f10c8f3a904aec14c394df858242694301e58aaeddd7011f24be2f5a",
+        "signature": "27913a26f10c8f3a904aec14c394df858242694301e58aaeddd7011f24be2f5a",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/ecrpublic.d.ts": {
@@ -1622,13 +2087,13 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/customerprofiles.d.ts": {
-        "version": "271b7a4f902a4a76ea3f5c1baddb6a2f269bb8fe8aa4bf487e6b5282830f97ed",
-        "signature": "271b7a4f902a4a76ea3f5c1baddb6a2f269bb8fe8aa4bf487e6b5282830f97ed",
+        "version": "41c49ae1861765915cb957df6a396201624da299c925f7cece7c06ae6c848c74",
+        "signature": "41c49ae1861765915cb957df6a396201624da299c925f7cece7c06ae6c848c74",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/auditmanager.d.ts": {
-        "version": "82f0e19479049ddaa75e96a1cbda524a8dfe0cbd414fed7501dfaf3505550003",
-        "signature": "82f0e19479049ddaa75e96a1cbda524a8dfe0cbd414fed7501dfaf3505550003",
+        "version": "24c9d0f748a752ac00fefbd8d5da11f3478359c22a0195204d94ba1c4994973c",
+        "signature": "24c9d0f748a752ac00fefbd8d5da11f3478359c22a0195204d94ba1c4994973c",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/emrcontainers.d.ts": {
@@ -1657,8 +2122,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/iotdeviceadvisor.d.ts": {
-        "version": "58b4dcb0d571a54d8a0ca8581875cf1d39e36934f0648e7525259a6a095bd13a",
-        "signature": "58b4dcb0d571a54d8a0ca8581875cf1d39e36934f0648e7525259a6a095bd13a",
+        "version": "12adccf0aa79a3e1b86bbc814e5a8857ac29c1c9ec64e3e19ca31c4a4d2de108",
+        "signature": "12adccf0aa79a3e1b86bbc814e5a8857ac29c1c9ec64e3e19ca31c4a4d2de108",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/iotfleethub.d.ts": {
@@ -1667,13 +2132,13 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/iotwireless.d.ts": {
-        "version": "95ad528103dcb7ef33bcda8ada884bcd76dd63af96217c1baba7982840ba8e68",
-        "signature": "95ad528103dcb7ef33bcda8ada884bcd76dd63af96217c1baba7982840ba8e68",
+        "version": "181e3894dd40c8e0c2a56b01660077ca478b0c9448095911f7a2781b2ddd006d",
+        "signature": "181e3894dd40c8e0c2a56b01660077ca478b0c9448095911f7a2781b2ddd006d",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/location.d.ts": {
-        "version": "a59ae17f91ad19d4ede950a2e543b78e2462ec125a73a24e6369eb27043dbaba",
-        "signature": "a59ae17f91ad19d4ede950a2e543b78e2462ec125a73a24e6369eb27043dbaba",
+        "version": "a296c63ca9b0429ea4c6347a8cc58a40878a532bd1089e98a95d6a0577492b7e",
+        "signature": "a296c63ca9b0429ea4c6347a8cc58a40878a532bd1089e98a95d6a0577492b7e",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/wellarchitected.d.ts": {
@@ -1682,8 +2147,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/lexmodelsv2.d.ts": {
-        "version": "47af112d7319468b47bfa6923aebce049f2b48d96b301e0a2d44dd4e8784ae15",
-        "signature": "47af112d7319468b47bfa6923aebce049f2b48d96b301e0a2d44dd4e8784ae15",
+        "version": "e237a1dcef9249471b83d329ef3f2deb77582fa06ed433d02ab9d9bba6cb864b",
+        "signature": "e237a1dcef9249471b83d329ef3f2deb77582fa06ed433d02ab9d9bba6cb864b",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/lexruntimev2.d.ts": {
@@ -1697,8 +2162,8 @@
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/lookoutmetrics.d.ts": {
-        "version": "d8a183aab424f6c633809d84b242d6e152af52dbc42fbe68f69d7d52565e2aa6",
-        "signature": "d8a183aab424f6c633809d84b242d6e152af52dbc42fbe68f69d7d52565e2aa6",
+        "version": "cbd598122985945ec769bbf25fe8db0252fa03264b60109c1729fd6b9f2a17f9",
+        "signature": "cbd598122985945ec769bbf25fe8db0252fa03264b60109c1729fd6b9f2a17f9",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/clients/mgn.d.ts": {
@@ -1711,14 +2176,49 @@
         "signature": "449663dcfb5bfe2dd367a4a96fdb6aa1a1d19952f66164b7d16eff1ec8400a21",
         "affectsGlobalScope": false
       },
+      "../../node_modules/aws-sdk/clients/nimble.d.ts": {
+        "version": "00dcd408c3904ede77e679c675c5c4d95cb67d613978942559f567efabdc1a9f",
+        "signature": "00dcd408c3904ede77e679c675c5c4d95cb67d613978942559f567efabdc1a9f",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/aws-sdk/clients/finspace.d.ts": {
+        "version": "a8487798144d953be6311aa6615f21da6df8b3e3a8b17b27d1bd57a8b97d8ef7",
+        "signature": "a8487798144d953be6311aa6615f21da6df8b3e3a8b17b27d1bd57a8b97d8ef7",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/aws-sdk/clients/finspacedata.d.ts": {
+        "version": "c36b94a162b1b62eee567df54059b6a948ba118dd374baa56989ebd9340d00b6",
+        "signature": "c36b94a162b1b62eee567df54059b6a948ba118dd374baa56989ebd9340d00b6",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/aws-sdk/clients/ssmcontacts.d.ts": {
+        "version": "0b848755e3b1715ec73095bd4217395dd644b7b5135d8eef06fb4bdd4270acc6",
+        "signature": "0b848755e3b1715ec73095bd4217395dd644b7b5135d8eef06fb4bdd4270acc6",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/aws-sdk/clients/ssmincidents.d.ts": {
+        "version": "f6a4c233aff174569d3f593fdad2acf259aba857e570d2a2c13765f623a2ae42",
+        "signature": "f6a4c233aff174569d3f593fdad2acf259aba857e570d2a2c13765f623a2ae42",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/aws-sdk/clients/applicationcostprofiler.d.ts": {
+        "version": "7af694e130763293d9e1db57eb57b4f000759fb5240812754537fcb2a4b7ddc0",
+        "signature": "7af694e130763293d9e1db57eb57b4f000759fb5240812754537fcb2a4b7ddc0",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/aws-sdk/clients/apprunner.d.ts": {
+        "version": "ff980af1d42f81bff464f3b319a7be12f50b92f33b980ba03038781841058a56",
+        "signature": "ff980af1d42f81bff464f3b319a7be12f50b92f33b980ba03038781841058a56",
+        "affectsGlobalScope": false
+      },
       "../../node_modules/aws-sdk/clients/all.d.ts": {
-        "version": "a70ec857515ea97ae50a7918b02c9da088f20a67c10b0357c6ba56180ac1ec7e",
-        "signature": "a70ec857515ea97ae50a7918b02c9da088f20a67c10b0357c6ba56180ac1ec7e",
+        "version": "f7c4105aedbec5784e76c9a37940bab9b9d4d98eea88fe54c4699ab3807610a5",
+        "signature": "f7c4105aedbec5784e76c9a37940bab9b9d4d98eea88fe54c4699ab3807610a5",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/lib/config_service_placeholders.d.ts": {
-        "version": "329808cd21eb32fb4f49bf757c6928b347ead59d8955f325b48fa1bccc33706f",
-        "signature": "329808cd21eb32fb4f49bf757c6928b347ead59d8955f325b48fa1bccc33706f",
+        "version": "5059b151f791a1fb514a58175658a76a9a5c9a3186debcbff941f2ae618cd78e",
+        "signature": "5059b151f791a1fb514a58175658a76a9a5c9a3186debcbff941f2ae618cd78e",
         "affectsGlobalScope": false
       },
       "../../node_modules/aws-sdk/lib/config.d.ts": {
@@ -1816,269 +2316,64 @@
         "signature": "1b8e2370aa2872687e7ab84dcf4c565ad5515b28c098b11d68a2d67d5e51095f",
         "affectsGlobalScope": false
       },
-      "../aws/sharedFunctions/getReviewBySlug.ts": {
-        "version": "171659065fe6c3c079b4d3549f5b41828146d7e5748aa2333af04b4f53d61821",
-        "signature": "db63016d9fc5efaf6ba6a11b1e919311f538eba640acdf9b21c8330a83432940",
+      "../aws/handlers/deleteAccount.ts": {
+        "version": "7c251b125b7abeb26a94e1c79f95fa4041400cbd221329a654caf9322a87cd13",
+        "signature": "18728c9ad2703a4179b4f31d7113a4062108e015fe1a9e7ece0aa4f69c2ecdb0",
+        "affectsGlobalScope": false
+      },
+      "../aws/handlers/getAllReviews.ts": {
+        "version": "7bf13ad558302ca9d2a3209965783fc681ebbfe5989269b9651f7abcfd127b03",
+        "signature": "25b1ce60186e02b09eb3e683939150fed8b12cc69615df842d0113864514d3a1",
+        "affectsGlobalScope": false
+      },
+      "../aws/shared/functions/getReviewBySlug.ts": {
+        "version": "41d55788fddbe4ade7ddff47cc7b85f6305e6e5d08b6a7c59ad021745a1c1e40",
+        "signature": "1fc5cc6d460ccffeca53354cdd05d7c62d60e2f86016de0f5fa0b980aee70fba",
         "affectsGlobalScope": false
       },
       "../aws/handlers/getReview.ts": {
-        "version": "30ded9628b6c41ca70f1826a6fa703e50b18fee35c1c1f3eb73e73928944b73d",
-        "signature": "1a87d026c18869ba304606514307a273b03a61a8ebff09728fdb624ef0867737",
+        "version": "ad88cf97dda25918b13b9244f6a5a8c4d98d138bf20dcdc9996bd4dadfaac854",
+        "signature": "13df7b0929bad161b04f8ed99598e909afd31a8181cfa17547f9ed263e43c6ba",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/@types/bcryptjs/index.d.ts": {
+        "version": "9dfe431ab1485e17a6055e186c49da9d23af74b965f2e99f8acc6c958778608f",
+        "signature": "9dfe431ab1485e17a6055e186c49da9d23af74b965f2e99f8acc6c958778608f",
         "affectsGlobalScope": false
       },
       "../aws/handlers/login.ts": {
-        "version": "da40f339169700668558e8e11e10f5ea5f13f6a497d955acb86c677fc9639e11",
-        "signature": "71aeeb6d027cef27f7f348e451e9fad5dc836f0669481d7f2ff04fcb399d4416",
+        "version": "0a847445610f7644f21d7dbbaa9f14642581c5162b3b479b2936800051bfe335",
+        "signature": "cf7417812827f10fb7d642289f5f9875f18fc06d137737b6aefd992714067e6c",
         "affectsGlobalScope": false
       },
       "../aws/handlers/private.ts": {
-        "version": "3c09838f510a30aa08bfd556e309baec0f9d3a45110fe3495ab73a3c8ad838f7",
-        "signature": "060cfe768e701db4f6a16a6df7e44c7756e1d3bc144919e8a75cfc7470a432de",
+        "version": "ee06e63394a66bfc4438d2801f07b845f647ae530656eb0145cc9927784122c5",
+        "signature": "842d5bf3ce1be8507992a2e81cbb62c3d5fa37e26dd28f3ee662b04d3f92ed48",
         "affectsGlobalScope": false
       },
       "../aws/handlers/public.ts": {
-        "version": "acf98fc62b4e29861855e14449b4b27ec3975d87692a569d0a3bddb93f6861e4",
-        "signature": "0e4436468d578b4850340c0041489703c1470222489681805a1a36d0ad1db4af",
+        "version": "05edf68216205cf6939f61be391b7ce3288f18b80d5c3835874d5a0f31c9f43c",
+        "signature": "b8123ea5ab0d0a8878012a830bf2b92845a5b5add5c76eee4dc8092472f982e2",
         "affectsGlobalScope": false
       },
       "../aws/handlers/setReviewPicture.ts": {
-        "version": "c20c010b8b54623c74b8d18812eaedab4ec6ab815d7233c73f5ec8e7c54fc3b2",
-        "signature": "661f8dfc1e10ff2b90187c78f8dc7e45b387f2a0387b5c44597de2da5959601f",
+        "version": "5810c88282be00127dd39aca33026ee82e99f2d1ac405116e1904c7fc33f4361",
+        "signature": "749604a3bcb1ac8ece1b564666b7b51641aa69e314e36afeb9b0b9f5a175c5bd",
+        "affectsGlobalScope": false
+      },
+      "../../node_modules/email-validator/index.d.ts": {
+        "version": "45eb6f5a1fd7472133381fe93be8910b4038f76be5d868cb883f93028f6f2583",
+        "signature": "45eb6f5a1fd7472133381fe93be8910b4038f76be5d868cb883f93028f6f2583",
         "affectsGlobalScope": false
       },
       "../aws/handlers/signup.ts": {
-        "version": "18715c7e32a57fccbed5ab3905521adc19784104c327fab3b2d6a0adc9a10ffc",
-        "signature": "71aeeb6d027cef27f7f348e451e9fad5dc836f0669481d7f2ff04fcb399d4416",
+        "version": "719f1f92b654857338ff1899b8a0778ccf1eb51818163914123351eaa3c17146",
+        "signature": "cf7417812827f10fb7d642289f5f9875f18fc06d137737b6aefd992714067e6c",
         "affectsGlobalScope": false
       },
-      "../../node_modules/@types/node/globals.d.ts": {
-        "version": "583b4bd4e441916be4bf152ee323c4ffa6e178fd25df2ee2215ef05c7feb5ad4",
-        "signature": "583b4bd4e441916be4bf152ee323c4ffa6e178fd25df2ee2215ef05c7feb5ad4",
-        "affectsGlobalScope": true
-      },
-      "../../node_modules/@types/node/async_hooks.d.ts": {
-        "version": "d20f08527645f62facb2d66c2b7bd31ea964b59c897d00bddb1efe8c13890b72",
-        "signature": "d20f08527645f62facb2d66c2b7bd31ea964b59c897d00bddb1efe8c13890b72",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/buffer.d.ts": {
-        "version": "5726b5ce952dc5beaeb08d5f64236632501568a54a390363d2339ba1dc5393b1",
-        "signature": "5726b5ce952dc5beaeb08d5f64236632501568a54a390363d2339ba1dc5393b1",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/child_process.d.ts": {
-        "version": "674bedbfd2004e233e2a266a3d2286e524f0d58787a98522d834d6ccda1d215a",
-        "signature": "674bedbfd2004e233e2a266a3d2286e524f0d58787a98522d834d6ccda1d215a",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/cluster.d.ts": {
-        "version": "714637d594e1a38a075091fe464ca91c6abc0b154784b4287f6883200e28ccef",
-        "signature": "714637d594e1a38a075091fe464ca91c6abc0b154784b4287f6883200e28ccef",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/console.d.ts": {
-        "version": "23edba5f47d3409810c563fe8034ae2c59e718e1ef8570f4152ccdde1915a096",
-        "signature": "23edba5f47d3409810c563fe8034ae2c59e718e1ef8570f4152ccdde1915a096",
-        "affectsGlobalScope": true
-      },
-      "../../node_modules/@types/node/constants.d.ts": {
-        "version": "0e9c55f894ca2d9cf63b5b0d43a8cec1772dd560233fd16275bc7a485eb82f83",
-        "signature": "0e9c55f894ca2d9cf63b5b0d43a8cec1772dd560233fd16275bc7a485eb82f83",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/crypto.d.ts": {
-        "version": "d53b352a01645c470a0d8c31bf290ba791fc28ade0ce187a4a50f5c2f826f75e",
-        "signature": "d53b352a01645c470a0d8c31bf290ba791fc28ade0ce187a4a50f5c2f826f75e",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/dgram.d.ts": {
-        "version": "5f0a09de75bd965c21dc6d73671ba88830272f9ed62897bb0aa9754b369b1eed",
-        "signature": "5f0a09de75bd965c21dc6d73671ba88830272f9ed62897bb0aa9754b369b1eed",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/dns.d.ts": {
-        "version": "2b34e7fcba9e1f24e7f54ba5c8be5a8895b0b8b444ccf6548e04acdee0899317",
-        "signature": "2b34e7fcba9e1f24e7f54ba5c8be5a8895b0b8b444ccf6548e04acdee0899317",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/domain.d.ts": {
-        "version": "06d2be99c3dd2ff52114d02ee443ba486ab482423df1941d3c97d6a92e924d70",
-        "signature": "06d2be99c3dd2ff52114d02ee443ba486ab482423df1941d3c97d6a92e924d70",
-        "affectsGlobalScope": true
-      },
-      "../../node_modules/@types/node/events.d.ts": {
-        "version": "bfd4f140c07091b5e8a963c89e6fa3f44b6cfcbc11471b465cf63e2d020ad0eb",
-        "signature": "bfd4f140c07091b5e8a963c89e6fa3f44b6cfcbc11471b465cf63e2d020ad0eb",
-        "affectsGlobalScope": true
-      },
-      "../../node_modules/@types/node/fs.d.ts": {
-        "version": "a106a0bea088b70879ac88ff606dc253c0cc474ea05ad3a282b8bfb1091ae576",
-        "signature": "a106a0bea088b70879ac88ff606dc253c0cc474ea05ad3a282b8bfb1091ae576",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/fs/promises.d.ts": {
-        "version": "c98ce957db9eebd75f53edda3f6893e05ab2d2283b5667b18e31bcdb6427ed10",
-        "signature": "c98ce957db9eebd75f53edda3f6893e05ab2d2283b5667b18e31bcdb6427ed10",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/http.d.ts": {
-        "version": "37eed30fc8318b8ac76eac6f41d0758a9d0bffd8f3ff353e3ad0f8717dd08d92",
-        "signature": "37eed30fc8318b8ac76eac6f41d0758a9d0bffd8f3ff353e3ad0f8717dd08d92",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/http2.d.ts": {
-        "version": "9aff68f1b847b846d3d50a58c9f8f99389bedd0258d1b1c201f11b97ecfd36f8",
-        "signature": "9aff68f1b847b846d3d50a58c9f8f99389bedd0258d1b1c201f11b97ecfd36f8",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/https.d.ts": {
-        "version": "1978992206803f5761e99e893d93b25abc818c5fe619674fdf2ae02b29f641ba",
-        "signature": "1978992206803f5761e99e893d93b25abc818c5fe619674fdf2ae02b29f641ba",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/inspector.d.ts": {
-        "version": "05fbe81f09fc455a2c343d2458d2b3c600c90b92b22926be765ee79326be9466",
-        "signature": "05fbe81f09fc455a2c343d2458d2b3c600c90b92b22926be765ee79326be9466",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/module.d.ts": {
-        "version": "8e7d6dae9e19bbe47600dcfd4418db85b30ae7351474ea0aad5e628f9845d340",
-        "signature": "8e7d6dae9e19bbe47600dcfd4418db85b30ae7351474ea0aad5e628f9845d340",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/net.d.ts": {
-        "version": "f20ea392f7f27feb7a90e5a24319a4e365b07bf83c39a547711fe7ff9df68657",
-        "signature": "f20ea392f7f27feb7a90e5a24319a4e365b07bf83c39a547711fe7ff9df68657",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/os.d.ts": {
-        "version": "32542c4660ecda892a333a533feedba31738ee538ef6a78eb73af647137bc3fc",
-        "signature": "32542c4660ecda892a333a533feedba31738ee538ef6a78eb73af647137bc3fc",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/path.d.ts": {
-        "version": "0ecacea5047d1a7d350e7049dbd22f26435be5e8736a81a56afec5b3264db1ca",
-        "signature": "0ecacea5047d1a7d350e7049dbd22f26435be5e8736a81a56afec5b3264db1ca",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/perf_hooks.d.ts": {
-        "version": "ffcb4ebde21f83370ed402583888b28651d2eb7f05bfec9482eb46d82adedd7f",
-        "signature": "ffcb4ebde21f83370ed402583888b28651d2eb7f05bfec9482eb46d82adedd7f",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/process.d.ts": {
-        "version": "fcb95c45150c717706119f12f2a3639d51baa041cd5bb441eb8501e04b52c501",
-        "signature": "fcb95c45150c717706119f12f2a3639d51baa041cd5bb441eb8501e04b52c501",
-        "affectsGlobalScope": true
-      },
-      "../../node_modules/@types/node/punycode.d.ts": {
-        "version": "a7b43c69f9602d198825e403ee34e5d64f83c48b391b2897e8c0e6f72bca35f8",
-        "signature": "a7b43c69f9602d198825e403ee34e5d64f83c48b391b2897e8c0e6f72bca35f8",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/querystring.d.ts": {
-        "version": "f4a3fc4efc6944e7b7bd4ccfa45e0df68b6359808e6cf9d061f04fd964a7b2d3",
-        "signature": "f4a3fc4efc6944e7b7bd4ccfa45e0df68b6359808e6cf9d061f04fd964a7b2d3",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/readline.d.ts": {
-        "version": "73cad675aead7a2c05cf934e7e700c61d84b2037ac1d576c3f751199b25331da",
-        "signature": "73cad675aead7a2c05cf934e7e700c61d84b2037ac1d576c3f751199b25331da",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/repl.d.ts": {
-        "version": "8c3137ba3583ec18484429ec1c8eff89efdc42730542f157b38b102fdccc0c71",
-        "signature": "8c3137ba3583ec18484429ec1c8eff89efdc42730542f157b38b102fdccc0c71",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/stream.d.ts": {
-        "version": "74594bec8a9fa1a2cd40268f9ab95d0c44b6080345da6e8b913939d19b1d57ae",
-        "signature": "74594bec8a9fa1a2cd40268f9ab95d0c44b6080345da6e8b913939d19b1d57ae",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/string_decoder.d.ts": {
-        "version": "94ca7beec4e274d32362b54e0133152f7b4be9487db7b005070c03880b6363aa",
-        "signature": "94ca7beec4e274d32362b54e0133152f7b4be9487db7b005070c03880b6363aa",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/timers.d.ts": {
-        "version": "2d713cbcbd5bcc38d91546eaeea7bb1c8686dc4a2995a28556d957b1b9de11d9",
-        "signature": "2d713cbcbd5bcc38d91546eaeea7bb1c8686dc4a2995a28556d957b1b9de11d9",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/tls.d.ts": {
-        "version": "bbf21f210782db4193359010a4710786add43e3b50aa42fc0d371f45b4e4d8d3",
-        "signature": "bbf21f210782db4193359010a4710786add43e3b50aa42fc0d371f45b4e4d8d3",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/trace_events.d.ts": {
-        "version": "0b7733d83619ac4e3963e2a9f7c75dc1e9af6850cb2354c9554977813092c10a",
-        "signature": "0b7733d83619ac4e3963e2a9f7c75dc1e9af6850cb2354c9554977813092c10a",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/tty.d.ts": {
-        "version": "3ce933f0c3955f67f67eb7d6b5c83c2c54a18472c1d6f2bb651e51dd40c84837",
-        "signature": "3ce933f0c3955f67f67eb7d6b5c83c2c54a18472c1d6f2bb651e51dd40c84837",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/url.d.ts": {
-        "version": "631e96db896d645f7132c488ad34a16d71fd2be9f44696f8c98289ee1c8cbfa9",
-        "signature": "631e96db896d645f7132c488ad34a16d71fd2be9f44696f8c98289ee1c8cbfa9",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/util.d.ts": {
-        "version": "2c77230d381cba81eb6f87cda2fbfff6c0427c6546c2e2590110effff37c58f7",
-        "signature": "2c77230d381cba81eb6f87cda2fbfff6c0427c6546c2e2590110effff37c58f7",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/v8.d.ts": {
-        "version": "da86ee9a2f09a4583db1d5e37815894967e1f694ad9f3c25e84e0e4d40411e14",
-        "signature": "da86ee9a2f09a4583db1d5e37815894967e1f694ad9f3c25e84e0e4d40411e14",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/vm.d.ts": {
-        "version": "141a943e5690105898a67537a470f70b56d0e183441b56051d929e902376b7b2",
-        "signature": "141a943e5690105898a67537a470f70b56d0e183441b56051d929e902376b7b2",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/worker_threads.d.ts": {
-        "version": "ddc086b1adac44e2fccf55422da1e90fa970e659d77f99712422a421564b4877",
-        "signature": "ddc086b1adac44e2fccf55422da1e90fa970e659d77f99712422a421564b4877",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/zlib.d.ts": {
-        "version": "515ef1d99036ff0dafa5bf738e02222edea94e0d97a0aa0ff277ac5e96b57977",
-        "signature": "515ef1d99036ff0dafa5bf738e02222edea94e0d97a0aa0ff277ac5e96b57977",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/globals.global.d.ts": {
-        "version": "2708349d5a11a5c2e5f3a0765259ebe7ee00cdcc8161cb9990cb4910328442a1",
-        "signature": "2708349d5a11a5c2e5f3a0765259ebe7ee00cdcc8161cb9990cb4910328442a1",
-        "affectsGlobalScope": true
-      },
-      "../../node_modules/@types/node/wasi.d.ts": {
-        "version": "780058f4a804c8bdcdd2f60e7af64b2bc57d149c1586ee3db732a84d659a50bf",
-        "signature": "780058f4a804c8bdcdd2f60e7af64b2bc57d149c1586ee3db732a84d659a50bf",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/ts3.6/base.d.ts": {
-        "version": "ae68a04912ee5a0f589276f9ec60b095f8c40d48128a4575b3fdd7d93806931c",
-        "signature": "ae68a04912ee5a0f589276f9ec60b095f8c40d48128a4575b3fdd7d93806931c",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/assert.d.ts": {
-        "version": "19d580a3b42ad5caeaee266ae958260e23f2df0549ee201c886c8bd7a4f01d4e",
-        "signature": "19d580a3b42ad5caeaee266ae958260e23f2df0549ee201c886c8bd7a4f01d4e",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/base.d.ts": {
-        "version": "e61a21e9418f279bc480394a94d1581b2dee73747adcbdef999b6737e34d721b",
-        "signature": "e61a21e9418f279bc480394a94d1581b2dee73747adcbdef999b6737e34d721b",
-        "affectsGlobalScope": false
-      },
-      "../../node_modules/@types/node/index.d.ts": {
-        "version": "9c4c395e927045b324877acdc4bfb95f128f36bc9f073266a2f0342495075a4f",
-        "signature": "9c4c395e927045b324877acdc4bfb95f128f36bc9f073266a2f0342495075a4f",
+      "../aws/shared/interfaces/IDynamoQuery.ts": {
+        "version": "476a14e3f32dcf6c3baddd2525c6eb0c9c80376a9ce58ff95673b6d21ea51504",
+        "signature": "70d86b45d2311777835608a96905f88e10b4d33b010135ce64480750e6d8ee8d",
         "affectsGlobalScope": false
       }
     },
@@ -2121,75 +2416,291 @@
     },
     "referencedMap": {
       "../aws/handlers/auth.ts": [
+        "../../node_modules/@types/jsonwebtoken/index.d.ts",
         "../../node_modules/@types/react/jsx-runtime.d.ts",
         "../../node_modules/tslib/tslib.d.ts",
-        "../aws/sharedFunctions/createAWSResErr.ts"
+        "../aws/shared/functions/createAWSResErr.ts"
       ],
       "../aws/handlers/deleteAccount.ts": [
+        "../../node_modules/@middy/core/index.d.ts",
+        "../../node_modules/@middy/http-cors/index.d.ts",
         "../../node_modules/@types/react/jsx-runtime.d.ts",
+        "../../node_modules/aws-sdk/index.d.ts",
         "../../node_modules/tslib/tslib.d.ts",
-        "../aws/sharedFunctions/createAWSResErr.ts"
+        "../aws/shared/functions/createAWSResErr.ts"
       ],
       "../aws/handlers/getAllReviews.ts": [
+        "../../node_modules/@middy/core/index.d.ts",
+        "../../node_modules/@middy/http-cors/index.d.ts",
         "../../node_modules/@types/react/jsx-runtime.d.ts",
+        "../../node_modules/aws-sdk/index.d.ts",
         "../../node_modules/tslib/tslib.d.ts",
-        "../aws/sharedFunctions/createAWSResErr.ts"
+        "../aws/shared/functions/createAWSResErr.ts"
       ],
       "../aws/handlers/getReview.ts": [
+        "../../node_modules/@middy/core/index.d.ts",
+        "../../node_modules/@middy/http-cors/index.d.ts",
         "../../node_modules/@types/react/jsx-runtime.d.ts",
         "../../node_modules/tslib/tslib.d.ts",
-        "../aws/sharedFunctions/createAWSResErr.ts",
-        "../aws/sharedFunctions/getReviewBySlug.ts"
+        "../aws/shared/functions/createAWSResErr.ts",
+        "../aws/shared/functions/getReviewBySlug.ts",
+        "../aws/shared/interfaces/IHTTP.ts"
       ],
       "../aws/handlers/login.ts": [
+        "../../node_modules/@middy/core/index.d.ts",
+        "../../node_modules/@middy/http-cors/index.d.ts",
+        "../../node_modules/@types/bcryptjs/index.d.ts",
         "../../node_modules/@types/react/jsx-runtime.d.ts",
+        "../../node_modules/aws-sdk/index.d.ts",
         "../../node_modules/tslib/tslib.d.ts",
-        "../aws/sharedFunctions/createAWSResErr.ts"
+        "../aws/shared/functions/createAWSResErr.ts"
       ],
       "../aws/handlers/private.ts": [
+        "../../node_modules/@types/aws-lambda/index.d.ts",
         "../../node_modules/@types/react/jsx-runtime.d.ts",
-        "../../node_modules/tslib/tslib.d.ts"
+        "../../node_modules/tslib/tslib.d.ts",
+        "../aws/shared/interfaces/IHTTP.ts"
       ],
       "../aws/handlers/public.ts": [
         "../../node_modules/@types/react/jsx-runtime.d.ts",
-        "../../node_modules/tslib/tslib.d.ts"
+        "../../node_modules/tslib/tslib.d.ts",
+        "../aws/shared/interfaces/IHTTP.ts"
       ],
       "../aws/handlers/setReviewPicture.ts": [
+        "../../node_modules/@middy/core/index.d.ts",
+        "../../node_modules/@middy/http-cors/index.d.ts",
         "../../node_modules/@types/react/jsx-runtime.d.ts",
         "../../node_modules/aws-sdk/index.d.ts",
         "../../node_modules/tslib/tslib.d.ts",
-        "../aws/sharedFunctions/createAWSResErr.ts"
+        "../aws/shared/functions/createAWSResErr.ts",
+        "../aws/shared/interfaces/IHTTP.ts"
       ],
       "../aws/handlers/signup.ts": [
+        "../../node_modules/@middy/core/index.d.ts",
+        "../../node_modules/@middy/http-cors/index.d.ts",
+        "../../node_modules/@types/react/jsx-runtime.d.ts",
+        "../../node_modules/aws-sdk/index.d.ts",
+        "../../node_modules/email-validator/index.d.ts",
+        "../../node_modules/tslib/tslib.d.ts",
+        "../aws/shared/functions/createAWSResErr.ts"
+      ],
+      "../aws/shared/functions/createAWSResErr.ts": [
         "../../node_modules/@types/react/jsx-runtime.d.ts",
         "../../node_modules/tslib/tslib.d.ts",
-        "../aws/sharedFunctions/createAWSResErr.ts"
+        "../aws/shared/interfaces/IHTTP.ts"
       ],
-      "../aws/sharedFunctions/createAWSResErr.ts": [
+      "../aws/shared/functions/getReviewBySlug.ts": [
+        "../../node_modules/@types/react/jsx-runtime.d.ts",
+        "../../node_modules/aws-sdk/index.d.ts",
+        "../../node_modules/tslib/tslib.d.ts",
+        "../aws/shared/functions/createAWSResErr.ts",
+        "../aws/shared/interfaces/IHTTP.ts"
+      ],
+      "../aws/shared/interfaces/IDynamoQuery.ts": [
         "../../node_modules/@types/react/jsx-runtime.d.ts",
         "../../node_modules/tslib/tslib.d.ts"
       ],
-      "../aws/sharedFunctions/getReviewBySlug.ts": [
+      "../aws/shared/interfaces/IHTTP.ts": [
         "../../node_modules/@types/react/jsx-runtime.d.ts",
-        "../../node_modules/aws-sdk/index.d.ts",
-        "../../node_modules/tslib/tslib.d.ts",
-        "../aws/sharedFunctions/createAWSResErr.ts"
+        "../../node_modules/tslib/tslib.d.ts"
       ],
-      "../../node_modules/@types/node/assert.d.ts": [
-        "../../node_modules/@types/node/assert.d.ts"
+      "../../node_modules/@middy/core/index.d.ts": [
+        "../../node_modules/@types/aws-lambda/index.d.ts"
       ],
-      "../../node_modules/@types/node/async_hooks.d.ts": [
-        "../../node_modules/@types/node/async_hooks.d.ts"
+      "../../node_modules/@middy/http-cors/index.d.ts": [
+        "../../node_modules/@middy/core/index.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/index.d.ts": [
+        "../../node_modules/@types/aws-lambda/common/api-gateway.d.ts",
+        "../../node_modules/@types/aws-lambda/common/cloudfront.d.ts",
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/alb.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/api-gateway-authorizer.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/api-gateway-proxy.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/appsync-resolver.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cloudformation-custom-resource.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cloudfront-request.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cloudfront-response.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cloudwatch-events.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cloudwatch-logs.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/codebuild-cloudwatch-state.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-action.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-pipeline.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-stage.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/codepipeline.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/index.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/connect-contact-flow.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/dynamodb-stream.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/eventbridge.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/iot.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/kinesis-firehose-transformation.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/kinesis-stream.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/lex.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/msk.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/s3-batch.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/s3.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/ses.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/sns.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/sqs.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/alb.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/api-gateway-authorizer.d.ts": [
+        "../../node_modules/@types/aws-lambda/common/api-gateway.d.ts",
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/api-gateway-proxy.d.ts": [
+        "../../node_modules/@types/aws-lambda/common/api-gateway.d.ts",
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/appsync-resolver.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cloudformation-custom-resource.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cloudfront-request.d.ts": [
+        "../../node_modules/@types/aws-lambda/common/cloudfront.d.ts",
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cloudfront-response.d.ts": [
+        "../../node_modules/@types/aws-lambda/common/cloudfront.d.ts",
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cloudwatch-events.d.ts": [
+        "../../node_modules/@types/aws-lambda/trigger/eventbridge.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cloudwatch-logs.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/codebuild-cloudwatch-state.d.ts": [
+        "../../node_modules/@types/aws-lambda/trigger/eventbridge.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-action.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-pipeline.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-stage.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-action.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-pipeline.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-stage.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/codepipeline.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/create-auth-challenge.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/custom-email-sender.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/custom-message.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/define-auth-challenge.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/index.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/create-auth-challenge.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/custom-email-sender.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/custom-message.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/define-auth-challenge.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/post-authentication.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/post-confirmation.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/pre-authentication.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/pre-signup.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/pre-token-generation.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/user-migration.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/verify-auth-challenge-response.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/post-authentication.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/post-confirmation.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/pre-authentication.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/pre-signup.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/pre-token-generation.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/user-migration.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/verify-auth-challenge-response.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/connect-contact-flow.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/dynamodb-stream.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/eventbridge.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/iot.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/kinesis-firehose-transformation.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/kinesis-stream.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/lex.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/msk.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/s3-batch.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/s3.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/ses.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/sns.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/sqs.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/jsonwebtoken/index.d.ts": [
+        "../../node_modules/@types/node/index.d.ts"
       ],
       "../../node_modules/@types/node/base.d.ts": [
         "../../node_modules/@types/node/assert.d.ts",
         "../../node_modules/@types/node/ts3.6/base.d.ts"
       ],
-      "../../node_modules/@types/node/buffer.d.ts": [
-        "../../node_modules/@types/node/buffer.d.ts"
-      ],
       "../../node_modules/@types/node/child_process.d.ts": [
-        "../../node_modules/@types/node/child_process.d.ts",
         "../../node_modules/@types/node/events.d.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/net.d.ts",
@@ -2197,7 +2708,6 @@
       ],
       "../../node_modules/@types/node/cluster.d.ts": [
         "../../node_modules/@types/node/child_process.d.ts",
-        "../../node_modules/@types/node/cluster.d.ts",
         "../../node_modules/@types/node/events.d.ts",
         "../../node_modules/@types/node/net.d.ts"
       ],
@@ -2205,26 +2715,19 @@
         "../../node_modules/@types/node/util.d.ts"
       ],
       "../../node_modules/@types/node/constants.d.ts": [
-        "../../node_modules/@types/node/constants.d.ts",
         "../../node_modules/@types/node/crypto.d.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/os.d.ts"
       ],
       "../../node_modules/@types/node/crypto.d.ts": [
-        "../../node_modules/@types/node/crypto.d.ts",
         "../../node_modules/@types/node/stream.d.ts"
       ],
       "../../node_modules/@types/node/dgram.d.ts": [
-        "../../node_modules/@types/node/dgram.d.ts",
         "../../node_modules/@types/node/dns.d.ts",
         "../../node_modules/@types/node/events.d.ts",
         "../../node_modules/@types/node/net.d.ts"
       ],
-      "../../node_modules/@types/node/dns.d.ts": [
-        "../../node_modules/@types/node/dns.d.ts"
-      ],
       "../../node_modules/@types/node/domain.d.ts": [
-        "../../node_modules/@types/node/domain.d.ts",
         "../../node_modules/@types/node/events.d.ts"
       ],
       "../../node_modules/@types/node/events.d.ts": [
@@ -2232,17 +2735,14 @@
       ],
       "../../node_modules/@types/node/fs.d.ts": [
         "../../node_modules/@types/node/events.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/fs/promises.d.ts",
         "../../node_modules/@types/node/stream.d.ts",
         "../../node_modules/@types/node/url.d.ts"
       ],
       "../../node_modules/@types/node/fs/promises.d.ts": [
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/fs/promises.d.ts"
+        "../../node_modules/@types/node/fs.d.ts"
       ],
       "../../node_modules/@types/node/http.d.ts": [
-        "../../node_modules/@types/node/http.d.ts",
         "../../node_modules/@types/node/net.d.ts",
         "../../node_modules/@types/node/stream.d.ts",
         "../../node_modules/@types/node/url.d.ts"
@@ -2251,7 +2751,6 @@
         "../../node_modules/@types/node/events.d.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/http.d.ts",
-        "../../node_modules/@types/node/http2.d.ts",
         "../../node_modules/@types/node/net.d.ts",
         "../../node_modules/@types/node/stream.d.ts",
         "../../node_modules/@types/node/tls.d.ts",
@@ -2259,7 +2758,6 @@
       ],
       "../../node_modules/@types/node/https.d.ts": [
         "../../node_modules/@types/node/http.d.ts",
-        "../../node_modules/@types/node/https.d.ts",
         "../../node_modules/@types/node/tls.d.ts",
         "../../node_modules/@types/node/url.d.ts"
       ],
@@ -2267,64 +2765,35 @@
         "../../node_modules/@types/node/base.d.ts"
       ],
       "../../node_modules/@types/node/inspector.d.ts": [
-        "../../node_modules/@types/node/events.d.ts",
-        "../../node_modules/@types/node/inspector.d.ts"
+        "../../node_modules/@types/node/events.d.ts"
       ],
       "../../node_modules/@types/node/module.d.ts": [
-        "../../node_modules/@types/node/module.d.ts",
         "../../node_modules/@types/node/url.d.ts"
       ],
       "../../node_modules/@types/node/net.d.ts": [
         "../../node_modules/@types/node/dns.d.ts",
         "../../node_modules/@types/node/events.d.ts",
-        "../../node_modules/@types/node/net.d.ts",
         "../../node_modules/@types/node/stream.d.ts"
       ],
-      "../../node_modules/@types/node/os.d.ts": [
-        "../../node_modules/@types/node/os.d.ts"
-      ],
-      "../../node_modules/@types/node/path.d.ts": [
-        "../../node_modules/@types/node/path.d.ts"
-      ],
       "../../node_modules/@types/node/perf_hooks.d.ts": [
-        "../../node_modules/@types/node/async_hooks.d.ts",
-        "../../node_modules/@types/node/perf_hooks.d.ts"
+        "../../node_modules/@types/node/async_hooks.d.ts"
       ],
       "../../node_modules/@types/node/process.d.ts": [
         "../../node_modules/@types/node/tty.d.ts"
       ],
-      "../../node_modules/@types/node/punycode.d.ts": [
-        "../../node_modules/@types/node/punycode.d.ts"
-      ],
-      "../../node_modules/@types/node/querystring.d.ts": [
-        "../../node_modules/@types/node/querystring.d.ts"
-      ],
       "../../node_modules/@types/node/readline.d.ts": [
-        "../../node_modules/@types/node/events.d.ts",
-        "../../node_modules/@types/node/readline.d.ts"
+        "../../node_modules/@types/node/events.d.ts"
       ],
       "../../node_modules/@types/node/repl.d.ts": [
         "../../node_modules/@types/node/readline.d.ts",
-        "../../node_modules/@types/node/repl.d.ts",
         "../../node_modules/@types/node/util.d.ts",
         "../../node_modules/@types/node/vm.d.ts"
       ],
       "../../node_modules/@types/node/stream.d.ts": [
-        "../../node_modules/@types/node/events.d.ts",
-        "../../node_modules/@types/node/stream.d.ts"
-      ],
-      "../../node_modules/@types/node/string_decoder.d.ts": [
-        "../../node_modules/@types/node/string_decoder.d.ts"
-      ],
-      "../../node_modules/@types/node/timers.d.ts": [
-        "../../node_modules/@types/node/timers.d.ts"
+        "../../node_modules/@types/node/events.d.ts"
       ],
       "../../node_modules/@types/node/tls.d.ts": [
-        "../../node_modules/@types/node/net.d.ts",
-        "../../node_modules/@types/node/tls.d.ts"
-      ],
-      "../../node_modules/@types/node/trace_events.d.ts": [
-        "../../node_modules/@types/node/trace_events.d.ts"
+        "../../node_modules/@types/node/net.d.ts"
       ],
       "../../node_modules/@types/node/ts3.6/base.d.ts": [
         "../../node_modules/@types/node/async_hooks.d.ts",
@@ -2371,37 +2840,23 @@
         "../../node_modules/@types/node/zlib.d.ts"
       ],
       "../../node_modules/@types/node/tty.d.ts": [
-        "../../node_modules/@types/node/net.d.ts",
-        "../../node_modules/@types/node/tty.d.ts"
+        "../../node_modules/@types/node/net.d.ts"
       ],
       "../../node_modules/@types/node/url.d.ts": [
-        "../../node_modules/@types/node/querystring.d.ts",
-        "../../node_modules/@types/node/url.d.ts"
-      ],
-      "../../node_modules/@types/node/util.d.ts": [
-        "../../node_modules/@types/node/util.d.ts"
+        "../../node_modules/@types/node/querystring.d.ts"
       ],
       "../../node_modules/@types/node/v8.d.ts": [
-        "../../node_modules/@types/node/stream.d.ts",
-        "../../node_modules/@types/node/v8.d.ts"
-      ],
-      "../../node_modules/@types/node/vm.d.ts": [
-        "../../node_modules/@types/node/vm.d.ts"
-      ],
-      "../../node_modules/@types/node/wasi.d.ts": [
-        "../../node_modules/@types/node/wasi.d.ts"
+        "../../node_modules/@types/node/stream.d.ts"
       ],
       "../../node_modules/@types/node/worker_threads.d.ts": [
         "../../node_modules/@types/node/events.d.ts",
         "../../node_modules/@types/node/fs/promises.d.ts",
         "../../node_modules/@types/node/stream.d.ts",
         "../../node_modules/@types/node/url.d.ts",
-        "../../node_modules/@types/node/vm.d.ts",
-        "../../node_modules/@types/node/worker_threads.d.ts"
+        "../../node_modules/@types/node/vm.d.ts"
       ],
       "../../node_modules/@types/node/zlib.d.ts": [
-        "../../node_modules/@types/node/stream.d.ts",
-        "../../node_modules/@types/node/zlib.d.ts"
+        "../../node_modules/@types/node/stream.d.ts"
       ],
       "../../node_modules/@types/react/index.d.ts": [
         "../../node_modules/@types/prop-types/index.d.ts",
@@ -2455,8 +2910,10 @@
         "../../node_modules/aws-sdk/clients/appflow.d.ts",
         "../../node_modules/aws-sdk/clients/appintegrations.d.ts",
         "../../node_modules/aws-sdk/clients/applicationautoscaling.d.ts",
+        "../../node_modules/aws-sdk/clients/applicationcostprofiler.d.ts",
         "../../node_modules/aws-sdk/clients/applicationinsights.d.ts",
         "../../node_modules/aws-sdk/clients/appmesh.d.ts",
+        "../../node_modules/aws-sdk/clients/apprunner.d.ts",
         "../../node_modules/aws-sdk/clients/appstream.d.ts",
         "../../node_modules/aws-sdk/clients/appsync.d.ts",
         "../../node_modules/aws-sdk/clients/athena.d.ts",
@@ -2538,6 +2995,8 @@
         "../../node_modules/aws-sdk/clients/emrcontainers.d.ts",
         "../../node_modules/aws-sdk/clients/es.d.ts",
         "../../node_modules/aws-sdk/clients/eventbridge.d.ts",
+        "../../node_modules/aws-sdk/clients/finspace.d.ts",
+        "../../node_modules/aws-sdk/clients/finspacedata.d.ts",
         "../../node_modules/aws-sdk/clients/firehose.d.ts",
         "../../node_modules/aws-sdk/clients/fis.d.ts",
         "../../node_modules/aws-sdk/clients/fms.d.ts",
@@ -2625,6 +3084,7 @@
         "../../node_modules/aws-sdk/clients/neptune.d.ts",
         "../../node_modules/aws-sdk/clients/networkfirewall.d.ts",
         "../../node_modules/aws-sdk/clients/networkmanager.d.ts",
+        "../../node_modules/aws-sdk/clients/nimble.d.ts",
         "../../node_modules/aws-sdk/clients/opsworks.d.ts",
         "../../node_modules/aws-sdk/clients/opsworkscm.d.ts",
         "../../node_modules/aws-sdk/clients/organizations.d.ts",
@@ -2679,6 +3139,8 @@
         "../../node_modules/aws-sdk/clients/sns.d.ts",
         "../../node_modules/aws-sdk/clients/sqs.d.ts",
         "../../node_modules/aws-sdk/clients/ssm.d.ts",
+        "../../node_modules/aws-sdk/clients/ssmcontacts.d.ts",
+        "../../node_modules/aws-sdk/clients/ssmincidents.d.ts",
         "../../node_modules/aws-sdk/clients/sso.d.ts",
         "../../node_modules/aws-sdk/clients/ssoadmin.d.ts",
         "../../node_modules/aws-sdk/clients/ssooidc.d.ts",
@@ -2775,6 +3237,13 @@
         "../../node_modules/aws-sdk/lib/response.d.ts",
         "../../node_modules/aws-sdk/lib/service.d.ts"
       ],
+      "../../node_modules/aws-sdk/clients/applicationcostprofiler.d.ts": [
+        "../../node_modules/aws-sdk/lib/config-base.d.ts",
+        "../../node_modules/aws-sdk/lib/error.d.ts",
+        "../../node_modules/aws-sdk/lib/request.d.ts",
+        "../../node_modules/aws-sdk/lib/response.d.ts",
+        "../../node_modules/aws-sdk/lib/service.d.ts"
+      ],
       "../../node_modules/aws-sdk/clients/applicationinsights.d.ts": [
         "../../node_modules/aws-sdk/lib/config-base.d.ts",
         "../../node_modules/aws-sdk/lib/error.d.ts",
@@ -2783,6 +3252,13 @@
         "../../node_modules/aws-sdk/lib/service.d.ts"
       ],
       "../../node_modules/aws-sdk/clients/appmesh.d.ts": [
+        "../../node_modules/aws-sdk/lib/config-base.d.ts",
+        "../../node_modules/aws-sdk/lib/error.d.ts",
+        "../../node_modules/aws-sdk/lib/request.d.ts",
+        "../../node_modules/aws-sdk/lib/response.d.ts",
+        "../../node_modules/aws-sdk/lib/service.d.ts"
+      ],
+      "../../node_modules/aws-sdk/clients/apprunner.d.ts": [
         "../../node_modules/aws-sdk/lib/config-base.d.ts",
         "../../node_modules/aws-sdk/lib/error.d.ts",
         "../../node_modules/aws-sdk/lib/request.d.ts",
@@ -3358,6 +3834,20 @@
         "../../node_modules/aws-sdk/lib/service.d.ts"
       ],
       "../../node_modules/aws-sdk/clients/eventbridge.d.ts": [
+        "../../node_modules/aws-sdk/lib/config-base.d.ts",
+        "../../node_modules/aws-sdk/lib/error.d.ts",
+        "../../node_modules/aws-sdk/lib/request.d.ts",
+        "../../node_modules/aws-sdk/lib/response.d.ts",
+        "../../node_modules/aws-sdk/lib/service.d.ts"
+      ],
+      "../../node_modules/aws-sdk/clients/finspace.d.ts": [
+        "../../node_modules/aws-sdk/lib/config-base.d.ts",
+        "../../node_modules/aws-sdk/lib/error.d.ts",
+        "../../node_modules/aws-sdk/lib/request.d.ts",
+        "../../node_modules/aws-sdk/lib/response.d.ts",
+        "../../node_modules/aws-sdk/lib/service.d.ts"
+      ],
+      "../../node_modules/aws-sdk/clients/finspacedata.d.ts": [
         "../../node_modules/aws-sdk/lib/config-base.d.ts",
         "../../node_modules/aws-sdk/lib/error.d.ts",
         "../../node_modules/aws-sdk/lib/request.d.ts",
@@ -3983,6 +4473,13 @@
         "../../node_modules/aws-sdk/lib/response.d.ts",
         "../../node_modules/aws-sdk/lib/service.d.ts"
       ],
+      "../../node_modules/aws-sdk/clients/nimble.d.ts": [
+        "../../node_modules/aws-sdk/lib/config-base.d.ts",
+        "../../node_modules/aws-sdk/lib/error.d.ts",
+        "../../node_modules/aws-sdk/lib/request.d.ts",
+        "../../node_modules/aws-sdk/lib/response.d.ts",
+        "../../node_modules/aws-sdk/lib/service.d.ts"
+      ],
       "../../node_modules/aws-sdk/clients/opsworks.d.ts": [
         "../../node_modules/aws-sdk/lib/config-base.d.ts",
         "../../node_modules/aws-sdk/lib/error.d.ts",
@@ -4366,6 +4863,20 @@
         "../../node_modules/aws-sdk/lib/service.d.ts"
       ],
       "../../node_modules/aws-sdk/clients/ssm.d.ts": [
+        "../../node_modules/aws-sdk/lib/config-base.d.ts",
+        "../../node_modules/aws-sdk/lib/error.d.ts",
+        "../../node_modules/aws-sdk/lib/request.d.ts",
+        "../../node_modules/aws-sdk/lib/response.d.ts",
+        "../../node_modules/aws-sdk/lib/service.d.ts"
+      ],
+      "../../node_modules/aws-sdk/clients/ssmcontacts.d.ts": [
+        "../../node_modules/aws-sdk/lib/config-base.d.ts",
+        "../../node_modules/aws-sdk/lib/error.d.ts",
+        "../../node_modules/aws-sdk/lib/request.d.ts",
+        "../../node_modules/aws-sdk/lib/response.d.ts",
+        "../../node_modules/aws-sdk/lib/service.d.ts"
+      ],
+      "../../node_modules/aws-sdk/clients/ssmincidents.d.ts": [
         "../../node_modules/aws-sdk/lib/config-base.d.ts",
         "../../node_modules/aws-sdk/lib/error.d.ts",
         "../../node_modules/aws-sdk/lib/request.d.ts",
@@ -4726,24 +5237,240 @@
       ]
     },
     "exportedModulesMap": {
-      "../aws/sharedFunctions/getReviewBySlug.ts": [
-        "../../node_modules/aws-sdk/index.d.ts"
+      "../aws/handlers/deleteAccount.ts": [
+        "../../node_modules/@middy/core/index.d.ts",
+        "../aws/shared/interfaces/IHTTP.ts"
       ],
-      "../../node_modules/@types/node/assert.d.ts": [
-        "../../node_modules/@types/node/assert.d.ts"
+      "../aws/handlers/getAllReviews.ts": [
+        "../../node_modules/@middy/core/index.d.ts",
+        "../aws/shared/interfaces/IHTTP.ts"
       ],
-      "../../node_modules/@types/node/async_hooks.d.ts": [
-        "../../node_modules/@types/node/async_hooks.d.ts"
+      "../aws/handlers/getReview.ts": [
+        "../../node_modules/@middy/core/index.d.ts",
+        "../aws/shared/interfaces/IHTTP.ts"
+      ],
+      "../aws/handlers/login.ts": [
+        "../../node_modules/@middy/core/index.d.ts",
+        "../aws/shared/interfaces/IHTTP.ts"
+      ],
+      "../aws/handlers/private.ts": [
+        "../../node_modules/@types/aws-lambda/index.d.ts",
+        "../aws/shared/interfaces/IHTTP.ts"
+      ],
+      "../aws/handlers/public.ts": [
+        "../aws/shared/interfaces/IHTTP.ts"
+      ],
+      "../aws/handlers/setReviewPicture.ts": [
+        "../../node_modules/@middy/core/index.d.ts",
+        "../aws/shared/interfaces/IHTTP.ts"
+      ],
+      "../aws/handlers/signup.ts": [
+        "../../node_modules/@middy/core/index.d.ts",
+        "../aws/shared/interfaces/IHTTP.ts"
+      ],
+      "../aws/shared/functions/createAWSResErr.ts": [
+        "../aws/shared/interfaces/IHTTP.ts"
+      ],
+      "../aws/shared/functions/getReviewBySlug.ts": [
+        "../aws/shared/interfaces/IHTTP.ts"
+      ],
+      "../../node_modules/@middy/core/index.d.ts": [
+        "../../node_modules/@types/aws-lambda/index.d.ts"
+      ],
+      "../../node_modules/@middy/http-cors/index.d.ts": [
+        "../../node_modules/@middy/core/index.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/index.d.ts": [
+        "../../node_modules/@types/aws-lambda/common/api-gateway.d.ts",
+        "../../node_modules/@types/aws-lambda/common/cloudfront.d.ts",
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/alb.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/api-gateway-authorizer.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/api-gateway-proxy.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/appsync-resolver.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cloudformation-custom-resource.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cloudfront-request.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cloudfront-response.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cloudwatch-events.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cloudwatch-logs.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/codebuild-cloudwatch-state.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-action.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-pipeline.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-stage.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/codepipeline.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/index.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/connect-contact-flow.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/dynamodb-stream.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/eventbridge.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/iot.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/kinesis-firehose-transformation.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/kinesis-stream.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/lex.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/msk.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/s3-batch.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/s3.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/ses.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/sns.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/sqs.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/alb.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/api-gateway-authorizer.d.ts": [
+        "../../node_modules/@types/aws-lambda/common/api-gateway.d.ts",
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/api-gateway-proxy.d.ts": [
+        "../../node_modules/@types/aws-lambda/common/api-gateway.d.ts",
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/appsync-resolver.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cloudformation-custom-resource.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cloudfront-request.d.ts": [
+        "../../node_modules/@types/aws-lambda/common/cloudfront.d.ts",
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cloudfront-response.d.ts": [
+        "../../node_modules/@types/aws-lambda/common/cloudfront.d.ts",
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cloudwatch-events.d.ts": [
+        "../../node_modules/@types/aws-lambda/trigger/eventbridge.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cloudwatch-logs.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/codebuild-cloudwatch-state.d.ts": [
+        "../../node_modules/@types/aws-lambda/trigger/eventbridge.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-action.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-pipeline.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-stage.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-action.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-pipeline.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-stage.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/codepipeline.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/create-auth-challenge.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/custom-email-sender.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/custom-message.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/define-auth-challenge.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/index.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/create-auth-challenge.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/custom-email-sender.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/custom-message.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/define-auth-challenge.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/post-authentication.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/post-confirmation.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/pre-authentication.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/pre-signup.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/pre-token-generation.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/user-migration.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/verify-auth-challenge-response.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/post-authentication.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/post-confirmation.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/pre-authentication.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/pre-signup.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/pre-token-generation.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/user-migration.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/verify-auth-challenge-response.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts",
+        "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/connect-contact-flow.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/dynamodb-stream.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/eventbridge.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/iot.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/kinesis-firehose-transformation.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/kinesis-stream.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/lex.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/msk.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/s3-batch.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/s3.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/ses.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/sns.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/aws-lambda/trigger/sqs.d.ts": [
+        "../../node_modules/@types/aws-lambda/handler.d.ts"
+      ],
+      "../../node_modules/@types/jsonwebtoken/index.d.ts": [
+        "../../node_modules/@types/node/index.d.ts"
       ],
       "../../node_modules/@types/node/base.d.ts": [
         "../../node_modules/@types/node/assert.d.ts",
         "../../node_modules/@types/node/ts3.6/base.d.ts"
       ],
-      "../../node_modules/@types/node/buffer.d.ts": [
-        "../../node_modules/@types/node/buffer.d.ts"
-      ],
       "../../node_modules/@types/node/child_process.d.ts": [
-        "../../node_modules/@types/node/child_process.d.ts",
         "../../node_modules/@types/node/events.d.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/net.d.ts",
@@ -4751,7 +5478,6 @@
       ],
       "../../node_modules/@types/node/cluster.d.ts": [
         "../../node_modules/@types/node/child_process.d.ts",
-        "../../node_modules/@types/node/cluster.d.ts",
         "../../node_modules/@types/node/events.d.ts",
         "../../node_modules/@types/node/net.d.ts"
       ],
@@ -4759,26 +5485,19 @@
         "../../node_modules/@types/node/util.d.ts"
       ],
       "../../node_modules/@types/node/constants.d.ts": [
-        "../../node_modules/@types/node/constants.d.ts",
         "../../node_modules/@types/node/crypto.d.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/os.d.ts"
       ],
       "../../node_modules/@types/node/crypto.d.ts": [
-        "../../node_modules/@types/node/crypto.d.ts",
         "../../node_modules/@types/node/stream.d.ts"
       ],
       "../../node_modules/@types/node/dgram.d.ts": [
-        "../../node_modules/@types/node/dgram.d.ts",
         "../../node_modules/@types/node/dns.d.ts",
         "../../node_modules/@types/node/events.d.ts",
         "../../node_modules/@types/node/net.d.ts"
       ],
-      "../../node_modules/@types/node/dns.d.ts": [
-        "../../node_modules/@types/node/dns.d.ts"
-      ],
       "../../node_modules/@types/node/domain.d.ts": [
-        "../../node_modules/@types/node/domain.d.ts",
         "../../node_modules/@types/node/events.d.ts"
       ],
       "../../node_modules/@types/node/events.d.ts": [
@@ -4786,17 +5505,14 @@
       ],
       "../../node_modules/@types/node/fs.d.ts": [
         "../../node_modules/@types/node/events.d.ts",
-        "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/fs/promises.d.ts",
         "../../node_modules/@types/node/stream.d.ts",
         "../../node_modules/@types/node/url.d.ts"
       ],
       "../../node_modules/@types/node/fs/promises.d.ts": [
-        "../../node_modules/@types/node/fs.d.ts",
-        "../../node_modules/@types/node/fs/promises.d.ts"
+        "../../node_modules/@types/node/fs.d.ts"
       ],
       "../../node_modules/@types/node/http.d.ts": [
-        "../../node_modules/@types/node/http.d.ts",
         "../../node_modules/@types/node/net.d.ts",
         "../../node_modules/@types/node/stream.d.ts",
         "../../node_modules/@types/node/url.d.ts"
@@ -4805,7 +5521,6 @@
         "../../node_modules/@types/node/events.d.ts",
         "../../node_modules/@types/node/fs.d.ts",
         "../../node_modules/@types/node/http.d.ts",
-        "../../node_modules/@types/node/http2.d.ts",
         "../../node_modules/@types/node/net.d.ts",
         "../../node_modules/@types/node/stream.d.ts",
         "../../node_modules/@types/node/tls.d.ts",
@@ -4813,7 +5528,6 @@
       ],
       "../../node_modules/@types/node/https.d.ts": [
         "../../node_modules/@types/node/http.d.ts",
-        "../../node_modules/@types/node/https.d.ts",
         "../../node_modules/@types/node/tls.d.ts",
         "../../node_modules/@types/node/url.d.ts"
       ],
@@ -4821,64 +5535,35 @@
         "../../node_modules/@types/node/base.d.ts"
       ],
       "../../node_modules/@types/node/inspector.d.ts": [
-        "../../node_modules/@types/node/events.d.ts",
-        "../../node_modules/@types/node/inspector.d.ts"
+        "../../node_modules/@types/node/events.d.ts"
       ],
       "../../node_modules/@types/node/module.d.ts": [
-        "../../node_modules/@types/node/module.d.ts",
         "../../node_modules/@types/node/url.d.ts"
       ],
       "../../node_modules/@types/node/net.d.ts": [
         "../../node_modules/@types/node/dns.d.ts",
         "../../node_modules/@types/node/events.d.ts",
-        "../../node_modules/@types/node/net.d.ts",
         "../../node_modules/@types/node/stream.d.ts"
       ],
-      "../../node_modules/@types/node/os.d.ts": [
-        "../../node_modules/@types/node/os.d.ts"
-      ],
-      "../../node_modules/@types/node/path.d.ts": [
-        "../../node_modules/@types/node/path.d.ts"
-      ],
       "../../node_modules/@types/node/perf_hooks.d.ts": [
-        "../../node_modules/@types/node/async_hooks.d.ts",
-        "../../node_modules/@types/node/perf_hooks.d.ts"
+        "../../node_modules/@types/node/async_hooks.d.ts"
       ],
       "../../node_modules/@types/node/process.d.ts": [
         "../../node_modules/@types/node/tty.d.ts"
       ],
-      "../../node_modules/@types/node/punycode.d.ts": [
-        "../../node_modules/@types/node/punycode.d.ts"
-      ],
-      "../../node_modules/@types/node/querystring.d.ts": [
-        "../../node_modules/@types/node/querystring.d.ts"
-      ],
       "../../node_modules/@types/node/readline.d.ts": [
-        "../../node_modules/@types/node/events.d.ts",
-        "../../node_modules/@types/node/readline.d.ts"
+        "../../node_modules/@types/node/events.d.ts"
       ],
       "../../node_modules/@types/node/repl.d.ts": [
         "../../node_modules/@types/node/readline.d.ts",
-        "../../node_modules/@types/node/repl.d.ts",
         "../../node_modules/@types/node/util.d.ts",
         "../../node_modules/@types/node/vm.d.ts"
       ],
       "../../node_modules/@types/node/stream.d.ts": [
-        "../../node_modules/@types/node/events.d.ts",
-        "../../node_modules/@types/node/stream.d.ts"
-      ],
-      "../../node_modules/@types/node/string_decoder.d.ts": [
-        "../../node_modules/@types/node/string_decoder.d.ts"
-      ],
-      "../../node_modules/@types/node/timers.d.ts": [
-        "../../node_modules/@types/node/timers.d.ts"
+        "../../node_modules/@types/node/events.d.ts"
       ],
       "../../node_modules/@types/node/tls.d.ts": [
-        "../../node_modules/@types/node/net.d.ts",
-        "../../node_modules/@types/node/tls.d.ts"
-      ],
-      "../../node_modules/@types/node/trace_events.d.ts": [
-        "../../node_modules/@types/node/trace_events.d.ts"
+        "../../node_modules/@types/node/net.d.ts"
       ],
       "../../node_modules/@types/node/ts3.6/base.d.ts": [
         "../../node_modules/@types/node/async_hooks.d.ts",
@@ -4925,37 +5610,23 @@
         "../../node_modules/@types/node/zlib.d.ts"
       ],
       "../../node_modules/@types/node/tty.d.ts": [
-        "../../node_modules/@types/node/net.d.ts",
-        "../../node_modules/@types/node/tty.d.ts"
+        "../../node_modules/@types/node/net.d.ts"
       ],
       "../../node_modules/@types/node/url.d.ts": [
-        "../../node_modules/@types/node/querystring.d.ts",
-        "../../node_modules/@types/node/url.d.ts"
-      ],
-      "../../node_modules/@types/node/util.d.ts": [
-        "../../node_modules/@types/node/util.d.ts"
+        "../../node_modules/@types/node/querystring.d.ts"
       ],
       "../../node_modules/@types/node/v8.d.ts": [
-        "../../node_modules/@types/node/stream.d.ts",
-        "../../node_modules/@types/node/v8.d.ts"
-      ],
-      "../../node_modules/@types/node/vm.d.ts": [
-        "../../node_modules/@types/node/vm.d.ts"
-      ],
-      "../../node_modules/@types/node/wasi.d.ts": [
-        "../../node_modules/@types/node/wasi.d.ts"
+        "../../node_modules/@types/node/stream.d.ts"
       ],
       "../../node_modules/@types/node/worker_threads.d.ts": [
         "../../node_modules/@types/node/events.d.ts",
         "../../node_modules/@types/node/fs/promises.d.ts",
         "../../node_modules/@types/node/stream.d.ts",
         "../../node_modules/@types/node/url.d.ts",
-        "../../node_modules/@types/node/vm.d.ts",
-        "../../node_modules/@types/node/worker_threads.d.ts"
+        "../../node_modules/@types/node/vm.d.ts"
       ],
       "../../node_modules/@types/node/zlib.d.ts": [
-        "../../node_modules/@types/node/stream.d.ts",
-        "../../node_modules/@types/node/zlib.d.ts"
+        "../../node_modules/@types/node/stream.d.ts"
       ],
       "../../node_modules/@types/react/index.d.ts": [
         "../../node_modules/@types/prop-types/index.d.ts",
@@ -5009,8 +5680,10 @@
         "../../node_modules/aws-sdk/clients/appflow.d.ts",
         "../../node_modules/aws-sdk/clients/appintegrations.d.ts",
         "../../node_modules/aws-sdk/clients/applicationautoscaling.d.ts",
+        "../../node_modules/aws-sdk/clients/applicationcostprofiler.d.ts",
         "../../node_modules/aws-sdk/clients/applicationinsights.d.ts",
         "../../node_modules/aws-sdk/clients/appmesh.d.ts",
+        "../../node_modules/aws-sdk/clients/apprunner.d.ts",
         "../../node_modules/aws-sdk/clients/appstream.d.ts",
         "../../node_modules/aws-sdk/clients/appsync.d.ts",
         "../../node_modules/aws-sdk/clients/athena.d.ts",
@@ -5092,6 +5765,8 @@
         "../../node_modules/aws-sdk/clients/emrcontainers.d.ts",
         "../../node_modules/aws-sdk/clients/es.d.ts",
         "../../node_modules/aws-sdk/clients/eventbridge.d.ts",
+        "../../node_modules/aws-sdk/clients/finspace.d.ts",
+        "../../node_modules/aws-sdk/clients/finspacedata.d.ts",
         "../../node_modules/aws-sdk/clients/firehose.d.ts",
         "../../node_modules/aws-sdk/clients/fis.d.ts",
         "../../node_modules/aws-sdk/clients/fms.d.ts",
@@ -5179,6 +5854,7 @@
         "../../node_modules/aws-sdk/clients/neptune.d.ts",
         "../../node_modules/aws-sdk/clients/networkfirewall.d.ts",
         "../../node_modules/aws-sdk/clients/networkmanager.d.ts",
+        "../../node_modules/aws-sdk/clients/nimble.d.ts",
         "../../node_modules/aws-sdk/clients/opsworks.d.ts",
         "../../node_modules/aws-sdk/clients/opsworkscm.d.ts",
         "../../node_modules/aws-sdk/clients/organizations.d.ts",
@@ -5233,6 +5909,8 @@
         "../../node_modules/aws-sdk/clients/sns.d.ts",
         "../../node_modules/aws-sdk/clients/sqs.d.ts",
         "../../node_modules/aws-sdk/clients/ssm.d.ts",
+        "../../node_modules/aws-sdk/clients/ssmcontacts.d.ts",
+        "../../node_modules/aws-sdk/clients/ssmincidents.d.ts",
         "../../node_modules/aws-sdk/clients/sso.d.ts",
         "../../node_modules/aws-sdk/clients/ssoadmin.d.ts",
         "../../node_modules/aws-sdk/clients/ssooidc.d.ts",
@@ -5329,6 +6007,13 @@
         "../../node_modules/aws-sdk/lib/response.d.ts",
         "../../node_modules/aws-sdk/lib/service.d.ts"
       ],
+      "../../node_modules/aws-sdk/clients/applicationcostprofiler.d.ts": [
+        "../../node_modules/aws-sdk/lib/config-base.d.ts",
+        "../../node_modules/aws-sdk/lib/error.d.ts",
+        "../../node_modules/aws-sdk/lib/request.d.ts",
+        "../../node_modules/aws-sdk/lib/response.d.ts",
+        "../../node_modules/aws-sdk/lib/service.d.ts"
+      ],
       "../../node_modules/aws-sdk/clients/applicationinsights.d.ts": [
         "../../node_modules/aws-sdk/lib/config-base.d.ts",
         "../../node_modules/aws-sdk/lib/error.d.ts",
@@ -5337,6 +6022,13 @@
         "../../node_modules/aws-sdk/lib/service.d.ts"
       ],
       "../../node_modules/aws-sdk/clients/appmesh.d.ts": [
+        "../../node_modules/aws-sdk/lib/config-base.d.ts",
+        "../../node_modules/aws-sdk/lib/error.d.ts",
+        "../../node_modules/aws-sdk/lib/request.d.ts",
+        "../../node_modules/aws-sdk/lib/response.d.ts",
+        "../../node_modules/aws-sdk/lib/service.d.ts"
+      ],
+      "../../node_modules/aws-sdk/clients/apprunner.d.ts": [
         "../../node_modules/aws-sdk/lib/config-base.d.ts",
         "../../node_modules/aws-sdk/lib/error.d.ts",
         "../../node_modules/aws-sdk/lib/request.d.ts",
@@ -5912,6 +6604,20 @@
         "../../node_modules/aws-sdk/lib/service.d.ts"
       ],
       "../../node_modules/aws-sdk/clients/eventbridge.d.ts": [
+        "../../node_modules/aws-sdk/lib/config-base.d.ts",
+        "../../node_modules/aws-sdk/lib/error.d.ts",
+        "../../node_modules/aws-sdk/lib/request.d.ts",
+        "../../node_modules/aws-sdk/lib/response.d.ts",
+        "../../node_modules/aws-sdk/lib/service.d.ts"
+      ],
+      "../../node_modules/aws-sdk/clients/finspace.d.ts": [
+        "../../node_modules/aws-sdk/lib/config-base.d.ts",
+        "../../node_modules/aws-sdk/lib/error.d.ts",
+        "../../node_modules/aws-sdk/lib/request.d.ts",
+        "../../node_modules/aws-sdk/lib/response.d.ts",
+        "../../node_modules/aws-sdk/lib/service.d.ts"
+      ],
+      "../../node_modules/aws-sdk/clients/finspacedata.d.ts": [
         "../../node_modules/aws-sdk/lib/config-base.d.ts",
         "../../node_modules/aws-sdk/lib/error.d.ts",
         "../../node_modules/aws-sdk/lib/request.d.ts",
@@ -6537,6 +7243,13 @@
         "../../node_modules/aws-sdk/lib/response.d.ts",
         "../../node_modules/aws-sdk/lib/service.d.ts"
       ],
+      "../../node_modules/aws-sdk/clients/nimble.d.ts": [
+        "../../node_modules/aws-sdk/lib/config-base.d.ts",
+        "../../node_modules/aws-sdk/lib/error.d.ts",
+        "../../node_modules/aws-sdk/lib/request.d.ts",
+        "../../node_modules/aws-sdk/lib/response.d.ts",
+        "../../node_modules/aws-sdk/lib/service.d.ts"
+      ],
       "../../node_modules/aws-sdk/clients/opsworks.d.ts": [
         "../../node_modules/aws-sdk/lib/config-base.d.ts",
         "../../node_modules/aws-sdk/lib/error.d.ts",
@@ -6920,6 +7633,20 @@
         "../../node_modules/aws-sdk/lib/service.d.ts"
       ],
       "../../node_modules/aws-sdk/clients/ssm.d.ts": [
+        "../../node_modules/aws-sdk/lib/config-base.d.ts",
+        "../../node_modules/aws-sdk/lib/error.d.ts",
+        "../../node_modules/aws-sdk/lib/request.d.ts",
+        "../../node_modules/aws-sdk/lib/response.d.ts",
+        "../../node_modules/aws-sdk/lib/service.d.ts"
+      ],
+      "../../node_modules/aws-sdk/clients/ssmcontacts.d.ts": [
+        "../../node_modules/aws-sdk/lib/config-base.d.ts",
+        "../../node_modules/aws-sdk/lib/error.d.ts",
+        "../../node_modules/aws-sdk/lib/request.d.ts",
+        "../../node_modules/aws-sdk/lib/response.d.ts",
+        "../../node_modules/aws-sdk/lib/service.d.ts"
+      ],
+      "../../node_modules/aws-sdk/clients/ssmincidents.d.ts": [
         "../../node_modules/aws-sdk/lib/config-base.d.ts",
         "../../node_modules/aws-sdk/lib/error.d.ts",
         "../../node_modules/aws-sdk/lib/request.d.ts",
@@ -7287,218 +8014,61 @@
       "../aws/handlers/login.ts",
       "../aws/handlers/private.ts",
       "../aws/handlers/public.ts",
-      [
-        "../aws/handlers/setReviewPicture.ts",
-        [
-          {
-            "file": "../aws/handlers/setReviewPicture.ts",
-            "start": 990,
-            "length": 6,
-            "code": 2769,
-            "category": 1,
-            "messageText": {
-              "messageText": "No overload matches this call.",
-              "category": 1,
-              "code": 2769,
-              "next": [
-                {
-                  "messageText": "Overload 1 of 2, '(params: DeleteObjectRequest, callback?: ((err: AWSError, data: DeleteObjectOutput) => void) | undefined): Request<DeleteObjectOutput, AWSError>', gave the following error.",
-                  "category": 1,
-                  "code": 2772,
-                  "next": [
-                    {
-                      "messageText": "Argument of type '{ Bucket: string | undefined; Key: string; }' is not assignable to parameter of type 'DeleteObjectRequest'.",
-                      "category": 1,
-                      "code": 2345,
-                      "next": [
-                        {
-                          "messageText": "Types of property 'Bucket' are incompatible.",
-                          "category": 1,
-                          "code": 2326,
-                          "next": [
-                            {
-                              "messageText": "Type 'string | undefined' is not assignable to type 'string'.",
-                              "category": 1,
-                              "code": 2322,
-                              "next": [
-                                {
-                                  "messageText": "Type 'undefined' is not assignable to type 'string'.",
-                                  "category": 1,
-                                  "code": 2322
-                                }
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "messageText": "Overload 2 of 2, '(callback?: ((err: AWSError, data: DeleteObjectOutput) => void) | undefined): Request<DeleteObjectOutput, AWSError>', gave the following error.",
-                  "category": 1,
-                  "code": 2772,
-                  "next": [
-                    {
-                      "messageText": "Argument of type '{ Bucket: string | undefined; Key: string; }' is not assignable to parameter of type '(err: AWSError, data: DeleteObjectOutput) => void'.",
-                      "category": 1,
-                      "code": 2345,
-                      "next": [
-                        {
-                          "messageText": "Type '{ Bucket: string | undefined; Key: string; }' provides no match for the signature '(err: AWSError, data: DeleteObjectOutput): void'.",
-                          "category": 1,
-                          "code": 2658
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "relatedInformation": []
-          },
-          {
-            "file": "../aws/handlers/setReviewPicture.ts",
-            "start": 1349,
-            "length": 6,
-            "code": 2769,
-            "category": 1,
-            "messageText": {
-              "messageText": "No overload matches this call.",
-              "category": 1,
-              "code": 2769,
-              "next": [
-                {
-                  "messageText": "Overload 1 of 2, '(params: PutObjectRequest, options?: ManagedUploadOptions | undefined, callback?: ((err: Error, data: SendData) => void) | undefined): ManagedUpload', gave the following error.",
-                  "category": 1,
-                  "code": 2772,
-                  "next": [
-                    {
-                      "messageText": "Type 'string | undefined' is not assignable to type 'string'.",
-                      "category": 1,
-                      "code": 2322,
-                      "next": [
-                        {
-                          "messageText": "Type 'undefined' is not assignable to type 'string'.",
-                          "category": 1,
-                          "code": 2322
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "messageText": "Overload 2 of 2, '(params: PutObjectRequest, callback?: ((err: Error, data: SendData) => void) | undefined): ManagedUpload', gave the following error.",
-                  "category": 1,
-                  "code": 2772,
-                  "next": [
-                    {
-                      "messageText": "Type 'string | undefined' is not assignable to type 'string'.",
-                      "category": 1,
-                      "code": 2322,
-                      "next": [
-                        {
-                          "messageText": "Type 'undefined' is not assignable to type 'string'.",
-                          "category": 1,
-                          "code": 2322
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "relatedInformation": [
-              {
-                "file": "../../node_modules/aws-sdk/clients/s3.d.ts",
-                "start": 524400,
-                "length": 6,
-                "messageText": "The expected type comes from property 'Bucket' which is declared here on type 'PutObjectRequest'",
-                "category": 3,
-                "code": 6500
-              },
-              {
-                "file": "../../node_modules/aws-sdk/clients/s3.d.ts",
-                "start": 524400,
-                "length": 6,
-                "messageText": "The expected type comes from property 'Bucket' which is declared here on type 'PutObjectRequest'",
-                "category": 3,
-                "code": 6500
-              }
-            ]
-          }
-        ]
-      ],
-      [
-        "../aws/handlers/signup.ts",
-        [
-          {
-            "file": "../aws/handlers/signup.ts",
-            "start": 644,
-            "length": 6,
-            "code": 2345,
-            "category": 1,
-            "messageText": {
-              "messageText": "Argument of type '(string | undefined)[]' is not assignable to parameter of type 'string[]'.",
-              "category": 1,
-              "code": 2345,
-              "next": [
-                {
-                  "messageText": "Type 'string | undefined' is not assignable to type 'string'.",
-                  "category": 1,
-                  "code": 2322,
-                  "next": [
-                    {
-                      "messageText": "Type 'undefined' is not assignable to type 'string'.",
-                      "category": 1,
-                      "code": 2322
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        ]
-      ],
-      "../aws/sharedFunctions/createAWSResErr.ts",
-      [
-        "../aws/sharedFunctions/getReviewBySlug.ts",
-        [
-          {
-            "file": "../aws/sharedFunctions/getReviewBySlug.ts",
-            "start": 343,
-            "length": 6,
-            "code": 2345,
-            "category": 1,
-            "messageText": {
-              "messageText": "Argument of type '{ TableName: string | undefined; Key: { slug: string; }; }' is not assignable to parameter of type 'GetItemInput'.",
-              "category": 1,
-              "code": 2345,
-              "next": [
-                {
-                  "messageText": "Types of property 'TableName' are incompatible.",
-                  "category": 1,
-                  "code": 2326,
-                  "next": [
-                    {
-                      "messageText": "Type 'string | undefined' is not assignable to type 'string'.",
-                      "category": 1,
-                      "code": 2322,
-                      "next": [
-                        {
-                          "messageText": "Type 'undefined' is not assignable to type 'string'.",
-                          "category": 1,
-                          "code": 2322
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        ]
-      ],
+      "../aws/handlers/setReviewPicture.ts",
+      "../aws/handlers/signup.ts",
+      "../aws/shared/functions/createAWSResErr.ts",
+      "../aws/shared/functions/getReviewBySlug.ts",
+      "../aws/shared/interfaces/IDynamoQuery.ts",
+      "../aws/shared/interfaces/IHTTP.ts",
+      "../../node_modules/@middy/core/index.d.ts",
+      "../../node_modules/@middy/http-cors/index.d.ts",
+      "../../node_modules/@types/aws-lambda/common/api-gateway.d.ts",
+      "../../node_modules/@types/aws-lambda/common/cloudfront.d.ts",
+      "../../node_modules/@types/aws-lambda/handler.d.ts",
+      "../../node_modules/@types/aws-lambda/index.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/alb.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/api-gateway-authorizer.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/api-gateway-proxy.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/appsync-resolver.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/cloudformation-custom-resource.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/cloudfront-request.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/cloudfront-response.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/cloudwatch-events.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/cloudwatch-logs.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/codebuild-cloudwatch-state.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-action.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-pipeline.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch-stage.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/codepipeline-cloudwatch.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/codepipeline.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/_common.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/create-auth-challenge.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/custom-email-sender.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/custom-message.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/define-auth-challenge.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/index.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/post-authentication.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/post-confirmation.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/pre-authentication.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/pre-signup.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/pre-token-generation.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/user-migration.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/cognito-user-pool-trigger/verify-auth-challenge-response.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/connect-contact-flow.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/dynamodb-stream.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/eventbridge.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/iot.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/kinesis-firehose-transformation.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/kinesis-stream.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/lex.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/msk.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/s3-batch.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/s3.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/ses.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/sns.d.ts",
+      "../../node_modules/@types/aws-lambda/trigger/sqs.d.ts",
+      "../../node_modules/@types/bcryptjs/index.d.ts",
+      "../../node_modules/@types/jsonwebtoken/index.d.ts",
       "../../node_modules/@types/node/assert.d.ts",
       "../../node_modules/@types/node/async_hooks.d.ts",
       "../../node_modules/@types/node/base.d.ts",
@@ -7565,8 +8135,10 @@
       "../../node_modules/aws-sdk/clients/appflow.d.ts",
       "../../node_modules/aws-sdk/clients/appintegrations.d.ts",
       "../../node_modules/aws-sdk/clients/applicationautoscaling.d.ts",
+      "../../node_modules/aws-sdk/clients/applicationcostprofiler.d.ts",
       "../../node_modules/aws-sdk/clients/applicationinsights.d.ts",
       "../../node_modules/aws-sdk/clients/appmesh.d.ts",
+      "../../node_modules/aws-sdk/clients/apprunner.d.ts",
       "../../node_modules/aws-sdk/clients/appstream.d.ts",
       "../../node_modules/aws-sdk/clients/appsync.d.ts",
       "../../node_modules/aws-sdk/clients/athena.d.ts",
@@ -7648,6 +8220,8 @@
       "../../node_modules/aws-sdk/clients/emrcontainers.d.ts",
       "../../node_modules/aws-sdk/clients/es.d.ts",
       "../../node_modules/aws-sdk/clients/eventbridge.d.ts",
+      "../../node_modules/aws-sdk/clients/finspace.d.ts",
+      "../../node_modules/aws-sdk/clients/finspacedata.d.ts",
       "../../node_modules/aws-sdk/clients/firehose.d.ts",
       "../../node_modules/aws-sdk/clients/fis.d.ts",
       "../../node_modules/aws-sdk/clients/fms.d.ts",
@@ -7735,6 +8309,7 @@
       "../../node_modules/aws-sdk/clients/neptune.d.ts",
       "../../node_modules/aws-sdk/clients/networkfirewall.d.ts",
       "../../node_modules/aws-sdk/clients/networkmanager.d.ts",
+      "../../node_modules/aws-sdk/clients/nimble.d.ts",
       "../../node_modules/aws-sdk/clients/opsworks.d.ts",
       "../../node_modules/aws-sdk/clients/opsworkscm.d.ts",
       "../../node_modules/aws-sdk/clients/organizations.d.ts",
@@ -7789,6 +8364,8 @@
       "../../node_modules/aws-sdk/clients/sns.d.ts",
       "../../node_modules/aws-sdk/clients/sqs.d.ts",
       "../../node_modules/aws-sdk/clients/ssm.d.ts",
+      "../../node_modules/aws-sdk/clients/ssmcontacts.d.ts",
+      "../../node_modules/aws-sdk/clients/ssmincidents.d.ts",
       "../../node_modules/aws-sdk/clients/sso.d.ts",
       "../../node_modules/aws-sdk/clients/ssoadmin.d.ts",
       "../../node_modules/aws-sdk/clients/ssooidc.d.ts",
@@ -7859,6 +8436,7 @@
       "../../node_modules/aws-sdk/lib/services/s3.d.ts",
       "../../node_modules/aws-sdk/lib/shared-ini/ini-loader.d.ts",
       "../../node_modules/csstype/index.d.ts",
+      "../../node_modules/email-validator/index.d.ts",
       "../../node_modules/tslib/tslib.d.ts",
       "../../node_modules/typescript/lib/lib.dom.d.ts",
       "../../node_modules/typescript/lib/lib.dom.iterable.d.ts",
