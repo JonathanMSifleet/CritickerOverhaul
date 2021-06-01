@@ -1,7 +1,8 @@
+import middy from '@middy/core';
 import cors from '@middy/http-cors';
 import AWS from 'aws-sdk';
-import middy from 'middy';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
+
 const DynamoDB = new AWS.DynamoDB.DocumentClient();
 
 const deleteAccount = async (event: {
@@ -10,21 +11,22 @@ const deleteAccount = async (event: {
   const { email } = event.requestContext.authorizer;
 
   const params = {
-    TableName: process.env.USER_TABLE_NAME,
-    Key: {
-      email
-    },
     ConditionExpression: 'email = :email',
     ExpressionAttributeValues: {
       ':email': email
-    }
+    },
+    Key: {
+      email
+    },
+    TableName: process.env.USER_TABLE_NAME!
   };
 
   try {
     const result = await DynamoDB.delete(params).promise();
+
     return {
-      statusCode: 204,
-      body: JSON.stringify(result)
+      body: JSON.stringify(result),
+      statusCode: 204
     };
   } catch (error) {
     return createAWSResErr(403, error);
