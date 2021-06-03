@@ -21,7 +21,7 @@
     "target": "ESNext",
     "types": ["node"]
   },
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "**/*.tsx"],
   "exclude": [
     "node_modules/**/*",
     ".serverless/**/*",
