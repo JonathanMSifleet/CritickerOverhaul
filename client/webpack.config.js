@@ -1,22 +1,22 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
-  // Where files should be sent once they are bundled
   output: {
     path: path.join(__dirname, '/dist'),
     filename: 'index.bundle.js'
   },
-  // webpack 5 comes with devServer which loads in development mode
   devServer: {
     port: 3000,
     watchContentBase: true
   },
-  // Rules of how webpack will take our files, complie & bundle them for the browser
+  externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.(ts|tsx)$/,
         exclude: /nodeModules/,
         use: {
           loader: 'babel-loader'
@@ -24,9 +24,12 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader']
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       }
     ]
   },
-  plugins: [new HtmlWebpackPlugin({ template: './src/index.html' })]
+  plugins: [
+    new HtmlWebpackPlugin({ template: './src/index.html' }),
+    new MiniCssExtractPlugin()
+  ]
 };
