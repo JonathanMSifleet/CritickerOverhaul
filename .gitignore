@@ -28,5 +28,6 @@ dist
 node_modules
 npm-debug.log*
 secret.pem
+tsconfig.tsbuildinfo
 yarn-debug.log*
 yarn-error.log*

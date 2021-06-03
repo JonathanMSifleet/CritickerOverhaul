@@ -19,14 +19,14 @@ module.exports = {
       typescript: {}
     },
     react: {
-      version: 'detect' // Tells eslint-plugin-react to automatically detect the version of React to use
+      version: 'detect'
     }
   },
   parserOptions: {
     project: './tsconfig.json',
     tsconfigRootDir: './',
     sourceType: 'module',
-    ecmaVersion: 2021,
+    ecmaVersion: 2020,
     ecmaFeatures: { jsx: true, legacyDecorators: true }
   },
   rules: {
