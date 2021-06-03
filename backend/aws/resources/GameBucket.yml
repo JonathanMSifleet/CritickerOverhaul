@@ -1,12 +1,12 @@
-ReviewBucket:
+GameBucket:
   Type: AWS::S3::Bucket
   Properties:
-    BucketName: ${self:custom.ReviewBucket.name}
+    BucketName: ${self:custom.GameBucket.name}
 
-ReviewBucketPolicy:
+GameBucketPolicy:
   Type: AWS::S3::BucketPolicy
   Properties:
-    Bucket: !Ref ReviewBucket
+    Bucket: !Ref GameBucket
     PolicyDocument:
       Statement:
         - Sid: PublicRead
@@ -15,4 +15,4 @@ ReviewBucketPolicy:
           Action:
             - s3:GetObject
             - s3:DeleteObject
-          Resource: arn:aws:s3:::${self:custom.ReviewBucket.name}/*
+          Resource: arn:aws:s3:::${self:custom.GameBucket.name}/*

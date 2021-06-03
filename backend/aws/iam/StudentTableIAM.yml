@@ -1,4 +1,4 @@
-UserTableIAM:
+StudentTableIAM:
   Effect: Allow
   Action:
     - dynamodb:PutItem
@@ -8,5 +8,5 @@ UserTableIAM:
     - dynamodb:UpdateItem
     - dynamodb:Query
   Resource:
-    - ${self:custom.UserTable.arn}
-    - !Join ['/', ['${self:custom.UserTable.arn}', 'index', 'username']]
+    - ${self:custom.StudentTable.arn}
+    - !Join ['/', ['${self:custom.StudentTable.arn}', 'index', 'username']]

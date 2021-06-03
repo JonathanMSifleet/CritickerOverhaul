@@ -16,17 +16,17 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: eu-west-2
   environment:
-    REVIEW_TABLE_NAME: ${self:custom.ReviewTable.name}
-    USER_TABLE_NAME: ${self:custom.UserTable.name}
-    REVIEW_BUCKET_NAME: ${self:custom.ReviewBucket.name}
-    ANGULAR_BUCKET_NAME: ${self:custom.AngularBucket.name}
+    GAME_TABLE_NAME: ${self:custom.GameTable.name}
+    STUDENT_TABLE_NAME: ${self:custom.StudentTable.name}
+    GAME_BUCKET_NAME: ${self:custom.GameBucket.name}
+    REACT_BUCKET_NAME: ${self:custom.ReactBucket.name}
     AUTH0_PUBLIC_KEY: ${file(secret.pem)}
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
   iamRoleStatements:
-    - ${file(aws/iam/ReviewTableIAM.yml):ReviewTableIAM}
-    - ${file(aws/iam/UserTableIAM.yml):UserTableIAM}
-    - ${file(aws/iam/ReviewBucketIAM.yml):ReviewBucketIAM}
-    - ${file(aws/iam/AngularBucketIAM.yml):AngularBucketIAM}
+    - ${file(aws/iam/GameTableIAM.yml):GameTableIAM}
+    - ${file(aws/iam/StudentTableIAM.yml):StudentTableIAM}
+    - ${file(aws/iam/GameBucketIAM.yml):GameBucketIAM}
+    - ${file(aws/iam/ReactBucketIAM.yml):ReactBucketIAM}
 functions:
   auth:
     handler: aws/handlers/auth.handler
@@ -91,18 +91,18 @@ functions:
           cors: true
 resources:
   Resources:
-    ReviewTable: ${file(aws/resources/ReviewTable.yml):ReviewTable}
-    UserTable: ${file(aws/resources/UserTable.yml):UserTable}
-    ReviewBucket: ${file(aws/resources/ReviewBucket.yml):ReviewBucket}
-    ReviewBucketPolicy: ${file(aws/resources/ReviewBucket.yml):ReviewBucketPolicy}
-    AngularBucket: ${file(aws/resources/AngularBucket.yml):AngularBucket}
-    AngularBucketPolicy: ${file(aws/resources/AngularBucket.yml):AngularBucketPolicy}
+    GameTable: ${file(aws/resources/GameTable.yml):GameTable}
+    StudentTable: ${file(aws/resources/StudentTable.yml):StudentTable}
+    GameBucket: ${file(aws/resources/GameBucket.yml):GameBucket}
+    GameBucketPolicy: ${file(aws/resources/GameBucket.yml):GameBucketPolicy}
+    ReactBucket: ${file(aws/resources/ReactBucket.yml):ReactBucket}
+    ReactBucketPolicy: ${file(aws/resources/ReactBucket.yml):ReactBucketPolicy}
     # Cloudfront
     CloudFrontOriginAccessIdentity:
       Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
       Properties:
         CloudFrontOriginAccessIdentityConfig:
-          Comment: Origin Access Identity for ${self:provider.stage} Angular Bucket
+          Comment: Origin Access Identity for ${self:provider.stage} React Bucket
     CloudFrontDistribution:
       Type: AWS::CloudFront::Distribution
       Properties:
@@ -120,7 +120,7 @@ resources:
             Compress: true
             ForwardedValues:
               QueryString: false
-            TargetOriginId: ${self:custom.AngularBucketTargetOrigin.name}
+            TargetOriginId: ${self:custom.ReactBucketTargetOrigin.name}
             ViewerProtocolPolicy: 'redirect-to-https'
           DefaultRootObject: index.html
           Enabled: true
@@ -129,9 +129,9 @@ resources:
           Origins:
             - DomainName:
                 Fn::GetAtt:
-                  - AngularBucket
+                  - ReactBucket
                   - DomainName
-              Id: ${self:custom.AngularBucketTargetOrigin.name}
+              Id: ${self:custom.ReactBucketTargetOrigin.name}
               S3OriginConfig:
                 OriginAccessIdentity:
                   Fn::Join:
@@ -165,19 +165,19 @@ custom:
     webpackConfig: webpack.config.js
     includeModules: true
   authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:FinalYearProject-${self:provider.stage}-auth
-  ReviewTable:
-    name: !Ref ReviewTable
-    arn: !GetAtt ReviewTable.Arn
-  UserTable:
-    name: !Ref UserTable
-    arn: !GetAtt UserTable.Arn
-  ReviewBucket:
-    name: review-bucket-xw23me9x-${self:provider.stage}
-  AngularBucket:
-    name: angular-bucket-t6aius2j-${self:provider.stage}
+  GameTable:
+    name: !Ref GameTable
+    arn: !GetAtt GameTable.Arn
+  StudentTable:
+    name: !Ref StudentTable
+    arn: !GetAtt StudentTable.Arn
+  GameBucket:
+    name: game-bucket-xw23me9x-${self:provider.stage}
+  ReactBucket:
+    name: react-bucket-t6aius2j-${self:provider.stage}
   BucketFolder:
     name: FinalYearProject
-  AngularBucketTargetOrigin:
-    name: S3-${self:custom.AngularBucket.name}/${self:custom.BucketFolder.name}
+  ReactBucketTargetOrigin:
+    name: S3-${self:custom.ReactBucket.name}/${self:custom.BucketFolder.name}
   bundle:
     linting: true

@@ -3,20 +3,19 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "-": "",
     "createSymlinks": "mklink .\\backend\\package.json ..\\package.json & mklink .\\backend\\package-lock.json ..\\package-lock.json & mklink /D .\\backend\\node_modules ..\\node_modules & mklink .\\client\\package.json ..\\package.json & mklink .\\client\\package-lock.json ..\\package-lock.json & mklink /D .\\client\\node_modules ..\\node_modules",
     "delSymlinks": "del .\\backend\\package.json & del .\\backend\\package-lock.json & del .\\client\\package.json & del .\\client\\package-lock.json & RMDIR /Q/S backend\\node_modules 2>nul & RMDIR /Q/S client\\node_modules 2>nul",
     "updateSymlinks": "npm run delSymlinks && npm run createSymlinks",
     "preBuild": "npm run updateSymlinks",
     "postBuild": "cd ./backend && RMDIR /Q/S .serverless 2>nul",
     "slsDeploy": "cd ./backend && serverless deploy -v",
-    "-": "",
-    "fullDeploy": "npm run preBuild && npm run slsDeploy && npm run postBuild",
     "--": "",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "fullDeploy": "npm run preBuild && npm run slsDeploy && npm run postBuild",
     "---": "",
+    "-v": "",
     "removeNodeModules": "npx remove-node-modules"
   },
   "comments": {
@@ -26,7 +25,10 @@
     "@aws/dynamodb-data-mapper": "^0.7.3",
     "@middy/core": "^2.0.1",
     "@middy/http-cors": "^2.0.1",
+    "@types/react": "^17.0.8",
+    "@types/react-dom": "^17.0.5",
     "aws-sdk": "^2.888.0",
+    "babel-loader": "8.1.0",
     "bcryptjs": "^2.4.3",
     "create-react-app": "^4.0.3",
     "email-validator": "^2.0.4",
@@ -34,19 +36,20 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
-    "serverless": "^2.35.0",
+    "serverless": "^2.43.1",
     "serverless-s3-deploy": "^0.10.0",
     "source-map-support": "^0.5.19",
     "tslib": "^2.2.0",
     "uuid": "^8.3.1",
-    "web-vitals": "^1.1.1"
+    "web-vitals": "^1.1.2"
   },
   "devDependencies": {
     "@types/aws-lambda": "^8.10.75",
     "@types/bcryptjs": "^2.4.2",
+    "@types/jest": "^26.0.23",
     "@types/jsonwebtoken": "^8.5.1",
-    "@types/node": "^14.14.41",
-    "@types/react": "^17.0.3",
+    "@types/node": "^14.17.1",
+    "@types/react": "^17.0.8",
     "@types/serverless": "^1.78.25",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
@@ -55,6 +58,7 @@
     "eslint-config-prettier": "^8.2.0",
     "eslint-plugin-prettier": "^3.4.0",
     "fork-ts-checker-webpack-plugin": "^6.2.1",
+    "jest": "26.6.0",
     "json5-loader": "^4.0.1",
     "prettier": "^2.2.1",
     "remove-node-modules": "^1.7.6",
@@ -62,13 +66,25 @@
     "serverless-pseudo-parameters": "^2.5.0",
     "serverless-webpack": "^5.4.1",
     "ts-loader": "^9.0.0",
-    "typescript": "4.2.4",
+    "typescript": "^4.3.2",
     "webpack": "^5.34.0",
     "webpack-cli": "^4.6.0",
     "webpack-node-externals": "^2.5.2"
   },
   "browser": {
     "crypto": false
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   },
   "repository": {
     "type": "git",

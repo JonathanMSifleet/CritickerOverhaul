@@ -1,4 +1,4 @@
-ReviewTableIAM:
+GameTableIAM:
   Effect: Allow
   Action:
     - dynamodb:PutItem
@@ -7,5 +7,5 @@ ReviewTableIAM:
     - dynamodb:UpdateItem
     - dynamodb:Query
   Resource:
-    - ${self:custom.ReviewTable.arn}
-    - !Join ['/', ['${self:custom.ReviewTable.arn}', 'index', 'slug']]
+    - ${self:custom.GameTable.arn}
+    - !Join ['/', ['${self:custom.GameTable.arn}', 'index', 'slug']]

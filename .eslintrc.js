@@ -3,7 +3,8 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
-    'eslint-config-prettier'
+    'eslint-config-prettier',
+    'react-app'
   ],
   env: {
     node: true
@@ -32,6 +33,7 @@ module.exports = {
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-non-null-assertion': 0,
+    'eslint/no-throw-literal': 'off',
     'react/jsx-closing-bracket-location': [2, 'tag-aligned'],
     'react/jsx-first-prop-new-line': [2, 'multiline'],
     'react/jsx-indent-props': [2, 2],

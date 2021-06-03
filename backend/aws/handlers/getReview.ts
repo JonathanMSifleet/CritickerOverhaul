@@ -12,7 +12,7 @@ export const getReview = async (event: {
   try {
     const review = await getReviewBySlug(slug);
     if (review === undefined) {
-      throw 'Invalid slug';
+      return createAWSResErr(404, 'Invalid Slug');
     }
 
     return {
