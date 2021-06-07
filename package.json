@@ -1,5 +1,5 @@
 {
-  "name": "finalyearproject",
+  "name": "cicdtestproject",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -17,7 +17,7 @@
     "clientDeploy": "cd ./client && aws s3 rm s3://react-bucket-t6aius2j-dev --recursive && aws s3 sync ./dist s3://react-bucket-t6aius2j-dev",
     "slsDeploy": "cd ./backend && serverless deploy -v",
     "---": "",
-    "fullDeploy": "npm run preBuild && npm run clientDeploy && npm run slsDeploy && npm run clientDeploy && npm run clean",
+    "fullDeploy": "npm run preBuild && npm run clientDeploy && npm run slsDeploy && npm run clean",
     "iv": "",
     "removeNodeModules": "npx remove-node-modules"
   },
@@ -28,8 +28,6 @@
     "@aws/dynamodb-data-mapper": "^0.7.3",
     "@middy/core": "^2.0.1",
     "@middy/http-cors": "^2.0.1",
-    "@types/react": "^17.0.8",
-    "@types/react-dom": "^17.0.5",
     "aws-sdk": "^2.888.0",
     "bcryptjs": "^2.4.3",
     "create-react-app": "^4.0.3",
@@ -58,6 +56,7 @@
     "@types/mini-css-extract-plugin": "^1.4.3",
     "@types/node": "^14.17.1",
     "@types/react": "^17.0.8",
+    "@types/react-dom": "^17.0.5",
     "@types/serverless": "^1.78.25",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
