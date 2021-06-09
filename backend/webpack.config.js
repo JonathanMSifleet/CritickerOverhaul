@@ -1,7 +1,8 @@
-import path from 'path';
-import nodeExternals from 'webpack-node-externals';
+/* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path');
+const nodeExternals = require('webpack-node-externals');
 // runs TypeScript linting on separate process
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
   context: __dirname,
