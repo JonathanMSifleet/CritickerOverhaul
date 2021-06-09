@@ -17,7 +17,7 @@
     "---": "",
     "clean": "cd ./backend && RMDIR /Q/S .serverless 2>nul && cd ./client && RMDIR /Q/S dist 2>nul",
     "-v": "",
-    "fullDeploy": "npm run preBuild && npm run clientBuild && npm run clientDeploy && npm run slsDeploy && npm run clean"
+    "fullDeploy": "npm run preBuild && npm run clientBuild && npm run clientDeploy && npm run slsDeploy"
   },
   "babel": {
     "presets": [
