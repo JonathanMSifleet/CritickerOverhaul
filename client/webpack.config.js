@@ -1,11 +1,11 @@
-import path from 'path';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import nodeExternals from 'webpack-node-externals';
+/* eslint-disable @typescript-eslint/no-var-requires */
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
+  entry: './src/index.ts',
   output: {
-    path: path.join(__dirname, '/dist'),
     filename: 'index.bundle.js'
   },
   devServer: {
