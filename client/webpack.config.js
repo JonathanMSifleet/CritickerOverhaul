@@ -3,7 +3,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import nodeExternals from 'webpack-node-externals';
 
-const webpack = {
+module.exports = {
   output: {
     path: path.join(__dirname, '/dist'),
     filename: 'index.bundle.js'
@@ -33,5 +33,3 @@ const webpack = {
     new MiniCssExtractPlugin()
   ]
 };
-
-export default webpack;
