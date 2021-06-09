@@ -1,4 +1,4 @@
-import path from 'path';
+const path = require('path');
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import nodeExternals from 'webpack-node-externals';
