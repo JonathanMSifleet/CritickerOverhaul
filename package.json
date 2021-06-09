@@ -8,7 +8,7 @@
     "createSymlinks": "npm run createBackendSymlinks & npm run createClientSymlinks",
     "delSymlinks": "del .\\backend\\package.json & del .\\backend\\package-lock.json & del .\\client\\package.json & del .\\client\\package-lock.json & RMDIR /Q/S backend\\node_modules 2>nul & RMDIR /Q/S client\\node_modules 2>nul",
     "-": "",
-    "installPackages": "remove-node-modules && npm i",
+    "installPackages": "RMDIR /Q/S node_modules 2>nul && npm install",
     "preBuild": "npm run delSymlinks && npm run createSymlinks",
     "--": "",
     "clientBuild": "cd ./client && webpack --mode production",
