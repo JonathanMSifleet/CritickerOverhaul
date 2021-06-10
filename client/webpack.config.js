@@ -1,18 +1,16 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const nodeExternals = require('webpack-node-externals');
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
-module.exports = {
+const webpack = {
   entry: './src/index.tsx',
   output: {
     filename: 'index.bundle.js'
   },
   devServer: {
+    contentBase: './dist',
     port: 3000,
     watchContentBase: true
   },
-  externals: [nodeExternals()], // in order to ignore all modules in node_modules folder,
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json']
   },
@@ -33,3 +31,5 @@ module.exports = {
     new MiniCssExtractPlugin()
   ]
 };
+
+export default webpack;
