@@ -1,7 +1,8 @@
-import HtmlWebpackPlugin from 'html-webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
+/* eslint-disable @typescript-eslint/no-var-requires */
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const webpack = {
+module.exports = {
   entry: './src/index.tsx',
   output: {
     filename: 'index.bundle.js'
@@ -31,5 +32,3 @@ const webpack = {
     new MiniCssExtractPlugin()
   ]
 };
-
-export default webpack;

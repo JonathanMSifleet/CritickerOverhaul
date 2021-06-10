@@ -1,9 +1,10 @@
-import path from 'path';
-import nodeExternals from 'webpack-node-externals';
+/* eslint-disable @typescript-eslint/no-var-requires */
+const path = require('path');
+const nodeExternals = require('webpack-node-externals');
 // runs TypeScript linting on separate process
-import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
-const webpack = {
+module.exports = {
   context: __dirname,
   mode: 'development',
   devtool: 'eval-cheap-source-map',
@@ -57,5 +58,3 @@ const webpack = {
     })
   ]
 };
-
-export default webpack;
