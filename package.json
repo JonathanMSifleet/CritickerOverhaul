@@ -2,7 +2,6 @@
   "name": "cicdtestproject",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
   "scripts": {
     "createBackendSymlinks": "mklink .\\backend\\package.json ..\\package.json & mklink .\\backend\\package-lock.json ..\\package-lock.json & mklink /D .\\backend\\node_modules ..\\node_modules",
     "createClientSymlinks": "mklink .\\client\\package.json ..\\package.json & mklink .\\client\\package-lock.json ..\\package-lock.json & mklink /D .\\client\\node_modules ..\\node_modules",
