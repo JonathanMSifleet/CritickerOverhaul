@@ -2,12 +2,12 @@ import React from 'react';
 import LogoSvg from '../../../assets/svg/logo/placeholder.svg';
 
 interface IProps {
-  width: number;
+  height: number;
 }
 
-const Logo: React.FC<IProps> = ({ width }) => (
+const Logo: React.FC<IProps> = ({ height }) => (
   <img
-    style={{ width: `${width}vw`, boxSizing: 'border-box' }}
+    style={{ height: `${height}vh`, boxSizing: 'border-box' }}
     src={LogoSvg}
     alt="Logo"
   />

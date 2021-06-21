@@ -1,11 +1,13 @@
 import React from 'react';
-import PageLayout from '../../hoc/PageLayout/PageLayout';
+import Footer from '../../shared/Footer/Footer';
 
 const Home: React.FC = (): JSX.Element => {
   return (
-    <PageLayout>
+    <div className="pageContents">
+      {/* <Header /> */}
       <p> test </p>
-    </PageLayout>
+      <Footer />
+    </div>
   );
 };
 
