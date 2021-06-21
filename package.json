@@ -1,5 +1,5 @@
 {
-  "name": "cicdtestproject",
+  "name": "finalyearproject",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -19,7 +19,7 @@
     "-v": "",
     "fullDeploy": "npm run preBuild && npm run clientBuild && npm run clientDeploy && npm run slsDeploy",
     "v": "",
-    "deployClientLocally": "cd ./client && npx webpack serve --open"
+    "deployClientLocally": "cd ./client && npx webpack serve --open --mode=development"
   },
   "babel": {
     "presets": [
@@ -32,12 +32,14 @@
     "@aws/dynamodb-data-mapper": "^0.7.3",
     "@middy/core": "^2.0.1",
     "@middy/http-cors": "^2.0.1",
+    "@types/react-router-dom": "^5.1.7",
     "aws-sdk": "^2.888.0",
     "bcryptjs": "^2.4.3",
     "email-validator": "^2.0.4",
     "jsonwebtoken": "^8.5.1",
     "react": "^17.0.0",
     "react-dom": "^17.0.0",
+    "react-router-dom": "^5.2.0",
     "react-scripts": "^4.0.0",
     "serverless": "^2.43.1",
     "serverless-s3-deploy": "^0.10.0",

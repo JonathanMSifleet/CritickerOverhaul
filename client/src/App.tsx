@@ -1,10 +1,17 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Home from './components/shared/Header/Header';
 
 const App: React.FC = () => {
   return (
     <>
-      <h2>Welcome to test</h2>
-      <h3>Date : {new Date().toDateString()}</h3>
+      <Router>
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+        </Switch>
+      </Router>
     </>
   );
 };
