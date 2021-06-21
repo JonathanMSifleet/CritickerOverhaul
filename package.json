@@ -19,7 +19,7 @@
     "-v": "",
     "fullDeploy": "npm run preBuild && npm run clientBuild && npm run clientDeploy && npm run slsDeploy",
     "v": "",
-    "deployClientLocally": "cd ./client && npx webpack serve --open --mode=development"
+    "deployClientLocally": "cd ./client && npx webpack serve --mode=development"
   },
   "babel": {
     "presets": [
@@ -94,7 +94,7 @@
     "typescript": "^4.3.2",
     "webpack": "^5.38.1",
     "webpack-cli": "^4.7.0",
-    "webpack-dev-server": "^3.11.2",
+    "webpack-dev-server": "^4.0.0-beta.3",
     "webpack-node-externals": "^2.5.2"
   },
   "browser": {

@@ -1,11 +1,11 @@
 import React from 'react';
-import PageView from '../../hoc/PageView/PageView';
+import PageLayout from '../../hoc/PageLayout/PageLayout';
 
 const Home: React.FC = (): JSX.Element => {
   return (
-    <PageView />
-
-    //  </PageView>
+    <PageLayout>
+      <p> test </p>
+    </PageLayout>
   );
 };
 

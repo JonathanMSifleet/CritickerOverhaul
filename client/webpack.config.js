@@ -5,12 +5,13 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   entry: './src/index.tsx',
   output: {
-    filename: 'index.bundle.js'
+    filename: '[name].[contenthash].js'
   },
+  target: ['web', 'es2020'],
   devServer: {
-    contentBase: './dist',
-    port: 3000,
-    watchContentBase: true
+    hot: true,
+    open: true,
+    port: 3000
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json']

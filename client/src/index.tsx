@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import App from './App';
+import './assets/scss/mdb-free.scss';
 import Context from './hooks/store/context';
 import StateHook from './hooks/store/StateHook';
 import './styles/global.scss';
