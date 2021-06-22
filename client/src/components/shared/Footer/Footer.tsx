@@ -3,8 +3,11 @@ import React from 'react';
 const Footer: React.FC = (): JSX.Element => {
   return (
     <>
+      {/* <!-- Footer --> */}
       <footer className="bg-dark text-white">
+        {/* <!-- Grid container --> */}
         <div className="container p-4">
+          {/* <!-- Section: Social media --> */}
           <section className="mb-4">
             {/* <!-- Facebook --> */}
             <a
@@ -259,6 +262,7 @@ const Footer: React.FC = (): JSX.Element => {
         </div>
         {/* <!-- Copyright --> */}
       </footer>
+      {/* <!-- Footer --> */}
     </>
   );
 };
