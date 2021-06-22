@@ -1,14 +1,11 @@
 import React from 'react';
-import Footer from '../../shared/Footer/Footer';
-import Header from '../../shared/Header/Header';
+import PageView from '../../hoc/PageView/PageView';
 
 const Home: React.FC = (): JSX.Element => {
   return (
-    <div className="pageContents">
-      <Header />
+    <PageView>
       <p> test </p>
-      <Footer />
-    </div>
+    </PageView>
   );
 };
 

@@ -1,12 +1,11 @@
 import React from 'react';
-import Logo from '../Logo/Logo';
 import classes from './Header.module.scss';
 
 const Header: React.FC = (): JSX.Element => {
   return (
     <header className={classes.Header}>
       {/* <!-- Navbar --> */}
-      <nav className="navbar navbar-expand-lg navbar-lightbg-white">
+      <nav className="navbar navbar-expand-lg navbar-light bg-white">
         <div className="container-fluid">
           <button
             className="navbar-toggler"
@@ -21,9 +20,6 @@ const Header: React.FC = (): JSX.Element => {
           </button>
           <div className="collapse navbar-collapse" id="navbarExample01">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item active">
-                <Logo height={10} />
-              </li>
               <li className="nav-item active">
                 <a className="nav-link" aria-current="page" href="#">
                   Home
