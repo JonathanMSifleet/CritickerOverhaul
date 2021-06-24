@@ -1,23 +1,20 @@
 import React from 'react';
 import ReactDom from 'react-dom';
-import './assets/scss/mdb-free.scss';
-import Context from './hooks/store/context';
-import StateHook from './hooks/store/StateHook';
-import './styles/global.scss';
 import App from './App';
+import './styles/global.scss';
 
-const AppWithState = () => {
-  const store = StateHook();
-  return (
-    <Context.Provider value={store}>
-      <App />
-    </Context.Provider>
-  );
-};
+// const AppWithState = () => {
+//   const store = StateHook();
+//   return (
+//     <Context.Provider value={store}>
+//       <App />
+//     </Context.Provider>
+//   );
+// };
 
 ReactDom.render(
   <React.StrictMode>
-    <AppWithState />
+    <App />
   </React.StrictMode>,
   document.getElementById('app')
 );
