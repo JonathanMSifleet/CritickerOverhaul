@@ -8,68 +8,6 @@ const Footer: React.FC = (): JSX.Element => {
         {/* <!-- Grid container --> */}
         <div className="container p-4">
           {/* <!-- Section: Social media --> */}
-          <section className="mb-4">
-            {/* <!-- Facebook --> */}
-            <a
-              className="btn btn-primary btn-floating m-1"
-              style={{ backgroundColor: '#3b5998' }}
-              href="#!"
-              role="button"
-            >
-              <i className="fab fa-facebook-f"></i>
-            </a>
-
-            {/* <!-- Twitter --> */}
-            <a
-              className="btn btn-primary btn-floating m-1"
-              style={{ backgroundColor: '#55acee' }}
-              href="#!"
-              role="button"
-            >
-              <i className="fab fa-twitter"></i>
-            </a>
-
-            {/* <!-- Google --> */}
-            <a
-              className="btn btn-primary btn-floating m-1"
-              style={{ backgroundColor: '#dd4b39' }}
-              href="#!"
-              role="button"
-            >
-              <i className="fab fa-google"></i>
-            </a>
-
-            {/* <!-- Instagram --> */}
-            <a
-              className="btn btn-primary btn-floating m-1"
-              style={{ backgroundColor: '#ac2bac' }}
-              href="#!"
-              role="button"
-            >
-              <i className="fab fa-instagram"></i>
-            </a>
-
-            {/* <!-- Linkedin --> */}
-            <a
-              className="btn btn-primary btn-floating m-1"
-              style={{ backgroundColor: '#0082ca' }}
-              href="#!"
-              role="button"
-            >
-              <i className="fab fa-linkedin-in"></i>
-            </a>
-            {/* <!-- Github --> */}
-            <a
-              className="btn btn-primary btn-floating m-1"
-              style={{ backgroundColor: '#333333' }}
-              href="#!"
-              role="button"
-            >
-              <i className="fab fa-github"></i>
-            </a>
-          </section>
-          {/* <!-- Section: Social media --> */}
-
           {/* <!-- Section: Form --> */}
           <section className="">
             <form action="">
@@ -113,17 +51,6 @@ const Footer: React.FC = (): JSX.Element => {
           </section>
           {/* <!-- Section: Form --> */}
 
-          {/* <!-- Section: Text --> */}
-          <section className="mb-4">
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
-              distinctio earum repellat quaerat voluptatibus placeat nam,
-              commodi optio pariatur est quia magnam eum harum corrupti dicta,
-              aliquam sequi voluptate quas.
-            </p>
-          </section>
-          {/* <!-- Section: Text --> */}
-
           {/* <!-- Section: Links --> */}
           <section className="">
             {/* <!--Grid row--> */}
@@ -135,22 +62,32 @@ const Footer: React.FC = (): JSX.Element => {
                 <ul className="list-unstyled mb-0">
                   <li>
                     <a href="#!" className="text-white">
-                      Link 1
+                      Privacy Policy (implement)
                     </a>
                   </li>
                   <li>
                     <a href="#!" className="text-white">
-                      Link 2
+                      Abuse Policy (implement)
                     </a>
                   </li>
                   <li>
                     <a href="#!" className="text-white">
-                      Link 3
+                      Contact (implement)
                     </a>
                   </li>
                   <li>
                     <a href="#!" className="text-white">
-                      Link 4
+                      About us (implement)
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#!" className="text-white">
+                      RSS (implement)
+                    </a>
+                  </li>
+                  <li>
+                    <a href="#!" className="text-white">
+                      Terms and Conditions (implement)
                     </a>
                   </li>
                 </ul>
@@ -168,10 +105,7 @@ const Footer: React.FC = (): JSX.Element => {
           className="text-center p-3"
           style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}
         >
-          © 2020 Copyright:
-          <a className="text-white" href="https://mdbootstrap.com/">
-            MDBootstrap.com
-          </a>
+          Criticker.com © 2004-2021 - All Rights Reserved
         </div>
         {/* <!-- Copyright --> */}
       </footer>
