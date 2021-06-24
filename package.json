@@ -1,5 +1,5 @@
 {
-  "name": "finalyearproject",
+  "name": "reactproject",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -113,12 +113,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JonathanMSifleet/FinalYearProject.git"
+    "url": "git+https://github.com/JonathanMSifleet/ReactProject.git"
   },
   "author": "Jonathan Sifleet",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/JonathanMSifleet/FinalYearProject/issues"
+    "url": "https://github.com/JonathanMSifleet/ReactProject/issues"
   },
-  "homepage": "https://github.com/JonathanMSifleet/FinalYearProject#readme"
+  "homepage": "https://github.com/JonathanMSifleet/ReactProject#readme"
 }
