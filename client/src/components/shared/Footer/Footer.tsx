@@ -2,13 +2,13 @@ import React from 'react';
 
 const Footer: React.FC = (): JSX.Element => {
   return (
-    // <!-- Footer -->
+    // Footer
     <footer className="bg-primary text-center text-white">
-      {/* <!-- Grid container --> */}
+      {/* Grid container */}
       <div className="container p-4">
-        {/* <!-- Section: Social media --> */}
+        {/* Section: Social media */}
         <section className="mb-4">
-          {/* <!-- Facebook --> */}
+          {/* Facebook */}
           <a
             className="btn btn-primary btn-floating m-1"
             style={{ backgroundColor: '#3b5998' }}
@@ -18,7 +18,7 @@ const Footer: React.FC = (): JSX.Element => {
             <i className="fab fa-facebook-f"></i>
           </a>
 
-          {/* <!-- Twitter --> */}
+          {/* Twitter */}
           <a
             className="btn btn-primary btn-floating m-1"
             style={{ backgroundColor: '#55acee' }}
@@ -28,7 +28,7 @@ const Footer: React.FC = (): JSX.Element => {
             <i className="fab fa-twitter"></i>
           </a>
 
-          {/* <!-- Google --> */}
+          {/* Google */}
           <a
             className="btn btn-primary btn-floating m-1"
             style={{ backgroundColor: '#dd4b39' }}
@@ -38,7 +38,7 @@ const Footer: React.FC = (): JSX.Element => {
             <i className="fab fa-google"></i>
           </a>
 
-          {/* <!-- Instagram --> */}
+          {/* Instagram */}
           <a
             className="btn btn-primary btn-floating m-1"
             style={{ backgroundColor: '#ac2bac' }}
@@ -48,7 +48,7 @@ const Footer: React.FC = (): JSX.Element => {
             <i className="fab fa-instagram"></i>
           </a>
 
-          {/* <!-- Linkedin --> */}
+          {/* Linkedin */}
           <a
             className="btn btn-primary btn-floating m-1"
             style={{ backgroundColor: '#0082ca' }}
@@ -57,7 +57,7 @@ const Footer: React.FC = (): JSX.Element => {
           >
             <i className="fab fa-linkedin-in"></i>
           </a>
-          {/* <!-- Github --> */}
+          {/* Github */}
           <a
             className="btn btn-primary btn-floating m-1"
             style={{ backgroundColor: '#333333' }}
@@ -67,9 +67,9 @@ const Footer: React.FC = (): JSX.Element => {
             <i className="fab fa-github"></i>
           </a>
         </section>
-        {/* <!-- Section: Social media --> */}
+        {/* Section: Social media */}
 
-        {/* <!-- Section: Form --> */}
+        {/* Section: Form */}
         <section className="">
           <form action="">
             {/* <!--Grid row--> */}
@@ -84,7 +84,7 @@ const Footer: React.FC = (): JSX.Element => {
 
               {/* <!--Grid column--> */}
               <div className="col-md-5 col-12">
-                {/* <!-- Email input --> */}
+                {/* Email input */}
                 <div className="form-outline form-white mb-4">
                   <input
                     type="email"
@@ -100,7 +100,7 @@ const Footer: React.FC = (): JSX.Element => {
 
               {/* <!--Grid column--> */}
               <div className="col-auto">
-                {/* <!-- Submit button --> */}
+                {/* Submit button */}
                 <button type="submit" className="btn btn-outline-light mb-4">
                   Subscribe
                 </button>
@@ -110,9 +110,9 @@ const Footer: React.FC = (): JSX.Element => {
             {/* <!--Grid row--> */}
           </form>
         </section>
-        {/* <!-- Section: Form --> */}
+        {/* Section: Form */}
 
-        {/* <!-- Section: Text --> */}
+        {/* Section: Text */}
         <section className="mb-4">
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt
@@ -121,9 +121,9 @@ const Footer: React.FC = (): JSX.Element => {
             sequi voluptate quas.
           </p>
         </section>
-        {/* <!-- Section: Text --> */}
+        {/* Section: Text */}
 
-        {/* <!-- Section: Links --> */}
+        {/* Section: Links */}
         <section className="">
           {/* <!--Grid row--> */}
           <div className="row">
@@ -155,101 +155,14 @@ const Footer: React.FC = (): JSX.Element => {
               </ul>
             </div>
             {/* <!--Grid column--> */}
-
-            {/* <!--Grid column--> */}
-            <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
-              <h5 className="text-uppercase">Links</h5>
-
-              <ul className="list-unstyled mb-0">
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 1
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 2
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 3
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 4
-                  </a>
-                </li>
-              </ul>
-            </div>
-            {/* <!--Grid column--> */}
-
-            {/* <!--Grid column--> */}
-            <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
-              <h5 className="text-uppercase">Links</h5>
-
-              <ul className="list-unstyled mb-0">
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 1
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 2
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 3
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 4
-                  </a>
-                </li>
-              </ul>
-            </div>
-            {/* <!--Grid column--> */}
-
-            {/* <!--Grid column--> */}
-            <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
-              <h5 className="text-uppercase">Links</h5>
-
-              <ul className="list-unstyled mb-0">
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 1
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 2
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 3
-                  </a>
-                </li>
-                <li>
-                  <a href="#!" className="text-white">
-                    Link 4
-                  </a>
-                </li>
-              </ul>
-            </div>
-            {/* <!--Grid column--> */}
           </div>
           {/* <!--Grid row--> */}
         </section>
-        {/* <!-- Section: Links --> */}
+        {/* Section: Links */}
       </div>
-      {/* <!-- Grid container --> */}
+      {/* Grid container */}
 
-      {/* <!-- Copyright --> */}
+      {/* Copyright */}
       <div
         className="text-center p-3"
         style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}
@@ -259,9 +172,9 @@ const Footer: React.FC = (): JSX.Element => {
           MDBootstrap.com
         </a>
       </div>
-      {/* <!-- Copyright --> */}
+      {/* Copyright */}
     </footer>
-    // <!-- Footer -->
+    // Footer
   );
 };
 export default Footer;
