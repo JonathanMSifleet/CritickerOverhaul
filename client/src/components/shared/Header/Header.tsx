@@ -1,16 +1,12 @@
 import React from 'react';
+import Logo from '../../../assets/svg/logo/placeholder.svg';
 
 const Header: React.FC = (): JSX.Element => {
   return (
-    <nav className="navbar navbar-expand-lg bg-primary navbar-light fixed-top">
-      {/* Container wrapper */}
+    <nav className="navbar navbar-expand-lg bg-primary navbar-dark ">
       <div className="container-fluid">
-        {/* Navbar brand */}
-        <a className="navbar-brand" href="#">
-          Brand
-        </a>
+        <img src={Logo} />
 
-        {/* Toggle button */}
         <button
           className="navbar-toggler"
           type="button"
@@ -23,17 +19,14 @@ const Header: React.FC = (): JSX.Element => {
           <i className="fas fa-bars"></i>
         </button>
 
-        {/* Collapsible wrapper */}
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            {/* Link */}
             <li className="nav-item">
               <a className="nav-link" href="#">
                 Link
               </a>
             </li>
 
-            {/* Dropdown */}
             <li className="nav-item dropdown">
               <a
                 className="nav-link dropdown-toggle"
@@ -45,7 +38,6 @@ const Header: React.FC = (): JSX.Element => {
               >
                 Dropdown
               </a>
-              {/* Dropdown menu */}
               <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li>
                   <a className="dropdown-item" href="#">
@@ -69,29 +61,91 @@ const Header: React.FC = (): JSX.Element => {
             </li>
           </ul>
 
-          {/* Icons */}
-          <ul className="navbar-nav d-flex flex-row me-1">
-            <li className="nav-item me-3 me-lg-0">
-              <a className="nav-link" href="#">
-                <i className="fas fa-shopping-cart"></i>
-              </a>
-            </li>
-            <li className="nav-item me-3 me-lg-0">
-              <a className="nav-link" href="#">
-                <i className="fab fa-twitter"></i>
-              </a>
-            </li>
-          </ul>
-
-          {/* Search */}
           <form className="w-auto">
             <input
               type="search"
               className="form-control"
-              placeholder="Type query"
+              placeholder="Search Criticker"
               aria-label="Search"
             />
           </form>
+        </div>
+
+        <div className="d-flex align-items-center">
+          <a className="text-reset me-3" href="#">
+            <i className="fas fa-shopping-cart"></i>
+          </a>
+
+          <a
+            className="text-reset me-3 dropdown-toggle hidden-arrow"
+            href="#"
+            id="navbarDropdownMenuLink"
+            role="button"
+            data-mdb-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <i className="fas fa-bell"></i>
+            <span className="badge rounded-pill badge-notification bg-danger">
+              1
+            </span>
+          </a>
+          <ul
+            className="dropdown-menu dropdown-menu-end"
+            aria-labelledby="navbarDropdownMenuLink"
+          >
+            <li>
+              <a className="dropdown-item" href="#">
+                Some news
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item" href="#">
+                Another news
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item" href="#">
+                Something else here
+              </a>
+            </li>
+          </ul>
+
+          <a
+            className="dropdown-toggle d-flex align-items-center hidden-arrow"
+            href="#"
+            id="navbarDropdownMenuLink"
+            role="button"
+            data-mdb-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img
+              src="https://mdbootstrap.com/img/new/avatars/2.jpg"
+              className="rounded-circle"
+              height="25"
+              alt=""
+              loading="lazy"
+            />
+          </a>
+          <ul
+            className="dropdown-menu dropdown-menu-end"
+            aria-labelledby="navbarDropdownMenuLink"
+          >
+            <li>
+              <a className="dropdown-item" href="#">
+                My profile
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item" href="#">
+                Settings
+              </a>
+            </li>
+            <li>
+              <a className="dropdown-item" href="#">
+                Logout
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
     </nav>
