@@ -1,3 +1,5 @@
+import 'bootstrap-css-only/css/bootstrap.min.css';
+import './assets/MDBootstrap/scss/mdb-free.scss';
 import React from 'react';
 import ReactDom from 'react-dom';
 import App from './App';
