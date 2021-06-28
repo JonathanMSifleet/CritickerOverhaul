@@ -4,7 +4,7 @@ import classes from './Footer.module.scss';
 const Footer: React.FC = (): JSX.Element => {
   return (
     <div className={classes.FooterWrapper}>
-      <footer className="footer bg-primary text-center text-white ">
+      <footer className="footer bg-primary text-center text-white fixed-bottom">
         <div className={classes.FooterLinksWrapper}>
           <ul className="FooterLinks list-group list-group-horizontal">
             <a href="#!" className="text-white">

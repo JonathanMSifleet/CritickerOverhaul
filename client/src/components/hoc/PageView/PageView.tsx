@@ -11,13 +11,10 @@ interface IProps {
 const PageView: React.FC<IProps> = ({ children }): JSX.Element => {
   return (
     <div className={classes.PageViewContainer}>
+      <Header />
       <AdvertSection direction={'left'} />
       <AdvertSection direction={'right'} />
-
-      <Header />
-
       {children}
-
       <Footer />
     </div>
   );

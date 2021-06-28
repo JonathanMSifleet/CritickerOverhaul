@@ -60,93 +60,37 @@ const Header: React.FC = (): JSX.Element => {
               </ul>
             </li>
           </ul>
-
-          <form className="w-auto">
-            <input
-              type="search"
-              className="form-control"
-              placeholder="Search Criticker"
-              aria-label="Search"
-            />
-          </form>
         </div>
 
-        <div className="d-flex align-items-center">
-          <a className="text-reset me-3" href="#">
-            <i className="fas fa-shopping-cart"></i>
-          </a>
+        <form className="w-auto">
+          <input
+            type="search"
+            className="form-control"
+            placeholder="Search Criticker"
+            aria-label="Search"
+          />
+        </form>
 
-          <a
-            className="text-reset me-3 dropdown-toggle hidden-arrow"
-            href="#"
-            id="navbarDropdownMenuLink"
-            role="button"
-            data-mdb-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <i className="fas fa-bell"></i>
-            <span className="badge rounded-pill badge-notification bg-danger">
-              1
-            </span>
-          </a>
-          <ul
-            className="dropdown-menu dropdown-menu-end"
-            aria-labelledby="navbarDropdownMenuLink"
-          >
-            <li>
-              <a className="dropdown-item" href="#">
-                Some news
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                Another news
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                Something else here
-              </a>
-            </li>
-          </ul>
+        <button
+          type="button"
+          className="btn btn-white text-primary me-3 font-weight-bold"
+        >
+          Log in / sign up
+        </button>
 
-          <a
-            className="dropdown-toggle d-flex align-items-center hidden-arrow"
-            href="#"
-            id="navbarDropdownMenuLink"
-            role="button"
-            data-mdb-toggle="dropdown"
-            aria-expanded="false"
-          >
-            <img
-              src="https://mdbootstrap.com/img/new/avatars/2.jpg"
-              className="rounded-circle"
-              height="25"
-              alt=""
-              loading="lazy"
-            />
-          </a>
-          <ul
-            className="dropdown-menu dropdown-menu-end"
-            aria-labelledby="navbarDropdownMenuLink"
-          >
-            <li>
-              <a className="dropdown-item" href="#">
-                My profile
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                Settings
-              </a>
-            </li>
-            <li>
-              <a className="dropdown-item" href="#">
-                Logout
-              </a>
-            </li>
-          </ul>
-        </div>
+        {/* <div className="d-flex align-items-center">
+          <i className="fas fa-bell"></i>
+          <span className="badge rounded-pill badge-notification bg-danger">
+            1
+          </span>
+          <img
+            src="https://mdbootstrap.com/img/new/avatars/2.jpg"
+            className="rounded-circle"
+            height="25"
+            alt=""
+            loading="lazy"
+          />
+        </div> */}
       </div>
     </nav>
   );
