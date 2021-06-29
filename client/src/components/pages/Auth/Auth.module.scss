@@ -7,3 +7,15 @@
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
+.AuthButtonGroup {
+  width: auto;
+  display: flex;
+}
+
+.Button {
+  width: 5vw;
+  height: 5vh;
+  padding: 0;
+  margin: 3%;
+}

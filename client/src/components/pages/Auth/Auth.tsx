@@ -1,38 +1,35 @@
-import React, { useContext, useEffect, useState } from 'react';
-import Context from '../../../hooks/store/context';
-import PageView from '../../hoc/PageView/PageView';
+import React, { useState } from 'react';
+import PageView from '../../hoc/PageLayout/PageView/PageView';
 import classes from './Auth.module.scss';
 import Login from './Login/Login';
 import Register from './Register/Register';
 
 const Auth: React.FC = () => {
-  const { globalState, actions } = useContext(Context);
   const [displayLoginForm, setDisplayLoginForm] = useState(true);
-
-  useEffect(() => {
-    console.log(globalState);
-    if (globalState.authFormState === 'register') {
-      setDisplayLoginForm(false);
-    }
-  }, []);
 
   return (
     <PageView>
       <div className={classes.FormWrapper}>
-        <button
-          className="nav-link active"
-          disabled={displayLoginForm ? true : false}
-          onClick={() => setDisplayLoginForm(true)}
+        <div
+          className={`btn-group ${classes.AuthButtonGroup}`}
+          role="group"
+          aria-label="Basic example"
         >
-          Login
-        </button>
-        <button
-          className="nav-link active"
-          disabled={displayLoginForm ? false : true}
-          onClick={() => setDisplayLoginForm(false)}
-        >
-          Register
-        </button>
+          <button
+            className={`${classes.Button} btn btn-primary bg-primary text-white`}
+            disabled={displayLoginForm ? true : false}
+            onClick={() => setDisplayLoginForm(true)}
+          >
+            Login
+          </button>
+          <button
+            className={`${classes.Button} btn btn-primary bg-primary text-white`}
+            disabled={displayLoginForm ? false : true}
+            onClick={() => setDisplayLoginForm(false)}
+          >
+            Register
+          </button>
+        </div>
         {displayLoginForm ? <Login /> : <Register />}
       </div>
     </PageView>
