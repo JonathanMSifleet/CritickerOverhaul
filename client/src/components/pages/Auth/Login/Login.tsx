@@ -1,4 +1,5 @@
 import React from 'react';
+import classes from './Login.module.scss';
 
 const Login: React.FC = () => {
   return (
@@ -26,18 +27,22 @@ const Login: React.FC = () => {
 
       {/* Email input */}
       <div className="form-outline mb-4">
-        <input type="email" id="loginName" className="form-control" />
-        <label className="form-label" htmlFor="loginName">
-          Email or username
-        </label>
+        <input
+          type="email"
+          id="loginName"
+          className={`form-control ${classes.EmailInput}`}
+          placeholder="Email or username"
+        />
       </div>
 
       {/* Password input */}
       <div className="form-outline mb-4">
-        <input type="password" id="loginPassword" className="form-control" />
-        <label className="form-label" htmlFor="loginPassword">
-          Password
-        </label>
+        <input
+          type="password"
+          id="loginPassword"
+          className="form-control"
+          placeholder="Password"
+        />
       </div>
 
       {/* 2 column grid layout */}

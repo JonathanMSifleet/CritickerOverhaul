@@ -10,10 +10,18 @@ const Auth: React.FC = () => {
   return (
     <PageView>
       <div className={classes.FormWrapper}>
-        <button className="nav-link active" onClick={() => setLogin(true)}>
+        <button
+          className="nav-link active"
+          disabled={login ? true : false}
+          onClick={() => setLogin(true)}
+        >
           Login
         </button>
-        <button className="nav-link active" onClick={() => setLogin(false)}>
+        <button
+          className="nav-link active"
+          disabled={login ? false : true}
+          onClick={() => setLogin(false)}
+        >
           Register
         </button>
         {login ? <Login /> : <Register />}

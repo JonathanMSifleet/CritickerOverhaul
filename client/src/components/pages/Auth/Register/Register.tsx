@@ -26,34 +26,42 @@ const Register: React.FC = () => {
 
       {/* Name input */}
       <div className="form-outline mb-4">
-        <input type="text" id="registerName" className="form-control" />
-        <label className="form-label" htmlFor="registerName">
-          Name
-        </label>
+        <input
+          type="text"
+          id="registerName"
+          className="form-control"
+          placeholder="Name"
+        />
       </div>
 
       {/* Username input */}
       <div className="form-outline mb-4">
-        <input type="text" id="registerUsername" className="form-control" />
-        <label className="form-label" htmlFor="registerUsername">
-          Username
-        </label>
+        <input
+          type="text"
+          id="registerUsername"
+          className="form-control"
+          placeholder="Username"
+        />
       </div>
 
       {/* Email input */}
       <div className="form-outline mb-4">
-        <input type="email" id="registerEmail" className="form-control" />
-        <label className="form-label" htmlFor="registerEmail">
-          Email
-        </label>
+        <input
+          type="email"
+          id="registerEmail"
+          className="form-control"
+          placeholder="Email"
+        />
       </div>
 
       {/* Password input */}
       <div className="form-outline mb-4">
-        <input type="password" id="registerPassword" className="form-control" />
-        <label className="form-label" htmlFor="registerPassword">
-          Password
-        </label>
+        <input
+          type="password"
+          id="registerPassword"
+          className="form-control"
+          placeholder="Password"
+        />
       </div>
 
       {/* Repeat Password input */}
@@ -62,10 +70,8 @@ const Register: React.FC = () => {
           type="password"
           id="registerRepeatPassword"
           className="form-control"
+          placeholder="Repeat password"
         />
-        <label className="form-label" htmlFor="registerRepeatPassword">
-          Repeat password
-        </label>
       </div>
 
       {/* Checkbox */}
