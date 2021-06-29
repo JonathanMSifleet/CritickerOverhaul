@@ -7,7 +7,6 @@ const Header: React.FC = (): JSX.Element => {
   const history = useHistory();
 
   const goToAuth = () => {
-    console.log('click');
     history.push('/auth');
   };
 

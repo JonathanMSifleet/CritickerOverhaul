@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
+import * as actionTypes from '../../../../hooks/store/actionTypes';
+import Context from '../../../../hooks/store/context';
 import classes from './Login.module.scss';
 
 const Login: React.FC = () => {
+  const { actions } = useContext(Context);
+
+  const history = useHistory();
+
+  const goToRegister = () => {
+    actions({
+      type: actionTypes.setAuthFormState,
+      payload: { authState: 'register' }
+    });
+    history.push('/auth');
+  };
+
   return (
     <form>
       <div className="text-center mb-3">
@@ -78,7 +93,7 @@ const Login: React.FC = () => {
       {/* Register buttons */}
       <div className="text-center">
         <p>
-          Not a member? <a href="#!">Register</a>
+          Not a member? <button onClick={goToRegister}>Register</button>
         </p>
       </div>
     </form>
