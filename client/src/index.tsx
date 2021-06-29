@@ -1,11 +1,12 @@
+import '@fortawesome/fontawesome-free/css/all.min.css';
 import 'bootstrap-css-only/css/bootstrap.min.css';
 import './assets/MDBootstrap/scss/mdb-free.scss';
-import './styles/global.scss';
 import React from 'react';
 import ReactDom from 'react-dom';
 import App from './App';
 import Context from './hooks/store/context';
 import StateHook from './hooks/store/StateHook';
+import './styles/global.scss';
 
 const AppWithState = () => {
   const store = StateHook();
