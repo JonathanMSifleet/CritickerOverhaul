@@ -5,7 +5,7 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import Auth from './components/UI/AuthModal/Auth/Auth';
+import Auth from './components/pages/Auth/Auth';
 import Home from './components/pages/Home/Home';
 
 const App: React.FC = () => {
