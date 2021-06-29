@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import Logo from '../../../assets/svg/Logo/placeholder.svg';
+import Logo from '../../../../assets/svg/Logo/placeholder.svg';
 
 const Header: React.FC = (): JSX.Element => {
   const history = useHistory();
@@ -43,7 +43,7 @@ const Header: React.FC = (): JSX.Element => {
           <input
             type="search"
             className="form-control"
-            placeholder="Search Criticker"
+            placeholder="[Placeholder] Search Criticker"
             aria-label="Search"
           />
         </form>

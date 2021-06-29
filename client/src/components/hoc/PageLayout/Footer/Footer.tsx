@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import classes from './Footer.module.scss';
 
 const Footer: React.FC = (): JSX.Element => {
@@ -7,9 +8,9 @@ const Footer: React.FC = (): JSX.Element => {
       <footer className="footer bg-primary text-center text-white fixed-bottom">
         <div className={classes.FooterLinksWrapper}>
           <ul className="FooterLinks list-group list-group-horizontal">
-            <a href="#!" className="text-white">
+            <Link to="/privacy" className="text-white">
               <li className="list-group-item bg-primary">Privacy Policy</li>
-            </a>
+            </Link>
             <a href="#!" className="text-white">
               <li className="list-group-item bg-primary">Abuse Policy</li>
             </a>

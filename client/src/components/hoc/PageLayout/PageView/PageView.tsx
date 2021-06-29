@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
-import AdvertSection from '../../PageLayout/AdvertSection/AdvertSection';
-import Footer from '../../PageLayout/Footer/Footer';
-import Header from '../../PageLayout/Header/Header';
+import AdvertSection from '../AdvertSection/AdvertSection';
+import Footer from '../Footer/Footer';
+import Header from '../Header/Header';
 import classes from './PageView.module.scss';
 
 interface IProps {
