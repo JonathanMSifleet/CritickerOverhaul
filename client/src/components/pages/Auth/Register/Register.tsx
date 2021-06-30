@@ -7,8 +7,6 @@ import classes from './Register.module.scss';
 const Register: React.FC = () => {
   return (
     <form>
-      <p>Sign up with:</p>
-
       <ThirdPartyLogin />
 
       {/* Name input */}
