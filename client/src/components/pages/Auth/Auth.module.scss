@@ -1,5 +1,6 @@
 .FormWrapper {
-  max-width: 70vw;
+  width: 25vw;
+  min-height: 50vh;
   border: 1px red solid;
   margin: 0;
   position: absolute;
@@ -18,4 +19,19 @@
   height: 5vh;
   padding: 0;
   margin: 3%;
+}
+
+.InputWrapper {
+  text-align: center;
+  margin-bottom: 1% !important;
+}
+
+.SubmitButtonWrapper {
+  text-align: center;
+}
+
+.SubmitButton {
+  display: inline-block;
+  margin: 0 !important;
+  width: 80%;
 }

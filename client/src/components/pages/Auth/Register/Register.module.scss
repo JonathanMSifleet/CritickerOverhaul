@@ -1,4 +1,3 @@
-@import '../../../../styles/variables';
 @import '../Auth.module.scss';
 
 .InputWrapper {
@@ -11,8 +10,4 @@
 
 .SubmitButton {
   @extend .SubmitButton;
-}
-
-.PasswordOptions {
-  margin-bottom: 2% !important;
 }
