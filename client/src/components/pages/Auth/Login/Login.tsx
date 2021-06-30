@@ -34,11 +34,11 @@ const Login: React.FC = () => {
           <div className="form-check mb-3 mb-md-0">
             <label>
               <input
+                checked
                 className="form-check-input"
+                id="loginCheck"
                 type="checkbox"
                 value=""
-                id="loginCheck"
-                checked
               />{' '}
               Remember me{' '}
             </label>

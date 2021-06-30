@@ -54,15 +54,13 @@ const Register: React.FC = () => {
       </div>
 
       {/* Checkbox */}
-      <div className="form-check d-flex justify-content-center mb-4">
-        <label>
+      <div className={classes.TermsConditionsWrapper}>
+        <label className={classes.TermsConditionsLabel}>
           <input
-            aria-describedby="registerCheckHelpText"
             checked
-            className="form-check mb-3 mb-md-0"
+            className="form-check-input"
             id="registerCheck"
             type="checkbox"
-            value=""
           />
           I have read and agree to the terms
         </label>
