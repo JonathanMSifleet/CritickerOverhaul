@@ -79,7 +79,7 @@ ul.stepper {
       flex: 1;
       height: $stepper-horizontal-li-after-height;
       margin: $stepper-horizontal-li-after-margin 0 0 0;
-      content: "";
+      content: '';
       background-color: $stepper-horizontal-li-after-bgc;
     }
 
@@ -88,12 +88,12 @@ ul.stepper {
       flex: 1;
       height: $stepper-horizontal-li-after-height;
       margin: $stepper-horizontal-li-after-margin 0 0 0;
-      content: "";
+      content: '';
       background-color: $stepper-horizontal-li-after-bgc;
     }
 
     &:hover {
-      background-color: rgba(0, 0, 0, .06);
+      background-color: rgba(0, 0, 0, 0.06);
     }
   }
 
@@ -118,7 +118,7 @@ ul.stepper {
         left: $stepper-horizontal-small-li-after-left;
         width: $stepper-horizontal-small-li-after-width;
         height: $stepper-horizontal-small-li-after-height;
-        content: "";
+        content: '';
       }
     }
   }
@@ -183,7 +183,7 @@ ul.stepper {
       left: $stepper-vertical-li-after-left;
       width: $stepper-vertical-li-after-width;
       height: $stepper-vertical-li-after-height;
-      content: "";
+      content: '';
       background-color: $stepper-vertical-li-after-bgc;
     }
   }
