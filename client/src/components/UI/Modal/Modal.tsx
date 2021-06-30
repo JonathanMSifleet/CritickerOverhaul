@@ -1,0 +1,17 @@
+import React from 'react';
+import Backdrop from '../Backdrop/Backdrop';
+import classes from './Modal.module.scss';
+
+interface IProps {
+  children: any;
+}
+
+const Modal: React.FC<IProps> = ({ children }) => {
+  return (
+    <Backdrop>
+      <div className={classes.Modal}>{children}</div>
+    </Backdrop>
+  );
+};
+
+export default Modal;

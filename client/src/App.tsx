@@ -5,7 +5,6 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import Auth from './components/pages/Auth/Auth';
 import Home from './components/pages/Home/Home';
 import PrivacyPolicy from './components/pages/PrivacyPolicy/PrivacyPolicy';
 
@@ -16,9 +15,7 @@ const App: React.FC = () => {
         <Route exact path="/">
           <Home />
         </Route>
-        <Route path="/auth">
-          <Auth />
-        </Route>
+
         <Route exact path="/privacy">
           <PrivacyPolicy />
         </Route>

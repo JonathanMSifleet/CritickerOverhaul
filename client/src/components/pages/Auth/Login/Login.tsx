@@ -7,7 +7,6 @@ import classes from './Login.module.scss';
 const Login: React.FC = () => {
   return (
     <form>
-
       <ThirdPartyLogin />
 
       {/* Email input */}

@@ -1,13 +1,14 @@
-import React from 'react';
-import { useHistory } from 'react-router';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../../../assets/svg/Logo/placeholder.svg';
+import Auth from '../../../pages/Auth/Auth';
+import Modal from '../../../UI/Modal/Modal';
 
 const Header: React.FC = (): JSX.Element => {
-  const history = useHistory();
+  const [showModal, setShowModal] = useState(false);
 
   const goToAuth = () => {
-    history.push('/auth');
+    setShowModal(!showModal);
   };
 
   return (
@@ -70,6 +71,11 @@ const Header: React.FC = (): JSX.Element => {
           />
         </div> */}
       </div>
+      {showModal ? (
+        <Modal>
+          <Auth />
+        </Modal>
+      ) : null}
     </nav>
   );
 };
