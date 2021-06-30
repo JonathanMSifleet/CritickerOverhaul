@@ -1,5 +1,5 @@
 {
-  "name": "reactproject",
+  "name": "critickeroverhaul",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -114,12 +114,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JonathanMSifleet/ReactProject.git"
+    "url": "git+https://github.com/JonathanMSifleet/CritickerOverhaul.git"
   },
   "author": "Jonathan Sifleet",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/JonathanMSifleet/ReactProject/issues"
+    "url": "https://github.com/JonathanMSifleet/CritickerOverhaul/issues"
   },
-  "homepage": "https://github.com/JonathanMSifleet/ReactProject#readme"
+  "homepage": "https://github.com/JonathanMSifleet/CritickerOverhaul#readme"
 }
