@@ -1,4 +1,38 @@
-.EmailInput {
-  border: 3px red solid;
-  color: red;
+@import '../../../../styles/variables';
+
+.InputWrapper {
+  text-align: center;
+  margin-bottom: 1% !important;
+}
+
+.FormInput {
+  border: 1px solid #808080;
+  border-radius: 3px;
+  display: inline-block;
+  padding: 2% !important;
+  width: 85%;
+  margin-bottom: 1%;
+  padding: 0;
+}
+
+.LoginWrapper {
+  margin-bottom: 0 !important;
+}
+
+.OrText {
+  margin-bottom: 1%;
+}
+
+.LoginButtonWrapper {
+  text-align: center;
+}
+
+.LoginButton {
+  display: inline-block;
+  margin: 0 !important;
+  width: 80%;
+}
+
+.PasswordOptions {
+  margin-bottom: 2% !important;
 }

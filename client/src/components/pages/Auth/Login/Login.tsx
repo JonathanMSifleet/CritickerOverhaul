@@ -4,7 +4,7 @@ import classes from './Login.module.scss';
 const Login: React.FC = () => {
   return (
     <form>
-      <div className="text-center mb-3">
+      <div className={`${classes.LoginWrapper} text-center mb-3`}>
         <p>Log in with:</p>
         <button type="button" className="btn btn-primary btn-floating mx-1">
           <i className="fab fa-facebook-f"></i>
@@ -23,30 +23,26 @@ const Login: React.FC = () => {
         </button>
       </div>
 
-      <p className="text-center">or:</p>
+      <p className={`${classes.OrText} text-center`}>or:</p>
 
       {/* Email input */}
-      <div className="form-outline mb-4">
+      <div className={`${classes.InputWrapper} form-outline mb-4`}>
         <input
           type="email"
           id="loginName"
-          className={`form-control ${classes.EmailInput}`}
+          className={`form-control ${classes.FormInput}`}
           placeholder="Email or username"
         />
-      </div>
-
-      {/* Password input */}
-      <div className="form-outline mb-4">
         <input
           type="password"
           id="loginPassword"
-          className="form-control"
+          className={`form-control ${classes.FormInput}`}
           placeholder="Password"
         />
       </div>
 
       {/* 2 column grid layout */}
-      <div className="row mb-4">
+      <div className={`${classes.PasswordOptions} row mb-4`}>
         <div className="col-md-6 d-flex justify-content-center">
           {/* Checkbox */}
           <div className="form-check mb-3 mb-md-0">
@@ -71,9 +67,14 @@ const Login: React.FC = () => {
       </div>
 
       {/* Submit button */}
-      <button type="submit" className="btn btn-primary btn-block mb-4">
-        Sign in
-      </button>
+      <div className={classes.LoginButtonWrapper}>
+        <button
+          type="submit"
+          className={`${classes.LoginButton} btn btn-primary btn-block mb-4`}
+        >
+          Sign in
+        </button>
+      </div>
     </form>
   );
 };
