@@ -8,9 +8,10 @@ interface IProps {
 
 const Modal: React.FC<IProps> = ({ children }) => {
   return (
-    <Backdrop>
+    <>
+      <Backdrop />
       <div className={classes.Modal}>{children}</div>
-    </Backdrop>
+    </>
   );
 };
 

@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
 import classes from './Backdrop.module.scss';
 
-interface IProps {
-  children: any;
-}
-
-const Backdrop: React.FC<IProps> = ({ children }): JSX.Element | null => {
+const Backdrop: React.FC = (): JSX.Element | null => {
   const [showBackDrop, setshowBackDrop] = useState(true);
 
   const hideBackdrop = () => {
@@ -14,15 +10,9 @@ const Backdrop: React.FC<IProps> = ({ children }): JSX.Element | null => {
 
   let toRender;
 
-  if (showBackDrop) {
-    toRender = (
-      <div className={classes.Backdrop} onClick={hideBackdrop}>
-        {children}
-      </div>
-    );
-  } else {
-    toRender = null;
-  }
+  showBackDrop
+    ? (toRender = <div className={classes.Backdrop} onClick={hideBackdrop} />)
+    : (toRender = null);
 
   return toRender;
 };

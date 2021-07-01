@@ -7,7 +7,7 @@ import Modal from '../../../UI/Modal/Modal';
 const Header: React.FC = (): JSX.Element => {
   const [showModal, setShowModal] = useState(false);
 
-  const goToAuth = () => {
+  const displayAuthModal = () => {
     setShowModal(!showModal);
   };
 
@@ -19,13 +19,13 @@ const Header: React.FC = (): JSX.Element => {
         </Link>
 
         <button
-          className="navbar-toggler"
-          type="button"
-          data-mdb-toggle="collapse"
-          data-mdb-target="#navbarSupportedContent"
           aria-controls="navbarSupportedContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
+          className="navbar-toggler"
+          data-mdb-target="#navbarSupportedContent"
+          data-mdb-toggle="collapse"
+          type="button"
         >
           <i className="fas fa-bars"></i>
         </button>
@@ -42,34 +42,20 @@ const Header: React.FC = (): JSX.Element => {
 
         <form className="w-auto">
           <input
-            type="search"
+            aria-label="Search"
             className="form-control"
             placeholder="[Placeholder] Search Criticker"
-            aria-label="Search"
+            type="search"
           />
         </form>
 
         <button
-          type="button"
           className="btn btn-white text-primary me-3 font-weight-bold"
-          onClick={goToAuth}
+          onClick={displayAuthModal}
+          type="button"
         >
           Log in / sign up
         </button>
-
-        {/* <div className="d-flex align-items-center">
-          <i className="fas fa-bell"></i>
-          <span className="badge rounded-pill badge-notification bg-danger">
-            1
-          </span>
-          <img
-            src="https://mdbootstrap.com/img/new/avatars/2.jpg"
-            className="rounded-circle"
-            height="25"
-            alt=""
-            loading="lazy"
-          />
-        </div> */}
       </div>
       {showModal ? (
         <Modal>
@@ -81,3 +67,17 @@ const Header: React.FC = (): JSX.Element => {
 };
 
 export default Header;
+
+/* <div className="d-flex align-items-center">
+      <i className="fas fa-bell"></i>
+      <span className="badge rounded-pill badge-notification bg-danger">
+        1
+      </span>
+      <img
+        src="https://mdbootstrap.com/img/new/avatars/2.jpg"
+        className="rounded-circle"
+        height="25"
+        alt=""
+        loading="lazy"
+      />
+    </div> */
