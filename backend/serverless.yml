@@ -5,6 +5,7 @@ plugins:
   - serverless-pseudo-parameters
   - serverless-webpack
   - serverless-s3-deploy
+  - serverless-cloudfront-invalidate # must be last plugin
 
 provider:
   name: aws
@@ -181,3 +182,8 @@ custom:
     name: S3-${self:custom.ReactBucket.name}/${self:custom.BucketFolder.name}
   bundle:
     linting: true
+  cloudfrontInvalidate:
+    - distributionId: 'E3T9EZCT20HC4E'
+      autoInvalidate: true
+      items:
+        - '/*'

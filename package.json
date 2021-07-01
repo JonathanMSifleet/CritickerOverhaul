@@ -98,6 +98,7 @@
     "remove-node-modules": "^1.7.6",
     "sass": "^1.35.1",
     "sass-loader": "^12.1.0",
+    "serverless-cloudfront-invalidate": "^1.9.0",
     "serverless-pseudo-parameters": "^2.5.0",
     "serverless-webpack": "^5.5.1",
     "source-map-loader": "^3.0.0",
