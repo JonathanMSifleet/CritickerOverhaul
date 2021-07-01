@@ -2,28 +2,30 @@ import { useState } from 'react';
 import * as actionTypes from './actionTypes';
 
 interface IPayload {
-  test?: any;
+  showModal?: boolean | null;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const StateHook = () => {
-  const [test, setTest] = useState(null as unknown as any | null);
+const StateHook = (): {
+  globalState: IPayload;
+  actions: any;
+} => {
+  const [showModal, setShowModal] = useState(null as unknown as boolean | null);
 
   const actions = (action: { type: string; payload: IPayload }) => {
     const { type, payload } = action;
 
     switch (type) {
-      case actionTypes.setTest:
-        return setTest(payload.test!);
+      case actionTypes.setShowModal:
+        return setShowModal(payload.showModal!);
       case actionTypes.resetState:
         return () => {
-          setTest(null);
+          setShowModal(null);
         };
     }
   };
 
   const globalState = {
-    test
+    showModal
   };
 
   return { globalState, actions };

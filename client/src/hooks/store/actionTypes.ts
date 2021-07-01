@@ -1,2 +1,2 @@
 export const resetState = 'resetState';
-export const setTest = 'setTest';
+export const setShowModal = 'setShowModal';

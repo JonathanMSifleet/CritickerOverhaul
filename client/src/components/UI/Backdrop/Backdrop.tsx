@@ -1,16 +1,21 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
+import * as actionTypes from '../../../hooks/store/actionTypes';
+import Context from '../../../hooks/store/context';
 import classes from './Backdrop.module.scss';
 
 const Backdrop: React.FC = (): JSX.Element | null => {
-  const [showBackDrop, setshowBackDrop] = useState(true);
+  const { globalState, actions } = useContext(Context);
 
   const hideBackdrop = () => {
-    setshowBackDrop(false);
+    actions({
+      type: actionTypes.setShowModal,
+      payload: { showModal: false }
+    });
   };
 
   let toRender;
 
-  showBackDrop
+  globalState.showModal
     ? (toRender = <div className={classes.Backdrop} onClick={hideBackdrop} />)
     : (toRender = null);
 
