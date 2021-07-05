@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../../../assets/svg/Logo/placeholder.svg';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
@@ -7,7 +7,6 @@ import Auth from '../../../pages/Auth/Auth';
 import Modal from '../../../UI/Modal/Modal';
 
 const Header: React.FC = (): JSX.Element => {
-  const [showModal, setShowModal] = useState(false);
   const { globalState, actions } = useContext(Context);
 
   const displayAuthModal = () => {
@@ -15,8 +14,6 @@ const Header: React.FC = (): JSX.Element => {
       type: actionTypes.setShowModal,
       payload: { showModal: true }
     });
-
-    // setShowModal(!showModal);
   };
 
   return (
