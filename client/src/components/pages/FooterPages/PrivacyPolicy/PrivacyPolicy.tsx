@@ -1,5 +1,5 @@
 import React from 'react';
-import PageView from '../../hoc/PageLayout/PageView/PageView';
+import PageView from '../../../hoc/PageLayout/PageView/PageView';
 import classes from './PrivacyPolicy.module.scss';
 
 const PrivacyPolicy: React.FC = () => {
@@ -107,10 +107,11 @@ const PrivacyPolicy: React.FC = () => {
         <span className={classes.ParagraphWrapper}>
           <p>
             If you have any questions about this privacy policy, please send an
-            email to <a href="mailto:info@criticker.com">info@criticker.com</a>
-            .We will answer your question as soon as possible.
+            email to <a href="mailto:info@criticker.com">info@criticker.com</a>.
+            We will answer your question as soon as possible.
           </p>
         </span>
+        <br />
       </div>
     </PageView>
   );
