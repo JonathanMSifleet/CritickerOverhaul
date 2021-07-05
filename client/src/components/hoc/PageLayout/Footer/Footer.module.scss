@@ -1,5 +1,9 @@
 @import '../../../../styles/variables';
 
+.FooterWrapper{
+  
+}
+
 .list-group-item {
   background-color: rgba(255, 255, 255, 0);
   font-size: 0.9rem;
@@ -8,13 +12,6 @@
 
 .bg-primary {
   border: 0;
-}
-
-.FooterWrapper {
-  width: 100vw;
-  position: fixed;
-  bottom: 0;
-  display: inline-block;
 }
 
 .FooterLinks {

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Logo from '../../../../assets/svg/Logo/placeholder.svg';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
-import Auth from '../../../pages/Auth/Auth';
+import Auth from '../../../UI/Modal/Auth/Auth';
 import Modal from '../../../UI/Modal/Modal';
 
 const Header: React.FC = (): JSX.Element => {
