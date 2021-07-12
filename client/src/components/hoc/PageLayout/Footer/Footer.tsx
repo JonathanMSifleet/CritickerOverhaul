@@ -5,7 +5,7 @@ import classes from './Footer.module.scss';
 const Footer: React.FC = (): JSX.Element => {
   return (
     <footer
-      className={`${classes.FooterWrapper} page-footer bg-primary text-center text-white`}
+      className={`${classes.Footer} page-footer bg-primary text-center text-white`}
     >
       <div className={classes.FooterLinksWrapper}>
         <ul className="FooterLinks list-group list-group-horizontal">
@@ -41,8 +41,10 @@ const Footer: React.FC = (): JSX.Element => {
         </ul>
       </div>
 
-      <div className="copyright text-center">
-        Criticker.com © 2004-2021 - All Rights Reserved
+      <div className={`${classes.Copyright} copyright text-center`}>
+        <span className={classes.CopyrightText}>
+          Criticker.com © 2004-2021 - All Rights Reserved
+        </span>
       </div>
     </footer>
   );

@@ -1,7 +1,8 @@
 @import '../../../../styles/variables';
+@import '../LayoutVariables.scss';
 
-.FooterWrapper{
-  
+.Footer {
+  height: $footerHeight;
 }
 
 .list-group-item {
@@ -19,4 +20,12 @@
 }
 .FooterLinksWrapper {
   display: inline-block;
+}
+
+.Copyright {
+  padding: 0;
+}
+
+.CopyrightText {
+  font-size: 0.9rem;
 }

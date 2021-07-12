@@ -5,6 +5,7 @@ import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
 import Auth from '../../../UI/Modal/Auth/Auth';
 import Modal from '../../../UI/Modal/Modal';
+import classes from './Header.module.scss';
 
 const Header: React.FC = (): JSX.Element => {
   const { globalState, actions } = useContext(Context);
@@ -17,7 +18,9 @@ const Header: React.FC = (): JSX.Element => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg bg-primary navbar-dark ">
+    <nav
+      className={`${classes.Header} navbar navbar-expand-lg bg-primary navbar-dark `}
+    >
       <div className="container-fluid">
         <Link to="/">
           <img src={Logo} alt="Criticker Logo" />

@@ -1,6 +1,13 @@
+@import '../LayoutVariables.scss';
+
 .PageViewContainer {
   overflow: hidden;
   flex-flow: column;
+}
+
+.Body {
+  width: 100vw;
+  height: $bodyHeight;
 }
 
 .Column {
