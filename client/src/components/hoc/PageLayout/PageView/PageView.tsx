@@ -12,9 +12,9 @@ const PageView: React.FC<IProps> = ({ children }): JSX.Element => {
     <div className={classes.PageViewContainer}>
       <Header />
       <div className={`${classes.Body} row`}>
-        <div className={`col-md-2 ${classes.Column}`} />
-        <div className="col-md-8"> {children} </div>
-        <div className={`col-md-2 ${classes.Column}`} />
+        <div className={`${classes.Column} col-md-2`} />
+        <div className={`${classes.Main} col-md-8`}> {children} </div>
+        <div className={`${classes.Column} col-md-2`} />
       </div>
       <Footer />
     </div>

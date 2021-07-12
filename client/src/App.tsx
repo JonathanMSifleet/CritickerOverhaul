@@ -5,9 +5,8 @@ import {
   Route,
   Switch
 } from 'react-router-dom';
-import AbusePolicy from './components/pages/FooterPages/AbusePolicy/AbusePolicy';
-import PrivacyPolicy from './components/pages/FooterPages/PrivacyPolicy/PrivacyPolicy';
 import Home from './components/pages/Home/Home';
+import SimplePage from './components/pages/SimplePage/SimplePage';
 
 const App: React.FC = () => {
   return (
@@ -17,10 +16,10 @@ const App: React.FC = () => {
           <Home />
         </Route>
         <Route exact path="/privacy">
-          <PrivacyPolicy />
+          <SimplePage pageName={`privacy`} />
         </Route>
         <Route exact path="/abuse">
-          <AbusePolicy />
+          <SimplePage pageName={`abuse`} />
         </Route>
         <Redirect to="/" />
       </Switch>

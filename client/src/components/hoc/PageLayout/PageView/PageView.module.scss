@@ -8,9 +8,15 @@
 .Body {
   width: 100vw;
   height: $bodyHeight;
+  margin: 0;
+}
+
+.Main {
+  width: 70vw;
 }
 
 .Column {
   width: 15vw;
   background-color: lightgrey;
+  padding: 0;
 }
