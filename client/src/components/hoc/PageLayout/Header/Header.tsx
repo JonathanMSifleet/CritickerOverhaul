@@ -58,7 +58,7 @@ const Header: React.FC = (): JSX.Element => {
         </form>
 
         <button
-          className="btn btn-white text-primary me-3 font-weight-bold"
+          className={`${classes.AuthButton} btn btn-white text-primary me-3 font-weight-bold`}
           onClick={displayAuthModal}
           type="button"
         >
