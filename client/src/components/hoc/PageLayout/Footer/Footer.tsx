@@ -17,27 +17,21 @@ const Footer: React.FC = (): JSX.Element => {
             <li className="list-group-item bg-primary">Abuse Policy</li>
           </Link>
 
-          <a href="#!" className="text-white">
-            <li className="list-group-item bg-primary">
-              [Placeholder] Contact
-            </li>
-          </a>
+          <Link to="/contact" className="text-white">
+            <li className="list-group-item bg-primary">Contact</li>
+          </Link>
 
-          <a href="#!" className="text-white">
-            <li className="list-group-item bg-primary">
-              [Placeholder] About Us
-            </li>
-          </a>
+          <Link to="/about" className="text-white">
+            <li className="list-group-item bg-primary">About us</li>
+          </Link>
 
-          <a href="#!" className="text-white">
-            <li className="list-group-item bg-primary">[Placeholder] RSS</li>
-          </a>
+          <Link to="/resources" className="text-white">
+            <li className="list-group-item bg-primary">RSS</li>
+          </Link>
 
-          <a href="#!" className="text-white">
-            <li className="list-group-item bg-primary">
-              [Placeholder] Terms & Conditions
-            </li>
-          </a>
+          <Link to="/terms" className="text-white">
+            <li className="list-group-item bg-primary">Terms & Conditions</li>
+          </Link>
         </ul>
       </div>
 

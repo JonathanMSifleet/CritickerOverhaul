@@ -6,7 +6,7 @@ import {
   Switch
 } from 'react-router-dom';
 import Home from './components/pages/Home/Home';
-import SimplePage from './components/pages/SimplePage/SimplePage';
+import TextOnlyPage from './components/pages/TextOnlyPage/TextOnlyPage';
 
 const App: React.FC = () => {
   return (
@@ -16,10 +16,22 @@ const App: React.FC = () => {
           <Home />
         </Route>
         <Route exact path="/privacy">
-          <SimplePage pageName={`privacy`} />
+          <TextOnlyPage pageName={`privacy`} />
         </Route>
         <Route exact path="/abuse">
-          <SimplePage pageName={`abuse`} />
+          <TextOnlyPage pageName={`abuse`} />
+        </Route>
+        <Route exact path="/contact">
+          <TextOnlyPage pageName={`contact`} />
+        </Route>
+        <Route exact path="/about">
+          <TextOnlyPage pageName={`about`} />
+        </Route>
+        <Route exact path="/resources">
+          <TextOnlyPage pageName={`resources`} />
+        </Route>
+        <Route exact path="/terms">
+          <TextOnlyPage pageName={`terms`} />
         </Route>
         <Redirect to="/" />
       </Switch>
