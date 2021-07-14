@@ -1,7 +1,7 @@
 @import '../LayoutVariables.scss';
 
 .PageViewContainer {
-  overflow: hidden;
+  overflow-x: hidden;
   flex-flow: column;
 }
 

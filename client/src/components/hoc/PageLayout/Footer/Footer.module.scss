@@ -3,6 +3,9 @@
 
 .Footer {
   height: $footerHeight;
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
 }
 
 .list-group-item {
