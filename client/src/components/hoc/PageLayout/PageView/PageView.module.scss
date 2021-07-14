@@ -1,24 +1,22 @@
 @import '../LayoutVariables.scss';
 
 .PageViewContainer {
-  min-height: 100vh;
-  overflow-x: hidden;
-  position: relative;
+  overflow: hidden;
+  flex-flow: column;
 }
 
 .Body {
-  margin-bottom: $footerHeight;
-  height: 100%;
+  width: 100vw;
+  height: $bodyHeight;
+  margin: 0;
 }
 
 .Main {
   width: 70vw;
-  height: auto;
 }
 
 .Column {
   width: 15vw;
   background-color: lightgrey;
   padding: 0;
-  height: 100%;
 }
