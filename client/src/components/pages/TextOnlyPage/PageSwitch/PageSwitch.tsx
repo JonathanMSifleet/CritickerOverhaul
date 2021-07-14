@@ -1,5 +1,6 @@
 // @ts-expect-error react required
 import React from 'react';
+import { Link } from 'react-router-dom';
 import classes from './PageSwitch.module.scss';
 
 const PageSwitch = (pageName: string): JSX.Element | null => {
@@ -84,7 +85,7 @@ const PageSwitch = (pageName: string): JSX.Element | null => {
               provide advertisements about goods and services of interest to
               you. If you would like more information about this practice and to
               know your choices about not having this information used by these
-              companies,
+              companies,{' '}
               <a href="http://www.networkadvertising.org/managing/opt_out.asp">
                 click here.
               </a>
@@ -174,8 +175,9 @@ const PageSwitch = (pageName: string): JSX.Element | null => {
           <span className={classes.ParagraphWrapper}>
             <p>
               Do you have a question about the site, or a suggestion as to how
-              we can improve it? Our ears are open! Please send an email to
-              info@criticker.com and we'll respond as quickly as possible.
+              we can improve it? Our ears are open! Please send an email to{' '}
+              <a href="mailto:info@criticker.com">info@criticker.com</a> and
+              we'll respond as quickly as possible.
             </p>
           </span>
           <br />
@@ -187,8 +189,8 @@ const PageSwitch = (pageName: string): JSX.Element | null => {
               If your job is writing reviews, you can ask us to mark your
               account as 'Critic' -- this means you'll be able to supply links
               to full reviews on the website you represent, and receive extra
-              traffic and exposure. If you're interested, send an email to
-              info@criticker.com.
+              traffic and exposure. If you're interested, send an email to{' '}
+              <a href="mailto:info@criticker.com">info@criticker.com</a>.
             </p>
           </span>
           <br />
@@ -197,8 +199,8 @@ const PageSwitch = (pageName: string): JSX.Element | null => {
           </h2>
           <span className={classes.ParagraphWrapper}>
             <p>
-              Please send any problems you encounter with Criticker to
-              support@criticker.com.
+              Please send any problems you encounter with Criticker to{' '}
+              <a href="mailto:support@criticker.com">support@criticker.com</a>.
             </p>
           </span>
           <br />
@@ -208,7 +210,10 @@ const PageSwitch = (pageName: string): JSX.Element | null => {
           <span className={classes.ParagraphWrapper}>
             <p>
               Interesting in advertising with Criticker? Email us at
-              marketing@criticker.com to inquire about rates and opportunities.
+              <a href="mailto:marketing@criticker.com">
+                marketing@criticker.com
+              </a>{' '}
+              to inquire about rates and opportunities.
             </p>
           </span>
           <br />
@@ -285,6 +290,7 @@ const PageSwitch = (pageName: string): JSX.Element | null => {
               send us a message, and we'll answer as soon as we can.
             </p>
           </span>
+          <br />
         </div>
       );
     case 'resources':
@@ -305,7 +311,9 @@ const PageSwitch = (pageName: string): JSX.Element | null => {
               approved.
             </p>
           </span>
-          <a>Go to the Submission Form </a>
+          <Link to="/submissions">
+            [Placeholder] Go to the Submission Form{' '}
+          </Link>
           <br />
           <h2>
             <b>Import Your Scores</b>
@@ -318,7 +326,7 @@ const PageSwitch = (pageName: string): JSX.Element | null => {
               that you can tweak and fine-tune the new ratings at your leisure.
             </p>
           </span>
-          <a>Go to the Import Tool</a>
+          <Link to="/submissions">[Placeholder] Go to the Import Tool</Link>
           <br />
           <h2>
             <b>General Feeds</b>
@@ -337,10 +345,12 @@ const PageSwitch = (pageName: string): JSX.Element | null => {
           </p>
           <span className={classes.ParagraphWrapper}>
             <p>
-              Each of Criticker's forum topics has its own RSS feed. Browse the
-              forums now and subscribe to whichever ones you want!
+              Each of Criticker's forum topics has its own RSS feed.{' '}
+              <Link to="/forum">Browse the forums now</Link> and subscribe to
+              whichever ones you want!
             </p>
           </span>
+          <br />
         </div>
       );
     case 'terms':
@@ -456,10 +466,12 @@ const PageSwitch = (pageName: string): JSX.Element | null => {
             <a href="mailto:info@criticker.com">info@criticker.com</a>. We will
             answer your question as soon as possible.
           </p>
+          <br />
         </div>
       );
     default:
-      return null;
+      // eslint-disable-next-line no-throw-literal
+      throw 'Invalid route';
   }
 };
 
