@@ -33,7 +33,7 @@ const App: React.FC = () => {
         <Route exact path="/terms">
           <TextOnlyPage pageName={`terms`} />
         </Route>
-        <Redirect to="/" />
+        <Redirect to="/?error=404" />
       </Switch>
     </Router>
   );
