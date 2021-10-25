@@ -53,7 +53,7 @@ const populateTable = () => {
       // and inserting to the table "sample"
 
       const numRows = source.length;
-      const insertStatement = `INSERT INTO films values(?, ?, ?, ?, ?, ?, ?, ?)`;
+      const insertStatement = `INSERT INTO films VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
 
       for (let i = 0; i < numRows; i++) {
         let imdb_title_id = source[i]['imdb_title_id'],

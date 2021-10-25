@@ -3,6 +3,7 @@
 
 const mysql = require('mysql2');
 const csvtojson = require('csvtojson');
+const util = require('util');
 
 const connectionDetails = {
   host: 'localhost',
@@ -12,6 +13,7 @@ const connectionDetails = {
 };
 
 const connection = mysql.createConnection(connectionDetails);
+const query = util.promisify(connection.query).bind(connection);
 
 connection.connect((err) => {
   if (err) throw err;
@@ -19,11 +21,11 @@ connection.connect((err) => {
 
   let sql;
 
-  sql = 'DROP TABLE IF EXISTS production_companies';
+  sql = 'DROP TABLE IF EXISTS film_production_companies';
   executeSQL(sql, 'Table dropped if exists');
 
   sql =
-    'CREATE TABLE production_companies (company_id int NOT NULL AUTO_INCREMENT, company_name VARCHAR(64) UNIQUE, PRIMARY KEY (company_id))';
+    'CREATE TABLE film_production_companies (company_id int, imdb_title_id VARCHAR(11), PRIMARY KEY (company_id, imdb_title_id))';
   executeSQL(sql, 'Table created');
 
   populateTable();
@@ -38,20 +40,30 @@ const executeSQL = (sql, message) => {
 
 const populateTable = () => {
   csvtojson()
-    .fromFile('./datasets/Production_companies.csv')
-    .then((source) => {
-      // Fetching the data from each row
-      // and inserting to the table "sample"
-
+    .fromFile('./datasets/Film_Production_Companies.csv')
+    .then(async (source) => {
       const numRows = source.length;
-      const insertStatement = `INSERT IGNORE INTO production_companies values(null, ?)`;
 
       for (let i = 0; i < numRows; i++) {
-        let company_name = source[i]['company_name'];
+        const production_company = source[i]['production_company'];
+        const imdb_title_id = source[i]['imdb_title_id'];
 
-        let items = [company_name];
+        const selectStatement =
+          'SELECT company_id, company_name FROM critickeroverhaul.production_companies ' +
+          `WHERE critickeroverhaul.production_companies.company_name = "${production_company}"`;
 
-        // Inserting data of current row into database
+        let company_id;
+
+        try {
+          const rows = await query(selectStatement);
+          company_id = rows[0]['company_id'];
+        } catch (e) {}
+
+        let items = [company_id, imdb_title_id];
+
+        const insertStatement =
+          'INSERT INTO film_production_companies VALUES (?, ?)';
+
         insertRow(i, numRows, insertStatement, items);
       }
     });
