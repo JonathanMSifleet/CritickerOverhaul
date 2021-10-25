@@ -23,7 +23,7 @@ connection.connect((err) => {
   executeSQL(sql, 'Table dropped if exists');
 
   sql =
-    'CREATE TABLE countries (country_id int NOT NULL AUTO_INCREMENT, ' +
+    'CREATE TABLE countries (country_id MEDIUMINT NOT NULL AUTO_INCREMENT, ' +
     'country_name VARCHAR(64) UNIQUE, PRIMARY KEY (country_id))';
   executeSQL(sql, 'Table created');
 

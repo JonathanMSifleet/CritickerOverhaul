@@ -25,8 +25,8 @@ connection.connect((err) => {
   executeSQL(sql, 'Table dropped if exists');
 
   sql =
-    'CREATE TABLE film_genres (genre_id int, imdb_title_id ' +
-    'VARCHAR(64), PRIMARY KEY (genre_id, imdb_title_id))';
+    'CREATE TABLE film_genres (genre_id MEDIUMINT, imdb_title_id ' +
+    'VARCHAR(11), PRIMARY KEY (genre_id, imdb_title_id))';
   executeSQL(sql, 'Table created');
 
   populateTable();
@@ -54,7 +54,7 @@ const populateTable = () => {
         genreName.forEach(async (el) => {
           const selectStatement =
             'SELECT genre_id FROM critickeroverhaul.genres ' +
-            `WHERE critickeroverhaul.genres.genre = "${el}"`;
+            `WHERE critickeroverhaul.genres.genre_name = "${el}"`;
 
           let genre_id;
 

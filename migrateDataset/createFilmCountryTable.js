@@ -25,8 +25,8 @@ connection.connect((err) => {
   executeSQL(sql, 'Table dropped if exists');
 
   sql =
-    'CREATE TABLE film_countries (country_id int, imdb_title_id' +
-    ' VARCHAR(64), PRIMARY KEY (country_id, imdb_title_id))';
+    'CREATE TABLE film_countries (country_id MEDIUMINT, imdb_title_id ' +
+    'VARCHAR(11), PRIMARY KEY (country_id, imdb_title_id))';
   executeSQL(sql, 'Table created');
 
   populateTable();
