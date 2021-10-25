@@ -23,7 +23,7 @@ connection.connect((err) => {
   executeSQL(sql, 'Table dropped if exists');
 
   sql =
-    'CREATE TABLE production_companies (company_id int NOT NULL AUTO_INCREMENT, company_name VARCHAR(64) UNIQUE, PRIMARY KEY (company_id))';
+    'CREATE TABLE production_companies (company_id int NOT NULL AUTO_INCREMENT, company_name VARCHAR(128) UNIQUE, PRIMARY KEY (company_id))';
   executeSQL(sql, 'Table created');
 
   populateTable();

@@ -24,7 +24,7 @@ connection.connect((err) => {
 
   sql =
     'CREATE TABLE genres (genre_id int NOT NULL AUTO_INCREMENT, ' +
-    'genre VARCHAR(64) UNIQUE, PRIMARY KEY (genre_id))';
+    'genre_name VARCHAR(16) UNIQUE, PRIMARY KEY (genre_id))';
   executeSQL(sql, 'Table created');
 
   populateTable();
