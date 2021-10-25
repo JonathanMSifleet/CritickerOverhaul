@@ -3,6 +3,7 @@
 
 const mysql = require('mysql2');
 const csvtojson = require('csvtojson');
+const util = require('util');
 
 const connectionDetails = {
   host: 'localhost',
@@ -12,6 +13,7 @@ const connectionDetails = {
 };
 
 const connection = mysql.createConnection(connectionDetails);
+const query = util.promisify(connection.query).bind(connection);
 
 connection.connect((err) => {
   if (err) throw err;
@@ -19,12 +21,12 @@ connection.connect((err) => {
 
   let sql;
 
-  sql = 'DROP TABLE IF EXISTS countries';
+  sql = 'DROP TABLE IF EXISTS film_countries';
   executeSQL(sql, 'Table dropped if exists');
 
   sql =
-    'CREATE TABLE countries (country_id int NOT NULL AUTO_INCREMENT, ' +
-    'country_name VARCHAR(64) UNIQUE, PRIMARY KEY (country_id))';
+    'CREATE TABLE film_countries (country_id int, imdb_title_id' +
+    ' VARCHAR(64), PRIMARY KEY (country_id, imdb_title_id))';
   executeSQL(sql, 'Table created');
 
   populateTable();
@@ -39,18 +41,33 @@ const executeSQL = (sql, message) => {
 
 const populateTable = () => {
   csvtojson()
-    .fromFile('./datasets/Countries.csv')
-    .then((source) => {
+    .fromFile('./datasets/Film_Countries.csv')
+    .then(async (source) => {
       const numRows = source.length;
 
       for (let i = 0; i < numRows; i++) {
-        const countryRow = source[i]['country'];
-        const countries = countryRow.split(', ');
+        const imdb_title_id = source[i]['imdb_title_id'];
 
-        countries.forEach((el) => {
-          const insertStatement =
-            'INSERT IGNORE INTO countries VALUES (null, ?)';
-          insertRow(i, numRows, insertStatement, el);
+        const countryRow = source[i]['country'];
+        const countryName = countryRow.split(', ');
+
+        countryName.forEach(async (el) => {
+          const selectStatement =
+            'SELECT country_id FROM critickeroverhaul.countries ' +
+            `WHERE critickeroverhaul.countries.country_name = "${el}"`;
+
+          let country_id;
+
+          try {
+            const rows = await query(selectStatement);
+            country_id = rows[0]['country_id'];
+          } catch (e) {}
+
+          const insertStatement = 'INSERT INTO film_countries VALUES (?, ?)';
+
+          const items = [country_id, imdb_title_id];
+
+          insertRow(i, numRows, insertStatement, items);
         });
       }
     });
