@@ -34,8 +34,8 @@ connection.connect(async (err) => {
   await query('DROP TABLE IF EXISTS film_actors');
 
   sql =
-    'CREATE TABLE film_actors (actor_id MEDIUMINT, imdb_title_id ' +
-    'VARCHAR(11), PRIMARY KEY (actor_id, imdb_title_id))';
+    'CREATE TABLE film_actors (person_id MEDIUMINT, imdb_title_id ' +
+    'VARCHAR(11), PRIMARY KEY (person_id, imdb_title_id))';
   await query(sql);
 
   sql =
@@ -81,7 +81,7 @@ const populateTable = async () => {
 
     const imdb_title_id = line[0];
     try {
-      await insertActors(actors, imdb_title_id, originalTime, i);
+      await insertActors(actors, imdb_title_id, i);
     } catch (e) {
       console.error(e);
     }
@@ -91,19 +91,19 @@ const populateTable = async () => {
 const insertActors = async (actors, imdb_title_id, i) => {
   actors.forEach(async (actorName) => {
     const selectStatement =
-      'SELECT actor_id FROM critickeroverhaul.actors ' +
+      'SELECT person_id FROM critickeroverhaul.actors ' +
       `WHERE critickeroverhaul.actors.actor_name = "${actorName}"`;
 
-    let actor_id;
+    let person_id;
 
     try {
       const rows = await query(selectStatement);
-      actor_id = rows[0]['actor_id'];
+      person_id = rows[0]['person_id'];
     } catch (e) {
       console.error(line, e);
     }
 
-    const insertStatement = `INSERT INTO film_actors (actor_id, imdb_title_id) VALUES ('${actor_id}', '${imdb_title_id}')`;
+    const insertStatement = `INSERT INTO film_actors (person_id, imdb_title_id) VALUES ('${person_id}', '${imdb_title_id}')`;
 
     try {
       await query(insertStatement);

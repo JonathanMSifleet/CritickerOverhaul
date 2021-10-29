@@ -23,8 +23,8 @@ connection.connect((err) => {
   executeSQL(sql, 'Table dropped if exists');
 
   sql =
-    'CREATE TABLE writers (writer_id MEDIUMINT NOT NULL AUTO_INCREMENT, ' +
-    'writer_name VARCHAR(64) UNIQUE, PRIMARY KEY (writer_id))';
+    'CREATE TABLE writers (person_id MEDIUMINT NOT NULL AUTO_INCREMENT, ' +
+    'writer_name VARCHAR(64) UNIQUE, PRIMARY KEY (person_id))';
   executeSQL(sql, 'Table created');
 
   populateTable();

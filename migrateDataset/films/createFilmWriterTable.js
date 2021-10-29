@@ -25,8 +25,8 @@ connection.connect((err) => {
   executeSQL(sql, 'Table dropped if exists');
 
   sql =
-    'CREATE TABLE film_writers (writer_id MEDIUMINT, imdb_title_id ' +
-    'VARCHAR(11), PRIMARY KEY (writer_id, imdb_title_id))';
+    'CREATE TABLE film_writers (person_id MEDIUMINT, imdb_title_id ' +
+    'VARCHAR(11), PRIMARY KEY (person_id, imdb_title_id))';
   executeSQL(sql, 'Table created');
 
   populateTable();
@@ -53,19 +53,19 @@ const populateTable = () => {
 
         writerName.forEach(async (el) => {
           const selectStatement =
-            'SELECT writer_id FROM critickeroverhaul.writers ' +
+            'SELECT person_id FROM critickeroverhaul.writers ' +
             `WHERE critickeroverhaul.writers.writer_name = "${el}"`;
 
-          let writer_id;
+          let person_id;
 
           try {
             const rows = await query(selectStatement);
-            writer_id = rows[0]['writer_id'];
+            person_id = rows[0]['person_id'];
           } catch (e) {}
 
           const insertStatement = 'INSERT INTO film_writers VALUES (?, ?)';
 
-          const items = [writer_id, imdb_title_id];
+          const items = [person_id, imdb_title_id];
 
           insertRow(i, numRows, insertStatement, items);
         });
