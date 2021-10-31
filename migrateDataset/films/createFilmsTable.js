@@ -30,9 +30,9 @@ connection.connect((err) => {
   executeSQL(sql, 'Table dropped if exists');
 
   sql =
-    'CREATE TABLE films (imdb_title_id VARCHAR(11), title VARCHAR(224), ' +
-    'year SMALLINT, duration SMALLINT, production_company VARCHAR(128), ' +
-    'description VARCHAR(512), avg_vote FLOAT(1), votes INT, PRIMARY KEY (imdb_title_id))';
+    'CREATE TABLE films (imdb_title_id MEDIUMINT, title VARCHAR(224), ' +
+    'year SMALLINT, duration SMALLINT, description VARCHAR(512), ' +
+    'PRIMARY KEY (imdb_title_id))';
   executeSQL(sql, 'Table created');
 
   populateTable();
@@ -53,28 +53,19 @@ const populateTable = () => {
       // and inserting to the table "sample"
 
       const numRows = source.length;
-      const insertStatement = `INSERT INTO films VALUES (?, ?, ?, ?, ?, ?, ?, ?)`;
+      const insertStatement = `INSERT INTO films VALUES (?, ?, ?, ?, ?)`;
 
       for (let i = 0; i < numRows; i++) {
         let imdb_title_id = source[i]['imdb_title_id'],
           title = source[i]['title'],
           year = source[i]['year'],
           duration = source[i]['duration'],
-          production_company = source[i]['production_company'],
-          description = source[i]['description'],
-          avg_vote = source[i]['avg_vote'],
-          votes = source[i]['votes'];
+          description = source[i]['description'];
 
-        let items = [
-          imdb_title_id,
-          title,
-          year,
-          duration,
-          production_company,
-          description,
-          avg_vote,
-          votes
-        ];
+        // remove unnecessary id prefix:
+        imdb_title_id = imdb_title_id.substring(2);
+
+        let items = [imdb_title_id, title, year, duration, description];
 
         // Inserting data of current row into database
         insertRow(i, numRows, insertStatement, items);
