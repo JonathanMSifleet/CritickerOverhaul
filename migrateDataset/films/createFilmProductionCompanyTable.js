@@ -25,7 +25,12 @@ connection.connect((err) => {
   executeSQL(sql, 'Table dropped if exists');
 
   sql =
-    'CREATE TABLE film_production_companies (company_id MEDIUMINT, imdb_title_id VARCHAR(11), PRIMARY KEY (company_id, imdb_title_id))';
+    'CREATE TABLE film_production_companies (company_id MEDIUMINT, imdb_title_id VARCHAR(11), ' +
+    'PRIMARY KEY (company_id, imdb_title_id), ' +
+    'FOREIGN KEY (company_id) REFERENCES critickeroverhaul.production_companies(production_id) ' +
+    'ON DELETE CASCADE ON UPDATE CASCADE, ' +
+    'FOREIGN KEY (imdb_title_id) REFERENCES critickeroverhaul.films(imdb_title_id) ' +
+    'ON DELETE CASCADE ON UPDATE CASCADE)';
   executeSQL(sql, 'Table created');
 
   populateTable();

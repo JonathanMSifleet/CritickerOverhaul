@@ -26,7 +26,11 @@ connection.connect((err) => {
 
   sql =
     'CREATE TABLE film_directors (person_id MEDIUMINT, imdb_title_id ' +
-    'VARCHAR(11), PRIMARY KEY (person_id, imdb_title_id))';
+    'VARCHAR(11), PRIMARY KEY (person_id, imdb_title_id), FOREIGN KEY (person_id) ' +
+    'REFERENCES critickeroverhaul.directors(person_id) ' +
+    'ON DELETE CASCADE ON UPDATE CASCADE, FOREIGN KEY (imdb_title_id) ' +
+    'REFERENCES critickeroverhaul.films(imdb_title_id) ' +
+    'ON DELETE CASCADE ON UPDATE CASCADE)';
   executeSQL(sql, 'Table created');
 
   populateTable();
