@@ -13,13 +13,6 @@ const connectionDetails = {
 
 const connection = mysql.createConnection(connectionDetails);
 
-// column names:
-// imdb_title_id	title	year	genre	duration country	language
-// director	writer	production_company	actors	description	avg_vote	votes
-
-// fields without inline-commas are:
-// imdb_title_id	title	year duration
-// production_company	description	avg_vote	votes
 connection.connect((err) => {
   if (err) throw err;
   console.log('Connected to database');
@@ -30,7 +23,7 @@ connection.connect((err) => {
   executeSQL(sql, 'Table dropped if exists');
 
   sql =
-    'CREATE TABLE films (imdb_title_id MEDIUMINT, title VARCHAR(224), ' +
+    'CREATE TABLE films (imdb_title_id MEDIUMINT UNSIGNED, title VARCHAR(224), ' +
     'year SMALLINT, duration SMALLINT, description VARCHAR(512), ' +
     'PRIMARY KEY (imdb_title_id))';
   executeSQL(sql, 'Table created');
@@ -65,7 +58,7 @@ const populateTable = () => {
         // remove unnecessary id prefix:
         imdb_title_id = imdb_title_id.substring(2);
 
-        let items = [imdb_title_id, title, year, duration, description];
+        const items = [imdb_title_id, title, year, duration, description];
 
         // Inserting data of current row into database
         insertRow(i, numRows, insertStatement, items);

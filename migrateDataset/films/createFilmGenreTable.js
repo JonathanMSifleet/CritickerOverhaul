@@ -25,7 +25,7 @@ connection.connect((err) => {
   executeSQL(sql, 'Table dropped if exists');
 
   sql =
-    'CREATE TABLE film_genres (genre_id MEDIUMINT, imdb_title_id VARCHAR(11), ' +
+    'CREATE TABLE film_genres (genre_id MEDIUMINT, imdb_title_id MEDIUMINT UNSIGNED, ' +
     'PRIMARY KEY (genre_id, imdb_title_id), ' +
     'FOREIGN KEY (genre_id) REFERENCES critickeroverhaul.genres(genre_id) ' +
     'ON DELETE CASCADE ON UPDATE CASCADE, ' +
