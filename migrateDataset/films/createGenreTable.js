@@ -2,6 +2,7 @@
 // https://www.geeksforgeeks.org/how-to-import-data-from-csv-file-into-mysql-table-using-node-js/
 
 const mysql = require('mysql2');
+const util = require('util');
 const csvtojson = require('csvtojson');
 
 const connectionDetails = {
@@ -12,8 +13,9 @@ const connectionDetails = {
 };
 
 const connection = mysql.createConnection(connectionDetails);
+const query = util.promisify(connection.query).bind(connection);
 
-connection.connect((err) => {
+connection.connect(async (err) => {
   if (err) throw err;
   console.log('Connected to database');
 
@@ -23,22 +25,21 @@ connection.connect((err) => {
   executeSQL(sql, 'Table dropped if exists');
 
   sql =
-    'CREATE TABLE genres (genre_id MEDIUMINT NOT NULL AUTO_INCREMENT, ' +
-    'genre_name VARCHAR(16) UNIQUE, PRIMARY KEY (genre_id))';
+    'CREATE TABLE genres (genre_id TINYINT AUTO_INCREMENT, ' +
+    'genre_name VARCHAR(64) UNIQUE, PRIMARY KEY (genre_id))';
   executeSQL(sql, 'Table created');
 
-  populateTable();
+  const genres = await fetchGenres();
+  genres.sort();
+
+  await populateTable(genres);
+  console.log('All rows inserted');
 });
 
-const executeSQL = (sql, message) => {
-  connection.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log(message);
-  });
-};
+const fetchGenres = async () => {
+  const genresToReturn = [];
 
-const populateTable = () => {
-  csvtojson()
+  await csvtojson()
     .fromFile('./datasets/Genres.csv')
     .then((source) => {
       const numRows = source.length;
@@ -47,20 +48,31 @@ const populateTable = () => {
         const genreRow = source[i]['genre'];
         const genres = genreRow.split(', ');
 
-        genres.forEach((el) => {
-          const insertStatement = 'INSERT IGNORE INTO genres VALUES (null, ?)';
-          insertRow(i, numRows, insertStatement, el);
+        genres.forEach((curGenre) => {
+          curGenre = curGenre.replace("'", "''");
+
+          if (!genresToReturn.includes(curGenre)) {
+            genresToReturn.push(curGenre);
+          }
         });
       }
     });
+
+  return genresToReturn;
 };
 
-const insertRow = (i, numRows, insertStatement, items) => {
-  connection.query(insertStatement, items, (err, results, fields) => {
-    if (err) {
-      console.log('Unable to insert item at row ', i++);
-      return console.log(err);
-    }
-    console.log(`Row ${i} of ${numRows}`);
+const executeSQL = async (sql) => {
+  try {
+    return await query(sql);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+const populateTable = async (genres) => {
+  await genres.forEach(async (curGenre) => {
+    executeSQL(
+      `INSERT INTO critickeroverhaul.genres VALUES (null, '${curGenre}')`
+    );
   });
 };
