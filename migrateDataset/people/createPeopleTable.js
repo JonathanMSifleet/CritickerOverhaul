@@ -31,27 +31,18 @@ connection.connect(async (err) => {
   await executeSQL('DROP TABLE IF EXISTS people');
 
   let sql =
-    'CREATE TABLE people (imdb_name_id MEDIUMINT, ' +
+    'CREATE TABLE people (imdb_name_id MEDIUMINT UNSIGNED, ' +
     'person_name VARCHAR(256), PRIMARY KEY (imdb_name_id))';
   await executeSQL(sql);
 
-  sql =
-    'SELECT actor_name as person_name FROM critickeroverhaul.actors UNION ' +
-    'SELECT director_name as person_name FROM critickeroverhaul.directors UNION ' +
-    'SELECT writer_name as person_name FROM critickeroverhaul.writers';
-
-  const results = await executeSQL(sql);
-
-  const names = results.map((row) => row.person_name);
-
   try {
-    await populateTable(names);
+    await populateTable();
   } catch (e) {
     console.error(e);
   }
 });
 
-const populateTable = async (names) => {
+const populateTable = async () => {
   let i = 0;
 
   csvtojson()
@@ -60,17 +51,13 @@ const populateTable = async (names) => {
       const numRows = source.length;
 
       for (let i = 0; i < numRows; i++) {
-        let imdb_name_id = source[i]['imdb_name_id'];
-        // remove first two characters
-        imdb_name_id = imdb_name_id.substring(2, imdb_name_id.length);
+        const imdb_name_id = source[i]['imdb_name_id'];
         const name = source[i]['name'];
 
-        if (names.includes(name)) {
-          try {
-            await insertPerson(imdb_name_id, name, i);
-          } catch (e) {
-            console.error(e);
-          }
+        try {
+          await insertPerson(imdb_name_id, name, i);
+        } catch (e) {
+          console.error(e);
         }
       }
     });
@@ -79,12 +66,8 @@ const populateTable = async (names) => {
 const insertPerson = async (imdb_name_id, name, i) => {
   const insertStatement = `INSERT INTO people (imdb_name_id, person_name) VALUES ('${imdb_name_id}', '${name}')`;
 
-  try {
-    await query(insertStatement);
-    console.log(`Row ${i} inserted`);
-  } catch (e) {
-    console.error(e);
-  }
+  await executeSQL(insertStatement);
+  console.log(`Row ${i} inserted`);
 };
 
 const executeSQL = async (sql) => {
