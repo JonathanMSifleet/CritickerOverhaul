@@ -2,6 +2,7 @@
 // https://www.geeksforgeeks.org/how-to-import-data-from-csv-file-into-mysql-table-using-node-js/
 
 const mysql = require('mysql2');
+const util = require('util');
 const csvtojson = require('csvtojson');
 
 const connectionDetails = {
@@ -12,8 +13,9 @@ const connectionDetails = {
 };
 
 const connection = mysql.createConnection(connectionDetails);
+const query = util.promisify(connection.query).bind(connection);
 
-connection.connect((err) => {
+connection.connect(async (err) => {
   if (err) throw err;
   console.log('Connected to database');
 
@@ -23,22 +25,21 @@ connection.connect((err) => {
   executeSQL(sql, 'Table dropped if exists');
 
   sql =
-    'CREATE TABLE countries (country_id MEDIUMINT NOT NULL AUTO_INCREMENT, ' +
+    'CREATE TABLE countries (country_id TINYINT UNSIGNED AUTO_INCREMENT, ' +
     'country_name VARCHAR(64) UNIQUE, PRIMARY KEY (country_id))';
   executeSQL(sql, 'Table created');
 
-  populateTable();
+  const countries = await fetchCountries();
+  countries.sort();
+
+  await populateTable(countries);
+  console.log('All rows inserted');
 });
 
-const executeSQL = (sql, message) => {
-  connection.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log(message);
-  });
-};
+const fetchCountries = async () => {
+  const countriesToReturn = [];
 
-const populateTable = () => {
-  csvtojson()
+  await csvtojson()
     .fromFile('./datasets/Countries.csv')
     .then((source) => {
       const numRows = source.length;
@@ -47,21 +48,31 @@ const populateTable = () => {
         const countryRow = source[i]['country'];
         const countries = countryRow.split(', ');
 
-        countries.forEach((el) => {
-          const insertStatement =
-            'INSERT IGNORE INTO countries VALUES (null, ?)';
-          insertRow(i, numRows, insertStatement, el);
+        countries.forEach((curCountry) => {
+          curCountry = curCountry.replace("'", "''");
+
+          if (!countriesToReturn.includes(curCountry)) {
+            countriesToReturn.push(curCountry);
+          }
         });
       }
     });
+
+  return countriesToReturn;
 };
 
-const insertRow = (i, numRows, insertStatement, items) => {
-  connection.query(insertStatement, items, (err, results, fields) => {
-    if (err) {
-      console.log('Unable to insert item at row ', i++);
-      return console.log(err);
-    }
-    console.log(`Row ${i} of ${numRows}`);
+const executeSQL = async (sql) => {
+  try {
+    return await query(sql);
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+const populateTable = async (countries) => {
+  await countries.forEach(async (curCountry) => {
+    executeSQL(
+      `INSERT INTO critickeroverhaul.countries VALUES (null, '${curCountry}')`
+    );
   });
 };
