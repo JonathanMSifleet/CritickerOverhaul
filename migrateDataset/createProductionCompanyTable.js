@@ -2,6 +2,7 @@
 // https://www.geeksforgeeks.org/how-to-import-data-from-csv-file-into-mysql-table-using-node-js/
 
 const mysql = require('mysql2');
+const util = require('util');
 const csvtojson = require('csvtojson');
 
 const connectionDetails = {
@@ -12,8 +13,9 @@ const connectionDetails = {
 };
 
 const connection = mysql.createConnection(connectionDetails);
+const query = util.promisify(connection.query).bind(connection);
 
-connection.connect((err) => {
+connection.connect(async (err) => {
   if (err) throw err;
   console.log('Connected to database');
 
@@ -23,46 +25,59 @@ connection.connect((err) => {
   executeSQL(sql, 'Table dropped if exists');
 
   sql =
-    'CREATE TABLE production_companies (company_id MEDIUMINT NOT NULL AUTO_INCREMENT, company_name VARCHAR(128) UNIQUE, PRIMARY KEY (company_id))';
+    'CREATE TABLE production_companies (company_id SMALLINT UNSIGNED AUTO_INCREMENT, ' +
+    'company_name VARCHAR(128) UNIQUE, PRIMARY KEY (company_id))';
   executeSQL(sql, 'Table created');
 
-  populateTable();
+  const companies = await fetchCompanies();
+  companies.sort();
+
+  await populateTable(companies);
 });
 
-const executeSQL = (sql, message) => {
-  connection.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log(message);
-  });
-};
+const fetchCompanies = async () => {
+  const companiesToReturn = [];
 
-const populateTable = () => {
-  csvtojson()
+  await csvtojson()
     .fromFile('./datasets/Production_companies.csv')
     .then((source) => {
-      // Fetching the data from each row
-      // and inserting to the table "sample"
-
       const numRows = source.length;
-      const insertStatement = `INSERT IGNORE INTO production_companies values(null, ?)`;
 
       for (let i = 0; i < numRows; i++) {
-        let company_name = source[i]['company_name'];
+        const companyRow = source[i]['company_name'];
+        const companies = companyRow.split(', ');
 
-        let items = [company_name];
+        companies.forEach((curCompany) => {
+          curCompany = curCompany.replaceAll("'", "''");
 
-        // Inserting data of current row into database
-        insertRow(i, numRows, insertStatement, items);
+          if (!companiesToReturn.includes(curCompany)) {
+            companiesToReturn.push(curCompany);
+          }
+        });
       }
     });
+
+  return companiesToReturn;
 };
 
-const insertRow = (i, numRows, insertStatement, items) => {
-  connection.query(insertStatement, items, (err, results, fields) => {
-    if (err) {
-      console.log('Unable to insert item at row ', i++);
-      return console.log(err);
-    }
-    console.log(`Row ${i} of ${numRows}`);
+const executeSQL = async (sql, i) => {
+  try {
+    await query(sql);
+    console.log(i);
+  } catch (e) {
+    console.error(e);
+    process.exit();
+  }
+};
+
+const populateTable = async (companies) => {
+  let i = 0;
+
+  await companies.forEach(async (curCompany) => {
+    i++;
+    executeSQL(
+      `INSERT IGNORE INTO critickeroverhaul.production_companies VALUES (null, '${curCompany}')`,
+      i
+    );
   });
 };
