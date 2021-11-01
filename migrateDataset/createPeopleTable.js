@@ -32,7 +32,7 @@ connection.connect(async (err) => {
 
   let sql =
     'CREATE TABLE people (imdb_name_id MEDIUMINT UNSIGNED, ' +
-    'person_name VARCHAR(256), PRIMARY KEY (imdb_name_id))';
+    'person_name VARCHAR(64), PRIMARY KEY (imdb_name_id))';
   await executeSQL(sql);
 
   try {
