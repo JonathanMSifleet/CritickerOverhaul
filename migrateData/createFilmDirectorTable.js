@@ -19,15 +19,12 @@ connection.connect((err) => {
   if (err) throw err;
   console.log('Connected to database');
 
-  let sql;
+  executeSQL('DROP TABLE IF EXISTS film_directors', 'Table dropped if exists');
 
-  sql = 'DROP TABLE IF EXISTS film_directors';
-  executeSQL(sql, 'Table dropped if exists');
-
-  sql =
-    'CREATE TABLE film_directors (person_id MEDIUMINT, imdb_title_id MEDIUMINT UNSIGNED, ' +
-    'PRIMARY KEY (person_id, imdb_title_id), ' +
-    'FOREIGN KEY (person_id) REFERENCES critickeroverhaul.directors(person_id) ' +
+  const sql =
+    'CREATE TABLE film_directors (imdb_name_id MEDIUMINT UNSIGNED, imdb_title_id MEDIUMINT UNSIGNED, ' +
+    'PRIMARY KEY (imdb_name_id, imdb_title_id), ' +
+    'FOREIGN KEY (imdb_name_id) REFERENCES critickeroverhaul.people(imdb_name_id) ' +
     'ON DELETE CASCADE ON UPDATE CASCADE, ' +
     'FOREIGN KEY (imdb_title_id) REFERENCES critickeroverhaul.films(imdb_title_id) ' +
     'ON DELETE CASCADE ON UPDATE CASCADE)';
@@ -36,53 +33,48 @@ connection.connect((err) => {
   populateTable();
 });
 
-const executeSQL = (sql, message) => {
-  connection.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log(message);
-  });
+const executeSQL = async (sql, i) => {
+  try {
+    await query(sql);
+    console.log(i);
+  } catch (e) {
+    console.error(e);
+    process.exit();
+  }
 };
 
 const populateTable = () => {
   csvtojson()
     .fromFile('./datasets/Film_Directors.csv')
     .then(async (source) => {
-      const numRows = source.length;
-
-      for (let i = 0; i < numRows; i++) {
+      for (let i = 0; i < source.length; i++) {
         const imdb_title_id = source[i]['imdb_title_id'];
-        const directorRow = source[i]['director'];
+        let directorNames = source[i]['director'];
+        directorNames = directorNames.split(', ');
 
-        const directorName = directorRow.split(', ');
-
-        directorName.forEach(async (el) => {
-          const selectStatement =
-            'SELECT person_id FROM critickeroverhaul.directors ' +
-            `WHERE critickeroverhaul.directors.director_name = "${el}"`;
-
-          let person_id;
-
+        for await (const curDirector of directorNames) {
           try {
-            const rows = await query(selectStatement);
-            person_id = rows[0]['person_id'];
-          } catch (e) {}
+            const imdb_name_id = await getIMDbName(curDirector);
+            const insertStatement = `INSERT IGNORE INTO film_directors VALUES ('${imdb_name_id}', '${imdb_title_id}')`;
 
-          const insertStatement = 'INSERT INTO film_directors VALUES (?, ?)';
-
-          const items = [person_id, imdb_title_id];
-
-          insertRow(i, numRows, insertStatement, items);
-        });
+            await executeSQL(insertStatement, i);
+          } catch (e) {
+            console.error(e);
+          }
+        }
       }
     });
 };
 
-const insertRow = (i, numRows, insertStatement, items) => {
-  connection.query(insertStatement, items, (err, results, fields) => {
-    if (err) {
-      console.log('Unable to insert item at row ', i++);
-      return console.log(err);
-    }
-    console.log(`Row ${i} of ${numRows}`);
-  });
+const getIMDbName = async (curDirector) => {
+  const selectStatement =
+    'SELECT imdb_name_id FROM critickeroverhaul.people ' +
+    `WHERE critickeroverhaul.people.name = '${curDirector}'`;
+
+  try {
+    const rows = await query(selectStatement);
+    return rows[0]['imdb_name_id'];
+  } catch (e) {
+    console.error(e);
+  }
 };
