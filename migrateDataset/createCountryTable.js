@@ -49,7 +49,7 @@ const fetchCountries = async () => {
         const countries = countryRow.split(', ');
 
         countries.forEach((curCountry) => {
-          curCountry = curCountry.replace("'", "''");
+          curCountry = curCountry.replaceAll("'", "''");
 
           if (!countriesToReturn.includes(curCountry)) {
             countriesToReturn.push(curCountry);

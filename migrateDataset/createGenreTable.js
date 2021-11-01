@@ -49,7 +49,7 @@ const fetchGenres = async () => {
         const genres = genreRow.split(', ');
 
         genres.forEach((curGenre) => {
-          curGenre = curGenre.replace("'", "''");
+          curGenre = curGenre.replaceAll("'", "''");
 
           if (!genresToReturn.includes(curGenre)) {
             genresToReturn.push(curGenre);
