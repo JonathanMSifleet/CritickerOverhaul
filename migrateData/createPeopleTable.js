@@ -32,7 +32,7 @@ connection.connect(async (err) => {
 
   let sql =
     'CREATE TABLE people (imdb_name_id MEDIUMINT UNSIGNED, ' +
-    'person_name VARCHAR(64), PRIMARY KEY (imdb_name_id))';
+    'name VARCHAR(64), PRIMARY KEY (imdb_name_id))';
   await executeSQL(sql);
 
   try {
@@ -64,7 +64,7 @@ const populateTable = async () => {
 };
 
 const insertPerson = async (imdb_name_id, name, i) => {
-  const insertStatement = `INSERT INTO people (imdb_name_id, person_name) VALUES ('${imdb_name_id}', '${name}')`;
+  const insertStatement = `INSERT INTO people (imdb_name_id, name) VALUES ('${imdb_name_id}', '${name}')`;
 
   await executeSQL(insertStatement);
   console.log(`Row ${i} inserted`);
