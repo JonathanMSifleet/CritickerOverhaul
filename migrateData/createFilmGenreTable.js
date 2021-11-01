@@ -19,70 +19,63 @@ connection.connect((err) => {
   if (err) throw err;
   console.log('Connected to database');
 
-  let sql;
-
-  sql = 'DROP TABLE IF EXISTS film_genres';
-  executeSQL(sql, 'Table dropped if exists');
+  executeSQL('DROP TABLE IF EXISTS film_genres', 'Table dropped if exists');
 
   sql =
-    'CREATE TABLE film_genres (genre_id MEDIUMINT, imdb_title_id MEDIUMINT UNSIGNED, ' +
-    'PRIMARY KEY (genre_id, imdb_title_id), ' +
+    'CREATE TABLE film_genres (imdb_title_id MEDIUMINT UNSIGNED, genre_id TINYINT, ' +
+    'PRIMARY KEY (imdb_title_id, genre_id), ' +
     'FOREIGN KEY (genre_id) REFERENCES critickeroverhaul.genres(genre_id) ' +
     'ON DELETE CASCADE ON UPDATE CASCADE, ' +
     'FOREIGN KEY (imdb_title_id) REFERENCES critickeroverhaul.films(imdb_title_id) ' +
     'ON DELETE CASCADE ON UPDATE CASCADE)';
+
   executeSQL(sql, 'Table created');
 
   populateTable();
 });
 
-const executeSQL = (sql, message) => {
-  connection.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log(message);
-  });
+const executeSQL = async (sql, i) => {
+  try {
+    await query(sql);
+    console.log(i);
+  } catch (e) {
+    console.error(e);
+    process.exit();
+  }
 };
 
 const populateTable = () => {
   csvtojson()
     .fromFile('./datasets/Film_Genres.csv')
     .then(async (source) => {
-      const numRows = source.length;
-
-      for (let i = 0; i < numRows; i++) {
+      for (let i = 0; i < source.length; i++) {
         const imdb_title_id = source[i]['imdb_title_id'];
-        const genreRow = source[i]['genre'];
+        let genres = source[i]['genre'];
+        genres = genres.split(', ');
 
-        const genreName = genreRow.split(', ');
-
-        genreName.forEach(async (el) => {
-          const selectStatement =
-            'SELECT genre_id FROM critickeroverhaul.genres ' +
-            `WHERE critickeroverhaul.genres.genre_name = "${el}"`;
-
-          let genre_id;
-
+        for await (const curGenre of genres) {
           try {
-            const rows = await query(selectStatement);
-            genre_id = rows[0]['genre_id'];
-          } catch (e) {}
+            const genre_id = await getGenreName(curGenre);
+            const insertStatement = `INSERT IGNORE INTO film_genres VALUES ('${imdb_title_id}', '${genre_id}')`;
 
-          const insertStatement = 'INSERT INTO film_genres VALUES (?, ?)';
-
-          const items = [genre_id, imdb_title_id];
-
-          insertRow(i, numRows, insertStatement, items);
-        });
+            await executeSQL(insertStatement, i);
+          } catch (e) {
+            console.error(e);
+          }
+        }
       }
     });
 };
 
-const insertRow = (i, numRows, insertStatement, items) => {
-  connection.query(insertStatement, items, (err, results, fields) => {
-    if (err) {
-      console.log('Unable to insert item at row ', i++);
-      return console.log(err);
-    }
-    console.log(`Row ${i} of ${numRows}`);
-  });
+const getGenreName = async (curGenre) => {
+  const selectStatement =
+    'SELECT genre_id FROM critickeroverhaul.genres ' +
+    `WHERE critickeroverhaul.genres.genre_name = '${curGenre}'`;
+
+  try {
+    const rows = await query(selectStatement);
+    return rows[0]['genre_id'];
+  } catch (e) {
+    console.error(e);
+  }
 };

@@ -26,7 +26,7 @@ connection.connect(async (err) => {
 
   sql =
     'CREATE TABLE genres (genre_id TINYINT AUTO_INCREMENT, ' +
-    'genre_name VARCHAR(64) UNIQUE, PRIMARY KEY (genre_id))';
+    'genre_name VARCHAR(16) UNIQUE, PRIMARY KEY (genre_id))';
   executeSQL(sql, 'Table created');
 
   const genres = await fetchGenres();
