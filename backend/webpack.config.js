@@ -8,6 +8,9 @@ module.exports = {
   context: __dirname,
   mode: 'development',
   devtool: 'eval-cheap-source-map',
+  performance: {
+    hints: false
+  },
   entry: {
     auth: './aws/handlers/auth.ts',
     deleteAccount: './aws/handlers/deleteAccount.ts',

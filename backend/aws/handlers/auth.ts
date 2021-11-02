@@ -38,7 +38,7 @@ export const handler = async (event: {
       ...policy,
       context: claims
     };
-  } catch (error) {
+  } catch (error: any) {
     return createAWSResErr(401, error);
   }
 };

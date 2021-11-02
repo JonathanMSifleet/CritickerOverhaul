@@ -14,6 +14,9 @@ module.exports = {
     open: true,
     port: 3000
   },
+  performance: {
+    hints: false
+  },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json']
   },

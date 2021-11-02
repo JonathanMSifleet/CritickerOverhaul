@@ -1,5 +1,5 @@
 service:
-  name: FinalYearProject
+  name: CritickerOverhaul
 
 plugins:
   - serverless-pseudo-parameters
@@ -12,8 +12,8 @@ provider:
   runtime: nodejs14.x
   apiGateway:
     minimumCompressionSize: 1024
+    shouldStartNameWithService: true
   memorySize: 256
-  provider.apiGateway.shouldStartNameWithService: true
   stage: ${opt:stage, 'dev'}
   region: eu-west-2
   environment:
@@ -23,11 +23,14 @@ provider:
     REACT_BUCKET_NAME: ${self:custom.ReactBucket.name}
     AUTH0_PUBLIC_KEY: ${file(secret.pem)}
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
-  iamRoleStatements:
-    - ${file(aws/iam/GameTableIAM.yml):GameTableIAM}
-    - ${file(aws/iam/StudentTableIAM.yml):StudentTableIAM}
-    - ${file(aws/iam/GameBucketIAM.yml):GameBucketIAM}
-    - ${file(aws/iam/ReactBucketIAM.yml):ReactBucketIAM}
+  iam:
+    role:
+      statements:
+        - ${file(aws/iam/GameTableIAM.yml):GameTableIAM}
+        - ${file(aws/iam/StudentTableIAM.yml):StudentTableIAM}
+        - ${file(aws/iam/GameBucketIAM.yml):GameBucketIAM}
+        - ${file(aws/iam/ReactBucketIAM.yml):ReactBucketIAM}
+  lambdaHashingVersion: 20201221
 functions:
   auth:
     handler: aws/handlers/auth.handler
