@@ -36,8 +36,8 @@ connection.connect((err) => {
 
 const executeSQL = async (sql, i) => {
   try {
-    await query(sql);
     console.log(i);
+    return await query(sql);
   } catch (e) {
     console.error(e);
     process.exit();
