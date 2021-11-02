@@ -1,7 +1,7 @@
-StudentTable:
+UserTable:
   Type: AWS::DynamoDB::Table
   Properties:
-    TableName: StudentTable-${self:provider.stage}
+    TableName: UserTable-${self:provider.stage}
     BillingMode: PAY_PER_REQUEST
     AttributeDefinitions:
       - AttributeName: username
@@ -11,6 +11,14 @@ StudentTable:
     KeySchema:
       - AttributeName: email
         KeyType: HASH
+    # use GSI for querying on non primary key, example:
+    # GlobalSecondaryIndexes:
+    #   - IndexName: uid
+    #     KeySchema:
+    #       - AttributeName: id
+    #         KeyType: HASH
+    #     Projection:
+    #       ProjectionType: ALL
     GlobalSecondaryIndexes:
       - IndexName: username
         KeySchema:

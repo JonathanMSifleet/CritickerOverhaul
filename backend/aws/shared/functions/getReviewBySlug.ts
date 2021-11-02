@@ -14,7 +14,7 @@ export const getReviewBySlug = async (
 
     const result = (await dynamodb.get(params).promise()) as { Item: any };
     return result!.Item;
-  } catch (error) {
+  } catch (error: any) {
     return createAWSResErr(404, error);
   }
 };

@@ -16,18 +16,14 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: eu-west-2
   environment:
-    GAME_TABLE_NAME: ${self:custom.GameTable.name}
-    STUDENT_TABLE_NAME: ${self:custom.StudentTable.name}
-    GAME_BUCKET_NAME: ${self:custom.GameBucket.name}
+    USER_TABLE_NAME: ${self:custom.UserTable.name}
     REACT_BUCKET_NAME: ${self:custom.ReactBucket.name}
     AUTH0_PUBLIC_KEY: ${file(secret.pem)}
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
   iam:
     role:
       statements:
-        - ${file(aws/iam/GameTableIAM.yml):GameTableIAM}
-        - ${file(aws/iam/StudentTableIAM.yml):StudentTableIAM}
-        - ${file(aws/iam/GameBucketIAM.yml):GameBucketIAM}
+        - ${file(aws/iam/UserTableIAM.yml):UserTableIAM}
         - ${file(aws/iam/ReactBucketIAM.yml):ReactBucketIAM}
   lambdaHashingVersion: 20201221
 functions:
@@ -94,10 +90,7 @@ functions:
           cors: true
 resources:
   Resources:
-    GameTable: ${file(aws/resources/GameTable.yml):GameTable}
-    StudentTable: ${file(aws/resources/StudentTable.yml):StudentTable}
-    GameBucket: ${file(aws/resources/GameBucket.yml):GameBucket}
-    GameBucketPolicy: ${file(aws/resources/GameBucket.yml):GameBucketPolicy}
+    UserTable: ${file(aws/resources/UserTable.yml):UserTable}
     ReactBucket: ${file(aws/resources/ReactBucket.yml):ReactBucket}
     ReactBucketPolicy: ${file(aws/resources/ReactBucket.yml):ReactBucketPolicy}
     # Cloudfront
@@ -168,18 +161,13 @@ custom:
     webpackConfig: webpack.config.js
     includeModules: true
   authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:FinalYearProject-${self:provider.stage}-auth
-  GameTable:
-    name: !Ref GameTable
-    arn: !GetAtt GameTable.Arn
-  StudentTable:
-    name: !Ref StudentTable
-    arn: !GetAtt StudentTable.Arn
-  GameBucket:
-    name: game-bucket-xw23me9x-${self:provider.stage}
+  UserTable:
+    name: !Ref UserTable
+    arn: !GetAtt UserTable.Arn
   ReactBucket:
     name: react-bucket-t6aius2j-${self:provider.stage}
   BucketFolder:
-    name: FinalYearProject
+    name: CritickerOverhaul
   ReactBucketTargetOrigin:
     name: S3-${self:custom.ReactBucket.name}/${self:custom.BucketFolder.name}
   bundle:
