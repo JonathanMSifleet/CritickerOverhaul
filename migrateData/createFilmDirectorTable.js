@@ -22,7 +22,7 @@ connection.connect((err) => {
   executeSQL('DROP TABLE IF EXISTS film_directors', 'Table dropped if exists');
 
   const sql =
-    'CREATE TABLE film_directors (imdb_name_id MEDIUMINT UNSIGNED, imdb_title_id MEDIUMINT UNSIGNED, ' +
+    'CREATE TABLE film_directors (imdb_title_id MEDIUMINT UNSIGNED, imdb_name_id MEDIUMINT UNSIGNED ' +
     'PRIMARY KEY (imdb_name_id, imdb_title_id), ' +
     'FOREIGN KEY (imdb_name_id) REFERENCES critickeroverhaul.people(imdb_name_id) ' +
     'ON DELETE CASCADE ON UPDATE CASCADE, ' +
@@ -55,7 +55,7 @@ const populateTable = () => {
         for await (const curDirector of directorNames) {
           try {
             const imdb_name_id = await getIMDbName(curDirector);
-            const insertStatement = `INSERT IGNORE INTO film_directors VALUES ('${imdb_name_id}', '${imdb_title_id}')`;
+            const insertStatement = `INSERT IGNORE INTO film_directors VALUES ('${imdb_title_id}', '${imdb_name_id}')`;
 
             await executeSQL(insertStatement, i);
           } catch (e) {

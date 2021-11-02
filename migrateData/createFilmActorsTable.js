@@ -1,19 +1,9 @@
-// using the method seen in other create-table scripts causes Node to run out of memory
-// the machine I'm using does not have enough RAM required to run the script
-// this is caused by using such a large dataset
-// instead I will be using an alternative method, i.e. reading each line, one by one
-
-// in other scripts, the headers of the file are not omitted as the package used to read
-// the CSV ignores the headers, the current package does not do so, and adding an if statement
-// to check if it is the first line of the file is inefficient, as such I have manually removed
-// the header row
-
-// this script took over 4 hours to run on my machine
+// based on:
+// https://www.geeksforgeeks.org/how-to-import-data-from-csv-file-into-mysql-table-using-node-js/
 
 const mysql = require('mysql2');
+const csvtojson = require('csvtojson');
 const util = require('util');
-const fs = require('fs');
-const byline = require('byline');
 
 const connectionDetails = {
   host: 'localhost',
@@ -25,92 +15,66 @@ const connectionDetails = {
 const connection = mysql.createConnection(connectionDetails);
 const query = util.promisify(connection.query).bind(connection);
 
-connection.connect(async (err) => {
+connection.connect((err) => {
   if (err) throw err;
   console.log('Connected to database');
 
-  let sql;
+  executeSQL('DROP TABLE IF EXISTS film_actors', 'Table dropped if exists');
 
-  await query('DROP TABLE IF EXISTS film_actors');
+  const sql =
+    'CREATE TABLE film_actors (imdb_title_id MEDIUMINT UNSIGNED, imdb_name_id MEDIUMINT UNSIGNED, ' +
+    'PRIMARY KEY (imdb_name_id, imdb_title_id), ' +
+    'FOREIGN KEY (imdb_name_id) REFERENCES critickeroverhaul.people(imdb_name_id) ' +
+    'ON DELETE CASCADE ON UPDATE CASCADE, ' +
+    'FOREIGN KEY (imdb_title_id) REFERENCES critickeroverhaul.films(imdb_title_id) ' +
+    'ON DELETE CASCADE ON UPDATE CASCADE)';
+  executeSQL(sql, 'Table created');
 
-  sql =
-    'CREATE TABLE film_actors (person_id MEDIUMINT, imdb_title_id ' +
-    'VARCHAR(11), PRIMARY KEY (person_id, imdb_title_id))';
-  await query(sql);
+  populateTable();
+});
 
-  sql =
-    'CREATE INDEX actor_name_index ON critickeroverhaul.actors (actor_name)';
-
+const executeSQL = async (sql, i) => {
   try {
-    const result = await query(sql);
-    console.log('result', result);
+    await query(sql);
+    console.log(i);
   } catch (e) {
-    console.error(e.sqlMessage);
+    console.error(e);
+    process.exit();
   }
+};
+
+const populateTable = () => {
+  csvtojson()
+    .fromFile('./datasets/Film_Actors.csv')
+    .then(async (source) => {
+      for (let i = 0; i < source.length; i++) {
+        const imdb_title_id = source[i]['imdb_title_id'];
+        let actorNames = source[i]['actors'];
+        actorNames = actorNames.split(', ');
+
+        for await (const curActor of actorNames) {
+          try {
+            const imdb_name_id = await getIMDbName(curActor);
+            const insertStatement = `INSERT IGNORE INTO film_actors VALUES ('${imdb_title_id}', '${imdb_name_id}')`;
+
+            await executeSQL(insertStatement, i);
+          } catch (e) {
+            console.error(e);
+          }
+        }
+      }
+    });
+};
+
+const getIMDbName = async (curActor) => {
+  const selectStatement =
+    'SELECT imdb_name_id FROM critickeroverhaul.people ' +
+    `WHERE critickeroverhaul.people.name = '${curActor}'`;
+
   try {
-    await populateTable();
+    const rows = await query(selectStatement);
+    return rows[0]['imdb_name_id'];
   } catch (e) {
     console.error(e);
   }
-});
-
-const populateTable = async () => {
-  const stream = byline(
-    fs.createReadStream('./datasets/Film_Actors_no_headers.csv', {
-      encoding: 'utf8'
-    })
-  );
-
-  const totalRows = 85855;
-  let i = 0;
-  stream.on('data', async (line) => {
-    i++;
-    let actors;
-
-    if (line.includes('"')) {
-      line = line.split(',"');
-      // remove speech mark on end of string:
-      actors = line[1].slice(0, -1);
-      actors = actors.split(', ');
-    } else {
-      // handle singular actor
-      line = line.split(',');
-      actors = line[1];
-      actors = [actors];
-    }
-
-    const imdb_title_id = line[0];
-    try {
-      await insertActors(actors, imdb_title_id, i);
-    } catch (e) {
-      console.error(e);
-    }
-  });
-};
-
-const insertActors = async (actors, imdb_title_id, i) => {
-  actors.forEach(async (actorName) => {
-    const selectStatement =
-      'SELECT person_id FROM critickeroverhaul.actors ' +
-      `WHERE critickeroverhaul.actors.actor_name = "${actorName}"`;
-
-    let person_id;
-
-    try {
-      const rows = await query(selectStatement);
-      person_id = rows[0]['person_id'];
-    } catch (e) {
-      console.error(line, e);
-    }
-
-    const insertStatement = `INSERT INTO film_actors (person_id, imdb_title_id) VALUES ('${person_id}', '${imdb_title_id}')`;
-
-    try {
-      await query(insertStatement);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      console.log(`Row ${i} inserted`);
-    }
-  });
 };
