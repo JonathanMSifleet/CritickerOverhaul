@@ -19,8 +19,8 @@ export const getReview = async (event: {
       statusCode: 200,
       body: JSON.stringify(review)
     };
-  } catch (errorMessage) {
-    return createAWSResErr(404, errorMessage);
+  } catch (error: any) {
+    return createAWSResErr(404, error);
   }
 };
 

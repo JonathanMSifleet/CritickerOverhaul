@@ -28,7 +28,7 @@ const deleteAccount = async (event: {
       body: JSON.stringify(result),
       statusCode: 204
     };
-  } catch (error) {
+  } catch (error: any) {
     return createAWSResErr(403, error);
   }
 };

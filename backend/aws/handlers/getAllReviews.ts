@@ -17,8 +17,8 @@ const getAllReviews = async () => {
       statusCode: 200,
       body: JSON.stringify({ reviews })
     };
-  } catch (errorMessage) {
-    return createAWSResErr(404, errorMessage);
+  } catch (error: any) {
+    return createAWSResErr(404, error);
   }
 };
 

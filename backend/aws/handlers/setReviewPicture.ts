@@ -18,7 +18,7 @@ export const setReviewPicture = async (event: {
       statusCode: 200,
       body: JSON.stringify(`Found at: ${result}`)
     };
-  } catch (error) {
+  } catch (error: any) {
     return createAWSResErr(500, error);
   }
 };
@@ -31,7 +31,7 @@ const deletePicture = async (filename: string) => {
 
   try {
     return await s3.deleteObject(params).promise();
-  } catch (error) {
+  } catch (error: any) {
     return createAWSResErr(500, error);
   }
 };

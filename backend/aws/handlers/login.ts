@@ -40,7 +40,7 @@ const login = async (event: { body: string }) => {
       statusCode: 201,
       body: JSON.stringify(user)
     };
-  } catch (error) {
+  } catch (error: any) {
     return createAWSResErr(404, error);
   }
 };
