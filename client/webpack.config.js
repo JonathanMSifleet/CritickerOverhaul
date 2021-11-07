@@ -5,7 +5,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 module.exports = {
   entry: './src/index.tsx',
   output: {
-    filename: 'index.bundle.js'
+    filename: 'index.bundle.js',
+    assetModuleFilename: 'images/[hash][ext][query]'
   },
   target: 'web',
   devServer: {
@@ -32,27 +33,19 @@ module.exports = {
       },
       {
         test: /\.(png|svg)$/,
-        loader: 'file-loader',
+        loader: 'asset/resource',
         options: {
           name: '[name].[ext]'
         }
       },
       {
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+        type: 'asset/inline',
+      },
+      {
         test: /\.js$/,
         enforce: 'pre',
         use: ['source-map-loader']
-      },
-      {
-        test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-              outputPath: 'fonts/'
-            }
-          }
-        ]
       }
     ]
   },

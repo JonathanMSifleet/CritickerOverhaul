@@ -160,12 +160,12 @@ custom:
   webpack:
     webpackConfig: webpack.config.js
     includeModules: true
-  authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:FinalYearProject-${self:provider.stage}-auth
+  authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:CritickerOverhaul-${self:provider.stage}-auth
   UserTable:
     name: !Ref UserTable
     arn: !GetAtt UserTable.Arn
   ReactBucket:
-    name: react-bucket-t6aius2j-${self:provider.stage}
+    name: react-bucket-x3blze4m-${self:provider.stage}
   BucketFolder:
     name: CritickerOverhaul
   ReactBucketTargetOrigin:

@@ -1,7 +1,7 @@
 UserTable:
   Type: AWS::DynamoDB::Table
   Properties:
-    TableName: UserTable-${self:provider.stage}
+    TableName: UserTable
     BillingMode: PAY_PER_REQUEST
     AttributeDefinitions:
       - AttributeName: username

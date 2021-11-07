@@ -13,7 +13,7 @@
     "--": "",
     "clientBuild": "cd ./client && webpack --mode production",
     "clientDeploy": "cd ./client && aws s3 rm s3://react-bucket-t6aius2j-dev --recursive && aws s3 sync ./dist s3://react-bucket-t6aius2j-dev",
-    "slsDeploy": "cd ./backend && serverless deploy -v",
+    "slsDeploy": "cd ./backend && serverless deploy --verbose",
     "---": "",
     "clean": "cd ./backend && RMDIR /Q/S .serverless 2>nul && cd ./client && RMDIR /Q/S dist 2>nul",
     "-v": "",
