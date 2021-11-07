@@ -1,41 +1,36 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Redirect,
-  Route,
-  Switch
-} from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Home from './components/pages/Home/Home';
 import TextOnlyPage from './components/pages/TextOnlyPage/TextOnlyPage';
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/">
+    <BrowserRouter>
+      <Routes>
+        <Route path="/">
           <Home />
         </Route>
-        <Route exact path="/privacy">
+        <Route path="/privacy">
           <TextOnlyPage pageName={`privacy`} />
         </Route>
-        <Route exact path="/abuse">
+        <Route path="/abuse">
           <TextOnlyPage pageName={`abuse`} />
         </Route>
-        <Route exact path="/contact">
+        <Route path="/contact">
           <TextOnlyPage pageName={`contact`} />
         </Route>
-        <Route exact path="/about">
+        <Route path="/about">
           <TextOnlyPage pageName={`about`} />
         </Route>
-        <Route exact path="/resources">
+        <Route path="/resources">
           <TextOnlyPage pageName={`resources`} />
         </Route>
-        <Route exact path="/terms">
+        <Route path="/terms">
           <TextOnlyPage pageName={`terms`} />
         </Route>
-        <Redirect to="/?error=404" />
-      </Switch>
-    </Router>
+        <Navigate to="/?error=404" />
+      </Routes>
+    </BrowserRouter>
   );
 };
 

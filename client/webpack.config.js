@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
+  devtool : 'inline-source-map',
   entry: './src/index.tsx',
   output: {
     filename: 'index.bundle.js',
@@ -32,15 +33,8 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
-        test: /\.(png|svg)$/,
-        loader: 'asset/resource',
-        options: {
-          name: '[name].[ext]'
-        }
-      },
-      {
         test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-        type: 'asset/inline',
+        type: 'asset/inline'
       },
       {
         test: /\.js$/,

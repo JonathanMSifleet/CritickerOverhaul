@@ -173,7 +173,7 @@ custom:
   bundle:
     linting: true
   cloudfrontInvalidate:
-    - distributionId: 'E3T9EZCT20HC4E'
+    - distributionId: 'E25ASI4SIUBGJK'
       autoInvalidate: true
       items:
         - '/*'
