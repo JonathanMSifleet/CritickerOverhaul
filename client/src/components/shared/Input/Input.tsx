@@ -2,19 +2,27 @@ import React from 'react';
 import classes from './Input.module.scss';
 
 interface IProps {
-  type: string;
-  id: string;
   className: string;
+  id: string;
+  onChange?(event: { target: { value: string } }): void;
+  type: string;
   placeholder: string;
 }
 
-const Input: React.FC<IProps> = ({ type, id, className, placeholder }) => {
+const Input: React.FC<IProps> = ({
+  className,
+  id,
+  onChange,
+  placeholder,
+  type
+}) => {
   return (
     <input
-      type={type}
-      id={id}
       className={`${classes.FormInput} ${className}`}
+      id={id}
+      onChange={onChange}
       placeholder={placeholder}
+      type={type}
     />
   );
 };

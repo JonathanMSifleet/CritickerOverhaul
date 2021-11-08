@@ -7,21 +7,22 @@ import { createAWSResErr } from '../shared/functions/createAWSResErr';
 const dynamodb = new AWS.DynamoDB.DocumentClient();
 
 const signup = async (event: { body: string }) => {
-  const { username, firstName, email, password } = JSON.parse(event.body);
+  console.log('🚀 ~ file: signup.ts ~ line 10 ~ signup ~ event', event);
+  console.log('🚀 ~ file: signup.ts ~ line 10 ~ signup ~ event', event.body);
+  const { username, email, password } = JSON.parse(event.body);
 
   const existingUser = await checkUserExists(email);
 
   if (!existingUser) {
     let errors = (await validateUserInputs(
       username,
-      firstName,
       email,
       password
     )) as string[];
     errors = await removeEmptyErrors(errors);
 
     if (errors.length === 0) {
-      const result = await insertUserToDB(username, firstName, email, password);
+      const result = await insertUserToDB(username, email, password);
       return {
         statusCode: 201,
         body: JSON.stringify(result)
@@ -52,12 +53,12 @@ const validateNotEmpty = async (value: string, name: string) => {
 
 const validateLength = async (
   value: string,
-  name: string,
+  valueName: string,
   min: number,
   max: number
 ) => {
   if (value.length < min || value.length > max) {
-    return `${name} must be between ${min} and ${max} chracters`;
+    return `${valueName} must be between ${min} and ${max} chracters`;
   }
 };
 
@@ -80,55 +81,53 @@ const validateIsEmail = async (value: string) => {
 
 const validateUserInputs = async (
   username: string,
-  firstName: string,
   email: string,
   password: string
 ) => {
   const errors = [];
   // ... pushes items in array to array rather than array to array:
   errors.push(...(await validateInput(username, 'Username')));
-  errors.push(...(await validateInput(firstName, 'First name')));
   errors.push(...(await validateInput(email, 'Email')));
   errors.push(...(await validateInput(password, 'Password')));
   return errors;
 };
 
-const validateInput = async (value: string, name: string) => {
+const validateInput = async (value: string, valueName: string) => {
   const localErrors = [];
 
-  switch (name) {
+  switch (valueName) {
     case 'Username':
-      localErrors.push(await validateNotEmpty(value, name));
-      localErrors.push(await validateLength(value, name, 3, 16));
+      localErrors.push(await validateNotEmpty(value, valueName));
+      localErrors.push(await validateLength(value, valueName, 3, 16));
       localErrors.push(
         await validateAgainstRegex(
           value,
-          name,
+          valueName,
           /[^A-Za-z0-9]+/,
           'cannot contain special characters'
         )
       );
       break;
-    case 'First name':
-      localErrors.push(await validateNotEmpty(value, name));
-      localErrors.push(await validateLength(value, name, 3, 20));
+    case 'name':
+      localErrors.push(await validateNotEmpty(value, valueName));
+      localErrors.push(await validateLength(value, valueName, 3, 20));
       localErrors.push(
         await validateAgainstRegex(
           value,
-          name,
+          valueName,
           /[^A-Za-z]+/,
           'can only contain letters'
         )
       );
       break;
     case 'Email':
-      localErrors.push(await validateNotEmpty(value, name));
-      localErrors.push(await validateLength(value, name, 3, 256));
+      localErrors.push(await validateNotEmpty(value, valueName));
+      localErrors.push(await validateLength(value, valueName, 3, 256));
       localErrors.push(await validateIsEmail(value));
       break;
     case 'Password':
-      localErrors.push(await validateNotEmpty(value, name));
-      localErrors.push(await validateLength(value, name, 55, 128));
+      localErrors.push(await validateNotEmpty(value, valueName));
+      localErrors.push(await validateLength(value, valueName, 55, 128));
       break;
     default:
       localErrors.push('Unexpected error');
@@ -145,14 +144,13 @@ const checkUserExists = async (email: string) => {
   try {
     const result = (await dynamodb.get(params).promise()) as { Item: any };
     return result.Item;
-  } catch (e) {
-    return createAWSResErr(404, e);
+  } catch (error: any) {
+    return createAWSResErr(404, error);
   }
 };
 
 const insertUserToDB = async (
   username: string,
-  firstName: string,
   email: string,
   password: string
 ) => {
@@ -160,7 +158,6 @@ const insertUserToDB = async (
     TableName: process.env.USER_TABLE_NAME!,
     Item: {
       username,
-      firstName,
       email,
       password
     },
