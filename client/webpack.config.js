@@ -1,9 +1,18 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-  devtool : 'inline-source-map',
+  devtool: 'source-map',
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        minify: TerserPlugin.uglifyJsMinify
+      })
+    ]
+  },
   entry: './src/index.tsx',
   output: {
     filename: 'index.bundle.js',
