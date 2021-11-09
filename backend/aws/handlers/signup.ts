@@ -7,7 +7,6 @@ import { createAWSResErr } from '../shared/functions/createAWSResErr';
 const DB = new DynamoDB.DocumentClient();
 
 const signup = async (event: { body: string }) => {
-  console.log('🚀 ~ file: signup.ts ~ line 10 ~ signup ~ event', event.body);
   const { username, email, password } = JSON.parse(event.body);
 
   const existingUser = await checkUserExists(email);
@@ -126,7 +125,7 @@ const validateInput = async (value: string, valueName: string) => {
       break;
     case 'Password':
       localErrors.push(await validateNotEmpty(value, valueName));
-      localErrors.push(await validateLength(value, valueName, 55, 128));
+      localErrors.push(await validateLength(value, 'Password Hash', 512, 512));
       break;
     default:
       localErrors.push('Unexpected error');

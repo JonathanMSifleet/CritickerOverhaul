@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Button from '../../shared/Button/Button';
 import classes from './Auth.module.scss';
 import Login from './Login/Login';
-import Register from './Register/Register';
+import SignUp from './Signup/Signup';
 
 const Auth: React.FC = () => {
   const [displayLoginForm, setDisplayLoginForm] = useState(true);
@@ -32,7 +32,7 @@ const Auth: React.FC = () => {
         {displayLoginForm ? 'Log in' : 'Register'} with:
       </p>
 
-      {displayLoginForm ? <Login /> : <Register />}
+      {displayLoginForm ? <Login /> : <SignUp />}
     </div>
   );
 };
