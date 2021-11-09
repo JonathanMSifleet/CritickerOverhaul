@@ -1,6 +1,6 @@
 import React from 'react';
-import Button from '../../../../shared/Button/Button';
-import Input from '../../../../shared/Input/Input';
+import Button from '../../../shared/Button/Button';
+import Input from '../../../shared/Input/Input';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import classes from './Login.module.scss';
 

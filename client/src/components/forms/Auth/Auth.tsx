@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Button from '../../../shared/Button/Button';
+import Button from '../../shared/Button/Button';
 import classes from './Auth.module.scss';
 import Login from './Login/Login';
 import Register from './Register/Register';

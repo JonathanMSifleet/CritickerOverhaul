@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Logo from '../../../../assets/svg/Logo/placeholder.svg';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
-import Auth from '../../../UI/Modal/Auth/Auth';
+import Auth from '../../../forms/Auth/Auth';
 import Modal from '../../../UI/Modal/Modal';
 import classes from './Header.module.scss';
 
