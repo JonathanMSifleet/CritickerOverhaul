@@ -27,7 +27,7 @@ const Register: React.FC = () => {
 
   const register = async () => {
     const url =
-      'https://msxformf8l.execute-api.eu-west-2.amazonaws.com/dev/signup';
+      'https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev/signup';
     const response = await fetch(url, {
       method: 'post',
       body: JSON.stringify(formInfo)
