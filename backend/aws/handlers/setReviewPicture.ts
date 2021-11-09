@@ -1,9 +1,9 @@
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
-import AWS from 'aws-sdk';
+import { S3 } from 'aws-sdk';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
-const s3 = new AWS.S3();
+const s3 = new S3();
 
 export const setReviewPicture = async (event: {
   pathParameters: { slug: string };

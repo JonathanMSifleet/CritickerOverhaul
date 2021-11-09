@@ -1,10 +1,10 @@
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
-import AWS from 'aws-sdk';
+import { DynamoDB } from 'aws-sdk';
 import bcrypt from 'bcryptjs';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 
-const dynamodb = new AWS.DynamoDB.DocumentClient();
+const DB = new DynamoDB.DocumentClient();
 
 const login = async (event: { body: string }) => {
   const { email, password } = JSON.parse(event.body);
@@ -25,7 +25,7 @@ const login = async (event: { body: string }) => {
   };
 
   try {
-    const result = (await dynamodb.query(params).promise()) as { Items: any };
+    const result = (await DB.query(params).promise()) as { Items: any };
     const user = result.Items[0];
 
     if (user === undefined) {

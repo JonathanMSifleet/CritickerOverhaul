@@ -1,7 +1,7 @@
-import AWS, { DynamoDB } from 'aws-sdk';
+import { DynamoDB } from 'aws-sdk';
 import IHTTP from '../interfaces/IHTTP';
 import { createAWSResErr } from './createAWSResErr';
-const dynamodb = new AWS.DynamoDB.DocumentClient();
+const DB = new DynamoDB.DocumentClient();
 
 export const getReviewBySlug = async (
   slug: string
@@ -12,7 +12,7 @@ export const getReviewBySlug = async (
       Key: { slug }
     };
 
-    const result = (await dynamodb.get(params).promise()) as { Item: any };
+    const result = (await DB.get(params).promise()) as { Item: any };
     return result!.Item;
   } catch (error: any) {
     return createAWSResErr(404, error);

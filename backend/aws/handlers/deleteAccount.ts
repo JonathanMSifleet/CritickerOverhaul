@@ -1,9 +1,9 @@
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
-import AWS from 'aws-sdk';
+import { DynamoDB } from 'aws-sdk';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 
-const DynamoDB = new AWS.DynamoDB.DocumentClient();
+const DB = new DynamoDB.DocumentClient();
 
 const deleteAccount = async (event: {
   requestContext: { authorizer: { email: string } };
@@ -22,7 +22,7 @@ const deleteAccount = async (event: {
   };
 
   try {
-    const result = await DynamoDB.delete(params).promise();
+    const result = await DB.delete(params).promise();
 
     return {
       body: JSON.stringify(result),

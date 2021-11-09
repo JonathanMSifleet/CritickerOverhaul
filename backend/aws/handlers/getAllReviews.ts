@@ -1,9 +1,9 @@
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
-import AWS, { DynamoDB } from 'aws-sdk';
+import { DynamoDB } from 'aws-sdk';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 
-const dynamodb = new AWS.DynamoDB.DocumentClient();
+const DB = new DynamoDB.DocumentClient();
 
 const getAllReviews = async () => {
   const params: DynamoDB.DocumentClient.ScanInput = {
@@ -11,7 +11,7 @@ const getAllReviews = async () => {
   };
 
   try {
-    const result = await dynamodb.scan(params).promise();
+    const result = await DB.scan(params).promise();
     const reviews = result.Items;
     return {
       statusCode: 200,
