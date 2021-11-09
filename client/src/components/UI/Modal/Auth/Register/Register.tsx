@@ -1,3 +1,4 @@
+import bcrypt from 'bcryptjs';
 import React, { useState } from 'react';
 import Button from '../../../../shared/Button/Button';
 import Input from '../../../../shared/Input/Input';
@@ -26,6 +27,14 @@ const Register: React.FC = () => {
   };
 
   const register = async () => {
+    const hashedPassword = bcrypt.hashSync(formInfo.password!, 10);
+
+    setFormInfo({ ...formInfo, password: hashedPassword });
+    console.log(
+      '🚀 ~ file: Register.tsx ~ line 36 ~ register ~ setFormInfo',
+      formInfo
+    );
+
     const url =
       'https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev/signup';
     const response = await fetch(url, {
