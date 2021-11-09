@@ -4,15 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
-  devtool: 'source-map',
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        minify: TerserPlugin.uglifyJsMinify
-      })
-    ]
-  },
+  devtool: 'inline-source-map',
   entry: './src/index.tsx',
   output: {
     filename: 'index.bundle.js',
@@ -35,7 +27,8 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: 'babel-loader'
+        use: 'ts-loader',
+        exclude: '/node_modules/'
       },
       {
         test: /\.(scss|css)$/,
