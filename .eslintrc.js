@@ -3,8 +3,7 @@ module.exports = {
     'plugin:react/recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:prettier/recommended',
-    'eslint-config-prettier',
-    'react-app'
+    'eslint-config-prettier'
   ],
   env: {
     node: true
