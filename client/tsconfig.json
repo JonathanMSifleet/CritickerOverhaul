@@ -19,9 +19,6 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "lib",
-    "paths": {
-      "crypto": ["node_modules/crypto-js"]
-    },
     "removeComments": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
