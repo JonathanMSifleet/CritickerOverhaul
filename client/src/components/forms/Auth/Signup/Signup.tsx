@@ -1,23 +1,25 @@
-import CryptoES from 'crypto-es';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Button from '../../../shared/Button/Button';
+import Context from '../../../../hooks/store/context';
+import CryptoES from 'crypto-es';
 import Input from '../../../shared/Input/Input';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import classes from './Signup.module.scss';
 
 interface IState {
-  username?: string;
   email?: string;
   password?: string;
   repeatPassword?: string;
+  username?: string;
 }
 
 const SignUp: React.FC = () => {
   const [formInfo, setFormInfo] = useState<IState>({});
-
   const [shouldPost, setShouldPost] = useState(false);
-
   const [submitDisabled, setSubmitDisabled] = useState(true);
+
+  const { actions } = useContext(Context);
 
   useEffect(() => {
     if (
@@ -37,19 +39,25 @@ const SignUp: React.FC = () => {
   // cycle is called, updating the state to store the hashed password,
   // so that when it is POSTed to the server, the password is hashed
   useEffect(() => {
-    // trick to allows for await to be used inside a useEffect hook
-    async function postData() {
-      await fetch(
-        'https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev/signup',
-        {
-          method: 'post',
-          body: JSON.stringify(formInfo)
-        }
-      );
+    if (shouldPost === true) {
+      // trick to allows for await to be used inside a useEffect hook
+      async function postData() {
+        await fetch(
+          'https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev/signup',
+          {
+            method: 'post',
+            body: JSON.stringify(formInfo)
+          }
+        );
+        actions({
+          type: actionTypes.setShowModal,
+          payload: { showModal: false }
+        });
+      }
+      // stop POSTing unnecessary attribute
+      delete formInfo!.repeatPassword;
+      postData();
     }
-    // stop POSTing unnecessary attribute
-    delete formInfo!.repeatPassword;
-    postData();
   }, [shouldPost]);
 
   const inputChangedHandler = (
@@ -81,45 +89,45 @@ const SignUp: React.FC = () => {
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         {/* Username input */}
         <Input
-          type={'text'}
-          id={'registerUsername'}
           className={'form-control'}
-          placeholder={'Username'}
+          id={'registerUsername'}
           onChange={(event) => inputChangedHandler(event, 'username')}
+          placeholder={'Username'}
+          type={'text'}
         />
 
         {/* Email input */}
         <Input
-          type={'email'}
-          id={'registerEmail'}
           className={'form-control'}
-          placeholder={'Email'}
+          id={'registerEmail'}
           onChange={(event) => inputChangedHandler(event, 'email')}
+          placeholder={'Email'}
+          type={'email'}
         />
 
         {/* Password input */}
         <Input
-          type={'password'}
-          id={'registerPassword'}
           className={'form-control'}
-          placeholder={'Password'}
+          id={'registerPassword'}
           onChange={(event) => inputChangedHandler(event, 'password')}
+          placeholder={'Password'}
+          type={'password'}
         />
 
         {/* Repeat Password input */}
         <Input
-          type={'password'}
-          id={'registerRepeatPassword'}
           className={'form-control'}
-          placeholder={'Repeat password'}
+          id={'registerRepeatPassword'}
           onChange={(event) => inputChangedHandler(event, 'repeatPassword')}
+          placeholder={'Repeat password'}
+          type={'password'}
         />
       </div>
 
       {/* Checkbox */}
       <div className={classes.TermsConditionsWrapper}>
         <label className={classes.TermsConditionsLabel}>
-          <input
+          <Input
             checked
             className="form-check-input"
             id="registerCheck"

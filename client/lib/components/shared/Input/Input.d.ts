@@ -1,5 +1,6 @@
 import React from 'react';
 interface IProps {
+    checked?: boolean;
     className: string;
     id: string;
     onChange?(event: {
@@ -7,8 +8,8 @@ interface IProps {
             value: string;
         };
     }): void;
+    placeholder?: string;
     type: string;
-    placeholder: string;
 }
 declare const Input: React.FC<IProps>;
 export default Input;
