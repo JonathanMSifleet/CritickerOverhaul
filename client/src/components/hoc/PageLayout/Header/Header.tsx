@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import Logo from '../../../../assets/svg/Logo/placeholder.svg';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
-import Context from '../../../../hooks/store/context';
 import Auth from '../../../forms/Auth/Auth';
+import Context from '../../../../hooks/store/context';
+import Logo from '../../../../assets/svg/Logo/placeholder.svg';
 import Modal from '../../../UI/Modal/Modal';
 import classes from './Header.module.scss';
+import { Link } from 'react-router-dom';
 
 const Header: React.FC = (): JSX.Element => {
   const { globalState, actions } = useContext(Context);

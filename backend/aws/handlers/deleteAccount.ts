@@ -1,6 +1,6 @@
-import middy from '@middy/core';
+import DynamoDB from 'aws-sdk/clients/dynamodb';
 import cors from '@middy/http-cors';
-import { DynamoDB } from 'aws-sdk';
+import middy from '@middy/core';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 
 const DB = new DynamoDB.DocumentClient();
