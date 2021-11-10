@@ -1,14 +1,15 @@
-import middy from '@middy/core';
-import cors from '@middy/http-cors';
-import { S3 } from 'aws-sdk';
-import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
+import IHTTPErr from '../shared/interfaces/IHTTPErr';
+import S3 from 'aws-sdk/clients/s3';
+import cors from '@middy/http-cors';
+import middy from '@middy/core';
+import { createAWSResErr } from '../shared/functions/createAWSResErr';
 const s3 = new S3();
 
 export const setReviewPicture = async (event: {
   pathParameters: { slug: string };
   body: string;
-}): Promise<IHTTP> => {
+}): Promise<IHTTPErr | IHTTP> => {
   const filename = `${event.pathParameters.slug}.jpg`;
   try {
     await deletePicture(filename);
@@ -18,8 +19,8 @@ export const setReviewPicture = async (event: {
       statusCode: 200,
       body: JSON.stringify(`Found at: ${result}`)
     };
-  } catch (error: any) {
-    return createAWSResErr(500, error);
+  } catch (error: unknown) {
+    return createAWSResErr(500, error as string[]);
   }
 };
 

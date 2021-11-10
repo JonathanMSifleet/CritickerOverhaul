@@ -1,12 +1,14 @@
-import middy from '@middy/core';
-import cors from '@middy/http-cors';
-import { DynamoDB } from 'aws-sdk';
+import DynamoDB from 'aws-sdk/clients/dynamodb';
 import EmailValidator from 'email-validator';
+import IHTTP from '../shared/interfaces/IHTTP';
+import IHTTPErr from '../shared/interfaces/IHTTPErr';
+import cors from '@middy/http-cors';
+import middy from '@middy/core';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 
 const DB = new DynamoDB.DocumentClient();
 
-const signup = async (event: { body: string }) => {
+const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
   const { username, email, password } = JSON.parse(event.body);
 
   const existingUser = await checkUserExists(email);
@@ -43,7 +45,10 @@ const removeEmptyErrors = async (errors: string[]) => {
   return errors;
 };
 
-const validateNotEmpty = async (value: string, name: string) => {
+const validateNotEmpty = async (
+  value: string,
+  name: string
+): Promise<string | undefined> => {
   if (value === null || value === '' || value === undefined) {
     return `${name} must not be empty`;
   }

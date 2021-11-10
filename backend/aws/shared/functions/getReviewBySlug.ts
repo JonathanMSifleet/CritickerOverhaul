@@ -1,11 +1,8 @@
-import { DynamoDB } from 'aws-sdk';
-import IHTTP from '../interfaces/IHTTP';
+import DynamoDB from 'aws-sdk/clients/dynamodb';
 import { createAWSResErr } from './createAWSResErr';
 const DB = new DynamoDB.DocumentClient();
 
-export const getReviewBySlug = async (
-  slug: string
-): Promise<string | IHTTP> => {
+export const getReviewBySlug = async (slug: string) => {
   try {
     const params: DynamoDB.DocumentClient.GetItemInput = {
       TableName: process.env.REVIEW_TABLE_NAME!,

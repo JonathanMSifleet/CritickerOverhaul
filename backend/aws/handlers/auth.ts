@@ -22,7 +22,7 @@ const generatePolicy = (principalId: any, methodArn: string) => {
 export const handler = async (event: {
   authorizationToken: string;
   methodArn: string;
-}): Promise<any> => {
+}) => {
   if (!event.authorizationToken) {
     return createAWSResErr(401, 'Unauthorized');
   }

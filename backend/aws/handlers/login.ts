@@ -1,12 +1,14 @@
-import middy from '@middy/core';
+import DynamoDB from 'aws-sdk/clients/dynamodb';
+import IHTTP from '../shared/interfaces/IHTTP';
+import IHTTPErr from '../shared/interfaces/IHTTPErr';
 import cors from '@middy/http-cors';
-import { DynamoDB } from 'aws-sdk';
-import bcrypt from 'bcryptjs';
+import middy from '@middy/core';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 
 const DB = new DynamoDB.DocumentClient();
 
-const login = async (event: { body: string }) => {
+const login = async (event: { body: string }): Promise<IHTTP | IHTTPErr> => {
+  console.log('event.body', event.body);
   const { email, password } = JSON.parse(event.body);
 
   if (!email || !password) {
@@ -32,7 +34,7 @@ const login = async (event: { body: string }) => {
       return createAWSResErr(404, 'No user found with that email');
     }
 
-    if (!(await verifyPassword(password, user.password))) {
+    if (password !== user.password) {
       return createAWSResErr(401, 'Incorrect password');
     }
 
@@ -43,13 +45,6 @@ const login = async (event: { body: string }) => {
   } catch (error: any) {
     return createAWSResErr(404, error);
   }
-};
-
-const verifyPassword = async (
-  candidatePassword: string,
-  userPassword: string
-) => {
-  return bcrypt.compareSync(candidatePassword, userPassword);
 };
 
 export const handler = middy(login).use(cors());

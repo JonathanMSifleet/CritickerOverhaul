@@ -1,12 +1,13 @@
-import middy from '@middy/core';
+import IHTTP from '../shared/interfaces/IHTTP';
+import IHTTPErr from '../shared/interfaces/IHTTPErr';
 import cors from '@middy/http-cors';
+import middy from '@middy/core';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import { getReviewBySlug } from '../shared/functions/getReviewBySlug';
-import IHTTP from '../shared/interfaces/IHTTP';
 
 export const getReview = async (event: {
   pathParameters: { slug: string };
-}): Promise<IHTTP> => {
+}): Promise<IHTTP | IHTTPErr> => {
   const { slug } = event.pathParameters;
 
   try {
