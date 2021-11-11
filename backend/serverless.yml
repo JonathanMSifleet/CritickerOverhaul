@@ -26,6 +26,10 @@ provider:
         - ${file(aws/iam/UserTableIAM.yml):UserTableIAM}
         - ${file(aws/iam/ReactBucketIAM.yml):ReactBucketIAM}
   lambdaHashingVersion: 20201221
+
+package:
+  individually: true
+
 functions:
   auth:
     handler: aws/handlers/auth.handler
@@ -157,9 +161,6 @@ resources:
         StatusCode: '401'
 
 custom:
-  webpack:
-    webpackConfig: webpack.config.js
-    includeModules: true
   authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:CritickerOverhaul-${self:provider.stage}-auth
   UserTable:
     name: !Ref UserTable
