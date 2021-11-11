@@ -1,14 +1,26 @@
-import React, { useContext } from 'react';
-import * as actionTypes from '../../../../hooks/store/actionTypes';
-import Auth from '../../../forms/Auth/Auth';
-import Context from '../../../../hooks/store/context';
+import React, { useContext, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Logo from '../../../../assets/svg/Logo/placeholder.svg';
+import * as actionTypes from '../../../../hooks/store/actionTypes';
+import Context from '../../../../hooks/store/context';
+import Auth from '../../../forms/Auth/Auth';
 import Modal from '../../../UI/Modal/Modal';
 import classes from './Header.module.scss';
-import { Link } from 'react-router-dom';
 
 const Header: React.FC = (): JSX.Element => {
   const { globalState, actions } = useContext(Context);
+
+  useEffect(() => {
+    console.log(globalState.userInfo);
+  }, [globalState]);
+
+  const logout = () => {
+    console.log(globalState);
+    console.log('logout clicked');
+    actions({
+      type: actionTypes.logOutUser
+    });
+  };
 
   const displayAuthModal = () => {
     actions({
@@ -57,13 +69,23 @@ const Header: React.FC = (): JSX.Element => {
           />
         </form>
 
-        <button
-          className={`${classes.AuthButton} btn btn-white text-primary me-3 font-weight-bold`}
-          onClick={displayAuthModal}
-          type="button"
-        >
-          Log in / sign up
-        </button>
+        {globalState.userInfo.loggedIn ? (
+          <button
+            className={`${classes.AuthButton} btn btn-white text-primary me-3 font-weight-bold`}
+            onClick={() => logout()}
+            type="button"
+          >
+            Log out
+          </button>
+        ) : (
+          <button
+            className={`${classes.AuthButton} btn btn-white text-primary me-3 font-weight-bold`}
+            onClick={displayAuthModal}
+            type="button"
+          >
+            Log in / sign up
+          </button>
+        )}
       </div>
       {globalState.showModal ? (
         <Modal>
@@ -75,17 +97,3 @@ const Header: React.FC = (): JSX.Element => {
 };
 
 export default Header;
-
-/* <div className="d-flex align-items-center">
-      <i className="fas fa-bell"></i>
-      <span className="badge rounded-pill badge-notification bg-danger">
-        1
-      </span>
-      <img
-        src="https://mdbootstrap.com/img/new/avatars/2.jpg"
-        className="rounded-circle"
-        height="25"
-        alt=""
-        loading="lazy"
-      />
-    </div> */

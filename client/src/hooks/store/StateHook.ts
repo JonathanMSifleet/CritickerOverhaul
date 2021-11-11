@@ -28,8 +28,8 @@ const StateHook = (): {
       case actionTypes.setShowModal:
         return setShowModal(payload.showModal!);
       case actionTypes.setUserInfo:
-        return setUserInfo(payload.userInfo!);
-      case actionTypes.resetUserInfo:
+        return setUserInfo(payload as IUserInfo);
+      case actionTypes.logOutUser:
         return () => {
           setUserInfo({ username: null, loggedIn: false });
         };
