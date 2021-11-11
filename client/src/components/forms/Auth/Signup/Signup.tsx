@@ -1,8 +1,8 @@
+import CryptoES from 'crypto-es';
 import React, { useContext, useEffect, useState } from 'react';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
-import Button from '../../../shared/Button/Button';
 import Context from '../../../../hooks/store/context';
-import CryptoES from 'crypto-es';
+import Button from '../../../shared/Button/Button';
 import Input from '../../../shared/Input/Input';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import classes from './Signup.module.scss';
@@ -39,7 +39,7 @@ const SignUp: React.FC = () => {
   // cycle is called, updating the state to store the hashed password,
   // so that when it is POSTed to the server, the password is hashed
   useEffect(() => {
-    if (shouldPost === true) {
+    if (shouldPost) {
       // trick to allows for await to be used inside a useEffect hook
       async function postData() {
         await fetch(
