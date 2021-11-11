@@ -1,27 +1,99 @@
-import React from 'react';
+import CryptoES from 'crypto-es';
+import React, { useContext, useEffect, useState } from 'react';
+import * as actionTypes from '../../../../hooks/store/actionTypes';
+import Context from '../../../../hooks/store/context';
 import Button from '../../../shared/Button/Button';
 import Input from '../../../shared/Input/Input';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import classes from './Login.module.scss';
 
+interface IState {
+  email?: string;
+  password?: string;
+}
+
 const Login: React.FC = () => {
+  const [formInfo, setFormInfo] = useState<IState>({});
+  const [shouldPost, setShouldPost] = useState(false);
+  const [submitDisabled, setSubmitDisabled] = useState(true);
+
+  const { actions } = useContext(Context);
+
+  // see signup.tsx comment for why this is here
+  useEffect(() => {
+    if (!formInfo.email || !formInfo.password) {
+      setSubmitDisabled(true);
+    } else {
+      setSubmitDisabled(false);
+    }
+  }, [formInfo]);
+
+  useEffect(() => {
+    if (shouldPost) {
+      async function postData() {
+        let response = (await fetch(
+          'https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev/login',
+          {
+            method: 'post',
+            body: JSON.stringify(formInfo)
+          }
+        )) as any;
+
+        if (response.status === 201) {
+          response = await response.json();
+
+          actions({
+            type: actionTypes.setUserInfo,
+            payload: { username: response.username, loggedIn: true }
+          });
+
+          actions({
+            type: actionTypes.setShowModal,
+            payload: { showModal: false }
+          });
+        }
+      }
+      postData();
+    }
+  }, [shouldPost]);
+
+  const inputChangedHandler = (
+    event: { target: { value: string } },
+    inputName: string
+  ): void => {
+    setFormInfo({ ...formInfo, [inputName]: event.target.value });
+  };
+
+  const login = async () => {
+    const hashedPassword = CryptoES.SHA512(formInfo.password).toString();
+
+    setFormInfo({ ...formInfo, password: hashedPassword });
+    setShouldPost(true);
+  };
+
   return (
-    <form>
+    <form
+      onSubmit={(event) => {
+        event.preventDefault();
+      }}
+    >
       <ThirdPartyLogin />
 
       {/* Email input */}
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         <Input
-          type={'email'}
-          id={'loginName'}
           className={'form-control'}
+          id={'loginName'}
+          onChange={(event) => inputChangedHandler(event, 'email')}
           placeholder={'Email or username'}
+          type={'email'}
         />
         <Input
-          type={'password'}
-          id={'loginPassword'}
           className={'form-control'}
+          id={'loginPassword'}
+          onChange={(event) => inputChangedHandler(event, 'password')}
           placeholder={'Password'}
+          type={'password'}
         />
       </div>
 
@@ -53,6 +125,8 @@ const Login: React.FC = () => {
       <div className={classes.SubmitButtonWrapper}>
         <Button
           className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
+          disabled={submitDisabled}
+          onClick={() => login()}
           text={'Sign in'}
         />
       </div>
