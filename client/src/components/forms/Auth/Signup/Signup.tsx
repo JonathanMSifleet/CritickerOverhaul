@@ -90,7 +90,6 @@ const SignUp: React.FC = () => {
         {/* Username input */}
         <Input
           className={'form-control'}
-          id={'registerUsername'}
           onChange={(event) => inputChangedHandler(event, 'username')}
           placeholder={'Username'}
           type={'text'}
@@ -99,7 +98,6 @@ const SignUp: React.FC = () => {
         {/* Email input */}
         <Input
           className={'form-control'}
-          id={'registerEmail'}
           onChange={(event) => inputChangedHandler(event, 'email')}
           placeholder={'Email'}
           type={'email'}
@@ -108,7 +106,6 @@ const SignUp: React.FC = () => {
         {/* Password input */}
         <Input
           className={'form-control'}
-          id={'registerPassword'}
           onChange={(event) => inputChangedHandler(event, 'password')}
           placeholder={'Password'}
           type={'password'}
@@ -117,7 +114,6 @@ const SignUp: React.FC = () => {
         {/* Repeat Password input */}
         <Input
           className={'form-control'}
-          id={'registerRepeatPassword'}
           onChange={(event) => inputChangedHandler(event, 'repeatPassword')}
           placeholder={'Repeat password'}
           type={'password'}
@@ -127,13 +123,8 @@ const SignUp: React.FC = () => {
       {/* Checkbox */}
       <div className={classes.TermsConditionsWrapper}>
         <label className={classes.TermsConditionsLabel}>
-          <Input
-            checked
-            className="form-check-input"
-            id="registerCheck"
-            type="checkbox"
-          />
-          I have read and agree to the terms
+          <Input checked className="form-check-input" type="checkbox" />I have
+          read and agree to the terms
         </label>
       </div>
 

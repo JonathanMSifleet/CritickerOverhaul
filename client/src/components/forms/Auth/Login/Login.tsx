@@ -83,14 +83,12 @@ const Login: React.FC = () => {
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         <Input
           className={'form-control'}
-          id={'loginName'}
           onChange={(event) => inputChangedHandler(event, 'email')}
           placeholder={'Email or username'}
           type={'email'}
         />
         <Input
           className={'form-control'}
-          id={'loginPassword'}
           onChange={(event) => inputChangedHandler(event, 'password')}
           placeholder={'Password'}
           type={'password'}
@@ -106,7 +104,6 @@ const Login: React.FC = () => {
               <input
                 checked
                 className="form-check-input"
-                id="loginCheck"
                 type="checkbox"
                 value=""
               />{' '}
