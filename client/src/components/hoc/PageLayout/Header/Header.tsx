@@ -38,18 +38,6 @@ const Header: React.FC = (): JSX.Element => {
           <img src={Logo} alt="Criticker Logo" />
         </Link>
 
-        <button
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-          className="navbar-toggler"
-          data-mdb-target="#navbarSupportedContent"
-          data-mdb-toggle="collapse"
-          type="button"
-        >
-          <i className="fas fa-bars"></i>
-        </button>
-
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
@@ -60,38 +48,44 @@ const Header: React.FC = (): JSX.Element => {
           </ul>
         </div>
 
-        <form className="w-auto">
-          <input
-            aria-label="Search"
-            className="form-control"
-            placeholder="[Placeholder] Search Criticker"
-            type="search"
-          />
-        </form>
+        <section className={classes.RightContent}>
+          <div className={`${classes.SearchWrapper} input-group rounded`}>
+            <input
+              aria-describedby="search-addon"
+              aria-label="Search"
+              className={`${classes.Search} form-control rounded`}
+              placeholder="[Placeholder] search"
+              type="search"
+            />
+            <span className="input-group-text border-0" id="search-addon">
+              <i className="fas fa-search"></i>
+            </span>
+          </div>
 
-        {globalState.userInfo.loggedIn ? (
-          <button
-            className={`${classes.AuthButton} btn btn-white text-primary me-3 font-weight-bold`}
-            onClick={() => logout()}
-            type="button"
-          >
-            Log out
-          </button>
-        ) : (
-          <button
-            className={`${classes.AuthButton} btn btn-white text-primary me-3 font-weight-bold`}
-            onClick={displayAuthModal}
-            type="button"
-          >
-            Log in / sign up
-          </button>
-        )}
+          {globalState.userInfo.loggedIn ? (
+            <button
+              className={`${classes.AuthButton} btn btn-white text-primary me-3 font-weight-bold`}
+              onClick={() => logout()}
+              type="button"
+            >
+              Log out
+            </button>
+          ) : (
+            <button
+              className={`${classes.AuthButton} btn btn-white text-primary me-3 font-weight-bold`}
+              onClick={displayAuthModal}
+              type="button"
+            >
+              Log in / sign up
+            </button>
+          )}
+        </section>
+        {globalState.showModal ? (
+          <Modal>
+            <Auth />
+          </Modal>
+        ) : null}
       </div>
-      {globalState.showModal ? (
-        <Modal>
-          <Auth />
-        </Modal>
-      ) : null}
     </nav>
   );
 };

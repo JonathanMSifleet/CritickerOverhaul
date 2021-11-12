@@ -4,9 +4,22 @@
   height: $headerHeight;
 }
 
+.RightContent {
+  height: fit-content;
+  width: fit-content;
+  margin: auto;
+}
+
+.SearchWrapper {
+  width: 16vw;
+  float: left;
+}
+
+.Search {
+  width: 6vw;
+  vertical-align: middle;
+}
+
 .AuthButton {
-  padding-left: 20px;
-  padding-right: 20px;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  vertical-align: middle;
 }
