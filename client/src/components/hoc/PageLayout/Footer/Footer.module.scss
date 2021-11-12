@@ -2,10 +2,10 @@
 @import '../LayoutVariables.scss';
 
 .Footer {
-  height: $footerHeight;
+  height: fit-content;
   position: absolute;
   bottom: 0;
-  width: 100vw;
+  width: 100%;
 }
 
 .LinkGroup {

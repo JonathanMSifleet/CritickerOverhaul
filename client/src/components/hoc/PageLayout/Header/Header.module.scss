@@ -2,12 +2,24 @@
 
 .Header {
   height: $headerHeight;
+  padding: 0;
+}
+
+.container-fluid {
+  height: 100%;
 }
 
 .RightContent {
-  height: fit-content;
+  height: $headerHeight;
   width: fit-content;
-  margin: auto;
+}
+
+.UserAvatar {
+  width: 8%;
+  height: $footerHeight;
+  width: $footerHeight;
+  margin: 0 !important;
+  float: left;
 }
 
 .SearchWrapper {
@@ -22,4 +34,8 @@
 
 .AuthButton {
   vertical-align: middle;
+  height: 80%;
+  width: 10vw;
+  padding: 0;
+  font-size: 0.6rem;
 }
