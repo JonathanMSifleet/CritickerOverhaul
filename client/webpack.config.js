@@ -5,7 +5,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   devtool: 'inline-source-map',
-  entry: './src/index.tsx',
+  entry: './elements/index.tsx',
   output: {
     filename: 'index.bundle.js',
     assetModuleFilename: 'images/[hash][ext][query]'

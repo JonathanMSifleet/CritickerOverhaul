@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { loginURL } from '../../../../endpoints';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
-import Button from '../../../shared/Button/Button';
+import Button from '../../../components/Button/Button';
 import Input from '../../../shared/Input/Input';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import classes from './Login.module.scss';
