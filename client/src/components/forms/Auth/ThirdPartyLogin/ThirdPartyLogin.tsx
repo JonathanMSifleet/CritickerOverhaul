@@ -1,5 +1,5 @@
 import React from 'react';
-import Button from '../../../components/Button/Button';
+import Button from '../../../shared/Button/Button';
 import classes from './ThirdPartyLogin.module.scss';
 
 const ThirdPartyLogin: React.FC = () => {

@@ -5,7 +5,7 @@ import { setUserAvatarURL } from '../../../../endpoints';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
 import Auth from '../../../forms/Auth/Auth';
-import Button from '../../../components/Button/Button';
+import Button from '../../../shared/Button/Button';
 import Modal from '../../../UI/Modal/Modal';
 import classes from './Header.module.scss';
 
