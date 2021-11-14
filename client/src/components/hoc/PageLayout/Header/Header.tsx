@@ -1,9 +1,11 @@
 import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../../../assets/svg/Logo/placeholder.svg';
+import { setUserAvatarURL } from '../../../../endpoints';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
 import Auth from '../../../forms/Auth/Auth';
+import Button from '../../../shared/Button/Button';
 import Modal from '../../../UI/Modal/Modal';
 import classes from './Header.module.scss';
 
@@ -13,6 +15,17 @@ const Header: React.FC = (): JSX.Element => {
   useEffect(() => {
     console.log(globalState.userInfo);
   }, [globalState]);
+
+  const uploadImage = () => {
+    const uploadURL = setUserAvatarURL.replace(
+      '{UID}',
+      globalState.userInfo.UID
+    );
+    console.log(
+      '🚀 ~ file: Header.tsx ~ line 24 ~ uploadImage ~ uploadURL',
+      uploadURL
+    );
+  };
 
   const logout = () => {
     console.log(globalState);
@@ -62,6 +75,11 @@ const Header: React.FC = (): JSX.Element => {
       </div>
 
       <section className={classes.RightContent}>
+        <Button
+          className={'btn btn-white text-primary me-3 font-weight-bold'}
+          onClick={uploadImage}
+          text={'Test upload'}
+        />
         {globalState.userInfo.loggedIn ? (
           <>
             <img
@@ -69,22 +87,18 @@ const Header: React.FC = (): JSX.Element => {
               className={`${classes.UserAvatar} rounded-circle mb-3`}
             />
 
-            <button
+            <Button
               className={`${classes.AuthButton} btn btn-white text-primary me-3 font-weight-bold`}
               onClick={() => logout()}
-              type="button"
-            >
-              Log out
-            </button>
+              text={'Log out'}
+            />
           </>
         ) : (
-          <button
+          <Button
             className={`${classes.AuthButton} btn btn-white text-primary me-3 font-weight-bold`}
             onClick={displayAuthModal}
-            type="button"
-          >
-            Log in / sign up
-          </button>
+            text={'Log in / sign up'}
+          />
         )}
       </section>
       {globalState.showModal ? (
