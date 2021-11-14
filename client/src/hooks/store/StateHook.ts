@@ -9,6 +9,7 @@ interface IPayload {
 interface IUserInfo {
   username: string | null;
   loggedIn: boolean;
+  UID?: string | null;
 }
 
 const StateHook = (): {
@@ -18,25 +19,26 @@ const StateHook = (): {
   const [showModal, setShowModal] = useState(null as unknown as boolean | null);
   const [userInfo, setUserInfo] = useState<IUserInfo>({
     username: null,
-    loggedIn: false
+    loggedIn: false,
+    UID: null
   });
 
-  const actions = (action: { type: string; payload: IPayload }) => {
+  const actions = (action: { type: string; payload?: IPayload }) => {
     const { type, payload } = action;
 
     switch (type) {
       case actionTypes.setShowModal:
-        return setShowModal(payload.showModal!);
+        return setShowModal(payload!.showModal!);
       case actionTypes.setUserInfo:
         return setUserInfo(payload as IUserInfo);
       case actionTypes.logOutUser:
         return () => {
-          setUserInfo({ username: null, loggedIn: false });
+          setUserInfo({ username: null, loggedIn: false, UID: null });
         };
       case actionTypes.resetState:
         return () => {
           setShowModal(null);
-          setUserInfo({ username: null, loggedIn: false });
+          setUserInfo({ username: null, loggedIn: false, UID: null });
         };
     }
   };

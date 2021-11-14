@@ -7,10 +7,10 @@ import IHTTPErr from '../shared/interfaces/IHTTPErr';
 const s3 = new S3();
 
 export const setUserAvatar = async (event: {
-  pathParameters: { username: string };
+  pathParameters: { UID: string };
   body: string;
 }): Promise<IHTTPErr | IHTTP> => {
-  const filename = `${event.pathParameters.username}.jpg`;
+  const filename = `${event.pathParameters.UID}.jpg`;
   try {
     await deletePicture(filename);
     const buffer = await prepareImage(event.body);

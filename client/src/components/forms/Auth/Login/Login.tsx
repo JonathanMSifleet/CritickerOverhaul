@@ -42,7 +42,11 @@ const Login: React.FC = () => {
 
           actions({
             type: actionTypes.setUserInfo,
-            payload: { username: response.username, loggedIn: true }
+            payload: {
+              username: response.username,
+              loggedIn: true,
+              UID: response.UID
+            }
           });
 
           actions({
