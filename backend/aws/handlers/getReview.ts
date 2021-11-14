@@ -1,9 +1,9 @@
-import IHTTP from '../shared/interfaces/IHTTP';
-import IHTTPErr from '../shared/interfaces/IHTTPErr';
-import cors from '@middy/http-cors';
 import middy from '@middy/core';
+import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import { getReviewBySlug } from '../shared/functions/getReviewBySlug';
+import IHTTP from '../shared/interfaces/IHTTP';
+import IHTTPErr from '../shared/interfaces/IHTTPErr';
 
 export const getReview = async (event: {
   pathParameters: { slug: string };
@@ -12,9 +12,7 @@ export const getReview = async (event: {
 
   try {
     const review = await getReviewBySlug(slug);
-    if (review === undefined) {
-      return createAWSResErr(404, 'Invalid Slug');
-    }
+    if (!review) return createAWSResErr(404, 'Invalid Slug');
 
     return {
       statusCode: 200,
