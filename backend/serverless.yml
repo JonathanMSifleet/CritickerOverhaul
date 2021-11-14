@@ -35,6 +35,50 @@ package:
 functions:
   auth:
     handler: aws/handlers/auth.handler
+  deleteAccount:
+    handler: aws/handlers/deleteAccount.handler
+    events:
+      - http:
+          method: DELETE
+          path: deleteAccount
+          authorizer: auth
+          cors: true
+  login:
+    handler: aws/handlers/login.handler
+    events:
+      - http:
+          method: POST
+          path: login
+          cors: true
+  getAllReviews:
+    handler: aws/handlers/getAllReviews.handler
+    events:
+      - http:
+          method: GET
+          path: getreviews
+          cors: true
+  getUserAvatar:
+    handler: aws/handlers/getUserAvatar.handler
+    events:
+      - http:
+          method: GET
+          path: user/{UID}/picture
+          cors: true
+  setUserAvatar:
+    handler: aws/handlers/setUserAvatar.handler
+    events:
+      - http:
+          method: POST
+          path: user/{UID}/picture
+          # authorizer: ${self:custom.authorizer}
+          cors: true
+  signup:
+    handler: aws/handlers/signup.handler
+    events:
+      - http:
+          method: POST
+          path: signup
+          cors: true
   publicEndpoint:
     handler: aws/handlers/public.handler
     events:
@@ -48,50 +92,6 @@ functions:
       - http:
           path: private
           method: POST
-          authorizer: auth
-          cors: true
-  setUserAvatar:
-    handler: aws/handlers/setUserAvatar.handler
-    events:
-      - http:
-          method: PATCH
-          path: user/{slug}/picture
-          authorizer: ${self:custom.authorizer}
-          cors: true
-  getAllReviews:
-    handler: aws/handlers/getAllReviews.handler
-    events:
-      - http:
-          method: GET
-          path: getreviews
-          cors: true
-  getReview:
-    handler: aws/handlers/getReview.handler
-    events:
-      - http:
-          method: GET
-          path: review/{slug}
-          cors: true
-  signup:
-    handler: aws/handlers/signup.handler
-    events:
-      - http:
-          method: POST
-          path: signup
-          cors: true
-  login:
-    handler: aws/handlers/login.handler
-    events:
-      - http:
-          method: POST
-          path: login
-          cors: true
-  deleteAccount:
-    handler: aws/handlers/deleteAccount.handler
-    events:
-      - http:
-          method: DELETE
-          path: deleteAccount
           authorizer: auth
           cors: true
 resources:
