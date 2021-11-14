@@ -2,10 +2,10 @@ import middy from '@middy/core';
 import cors from '@middy/http-cors';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
 import EmailValidator from 'email-validator';
+import shortUUID from 'short-uuid';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
-import shortUUID from 'short-uuid';
 
 const DB = new DynamoDB.DocumentClient();
 
@@ -14,29 +14,25 @@ const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
 
   const existingUser = await checkUserExists(email);
 
-  if (!existingUser) {
-    let errors = (await validateUserInputs(
-      username,
-      email,
-      password
-    )) as string[];
-    errors = await removeEmptyErrors(errors);
+  if (!existingUser) return createAWSResErr(403, 'Email already in use');
 
-    if (errors.length === 0) {
-      const uid = shortUUID.generate();
-      const result = await insertUserToDB(username, email, password, uid);
+  let errors = (await validateUserInputs(
+    username,
+    email,
+    password
+  )) as string[];
+  errors = await removeEmptyErrors(errors);
 
-      console.log('User signed up successfully');
-      return {
-        statusCode: 201,
-        body: JSON.stringify(result)
-      };
-    } else {
-      return createAWSResErr(400, errors);
-    }
-  } else {
-    return createAWSResErr(403, 'Email already in use');
-  }
+  if (errors.length === 0) return createAWSResErr(400, errors);
+
+  const uid = shortUUID.generate();
+  const result = await insertUserToDB(username, email, password, uid);
+
+  console.log('User signed up successfully');
+  return {
+    statusCode: 201,
+    body: JSON.stringify(result)
+  };
 };
 
 const removeEmptyErrors = async (errors: string[]) => {
@@ -134,7 +130,7 @@ const validateInput = async (value: string, valueName: string) => {
       break;
     case 'Password':
       localErrors.push(await validateNotEmpty(value, valueName));
-      localErrors.push(await validateLength(value, 'Password Hash', 512, 512));
+      localErrors.push(await validateLength(value, 'Password Hash', 128, 128));
       break;
     default:
       localErrors.push('Unexpected error');
