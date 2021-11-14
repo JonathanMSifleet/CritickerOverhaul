@@ -5,6 +5,7 @@ import EmailValidator from 'email-validator';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
+import shortUUID from 'short-uuid';
 
 const DB = new DynamoDB.DocumentClient();
 
@@ -22,7 +23,8 @@ const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
     errors = await removeEmptyErrors(errors);
 
     if (errors.length === 0) {
-      const result = await insertUserToDB(username, email, password);
+      const uid = shortUUID.generate();
+      const result = await insertUserToDB(username, email, password, uid);
 
       console.log('User signed up successfully');
       return {
@@ -157,14 +159,16 @@ const checkUserExists = async (email: string) => {
 const insertUserToDB = async (
   username: string,
   email: string,
-  password: string
+  password: string,
+  uid: string
 ) => {
   const params: DynamoDB.DocumentClient.PutItemInput = {
     TableName: process.env.USER_TABLE_NAME!,
     Item: {
       username,
       email,
-      password
+      password,
+      uid
     },
     ReturnConsumedCapacity: 'TOTAL'
   };

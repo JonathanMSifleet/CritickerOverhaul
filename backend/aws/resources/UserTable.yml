@@ -8,17 +8,12 @@ UserTable:
         AttributeType: S
       - AttributeName: email
         AttributeType: S
+      - AttributeName: uid
+        AttributeType: S
     KeySchema:
       - AttributeName: email
         KeyType: HASH
     # use GSI for querying on non primary key, example:
-    # GlobalSecondaryIndexes:
-    #   - IndexName: uid
-    #     KeySchema:
-    #       - AttributeName: id
-    #         KeyType: HASH
-    #     Projection:
-    #       ProjectionType: ALL
     GlobalSecondaryIndexes:
       - IndexName: username
         KeySchema:
@@ -29,6 +24,12 @@ UserTable:
       - IndexName: email
         KeySchema:
           - AttributeName: email
+            KeyType: HASH
+        Projection:
+          ProjectionType: ALL
+      - IndexName: uid
+        KeySchema:
+          - AttributeName: uid
             KeyType: HASH
         Projection:
           ProjectionType: ALL

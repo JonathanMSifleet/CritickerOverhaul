@@ -1,16 +1,16 @@
+import middy from '@middy/core';
+import cors from '@middy/http-cors';
+import S3 from 'aws-sdk/clients/s3';
+import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
-import S3 from 'aws-sdk/clients/s3';
-import cors from '@middy/http-cors';
-import middy from '@middy/core';
-import { createAWSResErr } from '../shared/functions/createAWSResErr';
 const s3 = new S3();
 
-export const setReviewPicture = async (event: {
-  pathParameters: { slug: string };
+export const setUserAvatar = async (event: {
+  pathParameters: { username: string };
   body: string;
 }): Promise<IHTTPErr | IHTTP> => {
-  const filename = `${event.pathParameters.slug}.jpg`;
+  const filename = `${event.pathParameters.username}.jpg`;
   try {
     await deletePicture(filename);
     const buffer = await prepareImage(event.body);
@@ -26,7 +26,7 @@ export const setReviewPicture = async (event: {
 
 const deletePicture = async (filename: string) => {
   const params = {
-    Bucket: process.env.REVIEW_BUCKET_NAME!,
+    Bucket: process.env.USER_AVATAR_BUCKET_NAME!,
     Key: filename
   };
 
@@ -56,4 +56,4 @@ const uploadPicture = async (filename: string, body: Buffer) => {
   return result.Location;
 };
 
-export const handler = middy(setReviewPicture).use(cors());
+export const handler = middy(setUserAvatar).use(cors());

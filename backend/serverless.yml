@@ -16,15 +16,17 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: eu-west-2
   environment:
-    USER_TABLE_NAME: ${self:custom.UserTable.name}
-    REACT_BUCKET_NAME: ${self:custom.ReactBucket.name}
     AUTH0_PUBLIC_KEY: ${file(secret.pem)}
+    REACT_BUCKET_NAME: ${self:custom.ReactBucket.name}
+    USER_AVATAR_BUCKET_NAME: ${self:custom.UserAvatarBucket.name}
+    USER_TABLE_NAME: ${self:custom.UserTable.name}
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
   iam:
     role:
       statements:
         - ${file(aws/iam/UserTableIAM.yml):UserTableIAM}
         - ${file(aws/iam/ReactBucketIAM.yml):ReactBucketIAM}
+        - ${file(aws/iam/UserAvatarBucketIAM.yml):UserAvatarBucketIAM}
   lambdaHashingVersion: 20201221
 
 package:
@@ -48,12 +50,12 @@ functions:
           method: POST
           authorizer: auth
           cors: true
-  setReviewPicture:
-    handler: aws/handlers/setReviewPicture.handler
+  setUserAvatar:
+    handler: aws/handlers/setUserAvatar.handler
     events:
       - http:
           method: PATCH
-          path: review/{slug}/picture
+          path: user/{slug}/picture
           authorizer: ${self:custom.authorizer}
           cors: true
   getAllReviews:
@@ -97,6 +99,8 @@ resources:
     UserTable: ${file(aws/resources/UserTable.yml):UserTable}
     ReactBucket: ${file(aws/resources/ReactBucket.yml):ReactBucket}
     ReactBucketPolicy: ${file(aws/resources/ReactBucket.yml):ReactBucketPolicy}
+    UserAvatarBucket: ${file(aws/resources/UserAvatarBucket.yml):UserAvatarBucket}
+    UserAvatarBucketPolicy: ${file(aws/resources/UserAvatarBucket.yml):UserAvatarBucketPolicy}
     # Cloudfront
     CloudFrontOriginAccessIdentity:
       Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
@@ -165,6 +169,8 @@ custom:
   UserTable:
     name: !Ref UserTable
     arn: !GetAtt UserTable.Arn
+  UserAvatarBucket:
+    name: user-avatar-bucket-tr628eqe-${self:provider.stage}
   ReactBucket:
     name: react-bucket-x3blze4m-${self:provider.stage}
   BucketFolder:

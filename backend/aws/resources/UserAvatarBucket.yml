@@ -1,0 +1,18 @@
+UserAvatarBucket:
+  Type: AWS::S3::Bucket
+  Properties:
+    BucketName: ${self:custom.UserAvatarBucket.name}
+
+UserAvatarBucketPolicy:
+  Type: AWS::S3::BucketPolicy
+  Properties:
+    Bucket: !Ref UserAvatarBucket
+    PolicyDocument:
+      Statement:
+        - Sid: PublicRead
+          Effect: Allow
+          Principal: '*'
+          Action:
+            - s3:GetObject
+            - s3:DeleteObject
+          Resource: arn:aws:s3:::${self:custom.UserAvatarBucket.name}/*
