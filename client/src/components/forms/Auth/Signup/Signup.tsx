@@ -59,22 +59,20 @@ const SignUp: React.FC = () => {
     }
   }, [shouldPost]);
 
-  const inputChangedHandler = (
-    event: { target: { value: string } },
-    inputName: string
-  ): void => {
-    setFormInfo({ ...formInfo, [inputName]: event.target.value });
-  };
-
   const signup = async () => {
     if (formInfo.password === formInfo.repeatPassword) {
       const hashedPassword = CryptoES.SHA512(formInfo.password).toString();
 
       setFormInfo({ ...formInfo, password: hashedPassword });
       setShouldPost(true);
-    } else {
-      console.log('Passwords do not match');
     }
+  };
+
+  const inputChangedHandler = (
+    event: { target: { value: string } },
+    inputName: string
+  ): void => {
+    setFormInfo({ ...formInfo, [inputName]: event.target.value });
   };
 
   return (
