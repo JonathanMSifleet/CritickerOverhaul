@@ -1,5 +1,6 @@
 import CryptoES from 'crypto-es';
 import React, { useContext, useEffect, useState } from 'react';
+import { signupURL } from '../../../../endpoints';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
 import Button from '../../../shared/Button/Button';
@@ -42,13 +43,11 @@ const SignUp: React.FC = () => {
     if (shouldPost) {
       // trick to allows for await to be used inside a useEffect hook
       async function postData() {
-        await fetch(
-          'https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev/signup',
-          {
-            method: 'post',
-            body: JSON.stringify(formInfo)
-          }
-        );
+        await fetch(signupURL, {
+          method: 'post',
+          body: JSON.stringify(formInfo)
+        });
+
         actions({
           type: actionTypes.setShowModal,
           payload: { showModal: false }

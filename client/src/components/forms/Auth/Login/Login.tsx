@@ -1,5 +1,6 @@
 import CryptoES from 'crypto-es';
 import React, { useContext, useEffect, useState } from 'react';
+import { loginURL } from '../../../../endpoints';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
 import Button from '../../../shared/Button/Button';
@@ -31,13 +32,10 @@ const Login: React.FC = () => {
   useEffect(() => {
     if (shouldPost) {
       async function postData() {
-        let response = (await fetch(
-          'https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev/login',
-          {
-            method: 'post',
-            body: JSON.stringify(formInfo)
-          }
-        )) as any;
+        let response = (await fetch(loginURL, {
+          method: 'post',
+          body: JSON.stringify(formInfo)
+        })) as any;
 
         if (response.status === 201) {
           response = await response.json();
