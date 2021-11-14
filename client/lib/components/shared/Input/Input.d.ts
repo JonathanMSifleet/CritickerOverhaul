@@ -2,7 +2,6 @@ import React from 'react';
 interface IProps {
     checked?: boolean;
     className: string;
-    id: string;
     onChange?(event: {
         target: {
             value: string;
