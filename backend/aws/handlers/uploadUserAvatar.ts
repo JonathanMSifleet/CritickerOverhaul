@@ -6,15 +6,16 @@ import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
 const s3 = new S3();
 
-export const setUserAvatar = async (event: {
+export const uploadUserAvatar = async (event: {
   pathParameters: { UID: string };
-  body: string;
+  body: any;
 }): Promise<IHTTPErr | IHTTP> => {
+  const image = event.body.slice(1, -1);
   const filename = `${event.pathParameters.UID}.jpg`;
+
   try {
     await deletePicture(filename);
-    const buffer = await prepareImage(event.body);
-    const result = await uploadPicture(filename, buffer);
+    const result = await uploadPicture(filename, image);
     return {
       statusCode: 200,
       body: JSON.stringify(`Found at: ${result}`)
@@ -31,21 +32,17 @@ const deletePicture = async (filename: string) => {
   };
 
   try {
-    return await s3.deleteObject(params).promise();
+    console.log('Existing image found');
+    await s3.deleteObject(params).promise();
   } catch (error: any) {
-    return createAWSResErr(500, error);
+    console.log('No file exists with that name');
   }
-};
-
-const prepareImage = async (body: string) => {
-  const base64 = body.replace(/^data:image\/\w+;base64,/, '');
-  return Buffer.from(base64, 'base64');
 };
 
 const uploadPicture = async (filename: string, body: Buffer) => {
   const result = await s3
     .upload({
-      Bucket: process.env.REVIEW_BUCKET_NAME!,
+      Bucket: process.env.USER_AVATAR_BUCKET_NAME!,
       Key: filename,
       Body: body,
       ContentEncoding: 'base64',
@@ -56,4 +53,4 @@ const uploadPicture = async (filename: string, body: Buffer) => {
   return result.Location;
 };
 
-export const handler = middy(setUserAvatar).use(cors());
+export const handler = middy(uploadUserAvatar).use(cors());

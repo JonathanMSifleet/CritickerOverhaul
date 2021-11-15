@@ -62,14 +62,14 @@ functions:
     events:
       - http:
           method: GET
-          path: user/{UID}/picture
+          path: user/avatar
           cors: true
-  setUserAvatar:
-    handler: aws/handlers/setUserAvatar.handler
+  uploadUserAvatar:
+    handler: aws/handlers/uploadUserAvatar.handler
     events:
       - http:
           method: POST
-          path: user/{UID}/picture
+          path: user/avatar/{UID}
           # authorizer: ${self:custom.authorizer}
           cors: true
   signup:

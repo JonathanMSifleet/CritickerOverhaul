@@ -5,6 +5,7 @@ interface IPayload {
 interface IUserInfo {
     username: string | null;
     loggedIn: boolean;
+    UID?: string | null;
 }
 declare const StateHook: () => {
     globalState: IPayload;

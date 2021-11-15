@@ -1,8 +1,10 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
+// @ts-expect-error no types file
+import FileBase64 from 'react-file-base64';
 import { Link } from 'react-router-dom';
 import Logo from '../../../../assets/svg/Logo/placeholder.svg';
 import Button from '../../../../elements/Button/Button';
-import { setUserAvatarURL } from '../../../../endpoints';
+import { uploadUserAvatarURL } from '../../../../endpoints';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
 import Auth from '../../../forms/Auth/Auth';
@@ -11,25 +13,21 @@ import classes from './Header.module.scss';
 
 const Header: React.FC = (): JSX.Element => {
   const { globalState, actions } = useContext(Context);
+  // const [userAvatar, setUserAvatar] = useState('');
 
-  useEffect(() => {
-    console.log(globalState.userInfo);
-  }, [globalState]);
+  const handleFile = async (event: any) => {
+    const { base64 } = event;
+    const uploadURL = `${uploadUserAvatarURL}/${globalState.userInfo.UID}`;
 
-  const uploadImage = () => {
-    const uploadURL = setUserAvatarURL.replace(
-      '{UID}',
-      globalState.userInfo.UID
-    );
-    console.log(
-      '🚀 ~ file: Header.tsx ~ line 24 ~ uploadImage ~ uploadURL',
-      uploadURL
-    );
+    let response = (await fetch(uploadURL, {
+      method: 'post',
+      body: JSON.stringify(base64)
+    })) as any;
+    response = await response.json();
+    console.log('response', response);
   };
 
   const logout = () => {
-    console.log(globalState);
-    console.log('logout clicked');
     actions({
       type: actionTypes.logOutUser
     });
@@ -75,15 +73,15 @@ const Header: React.FC = (): JSX.Element => {
       </div>
 
       <section className={classes.RightContent}>
-        <Button
-          className={'btn btn-white text-primary me-3 font-weight-bold'}
-          onClick={uploadImage}
-          text={'Test upload'}
-        />
         {globalState.userInfo.loggedIn ? (
           <>
+            <FileBase64
+              className={'btn btn-white text-primary me-3 font-weight-bold'}
+              onDone={(event: { target: any }) => handleFile(event)}
+              type={'file'}
+            />
             <img
-              src="https://mdbootstrap.com/img/new/avatars/8.jpg"
+              src={userAvatar}
               className={`${classes.UserAvatar} rounded-circle mb-3`}
             />
 

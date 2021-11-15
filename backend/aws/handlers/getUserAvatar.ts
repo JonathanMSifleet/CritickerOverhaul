@@ -12,7 +12,7 @@ const getUserAvatar = async (event: {
 
   try {
     const avatar = await getUserAvatarFromS3(username);
-    if (!avatar) return createAWSResErr(404, 'Invalid Slug');
+    if (!avatar) return createAWSResErr(404, '[Error goes here] ');
 
     return {
       statusCode: 200,
