@@ -1,10 +1,10 @@
 import CryptoES from 'crypto-es';
 import React, { useContext, useEffect, useState } from 'react';
+import Button from '../../../../elements/Button/Button';
+import Input from '../../../../elements/Input/Input';
 import { loginURL } from '../../../../endpoints';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
-import Button from '../../../shared/Button/Button';
-import Input from '../../../shared/Input/Input';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import classes from './Login.module.scss';
 
