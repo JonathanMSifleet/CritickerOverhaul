@@ -8,10 +8,10 @@ UserTable:
         AttributeType: S
       - AttributeName: email
         AttributeType: S
-      - AttributeName: uid
+      - AttributeName: UID
         AttributeType: S
     KeySchema:
-      - AttributeName: uid
+      - AttributeName: UID
         KeyType: HASH
     # use GSI for querying on non primary key
     GlobalSecondaryIndexes:
