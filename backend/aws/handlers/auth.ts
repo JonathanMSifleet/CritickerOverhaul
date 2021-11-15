@@ -23,9 +23,7 @@ export const handler = async (event: {
   authorizationToken: string;
   methodArn: string;
 }) => {
-  if (!event.authorizationToken) {
-    return createAWSResErr(401, 'Unauthorized');
-  }
+  if (!event.authorizationToken) return createAWSResErr(401, 'Unauthorized');
 
   const token = event.authorizationToken.replace('Bearer ', '');
 

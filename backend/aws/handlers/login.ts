@@ -10,9 +10,8 @@ const DB = new DynamoDB.DocumentClient();
 const login = async (event: { body: string }): Promise<IHTTP | IHTTPErr> => {
   const { email, password } = JSON.parse(event.body);
 
-  if (!email || !password) {
+  if (!email || !password)
     return createAWSResErr(401, 'Please provide email and password!');
-  }
 
   const params = {
     TableName: process.env.USER_TABLE_NAME!,
@@ -29,13 +28,11 @@ const login = async (event: { body: string }): Promise<IHTTP | IHTTPErr> => {
     const result = (await DB.query(params).promise()) as { Items: any };
     const user = result.Items[0];
 
-    if (user === undefined) {
+    if (user === undefined)
       return createAWSResErr(404, 'No user found with that email');
-    }
 
-    if (password !== user.password) {
+    if (password !== user.password)
       return createAWSResErr(401, 'Incorrect password');
-    }
 
     console.log('Logged in successfully');
     return {
