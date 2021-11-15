@@ -12,26 +12,31 @@ const DB = new DynamoDB.DocumentClient();
 const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
   const { username, email, password } = JSON.parse(event.body);
 
-  const existingUser = await checkEmailInUse(email);
-  if (existingUser) return createAWSResErr(403, 'Email already in use');
+  const user = await checkUserExists(email);
+
+  if (user) return createAWSResErr(403, 'Email already in use');
 
   let errors = (await validateUserInputs(
     username,
     email,
     password
   )) as string[];
-  errors = await removeEmptyErrors(errors);
 
+  errors = await removeEmptyErrors(errors);
   if (errors.length !== 0) return createAWSResErr(400, errors);
 
-  const uid = shortUUID.generate();
-  const result = await insertUserToDB(username, email, password, uid);
+  try {
+    const uid = shortUUID.generate();
+    const result = await insertUserToDB(username, email, password, uid);
 
-  console.log('User signed up successfully');
-  return {
-    statusCode: 201,
-    body: JSON.stringify(result)
-  };
+    return {
+      statusCode: 201,
+      body: JSON.stringify(result)
+    };
+  } catch (e) {
+    console.error(e);
+    return createAWSResErr(520, errors);
+  }
 };
 
 const removeEmptyErrors = async (errors: string[]) => {
@@ -80,10 +85,11 @@ const validateUserInputs = async (
   password: string
 ) => {
   const errors = [];
-  // ... pushes items in array to array rather than array to array:
+
   errors.push(...(await validateInput(username, 'Username')));
   errors.push(...(await validateInput(email, 'Email')));
   errors.push(...(await validateInput(password, 'Password')));
+
   return errors;
 };
 
@@ -130,7 +136,7 @@ const validateInput = async (value: string, valueName: string) => {
   return localErrors;
 };
 
-const checkEmailInUse = async (email: string) => {
+const checkUserExists = async (email: string) => {
   const params: DynamoDB.DocumentClient.GetItemInput = {
     TableName: process.env.USER_TABLE_NAME!,
     Key: { email }
