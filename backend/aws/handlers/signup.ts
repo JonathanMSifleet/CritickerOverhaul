@@ -1,8 +1,13 @@
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
-import EmailValidator from 'email-validator';
 import shortUUID from 'short-uuid';
+import {
+  validateAgainstRegex,
+  validateIsEmail,
+  validateLength,
+  validateNotEmpty
+} from '../shared/functions/validationFunctions';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
 import { createAWSResErr } from './../shared/functions/createAWSResErr';
@@ -12,10 +17,10 @@ const DB = new DynamoDB.DocumentClient();
 const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
   const { username, email, password } = JSON.parse(event.body);
 
-  if (await checkUniqueEmail(email))
+  if (await checkUniqueAttribute(email, 'email'))
     return createAWSResErr(403, 'Email already in use');
 
-  if (await checkUniqueUsername(username))
+  if (await checkUniqueAttribute(username, 'username'))
     return createAWSResErr(403, 'Username already in use');
 
   let errors = (await validateUserInputs(
@@ -28,8 +33,8 @@ const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
   if (errors.length !== 0) return createAWSResErr(400, errors);
 
   try {
-    const uid = shortUUID.generate();
-    const result = await insertUserToDB(username, email, password, uid);
+    const UID = shortUUID.generate();
+    const result = await insertUserToDB(username, email, password, UID);
 
     return {
       statusCode: 201,
@@ -49,38 +54,6 @@ const removeEmptyErrors = async (errors: string[]) => {
   return errors;
 };
 
-const validateNotEmpty = async (
-  value: string,
-  name: string
-): Promise<string | undefined> => {
-  if (value === null || value === '' || value === undefined)
-    return `${name} must not be empty`;
-};
-
-const validateLength = async (
-  value: string,
-  valueName: string,
-  min: number,
-  max: number
-) => {
-  if (value.length < min || value.length > max) {
-    return `${valueName} must be between ${min} and ${max} chracters`;
-  }
-};
-
-const validateAgainstRegex = async (
-  value: string,
-  name: string,
-  regex: RegExp,
-  message: string
-) => {
-  if (regex.test(value)) return `${name} ${message}`;
-};
-
-const validateIsEmail = async (value: string) => {
-  if (!EmailValidator.validate(value)) return `Email must be valid`;
-};
-
 const validateUserInputs = async (
   username: string,
   email: string,
@@ -88,14 +61,14 @@ const validateUserInputs = async (
 ) => {
   const errors = [];
 
-  errors.push(...(await validateInput(username, 'Username')));
-  errors.push(...(await validateInput(email, 'Email')));
-  errors.push(...(await validateInput(password, 'Password')));
+  errors.push(...(await validateValue(username, 'Username')));
+  errors.push(...(await validateValue(email, 'Email')));
+  errors.push(...(await validateValue(password, 'Password')));
 
   return errors;
 };
 
-const validateInput = async (value: string, valueName: string) => {
+const validateValue = async (value: string, valueName: string) => {
   const localErrors = [];
 
   switch (valueName) {
@@ -138,53 +111,43 @@ const validateInput = async (value: string, valueName: string) => {
   return localErrors;
 };
 
-const checkUniqueEmail = async (email: string) => {
-  const params = {
-    TableName: process.env.USER_TABLE_NAME!,
-    IndexName: 'email',
-    KeyConditionExpression: '#email = :email',
-    ExpressionAttributeNames: {
-      '#email': 'email'
-    },
-    ExpressionAttributeValues: {
-      ':email': email
-    }
-  };
+const checkUniqueAttribute = async (value: string, type: string) => {
+  let params = <any>{};
 
-  try {
-    const result = await DB.query(params).promise();
-    const resultItems = result.Items;
-
-    if (resultItems!.length !== 0) {
-      console.log(resultItems);
-      return true;
-    } else {
-      return false;
-    }
-  } catch (e) {
-    console.error(e);
+  switch (type) {
+    case 'email':
+      params = {
+        TableName: process.env.USER_TABLE_NAME!,
+        IndexName: 'email',
+        KeyConditionExpression: '#email = :email',
+        ExpressionAttributeNames: {
+          '#email': 'email'
+        },
+        ExpressionAttributeValues: {
+          ':email': value
+        }
+      };
+      break;
+    case 'username':
+      params = {
+        TableName: process.env.USER_TABLE_NAME!,
+        IndexName: 'username',
+        KeyConditionExpression: '#username = :username',
+        ExpressionAttributeNames: {
+          '#username': 'username'
+        },
+        ExpressionAttributeValues: {
+          ':username': value
+        }
+      };
+      break;
   }
-};
-
-const checkUniqueUsername = async (username: string) => {
-  const params = {
-    TableName: process.env.USER_TABLE_NAME!,
-    IndexName: 'username',
-    KeyConditionExpression: '#username = :username',
-    ExpressionAttributeNames: {
-      '#username': 'username'
-    },
-    ExpressionAttributeValues: {
-      ':username': username
-    }
-  };
 
   try {
     const result = await DB.query(params).promise();
     const resultItems = result.Items;
 
     if (resultItems!.length !== 0) {
-      console.log(resultItems);
       return true;
     } else {
       return false;
