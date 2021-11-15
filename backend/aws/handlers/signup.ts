@@ -3,6 +3,7 @@ import cors from '@middy/http-cors';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
 import shortUUID from 'short-uuid';
 import {
+  checkUniqueAttribute,
   validateAgainstRegex,
   validateIsEmail,
   validateLength,
@@ -36,6 +37,7 @@ const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
     const UID = shortUUID.generate();
     const result = await insertUserToDB(username, email, password, UID);
 
+    console.log('Signed up successfully');
     return {
       statusCode: 201,
       body: JSON.stringify(result)
@@ -111,57 +113,11 @@ const validateValue = async (value: string, valueName: string) => {
   return localErrors;
 };
 
-const checkUniqueAttribute = async (value: string, type: string) => {
-  let params = <any>{};
-
-  switch (type) {
-    case 'email':
-      params = {
-        TableName: process.env.USER_TABLE_NAME!,
-        IndexName: 'email',
-        KeyConditionExpression: '#email = :email',
-        ExpressionAttributeNames: {
-          '#email': 'email'
-        },
-        ExpressionAttributeValues: {
-          ':email': value
-        }
-      };
-      break;
-    case 'username':
-      params = {
-        TableName: process.env.USER_TABLE_NAME!,
-        IndexName: 'username',
-        KeyConditionExpression: '#username = :username',
-        ExpressionAttributeNames: {
-          '#username': 'username'
-        },
-        ExpressionAttributeValues: {
-          ':username': value
-        }
-      };
-      break;
-  }
-
-  try {
-    const result = await DB.query(params).promise();
-    const resultItems = result.Items;
-
-    if (resultItems!.length !== 0) {
-      return true;
-    } else {
-      return false;
-    }
-  } catch (e) {
-    console.error(e);
-  }
-};
-
 const insertUserToDB = async (
   username: string,
   email: string,
   password: string,
-  uid: string
+  UID: string
 ) => {
   const params: DynamoDB.DocumentClient.PutItemInput = {
     TableName: process.env.USER_TABLE_NAME!,
@@ -169,7 +125,7 @@ const insertUserToDB = async (
       username,
       email,
       password,
-      uid
+      UID
     },
     ReturnConsumedCapacity: 'TOTAL'
   };
