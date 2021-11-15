@@ -3,18 +3,20 @@ import cors from '@middy/http-cors';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
 import EmailValidator from 'email-validator';
 import shortUUID from 'short-uuid';
-import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
+import { createAWSResErr } from './../shared/functions/createAWSResErr';
 
 const DB = new DynamoDB.DocumentClient();
 
 const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
   const { username, email, password } = JSON.parse(event.body);
 
-  const user = await checkUserExists(email);
+  if (await checkUniqueEmail(email))
+    return createAWSResErr(403, 'Email already in use');
 
-  if (user) return createAWSResErr(403, 'Email already in use');
+  if (await checkUniqueUsername(username))
+    return createAWSResErr(403, 'Username already in use');
 
   let errors = (await validateUserInputs(
     username,
@@ -136,14 +138,60 @@ const validateInput = async (value: string, valueName: string) => {
   return localErrors;
 };
 
-const checkUserExists = async (email: string) => {
-  const params: DynamoDB.DocumentClient.GetItemInput = {
+const checkUniqueEmail = async (email: string) => {
+  const params = {
     TableName: process.env.USER_TABLE_NAME!,
-    Key: { email }
+    IndexName: 'email',
+    KeyConditionExpression: '#email = :email',
+    ExpressionAttributeNames: {
+      '#email': 'email'
+    },
+    ExpressionAttributeValues: {
+      ':email': email
+    }
   };
 
-  const result = (await DB.get(params).promise()) as { Item: any };
-  return result.Item ? true : false;
+  try {
+    const result = await DB.query(params).promise();
+    const resultItems = result.Items;
+
+    if (resultItems!.length !== 0) {
+      console.log(resultItems);
+      return true;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    console.error(e);
+  }
+};
+
+const checkUniqueUsername = async (username: string) => {
+  const params = {
+    TableName: process.env.USER_TABLE_NAME!,
+    IndexName: 'username',
+    KeyConditionExpression: '#username = :username',
+    ExpressionAttributeNames: {
+      '#username': 'username'
+    },
+    ExpressionAttributeValues: {
+      ':username': username
+    }
+  };
+
+  try {
+    const result = await DB.query(params).promise();
+    const resultItems = result.Items;
+
+    if (resultItems!.length !== 0) {
+      console.log(resultItems);
+      return true;
+    } else {
+      return false;
+    }
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 const insertUserToDB = async (
