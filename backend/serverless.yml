@@ -68,7 +68,7 @@ functions:
       - http:
           method: POST
           path: user/avatar/{UID}
-          authorizer: ${self:custom.authorizer}
+          # authorizer: ${self:custom.authorizer}
           cors: true
   signup:
     handler: aws/handlers/signup.handler
@@ -96,10 +96,11 @@ resources:
   Resources:
     UserTable: ${file(aws/resources/UserTable.yml):UserTable}
     ReactBucket: ${file(aws/resources/ReactBucket.yml):ReactBucket}
-    ReactBucketPolicy: ${file(aws/resources/ReactBucket.yml):ReactBucketPolicy}
     UserAvatarBucket: ${file(aws/resources/UserAvatarBucket.yml):UserAvatarBucket}
+    # Policies:
+    ReactBucketPolicy: ${file(aws/resources/ReactBucket.yml):ReactBucketPolicy}
     UserAvatarBucketPolicy: ${file(aws/resources/UserAvatarBucket.yml):UserAvatarBucketPolicy}
-    # Cloudfront
+    # Cloudfront:
     CloudFrontOriginAccessIdentity:
       Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
       Properties:

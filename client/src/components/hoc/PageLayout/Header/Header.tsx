@@ -1,10 +1,10 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 // @ts-expect-error no types file
 import FileBase64 from 'react-file-base64';
 import { Link } from 'react-router-dom';
 import Logo from '../../../../assets/svg/Logo/placeholder.svg';
 import Button from '../../../../elements/Button/Button';
-import { uploadUserAvatarURL } from '../../../../endpoints';
+import { getUserAvatarURL, uploadUserAvatarURL } from '../../../../endpoints';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
 import Auth from '../../../forms/Auth/Auth';
@@ -13,7 +13,27 @@ import classes from './Header.module.scss';
 
 const Header: React.FC = (): JSX.Element => {
   const { globalState, actions } = useContext(Context);
-  // const [userAvatar, setUserAvatar] = useState('');
+  const [userAvatar, setUserAvatar] = useState(null as unknown as any);
+
+  useEffect(() => {
+    async function getUserAvatar() {
+      const avatarURL = `${getUserAvatarURL}/${globalState.userInfo.UID}`;
+
+      let response = await fetch(avatarURL, {
+        method: 'get'
+      });
+
+      response = await response.json();
+      console.log(
+        '🚀 ~ file: Header.tsx ~ line 26 ~ useEffect ~ response',
+        response
+      );
+      setUserAvatar(response);
+    }
+    if (globalState.userInfo.loggedIn) {
+      getUserAvatar();
+    }
+  }, [globalState]);
 
   const handleFile = async (event: any) => {
     const { base64 } = event;
@@ -80,10 +100,12 @@ const Header: React.FC = (): JSX.Element => {
               onDone={(event: { target: any }) => handleFile(event)}
               type={'file'}
             />
-            <img
-              src={userAvatar}
-              className={`${classes.UserAvatar} rounded-circle mb-3`}
-            />
+            <Link to="/profile">
+              <img
+                src={userAvatar}
+                className={`${classes.UserAvatar} rounded-circle mb-3`}
+              />
+            </Link>
 
             <Button
               className={`${classes.AuthButton} btn btn-white text-primary me-3 font-weight-bold`}
