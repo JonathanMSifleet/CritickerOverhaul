@@ -15,6 +15,7 @@ const login = async (event: { body: string }): Promise<IHTTP | IHTTPErr> => {
 
   const params = {
     TableName: process.env.USER_TABLE_NAME!,
+    IndexName: 'email',
     KeyConditionExpression: '#email = :email',
     ExpressionAttributeNames: {
       '#email': 'email'
