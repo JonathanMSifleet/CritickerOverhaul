@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../../../assets/svg/Logo/placeholder.svg';
+import Button from '../../../../elements/Button/Button';
 import { setUserAvatarURL } from '../../../../endpoints';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
 import Auth from '../../../forms/Auth/Auth';
-import Button from '../../../shared/Button/Button';
 import Modal from '../../../UI/Modal/Modal';
 import classes from './Header.module.scss';
 

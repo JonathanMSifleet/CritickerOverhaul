@@ -12,9 +12,8 @@ const DB = new DynamoDB.DocumentClient();
 const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
   const { username, email, password } = JSON.parse(event.body);
 
-  const existingUser = await checkUserExists(email);
-
-  if (!existingUser) return createAWSResErr(403, 'Email already in use');
+  const existingUser = await checkEmailInUse(email);
+  if (existingUser) return createAWSResErr(403, 'Email already in use');
 
   let errors = (await validateUserInputs(
     username,
@@ -23,7 +22,7 @@ const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
   )) as string[];
   errors = await removeEmptyErrors(errors);
 
-  if (errors.length === 0) return createAWSResErr(400, errors);
+  if (errors.length !== 0) return createAWSResErr(400, errors);
 
   const uid = shortUUID.generate();
   const result = await insertUserToDB(username, email, password, uid);
@@ -138,18 +137,14 @@ const validateInput = async (value: string, valueName: string) => {
   return localErrors;
 };
 
-const checkUserExists = async (email: string) => {
+const checkEmailInUse = async (email: string) => {
   const params: DynamoDB.DocumentClient.GetItemInput = {
     TableName: process.env.USER_TABLE_NAME!,
     Key: { email }
   };
 
-  try {
-    const result = (await DB.get(params).promise()) as { Item: any };
-    return result.Item;
-  } catch (error: any) {
-    return createAWSResErr(404, error);
-  }
+  const result = (await DB.get(params).promise()) as { Item: any };
+  return result.Item ? true : false;
 };
 
 const insertUserToDB = async (
