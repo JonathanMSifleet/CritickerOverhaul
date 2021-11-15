@@ -4,5 +4,7 @@ export default interface IHTTPErr {
     'Access-Control-Allow-Credentials': boolean;
   };
   statusCode: number;
-  statusText: string;
+  statusText: {
+    message: string;
+  };
 }

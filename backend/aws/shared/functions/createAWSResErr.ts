@@ -12,7 +12,9 @@ export const createAWSResErr = async (
 
   return {
     statusCode,
-    statusText: JSON.stringify(message)
+    statusText: {
+      message: JSON.stringify(message)
+    }
   };
 };
 
