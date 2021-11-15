@@ -1,22 +1,12 @@
+@import '../../../../styles/variables';
 @import '../LayoutVariables.scss';
-
 .PageViewContainer {
-  overflow-x: hidden;
-  flex-flow: column;
+  background-color: $lightGrey;
 }
 
 .Body {
-  width: 100%;
   height: $bodyHeight;
-  margin: 0;
-}
-
-.Main {
   width: 70%;
-}
-
-.Column {
-  width: 15%;
-  background-color: lightgrey;
-  padding: 0;
+  margin: auto;
+  background-color: white;
 }

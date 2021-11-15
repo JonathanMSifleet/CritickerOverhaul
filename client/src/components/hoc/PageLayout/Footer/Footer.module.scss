@@ -2,7 +2,7 @@
 @import '../LayoutVariables.scss';
 
 .Footer {
-  height: fit-content;
+  height: $footerHeight;
   position: absolute;
   bottom: 0;
   width: 100%;
