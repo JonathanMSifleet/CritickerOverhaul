@@ -13,6 +13,10 @@ UserAvatarBucketPolicy:
           Effect: Allow
           Principal: '*'
           Action:
+            - s3:PutObject
             - s3:GetObject
             - s3:DeleteObject
-          Resource: arn:aws:s3:::${self:custom.UserAvatarBucket.name}/*
+            - s3:ListBucket
+          Resource:
+            - arn:aws:s3:::${self:custom.UserAvatarBucket.name}/*
+            - arn:aws:s3:::${self:custom.UserAvatarBucket.name}

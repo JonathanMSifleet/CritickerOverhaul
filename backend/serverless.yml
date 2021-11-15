@@ -21,13 +21,11 @@ provider:
     USER_AVATAR_BUCKET_NAME: ${self:custom.UserAvatarBucket.name}
     USER_TABLE_NAME: ${self:custom.UserTable.name}
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+  lambdaHashingVersion: 20201221
   iam:
     role:
       statements:
         - ${file(aws/iam/UserTableIAM.yml):UserTableIAM}
-        - ${file(aws/iam/ReactBucketIAM.yml):ReactBucketIAM}
-        - ${file(aws/iam/UserAvatarBucketIAM.yml):UserAvatarBucketIAM}
-  lambdaHashingVersion: 20201221
 
 package:
   individually: true
@@ -62,7 +60,7 @@ functions:
     events:
       - http:
           method: GET
-          path: user/avatar
+          path: user/avatar/{UID}
           cors: true
   uploadUserAvatar:
     handler: aws/handlers/uploadUserAvatar.handler
@@ -70,7 +68,7 @@ functions:
       - http:
           method: POST
           path: user/avatar/{UID}
-          # authorizer: ${self:custom.authorizer}
+          authorizer: ${self:custom.authorizer}
           cors: true
   signup:
     handler: aws/handlers/signup.handler
