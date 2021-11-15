@@ -8,9 +8,7 @@ const Home: React.FC = (): JSX.Element => {
       document.location.search.substring(1)
     ).get('error');
 
-    if (error) {
-      console.error('Invalid Route:', error);
-    }
+    if (error) console.error('Invalid Route:', error);
   }, []);
 
   return (

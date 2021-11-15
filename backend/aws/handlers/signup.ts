@@ -38,9 +38,7 @@ const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
 const removeEmptyErrors = async (errors: string[]) => {
   let arrayLength = errors.length;
   while (arrayLength--) {
-    if (errors[arrayLength] === undefined) {
-      errors.splice(arrayLength, 1);
-    }
+    if (errors[arrayLength] === undefined) errors.splice(arrayLength, 1);
   }
   return errors;
 };
@@ -49,9 +47,8 @@ const validateNotEmpty = async (
   value: string,
   name: string
 ): Promise<string | undefined> => {
-  if (value === null || value === '' || value === undefined) {
+  if (value === null || value === '' || value === undefined)
     return `${name} must not be empty`;
-  }
 };
 
 const validateLength = async (
@@ -71,15 +68,11 @@ const validateAgainstRegex = async (
   regex: RegExp,
   message: string
 ) => {
-  if (regex.test(value)) {
-    return `${name} ${message}`;
-  }
+  if (regex.test(value)) return `${name} ${message}`;
 };
 
 const validateIsEmail = async (value: string) => {
-  if (!EmailValidator.validate(value)) {
-    return `Email must be valid`;
-  }
+  if (!EmailValidator.validate(value)) return `Email must be valid`;
 };
 
 const validateUserInputs = async (
