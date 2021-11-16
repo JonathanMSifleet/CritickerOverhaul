@@ -37,6 +37,8 @@ const populateTable = async () => {
 
       let i = 0;
       for await (const personRow of source) {
+        i++;
+
         const { imdb_name_id, name } = personRow;
         const items = [imdb_name_id, name];
 
