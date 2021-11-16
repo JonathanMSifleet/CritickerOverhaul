@@ -6,7 +6,6 @@
 .browserslistrc
 .build
 .buildpath
-**/*.csv
 .editorconfig
 .env.development.local
 .env.local
