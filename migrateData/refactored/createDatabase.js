@@ -1,7 +1,7 @@
 // taken from: https://www.w3schools.com/nodejs/nodejs_mysql_create_db.asp
 
 const mysql = require('mysql2');
-const shared = require('./shared/shared');
+const shared = require('../shared/shared');
 
 const connection = mysql.createConnection(shared.connectionDetails);
 
