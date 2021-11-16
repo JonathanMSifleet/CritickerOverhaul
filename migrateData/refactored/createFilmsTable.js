@@ -35,7 +35,6 @@ const populateTable = () => {
       let i = 0;
       for await (const film of source) {
         i++;
-
         const { imdb_title_id, title, year, duration, description } = film;
         const items = [imdb_title_id, title, year, duration, description];
 
