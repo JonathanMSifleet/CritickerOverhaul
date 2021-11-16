@@ -4,7 +4,7 @@
 const mysql = require('mysql2');
 const util = require('util');
 const csvtojson = require('csvtojson');
-const shared = require('./shared/shared');
+const shared = require('../shared/shared');
 
 const connection = mysql.createConnection(shared.connectionDetails);
 const asyncQuery = util.promisify(connection.query).bind(connection);
