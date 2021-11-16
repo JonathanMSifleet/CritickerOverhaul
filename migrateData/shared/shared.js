@@ -37,3 +37,23 @@ exports.executeSQL = async (asyncQuery, sql, message) => {
     console.error(e);
   }
 };
+
+exports.populateTableFromArray = async (connection, array, type) => {
+  const insertStatement = `INSERT INTO ${type} VALUES (null,?)`;
+  const numRows = array.length;
+  let i = 0;
+
+  console.log(`Inserting ${type}`);
+
+  for await (const item of array) {
+    i++;
+
+    await this.insertApostropheRow(
+      connection,
+      insertStatement,
+      item,
+      i,
+      numRows
+    );
+  }
+};

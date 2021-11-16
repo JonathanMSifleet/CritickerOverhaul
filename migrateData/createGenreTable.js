@@ -27,7 +27,7 @@ connection.connect(async (err) => {
   genres.sort();
   console.log('All genres fetched');
 
-  await populateTable(genres);
+  await shared.populateTableFromArray(connection, genres, 'genres');
 });
 
 const fetchGenres = async () => {
@@ -55,24 +55,4 @@ const fetchGenres = async () => {
     });
 
   return genresToReturn;
-};
-
-const populateTable = async (genres) => {
-  const insertStatement = 'INSERT INTO genres VALUES (null,?)';
-  const numRows = genres.length;
-  let i = 0;
-
-  console.log('Inserting genres');
-
-  for await (const item of genres) {
-    i++;
-
-    await shared.insertApostropheRow(
-      connection,
-      insertStatement,
-      item,
-      i,
-      numRows
-    );
-  }
 };
