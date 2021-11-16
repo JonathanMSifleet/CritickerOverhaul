@@ -4,16 +4,10 @@
 const mysql = require('mysql2');
 const util = require('util');
 const csvtojson = require('csvtojson');
+const shared = require('./shared/shared');
 
-const connectionDetails = {
-  host: 'localhost',
-  user: 'JonathanS',
-  password: 'DatasetMigration',
-  database: 'critickeroverhaul'
-};
-
-const connection = mysql.createConnection(connectionDetails);
-const query = util.promisify(connection.query).bind(connection);
+const connection = mysql.createConnection(shared.connectionDetails);
+const asyncQuery = util.promisify(connection.query).bind(connection);
 
 connection.connect(async (err) => {
   if (err) throw err;
@@ -21,18 +15,19 @@ connection.connect(async (err) => {
 
   let sql;
 
-  sql = 'DROP TABLE IF EXISTS production_companies';
-  executeSQL(sql, 'Table dropped if exists');
+  sql = 'DROP TABLE IF EXISTS companies';
+  await shared.executeSQL(asyncQuery, sql, 'Table dropped if exists');
 
   sql =
-    'CREATE TABLE production_companies (company_id SMALLINT UNSIGNED AUTO_INCREMENT, ' +
+    'CREATE TABLE companies (company_id SMALLINT UNSIGNED AUTO_INCREMENT, ' +
     'company_name VARCHAR(128) UNIQUE, PRIMARY KEY (company_id))';
-  executeSQL(sql, 'Table created');
+  await shared.executeSQL(asyncQuery, sql, 'Table created');
 
   const companies = await fetchCompanies();
   companies.sort();
+  console.log('All companies fetched');
 
-  await populateTable(companies);
+  await shared.populateTableFromArray(connection, companies, 'companies');
 });
 
 const fetchCompanies = async () => {
@@ -40,16 +35,18 @@ const fetchCompanies = async () => {
 
   await csvtojson()
     .fromFile('./datasets/Production_companies.csv')
-    .then((source) => {
+    .then(async (source) => {
       const numRows = source.length;
 
-      for (let i = 0; i < numRows; i++) {
-        const companyRow = source[i]['company_name'];
-        const companies = companyRow.split(', ');
+      let i = 0;
+      for await (const companyRow of source) {
+        i++;
 
+        let companies = companyRow.production_company;
+        companies = companies.split(', ');
+
+        shared.percentRemaining(i, numRows);
         companies.forEach((curCompany) => {
-          curCompany = curCompany.replaceAll("'", "''");
-
           if (!companiesToReturn.includes(curCompany)) {
             companiesToReturn.push(curCompany);
           }
@@ -58,26 +55,4 @@ const fetchCompanies = async () => {
     });
 
   return companiesToReturn;
-};
-
-const executeSQL = async (sql, i) => {
-  try {
-    await query(sql);
-    console.log(i);
-  } catch (e) {
-    console.error(e);
-    process.exit();
-  }
-};
-
-const populateTable = async (companies) => {
-  let i = 0;
-
-  await companies.forEach(async (curCompany) => {
-    i++;
-    executeSQL(
-      `INSERT IGNORE INTO critickeroverhaul.production_companies VALUES (null, '${curCompany}')`,
-      i
-    );
-  });
 };

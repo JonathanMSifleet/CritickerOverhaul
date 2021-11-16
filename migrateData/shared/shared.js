@@ -12,13 +12,7 @@ exports.percentRemaining = (numerator, denominator) => {
   );
 };
 
-exports.insertApostropheRow = async (
-  connection,
-  insertStatement,
-  items,
-  i,
-  numRows
-) => {
+exports.insertRow = async (connection, insertStatement, items, i, numRows) => {
   connection.query(insertStatement, items, (err, results, fields) => {
     if (err) {
       console.log('Unable to insert item at row ', i);
@@ -48,12 +42,6 @@ exports.populateTableFromArray = async (connection, array, type) => {
   for await (const item of array) {
     i++;
 
-    await this.insertApostropheRow(
-      connection,
-      insertStatement,
-      item,
-      i,
-      numRows
-    );
+    await this.insertRow(connection, insertStatement, item, i, numRows);
   }
 };
