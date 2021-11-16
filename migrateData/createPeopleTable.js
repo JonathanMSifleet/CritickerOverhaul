@@ -1,39 +1,25 @@
 // this scripts swaps back to the original csvtojson package method
 // as I got the following error:
 
-// Error: EBUSY: resource busy or locked, read
-// Emitted 'error' event on ReadStream instance at:
-//     at internal/fs/streams.js:173:14
-//     at FSReqCallback.wrapper [as oncomplete] (fs.js:562:5) {
-//   errno: -4082,
-//   code: 'EBUSY',
-//   syscall: 'read'
-// }
-
 const mysql = require('mysql2');
 const util = require('util');
 const csvtojson = require('csvtojson');
+const shared = require('./shared/shared');
 
-const connectionDetails = {
-  host: 'localhost',
-  user: 'JonathanS',
-  password: 'DatasetMigration',
-  database: 'critickeroverhaul'
-};
-
-const connection = mysql.createConnection(connectionDetails);
-const query = util.promisify(connection.query).bind(connection);
+const connection = mysql.createConnection(shared.connectionDetails);
+const asyncQuery = util.promisify(connection.query).bind(connection);
 
 connection.connect(async (err) => {
   if (err) throw err;
   console.log('Connected to database');
 
-  await executeSQL('DROP TABLE IF EXISTS people');
+  let sql = 'DROP TABLE IF EXISTS people';
+  await shared.executeSQL(asyncQuery, sql, 'Table dropped if exists');
 
-  let sql =
+  sql =
     'CREATE TABLE people (imdb_name_id MEDIUMINT UNSIGNED, ' +
     'name VARCHAR(64), PRIMARY KEY (imdb_name_id))';
-  await executeSQL(sql);
+  await shared.executeSQL(asyncQuery, sql, 'Table created');
 
   try {
     await populateTable();
@@ -43,37 +29,28 @@ connection.connect(async (err) => {
 });
 
 const populateTable = async () => {
-  let i = 0;
-
   csvtojson()
-    .fromFile('./datasets/IMDb_names.csv')
+    .fromFile('./datasets/People.csv')
     .then(async (source) => {
+      const insertStatement = 'INSERT INTO people VALUES (?, ?)';
       const numRows = source.length;
 
-      for (let i = 0; i < numRows; i++) {
-        const imdb_name_id = source[i]['imdb_name_id'];
-        const name = source[i]['name'];
+      let i = 0;
+      for await (const personRow of source) {
+        const { imdb_name_id, name } = personRow;
+        const items = [imdb_name_id, name];
 
         try {
-          await insertPerson(imdb_name_id, name, i);
+          await shared.insertRow(
+            connection,
+            insertStatement,
+            items,
+            i,
+            numRows
+          );
         } catch (e) {
           console.error(e);
         }
       }
     });
-};
-
-const insertPerson = async (imdb_name_id, name, i) => {
-  const insertStatement = `INSERT INTO people (imdb_name_id, name) VALUES ('${imdb_name_id}', '${name}')`;
-
-  await executeSQL(insertStatement);
-  console.log(`Row ${i} inserted`);
-};
-
-const executeSQL = async (sql) => {
-  try {
-    return await query(sql);
-  } catch (e) {
-    console.error(e);
-  }
 };

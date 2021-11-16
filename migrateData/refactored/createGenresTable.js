@@ -13,9 +13,7 @@ connection.connect(async (err) => {
   if (err) throw err;
   console.log('Connected to database');
 
-  let sql;
-
-  sql = 'DROP TABLE IF EXISTS genres';
+  let sql = 'DROP TABLE IF EXISTS genres';
   await shared.executeSQL(asyncQuery, sql, 'Table dropped if exists');
 
   sql =

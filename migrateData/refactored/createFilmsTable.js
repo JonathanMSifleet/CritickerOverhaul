@@ -13,9 +13,7 @@ connection.connect(async (err) => {
   if (err) throw err;
   console.log('Connected to database');
 
-  let sql;
-
-  sql = 'DROP TABLE IF EXISTS films';
+  let sql = 'DROP TABLE IF EXISTS films';
   await shared.executeSQL(asyncQuery, sql, 'Table dropped if exists');
 
   sql =
@@ -31,11 +29,8 @@ const populateTable = () => {
   csvtojson()
     .fromFile('./datasets/IMDb_movies_usable_no_inline_commas.csv')
     .then(async (source) => {
-      // Fetching the data from each row
-      // and inserting to the table "sample"
-
-      const numRows = source.length;
       const insertStatement = 'INSERT INTO films VALUES (?, ?, ?, ?, ?)';
+      const numRows = source.length;
 
       let i = 0;
       for await (const film of source) {
@@ -44,13 +39,7 @@ const populateTable = () => {
         const { imdb_title_id, title, year, duration, description } = film;
         const items = [imdb_title_id, title, year, duration, description];
 
-        await shared.insertApostropheRow(
-          connection,
-          insertStatement,
-          items,
-          i,
-          numRows
-        );
+        await shared.insertRow(connection, insertStatement, items, i, numRows);
       }
     });
 };
