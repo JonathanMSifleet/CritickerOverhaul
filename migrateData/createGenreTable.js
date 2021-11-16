@@ -4,16 +4,10 @@
 const mysql = require('mysql2');
 const util = require('util');
 const csvtojson = require('csvtojson');
+const shared = require('./shared/shared');
 
-const connectionDetails = {
-  host: 'localhost',
-  user: 'JonathanS',
-  password: 'DatasetMigration',
-  database: 'critickeroverhaul'
-};
-
-const connection = mysql.createConnection(connectionDetails);
-const query = util.promisify(connection.query).bind(connection);
+const connection = mysql.createConnection(shared.connectionDetails);
+const asyncQuery = util.promisify(connection.query).bind(connection);
 
 connection.connect(async (err) => {
   if (err) throw err;
@@ -22,18 +16,18 @@ connection.connect(async (err) => {
   let sql;
 
   sql = 'DROP TABLE IF EXISTS genres';
-  executeSQL(sql, 'Table dropped if exists');
+  await shared.executeSQL(asyncQuery, sql, 'Table dropped if exists');
 
   sql =
     'CREATE TABLE genres (genre_id TINYINT AUTO_INCREMENT, ' +
     'genre_name VARCHAR(16) UNIQUE, PRIMARY KEY (genre_id))';
-  executeSQL(sql, 'Table created');
+  await shared.executeSQL(asyncQuery, sql, 'Table created');
 
   const genres = await fetchGenres();
   genres.sort();
+  console.log('All genres fetched');
 
   await populateTable(genres);
-  console.log('All rows inserted');
 });
 
 const fetchGenres = async () => {
@@ -41,16 +35,18 @@ const fetchGenres = async () => {
 
   await csvtojson()
     .fromFile('./datasets/Genres.csv')
-    .then((source) => {
+    .then(async (source) => {
       const numRows = source.length;
 
-      for (let i = 0; i < numRows; i++) {
-        const genreRow = source[i]['genre'];
-        const genres = genreRow.split(', ');
+      let i = 0;
+      for await (const genreRow of source) {
+        i++;
 
+        let genres = genreRow.genre;
+        genres = genres.split(', ');
+
+        shared.percentRemaining(i, numRows);
         genres.forEach((curGenre) => {
-          curGenre = curGenre.replaceAll("'", "''");
-
           if (!genresToReturn.includes(curGenre)) {
             genresToReturn.push(curGenre);
           }
@@ -61,18 +57,22 @@ const fetchGenres = async () => {
   return genresToReturn;
 };
 
-const executeSQL = async (sql) => {
-  try {
-    return await query(sql);
-  } catch (e) {
-    console.error(e);
-  }
-};
-
 const populateTable = async (genres) => {
-  await genres.forEach(async (curGenre) => {
-    executeSQL(
-      `INSERT INTO critickeroverhaul.genres VALUES (null, '${curGenre}')`
+  const insertStatement = 'INSERT INTO genres VALUES (null,?)';
+  const numRows = genres.length;
+  let i = 0;
+
+  console.log('Inserting genres');
+
+  for await (const item of genres) {
+    i++;
+
+    await shared.insertApostropheRow(
+      connection,
+      insertStatement,
+      item,
+      i,
+      numRows
     );
-  });
+  }
 };
