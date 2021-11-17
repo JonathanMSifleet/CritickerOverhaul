@@ -31,7 +31,7 @@ connection.connect(async (err) => {
 const fetchCompanies = async () => {
   const companiesToReturn = [];
 
-  await csvtojson()
+   csvtojson()
     .fromFile('./datasets/Production_companies.csv')
     .then(async (source) => {
       const numRows = source.length;

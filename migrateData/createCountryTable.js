@@ -31,7 +31,7 @@ connection.connect(async (err) => {
 const fetchCountries = async () => {
   const countriesToReturn = [];
 
-  await csvtojson()
+   csvtojson()
     .fromFile('./datasets/Countries.csv')
     .then(async (source) => {
       const numRows = source.length;

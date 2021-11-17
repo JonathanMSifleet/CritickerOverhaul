@@ -31,16 +31,6 @@ connection.connect(async (err) => {
   populateTable();
 });
 
-const executeSQL = async (sql, i) => {
-  try {
-    await asyncQuery(sql);
-    console.log(i);
-  } catch (e) {
-    console.error(e);
-    process.exit();
-  }
-};
-
 const populateTable = () => {
   csvtojson()
     .fromFile('./datasets/Film_Countries.csv')
@@ -49,42 +39,37 @@ const populateTable = () => {
       const numRows = source.length;
 
       let i = 0;
-      for await (const country of source) {
+      for await (const row of source) {
         i++;
 
-        let { imdb_title_id, countries } = country;
+        let { imdb_title_id, countries } = row;
         countries = countries.split(', ');
 
         for await (const curCountry of countries) {
-          try {
-            const country_id = await getCountryName(curCountry);
-            const items = [imdb_title_id, country_id];
+          if (curCountry) {
+            try {
+              const country_id = await shared.getForeignField(
+                connection,
+                'country_id',
+                'countries',
+                'country_name',
+                curCountry
+              );
 
-            await shared.insertRow(
-              connection,
-              insertStatement,
-              items,
-              i,
-              numRows
-            );
-          } catch (e) {
-            console.error(e);
-            process.exit();
+              const items = [imdb_title_id, country_id];
+
+              await shared.insertRow(
+                connection,
+                insertStatement,
+                items,
+                i,
+                numRows
+              );
+            } catch (e) {
+              console.error(e);
+            }
           }
         }
       }
     });
-};
-
-const getCountryName = async (curCountry) => {
-  const selectStatement =
-    'SELECT country_id FROM countries ' +
-    `WHERE countries.country_name = '${curCountry}'`;
-
-  try {
-    const rows = await asyncQuery(selectStatement);
-    return rows[0]['country_id'];
-  } catch (e) {
-    console.error(e);
-  }
 };

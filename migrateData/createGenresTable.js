@@ -31,7 +31,7 @@ connection.connect(async (err) => {
 const fetchGenres = async () => {
   const genresToReturn = [];
 
-  await csvtojson()
+   csvtojson()
     .fromFile('./datasets/Genres.csv')
     .then(async (source) => {
       const numRows = source.length;

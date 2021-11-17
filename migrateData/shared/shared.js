@@ -12,11 +12,20 @@ exports.percentRemaining = (numerator, denominator) => {
   );
 };
 
+exports.paramQuery = async (connection, whereStatement, params) => {
+  return new Promise((resolve, reject) => {
+    connection.query(whereStatement, params, (error, results, fields) => {
+      if (error) return reject(error);
+      return resolve(results);
+    });
+  });
+};
+
 exports.insertRow = async (connection, insertStatement, items, i, numRows) => {
-  connection.query(insertStatement, items, (err, results, fields) => {
-    if (err) {
+  connection.query(insertStatement, items, (error, results, fields) => {
+    if (error) {
       console.log('Unable to insert item at row ', i);
-      console.error(err);
+      console.error(error);
     }
 
     this.percentRemaining(i, numRows);
@@ -43,5 +52,24 @@ exports.populateTableFromArray = async (connection, array, type) => {
     i++;
 
     await this.insertRow(connection, insertStatement, item, i, numRows);
+  }
+};
+
+exports.getForeignField = async (
+  connection,
+  desiredField,
+  desiredFieldTable,
+  knownField,
+  knownFieldValue
+) => {
+  const whereStatement = `SELECT ${desiredField} FROM ${desiredFieldTable} WHERE ${desiredFieldTable}.${knownField} = ?`;
+  const params = [knownFieldValue];
+
+  try {
+    const results = await this.paramQuery(connection, whereStatement, params);
+    return results[0][desiredField];
+  } catch (e) {
+    console.error(e);
+    return null;
   }
 };
