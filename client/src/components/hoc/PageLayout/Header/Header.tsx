@@ -2,11 +2,14 @@ import React, { useContext, useEffect, useState } from 'react';
 // @ts-expect-error no types file
 import FileBase64 from 'react-file-base64';
 import { Link } from 'react-router-dom';
-import Logo from '../../../../assets/svg/Logo/placeholder.svg';
+import Logo from '../../../../assets/svg/Logo.svg';
 import Button from '../../../../elements/Button/Button';
-import { getUserAvatarURL, uploadUserAvatarURL } from '../../../../endpoints';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
+import {
+  getUserAvatarURL,
+  uploadUserAvatarURL
+} from '../../../../shared/endpoints';
 import Auth from '../../../forms/Auth/Auth';
 import Modal from '../../../UI/Modal/Modal';
 import classes from './Header.module.scss';
