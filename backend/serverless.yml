@@ -48,12 +48,12 @@ functions:
           method: POST
           path: login
           cors: true
-  getAllReviews:
-    handler: aws/handlers/getAllReviews.handler
+  getFilms:
+    handler: aws/handlers/getFilms.handler
     events:
       - http:
           method: GET
-          path: getreviews
+          path: getFilms/{page}
           cors: true
   getUserAvatar:
     handler: aws/handlers/getUserAvatar.handler

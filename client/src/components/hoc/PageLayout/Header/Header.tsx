@@ -18,16 +18,11 @@ const Header: React.FC = (): JSX.Element => {
   useEffect(() => {
     async function getUserAvatar() {
       const avatarURL = `${getUserAvatarURL}/${globalState.userInfo.UID}`;
-
       let response = await fetch(avatarURL, {
         method: 'get'
       });
-
       response = await response.json();
-      console.log(
-        '🚀 ~ file: Header.tsx ~ line 26 ~ useEffect ~ response',
-        response
-      );
+
       setUserAvatar(response);
     }
     if (globalState.userInfo.loggedIn) {
@@ -39,12 +34,10 @@ const Header: React.FC = (): JSX.Element => {
     const { base64 } = event;
     const uploadURL = `${uploadUserAvatarURL}/${globalState.userInfo.UID}`;
 
-    let response = (await fetch(uploadURL, {
+    await fetch(uploadURL, {
       method: 'post',
       body: JSON.stringify(base64)
-    })) as any;
-    response = await response.json();
-    console.log('response', response);
+    });
   };
 
   const logout = () => {

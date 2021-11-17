@@ -1,13 +1,11 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
-// const nodeExternals = require('webpack-node-externals');
 // runs TypeScript linting on separate process
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 
 module.exports = {
   context: __dirname,
   mode: 'development',
-  devtool: 'eval-cheap-source-map',
+  // devtool: 'eval-cheap-source-map',
   performance: {
     hints: false
   },
