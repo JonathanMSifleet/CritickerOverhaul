@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import getIMDbFilmPoster from '../../../../functions/getFilmImage';
 import IFilm from '../../../../interfaces/IFilm';
 import classes from './FilmCard.module.scss';
@@ -28,9 +29,11 @@ const FilmCard: React.FC<IProps> = ({ film }): JSX.Element => {
         </div>
         <div className={`${classes.TextColumn} col-md-8`}>
           <div className={`${classes.CardBody} card-body`}>
-            <h5 className="card-title">
-              {film.title} ({film.year}){' '}
-            </h5>
+            <Link to={`/film/${film.imdb_title_id}`}>
+              <h5 className="card-title">
+                {film.title} ({film.year})
+              </h5>
+            </Link>
             <p className="card-text">{film.description}</p>
           </div>
         </div>

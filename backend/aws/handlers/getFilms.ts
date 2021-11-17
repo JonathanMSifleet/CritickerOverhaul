@@ -19,7 +19,6 @@ const getFilms = async (event: {
       `SELECT * FROM films LIMIT ${numResults}`,
       null
     );
-    console.log('🚀 ~ file: getFilms.ts ~ line 22 ~ result', result);
     mysql.quit();
 
     console.log('Sucessfully fetched results');

@@ -28,8 +28,7 @@ export const handler = async (event: {
   const token = event.authorizationToken.replace('Bearer ', '');
 
   try {
-    // @ts-expect-error
-    const claims: any = jwt.verify(token, process.env.AUTH0_PUBLIC_KEY);
+    const claims = jwt.verify(token, process.env.AUTH0_PUBLIC_KEY!);
     const policy = generatePolicy(claims.sub, event.methodArn);
 
     return {
