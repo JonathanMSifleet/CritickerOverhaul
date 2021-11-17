@@ -1,12 +1,11 @@
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
-import mysql from 'mysql2';
+import serverlessMysql from 'serverless-mysql';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
 import { connectionDetails } from '../shared/MySQL/ConnectionDetails';
-import query from '../shared/MySQL/paramQuery';
-const connection = mysql.createConnection(connectionDetails);
+const mysql = serverlessMysql({ config: connectionDetails });
 
 const getFilms = async (event: {
   pathParameters: { page: string };
@@ -16,12 +15,12 @@ const getFilms = async (event: {
   const numResults = resultsToReturn(page);
 
   try {
-    const result = await query(
-      connection,
+    const result = await mysql.query(
       `SELECT * FROM films LIMIT ${numResults}`,
       null
     );
-    connection.end();
+    console.log('🚀 ~ file: getFilms.ts ~ line 22 ~ result', result);
+    mysql.quit();
 
     console.log('Sucessfully fetched results');
     return {
