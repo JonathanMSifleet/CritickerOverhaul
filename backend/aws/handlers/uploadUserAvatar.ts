@@ -14,7 +14,6 @@ export const uploadUserAvatar = async (event: {
   const filename = `${event.pathParameters.UID}.jpg`;
 
   try {
-    await deletePicture(filename);
     const result = await uploadPicture(filename, image);
     return {
       statusCode: 200,
@@ -22,20 +21,6 @@ export const uploadUserAvatar = async (event: {
     };
   } catch (error: unknown) {
     return createAWSResErr(500, error as string[]);
-  }
-};
-
-const deletePicture = async (filename: string) => {
-  const params = {
-    Bucket: process.env.USER_AVATAR_BUCKET_NAME!,
-    Key: filename
-  };
-
-  try {
-    console.log('Existing image found');
-    await s3.deleteObject(params).promise();
-  } catch (error: any) {
-    console.log('No file exists with that name');
   }
 };
 
