@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { getFilmURL } from '../../../endpoints';
 import IFilm from '../../../interfaces/IFilm';
+import { getFilmURL } from '../../../shared/endpoints';
 import PageView from '../../hoc/PageLayout/PageView/PageView';
 import FilmCard from './FilmCard/FilmCard';
 import classes from './Home.module.scss';
@@ -33,11 +33,13 @@ const Home: React.FC = (): JSX.Element => {
   return (
     <PageView>
       <div className={classes.HomeWrapper}>
-        {films
-          ? films.map((film: IFilm) => (
-              <FilmCard film={film} key={film.imdb_title_id} />
-            ))
-          : null}
+        <div className={classes.FilmsContainer}>
+          {films
+            ? films.map((film: IFilm) => (
+                <FilmCard film={film} key={film.imdb_title_id} />
+              ))
+            : null}
+        </div>
       </div>
     </PageView>
   );

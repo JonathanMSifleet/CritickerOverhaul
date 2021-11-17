@@ -6,7 +6,6 @@ import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
 import { connectionDetails } from '../shared/MySQL/ConnectionDetails';
 import query from '../shared/MySQL/paramQuery';
-
 const connection = mysql.createConnection(connectionDetails);
 
 const getFilms = async (event: {
@@ -22,6 +21,7 @@ const getFilms = async (event: {
       `SELECT * FROM films LIMIT ${numResults}`,
       null
     );
+    connection.end();
 
     console.log('Sucessfully fetched results');
     return {

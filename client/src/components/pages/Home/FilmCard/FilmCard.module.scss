@@ -1,5 +1,32 @@
+@import '../../../../styles/variables';
+
 .CardWrapper {
   height: 15vh;
-  margin-top: 1vh;
-  margin-bottom: 1vh;
+}
+
+.CardContainer {
+  height: 100%;
+  margin: 0;
+}
+
+.ImageColumn {
+  height: 100%;
+  margin: 0 !important;
+}
+
+.Image {
+  float: left;
+  object-fit: contain;
+  padding: 2%;
+  height: 100% !important;
+  width: auto;
+}
+
+.TextColumn {
+  padding: 0;
+}
+
+.CardBody {
+  padding-left: 0;
+  padding-right: 0;
 }
