@@ -2,7 +2,7 @@ import CryptoES from 'crypto-es';
 import React, { useContext, useEffect, useState } from 'react';
 import Button from '../../../../elements/Button/Button';
 import Input from '../../../../elements/Input/Input';
-import { signupURL } from '../../../../endpoints';
+import { signupURL } from '../../../../shared/endpoints';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
