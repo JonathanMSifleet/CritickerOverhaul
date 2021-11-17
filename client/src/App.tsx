@@ -1,12 +1,13 @@
 import React from 'react';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
+import Film from './components/pages/Film/Film';
 import Home from './components/pages/Home/Home';
 import Profile from './components/pages/Profile/Profile';
 import TextOnlyPage from './components/pages/TextOnlyPage/TextOnlyPage';
 
 const App: React.FC = () => {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Switch>
         <Route exact path="/">
           <Home />
@@ -32,9 +33,12 @@ const App: React.FC = () => {
         <Route exact path="/profile">
           <Profile />
         </Route>
+        <Route exact path="/film/:id">
+          <Film />
+        </Route>
         <Redirect to="/?error=404" />
       </Switch>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
