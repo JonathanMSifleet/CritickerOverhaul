@@ -37,7 +37,7 @@ const login = async (event: { body: string }): Promise<IHTTP | IHTTPErr> => {
 
     console.log('Logged in successfully');
     return {
-      statusCode: 201,
+      statusCode: 200,
       body: JSON.stringify({ username: user.username, UID: user.UID })
     };
   } catch (error: any) {

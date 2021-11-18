@@ -1,0 +1,21 @@
+@import '../../../styles/variables';
+
+.PageWrapper {
+  height: 100%;
+  width: 100%;
+}
+
+.UserAvatar {
+  aspect-ratio: 1;
+  background-color: $gainsboro;
+  border-radius: 25px;
+  float: left;
+  height: auto;
+  margin: 1%;
+  padding: 1%;
+  width: 10vw;
+}
+
+.UserDetails {
+  float: left;
+}
