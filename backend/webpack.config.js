@@ -15,7 +15,8 @@ module.exports = {
     cacheWithContext: false
   },
   output: {
-    libraryTarget: 'commonjs',
+    asyncChunks: true,
+    libraryTarget: 'umd',
     path: path.join(__dirname, '.webpack'),
     chunkFilename: '[id].[chunkhash].js'
   },
