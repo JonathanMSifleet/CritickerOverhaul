@@ -4,10 +4,8 @@ import DynamoDB from 'aws-sdk/clients/dynamodb';
 import shortUUID from 'short-uuid';
 import {
   checkUniqueAttribute,
-  validateAgainstRegex,
-  validateIsEmail,
-  validateLength,
-  validateNotEmpty
+  removeEmptyErrors,
+  validateUserInputs
 } from '../shared/functions/validationFunctions';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
@@ -33,9 +31,19 @@ const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
   errors = await removeEmptyErrors(errors);
   if (errors.length !== 0) return createAWSResErr(400, errors);
 
+  // non-form attributes added here:
+  const UID = shortUUID.generate();
+  let memberSince = Date.now();
+  memberSince = Math.floor(memberSince / 86400) * 86400;
+
   try {
-    const UID = shortUUID.generate();
-    const result = await insertUserToDB(username, email, password, UID);
+    const result = await insertUserToDB(
+      username,
+      email,
+      password,
+      UID,
+      memberSince
+    );
 
     console.log('Signed up successfully');
     return {
@@ -48,84 +56,22 @@ const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
   }
 };
 
-const removeEmptyErrors = async (errors: string[]) => {
-  let arrayLength = errors.length;
-  while (arrayLength--) {
-    if (errors[arrayLength] === undefined) errors.splice(arrayLength, 1);
-  }
-  return errors;
-};
-
-const validateUserInputs = async (
-  username: string,
-  email: string,
-  password: string
-) => {
-  const errors = [];
-
-  errors.push(...(await validateValue(username, 'Username')));
-  errors.push(...(await validateValue(email, 'Email')));
-  errors.push(...(await validateValue(password, 'Password')));
-
-  return errors;
-};
-
-const validateValue = async (value: string, valueName: string) => {
-  const localErrors = [];
-
-  switch (valueName) {
-    case 'Username':
-      localErrors.push(await validateNotEmpty(value, valueName));
-      localErrors.push(await validateLength(value, valueName, 3, 16));
-      localErrors.push(
-        await validateAgainstRegex(
-          value,
-          valueName,
-          /[^A-Za-z0-9]+/,
-          'cannot contain special characters'
-        )
-      );
-      break;
-    case 'name':
-      localErrors.push(await validateNotEmpty(value, valueName));
-      localErrors.push(await validateLength(value, valueName, 3, 20));
-      localErrors.push(
-        await validateAgainstRegex(
-          value,
-          valueName,
-          /[^A-Za-z]+/,
-          'can only contain letters'
-        )
-      );
-      break;
-    case 'Email':
-      localErrors.push(await validateNotEmpty(value, valueName));
-      localErrors.push(await validateLength(value, valueName, 3, 256));
-      localErrors.push(await validateIsEmail(value));
-      break;
-    case 'Password':
-      localErrors.push(await validateNotEmpty(value, valueName));
-      localErrors.push(await validateLength(value, 'Password Hash', 128, 128));
-      break;
-    default:
-      localErrors.push('Unexpected error');
-  }
-  return localErrors;
-};
-
 const insertUserToDB = async (
   username: string,
   email: string,
   password: string,
-  UID: string
+  UID: string,
+  memberSince: number
 ) => {
   const params: DynamoDB.DocumentClient.PutItemInput = {
     TableName: process.env.USER_TABLE_NAME!,
     Item: {
-      username,
+      UID,
       email,
+      username,
       password,
-      UID
+      memberSince,
+      numRatings: 0
     },
     ReturnConsumedCapacity: 'TOTAL'
   };
