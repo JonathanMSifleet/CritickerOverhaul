@@ -30,7 +30,7 @@ const App: React.FC = () => {
         <Route exact path="/terms">
           <TextOnlyPage pageName={`terms`} />
         </Route>
-        <Route exact path="/profile">
+        <Route exact path="/profile/:username?">
           <Profile />
         </Route>
         <Route exact path="/film/:id">

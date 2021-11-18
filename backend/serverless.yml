@@ -75,6 +75,14 @@ functions:
       - http:
           method: POST
           path: user/avatar/{UID}
+          authorizer: ${self:custom.authorizer}
+          cors: true
+  getProfileByUsername:
+    handler: aws/handlers/getProfileByUsername.handler
+    events:
+      - http:
+          method: GET
+          path: user/profile/{username}
           # authorizer: ${self:custom.authorizer}
           cors: true
   signup:
