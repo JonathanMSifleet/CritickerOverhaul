@@ -8,3 +8,5 @@ export const getUserAvatarURL =
   'https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev/user/avatar';
 export const getFilmURL =
   'https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev/getFilms';
+export const getFilmByIDURL =
+  'https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev/getFilm';

@@ -48,6 +48,13 @@ functions:
           method: POST
           path: login
           cors: true
+  getFilmByID:
+    handler: aws/handlers/getFilmByID.handler
+    events:
+      - http:
+          method: GET
+          path: getFilm/{id}
+          cors: true
   getFilms:
     handler: aws/handlers/getFilms.handler
     events:
