@@ -30,7 +30,12 @@ const getProfileByUsername = async (event: {
     console.log('Sucessfully fetched user profile');
     return {
       statusCode: 200,
-      body: JSON.stringify({ username: user.username, UID: user.UID })
+      body: JSON.stringify({
+        username: user.username,
+        UID: user.UID,
+        memberSince: user.memberSince,
+        numRatings: user.numRatings
+      })
     };
   } catch (e: any) {
     return createAWSResErr(500, e);

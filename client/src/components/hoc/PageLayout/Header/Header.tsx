@@ -1,15 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react';
-// @ts-expect-error no types file
-import FileBase64 from 'react-file-base64';
 import { Link } from 'react-router-dom';
 import Logo from '../../../../assets/svg/Logo.svg';
 import Button from '../../../../elements/Button/Button';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
-import {
-  getUserAvatarURL,
-  uploadUserAvatarURL
-} from '../../../../shared/endpoints';
+import { getUserAvatarURL } from '../../../../shared/endpoints';
 import Auth from '../../../forms/Auth/Auth';
 import Modal from '../../../UI/Modal/Modal';
 import classes from './Header.module.scss';
@@ -33,18 +28,6 @@ const Header: React.FC = (): JSX.Element => {
       // getUserAvatar();
     }
   }, [globalState]);
-
-  const handleFile = async (event: any) => {
-    // @ts-expect-error
-    const { base64 } = event;
-    // @ts-expect-error
-    const uploadURL = `${uploadUserAvatarURL}/${globalState.userInfo.UID}`;
-
-    // await fetch(uploadURL, {
-    //   method: 'post',
-    //   body: JSON.stringify(base64)
-    // });
-  };
 
   const logout = () => {
     actions({
@@ -94,11 +77,6 @@ const Header: React.FC = (): JSX.Element => {
       <section className={classes.RightContent}>
         {globalState.userInfo.loggedIn ? (
           <>
-            <FileBase64
-              className={'btn btn-white text-primary me-3 font-weight-bold'}
-              onDone={(event: { target: any }) => handleFile(event)}
-              type={'file'}
-            />
             <Link to="/profile">
               <img
                 src={userAvatar}

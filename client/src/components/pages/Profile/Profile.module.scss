@@ -5,15 +5,28 @@
   width: 100%;
 }
 
+.ImageWrapper {
+  display: inline-block;
+}
+
 .UserAvatar {
   aspect-ratio: 1;
   background-color: $gainsboro;
   border-radius: 25px;
+  clear: right;
+  display: inline;
   float: left;
   height: auto;
   margin: 1%;
   padding: 1%;
   width: 10vw;
+}
+
+.UploadPictureText {
+  display: inline;
+  color: red;
+  float: left;
+  width: fit-content;
 }
 
 .UserDetails {
