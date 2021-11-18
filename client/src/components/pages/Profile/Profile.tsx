@@ -41,7 +41,11 @@ const Profile: React.FC = (): JSX.Element => {
         setUserAvatar(response);
       }
     }
-    if (userData) getUserAvatar();
+    if (userData) {
+      getUserAvatar();
+    } else {
+      setUserAvatar(ShrugSVG);
+    }
   }, [userData]);
 
   const loadUserProfile = async (username: string) => {
@@ -99,11 +103,20 @@ const Profile: React.FC = (): JSX.Element => {
             {(() => {
               if (!username && globalState.userInfo.loggedIn) {
                 return (
-                  <FileBase64
-                    className={classes.UploadPictureText}
-                    onDone={(event: { target: any }) => handleFile(event)}
-                    type={'file'}
-                  />
+                  <>
+                    <label
+                      htmlFor="fileUpload"
+                      className={classes.UploadPictureText}
+                    >
+                      Upload new picture
+                    </label>
+                    <FileBase64
+                      className={classes.UploadPictureInput}
+                      id="fileUpload"
+                      onDone={(event: { target: any }) => handleFile(event)}
+                      type={'file'}
+                    />
+                  </>
                 );
               }
             })()}

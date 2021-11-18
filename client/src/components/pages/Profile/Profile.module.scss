@@ -5,28 +5,41 @@
   width: 100%;
 }
 
+.UserDetailsWrapper {
+  height: 100%;
+  width: 100%;
+}
+
 .ImageWrapper {
-  display: inline-block;
+  width: fit-content;
+  margin-left: 1%;
 }
 
 .UserAvatar {
   aspect-ratio: 1;
-  background-color: $gainsboro;
+  background-color: $mercury;
   border-radius: 25px;
   clear: right;
-  display: inline;
   float: left;
   height: auto;
   margin: 1%;
   padding: 1%;
-  width: 10vw;
+  width: 100%;
+}
+
+.UploadPictureInput {
+  display: none;
 }
 
 .UploadPictureText {
-  display: inline;
-  color: red;
+  color: $mainBlue;
+  cursor: pointer;
   float: left;
-  width: fit-content;
+  font-weight: bold;
+  display: block;
+  margin: auto;
+  text-align: center;
+  width: 100%;
 }
 
 .UserDetails {
