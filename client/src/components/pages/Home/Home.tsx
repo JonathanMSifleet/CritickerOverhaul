@@ -10,13 +10,11 @@ const Home: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     async function getFilms() {
-      const filmURL = `${getFilmURL}/home`;
-
-      let response: any = await fetch(filmURL, {
+      let response: any = await fetch(`${getFilmURL}/home`, {
         method: 'get'
       });
-
       response = await response.json();
+
       setFilms(response);
     }
     getFilms();

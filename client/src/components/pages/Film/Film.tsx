@@ -1,16 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import getIMDbFilmPoster from '../../../functions/getFilmImage';
+import { getFilmByIDURL } from '../../../shared/endpoints';
 import PageView from '../../hoc/PageLayout/PageView/PageView';
 import classes from './Film.module.scss';
 
 const Film: React.FC = () => {
+  const [film, setFilm] = useState(null as unknown as any);
   const [filmPoster, setFilmPoster] = useState('');
   const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
     async function getFilmPoster() {
       setFilmPoster(await getIMDbFilmPoster(id));
+
+      let response = await fetch(`${getFilmByIDURL}/${id}`, {
+        method: 'get'
+      });
+      response = await response.json();
+      console.log(
+        '🚀 ~ file: Film.tsx ~ line 21 ~ getFilmPoster ~ response',
+        response
+      );
+      setFilm(response);
     }
     getFilmPoster();
   }, []);
@@ -18,8 +30,17 @@ const Film: React.FC = () => {
   return (
     <PageView>
       <div className={classes.PageWrapper}>
-        <img className={classes.Poster} src={filmPoster} />
-        <h1>Film</h1>
+        <div className={classes.FilmIntro}>
+          <img className={classes.Poster} src={filmPoster} />
+          <h1>{film ? film.title : null}</h1>
+          <p>{film ? film.description : null}</p>
+          <h2>Cast and information</h2>
+          <p>Directed by: {film ? film.directors : 'Unknown'}</p>
+          <p>Written by: {film ? film.writers : 'Unknown'} </p>
+          <p>Starring: {film ? film.actors : 'Unknown'}</p>
+          <p>Genres: {film ? film.genres : 'Unknown'}</p>
+          <p>Country(s): {film ? film.countries : 'Unknown'}</p>
+        </div>
       </div>
     </PageView>
   );
