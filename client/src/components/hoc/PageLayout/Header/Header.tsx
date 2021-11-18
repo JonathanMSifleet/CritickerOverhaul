@@ -19,6 +19,7 @@ const Header: React.FC = (): JSX.Element => {
   const [userAvatar, setUserAvatar] = useState(null as unknown as any);
 
   useEffect(() => {
+    // @ts-expect-error
     async function getUserAvatar() {
       const avatarURL = `${getUserAvatarURL}/${globalState.userInfo.UID}`;
       let response = await fetch(avatarURL, {
@@ -29,18 +30,20 @@ const Header: React.FC = (): JSX.Element => {
       setUserAvatar(response);
     }
     if (globalState.userInfo.loggedIn) {
-      getUserAvatar();
+      // getUserAvatar();
     }
   }, [globalState]);
 
   const handleFile = async (event: any) => {
+    // @ts-expect-error
     const { base64 } = event;
+    // @ts-expect-error
     const uploadURL = `${uploadUserAvatarURL}/${globalState.userInfo.UID}`;
 
-    await fetch(uploadURL, {
-      method: 'post',
-      body: JSON.stringify(base64)
-    });
+    // await fetch(uploadURL, {
+    //   method: 'post',
+    //   body: JSON.stringify(base64)
+    // });
   };
 
   const logout = () => {
