@@ -10,6 +10,8 @@ const Film: React.FC = () => {
   const [filmPoster, setFilmPoster] = useState('');
   const { id } = useParams<{ id: string }>();
 
+  // must use useEffect hook to use async functions
+  // rather than returning await asyncFunc()
   useEffect(() => {
     async function getFilmPoster() {
       setFilmPoster(await getIMDbFilmPoster(id));
@@ -18,10 +20,6 @@ const Film: React.FC = () => {
         method: 'get'
       });
       response = await response.json();
-      console.log(
-        '🚀 ~ file: Film.tsx ~ line 21 ~ getFilmPoster ~ response',
-        response
-      );
       setFilm(response);
     }
     getFilmPoster();

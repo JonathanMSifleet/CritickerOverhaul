@@ -2,9 +2,9 @@ import CryptoES from 'crypto-es';
 import React, { useContext, useEffect, useState } from 'react';
 import Button from '../../../../elements/Button/Button';
 import Input from '../../../../elements/Input/Input';
-import { loginURL } from '../../../../shared/endpoints';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
+import { loginURL } from '../../../../shared/endpoints';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import classes from './Login.module.scss';
 
@@ -37,7 +37,7 @@ const Login: React.FC = () => {
           body: JSON.stringify(formInfo)
         })) as any;
 
-        if (response.status === 201) {
+        if (response.status === 200) {
           response = await response.json();
 
           actions({
