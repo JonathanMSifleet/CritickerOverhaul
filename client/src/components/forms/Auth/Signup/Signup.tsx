@@ -2,9 +2,9 @@ import CryptoES from 'crypto-es';
 import React, { useContext, useEffect, useState } from 'react';
 import Button from '../../../../elements/Button/Button';
 import Input from '../../../../elements/Input/Input';
-import { signupURL } from '../../../../shared/endpoints';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
+import { signupURL } from '../../../../shared/endpoints';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import classes from './Signup.module.scss';
 
@@ -13,6 +13,7 @@ interface IState {
   password?: string;
   repeatPassword?: string;
   username?: string;
+  termsChecked?: boolean;
 }
 
 const SignUp: React.FC = () => {
@@ -27,7 +28,8 @@ const SignUp: React.FC = () => {
       !formInfo.email ||
       !formInfo.password ||
       !formInfo.repeatPassword ||
-      !formInfo.username
+      !formInfo.username ||
+      !formInfo.termsChecked
     ) {
       setSubmitDisabled(true);
     } else {
@@ -69,10 +71,14 @@ const SignUp: React.FC = () => {
   };
 
   const inputChangedHandler = (
-    event: { target: { value: string } },
+    event: React.ChangeEvent<HTMLInputElement>,
     inputName: string
   ): void => {
     setFormInfo({ ...formInfo, [inputName]: event.target.value });
+  };
+
+  const checkboxHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormInfo({ ...formInfo, termsChecked: event.target.checked });
   };
 
   return (
@@ -120,8 +126,13 @@ const SignUp: React.FC = () => {
       {/* Checkbox */}
       <div className={classes.TermsConditionsWrapper}>
         <label className={classes.TermsConditionsLabel}>
-          <Input checked className="form-check-input" type="checkbox" />I have
-          read and agree to the terms
+          <Input
+            className="form-check-input"
+            onChange={(event) => checkboxHandler(event)}
+            type="checkbox"
+            value={formInfo.termsChecked}
+          />
+          I have read and agree to the terms
         </label>
       </div>
 

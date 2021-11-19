@@ -4,9 +4,12 @@ import classes from './Input.module.scss';
 interface IProps {
   checked?: boolean;
   className: string;
-  onChange?(event: { target: { value: string } }): void;
+  onChange?(
+    event: React.ChangeEvent<HTMLInputElement>
+  ): string | boolean | void;
   placeholder?: string;
   type: string;
+  value?: boolean;
 }
 
 const Input: React.FC<IProps> = ({

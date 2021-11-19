@@ -68,11 +68,8 @@ const Login: React.FC = () => {
     }
   }, [shouldPost]);
 
-  const inputChangedHandler = (
-    event: { target: { value: string } },
-    inputName: string
-  ): void => {
-    setFormInfo({ ...formInfo, [inputName]: event.target.value });
+  const inputChangedHandler = (eventValue: string, inputName: string): void => {
+    setFormInfo({ ...formInfo, [inputName]: eventValue });
   };
 
   const login = async () => {
@@ -94,13 +91,17 @@ const Login: React.FC = () => {
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         <Input
           className={'form-control'}
-          onChange={(event) => inputChangedHandler(event, 'email')}
+          onChange={(event) =>
+            inputChangedHandler(event.target.value!, 'email')
+          }
           placeholder={'Email or username'}
           type={'email'}
         />
         <Input
           className={'form-control'}
-          onChange={(event) => inputChangedHandler(event, 'password')}
+          onChange={(event) =>
+            inputChangedHandler(event.target.value!, 'password')
+          }
           placeholder={'Password'}
           type={'password'}
         />
