@@ -40,13 +40,22 @@ const Login: React.FC = () => {
         if (response.status === 200) {
           response = await response.json();
 
+          const userDetails = {
+            username: response.username,
+            loggedIn: true,
+            UID: response.UID
+          };
+
+          let expiryDate = new Date().getTime();
+          expiryDate = expiryDate + 14400000; // four hours
+          sessionStorage.setItem(
+            'userData',
+            JSON.stringify({ ...userDetails, expiryDate })
+          );
+
           actions({
             type: actionTypes.setUserInfo,
-            payload: {
-              username: response.username,
-              loggedIn: true,
-              UID: response.UID
-            }
+            payload: userDetails
           });
 
           actions({
