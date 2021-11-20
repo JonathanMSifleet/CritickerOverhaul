@@ -19,6 +19,7 @@ const getFilmByID = async (event: {
     "GROUP_CONCAT(DISTINCT pd.name ORDER BY pd.name ASC SEPARATOR ', ') AS directors, " +
     "GROUP_CONCAT(DISTINCT pw.name ORDER BY pw.name ASC SEPARATOR ', ') AS writers, " +
     "GROUP_CONCAT(DISTINCT pa.name ORDER BY pa.name ASC SEPARATOR ', ') AS actors, " +
+    "GROUP_CONCAT(DISTINCT language_name ORDER BY language_name ASC SEPARATOR ', ') AS languages, " +
     "GROUP_CONCAT(DISTINCT country_name ORDER BY country_name ASC SEPARATOR ', ') AS countries " +
     'FROM films ' +
     'LEFT JOIN film_directors ' +
