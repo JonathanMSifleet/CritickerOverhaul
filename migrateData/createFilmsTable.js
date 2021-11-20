@@ -35,8 +35,13 @@ const populateTable = async () => {
       let i = 0;
       for await (const row of source) {
         i++;
-        const { imdb_title_id, title, year, duration, description } = row;
-        const items = [imdb_title_id, title, year, duration, description];
+        const items = [
+          row.imdb_title_id,
+          row.title,
+          row.year,
+          row.duration,
+          row.description
+        ];
 
         await shared.insertRow(connection, insertStatement, items, i, numRows);
       }

@@ -43,8 +43,7 @@ const populateTable = async () => {
       for await (const row of source) {
         i++;
 
-        let { imdb_title_id, companies } = row;
-        companies = companies.split(', ');
+        const companies = row.companies.split(', ');
 
         for await (const curCompany of companies) {
           try {
@@ -56,7 +55,7 @@ const populateTable = async () => {
               curCompany
             );
 
-            const items = [imdb_title_id, company_id];
+            const items = [row.imdb_title_id, company_id];
 
             await shared.insertRow(
               connection,
