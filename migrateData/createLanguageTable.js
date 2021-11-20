@@ -38,10 +38,10 @@ const fetchLanguages = async () => {
       const numRows = source.length;
 
       let i = 0;
-      for await (const languageRow of source) {
+      for await (const row of source) {
         i++;
 
-        let languages = languageRow.languages;
+        let languages = row.languages;
         languages = languages.split(', ');
 
         shared.percentRemaining(i, numRows);

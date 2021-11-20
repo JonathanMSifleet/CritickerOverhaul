@@ -40,10 +40,10 @@ const fetchCompanies = async () => {
       const numRows = source.length;
 
       let i = 0;
-      for await (const companyRow of source) {
+      for await (const row of source) {
         i++;
 
-        let companies = companyRow.production_company;
+        let companies = row.production_company;
         companies = companies.split(', ');
 
         shared.percentRemaining(i, numRows);

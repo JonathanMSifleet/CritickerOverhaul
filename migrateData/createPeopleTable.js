@@ -36,10 +36,10 @@ const populateTable = async () => {
       const numRows = source.length;
 
       let i = 0;
-      for await (const personRow of source) {
+      for await (const row of source) {
         i++;
 
-        const { imdb_name_id, name } = personRow;
+        const { imdb_name_id, name } = row;
         const items = [imdb_name_id, name];
 
         try {

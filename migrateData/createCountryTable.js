@@ -37,10 +37,10 @@ const fetchCountries = async () => {
       const numRows = source.length;
 
       let i = 0;
-      for await (const countryRow of source) {
+      for await (const row of source) {
         i++;
 
-        let countries = countryRow.country;
+        let countries = row.country;
         countries = countries.split(', ');
 
         shared.percentRemaining(i, numRows);

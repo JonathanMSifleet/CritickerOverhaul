@@ -33,9 +33,9 @@ const populateTable = () => {
       const numRows = source.length;
 
       let i = 0;
-      for await (const film of source) {
+      for await (const row of source) {
         i++;
-        const { imdb_title_id, title, year, duration, description } = film;
+        const { imdb_title_id, title, year, duration, description } = row;
         const items = [imdb_title_id, title, year, duration, description];
 
         await shared.insertRow(connection, insertStatement, items, i, numRows);

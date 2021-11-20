@@ -37,10 +37,10 @@ const fetchGenres = async () => {
       const numRows = source.length;
 
       let i = 0;
-      for await (const genreRow of source) {
+      for await (const row of source) {
         i++;
 
-        let genres = genreRow.genre;
+        let genres = row.genre;
         genres = genres.split(', ');
 
         shared.percentRemaining(i, numRows);
