@@ -73,3 +73,17 @@ exports.getForeignField = async (
     return null;
   }
 };
+
+exports.getDate = (date) => {
+  if (!date) return null;
+  if (date.length !== 10) return null;
+
+  date = date.split('-');
+  if (date[0].length === 4) {
+    date = `${date[0]}-${date[1]}-${date[2]}`;
+  } else {
+    date = `${date[2]}-${date[1]}-${date[0]}`;
+  }
+
+  return Date.parse(date);
+};

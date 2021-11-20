@@ -15,7 +15,7 @@ connection.connect(async (err) => {
 
   await shared.executeSQL(
     asyncQuery,
-    'ALTER TABLE people ADD COLUMN DOB BIGINT',
+    'ALTER TABLE people ADD COLUMN DOBirth BIGINT',
     'Column added'
   );
 
@@ -26,14 +26,14 @@ const populateTable = async () => {
   await csvtojson()
     .fromFile('./datasets/ToMigrate/DOBs.csv')
     .then(async (source) => {
-      const updateStatement = `UPDATE people SET DOB = ? WHERE people.imdb_name_id = ?`;
+      const updateStatement = `UPDATE people SET DOBirth = ? WHERE people.imdb_name_id = ?`;
       const numRows = source.length;
 
       let i = 0;
       for await (const row of source) {
         i++;
 
-        let date = getDate(row.DOB);
+        let date = shared.getDate(row.DOB);
 
         const items = [date, row.imdb_name_id];
 
@@ -50,17 +50,4 @@ const populateTable = async () => {
         }
       }
     });
-};
-
-const getDate = (date) => {
-  if (date.length !== 10) return null;
-
-  date = date.split('-');
-  if (date[0].length === 4) {
-    date = `${date[0]}-${date[1]}-${date[2]}`;
-  } else {
-    date = `${date[2]}-${date[1]}-${date[0]}`;
-  }
-
-  return Date.parse(date);
 };
