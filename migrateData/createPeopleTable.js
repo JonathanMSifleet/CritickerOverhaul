@@ -29,7 +29,7 @@ connection.connect(async (err) => {
 });
 
 const populateTable = async () => {
-  csvtojson()
+  await csvtojson()
     .fromFile('./datasets/People.csv')
     .then(async (source) => {
       const insertStatement = 'INSERT INTO people VALUES (?, ?)';

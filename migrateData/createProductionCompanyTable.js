@@ -4,7 +4,7 @@
 const mysql = require('mysql2');
 const util = require('util');
 const csvtojson = require('csvtojson');
-const shared = require('../shared/shared');
+const shared = require('./shared/shared');
 
 const connection = mysql.createConnection(shared.connectionDetails);
 const asyncQuery = util.promisify(connection.query).bind(connection);
@@ -24,14 +24,17 @@ connection.connect(async (err) => {
   const companies = await fetchCompanies();
   companies.sort();
   console.log('All companies fetched');
-
-  await shared.populateTableFromArray(connection, companies, 'companies');
+  try {
+    await shared.populateTableFromArray(connection, companies, 'companies');
+  } catch (err) {
+    console.error(err);
+  }
 });
 
 const fetchCompanies = async () => {
   const companiesToReturn = [];
 
-   csvtojson()
+  await csvtojson()
     .fromFile('./datasets/Production_companies.csv')
     .then(async (source) => {
       const numRows = source.length;

@@ -33,7 +33,7 @@ connection.connect(async (err) => {
 });
 
 const populateTable = () => {
-  csvtojson()
+  await csvtojson()
     .fromFile('./datasets/Film_Genres.csv')
     .then(async (source) => {
       const insertStatement = 'INSERT IGNORE INTO film_genres VALUES (?, ?)';

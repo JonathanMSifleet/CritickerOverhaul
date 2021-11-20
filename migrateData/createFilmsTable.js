@@ -4,7 +4,7 @@
 const mysql = require('mysql2');
 const util = require('util');
 const csvtojson = require('csvtojson');
-const shared = require('../shared/shared');
+const shared = require('./shared/shared');
 
 const connection = mysql.createConnection(shared.connectionDetails);
 const asyncQuery = util.promisify(connection.query).bind(connection);
@@ -26,7 +26,7 @@ connection.connect(async (err) => {
 });
 
 const populateTable = () => {
-  csvtojson()
+  await csvtojson()
     .fromFile('./datasets/IMDb_movies_usable_no_inline_commas.csv')
     .then(async (source) => {
       const insertStatement = 'INSERT INTO films VALUES (?, ?, ?, ?, ?)';
