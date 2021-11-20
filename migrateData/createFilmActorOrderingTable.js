@@ -34,7 +34,7 @@ connection.connect(async (err) => {
 
 const populateTable = async () => {
   await csvtojson()
-    .fromFile('./datasets/ToMigrate/Actor_Ordering.csv')
+    .fromFile('./datasets/Actor_Ordering.csv')
     .then(async (source) => {
       const insertStatement =
         'INSERT IGNORE INTO film_actor_ordering VALUES (?, ?, ?)';

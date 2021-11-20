@@ -24,7 +24,7 @@ connection.connect(async (err) => {
 
 const populateTable = async () => {
   await csvtojson()
-    .fromFile('./datasets/ToMigrate/DODs.csv')
+    .fromFile('./datasets/DODs.csv')
     .then(async (source) => {
       const updateStatement = `UPDATE people SET DODeath = ? WHERE people.imdb_name_id = ?`;
       const numRows = source.length;

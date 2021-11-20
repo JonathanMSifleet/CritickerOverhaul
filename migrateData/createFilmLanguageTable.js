@@ -34,7 +34,7 @@ connection.connect(async (err) => {
 
 const populateTable = async () => {
   await csvtojson()
-    .fromFile('./datasets/ToMigrate/Film_Languages.csv')
+    .fromFile('./datasets/Film_Languages.csv')
     .then(async (source) => {
       const insertStatement = 'INSERT IGNORE INTO film_languages VALUES (?, ?)';
       const numRows = source.length;

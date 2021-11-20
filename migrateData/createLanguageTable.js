@@ -33,7 +33,7 @@ const fetchLanguages = async () => {
   const languagesToReturn = [];
 
   await csvtojson()
-    .fromFile('./datasets/ToMigrate/Languages.csv')
+    .fromFile('./datasets/Languages.csv')
     .then(async (source) => {
       const numRows = source.length;
 
