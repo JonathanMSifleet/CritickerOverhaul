@@ -31,7 +31,7 @@ connection.connect(async (err) => {
   populateTable();
 });
 
-const populateTable = () => {
+const populateTable = async () => {
   await csvtojson()
     .fromFile('./datasets/Film_Directors.csv')
     .then(async (source) => {

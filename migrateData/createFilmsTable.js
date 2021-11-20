@@ -25,7 +25,7 @@ connection.connect(async (err) => {
   populateTable();
 });
 
-const populateTable = () => {
+const populateTable = async () => {
   await csvtojson()
     .fromFile('./datasets/IMDb_movies_usable_no_inline_commas.csv')
     .then(async (source) => {

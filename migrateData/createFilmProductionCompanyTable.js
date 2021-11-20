@@ -32,7 +32,7 @@ connection.connect(async (err) => {
   populateTable();
 });
 
-const populateTable = () => {
+const populateTable = async () => {
   await csvtojson()
     .fromFile('./datasets/Film_Production_Companies.csv')
     .then(async (source) => {
