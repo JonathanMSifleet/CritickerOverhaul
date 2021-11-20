@@ -13,16 +13,9 @@ connection.connect(async (err) => {
   if (err) throw err;
   console.log('Connected to database');
 
-  let sql = 'DROP TABLE IF EXISTS people_bios';
-  await shared.executeSQL(asyncQuery, sql, 'Table dropped if exists');
+  const sql = 'ALTER TABLE people ADD COLUMN bio VARCHAR(34000)';
 
-  sql =
-    'CREATE TABLE people_bios (imdb_name_id MEDIUMINT UNSIGNED, bio VARCHAR(34000), ' +
-    'PRIMARY KEY (imdb_name_id), ' +
-    'FOREIGN KEY (imdb_name_id) REFERENCES people(imdb_name_id) ' +
-    'ON DELETE CASCADE ON UPDATE CASCADE)';
-
-  await shared.executeSQL(asyncQuery, sql, 'Table created');
+  await shared.executeSQL(asyncQuery, sql, 'Column added');
 
   populateTable();
 });
@@ -31,7 +24,8 @@ const populateTable = async () => {
   await csvtojson()
     .fromFile('./datasets/ToMigrate/Bios.csv')
     .then(async (source) => {
-      const insertStatement = 'INSERT IGNORE INTO people_bios VALUES (?, ?)';
+      const updateStatement =
+        'UPDATE people SET bio = ? WHERE people.imdb_name_id = ?';
       const numRows = source.length;
 
       let i = 0;
@@ -41,11 +35,11 @@ const populateTable = async () => {
         try {
           if (!row.bio) continue;
 
-          const items = [row.imdb_name_id, row.bio];
+          const items = [row.bio, row.imdb_name_id];
 
           await shared.insertRow(
             connection,
-            insertStatement,
+            updateStatement,
             items,
             i,
             numRows
