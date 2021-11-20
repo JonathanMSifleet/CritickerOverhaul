@@ -38,6 +38,10 @@ const getFilmByID = async (event: {
     'ON films.imdb_title_id = film_genres.imdb_title_id ' +
     'LEFT JOIN genres ' +
     'ON film_genres.genre_id =  genres.genre_id ' +
+    'LEFT JOIN film_languages ' +
+    'ON films.imdb_title_id = film_languages.imdb_title_id ' +
+    'LEFT JOIN languages ' +
+    'ON film_languages.language_id = languages.language_id ' +
     'LEFT JOIN film_countries ' +
     'ON films.imdb_title_id = film_countries.imdb_title_id ' +
     'LEFT JOIN countries ' +

@@ -36,7 +36,8 @@ const Film: React.FC = () => {
           <p>Directed by: {film ? film.directors : 'Unknown'}</p>
           <p>Written by: {film ? film.writers : 'Unknown'} </p>
           <p>Starring: {film ? film.actors : 'Unknown'}</p>
-          <p>Genres: {film ? film.genres : 'Unknown'}</p>
+          <p>Genre(s): {film ? film.genres : 'Unknown'}</p>
+          <p>Language(s): {film ? film.languages : 'Unknown'}</p>
           <p>Country(s): {film ? film.countries : 'Unknown'}</p>
         </div>
       </div>
