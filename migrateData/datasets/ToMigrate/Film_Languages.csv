@@ -1,4 +1,4 @@
-imdb_title_id,language
+imdb_title_id,languages
 9,
 574,
 1892,
@@ -38,7 +38,7 @@ imdb_title_id,language
 4465,English
 4635,English
 4681,English
-4707,", English"
+4707,English
 4712,Hungarian
 4743,
 4766,English
@@ -133,7 +133,7 @@ imdb_title_id,language
 9475,English
 9559,English
 9608,English
-9611,", English"
+9611, English
 9652,
 9682,
 9701,French
@@ -262,7 +262,7 @@ imdb_title_id,language
 12532,English
 12538,English
 12631,Japanese
-12642,", English"
+12642,English
 12645,
 12650,German
 12651,German
@@ -329,12 +329,12 @@ imdb_title_id,language
 14142,
 14205,English
 14341,English
-14358,", English"
+14358,English
 14397,
 14416,English
 14417,"English, French"
 14429,English
-14440,", English, French"
+14440,"English, French"
 14446,German
 14463,English
 14497,English
@@ -347,7 +347,7 @@ imdb_title_id,language
 14605,English
 14606,English
 14611,English
-14624,", English"
+14624,English
 14636,English
 14646,Russian
 14672,
@@ -365,7 +365,7 @@ imdb_title_id,language
 14945,English
 14972,English
 14982,
-15002,", English"
+15002,English
 15014,French
 15016,English
 15018,English
@@ -383,7 +383,7 @@ imdb_title_id,language
 15200,English
 15202,
 15213,Russian
-15214,", French"
+15214,French
 15224,
 15268,
 15289,
@@ -559,7 +559,7 @@ imdb_title_id,language
 17918,English
 17925,English
 17928,English
-17938,", French"
+17938,French
 17961,
 17998,English
 18014,
@@ -685,7 +685,7 @@ imdb_title_id,language
 19480,French
 19489,English
 19509,English
-19532,", English"
+19532,English
 19553,
 19557,English
 19558,English
@@ -695,7 +695,7 @@ imdb_title_id,language
 19585,English
 19591,English
 19609,German
-19611,", Russian"
+19611,Russian
 19629,Spanish
 19630,English
 19644,English
@@ -13698,7 +13698,7 @@ imdb_title_id,language
 63526,French
 63527,Czech
 63528,Spanish
-63529,", French"
+63529,French
 63530,Danish
 63531,"Norwegian, Swedish, Latin"
 63533,Hindi
@@ -19942,7 +19942,7 @@ imdb_title_id,language
 82479,"Italian, German"
 82481,"Cantonese, Mandarin, Thai, English"
 82482,"Mandarin, Cantonese"
-82484,", French"
+82484,French
 82485,Cantonese
 82486,Danish
 82490,"Swedish, English"
@@ -20849,7 +20849,7 @@ imdb_title_id,language
 85416,English
 85418,English
 85420,Italian
-85426,", French"
+85426,French
 85434,English
 85437,"Cantonese, Mandarin"
 85441,German
@@ -33557,7 +33557,7 @@ imdb_title_id,language
 158622,English
 158628,Japanese
 158671,English
-158692,", Finnish"
+158692,Finnish
 158714,"Japanese, English"
 158717,"Finnish, Swedish"
 158719,English
@@ -35545,7 +35545,7 @@ imdb_title_id,language
 191198,English
 191235,English
 191242,English
-191246,", French"
+191246,French
 191255,English
 191280,English
 191323,
@@ -40753,7 +40753,7 @@ imdb_title_id,language
 293715,"Korean, English"
 293758,Turkish
 293764,Turkish
-293777,", French"
+293777,French
 293792,Turkish
 293808,Turkish
 293815,English
@@ -46437,7 +46437,7 @@ imdb_title_id,language
 429766,"English, Persian"
 429784,"English, Italian"
 429898,Italian
-429980,", English"
+429980,English
 430030,Hindi
 430051,"German, English"
 430063,English
@@ -52833,7 +52833,7 @@ imdb_title_id,language
 10364402,English
 10366254,"French, Chinese, Portuguese"
 10366806,"Russian, Ukrainian"
-10366896,", Russian"
+10366896,Russian
 10369210,Telugu
 1037004,English
 10370116,Tamil
@@ -54764,7 +54764,7 @@ imdb_title_id,language
 1156516,Telugu
 1156519,English
 1156527,"Spanish, English"
-1156528,", Dari"
+1156528,Dari
 1156531,Bosnian
 11566164,Korean
 11566166,"Korean, English"
@@ -59044,7 +59044,7 @@ imdb_title_id,language
 1526323,Telugu
 1526331,Georgian
 1526332,French
-1526578,", French"
+1526578,French
 1526610,English
 1526741,Italian
 1526875,"Tamil, Telugu"

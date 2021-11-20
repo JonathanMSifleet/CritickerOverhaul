@@ -1,4 +1,4 @@
-language
+languages
 
 
 
@@ -38,7 +38,7 @@ English
 English
 English
 English
-", English"
+English
 Hungarian
 
 English
@@ -133,7 +133,7 @@ English
 English
 English
 English
-", English"
+ English
 
 
 French
@@ -262,7 +262,7 @@ English
 English
 English
 Japanese
-", English"
+English
 
 German
 German
@@ -329,12 +329,12 @@ English
 
 English
 English
-", English"
+English
 
 English
 "English, French"
 English
-", English, French"
+"English, French"
 German
 English
 English
@@ -347,7 +347,7 @@ English
 English
 English
 English
-", English"
+English
 English
 Russian
 
@@ -365,7 +365,7 @@ German
 English
 English
 
-", English"
+English
 French
 English
 English
@@ -383,7 +383,7 @@ German
 English
 
 Russian
-", French"
+French
 
 
 
@@ -559,7 +559,7 @@ English
 English
 English
 English
-", French"
+French
 
 English
 
@@ -685,7 +685,7 @@ English
 French
 English
 English
-", English"
+English
 
 English
 English
@@ -695,7 +695,7 @@ English
 English
 English
 German
-", Russian"
+Russian
 Spanish
 English
 English
@@ -13698,7 +13698,7 @@ English
 French
 Czech
 Spanish
-", French"
+French
 Danish
 "Norwegian, Swedish, Latin"
 Hindi
@@ -19942,7 +19942,7 @@ English
 "Italian, German"
 "Cantonese, Mandarin, Thai, English"
 "Mandarin, Cantonese"
-", French"
+French
 Cantonese
 Danish
 "Swedish, English"
@@ -20849,7 +20849,7 @@ English
 English
 English
 Italian
-", French"
+French
 English
 "Cantonese, Mandarin"
 German
@@ -33557,7 +33557,7 @@ Serbo-Croatian
 English
 Japanese
 English
-", Finnish"
+Finnish
 "Japanese, English"
 "Finnish, Swedish"
 English
@@ -35545,7 +35545,7 @@ Portuguese
 English
 English
 English
-", French"
+French
 English
 English
 
@@ -40753,7 +40753,7 @@ French
 "Korean, English"
 Turkish
 Turkish
-", French"
+French
 Turkish
 Turkish
 English
@@ -46437,7 +46437,7 @@ Italian
 "English, Persian"
 "English, Italian"
 Italian
-", English"
+English
 Hindi
 "German, English"
 English
@@ -52833,7 +52833,7 @@ Tamil
 English
 "French, Chinese, Portuguese"
 "Russian, Ukrainian"
-", Russian"
+Russian
 Telugu
 English
 Tamil
@@ -54764,7 +54764,7 @@ French
 Telugu
 English
 "Spanish, English"
-", Dari"
+Dari
 Bosnian
 Korean
 "Korean, English"
@@ -59044,7 +59044,7 @@ Portuguese
 Telugu
 Georgian
 French
-", French"
+French
 English
 Italian
 "Tamil, Telugu"
