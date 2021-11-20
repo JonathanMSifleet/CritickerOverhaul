@@ -16,7 +16,7 @@ connection.connect(async (err) => {
   await shared.executeSQL(
     asyncQuery,
     'ALTER TABLE people ADD COLUMN DOB BIGINT',
-    'Table created'
+    'Column added'
   );
 
   populateTable();
@@ -26,6 +26,7 @@ const populateTable = async () => {
   await csvtojson()
     .fromFile('./datasets/ToMigrate/DOBs.csv')
     .then(async (source) => {
+      const updateStatement = `UPDATE people SET DOB = ? WHERE people.imdb_name_id = ?`;
       const numRows = source.length;
 
       let i = 0;
@@ -33,7 +34,6 @@ const populateTable = async () => {
         i++;
 
         let date = getDate(row.DOB);
-        const updateStatement = `UPDATE people SET DOB = ? WHERE people.imdb_name_id = ?`;
 
         const items = [date, row.imdb_name_id];
 
