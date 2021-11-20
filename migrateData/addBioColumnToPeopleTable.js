@@ -17,7 +17,7 @@ connection.connect(async (err) => {
   await shared.executeSQL(asyncQuery, sql, 'Table dropped if exists');
 
   sql =
-    'CREATE TABLE people_bios (imdb_name_id MEDIUMINT UNSIGNED, bio VARCHAR(35000), ' +
+    'CREATE TABLE people_bios (imdb_name_id MEDIUMINT UNSIGNED, bio VARCHAR(34000), ' +
     'PRIMARY KEY (imdb_name_id), ' +
     'FOREIGN KEY (imdb_name_id) REFERENCES people(imdb_name_id) ' +
     'ON DELETE CASCADE ON UPDATE CASCADE)';
