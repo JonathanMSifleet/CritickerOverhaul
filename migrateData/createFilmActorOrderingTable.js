@@ -15,32 +15,41 @@ connection.connect(async (err) => {
 
   await shared.executeSQL(
     asyncQuery,
-    'ALTER TABLE people ADD COLUMN DOBirth BIGINT',
-    'Column added'
+    'DROP TABLE IF EXISTS film_actor_ordering',
+    'Table dropped if exists'
   );
+
+  const sql =
+    'CREATE TABLE film_actor_ordering (imdb_title_id MEDIUMINT UNSIGNED, ' +
+    'imdb_name_id MEDIUMINT UNSIGNED, ordering TINYINT, ' +
+    'PRIMARY KEY (imdb_name_id, imdb_title_id, ordering), ' +
+    'FOREIGN KEY (imdb_title_id) REFERENCES films(imdb_title_id) ' +
+    'ON DELETE CASCADE ON UPDATE CASCADE, ' +
+    'FOREIGN KEY (imdb_name_id) REFERENCES people(imdb_name_id) ' +
+    'ON DELETE CASCADE ON UPDATE CASCADE)';
+  await shared.executeSQL(asyncQuery, sql, 'Table created');
 
   populateTable();
 });
 
 const populateTable = async () => {
   await csvtojson()
-    .fromFile('./datasets/DOBs.csv')
+    .fromFile('./datasets/ToMigrate/Actor_Ordering.csv')
     .then(async (source) => {
-      const updateStatement = `UPDATE people SET DOBirth = ? WHERE people.imdb_name_id = ?`;
+      const insertStatement =
+        'INSERT IGNORE INTO film_actor_ordering VALUES (?, ?, ?)';
       const numRows = source.length;
 
       let i = 0;
       for await (const row of source) {
         i++;
 
-        let date = shared.getDate(row.DOB);
-
-        const items = [date, row.imdb_name_id];
+        const items = [row.imdb_title_id, row.imdb_name_id, row.ordering];
 
         try {
           await shared.insertRow(
             connection,
-            updateStatement,
+            insertStatement,
             items,
             i,
             numRows
