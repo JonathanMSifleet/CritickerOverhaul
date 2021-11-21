@@ -12,13 +12,12 @@ const getFilmByID = async (event: {
 }): Promise<IHTTP | IHTTPErr> => {
   const { id } = event.pathParameters;
 
-  const sql =
+  const mainSQL =
     'SELECT films.year, films.title, ' +
     'films.duration, films.description, ' +
     "GROUP_CONCAT(DISTINCT genres.genre_name ORDER BY genres.genre_name ASC SEPARATOR ', ') AS genres, " +
     "GROUP_CONCAT(DISTINCT pd.name ORDER BY pd.name ASC SEPARATOR ', ') AS directors, " +
     "GROUP_CONCAT(DISTINCT pw.name ORDER BY pw.name ASC SEPARATOR ', ') AS writers, " +
-    "GROUP_CONCAT(DISTINCT pa.name ORDER BY pa.name ASC SEPARATOR ', ') AS actors, " +
     "GROUP_CONCAT(DISTINCT language_name ORDER BY language_name ASC SEPARATOR ', ') AS languages, " +
     "GROUP_CONCAT(DISTINCT country_name ORDER BY country_name ASC SEPARATOR ', ') AS countries " +
     'FROM films ' +
@@ -30,10 +29,6 @@ const getFilmByID = async (event: {
     'ON films.imdb_title_id = film_writers.imdb_title_id ' +
     'LEFT JOIN people as pw ' +
     'ON film_writers.imdb_name_id = pw.imdb_name_id ' +
-    'LEFT JOIN film_actors ' +
-    'ON films.imdb_title_id = film_actors.imdb_title_id ' +
-    'LEFT JOIN people AS pa ' +
-    'ON film_actors.imdb_name_id = pa.imdb_name_id ' +
     'LEFT JOIN film_genres ' +
     'ON films.imdb_title_id = film_genres.imdb_title_id ' +
     'LEFT JOIN genres ' +
@@ -49,14 +44,48 @@ const getFilmByID = async (event: {
     'WHERE films.imdb_title_id = ? ' +
     'GROUP BY films.imdb_title_id';
 
+  const orderedActorSQL =
+    "SELECT GROUP_CONCAT(DISTINCT people.name ORDER BY film_actor_ordering.ordering ASC SEPARATOR ', ') AS actors " +
+    'FROM film_actor_ordering ' +
+    'LEFT JOIN people ' +
+    'ON film_actor_ordering.imdb_name_id = people.imdb_name_id ' +
+    'WHERE film_actor_ordering.imdb_title_id = ? ' +
+    'GROUP BY film_actor_ordering.imdb_title_id';
+
+  const unorderedActorSQL =
+    "SELECT GROUP_CONCAT(DISTINCT people.name ORDER BY people.name ASC SEPARATOR ', ') AS unorderedActors " +
+    'FROM film_actors ' +
+    'LEFT JOIN people ' +
+    'ON film_actors.imdb_name_id = people.imdb_name_id ' +
+    'RIGHT JOIN film_actor_ordering ' +
+    'ON film_actors.imdb_name_id = film_actor_ordering.imdb_name_id ' +
+    'WHERE film_actors.imdb_name_id IS NULL AND film_actors.imdb_title_id = ? ' +
+    'GROUP BY film_actors.imdb_title_id';
+
   try {
-    const result = (await mysql.query(sql, [id])) as any;
+    const getFilm = mysql.query(mainSQL, [id]);
+    const getOrderedFilmActors = mysql.query(orderedActorSQL, [id]);
+    const getUnorderedActorResult = mysql.query(unorderedActorSQL, [id]);
+
+    let results = (await Promise.all([
+      getFilm,
+      getOrderedFilmActors,
+      getUnorderedActorResult
+    ])) as any;
+
+    results = results.flat();
+    const result = {
+      ...results[0],
+      ...results[1],
+      ...results[2]
+    };
+
     mysql.quit();
 
     console.log('Sucessfully fetched results');
     return {
       statusCode: 200,
-      body: JSON.stringify(result[0])
+      body: JSON.stringify(result)
     };
   } catch (e: any) {
     return createAWSResErr(500, e);
