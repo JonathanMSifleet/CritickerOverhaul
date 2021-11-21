@@ -2,6 +2,63 @@ import DynamoDB from 'aws-sdk/clients/dynamodb';
 import EmailValidator from 'email-validator';
 const DB = new DynamoDB.DocumentClient();
 
+export const validateUserInputs = async (
+  username: string,
+  email: string,
+  password: string
+) => {
+  const errors = [];
+
+  errors.push(...(await validateValue(username, 'Username')));
+  errors.push(...(await validateValue(email, 'Email')));
+  errors.push(...(await validateValue(password, 'Password')));
+
+  return errors;
+};
+
+export const validateValue = async (value: string, valueName: string) => {
+  const localErrors = [];
+
+  switch (valueName) {
+    case 'Username':
+      localErrors.push(await validateNotEmpty(value, valueName));
+      localErrors.push(await validateLength(value, valueName, 3, 16));
+      localErrors.push(
+        await validateAgainstRegex(
+          value,
+          valueName,
+          /[^A-Za-z0-9]+/,
+          'cannot contain special characters'
+        )
+      );
+      break;
+    case 'name':
+      localErrors.push(await validateNotEmpty(value, valueName));
+      localErrors.push(await validateLength(value, valueName, 3, 20));
+      localErrors.push(
+        await validateAgainstRegex(
+          value,
+          valueName,
+          /[^A-Za-z]+/,
+          'can only contain letters'
+        )
+      );
+      break;
+    case 'Email':
+      localErrors.push(await validateNotEmpty(value, valueName));
+      localErrors.push(await validateLength(value, valueName, 3, 256));
+      localErrors.push(await validateIsEmail(value));
+      break;
+    case 'Password':
+      localErrors.push(await validateNotEmpty(value, valueName));
+      localErrors.push(await validateLength(value, 'Password Hash', 128, 128));
+      break;
+    default:
+      localErrors.push('Unexpected error');
+  }
+  return localErrors;
+};
+
 export const validateAgainstRegex = async (
   value: string,
   name: string,
@@ -86,61 +143,4 @@ export const removeEmptyErrors = async (errors: string[]) => {
     if (errors[arrayLength] === undefined) errors.splice(arrayLength, 1);
   }
   return errors;
-};
-
-export const validateUserInputs = async (
-  username: string,
-  email: string,
-  password: string
-) => {
-  const errors = [];
-
-  errors.push(...(await validateValue(username, 'Username')));
-  errors.push(...(await validateValue(email, 'Email')));
-  errors.push(...(await validateValue(password, 'Password')));
-
-  return errors;
-};
-
-export const validateValue = async (value: string, valueName: string) => {
-  const localErrors = [];
-
-  switch (valueName) {
-    case 'Username':
-      localErrors.push(await validateNotEmpty(value, valueName));
-      localErrors.push(await validateLength(value, valueName, 3, 16));
-      localErrors.push(
-        await validateAgainstRegex(
-          value,
-          valueName,
-          /[^A-Za-z0-9]+/,
-          'cannot contain special characters'
-        )
-      );
-      break;
-    case 'name':
-      localErrors.push(await validateNotEmpty(value, valueName));
-      localErrors.push(await validateLength(value, valueName, 3, 20));
-      localErrors.push(
-        await validateAgainstRegex(
-          value,
-          valueName,
-          /[^A-Za-z]+/,
-          'can only contain letters'
-        )
-      );
-      break;
-    case 'Email':
-      localErrors.push(await validateNotEmpty(value, valueName));
-      localErrors.push(await validateLength(value, valueName, 3, 256));
-      localErrors.push(await validateIsEmail(value));
-      break;
-    case 'Password':
-      localErrors.push(await validateNotEmpty(value, valueName));
-      localErrors.push(await validateLength(value, 'Password Hash', 128, 128));
-      break;
-    default:
-      localErrors.push('Unexpected error');
-  }
-  return localErrors;
 };
