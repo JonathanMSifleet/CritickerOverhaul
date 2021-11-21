@@ -7,24 +7,24 @@ export const validateUserInputs = async (
   email: string,
   password: string
 ) => {
-  const errors = [];
+  let errors = (await Promise.all([
+    validateValue(username, 'Username'),
+    validateValue(email, 'Email'),
+    validateValue(password, 'Password')
+  ])) as any;
 
-  errors.push(...(await validateValue(username, 'Username')));
-  errors.push(...(await validateValue(email, 'Email')));
-  errors.push(...(await validateValue(password, 'Password')));
-
-  return errors;
+  errors = errors.flat();
+  return await removeEmptyErrors(errors);
 };
 
 export const validateValue = async (value: string, valueName: string) => {
-  const localErrors = [];
+  const errors = [validateNotEmpty(value, valueName)];
 
   switch (valueName) {
     case 'Username':
-      localErrors.push(await validateNotEmpty(value, valueName));
-      localErrors.push(await validateLength(value, valueName, 3, 16));
-      localErrors.push(
-        await validateAgainstRegex(
+      errors.push(
+        validateLength(value, valueName, 3, 16),
+        validateAgainstRegex(
           value,
           valueName,
           /[^A-Za-z0-9]+/,
@@ -32,31 +32,23 @@ export const validateValue = async (value: string, valueName: string) => {
         )
       );
       break;
-    case 'name':
-      localErrors.push(await validateNotEmpty(value, valueName));
-      localErrors.push(await validateLength(value, valueName, 3, 20));
-      localErrors.push(
-        await validateAgainstRegex(
-          value,
-          valueName,
-          /[^A-Za-z]+/,
-          'can only contain letters'
-        )
+    case 'Email':
+      errors.push(
+        validateNotEmpty(value, valueName),
+        validateLength(value, valueName, 3, 256),
+        validateIsEmail(value)
       );
       break;
-    case 'Email':
-      localErrors.push(await validateNotEmpty(value, valueName));
-      localErrors.push(await validateLength(value, valueName, 3, 256));
-      localErrors.push(await validateIsEmail(value));
-      break;
     case 'Password':
-      localErrors.push(await validateNotEmpty(value, valueName));
-      localErrors.push(await validateLength(value, 'Password Hash', 128, 128));
+      errors.push(
+        validateNotEmpty(value, valueName),
+        validateLength(value, 'Password Hash', 128, 128)
+      );
       break;
     default:
-      localErrors.push('Unexpected error');
+      return 'Unexpected error';
   }
-  return localErrors;
+  return await Promise.all(errors);
 };
 
 export const validateAgainstRegex = async (
@@ -127,11 +119,7 @@ export const checkUniqueAttribute = async (value: string, type: string) => {
     const result = await DB.query(params).promise();
     const resultItems = result.Items;
 
-    if (resultItems!.length !== 0) {
-      return true;
-    } else {
-      return false;
-    }
+    return resultItems!.length !== 0;
   } catch (e) {
     console.error(e);
   }
