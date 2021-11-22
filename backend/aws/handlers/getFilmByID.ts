@@ -11,7 +11,7 @@ const getFilmByID = async (event: {
   pathParameters: { id: string };
 }): Promise<IHTTP | IHTTPErr> => {
   const { id } = event.pathParameters;
-
+-
   const mainSQL =
     'SELECT films.year, films.title, ' +
     'films.duration, films.description, ' +
@@ -51,6 +51,16 @@ const getFilmByID = async (event: {
     'ON film_actor_ordering.imdb_name_id = people.imdb_name_id ' +
     'WHERE film_actor_ordering.imdb_title_id = ? ' +
     'GROUP BY film_actor_ordering.imdb_title_id';
+
+
+// SELECT fa.imdb_title_id, fa.imdb_name_id, people.name FROM film_actors as fa
+// LEFT JOIN people on fa.imdb_name_id = people.imdb_name_id
+// EXCEPT
+// SELECT fao.imdb_title_id, fao.imdb_name_id, people.name FROM film_actor_ordering as fao
+// LEFT JOIN people on fa.imdb_name_id = people.imdb_name_id
+// WHERE imdb_title_id = 574
+// ORDER BY imdb_title_id ASC
+// LIMIT 1000;
 
   const unorderedActorSQL =
     "SELECT GROUP_CONCAT(DISTINCT people.name ORDER BY people.name ASC SEPARATOR ', ') AS unorderedActors " +
