@@ -8,10 +8,10 @@ import { connectionDetails } from '../shared/MySQL/ConnectionDetails';
 const mysql = serverlessMysql({ config: connectionDetails });
 
 const getFilmByID = async (event: {
-  pathParameters: { id: string };
+  pathParameters: { id: number };
 }): Promise<IHTTP | IHTTPErr> => {
   const { id } = event.pathParameters;
--
+
   const mainSQL =
     'SELECT films.year, films.title, ' +
     'films.duration, films.description, ' +
@@ -52,43 +52,42 @@ const getFilmByID = async (event: {
     'WHERE film_actor_ordering.imdb_title_id = ? ' +
     'GROUP BY film_actor_ordering.imdb_title_id';
 
-
-// SELECT fa.imdb_title_id, fa.imdb_name_id, people.name FROM film_actors as fa
-// LEFT JOIN people on fa.imdb_name_id = people.imdb_name_id
-// EXCEPT
-// SELECT fao.imdb_title_id, fao.imdb_name_id, people.name FROM film_actor_ordering as fao
-// LEFT JOIN people on fa.imdb_name_id = people.imdb_name_id
-// WHERE imdb_title_id = 574
-// ORDER BY imdb_title_id ASC
-// LIMIT 1000;
-
   const unorderedActorSQL =
-    "SELECT GROUP_CONCAT(DISTINCT people.name ORDER BY people.name ASC SEPARATOR ', ') AS unorderedActors " +
-    'FROM film_actors ' +
+    "SELECT GROUP_CONCAT(DISTINCT name ORDER BY name ASC SEPARATOR ', ') AS actors " +
+    'FROM ( ' +
+    '  SELECT imdb_title_id, imdb_name_id FROM film_actors ' +
+    '  WHERE imdb_title_id = ? ' +
+    '  EXCEPT ' +
+    '  SELECT imdb_title_id, imdb_name_id FROM film_actor_ordering ' +
+    '  WHERE imdb_title_id = ? ' +
+    ') as fromSubQuery ' +
     'LEFT JOIN people ' +
-    'ON film_actors.imdb_name_id = people.imdb_name_id ' +
-    'RIGHT JOIN film_actor_ordering ' +
-    'ON film_actors.imdb_name_id = film_actor_ordering.imdb_name_id ' +
-    'WHERE film_actors.imdb_name_id IS NULL AND film_actors.imdb_title_id = ? ' +
-    'GROUP BY film_actors.imdb_title_id';
+    'ON fromSubQuery.imdb_name_id = people.imdb_name_id';
 
   try {
     const getFilm = mysql.query(mainSQL, [id]);
     const getOrderedFilmActors = mysql.query(orderedActorSQL, [id]);
-    const getUnorderedActorResult = mysql.query(unorderedActorSQL, [id]);
+    const getUnorderedActorResult = mysql.query(unorderedActorSQL, [id, id]);
 
     let results = (await Promise.all([
       getFilm,
       getOrderedFilmActors,
       getUnorderedActorResult
     ])) as any;
-
     results = results.flat();
+
     const result = {
       ...results[0],
-      ...results[1],
-      ...results[2]
+      ...results[1]
     };
+
+    console.log(results[2]);
+
+    if (results[2].actors) {
+      result.actors = result.actors + ', ' + results[2].actors;
+    }
+
+    console.log('🚀 ~ file: getFilmByID.ts ~ line 80 ~ result', result);
 
     mysql.quit();
 
