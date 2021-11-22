@@ -23,7 +23,7 @@ const Film: React.FC = () => {
       setFilm(response);
     }
     getFilmPoster();
-  }, []);
+  }, [id]);
 
   return (
     <PageView>
