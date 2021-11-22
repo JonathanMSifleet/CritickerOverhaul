@@ -20,12 +20,11 @@ connection.connect(async (err) => {
   );
 
   const sql =
-    'CREATE TABLE film_actors (imdb_title_id MEDIUMINT UNSIGNED, ' +
-    'imdb_name_id MEDIUMINT UNSIGNED, ordering TINYINT, ' +
-    'PRIMARY KEY (imdb_name_id, imdb_title_id, ordering), ' +
-    'FOREIGN KEY (imdb_title_id) REFERENCES films(imdb_title_id) ' +
-    'ON DELETE CASCADE ON UPDATE CASCADE, ' +
+    'CREATE TABLE film_actors (imdb_title_id MEDIUMINT UNSIGNED, imdb_name_id MEDIUMINT UNSIGNED, ' +
+    'PRIMARY KEY (imdb_name_id, imdb_title_id), ' +
     'FOREIGN KEY (imdb_name_id) REFERENCES people(imdb_name_id) ' +
+    'ON DELETE CASCADE ON UPDATE CASCADE, ' +
+    'FOREIGN KEY (imdb_title_id) REFERENCES films(imdb_title_id) ' +
     'ON DELETE CASCADE ON UPDATE CASCADE)';
   await shared.executeSQL(asyncQuery, sql, 'Table created');
 
@@ -36,26 +35,37 @@ const populateTable = async () => {
   await csvtojson()
     .fromFile('./datasets/Film_Actors.csv')
     .then(async (source) => {
-      const insertStatement =
-        'INSERT IGNORE INTO film_actors VALUES (?, ?, ?)';
+      const insertStatement = 'INSERT IGNORE INTO film_actors VALUES (?, ?)';
       const numRows = source.length;
 
       let i = 0;
       for await (const row of source) {
         i++;
 
-        const items = [row.imdb_title_id, row.imdb_name_id, row.ordering];
+        const actors = row.actors.split(', ');
 
-        try {
-          await shared.insertRow(
-            connection,
-            insertStatement,
-            items,
-            i,
-            numRows
-          );
-        } catch (e) {
-          console.error(e);
+        for await (const curActor of actors) {
+          try {
+            const imdb_name_id = await shared.getForeignField(
+              connection,
+              'imdb_name_id',
+              'people',
+              'name',
+              curActor
+            );
+
+            const items = [row.imdb_title_id, imdb_name_id];
+
+            await shared.insertRow(
+              connection,
+              insertStatement,
+              items,
+              i,
+              numRows
+            );
+          } catch (e) {
+            console.error(e);
+          }
         }
       }
     });
