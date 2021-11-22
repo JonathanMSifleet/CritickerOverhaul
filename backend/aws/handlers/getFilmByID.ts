@@ -81,13 +81,9 @@ const getFilmByID = async (event: {
       ...results[1]
     };
 
-    console.log(results[2]);
-
     if (results[2].actors) {
       result.actors = result.actors + ', ' + results[2].actors;
     }
-
-    console.log('🚀 ~ file: getFilmByID.ts ~ line 80 ~ result', result);
 
     mysql.quit();
 
