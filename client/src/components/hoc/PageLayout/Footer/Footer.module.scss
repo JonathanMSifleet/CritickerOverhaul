@@ -3,9 +3,10 @@
 
 .Footer {
   height: $footerHeight;
-  position: absolute;
-  bottom: 0;
+  margin-top: calc($footerHeight * -1);
   width: 100%;
+  clear: both;
+  position: relative;
 }
 
 .LinkGroup {
@@ -17,14 +18,15 @@
 }
 
 .LinkText {
-  background-color: rgba(255, 255, 255, 0);
+  color: white !important;
   font-size: 0.9rem;
   border: 0;
   float: left;
 }
 
 .FooterLinksWrapper {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
 }
 
 .Copyright {

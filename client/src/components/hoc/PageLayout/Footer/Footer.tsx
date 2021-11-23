@@ -4,9 +4,11 @@ import classes from './Footer.module.scss';
 
 const Footer: React.FC = (): JSX.Element => {
   return (
-    <footer className={`${classes.Footer} bg-primary text-center text-white`}>
+    <footer
+      className={`${classes.Footer} bg-primary text-center text-white text-lg-start`}
+    >
       <ul
-        className={`${classes.FooterLinksWrapper} list-group list-group-horizonta`}
+        className={`${classes.FooterLinksWrapper} list-group list-group-horizontal`}
       >
         <Link to="/privacy" className={`${classes.LinkComponent} text-white`}>
           <li className={`${classes.LinkText} list-group-item bg-primary`}>
