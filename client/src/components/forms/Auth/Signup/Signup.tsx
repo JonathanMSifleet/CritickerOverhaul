@@ -1,6 +1,7 @@
 import CryptoES from 'crypto-es';
 import React, { useContext, useEffect, useState } from 'react';
 import Button from '../../../../elements/Button/Button';
+import Checkbox from '../../../../elements/Checkbox/Checkbox';
 import Input from '../../../../elements/Input/Input';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
@@ -77,12 +78,13 @@ const SignUp: React.FC = () => {
     setFormInfo({ ...formInfo, [inputName]: event.target.value });
   };
 
-  // const checkboxHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setFormInfo({ ...formInfo, termsChecked: event.target.checked });
-  // };
+  const checkboxHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFormInfo({ ...formInfo, termsChecked: event.target.checked });
+  };
 
   return (
     <form
+      autoComplete="off"
       onSubmit={(event) => {
         event.preventDefault();
       }}
@@ -99,6 +101,7 @@ const SignUp: React.FC = () => {
 
         {/* Email input */}
         <Input
+          autoComplete="new-password"
           onChange={(event) => inputChangedHandler(event, 'email')}
           placeholder={'Email'}
           type={'email'}
@@ -106,6 +109,7 @@ const SignUp: React.FC = () => {
 
         {/* Password input */}
         <Input
+          autoComplete="new-password"
           onChange={(event) => inputChangedHandler(event, 'password')}
           placeholder={'Password'}
           type={'password'}
@@ -119,19 +123,16 @@ const SignUp: React.FC = () => {
         />
       </div>
 
-      {/* Checkbox 
+      {/* Checkbox */}
       <div className={classes.TermsConditionsWrapper}>
         <label className={classes.TermsConditionsLabel}>
-          <Input
-            className="form-check-input"
+          <Checkbox
             onChange={(event) => checkboxHandler(event)}
-            type="checkbox"
+            placeholder={'I have read and agree to the terms'}
             value={formInfo.termsChecked}
           />
-          I have read and agree to the terms
         </label>
       </div>
-      */}
 
       {/* Submit button */}
       <div className={classes.SubmitButtonWrapper}>

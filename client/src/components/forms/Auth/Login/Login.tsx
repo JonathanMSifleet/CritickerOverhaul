@@ -79,6 +79,17 @@ const Login: React.FC = () => {
     setShouldPost(true);
   };
 
+  const handlePlaceholderText = (type: string) => {
+    // @ts-expect-error type not required
+    if (formInfo[type]) {
+      return '';
+    } else if (type === 'email') {
+      return 'Email';
+    } else {
+      return 'Password';
+    }
+  };
+
   return (
     <form
       onSubmit={(event) => {
@@ -90,42 +101,27 @@ const Login: React.FC = () => {
       {/* Email input */}
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         <Input
+          autoComplete="new-password"
           onChange={(event) =>
             inputChangedHandler(event.target.value!, 'email')
           }
-          placeholder={'Email or username'}
+          placeholder={handlePlaceholderText('email')}
           type={'email'}
         />
         <Input
+          autoComplete="new-password"
           onChange={(event) =>
             inputChangedHandler(event.target.value!, 'password')
           }
-          placeholder={'Password'}
+          placeholder={handlePlaceholderText('password')}
           type={'password'}
         />
       </div>
 
       {/* 2 column grid layout */}
-      <div className={`${classes.PasswordOptions} row mb-4`}>
-        <div className="col-md-6 d-flex justify-content-center">
-          {/* Checkbox */}
-          <div className="form-check mb-3 mb-md-0">
-            <label>
-              <input
-                checked
-                className="form-check-input"
-                type="checkbox"
-                value=""
-              />{' '}
-              Remember me{' '}
-            </label>
-          </div>
-        </div>
-
-        <div className="col-md-6 d-flex justify-content-center">
-          {/* Simple link */}
-          <a href="#!">Forgot password?</a>
-        </div>
+      <div className={`${classes.PasswordOptions}`}>
+        {/* Simple link */}
+        <a href="#!">Forgot password?</a>
       </div>
 
       {/* Submit button */}

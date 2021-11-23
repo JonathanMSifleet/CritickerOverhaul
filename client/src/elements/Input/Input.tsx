@@ -2,6 +2,7 @@ import React from 'react';
 import classes from './Input.module.scss';
 
 interface IProps {
+  autoComplete?: string;
   checked?: boolean;
   onChange?(
     event: React.ChangeEvent<HTMLInputElement>
@@ -11,12 +12,19 @@ interface IProps {
   value?: boolean;
 }
 
-const Input: React.FC<IProps> = ({ checked, onChange, placeholder, type }) => {
+const Input: React.FC<IProps> = ({
+  autoComplete,
+  checked,
+  onChange,
+  placeholder,
+  type
+}) => {
   return (
-    <div className="form-outline mb-4">
+    <div className={`${classes.InputWrapper} form-outline mb-4`}>
       <input
+        autoComplete={autoComplete}
         checked={checked}
-        className={`${classes.FormInput} form-control`}
+        className="form-control"
         id="formInput"
         onChange={onChange}
         type={type}
