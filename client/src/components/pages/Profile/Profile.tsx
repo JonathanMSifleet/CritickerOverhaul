@@ -8,7 +8,7 @@ import {
 } from '../../../shared/constants/endpoints';
 // @ts-expect-error
 import FileBase64 from '../../FileToBase64/build.min.js';
-import PageView from '../../hoc/PageLayout/PageView/PageView';
+import PageView from '../../hoc/PageView/PageView';
 import classes from './Profile.module.scss';
 
 const Profile: React.FC = (): JSX.Element => {

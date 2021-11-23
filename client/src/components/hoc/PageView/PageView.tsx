@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
-import Footer from '../Footer/Footer';
-import Header from '../Header/Header';
+import Footer from '../../UI/Footer/Footer';
+import Header from '../../UI/Header/Header';
 import classes from './PageView.module.scss';
 
 interface IProps {

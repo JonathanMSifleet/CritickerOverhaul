@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getFilmByIDURL } from '../../../shared/constants/endpoints';
 import getIMDbFilmPoster from '../../../shared/functions/getFilmImage';
-import PageView from '../../hoc/PageLayout/PageView/PageView';
+import PageView from '../../hoc/PageView/PageView';
 import classes from './Film.module.scss';
 
 const Film: React.FC = () => {
@@ -28,7 +28,7 @@ const Film: React.FC = () => {
   return (
     <PageView>
       <div className={classes.PageWrapper}>
-        <div className={classes.FilmIntro}>
+        <div className={classes.FilmDetails}>
           <img className={classes.Poster} src={filmPoster} />
           <h1>{film ? film.title : null}</h1>
           <p>{film ? film.description : null}</p>
@@ -39,6 +39,12 @@ const Film: React.FC = () => {
           <p>Genre(s): {film ? film.genres : 'Unknown'}</p>
           <p>Language(s): {film ? film.languages : 'Unknown'}</p>
           <p>Country(s): {film ? film.countries : 'Unknown'}</p>
+        </div>
+
+        <div className={classes.RateFilmWrapper}>
+          <Input 
+
+          >
         </div>
       </div>
     </PageView>

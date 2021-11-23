@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../../../assets/svg/Logo.svg';
-import Button from '../../../../elements/Button/Button';
-import * as actionTypes from '../../../../hooks/store/actionTypes';
-import Context from '../../../../hooks/store/context';
-import { getUserAvatarURL } from '../../../../shared/constants/endpoints';
-import Auth from '../../../forms/Auth/Auth';
-import Modal from '../../../UI/Modal/Modal';
+import Button from '../../../elements/Button/Button';
+import * as actionTypes from '../../../hooks/store/actionTypes';
+import Context from '../../../hooks/store/context';
+import { getUserAvatarURL } from '../../../shared/constants/endpoints';
+import Auth from '../../forms/Auth/Auth';
+import Modal from '../Modal/Modal';
 import classes from './Header.module.scss';
 
 const Header: React.FC = (): JSX.Element => {
