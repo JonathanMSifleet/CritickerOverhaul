@@ -1,5 +1,7 @@
+@import '../../styles/variables';
+
 .FormInput {
-  border: 1px solid #808080;
+  border: 1px solid $mainBlue;
   border-radius: 3px;
   display: inline-block;
   padding: 2% !important;

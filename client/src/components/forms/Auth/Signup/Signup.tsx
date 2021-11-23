@@ -77,9 +77,9 @@ const SignUp: React.FC = () => {
     setFormInfo({ ...formInfo, [inputName]: event.target.value });
   };
 
-  const checkboxHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFormInfo({ ...formInfo, termsChecked: event.target.checked });
-  };
+  // const checkboxHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setFormInfo({ ...formInfo, termsChecked: event.target.checked });
+  // };
 
   return (
     <form
@@ -92,7 +92,6 @@ const SignUp: React.FC = () => {
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         {/* Username input */}
         <Input
-          className={'form-control'}
           onChange={(event) => inputChangedHandler(event, 'username')}
           placeholder={'Username'}
           type={'text'}
@@ -100,7 +99,6 @@ const SignUp: React.FC = () => {
 
         {/* Email input */}
         <Input
-          className={'form-control'}
           onChange={(event) => inputChangedHandler(event, 'email')}
           placeholder={'Email'}
           type={'email'}
@@ -108,7 +106,6 @@ const SignUp: React.FC = () => {
 
         {/* Password input */}
         <Input
-          className={'form-control'}
           onChange={(event) => inputChangedHandler(event, 'password')}
           placeholder={'Password'}
           type={'password'}
@@ -116,14 +113,13 @@ const SignUp: React.FC = () => {
 
         {/* Repeat Password input */}
         <Input
-          className={'form-control'}
           onChange={(event) => inputChangedHandler(event, 'repeatPassword')}
           placeholder={'Repeat password'}
           type={'password'}
         />
       </div>
 
-      {/* Checkbox */}
+      {/* Checkbox 
       <div className={classes.TermsConditionsWrapper}>
         <label className={classes.TermsConditionsLabel}>
           <Input
@@ -135,6 +131,7 @@ const SignUp: React.FC = () => {
           I have read and agree to the terms
         </label>
       </div>
+      */}
 
       {/* Submit button */}
       <div className={classes.SubmitButtonWrapper}>

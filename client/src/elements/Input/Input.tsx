@@ -3,7 +3,6 @@ import classes from './Input.module.scss';
 
 interface IProps {
   checked?: boolean;
-  className: string;
   onChange?(
     event: React.ChangeEvent<HTMLInputElement>
   ): string | boolean | void;
@@ -12,21 +11,20 @@ interface IProps {
   value?: boolean;
 }
 
-const Input: React.FC<IProps> = ({
-  checked,
-  className,
-  onChange,
-  placeholder,
-  type
-}) => {
+const Input: React.FC<IProps> = ({ checked, onChange, placeholder, type }) => {
   return (
-    <input
-      checked={checked}
-      className={`${classes.FormInput} ${className}`}
-      onChange={onChange}
-      placeholder={placeholder}
-      type={type}
-    />
+    <div className="form-outline mb-4">
+      <input
+        checked={checked}
+        className={`${classes.FormInput} form-control`}
+        id="formInput"
+        onChange={onChange}
+        type={type}
+      />
+      <label className="form-label" htmlFor="formInput">
+        {placeholder}
+      </label>
+    </div>
   );
 };
 

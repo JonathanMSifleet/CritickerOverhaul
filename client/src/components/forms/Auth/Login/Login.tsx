@@ -90,7 +90,6 @@ const Login: React.FC = () => {
       {/* Email input */}
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         <Input
-          className={'form-control'}
           onChange={(event) =>
             inputChangedHandler(event.target.value!, 'email')
           }
@@ -98,7 +97,6 @@ const Login: React.FC = () => {
           type={'email'}
         />
         <Input
-          className={'form-control'}
           onChange={(event) =>
             inputChangedHandler(event.target.value!, 'password')
           }
