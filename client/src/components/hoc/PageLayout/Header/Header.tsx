@@ -4,7 +4,7 @@ import Logo from '../../../../assets/svg/Logo.svg';
 import Button from '../../../../elements/Button/Button';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
-import { getUserAvatarURL } from '../../../../shared/endpoints';
+import { getUserAvatarURL } from '../../../../shared/constants/endpoints';
 import Auth from '../../../forms/Auth/Auth';
 import Modal from '../../../UI/Modal/Modal';
 import classes from './Header.module.scss';
@@ -63,7 +63,11 @@ const Header: React.FC = (): JSX.Element => {
       <section className={classes.RightContent}>
         <div className="input-group rounded">
           <div className={`${classes.SearchWrapper} form-outline`}>
-            <input type="search" id="form1" className={`${classes.SearchInput} form-control`}/>
+            <input
+              type="search"
+              id="form1"
+              className={`${classes.SearchInput} form-control`}
+            />
             <label className="form-label" htmlFor="form1">
               Placeholder
             </label>

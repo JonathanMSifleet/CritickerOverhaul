@@ -1,5 +1,5 @@
-import ShrugSVG from '../assets/svg/Shrug.svg';
-import TMDbAPIKey from '../shared/TMDbAPIKey';
+import ShrugSVG from '../../assets/svg/Shrug.svg';
+import TMDbAPIKey from '../constants/TMDbAPIKey';
 import convertIDToIMDbFormat from './convertIDToIMDbFormat';
 
 const getIMDbFilmPoster = async (imdb_title_id: string) => {

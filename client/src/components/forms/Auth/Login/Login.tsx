@@ -4,7 +4,7 @@ import Button from '../../../../elements/Button/Button';
 import Input from '../../../../elements/Input/Input';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
-import { loginURL } from '../../../../shared/endpoints';
+import { loginURL } from '../../../../shared/constants/endpoints';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import classes from './Login.module.scss';
 

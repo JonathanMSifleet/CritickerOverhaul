@@ -5,7 +5,7 @@ import Context from '../../../hooks/store/context';
 import {
   getProfileByUsername,
   getUserAvatarURL
-} from '../../../shared/endpoints';
+} from '../../../shared/constants/endpoints';
 // @ts-expect-error
 import FileBase64 from '../../FileToBase64/build.min.js';
 import PageView from '../../hoc/PageLayout/PageView/PageView';

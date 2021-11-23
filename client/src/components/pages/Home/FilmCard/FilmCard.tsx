@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import getIMDbFilmPoster from '../../../../functions/getFilmImage';
-import IFilm from '../../../../interfaces/IFilm';
+import getIMDbFilmPoster from '../../../../shared/functions/getFilmImage';
+import IFilm from '../../../../shared/interfaces/IFilm';
 import classes from './FilmCard.module.scss';
 
 interface IProps {

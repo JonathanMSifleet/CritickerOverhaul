@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import getIMDbFilmPoster from '../../../functions/getFilmImage';
-import { getFilmByIDURL } from '../../../shared/endpoints';
+import { getFilmByIDURL } from '../../../shared/constants/endpoints';
+import getIMDbFilmPoster from '../../../shared/functions/getFilmImage';
 import PageView from '../../hoc/PageLayout/PageView/PageView';
 import classes from './Film.module.scss';
 
