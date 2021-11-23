@@ -12,7 +12,7 @@ const getIMDbFilmPoster = async (imdb_title_id: string) => {
 
   const poster = response.movie_results[0].poster_path;
   if (poster) {
-    return `http://image.tmdb.org/t/p/original${response.movie_results[0].poster_path}`;
+    return `http://image.tmdb.org/t/p/original${poster}`;
   } else {
     return ShrugSVG;
   }
