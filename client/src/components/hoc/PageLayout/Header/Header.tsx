@@ -49,28 +49,29 @@ const Header: React.FC = (): JSX.Element => {
       <img className={classes.Logo} src={Logo} alt="Criticker Logo" />
 
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className={`${classes.LeftContent} navbar-nav me-auto mb-2 mb-lg-0`}>
+        <ul
+          className={`${classes.LeftContent} navbar-nav me-auto mb-2 mb-lg-0`}
+        >
           <li className="nav-item">
             <Link className="nav-link" to="/">
               Home
             </Link>
           </li>
-          <div className={`${classes.SearchWrapper} input-group rounded`}>
-            <input
-              aria-describedby="search-addon"
-              aria-label="Search"
-              className={`${classes.Search} form-control rounded`}
-              placeholder="[Placeholder] search"
-              type="search"
-            />
-            <span className="input-group-text border-0" id="search-addon">
-              <i className="fas fa-search"></i>
-            </span>
-          </div>
         </ul>
       </div>
 
       <section className={classes.RightContent}>
+        <div className="input-group rounded">
+          <div className={`${classes.SearchWrapper} form-outline`}>
+            <input type="search" id="form1" className={`${classes.SearchInput} form-control`}/>
+            <label className="form-label" htmlFor="form1">
+              Placeholder
+            </label>
+          </div>
+          <button type="button" className="btn btn-primary">
+            <i className="fas fa-search"></i>
+          </button>
+        </div>
         {globalState.userInfo.loggedIn ? (
           <>
             <Link to="/profile">
