@@ -1,5 +1,5 @@
 // must load before App
-import 'mdb-react-ui-kit/dist/css/mdb.min.css'
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import React from 'react';
 import ReactDom from 'react-dom';
 import App from './App';
