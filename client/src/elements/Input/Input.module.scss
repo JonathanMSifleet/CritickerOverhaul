@@ -1,7 +1,8 @@
 @import '../../styles/variables';
 
-.InputWrapper {
-  width: fit-content;
+.FormInput {
+  border: 1px solid $mainBlue;
   margin: auto;
   margin-bottom: 2% !important;
+  width: 100%;
 }

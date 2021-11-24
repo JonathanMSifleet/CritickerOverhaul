@@ -1,3 +1,4 @@
+import { MDBInput } from 'mdb-react-ui-kit';
 import React from 'react';
 import classes from './Input.module.scss';
 
@@ -22,19 +23,15 @@ const Input: React.FC<IProps> = ({
   type
 }) => {
   return (
-    <div className={`${classes.InputWrapper} form-outline mb-4`}>
-      <input
-        autoComplete={autoComplete}
-        checked={checked}
-        className={`${className} form-control`}
-        id="formInput"
-        onChange={onChange}
-        type={type}
-      />
-      <label className="form-label" htmlFor="formInput">
-        {placeholder}
-      </label>
-    </div>
+    <MDBInput
+      autoComplete={autoComplete}
+      checked={checked}
+      className={`${classes.FormInput} ${className} form-control`}
+      id="formControlDefault"
+      label={placeholder}
+      onChange={onChange}
+      type={type}
+    />
   );
 };
 
