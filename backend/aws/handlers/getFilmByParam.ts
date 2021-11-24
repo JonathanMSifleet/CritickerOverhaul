@@ -7,7 +7,7 @@ import IHTTPErr from '../shared/interfaces/IHTTPErr';
 import { connectionDetails } from '../shared/MySQL/ConnectionDetails';
 const mysql = serverlessMysql({ config: connectionDetails });
 
-const getFilmByID = async (event: {
+const getFilmByParam = async (event: {
   pathParameters: { id: number };
 }): Promise<IHTTP | IHTTPErr> => {
   const { id } = event.pathParameters;
@@ -97,4 +97,4 @@ const getFilmByID = async (event: {
   }
 };
 
-export const handler = middy(getFilmByID).use(cors());
+export const handler = middy(getFilmByParam).use(cors());
