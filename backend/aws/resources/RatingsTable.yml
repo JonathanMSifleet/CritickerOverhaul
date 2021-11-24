@@ -1,0 +1,12 @@
+RatingsTable:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    TableName: RatingsTable
+    BillingMode: PAY_PER_REQUEST
+    AttributeDefinitions:
+      - AttributeName: imdb_title_id
+        AttributeType: N
+
+    KeySchema:
+      - AttributeName: imdb_title_id
+        KeyType: HASH

@@ -18,6 +18,7 @@ provider:
   environment:
     AUTH0_PUBLIC_KEY: ${file(secret.pem)}
     REACT_BUCKET_NAME: ${self:custom.ReactBucket.name}
+    RATINGS_TABLE_NAME: ${self:custom.RatingsTable.name}
     USER_AVATAR_BUCKET_NAME: ${self:custom.UserAvatarBucket.name}
     USER_TABLE_NAME: ${self:custom.UserTable.name}
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
@@ -26,6 +27,7 @@ provider:
     role:
       statements:
         - ${file(aws/iam/UserTableIAM.yml):UserTableIAM}
+        - ${file(aws/iam/RatingsTableIAM.yml):RatingsTableIAM}
 
 package:
   individually: true
@@ -85,6 +87,14 @@ functions:
           path: user/profile/{username}
           # authorizer: ${self:custom.authorizer}
           cors: true
+  rateFilm:
+    handler: aws/handlers/rateFilm.handler
+    events:
+      - http:
+          method: POST
+          path: review/rateFilm
+          # authorizer: ${self:custom.authorizer}
+          cors: true
   signup:
     handler: aws/handlers/signup.handler
     events:
@@ -110,6 +120,7 @@ functions:
 resources:
   Resources:
     UserTable: ${file(aws/resources/UserTable.yml):UserTable}
+    RatingsTable: ${file(aws/resources/RatingsTable.yml):RatingsTable}
     ReactBucket: ${file(aws/resources/ReactBucket.yml):ReactBucket}
     UserAvatarBucket: ${file(aws/resources/UserAvatarBucket.yml):UserAvatarBucket}
     # Policies:
@@ -183,6 +194,9 @@ custom:
   UserTable:
     name: !Ref UserTable
     arn: !GetAtt UserTable.Arn
+  RatingsTable:
+    name: !Ref RatingsTable
+    arn: !GetAtt RatingsTable.Arn
   UserAvatarBucket:
     name: user-avatar-bucket-tr628eqe-${self:provider.stage}
   ReactBucket:

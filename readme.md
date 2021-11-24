@@ -1,5 +1,5 @@
 To do:
--Form validation
+- Form validation
 
 Misc:
 
@@ -8,7 +8,7 @@ Misc:
 - Fix footer not sticking to bottom
 - Re-enable profile image functionality
 
-Node 15 or later required for database migration
+Developed using Node 14 LTS. Other versions may work but are not recommended or tested.
 
 The database has been migrated and one SQL file containing the whole database will be provided inside a folder in the root of this project, titled "IMPORT".
 If you wish to run these scripts manually, please ensure that the .7z files containing the dataset is extracted using the "Extract here" option from the context menu. If one is to extract using a different method, the migration scripts may not work as they require a specific path.

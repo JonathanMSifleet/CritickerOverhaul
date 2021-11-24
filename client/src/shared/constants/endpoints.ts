@@ -12,3 +12,5 @@ export const getFilmByIDURL =
   'https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev/getFilm';
 export const getProfileByUsername =
   'https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev/user/profile';
+export const rateFilmURL =
+  'https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev/review/rateFilm';

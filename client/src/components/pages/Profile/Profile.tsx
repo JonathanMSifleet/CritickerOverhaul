@@ -58,12 +58,10 @@ const Profile: React.FC = (): JSX.Element => {
     }
   };
 
-  const handleFile = async (event: any) => {
-    // @ts-expect-error
-    const { base64 } = event;
-    // @ts-expect-error
-    const uploadURL = `${uploadUserAvatarURL}/${globalState.userInfo.UID}`;
-
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const handleFile = async (_event: any) => {
+    // const { base64 } = event;
+    // const uploadURL = `${uploadUserAvatarURL}/${globalState.userInfo.UID}`;
     // await fetch(uploadURL, {
     //   method: 'post',
     //   body: JSON.stringify(base64)

@@ -1,5 +1,6 @@
-@import '../../../../styles/variables';
-@import '../LayoutVariables.scss';
+@import '../../../styles/variables';
+@import '../../../styles/LayoutVariables.scss';
+
 .PageViewContainer {
   background-color: $lightGrey;
 }

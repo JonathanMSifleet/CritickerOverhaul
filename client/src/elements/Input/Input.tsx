@@ -4,6 +4,7 @@ import classes from './Input.module.scss';
 interface IProps {
   autoComplete?: string;
   checked?: boolean;
+  className?: string;
   onChange?(
     event: React.ChangeEvent<HTMLInputElement>
   ): string | boolean | void;
@@ -15,6 +16,7 @@ interface IProps {
 const Input: React.FC<IProps> = ({
   autoComplete,
   checked,
+  className,
   onChange,
   placeholder,
   type
@@ -24,7 +26,7 @@ const Input: React.FC<IProps> = ({
       <input
         autoComplete={autoComplete}
         checked={checked}
-        className="form-control"
+        className={`${className} form-control`}
         id="formInput"
         onChange={onChange}
         type={type}

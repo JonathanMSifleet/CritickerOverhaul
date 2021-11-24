@@ -1,4 +1,3 @@
-@import '../LayoutVariables.scss';
 @import '../../../styles/LayoutVariables.scss';
 
 .Header {
@@ -29,9 +28,8 @@
 }
 
 .UserAvatar {
-  width: 8%;
-  height: $footerHeight;
-  width: $footerHeight;
+  height: $headerHeight;
+  width: $headerHeight;
   margin: 0 !important;
   float: left;
 }

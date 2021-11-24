@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Logo from '../../../../assets/svg/Logo.svg';
+import Logo from '../../../assets/svg/Logo.svg';
 import Button from '../../../elements/Button/Button';
 import * as actionTypes from '../../../hooks/store/actionTypes';
 import Context from '../../../hooks/store/context';
