@@ -16,10 +16,10 @@ const DB = new DynamoDB.DocumentClient();
 const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
   const { username, email, password } = JSON.parse(event.body);
 
-  if (await checkUniqueAttribute(email, 'email'))
+  if (await checkUniqueAttribute('email', email))
     return createAWSResErr(403, 'Email already in use');
 
-  if (await checkUniqueAttribute(username, 'username'))
+  if (await checkUniqueAttribute('username', username))
     return createAWSResErr(403, 'Username already in use');
 
   let errors = (await validateUserInputs(

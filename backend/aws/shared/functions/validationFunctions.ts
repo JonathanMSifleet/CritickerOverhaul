@@ -1,5 +1,6 @@
 import DynamoDB from 'aws-sdk/clients/dynamodb';
 import EmailValidator from 'email-validator';
+import formSearchQuery from './formSearchQuery';
 const DB = new DynamoDB.DocumentClient();
 
 export const validateUserInputs = async (
@@ -83,37 +84,8 @@ export const validateLength = async (
   }
 };
 
-export const checkUniqueAttribute = async (value: string, type: string) => {
-  let params = <any>{};
-
-  switch (type) {
-    case 'email':
-      params = {
-        TableName: process.env.USER_TABLE_NAME!,
-        IndexName: 'email',
-        KeyConditionExpression: '#email = :email',
-        ExpressionAttributeNames: {
-          '#email': 'email'
-        },
-        ExpressionAttributeValues: {
-          ':email': value
-        }
-      };
-      break;
-    case 'username':
-      params = {
-        TableName: process.env.USER_TABLE_NAME!,
-        IndexName: 'username',
-        KeyConditionExpression: '#username = :username',
-        ExpressionAttributeNames: {
-          '#username': 'username'
-        },
-        ExpressionAttributeValues: {
-          ':username': value
-        }
-      };
-      break;
-  }
+export const checkUniqueAttribute = async ( type: string, value: string) => {
+  const params = formSearchQuery(type, value);
 
   try {
     const result = await DB.query(params).promise();

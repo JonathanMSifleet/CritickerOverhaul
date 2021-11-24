@@ -2,6 +2,7 @@ import middy from '@middy/core';
 import cors from '@middy/http-cors';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
+import formSearchQuery from '../shared/functions/formSearchQuery';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
 
@@ -13,17 +14,7 @@ const login = async (event: { body: string }): Promise<IHTTP | IHTTPErr> => {
   if (!email || !password)
     return createAWSResErr(401, 'Please provide email and password!');
 
-  const params = {
-    TableName: process.env.USER_TABLE_NAME!,
-    IndexName: 'email',
-    KeyConditionExpression: '#email = :email',
-    ExpressionAttributeNames: {
-      '#email': 'email'
-    },
-    ExpressionAttributeValues: {
-      ':email': email
-    }
-  };
+  const params = formSearchQuery('email', email);
 
   try {
     const result = (await DB.query(params).promise()) as { Items: any };
