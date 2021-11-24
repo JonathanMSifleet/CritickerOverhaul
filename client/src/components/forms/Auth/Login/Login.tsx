@@ -5,6 +5,7 @@ import Input from '../../../../elements/Input/Input';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
 import { loginURL } from '../../../../shared/constants/endpoints';
+import HTTPRequest from '../../../../shared/functions/HTTPRequest';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import classes from './Login.module.scss';
 
@@ -32,13 +33,8 @@ const Login: React.FC = () => {
   useEffect(() => {
     if (shouldPost) {
       async function postData() {
-        let response = (await fetch(loginURL, {
-          method: 'post',
-          body: JSON.stringify(formInfo)
-        })) as any;
-
-        if (response.status === 200) {
-          response = await response.json();
+        try {
+          const response = await HTTPRequest(loginURL, 'post', formInfo);
 
           const userDetails = {
             username: response.username,
@@ -62,7 +58,7 @@ const Login: React.FC = () => {
             type: actionTypes.setShowModal,
             payload: { showModal: false }
           });
-        }
+        } catch (e) {}
       }
       postData();
     }

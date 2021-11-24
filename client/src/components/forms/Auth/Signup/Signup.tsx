@@ -6,6 +6,7 @@ import Input from '../../../../elements/Input/Input';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
 import { signupURL } from '../../../../shared/constants/endpoints';
+import HTTPRequest from '../../../../shared/functions/HTTPRequest';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import classes from './Signup.module.scss';
 
@@ -46,10 +47,7 @@ const SignUp: React.FC = () => {
     if (shouldPost) {
       // trick to allows for await to be used inside a useEffect hook
       async function postData() {
-        await fetch(signupURL, {
-          method: 'post',
-          body: JSON.stringify(formInfo)
-        });
+        await HTTPRequest(signupURL, 'post', formInfo);
 
         actions({
           type: actionTypes.setShowModal,

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getFilmURL } from '../../../shared/constants/endpoints';
+import HTTPRequest from '../../../shared/functions/HTTPRequest';
 import IFilm from '../../../shared/interfaces/IFilm';
 import PageView from '../../hoc/PageView/PageView';
 import FilmCard from './FilmCard/FilmCard';
@@ -10,12 +11,7 @@ const Home: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     async function getFilms() {
-      let response: any = await fetch(`${getFilmURL}/home`, {
-        method: 'get'
-      });
-      response = await response.json();
-
-      setFilms(response);
+      setFilms(await HTTPRequest(`${getFilmURL}/home`, 'get'));
     }
     getFilms();
   }, []);

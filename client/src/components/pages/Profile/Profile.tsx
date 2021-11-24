@@ -6,6 +6,7 @@ import {
   getProfileByUsername,
   getUserAvatarURL
 } from '../../../shared/constants/endpoints';
+import HTTPRequest from '../../../shared/functions/HTTPRequest';
 // @ts-expect-error
 import FileBase64 from '../../FileToBase64/build.min.js';
 import PageView from '../../hoc/PageView/PageView';
@@ -30,15 +31,15 @@ const Profile: React.FC = (): JSX.Element => {
   // rather than returning await asyncFunc()
   useEffect(() => {
     async function getUserAvatar() {
-      let response = (await fetch(`${getUserAvatarURL}/${userData.UID}`, {
-        method: 'get'
-      })) as any;
-      response = await response.json();
+      const response = await HTTPRequest(
+        `${getUserAvatarURL}/${userData.UID}`,
+        'get'
+      );
 
-      if (response.statusCode === 404) {
-        setUserAvatar(ShrugSVG);
-      } else {
+      if (response) {
         setUserAvatar(response);
+      } else {
+        setUserAvatar(ShrugSVG);
       }
     }
     if (userData) {
@@ -50,11 +51,9 @@ const Profile: React.FC = (): JSX.Element => {
 
   const loadUserProfile = async (username: string) => {
     if (username) {
-      let result = await fetch(`${getProfileByUsername}/${username}`, {
-        method: 'get'
-      });
-      result = await result.json();
-      setUserData(result);
+      setUserData(
+        await HTTPRequest(`${getProfileByUsername}/${username}`, 'get')
+      );
     }
   };
 
@@ -62,10 +61,7 @@ const Profile: React.FC = (): JSX.Element => {
   const handleFile = async (_event: any) => {
     // const { base64 } = event;
     // const uploadURL = `${uploadUserAvatarURL}/${globalState.userInfo.UID}`;
-    // await fetch(uploadURL, {
-    //   method: 'post',
-    //   body: JSON.stringify(base64)
-    // });
+    // await HTTPRequest(uploadURL, 'post', { base64 });
   };
 
   const epochToDate = (epoch: number) => {

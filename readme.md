@@ -1,5 +1,11 @@
 To do:
+
 - Form validation
+- Server-side validation
+- Increment user ratings when rating submitted
+- Check if user has already rated and display appropriate message on front-end
+- Swap username with user id
+- Authenticate with auth0
 
 Misc:
 

@@ -8,6 +8,7 @@ import {
   rateFilmURL
 } from '../../../shared/constants/endpoints';
 import getIMDbFilmPoster from '../../../shared/functions/getFilmImage';
+import HTTPRequest from '../../../shared/functions/HTTPRequest';
 import PageView from '../../hoc/PageView/PageView';
 import classes from './Film.module.scss';
 
@@ -23,13 +24,9 @@ const Film: React.FC = () => {
   useEffect(() => {
     async function getFilmPoster() {
       setFilmPoster(await getIMDbFilmPoster(id));
-
-      let response = await fetch(`${getFilmByIDURL}/${id}`, {
-        method: 'get'
-      });
-      response = await response.json();
-      setFilm(response);
+      setFilm(await HTTPRequest(`${getFilmByIDURL}/${id}`, 'get'));
     }
+
     getFilmPoster();
   }, [id]);
 
@@ -40,18 +37,13 @@ const Film: React.FC = () => {
   };
 
   const rateFilm = async () => {
-    console.log('rating', rating);
-    let result = await fetch(rateFilmURL, {
-      method: 'post',
-      body: JSON.stringify({
-        id: Number(id),
-        username: globalState.userInfo.username,
-        rating
-      })
+    const response = await HTTPRequest(rateFilmURL, 'post', {
+      id: Number(id),
+      username: globalState.userInfo.username,
+      rating
     });
-    console.log('🚀 ~ file: Film.tsx ~ line 45 ~ rateFilm ~ result', result);
-    result = await result.json();
-    console.log('result', result);
+
+    console.log('response', response);
   };
 
   return (

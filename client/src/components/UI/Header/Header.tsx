@@ -5,6 +5,7 @@ import Button from '../../../elements/Button/Button';
 import * as actionTypes from '../../../hooks/store/actionTypes';
 import Context from '../../../hooks/store/context';
 import { getUserAvatarURL } from '../../../shared/constants/endpoints';
+import HTTPRequest from '../../../shared/functions/HTTPRequest';
 import Auth from '../../forms/Auth/Auth';
 import Modal from '../Modal/Modal';
 import classes from './Header.module.scss';
@@ -17,12 +18,7 @@ const Header: React.FC = (): JSX.Element => {
     // @ts-expect-error
     async function getUserAvatar() {
       const avatarURL = `${getUserAvatarURL}/${globalState.userInfo.UID}`;
-      let response = await fetch(avatarURL, {
-        method: 'get'
-      });
-      response = await response.json();
-
-      setUserAvatar(response);
+      setUserAvatar(await HTTPRequest(avatarURL, 'get'));
     }
     if (globalState.userInfo.loggedIn) {
       // getUserAvatar();
