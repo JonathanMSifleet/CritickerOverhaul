@@ -4,7 +4,7 @@ import Button from '../../../elements/Button/Button';
 import Input from '../../../elements/Input/Input';
 import Context from '../../../hooks/store/context';
 import {
-  getFilmByIDURL,
+  getFilmByParamURL,
   rateFilmURL
 } from '../../../shared/constants/endpoints';
 import getIMDbFilmPoster from '../../../shared/functions/getFilmImage';
@@ -24,7 +24,7 @@ const Film: React.FC = () => {
   useEffect(() => {
     async function getFilmPoster() {
       setFilmPoster(await getIMDbFilmPoster(id));
-      setFilm(await HTTPRequest(`${getFilmByIDURL}/${id}`, 'get'));
+      setFilm(await HTTPRequest(`${getFilmByParamURL}/${id}`, 'get'));
     }
 
     getFilmPoster();
@@ -37,9 +37,10 @@ const Film: React.FC = () => {
   };
 
   const rateFilm = async () => {
+    console.log(globalState.userInfo);
     await HTTPRequest(rateFilmURL, 'post', {
       id: Number(id),
-      userID: globalState.userInfo.UID,
+      UID: globalState.userInfo.UID,
       rating
     });
   };

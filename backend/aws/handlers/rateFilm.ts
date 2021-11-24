@@ -8,18 +8,31 @@ import IHTTPErr from '../shared/interfaces/IHTTPErr';
 const DB = new DynamoDB.DocumentClient();
 
 const rateFilm = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
-  const { id, username, rating, review } = JSON.parse(event.body);
+  const { id, UID, rating, review } = JSON.parse(event.body);
 
-  const payload = {
-    imdb_title_id: id,
-    username,
-    rating,
-    review
-  };
-  if (!review) delete payload.review;
+  // const filmsJSON = await getCurrentFilms(id);
+
+  let payload;
+
+  if (review) {
+    payload = {
+      imdb_title_id: id,
+      review: { UID, rating, review }
+    };
+  } else {
+    payload = {
+      imdb_title_id: id,
+      review: { UID, rating }
+    };
+  }
 
   try {
-    const result = await insertReviewToDB(payload);
+    const result = await insertRatingToDB(payload);
+    const incrementResult = await incrementRatings(UID);
+    console.log(
+      '🚀 ~ file: rateFilm.ts ~ line 24 ~ rateFilm ~ incrementResult',
+      incrementResult
+    );
 
     console.log('Inserted rating successfully');
     return {
@@ -32,11 +45,13 @@ const rateFilm = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
   }
 };
 
-const insertReviewToDB = async (payload: {
+const insertRatingToDB = async (payload: {
   imdb_title_id: string;
-  username: string;
-  rating: number;
-  review?: string;
+  review: {
+    UID: string;
+    rating: number;
+    review?: string;
+  };
 }) => {
   const params: DynamoDB.DocumentClient.PutItemInput = {
     TableName: process.env.RATINGS_TABLE_NAME!,
@@ -45,6 +60,27 @@ const insertReviewToDB = async (payload: {
   };
 
   return await DB.put(params).promise();
+};
+
+const incrementRatings = async (UID: string) => {
+  const params = {
+    TableName: process.env.USER_TABLE_NAME!,
+    Key: { UID },
+    UpdateExpression: 'SET #numRatings = #numRatings + :increase',
+    ExpressionAttributeNames: {
+      '#numRatings': 'numRatings'
+    },
+    ExpressionAttributeValues: {
+      ':increase': 1
+    },
+    ReturnValues: 'ALL_NEW'
+  };
+
+  try {
+    return await DB.update(params).promise();
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 export const handler = middy(rateFilm).use(cors());
