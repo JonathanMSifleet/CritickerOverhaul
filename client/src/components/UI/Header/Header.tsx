@@ -17,8 +17,12 @@ const Header: React.FC = (): JSX.Element => {
   useEffect(() => {
     // @ts-expect-error
     async function getUserAvatar() {
-      const avatarURL = `${getUserAvatarURL}/${globalState.userInfo.UID}`;
-      setUserAvatar(await HTTPRequest(avatarURL, 'get'));
+      setUserAvatar(
+        await HTTPRequest(
+          `${getUserAvatarURL}/${globalState.userInfo.UID}`,
+          'get'
+        )
+      );
     }
     if (globalState.userInfo.loggedIn) {
       // getUserAvatar();

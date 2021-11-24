@@ -60,8 +60,11 @@ const Profile: React.FC = (): JSX.Element => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const handleFile = async (_event: any) => {
     // const { base64 } = event;
-    // const uploadURL = `${uploadUserAvatarURL}/${globalState.userInfo.UID}`;
-    // await HTTPRequest(uploadURL, 'post', { base64 });
+    // await HTTPRequest(
+    //   `${uploadUserAvatarURL}/${globalState.userInfo.UID}`,
+    //   'post',
+    //   { base64 }
+    // );
   };
 
   const epochToDate = (epoch: number) => {

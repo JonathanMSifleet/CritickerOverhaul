@@ -1,6 +1,6 @@
-import DynamoDB from 'aws-sdk/clients/dynamodb';
-import cors from '@middy/http-cors';
 import middy from '@middy/core';
+import cors from '@middy/http-cors';
+import DynamoDB from 'aws-sdk/clients/dynamodb';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 
 const DB = new DynamoDB.DocumentClient();
@@ -11,14 +11,14 @@ const deleteAccount = async (event: {
   const { email } = event.requestContext.authorizer;
 
   const params = {
+    TableName: process.env.USER_TABLE_NAME!,
     ConditionExpression: 'email = :email',
     ExpressionAttributeValues: {
       ':email': email
     },
     Key: {
       email
-    },
-    TableName: process.env.USER_TABLE_NAME!
+    }
   };
 
   try {
