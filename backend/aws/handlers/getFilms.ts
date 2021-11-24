@@ -16,7 +16,7 @@ const getFilms = async (event: {
 
   try {
     const result = await mysql.query(
-      `SELECT * FROM films LIMIT ${numResults}`,
+      `SELECT * FROM films ORDER BY imdb_title_id DESC LIMIT ${numResults}`,
       null
     );
     mysql.quit();
