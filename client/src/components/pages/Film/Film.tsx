@@ -37,13 +37,11 @@ const Film: React.FC = () => {
   };
 
   const rateFilm = async () => {
-    const response = await HTTPRequest(rateFilmURL, 'post', {
+    await HTTPRequest(rateFilmURL, 'post', {
       id: Number(id),
-      username: globalState.userInfo.username,
+      userID: globalState.userInfo.UID,
       rating
     });
-
-    console.log('response', response);
   };
 
   return (
@@ -64,23 +62,25 @@ const Film: React.FC = () => {
         </div>
 
         <div className={classes.RateFilmWrapper}>
-          <form
-            onSubmit={(event) => {
-              event.preventDefault();
-            }}
-          >
-            <Input
-              className={classes.RateFilm}
-              onChange={(event) => inputChangedHandler(event)}
-              placeholder={'Rating'}
-              type={'text'}
-            />
-            <Button
-              className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
-              onClick={() => rateFilm()}
-              text={'Rate film'}
-            />
-          </form>
+          {globalState.userInfo.loggedIn ? (
+            <form
+              onSubmit={(event) => {
+                event.preventDefault();
+              }}
+            >
+              <Input
+                className={classes.RateFilm}
+                onChange={(event) => inputChangedHandler(event)}
+                placeholder={'Rating'}
+                type={'text'}
+              />
+              <Button
+                className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
+                onClick={() => rateFilm()}
+                text={'Rate film'}
+              />
+            </form>
+          ) : null}
         </div>
       </div>
     </PageView>
