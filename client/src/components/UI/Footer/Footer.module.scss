@@ -7,6 +7,7 @@
   width: 100%;
   clear: both;
   position: relative;
+  background-color: $mainBlue !important;
 }
 
 .LinkGroup {
@@ -18,6 +19,7 @@
 }
 
 .LinkText {
+  background-color: $mainBlue !important;
   color: white !important;
   font-size: 0.9rem;
   border: 0;

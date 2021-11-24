@@ -1,6 +1,8 @@
+@import '../../../styles/variables';
 @import '../../../styles/LayoutVariables.scss';
 
 .Header {
+  background-color: $mainBlue !important;
   height: $headerHeight;
   padding: 0;
 }
