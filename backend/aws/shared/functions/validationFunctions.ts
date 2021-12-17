@@ -84,7 +84,7 @@ export const validateLength = async (
   }
 };
 
-export const checkUniqueAttribute = async ( type: string, value: string) => {
+export const checkUniqueAttribute = async (type: string, value: string) => {
   const params = formSearchQuery(type, value);
 
   try {

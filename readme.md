@@ -5,6 +5,7 @@ To do:
 - Increment user ratings when rating submitted
 - Check if user has already rated and display appropriately
 - Authenticate with auth0
+- Re-enable disabled lambdas that were deactivated to save money, user profile pictures
 
 Misc:
 

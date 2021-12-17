@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { getFilmURL } from '../../../shared/constants/endpoints';
 import HTTPRequest from '../../../shared/functions/HTTPRequest';
 import IFilm from '../../../shared/interfaces/IFilm';
 import PageView from '../../hoc/PageView/PageView';

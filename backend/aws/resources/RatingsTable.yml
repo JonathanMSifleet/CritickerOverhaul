@@ -1,7 +1,7 @@
 RatingsTable:
   Type: AWS::DynamoDB::Table
   Properties:
-    TableName: RatingsTable
+    TableName: RatingsTableTest
     BillingMode: PAY_PER_REQUEST
     AttributeDefinitions:
       - AttributeName: imdb_title_id

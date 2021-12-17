@@ -30,20 +30,21 @@ const Profile: React.FC = (): JSX.Element => {
   // must use useEffect hook to use async functions
   // rather than returning await asyncFunc()
   useEffect(() => {
+    // @ts-expect-error
     async function getUserAvatar() {
       const response = await HTTPRequest(
         `${getUserAvatarURL}/${userData.UID}`,
         'get'
       );
 
-      if (response) {
-        setUserAvatar(response);
-      } else {
+      if (response.status === 404) {
         setUserAvatar(ShrugSVG);
+      } else {
+        setUserAvatar(response);
       }
     }
     if (userData) {
-      getUserAvatar();
+      // getUserAvatar();
     } else {
       setUserAvatar(ShrugSVG);
     }
