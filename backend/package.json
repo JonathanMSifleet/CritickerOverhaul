@@ -1,29 +1,32 @@
 {
   "name": "critickeroverhaul",
   "version": "1.0.0",
+  "scripts": {
+    "forceUpdate": "npm-check-updates -u"
+  },
   "dependencies": {
     "@aws/dynamodb-data-mapper": "^0.7.3",
-    "@middy/core": "^2.5.3",
-    "@middy/http-cors": "^2.5.3",
-    "aws-sdk": "^2.1031.0",
+    "@middy/core": "^2.5.4",
+    "@middy/http-cors": "^2.5.4",
+    "aws-sdk": "^2.1058.0",
     "email-validator": "^2.0.4",
     "jsonwebtoken": "^8.5.1",
-    "serverless": "^2.66.2",
+    "serverless": "^2.71.0",
     "serverless-mysql": "^1.5.4",
     "serverless-s3-deploy": "^0.10.1",
     "short-uuid": "^4.2.0"
   },
   "devDependencies": {
-    "depcheck": "^1.4.2",
-    "fork-ts-checker-webpack-plugin": "^6.4.0",
+    "depcheck": "^1.4.3",
+    "fork-ts-checker-webpack-plugin": "^6.5.0",
     "mysql2": "^2.3.3",
-    "npm-check-updates": "^12.0.2",
+    "npm-check-updates": "^12.1.0",
     "remove-node-modules": "^1.7.6",
     "serverless-cloudfront-invalidate": "^1.11.0",
-    "serverless-webpack": "^5.5.5",
+    "serverless-webpack": "^5.6.0",
     "ts-loader": "^9.2.6",
-    "typescript": "^4.5.2",
-    "webpack": "^5.64.1",
+    "typescript": "^4.5.4",
+    "webpack": "^5.66.0",
     "webpack-cli": "^4.9.1",
     "webpack-node-externals": "^3.0.0"
   }
