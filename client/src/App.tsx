@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { HashRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Film from './components/pages/Film/Film';
 import Home from './components/pages/Home/Home';
 import Profile from './components/pages/Profile/Profile';
@@ -34,36 +34,18 @@ const App: React.FC = () => {
 
   return (
     <HashRouter>
-      <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route exact path="/privacy">
-          <TextOnlyPage pageName={`privacy`} />
-        </Route>
-        <Route exact path="/abuse">
-          <TextOnlyPage pageName={`abuse`} />
-        </Route>
-        <Route exact path="/contact">
-          <TextOnlyPage pageName={`contact`} />
-        </Route>
-        <Route exact path="/about">
-          <TextOnlyPage pageName={`about`} />
-        </Route>
-        <Route exact path="/resources">
-          <TextOnlyPage pageName={`resources`} />
-        </Route>
-        <Route exact path="/terms">
-          <TextOnlyPage pageName={`terms`} />
-        </Route>
-        <Route exact path="/profile/:username?">
-          <Profile />
-        </Route>
-        <Route exact path="/film/:id">
-          <Film />
-        </Route>
-        <Redirect to="/?error=404" />
-      </Switch>
+      <Routes>
+        <Route path={'/'} element={<Home />} />
+        <Route path={'/privacy'} element={<TextOnlyPage pageName={`privacy`} />} />
+        <Route path={'/abuse'} element={<TextOnlyPage pageName={`abuse`} />} />
+        <Route path={'/contact'} element={<TextOnlyPage pageName={`contact`} />} />
+        <Route path={'/about'} element={<TextOnlyPage pageName={`about`} />} />
+        <Route path={'/resources'} element={<TextOnlyPage pageName={`resources`} />} />
+        <Route path={'/terms'} element={<TextOnlyPage pageName={`terms`} />} />
+        <Route path={'/profile/:username?'} element={<Profile />} />
+        <Route path={'/film/*'} element={<Film />} />
+        <Route path="" element={<Navigate to="/?error=404" />} />
+      </Routes>
     </HashRouter>
   );
 };
