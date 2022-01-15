@@ -16,23 +16,92 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: eu-west-2
   environment:
-    GAME_TABLE_NAME: ${self:custom.GameTable.name}
-    STUDENT_TABLE_NAME: ${self:custom.StudentTable.name}
-    GAME_BUCKET_NAME: ${self:custom.GameBucket.name}
-    REACT_BUCKET_NAME: ${self:custom.ReactBucket.name}
     AUTH0_PUBLIC_KEY: ${file(secret.pem)}
+    REACT_BUCKET_NAME: ${self:custom.ReactBucket.name}
+    RATINGS_TABLE_NAME: ${self:custom.RatingsTable.name}
+    USER_AVATAR_BUCKET_NAME: ${self:custom.UserAvatarBucket.name}
+    USER_TABLE_NAME: ${self:custom.UserTable.name}
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+  lambdaHashingVersion: 20201221
   iam:
     role:
       statements:
-        - ${file(aws/iam/GameTableIAM.yml):GameTableIAM}
-        - ${file(aws/iam/StudentTableIAM.yml):StudentTableIAM}
-        - ${file(aws/iam/GameBucketIAM.yml):GameBucketIAM}
-        - ${file(aws/iam/ReactBucketIAM.yml):ReactBucketIAM}
-  lambdaHashingVersion: 20201221
+        - ${file(aws/iam/UserTableIAM.yml):UserTableIAM}
+        - ${file(aws/iam/RatingsTableIAM.yml):RatingsTableIAM}
+
+package:
+  individually: true
+
 functions:
   auth:
     handler: aws/handlers/auth.handler
+  deleteAccount:
+    handler: aws/handlers/deleteAccount.handler
+    events:
+      - http:
+          method: DELETE
+          path: deleteAccount
+          authorizer: auth
+          cors: true
+  login:
+    handler: aws/handlers/login.handler
+    events:
+      - http:
+          method: POST
+          path: login
+          cors: true
+  getFilmByParam:
+    handler: aws/handlers/getFilmByParam.handler
+    events:
+      - http:
+          method: GET
+          path: getFilm/{id}
+          cors: true
+  getFilms:
+    handler: aws/handlers/getFilms.handler
+    events:
+      - http:
+          method: GET
+          path: getFilms/{page}
+          cors: true
+  getUserAvatar:
+    handler: aws/handlers/getUserAvatar.handler
+    events:
+      - http:
+          method: GET
+          path: user/avatar/{UID}
+          cors: true
+  uploadUserAvatar:
+    handler: aws/handlers/uploadUserAvatar.handler
+    events:
+      - http:
+          method: POST
+          path: user/avatar/{UID}
+          authorizer: ${self:custom.authorizer}
+          cors: true
+  getProfileByUsername:
+    handler: aws/handlers/getProfileByUsername.handler
+    events:
+      - http:
+          method: GET
+          path: user/profile/{username}
+          # authorizer: ${self:custom.authorizer}
+          cors: true
+  rateFilm:
+    handler: aws/handlers/rateFilm.handler
+    events:
+      - http:
+          method: POST
+          path: review/rateFilm
+          # authorizer: ${self:custom.authorizer}
+          cors: true
+  signup:
+    handler: aws/handlers/signup.handler
+    events:
+      - http:
+          method: POST
+          path: signup
+          cors: true
   publicEndpoint:
     handler: aws/handlers/public.handler
     events:
@@ -48,59 +117,16 @@ functions:
           method: POST
           authorizer: auth
           cors: true
-  setReviewPicture:
-    handler: aws/handlers/setReviewPicture.handler
-    events:
-      - http:
-          method: PATCH
-          path: review/{slug}/picture
-          authorizer: ${self:custom.authorizer}
-          cors: true
-  getAllReviews:
-    handler: aws/handlers/getAllReviews.handler
-    events:
-      - http:
-          method: GET
-          path: getreviews
-          cors: true
-  getReview:
-    handler: aws/handlers/getReview.handler
-    events:
-      - http:
-          method: GET
-          path: review/{slug}
-          cors: true
-  signup:
-    handler: aws/handlers/signup.handler
-    events:
-      - http:
-          method: POST
-          path: signup
-          cors: true
-  login:
-    handler: aws/handlers/login.handler
-    events:
-      - http:
-          method: POST
-          path: login
-          cors: true
-  deleteAccount:
-    handler: aws/handlers/deleteAccount.handler
-    events:
-      - http:
-          method: DELETE
-          path: deleteAccount
-          authorizer: auth
-          cors: true
 resources:
   Resources:
-    GameTable: ${file(aws/resources/GameTable.yml):GameTable}
-    StudentTable: ${file(aws/resources/StudentTable.yml):StudentTable}
-    GameBucket: ${file(aws/resources/GameBucket.yml):GameBucket}
-    GameBucketPolicy: ${file(aws/resources/GameBucket.yml):GameBucketPolicy}
+    UserTable: ${file(aws/resources/UserTable.yml):UserTable}
+    RatingsTable: ${file(aws/resources/RatingsTable.yml):RatingsTable}
     ReactBucket: ${file(aws/resources/ReactBucket.yml):ReactBucket}
+    UserAvatarBucket: ${file(aws/resources/UserAvatarBucket.yml):UserAvatarBucket}
+    # Policies:
     ReactBucketPolicy: ${file(aws/resources/ReactBucket.yml):ReactBucketPolicy}
-    # Cloudfront
+    UserAvatarBucketPolicy: ${file(aws/resources/UserAvatarBucket.yml):UserAvatarBucketPolicy}
+    # Cloudfront:
     CloudFrontOriginAccessIdentity:
       Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
       Properties:
@@ -164,28 +190,25 @@ resources:
         StatusCode: '401'
 
 custom:
-  webpack:
-    webpackConfig: webpack.config.js
-    includeModules: true
-  authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:FinalYearProject-${self:provider.stage}-auth
-  GameTable:
-    name: !Ref GameTable
-    arn: !GetAtt GameTable.Arn
-  StudentTable:
-    name: !Ref StudentTable
-    arn: !GetAtt StudentTable.Arn
-  GameBucket:
-    name: game-bucket-xw23me9x-${self:provider.stage}
+  authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:CritickerOverhaul-${self:provider.stage}-auth
+  UserTable:
+    name: !Ref UserTable
+    arn: !GetAtt UserTable.Arn
+  RatingsTable:
+    name: !Ref RatingsTable
+    arn: !GetAtt RatingsTable.Arn
+  UserAvatarBucket:
+    name: user-avatar-bucket-tr628eqe-${self:provider.stage}
   ReactBucket:
-    name: react-bucket-t6aius2j-${self:provider.stage}
+    name: react-bucket-x3blze4m-${self:provider.stage}
   BucketFolder:
-    name: FinalYearProject
+    name: CritickerOverhaul
   ReactBucketTargetOrigin:
     name: S3-${self:custom.ReactBucket.name}/${self:custom.BucketFolder.name}
   bundle:
     linting: true
   cloudfrontInvalidate:
-    - distributionId: 'E3T9EZCT20HC4E'
+    - distributionId: 'E25ASI4SIUBGJK'
       autoInvalidate: true
       items:
         - '/*'

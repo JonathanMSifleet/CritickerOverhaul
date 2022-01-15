@@ -4,36 +4,28 @@
 const mysql = require('mysql2');
 const util = require('util');
 const csvtojson = require('csvtojson');
+const shared = require('./shared/shared');
 
-const connectionDetails = {
-  host: 'localhost',
-  user: 'JonathanS',
-  password: 'DatasetMigration',
-  database: 'critickeroverhaul'
-};
-
-const connection = mysql.createConnection(connectionDetails);
-const query = util.promisify(connection.query).bind(connection);
+const connection = mysql.createConnection(shared.connectionDetails);
+const asyncQuery = util.promisify(connection.query).bind(connection);
 
 connection.connect(async (err) => {
   if (err) throw err;
   console.log('Connected to database');
 
-  let sql;
-
-  sql = 'DROP TABLE IF EXISTS countries';
-  executeSQL(sql, 'Table dropped if exists');
+  let sql = 'DROP TABLE IF EXISTS countries';
+  await shared.executeSQL(asyncQuery, sql, 'Table dropped if exists');
 
   sql =
     'CREATE TABLE countries (country_id TINYINT UNSIGNED AUTO_INCREMENT, ' +
     'country_name VARCHAR(64) UNIQUE, PRIMARY KEY (country_id))';
-  executeSQL(sql, 'Table created');
+  await shared.executeSQL(asyncQuery, sql, 'Table created');
 
   const countries = await fetchCountries();
   countries.sort();
+  console.log('All countries fetched');
 
-  await populateTable(countries);
-  console.log('All rows inserted');
+  await shared.populateTableFromArray(connection, countries, 'countries');
 });
 
 const fetchCountries = async () => {
@@ -41,16 +33,18 @@ const fetchCountries = async () => {
 
   await csvtojson()
     .fromFile('./datasets/Countries.csv')
-    .then((source) => {
+    .then(async (source) => {
       const numRows = source.length;
 
-      for (let i = 0; i < numRows; i++) {
-        const countryRow = source[i]['country'];
-        const countries = countryRow.split(', ');
+      let i = 0;
+      for await (const row of source) {
+        i++;
 
+        let countries = row.country;
+        countries = countries.split(', ');
+
+        shared.percentRemaining(i, numRows);
         countries.forEach((curCountry) => {
-          curCountry = curCountry.replaceAll("'", "''");
-
           if (!countriesToReturn.includes(curCountry)) {
             countriesToReturn.push(curCountry);
           }
@@ -59,20 +53,4 @@ const fetchCountries = async () => {
     });
 
   return countriesToReturn;
-};
-
-const executeSQL = async (sql) => {
-  try {
-    return await query(sql);
-  } catch (e) {
-    console.error(e);
-  }
-};
-
-const populateTable = async (countries) => {
-  await countries.forEach(async (curCountry) => {
-    executeSQL(
-      `INSERT INTO critickeroverhaul.countries VALUES (null, '${curCountry}')`
-    );
-  });
 };

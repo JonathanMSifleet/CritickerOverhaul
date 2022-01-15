@@ -1,6 +1,6 @@
 import React from 'react';
 import PageSwitch from './PageSwitch/PageSwitch';
-import PageView from '../../hoc/PageLayout/PageView/PageView';
+import PageView from '../../hoc/PageView/PageView';
 
 interface IProps {
   pageName: string;

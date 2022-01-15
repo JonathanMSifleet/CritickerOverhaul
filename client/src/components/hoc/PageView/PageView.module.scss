@@ -1,0 +1,13 @@
+@import '../../../styles/variables';
+@import '../../../styles/LayoutVariables.scss';
+
+.PageViewContainer {
+  background-color: $lightGrey;
+}
+
+.Body {
+  height: $bodyHeight;
+  width: 70%;
+  margin: auto;
+  background-color: white;
+}

@@ -1,6 +1,0 @@
-GameBucketIAM:
-  Effect: Allow
-  Action:
-    - s3:PutObject
-    - s3:DeleteObject
-  Resource: arn:aws:s3:::${self:custom.GameBucket.name}/*

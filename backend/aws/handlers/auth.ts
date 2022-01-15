@@ -22,16 +22,13 @@ const generatePolicy = (principalId: any, methodArn: string) => {
 export const handler = async (event: {
   authorizationToken: string;
   methodArn: string;
-}): Promise<any> => {
-  if (!event.authorizationToken) {
-    return createAWSResErr(401, 'Unauthorized');
-  }
+}) => {
+  if (!event.authorizationToken) return createAWSResErr(401, 'Unauthorized');
 
   const token = event.authorizationToken.replace('Bearer ', '');
 
   try {
-    // @ts-expect-error
-    const claims: any = jwt.verify(token, process.env.AUTH0_PUBLIC_KEY);
+    const claims = jwt.verify(token, process.env.AUTH0_PUBLIC_KEY!);
     const policy = generatePolicy(claims.sub, event.methodArn);
 
     return {

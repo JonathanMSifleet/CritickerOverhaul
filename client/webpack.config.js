@@ -3,9 +3,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
+  devtool: 'inline-source-map',
   entry: './src/index.tsx',
   output: {
-    filename: 'index.bundle.js'
+    filename: 'index.bundle.js',
+    assetModuleFilename: 'images/[hash][ext][query]'
   },
   target: 'web',
   devServer: {
@@ -24,35 +26,21 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        loader: 'babel-loader'
+        use: 'ts-loader',
+        exclude: '/node_modules/'
       },
       {
         test: /\.(scss|css)$/,
         use: ['style-loader', 'css-loader', 'sass-loader']
       },
       {
-        test: /\.(png|svg)$/,
-        loader: 'file-loader',
-        options: {
-          name: '[name].[ext]'
-        }
+        test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+        type: 'asset/inline'
       },
       {
         test: /\.js$/,
         enforce: 'pre',
         use: ['source-map-loader']
-      },
-      {
-        test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
-        use: [
-          {
-            loader: 'file-loader',
-            options: {
-              name: '[name].[ext]',
-              outputPath: 'fonts/'
-            }
-          }
-        ]
       }
     ]
   },

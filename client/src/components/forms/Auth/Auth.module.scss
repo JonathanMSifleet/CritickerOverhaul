@@ -1,0 +1,50 @@
+.FormWrapper {
+  background-color: white;
+  width: 25vw;
+  min-height: auto;
+  // border: 1px red solid;
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2%;
+  z-index: 4;
+}
+
+.AuthButtonGroup {
+  width: auto;
+  display: flex;
+  margin-bottom: 2%;
+}
+
+.Button {
+  width: 5vw;
+  height: 5vh;
+  padding: 0;
+  margin: 3%;
+}
+
+.InputWrapper {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1% !important;
+  width: 80%;
+}
+
+.SubmitButtonWrapper {
+  text-align: center;
+  margin-bottom: 3%;
+}
+
+.SubmitButton {
+  display: inline-block;
+  margin: 0 !important;
+  width: 80%;
+}
+
+.InstructionText {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 1.5%;
+}

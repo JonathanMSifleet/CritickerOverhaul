@@ -1,0 +1,34 @@
+UserTable:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    TableName: UserTable
+    BillingMode: PAY_PER_REQUEST
+    AttributeDefinitions:
+      - AttributeName: username
+        AttributeType: S
+      - AttributeName: email
+        AttributeType: S
+      - AttributeName: UID
+        AttributeType: S
+      - AttributeName: memberSince
+        AttributeType: N
+      - AttributeName: numRatings
+        AttributeType: N
+
+    KeySchema:
+      - AttributeName: UID
+        KeyType: HASH
+    # use GSI for querying on non primary key
+    GlobalSecondaryIndexes:
+      - IndexName: username
+        KeySchema:
+          - AttributeName: username
+            KeyType: HASH
+        Projection:
+          ProjectionType: ALL
+      - IndexName: email
+        KeySchema:
+          - AttributeName: email
+            KeyType: HASH
+        Projection:
+          ProjectionType: ALL

@@ -2,76 +2,48 @@
 // https://www.geeksforgeeks.org/how-to-import-data-from-csv-file-into-mysql-table-using-node-js/
 
 const mysql = require('mysql2');
+const util = require('util');
 const csvtojson = require('csvtojson');
+const shared = require('./shared/shared');
 
-const connectionDetails = {
-  host: 'localhost',
-  user: 'JonathanS',
-  password: 'DatasetMigration',
-  database: 'critickeroverhaul'
-};
+const connection = mysql.createConnection(shared.connectionDetails);
+const asyncQuery = util.promisify(connection.query).bind(connection);
 
-const connection = mysql.createConnection(connectionDetails);
-
-connection.connect((err) => {
+connection.connect(async (err) => {
   if (err) throw err;
   console.log('Connected to database');
 
-  let sql;
-
-  sql = 'DROP TABLE IF EXISTS films';
-  executeSQL(sql, 'Table dropped if exists');
+  let sql = 'DROP TABLE IF EXISTS films';
+  await shared.executeSQL(asyncQuery, sql, 'Table dropped if exists');
 
   sql =
     'CREATE TABLE films (imdb_title_id MEDIUMINT UNSIGNED, title VARCHAR(224), ' +
     'year SMALLINT, duration SMALLINT, description VARCHAR(512), ' +
     'PRIMARY KEY (imdb_title_id))';
-  executeSQL(sql, 'Table created');
+  await shared.executeSQL(asyncQuery, sql, 'Table created');
 
   populateTable();
 });
 
-const executeSQL = (sql, message) => {
-  connection.query(sql, function (err, result) {
-    if (err) throw err;
-    console.log(message);
-  });
-};
-
-const populateTable = () => {
-  csvtojson()
+const populateTable = async () => {
+  await csvtojson()
     .fromFile('./datasets/IMDb_movies_usable_no_inline_commas.csv')
-    .then((source) => {
-      // Fetching the data from each row
-      // and inserting to the table "sample"
-
+    .then(async (source) => {
+      const insertStatement = 'INSERT INTO films VALUES (?, ?, ?, ?, ?)';
       const numRows = source.length;
-      const insertStatement = `INSERT INTO films VALUES (?, ?, ?, ?, ?)`;
 
-      for (let i = 0; i < numRows; i++) {
-        let imdb_title_id = source[i]['imdb_title_id'],
-          title = source[i]['title'],
-          year = source[i]['year'],
-          duration = source[i]['duration'],
-          description = source[i]['description'];
+      let i = 0;
+      for await (const row of source) {
+        i++;
+        const items = [
+          row.imdb_title_id,
+          row.title,
+          row.year,
+          row.duration,
+          row.description
+        ];
 
-        // remove unnecessary id prefix:
-        imdb_title_id = imdb_title_id.substring(2);
-
-        const items = [imdb_title_id, title, year, duration, description];
-
-        // Inserting data of current row into database
-        insertRow(i, numRows, insertStatement, items);
+        await shared.insertRow(connection, insertStatement, items, i, numRows);
       }
     });
-};
-
-const insertRow = (i, numRows, insertStatement, items) => {
-  connection.query(insertStatement, items, (err, results, fields) => {
-    if (err) {
-      console.log('Unable to insert item at row ', i++);
-      return console.log(err);
-    }
-    console.log(`Row ${i} of ${numRows}`);
-  });
 };

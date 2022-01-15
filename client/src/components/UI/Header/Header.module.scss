@@ -1,0 +1,50 @@
+@import '../../../styles/variables';
+@import '../../../styles/LayoutVariables.scss';
+
+.Header {
+  background-color: $mainBlue !important;
+  height: $headerHeight;
+  padding: 0;
+}
+
+.container-fluid {
+  height: 100%;
+}
+
+.Logo {
+  padding: 0.5%;
+  height: 100%;
+  width: auto;
+}
+
+.LeftContent {
+  display: flex;
+  align-items: center;
+}
+
+.RightContent {
+  height: 100%;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+}
+
+.UserAvatar {
+  height: $headerHeight;
+  width: $headerHeight;
+  margin: 0 !important;
+  float: left;
+}
+
+.SearchWrapper {
+  background-color: white;
+  border-radius: 5px;
+}
+
+.AuthButton {
+  font-size: 0.6rem;
+  height: 80%;
+  padding: 0;
+  vertical-align: middle;
+  width: 10vw;
+}

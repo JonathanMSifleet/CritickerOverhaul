@@ -6,7 +6,6 @@
 .browserslistrc
 .build
 .buildpath
-**/*.csv
 .editorconfig
 .env.development.local
 .env.local
@@ -32,3 +31,5 @@ secret.pem
 tsconfig.tsbuildinfo
 yarn-debug.log*
 yarn-error.log*
+backend/lib/tsconfig.tsbuildinfo
+*.tsbuildinfo
