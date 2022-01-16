@@ -16,10 +16,10 @@ const App: React.FC = () => {
     autoLogin();
   }, []);
 
-  const autoLogin = () => {
-    let userData = sessionStorage.getItem('userData') as any;
-    if (userData) {
-      userData = JSON.parse(userData!);
+  const autoLogin = (): void => {
+    const sessionStorageUserData = sessionStorage.getItem('userData');
+    if (sessionStorageUserData) {
+      const userData = JSON.parse(sessionStorageUserData);
 
       if (new Date().getTime() > userData!.expiryDate) {
         sessionStorage.removeItem('userData');

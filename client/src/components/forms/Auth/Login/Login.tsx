@@ -4,7 +4,7 @@ import Button from '../../../../elements/Button/Button';
 import Input from '../../../../elements/Input/Input';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
-import { loginURL } from '../../../../shared/constants/endpoints';
+import { LOGIN } from '../../../../shared/constants/endpoints';
 import HTTPRequest from '../../../../shared/functions/HTTPRequest';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import classes from './Login.module.scss';
@@ -32,9 +32,9 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (shouldPost) {
-      async function postData() {
+      const postData = async (): Promise<void> => {
         try {
-          const response = await HTTPRequest(loginURL, 'post', formInfo);
+          const response = await HTTPRequest(LOGIN, 'post', formInfo);
 
           const userDetails = {
             username: response.username,
@@ -44,10 +44,7 @@ const Login: React.FC = () => {
 
           let expiryDate = new Date().getTime();
           expiryDate = expiryDate + 14400000; // four hours
-          sessionStorage.setItem(
-            'userData',
-            JSON.stringify({ ...userDetails, expiryDate })
-          );
+          sessionStorage.setItem('userData', JSON.stringify({ ...userDetails, expiryDate }));
 
           actions({
             type: actionTypes.setUserInfo,
@@ -59,7 +56,7 @@ const Login: React.FC = () => {
             payload: { showModal: false }
           });
         } catch (e) {}
-      }
+      };
       postData();
     }
   }, [shouldPost]);
@@ -68,14 +65,14 @@ const Login: React.FC = () => {
     setFormInfo({ ...formInfo, [inputName]: eventValue });
   };
 
-  const login = async () => {
+  const login = async (): Promise<void> => {
     const hashedPassword = CryptoES.SHA512(formInfo.password).toString();
 
     setFormInfo({ ...formInfo, password: hashedPassword });
     setShouldPost(true);
   };
 
-  const handlePlaceholderText = (type: string) => {
+  const handlePlaceholderText = (type: string): string => {
     // @ts-expect-error type not required
     if (formInfo[type]) {
       return '';
@@ -88,7 +85,7 @@ const Login: React.FC = () => {
 
   return (
     <form
-      onSubmit={(event) => {
+      onSubmit={(event): void => {
         event.preventDefault();
       }}
     >
@@ -98,17 +95,13 @@ const Login: React.FC = () => {
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         <Input
           autoComplete="new-password"
-          onChange={(event) =>
-            inputChangedHandler(event.target.value!, 'email')
-          }
+          onChange={(event): void => inputChangedHandler(event.target.value!, 'email')}
           placeholder={handlePlaceholderText('email')}
           type={'email'}
         />
         <Input
           autoComplete="new-password"
-          onChange={(event) =>
-            inputChangedHandler(event.target.value!, 'password')
-          }
+          onChange={(event): void => inputChangedHandler(event.target.value!, 'password')}
           placeholder={handlePlaceholderText('password')}
           type={'password'}
         />
@@ -125,7 +118,7 @@ const Login: React.FC = () => {
         <Button
           className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
           disabled={submitDisabled}
-          onClick={() => login()}
+          onClick={(): Promise<void> => login()}
           text={'Sign in'}
         />
       </div>

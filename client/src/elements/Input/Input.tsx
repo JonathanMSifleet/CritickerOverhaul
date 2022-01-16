@@ -6,22 +6,13 @@ interface IProps {
   autoComplete?: string;
   checked?: boolean;
   className?: string;
-  onChange?(
-    event: React.ChangeEvent<HTMLInputElement>
-  ): string | boolean | void;
+  onChange?(event: React.ChangeEvent<HTMLInputElement>): string | boolean | void;
   placeholder?: string;
   type: string;
   value?: boolean;
 }
 
-const Input: React.FC<IProps> = ({
-  autoComplete,
-  checked,
-  className,
-  onChange,
-  placeholder,
-  type
-}) => {
+const Input: React.FC<IProps> = ({ autoComplete, checked, className, onChange, placeholder, type }) => {
   return (
     <MDBInput
       autoComplete={autoComplete}

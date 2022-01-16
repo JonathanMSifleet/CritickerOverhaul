@@ -1,12 +1,10 @@
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
+import { AWSError } from 'aws-sdk';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
+import { PromiseResult } from 'aws-sdk/lib/request';
 import shortUUID from 'short-uuid';
-import {
-  checkUniqueAttribute,
-  removeEmptyErrors,
-  validateUserInputs
-} from '../shared/functions/validationFunctions';
+import { checkUniqueAttribute, validateUserInputs } from '../shared/functions/validationFunctions';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
 import { createAWSResErr } from './../shared/functions/createAWSResErr';
@@ -16,19 +14,12 @@ const DB = new DynamoDB.DocumentClient();
 const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
   const { username, email, password } = JSON.parse(event.body);
 
-  if (await checkUniqueAttribute('email', email))
-    return createAWSResErr(403, 'Email already in use');
+  if (await checkUniqueAttribute('email', email)) return createAWSResErr(403, 'Email already in use');
+  if (await checkUniqueAttribute('username', username)) return createAWSResErr(403, 'Username already in use');
 
-  if (await checkUniqueAttribute('username', username))
-    return createAWSResErr(403, 'Username already in use');
+  const errors = (await validateUserInputs(username, email, password)) as string[];
+  console.log('signup errors:', errors);
 
-  let errors = (await validateUserInputs(
-    username,
-    email,
-    password
-  )) as string[];
-
-  errors = await removeEmptyErrors(errors);
   if (errors.length !== 0) return createAWSResErr(400, errors);
 
   // non-form attributes added here:
@@ -37,13 +28,7 @@ const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
   memberSince = Math.floor(memberSince / 86400) * 86400;
 
   try {
-    const result = await insertUserToDB(
-      username,
-      email,
-      password,
-      UID,
-      memberSince
-    );
+    const result = await insertUserToDB(username, email, password, UID, memberSince);
 
     console.log('Signed up successfully');
     return {
@@ -62,7 +47,7 @@ const insertUserToDB = async (
   password: string,
   UID: string,
   memberSince: number
-) => {
+): Promise<PromiseResult<DynamoDB.DocumentClient.PutItemOutput, AWSError>> => {
   const params: DynamoDB.DocumentClient.PutItemInput = {
     TableName: process.env.USER_TABLE_NAME!,
     Item: {

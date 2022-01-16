@@ -12,9 +12,10 @@ const FilmCard: React.FC<IProps> = ({ film }): JSX.Element => {
   const [filmPoster, setFilmPoster] = useState('');
 
   useEffect(() => {
-    async function getFilmPoster() {
+    const getFilmPoster = async (): Promise<void> => {
       setFilmPoster(await getIMDbFilmPoster(film.imdb_title_id));
-    }
+    };
+
     getFilmPoster();
   }, []);
 
@@ -22,10 +23,7 @@ const FilmCard: React.FC<IProps> = ({ film }): JSX.Element => {
     <div className={`${classes.CardWrapper} card mb-3`}>
       <div className={`${classes.CardContainer} row g-0`}>
         <div className={`${classes.ImageColumn} col-md-1`}>
-          <img
-            src={filmPoster}
-            className={`${classes.Image} img-fluid rounded-start`}
-          />
+          <img src={filmPoster} className={`${classes.Image} img-fluid rounded-start`} />
         </div>
         <div className={`${classes.TextColumn} col-md-8`}>
           <div className={`${classes.CardBody} card-body`}>

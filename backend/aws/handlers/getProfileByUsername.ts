@@ -7,16 +7,14 @@ import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
 const DB = new DynamoDB.DocumentClient();
 
-const getProfileByUsername = async (event: {
-  pathParameters: { username: string };
-}): Promise<IHTTP | IHTTPErr> => {
+const getProfileByUsername = async (event: { pathParameters: { username: string } }): Promise<IHTTP | IHTTPErr> => {
   const { username } = event.pathParameters;
 
   const params = formSearchQuery('username', username);
 
   try {
-    const result = (await DB.query(params).promise()) as { Items: any };
-    const user = result.Items[0];
+    const result = await DB.query(params).promise();
+    const user = result.Items![0];
 
     console.log('Sucessfully fetched user profile');
     return {
@@ -28,7 +26,7 @@ const getProfileByUsername = async (event: {
         numRatings: user.numRatings
       })
     };
-  } catch (e: any) {
+  } catch (e: unknown) {
     return createAWSResErr(500, e);
   }
 };

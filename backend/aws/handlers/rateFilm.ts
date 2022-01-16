@@ -1,6 +1,8 @@
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
+import { AWSError } from 'aws-sdk';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
+import { PromiseResult } from 'aws-sdk/lib/request';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
@@ -29,17 +31,14 @@ const rateFilm = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
   try {
     const result = await insertRatingToDB(payload);
     const incrementResult = await incrementRatings(UID);
-    console.log(
-      '🚀 ~ file: rateFilm.ts ~ line 24 ~ rateFilm ~ incrementResult',
-      incrementResult
-    );
+    console.log('🚀 ~ file: rateFilm.ts ~ line 24 ~ rateFilm ~ incrementResult', incrementResult);
 
     console.log('Inserted rating successfully');
     return {
       statusCode: 201,
       body: JSON.stringify(result)
     };
-  } catch (e: any) {
+  } catch (e: unknown) {
     console.error(e);
     return createAWSResErr(520, e);
   }
@@ -52,7 +51,7 @@ const insertRatingToDB = async (payload: {
     rating: number;
     review?: string;
   };
-}) => {
+}): Promise<PromiseResult<DynamoDB.DocumentClient.PutItemOutput, AWSError>> => {
   const params: DynamoDB.DocumentClient.PutItemInput = {
     TableName: process.env.RATINGS_TABLE_NAME!,
     Item: payload,
@@ -62,7 +61,9 @@ const insertRatingToDB = async (payload: {
   return await DB.put(params).promise();
 };
 
-const incrementRatings = async (UID: string) => {
+const incrementRatings = async (
+  UID: string
+): Promise<PromiseResult<DynamoDB.DocumentClient.UpdateItemOutput, AWSError>> => {
   const params = {
     TableName: process.env.USER_TABLE_NAME!,
     Key: { UID },
@@ -76,11 +77,7 @@ const incrementRatings = async (UID: string) => {
     ReturnValues: 'ALL_NEW'
   };
 
-  try {
-    return await DB.update(params).promise();
-  } catch (e) {
-    console.error(e);
-  }
+  return await DB.update(params).promise();
 };
 
 export const handler = middy(rateFilm).use(cors());

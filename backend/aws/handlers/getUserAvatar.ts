@@ -7,9 +7,7 @@ import IHTTPErr from '../shared/interfaces/IHTTPErr';
 
 const storage = new s3();
 
-const getUserAvatar = async (event: {
-  pathParameters: { UID: string };
-}): Promise<IHTTP | IHTTPErr> => {
+const getUserAvatar = async (event: { pathParameters: { UID: string } }): Promise<IHTTP | IHTTPErr> => {
   const { UID } = event.pathParameters;
 
   try {
@@ -20,12 +18,12 @@ const getUserAvatar = async (event: {
       statusCode: 200,
       body: JSON.stringify(avatar)
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     return createAWSResErr(404, error);
   }
 };
 
-const getUserAvatarFromS3 = async (filename: string) => {
+const getUserAvatarFromS3 = async (filename: string): Promise<string | IHTTPErr | null> => {
   try {
     const params = {
       Bucket: process.env.USER_AVATAR_BUCKET_NAME!,
@@ -33,11 +31,8 @@ const getUserAvatarFromS3 = async (filename: string) => {
     };
 
     const result = await storage.getObject(params).promise();
-    if (result.Body) {
-      console.log('User avatar found');
-      return result.Body!.toString('utf-8');
-    }
-  } catch (error: any) {
+    return result.Body ? result.Body!.toString('utf-8') : null;
+  } catch (error: unknown) {
     return createAWSResErr(404, error);
   }
 };

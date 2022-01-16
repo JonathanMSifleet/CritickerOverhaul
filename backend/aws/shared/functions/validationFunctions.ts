@@ -7,47 +7,33 @@ export const validateUserInputs = async (
   username: string,
   email: string,
   password: string
-) => {
-  let errors = (await Promise.all([
+): Promise<(string | null)[]> => {
+  const validationMessages = await Promise.all([
     validateValue(username, 'Username'),
     validateValue(email, 'Email'),
     validateValue(password, 'Password')
-  ])) as any;
+  ]);
 
-  errors = errors.flat();
-  return await removeEmptyErrors(errors);
+  const errors = validationMessages.flat();
+  return errors.filter((error) => error !== null);
 };
 
-export const validateValue = async (value: string, valueName: string) => {
+export const validateValue = async (value: string, valueName: string): Promise<(string | null)[]> => {
   const errors = [validateNotEmpty(value, valueName)];
 
   switch (valueName) {
     case 'Username':
       errors.push(
         validateLength(value, valueName, 3, 16),
-        validateAgainstRegex(
-          value,
-          valueName,
-          /[^A-Za-z0-9]+/,
-          'cannot contain special characters'
-        )
+        validateAgainstRegex(value, valueName, /[^A-Za-z0-9]+/, 'cannot contain special characters')
       );
       break;
     case 'Email':
-      errors.push(
-        validateNotEmpty(value, valueName),
-        validateLength(value, valueName, 3, 256),
-        validateIsEmail(value)
-      );
+      errors.push(validateNotEmpty(value, valueName), validateLength(value, valueName, 3, 256), validateIsEmail(value));
       break;
     case 'Password':
-      errors.push(
-        validateNotEmpty(value, valueName),
-        validateLength(value, 'Password Hash', 128, 128)
-      );
+      errors.push(validateNotEmpty(value, valueName), validateLength(value, 'Password Hash', 128, 128));
       break;
-    default:
-      return 'Unexpected error';
   }
   return await Promise.all(errors);
 };
@@ -57,20 +43,16 @@ export const validateAgainstRegex = async (
   name: string,
   regex: RegExp,
   message: string
-) => {
-  if (regex.test(value)) return `${name} ${message}`;
+): Promise<string | null> => {
+  return regex.test(value) ? `${name} ${message}` : null;
 };
 
-export const validateIsEmail = async (value: string) => {
-  if (!EmailValidator.validate(value)) return `Email must be valid`;
+export const validateIsEmail = async (value: string): Promise<string | null> => {
+  return !EmailValidator.validate(value) ? `Email must be valid` : null;
 };
 
-export const validateNotEmpty = async (
-  value: string,
-  name: string
-): Promise<string | undefined> => {
-  if (value === null || value === '' || value === undefined)
-    return `${name} must not be empty`;
+export const validateNotEmpty = async (value: string, name: string): Promise<string | null> => {
+  return value === null || value === '' || value === undefined ? `${name} must not be empty` : null;
 };
 
 export const validateLength = async (
@@ -78,13 +60,11 @@ export const validateLength = async (
   valueName: string,
   min: number,
   max: number
-) => {
-  if (value.length < min || value.length > max) {
-    return `${valueName} must be between ${min} and ${max} chracters`;
-  }
+): Promise<string | null> => {
+  return value.length < min || value.length > max ? `${valueName} must be between ${min} and ${max} chracters` : null;
 };
 
-export const checkUniqueAttribute = async (type: string, value: string) => {
+export const checkUniqueAttribute = async (type: string, value: string): Promise<boolean> => {
   const params = formSearchQuery(type, value);
 
   try {
@@ -95,12 +75,5 @@ export const checkUniqueAttribute = async (type: string, value: string) => {
   } catch (e) {
     console.error(e);
   }
-};
-
-export const removeEmptyErrors = async (errors: string[]) => {
-  let arrayLength = errors.length;
-  while (arrayLength--) {
-    if (errors[arrayLength] === undefined) errors.splice(arrayLength, 1);
-  }
-  return errors;
+  return false;
 };

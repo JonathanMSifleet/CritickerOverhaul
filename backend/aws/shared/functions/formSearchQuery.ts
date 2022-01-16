@@ -1,9 +1,6 @@
 import DynamoDB from 'aws-sdk/clients/dynamodb';
 
-const formSearchQuery = (
-  type: string,
-  value: string
-): DynamoDB.DocumentClient.QueryInput => {
+const formSearchQuery = (type: string, value: string): DynamoDB.DocumentClient.QueryInput => {
   switch (type) {
     case 'email':
       return {

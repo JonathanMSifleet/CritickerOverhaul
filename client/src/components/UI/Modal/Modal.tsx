@@ -3,7 +3,7 @@ import Backdrop from '../Backdrop/Backdrop';
 import classes from './Modal.module.scss';
 
 interface IProps {
-  children: any;
+  children: React.ReactNode;
 }
 
 const Modal: React.FC<IProps> = ({ children }) => {

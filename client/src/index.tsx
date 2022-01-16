@@ -7,7 +7,7 @@ import Context from './hooks/store/context';
 import StateHook from './hooks/store/StateHook';
 import './styles/global.scss';
 
-const AppWithState = () => {
+const AppWithState = (): JSX.Element => {
   const store = StateHook();
   return (
     <Context.Provider value={store}>

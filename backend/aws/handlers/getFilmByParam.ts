@@ -7,9 +7,7 @@ import IHTTPErr from '../shared/interfaces/IHTTPErr';
 import { connectionDetails } from '../shared/MySQL/ConnectionDetails';
 const mysql = serverlessMysql({ config: connectionDetails });
 
-const getFilmByParam = async (event: {
-  pathParameters: { id: number };
-}): Promise<IHTTP | IHTTPErr> => {
+const getFilmByParam = async (event: { pathParameters: { id: number } }): Promise<IHTTP | IHTTPErr> => {
   const { id } = event.pathParameters;
 
   const mainSQL =
@@ -69,19 +67,19 @@ const getFilmByParam = async (event: {
     const getOrderedFilmActors = mysql.query(orderedActorSQL, [id]);
     const getUnorderedActorResult = mysql.query(unorderedActorSQL, [id, id]);
 
-    let results = (await Promise.all([
-      getFilm,
-      getOrderedFilmActors,
-      getUnorderedActorResult
-    ])) as any;
-    results = results.flat();
+    const results = await Promise.all([getFilm, getOrderedFilmActors, getUnorderedActorResult]);
+    const filmData = results.flat();
 
     const result = {
-      ...results[0],
-      ...results[1]
+      // @ts-expect-error
+      ...filmData[0],
+      // @ts-expect-error
+      ...filmData[1]
     };
 
+    // @ts-expect-error
     if (results[2].actors) {
+      // @ts-expect-error
       result.actors = result.actors + ', ' + results[2].actors;
     }
 
@@ -92,7 +90,7 @@ const getFilmByParam = async (event: {
       statusCode: 200,
       body: JSON.stringify(result)
     };
-  } catch (e: any) {
+  } catch (e: unknown) {
     return createAWSResErr(500, e);
   }
 };

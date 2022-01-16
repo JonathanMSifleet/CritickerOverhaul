@@ -8,7 +8,7 @@ const s3 = new S3();
 
 export const uploadUserAvatar = async (event: {
   pathParameters: { UID: string };
-  body: any;
+  body: Buffer;
 }): Promise<IHTTPErr | IHTTP> => {
   const image = event.body.slice(1, -1);
   const filename = `${event.pathParameters.UID}.jpg`;
@@ -24,7 +24,7 @@ export const uploadUserAvatar = async (event: {
   }
 };
 
-const uploadPicture = async (filename: string, body: Buffer) => {
+const uploadPicture = async (filename: string, body: Buffer): Promise<string> => {
   const result = await s3
     .upload({
       Bucket: process.env.USER_AVATAR_BUCKET_NAME!,

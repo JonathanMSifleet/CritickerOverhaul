@@ -7,18 +7,12 @@ import IHTTPErr from '../shared/interfaces/IHTTPErr';
 import { connectionDetails } from '../shared/MySQL/ConnectionDetails';
 const mysql = serverlessMysql({ config: connectionDetails });
 
-const getFilms = async (event: {
-  pathParameters: { page: string };
-}): Promise<IHTTP | IHTTPErr> => {
+const getFilms = async (event: { pathParameters: { page: string } }): Promise<IHTTP | IHTTPErr> => {
   const { page } = event.pathParameters;
-
   const numResults = resultsToReturn(page);
 
   try {
-    const result = await mysql.query(
-      `SELECT * FROM films ORDER BY imdb_title_id DESC LIMIT ${numResults}`,
-      null
-    );
+    const result = await mysql.query(`SELECT * FROM films ORDER BY imdb_title_id DESC LIMIT ${numResults}`, null);
     mysql.quit();
 
     console.log('Sucessfully fetched results');
@@ -26,15 +20,17 @@ const getFilms = async (event: {
       statusCode: 200,
       body: JSON.stringify(result)
     };
-  } catch (e: any) {
+  } catch (e: unknown) {
     return createAWSResErr(500, e);
   }
 };
 
-const resultsToReturn = (page: string) => {
+const resultsToReturn = (page: string): number => {
   switch (page) {
     case 'home':
       return 10;
+    default:
+      return 0;
   }
 };
 

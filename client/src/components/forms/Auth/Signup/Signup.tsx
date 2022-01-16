@@ -5,7 +5,7 @@ import Checkbox from '../../../../elements/Checkbox/Checkbox';
 import Input from '../../../../elements/Input/Input';
 import * as actionTypes from '../../../../hooks/store/actionTypes';
 import Context from '../../../../hooks/store/context';
-import { signupURL } from '../../../../shared/constants/endpoints';
+import { SIGNUP } from '../../../../shared/constants/endpoints';
 import HTTPRequest from '../../../../shared/functions/HTTPRequest';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import classes from './Signup.module.scss';
@@ -46,21 +46,21 @@ const SignUp: React.FC = () => {
   useEffect(() => {
     if (shouldPost) {
       // trick to allows for await to be used inside a useEffect hook
-      async function postData() {
-        await HTTPRequest(signupURL, 'post', formInfo);
+      const postData = async (): Promise<void> => {
+        await HTTPRequest(SIGNUP, 'post', formInfo);
 
         actions({
           type: actionTypes.setShowModal,
           payload: { showModal: false }
         });
-      }
+      };
       // stop POSTing unnecessary attribute
       delete formInfo!.repeatPassword;
       postData();
     }
   }, [shouldPost]);
 
-  const signup = async () => {
+  const signup = async (): Promise<void> => {
     if (formInfo.password === formInfo.repeatPassword) {
       const hashedPassword = CryptoES.SHA512(formInfo.password).toString();
 
@@ -69,21 +69,18 @@ const SignUp: React.FC = () => {
     }
   };
 
-  const inputChangedHandler = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    inputName: string
-  ): void => {
+  const inputChangedHandler = (event: React.ChangeEvent<HTMLInputElement>, inputName: string): void => {
     setFormInfo({ ...formInfo, [inputName]: event.target.value });
   };
 
-  const checkboxHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const checkboxHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setFormInfo({ ...formInfo, termsChecked: event.target.checked });
   };
 
   return (
     <form
       autoComplete="off"
-      onSubmit={(event) => {
+      onSubmit={(event): void => {
         event.preventDefault();
       }}
     >
@@ -92,7 +89,7 @@ const SignUp: React.FC = () => {
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         {/* Username input */}
         <Input
-          onChange={(event) => inputChangedHandler(event, 'username')}
+          onChange={(event): void => inputChangedHandler(event, 'username')}
           placeholder={'Username'}
           type={'text'}
         />
@@ -100,7 +97,7 @@ const SignUp: React.FC = () => {
         {/* Email input */}
         <Input
           autoComplete="new-password"
-          onChange={(event) => inputChangedHandler(event, 'email')}
+          onChange={(event): void => inputChangedHandler(event, 'email')}
           placeholder={'Email'}
           type={'email'}
         />
@@ -108,14 +105,14 @@ const SignUp: React.FC = () => {
         {/* Password input */}
         <Input
           autoComplete="new-password"
-          onChange={(event) => inputChangedHandler(event, 'password')}
+          onChange={(event): void => inputChangedHandler(event, 'password')}
           placeholder={'Password'}
           type={'password'}
         />
 
         {/* Repeat Password input */}
         <Input
-          onChange={(event) => inputChangedHandler(event, 'repeatPassword')}
+          onChange={(event): void => inputChangedHandler(event, 'repeatPassword')}
           placeholder={'Repeat password'}
           type={'password'}
         />
@@ -125,7 +122,7 @@ const SignUp: React.FC = () => {
       <div className={classes.TermsConditionsWrapper}>
         <label className={classes.TermsConditionsLabel}>
           <Checkbox
-            onChange={(event) => checkboxHandler(event)}
+            onChange={(event): void => checkboxHandler(event)}
             placeholder={'I have read and agree to the terms'}
             value={formInfo.termsChecked}
           />
@@ -137,7 +134,7 @@ const SignUp: React.FC = () => {
         <Button
           className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
           disabled={submitDisabled}
-          onClick={() => signup()}
+          onClick={(): Promise<void> => signup()}
           text={'Sign up'}
         />
       </div>

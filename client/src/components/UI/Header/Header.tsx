@@ -4,7 +4,7 @@ import Logo from '../../../assets/svg/Logo.svg';
 import Button from '../../../elements/Button/Button';
 import * as actionTypes from '../../../hooks/store/actionTypes';
 import Context from '../../../hooks/store/context';
-import { getUserAvatarURL } from '../../../shared/constants/endpoints';
+import { GET_USER_AVATAR } from '../../../shared/constants/endpoints';
 import HTTPRequest from '../../../shared/functions/HTTPRequest';
 import Auth from '../../forms/Auth/Auth';
 import Modal from '../Modal/Modal';
@@ -12,30 +12,27 @@ import classes from './Header.module.scss';
 
 const Header: React.FC = (): JSX.Element => {
   const { globalState, actions } = useContext(Context);
-  const [userAvatar, setUserAvatar] = useState(null as unknown as any);
+  const [userAvatar, setUserAvatar] = useState(null as string | null);
 
   useEffect(() => {
     // @ts-expect-error
-    async function getUserAvatar() {
-      setUserAvatar(
-        await HTTPRequest(
-          `${getUserAvatarURL}/${globalState.userInfo.UID}`,
-          'get'
-        )
-      );
-    }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const getUserAvatar = async (): Promise<void> => {
+      setUserAvatar(await HTTPRequest(`${GET_USER_AVATAR}/${globalState.userInfo.UID}`, 'GET'));
+    };
+
     if (globalState.userInfo.loggedIn) {
       // getUserAvatar();
     }
   }, [globalState]);
 
-  const logout = () => {
+  const logout = (): void => {
     actions({
       type: actionTypes.logOutUser
     });
   };
 
-  const displayAuthModal = () => {
+  const displayAuthModal = (): void => {
     actions({
       type: actionTypes.setShowModal,
       payload: { showModal: true }
@@ -43,15 +40,11 @@ const Header: React.FC = (): JSX.Element => {
   };
 
   return (
-    <nav
-      className={`${classes.Header} navbar navbar-expand-lg bg-primary navbar-dark`}
-    >
+    <nav className={`${classes.Header} navbar navbar-expand-lg bg-primary navbar-dark`}>
       <img className={classes.Logo} src={Logo} alt="Criticker Logo" />
 
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul
-          className={`${classes.LeftContent} navbar-nav me-auto mb-2 mb-lg-0`}
-        >
+        <ul className={`${classes.LeftContent} navbar-nav me-auto mb-2 mb-lg-0`}>
           <li className="nav-item">
             <Link className="nav-link" to="/">
               Home
@@ -63,11 +56,7 @@ const Header: React.FC = (): JSX.Element => {
       <section className={classes.RightContent}>
         <div className="input-group rounded">
           <div className={`${classes.SearchWrapper} form-outline`}>
-            <input
-              type="search"
-              id="form1"
-              className={`${classes.SearchInput} form-control`}
-            />
+            <input type="search" id="form1" className={`${classes.SearchInput} form-control`} />
             <label className="form-label" htmlFor="form1">
               Placeholder
             </label>
@@ -79,15 +68,12 @@ const Header: React.FC = (): JSX.Element => {
         {globalState.userInfo.loggedIn ? (
           <>
             <Link to="/profile">
-              <img
-                src={userAvatar}
-                className={`${classes.UserAvatar} rounded-circle mb-3`}
-              />
+              <img src={userAvatar!} className={`${classes.UserAvatar} rounded-circle mb-3`} />
             </Link>
 
             <Button
               className={`${classes.AuthButton} btn btn-white text-primary me-3 font-weight-bold`}
-              onClick={() => logout()}
+              onClick={(): void => logout()}
               text={'Log out'}
             />
           </>

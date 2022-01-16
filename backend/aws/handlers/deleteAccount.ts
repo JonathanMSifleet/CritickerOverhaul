@@ -2,12 +2,14 @@ import middy from '@middy/core';
 import cors from '@middy/http-cors';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
+import IHTTP from '../shared/interfaces/IHTTP';
+import IHTTPErr from '../shared/interfaces/IHTTPErr';
 
 const DB = new DynamoDB.DocumentClient();
 
 const deleteAccount = async (event: {
   requestContext: { authorizer: { email: string } };
-}) => {
+}): Promise<IHTTP | IHTTPErr> => {
   const { email } = event.requestContext.authorizer;
 
   const params = {
@@ -28,7 +30,7 @@ const deleteAccount = async (event: {
       body: JSON.stringify(result),
       statusCode: 204
     };
-  } catch (error: any) {
+  } catch (error: unknown) {
     return createAWSResErr(403, error);
   }
 };

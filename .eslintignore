@@ -5,3 +5,4 @@ node_modules
 .webpack
 _warmup
 **/*.js
+**/webpack.config.js

@@ -16,14 +16,14 @@ const StateHook = (): {
   globalState: IPayload;
   actions: any;
 } => {
-  const [showModal, setShowModal] = useState(null as unknown as boolean | null);
+  const [showModal, setShowModal] = useState(null as boolean | null);
   const [userInfo, setUserInfo] = useState<IUserInfo>({
     username: null,
     loggedIn: false,
     UID: null
   });
 
-  const actions = (action: { type: string; payload?: IPayload }) => {
+  const actions = (action: { type: string; payload?: IPayload }): void | (() => void) => {
     const { type, payload } = action;
 
     switch (type) {
@@ -32,11 +32,9 @@ const StateHook = (): {
       case actionTypes.setUserInfo:
         return setUserInfo(payload as IUserInfo);
       case actionTypes.logOutUser:
-        return () => {
-          setUserInfo({ username: null, loggedIn: false, UID: null });
-        };
+        return setUserInfo({ username: null, loggedIn: false, UID: null });
       case actionTypes.resetState:
-        return () => {
+        return (): void => {
           setShowModal(null);
           setUserInfo({ username: null, loggedIn: false, UID: null });
         };
