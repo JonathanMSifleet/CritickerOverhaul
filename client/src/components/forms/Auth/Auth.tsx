@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Button from '../../../elements/Button/Button';
 import classes from './Auth.module.scss';
 import Login from './Login/Login';

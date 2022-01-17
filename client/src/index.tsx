@@ -1,7 +1,7 @@
 // must load before App
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
-import React from 'react';
-import ReactDom from 'react-dom';
+import { StrictMode } from 'react';
+import { render } from 'react-dom';
 import App from './App';
 import Context from './hooks/store/context';
 import StateHook from './hooks/store/StateHook';
@@ -16,9 +16,9 @@ const AppWithState = (): JSX.Element => {
   );
 };
 
-ReactDom.render(
-  <React.StrictMode>
+render(
+  <StrictMode>
     <AppWithState />
-  </React.StrictMode>,
+  </StrictMode>,
   document.getElementById('app')
 );

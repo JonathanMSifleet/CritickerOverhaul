@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import * as actionTypes from '../../../hooks/store/actionTypes';
 import Context from '../../../hooks/store/context';
 import classes from './Backdrop.module.scss';

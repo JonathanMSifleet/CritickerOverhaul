@@ -1,4 +1,3 @@
-import React from 'react';
 import Button from '../../../../elements/Button/Button';
 import classes from './ThirdPartyLogin.module.scss';
 

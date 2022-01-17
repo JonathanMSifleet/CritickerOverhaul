@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import Footer from '../../UI/Footer/Footer';
 import Header from '../../UI/Header/Header';
 import classes from './PageView.module.scss';

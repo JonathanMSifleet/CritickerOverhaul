@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ShrugSVG from '../../../assets/svg/Shrug.svg';
 import Context from '../../../hooks/store/context';

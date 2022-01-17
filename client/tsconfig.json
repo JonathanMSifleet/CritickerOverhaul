@@ -1,6 +1,6 @@
 {
   "extends": "../tsconfig.json",
-    "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["**/*.ts", "**/*.tsx"],
   "compilerOptions": {
     "jsx": "react-jsx",
     "lib": ["dom", "dom.iterable", "es2020"],

@@ -1,5 +1,4 @@
 import { MDBInput } from 'mdb-react-ui-kit';
-import React from 'react';
 import classes from './Input.module.scss';
 
 interface IProps {

@@ -1,5 +1,5 @@
 import CryptoES from 'crypto-es';
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Button from '../../../../elements/Button/Button';
 import Input from '../../../../elements/Input/Input';
 import * as actionTypes from '../../../../hooks/store/actionTypes';

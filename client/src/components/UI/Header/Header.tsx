@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Logo from '../../../assets/svg/Logo.svg';
 import Button from '../../../elements/Button/Button';

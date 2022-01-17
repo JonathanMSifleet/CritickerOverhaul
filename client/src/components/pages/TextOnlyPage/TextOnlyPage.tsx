@@ -1,4 +1,3 @@
-import React from 'react';
 import PageSwitch from './PageSwitch/PageSwitch';
 import PageView from '../../hoc/PageView/PageView';
 
