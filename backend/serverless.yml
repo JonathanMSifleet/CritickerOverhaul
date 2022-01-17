@@ -2,6 +2,7 @@ service:
   name: CritickerOverhaul
 
 plugins:
+  - serverless-webpack
   - serverless-cloudfront-invalidate # must be last plugin
 
 provider:
@@ -210,3 +211,5 @@ custom:
       autoInvalidate: true
       items:
         - '/*'
+  webpack:
+    webpackConfig: ./webpack.config.js
