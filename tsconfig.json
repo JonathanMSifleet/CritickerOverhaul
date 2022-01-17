@@ -26,6 +26,7 @@
     "target": "es2020",
     "types": ["node"]
   },
+  "include": ["**/*.ts", "**/*.tsx"],
   "exclude": [
     "node_modules/**/*",
     ".serverless/**/*",
