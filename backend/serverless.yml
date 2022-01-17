@@ -2,8 +2,6 @@ service:
   name: CritickerOverhaul
 
 plugins:
-  - serverless-webpack
-  - serverless-s3-deploy
   - serverless-cloudfront-invalidate # must be last plugin
 
 provider:

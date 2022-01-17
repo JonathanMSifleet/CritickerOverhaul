@@ -3,17 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "preBuild": "npm run delSymlinks && npm run createSymlinks",
-    "--": "",
     "clientBuild": "cd ./client && webpack --mode production",
     "clientSync": "cd ./client && aws s3 rm s3://react-bucket-x3blze4m-dev --recursive && aws s3 sync ./dist s3://react-bucket-x3blze4m-dev",
     "clientDeploy": "npm run clientBuild && npm run clientSync",
     "slsDeploy": "cd ./backend && serverless deploy --verbose",
-    "---": "",
+    "-": "",
     "clean": "cd ./backend && RMDIR /Q/S .serverless 2>nul && cd ./client && RMDIR /Q/S dist 2>nul",
-    "-v": "",
+    "--": "",
     "fullDeploy": "npm run preBuild && npm run clientDeploy && npm run slsDeploy",
-    "v": "",
+    "---": "",
     "deployClientLocally": "cd ./client && npx webpack serve --mode=development"
   },
   "dependencies": {
@@ -32,6 +30,7 @@
     "npm-check-updates": "^12.0.2",
     "prettier": "^2.4.1",
     "remove-node-modules": "^1.7.6",
+    "serverless": "^2.72.0",
     "typescript": "^4.5.4"
   },
   "devDependencies": {
