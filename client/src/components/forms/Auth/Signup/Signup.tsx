@@ -47,7 +47,7 @@ const SignUp: React.FC = () => {
     if (shouldPost) {
       // trick to allows for await to be used inside a useEffect hook
       const postData = async (): Promise<void> => {
-        await HTTPRequest(SIGNUP, 'post', formInfo);
+        await HTTPRequest(SIGNUP, 'POST', formInfo);
 
         actions({
           type: actionTypes.setShowModal,

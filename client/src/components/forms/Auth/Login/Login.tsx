@@ -34,7 +34,7 @@ const Login: React.FC = () => {
     if (shouldPost) {
       const postData = async (): Promise<void> => {
         try {
-          const response = await HTTPRequest(LOGIN, 'post', formInfo);
+          const response = (await HTTPRequest(LOGIN, 'POST', formInfo)) as { username: string; UID: string };
 
           const userDetails = {
             username: response.username,

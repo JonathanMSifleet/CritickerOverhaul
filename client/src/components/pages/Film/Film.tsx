@@ -22,7 +22,7 @@ const Film: React.FC = () => {
   useEffect(() => {
     async function getFilmData(): Promise<void> {
       setFilmPoster(await getIMDbFilmPoster(id!));
-      setFilm(await HTTPRequest(`${GET_FILM_BY_PARAM}/${id}`, 'get'));
+      setFilm(await HTTPRequest(`${GET_FILM_BY_PARAM}/${id}`, 'GET'));
     }
 
     getFilmData();
@@ -34,7 +34,7 @@ const Film: React.FC = () => {
 
   const rateFilm = async (): Promise<void> => {
     console.log(globalState.userInfo);
-    await HTTPRequest(RATE_FILM, 'post', {
+    await HTTPRequest(RATE_FILM, 'POST', {
       id: Number(id),
       UID: globalState.userInfo.UID,
       rating

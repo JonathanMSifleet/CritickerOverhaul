@@ -5,6 +5,6 @@ export default interface IHTTPErr {
   };
   statusCode: number;
   statusText: {
-    message: string;
+    message: string | string[];
   };
 }

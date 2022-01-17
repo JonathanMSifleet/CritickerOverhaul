@@ -18,7 +18,7 @@ const Header: React.FC = (): JSX.Element => {
     // @ts-expect-error
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const getUserAvatar = async (): Promise<void> => {
-      setUserAvatar(await HTTPRequest(`${GET_USER_AVATAR}/${globalState.userInfo.UID}`, 'GET'));
+      setUserAvatar((await HTTPRequest(`${GET_USER_AVATAR}/${globalState.userInfo.UID}`, 'GET')) as string);
     };
 
     if (globalState.userInfo.loggedIn) {

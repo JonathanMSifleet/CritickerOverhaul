@@ -11,7 +11,7 @@ const Home: React.FC = (): JSX.Element => {
 
   useEffect(() => {
     async function getFilms(): Promise<void> {
-      setFilms((await HTTPRequest(`${GET_FILM}/home`, 'get')) as IFilm[]);
+      setFilms((await HTTPRequest(`${GET_FILM}/home`, 'GET')) as IFilm[]);
     }
     getFilms();
   }, []);
