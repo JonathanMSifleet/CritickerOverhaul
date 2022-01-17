@@ -42,7 +42,7 @@ const App: React.FC = () => {
         <Route path={'/about'} element={<TextOnlyPage pageName={`about`} />} />
         <Route path={'/resources'} element={<TextOnlyPage pageName={`resources`} />} />
         <Route path={'/terms'} element={<TextOnlyPage pageName={`terms`} />} />
-        <Route path={'/profile/:username?'} element={<Profile />} />
+        <Route path={'/profile/*'} element={<Profile />} />
         <Route path={'/film/*'} element={<Film />} />
         <Route path="" element={<Navigate to="/?error=404" />} />
       </Routes>

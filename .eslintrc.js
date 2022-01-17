@@ -28,14 +28,6 @@ module.exports = {
     ecmaVersion: 2020,
     ecmaFeatures: { jsx: true, legacyDecorators: true }
   },
-  overrides: [
-    {
-      files: ['*.ts', '*.tsx'], // Your TypeScript files extension
-      parserOptions: {
-        project: ['./tsconfig.json'] // Specify it only for TypeScript files
-      }
-    }
-  ],
   rules: {
     '@typescript-eslint/ban-ts-comment': 'off',
     '@typescript-eslint/explicit-function-return-type': 2,
