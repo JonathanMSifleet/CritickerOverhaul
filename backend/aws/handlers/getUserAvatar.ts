@@ -1,14 +1,16 @@
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
-import s3 from 'aws-sdk/clients/s3';
+import { S3 } from 'aws-sdk';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
 
-const storage = new s3();
+const storage = new S3();
 
 const getUserAvatar = async (event: { pathParameters: { UID: string } }): Promise<IHTTP | IHTTPErr> => {
   const { UID } = event.pathParameters;
+
+  console.log('UID', UID);
 
   try {
     const avatar = await getUserAvatarFromS3(`${UID}.jpg`);
@@ -19,6 +21,8 @@ const getUserAvatar = async (event: { pathParameters: { UID: string } }): Promis
       body: JSON.stringify(avatar)
     };
   } catch (error: unknown) {
+    console.log('catch error', error);
+    // @ts-expect-error
     return createAWSResErr(404, error);
   }
 };
@@ -33,6 +37,7 @@ const getUserAvatarFromS3 = async (filename: string): Promise<string | IHTTPErr 
     const result = await storage.getObject(params).promise();
     return result.Body ? result.Body!.toString('utf-8') : null;
   } catch (error: unknown) {
+    // @ts-expect-error
     return createAWSResErr(404, error);
   }
 };

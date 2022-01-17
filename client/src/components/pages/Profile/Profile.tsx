@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ShrugSVG from '../../../assets/svg/Shrug.svg';
 import Context from '../../../hooks/store/context';
-import { GET_PROFILE_BY_USERNAME, GET_USER_AVATAR } from '../../../shared/constants/endpoints';
+import { GET_PROFILE_BY_USERNAME, GET_USER_AVATAR, UPLOAD_USER_AVATAR } from '../../../shared/constants/endpoints';
 import HTTPRequest from '../../../shared/functions/HTTPRequest';
 // @ts-expect-error
 import FileBase64 from '../../FileToBase64/build.min.js';
@@ -17,42 +17,41 @@ const Profile: React.FC = (): JSX.Element => {
   const { globalState } = useContext(Context);
 
   useEffect(() => {
-    if (username) {
-      loadUserProfile(username);
-    } else {
-      loadUserProfile(globalState.userInfo.username);
-    }
+    username ? loadUserProfile(username) : loadUserProfile(globalState.userInfo.username);
   }, []);
 
   // must use useEffect hook to use async functions
   // rather than returning await asyncFunc()
   useEffect(() => {
-    // @ts-expect-error
     const getUserAvatar = async (): Promise<void> => {
-      const response = await HTTPRequest(`${GET_USER_AVATAR}/${userData.UID}`, 'get');
+      const url = `${GET_USER_AVATAR}/${userData.UID}`;
+      console.log(url);
+      const response = await HTTPRequest(url, 'GET');
 
+      console.log('profile response', response);
+
+      // @ts-expect-error
       if (response.status === 404) {
         setUserAvatar(ShrugSVG);
       } else {
+        // @ts-expect-error
         setUserAvatar(response);
       }
     };
 
-    if (userData) {
-      // getUserAvatar();
-    } else {
-      setUserAvatar(ShrugSVG);
-    }
+    userData ? getUserAvatar() : setUserAvatar(ShrugSVG);
   }, [userData]);
 
   const loadUserProfile = async (username: string): Promise<void> => {
-    if (username) setUserData(await HTTPRequest(`${GET_PROFILE_BY_USERNAME}/${username}`, 'get'));
+    if (username) setUserData(await HTTPRequest(`${GET_PROFILE_BY_USERNAME}/${username}`, 'GET'));
   };
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const handleFile = async (_event: any) => {
-    // const { base64 } = event;
-    // await HTTPRequest(`${uploadUserAvatarURL}/${globalState.userInfo.UID}`, 'post', { base64 });
+  const handleFile = async (_event: any): Promise<void> => {
+    console.log(event);
+    // @ts-expect-error
+    const { base64 } = event!;
+    await HTTPRequest(`${UPLOAD_USER_AVATAR}/${globalState.userInfo.UID}`, 'POST', { base64 });
   };
 
   const epochToDate = (epoch: number): string => {
@@ -60,22 +59,23 @@ const Profile: React.FC = (): JSX.Element => {
   };
 
   const getRatingRank = (numRatings: number): string => {
-    if (numRatings < 10) {
-      return 'Newbie';
-    } else if (numRatings >= 10 && numRatings < 100) {
-      return 'Flick Fan';
-    } else if (numRatings >= 100 && numRatings < 500) {
-      return 'Movie Buff';
-    } else if (numRatings >= 500 && numRatings < 1000) {
-      return 'Film Freak';
-    } else if (numRatings >= 1000 && numRatings < 2500) {
-      return 'Cinema Addict';
-    } else if (numRatings >= 2500 && numRatings < 5000) {
-      return 'Celluloid Junkie';
-    } else if (numRatings >= 5000) {
-      return 'Criticker Zealot';
-    } else {
-      return 'Error determining rank';
+    switch (true) {
+      case numRatings < 10:
+        return 'Newbie';
+      case numRatings < 100:
+        return 'Flick Fan';
+      case numRatings < 500:
+        return 'Movie Buff';
+      case numRatings < 1000:
+        return 'Film Freak';
+      case numRatings < 2500:
+        return 'Cinema Addict';
+      case numRatings < 5000:
+        return 'Celluloid Junkie';
+      case numRatings >= 5000:
+        return 'Criticker Zealot';
+      default:
+        return 'Error determining rank';
     }
   };
 

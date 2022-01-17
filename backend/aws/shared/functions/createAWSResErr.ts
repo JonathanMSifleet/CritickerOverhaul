@@ -1,8 +1,6 @@
 import IHTTPErr from '../interfaces/IHTTPErr';
 
-export const createAWSResErr = async (statusCode: number, message: unknown): Promise<IHTTPErr> => {
-  console.log('Error:', message);
-
+export const createAWSResErr = async (statusCode: number, message: string | string[]): Promise<IHTTPErr> => {
   if (Array.isArray(message)) {
     await logErrors(message);
   } else {
@@ -12,7 +10,7 @@ export const createAWSResErr = async (statusCode: number, message: unknown): Pro
   return {
     statusCode,
     statusText: {
-      message: JSON.stringify(message)
+      message
     }
   };
 };

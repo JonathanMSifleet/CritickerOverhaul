@@ -1,5 +1,7 @@
 To do:
 
+- Catch blocks
+- JSX Transform
 - Form validation
 - Server-side validation
 - Increment user ratings when rating submitted
