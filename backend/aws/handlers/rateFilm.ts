@@ -38,10 +38,12 @@ const rateFilm = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
       statusCode: 201,
       body: JSON.stringify(result)
     };
-  } catch (e: unknown) {
-    console.error(e);
-    return createAWSResErr(520, e);
+  } catch (error: unknown) {
+    console.error(error);
+    if (error instanceof Error) return createAWSResErr(520, error.message);
   }
+
+  return createAWSResErr(500, 'Internal Server Error');
 };
 
 const insertRatingToDB = async (payload: {

@@ -20,9 +20,11 @@ const getFilms = async (event: { pathParameters: { page: string } }): Promise<IH
       statusCode: 200,
       body: JSON.stringify(result)
     };
-  } catch (e: unknown) {
-    return createAWSResErr(500, e);
+  } catch (error: unknown) {
+    if (error instanceof Error) return createAWSResErr(500, error.message);
   }
+
+  return createAWSResErr(500, 'Internal Server Error');
 };
 
 const resultsToReturn = (page: string): number => {

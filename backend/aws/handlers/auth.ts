@@ -50,6 +50,8 @@ export const handler = async (event: {
       context: claims
     };
   } catch (error: unknown) {
-    return createAWSResErr(401, error);
+    if (error instanceof Error) return createAWSResErr(401, error.message);
   }
+
+  return createAWSResErr(500, 'Internal Server Error');
 };

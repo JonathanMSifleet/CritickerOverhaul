@@ -31,8 +31,10 @@ const deleteAccount = async (event: {
       statusCode: 204
     };
   } catch (error: unknown) {
-    return createAWSResErr(403, error);
+    if (error instanceof Error) return createAWSResErr(403, error.message);
   }
+
+  return createAWSResErr(500, 'Internal Server Error');
 };
 
 export const handler = middy(deleteAccount).use(cors());

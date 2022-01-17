@@ -29,8 +29,10 @@ const login = async (event: { body: string }): Promise<IHTTP | IHTTPErr> => {
       body: JSON.stringify({ username: user.username, UID: user.UID })
     };
   } catch (error: unknown) {
-    return createAWSResErr(404, error);
+    if (error instanceof Error) return createAWSResErr(404, error.message);
   }
+
+  return createAWSResErr(500, 'Internal Server Error');
 };
 
 export const handler = middy(login).use(cors());

@@ -26,9 +26,11 @@ const getProfileByUsername = async (event: { pathParameters: { username: string 
         numRatings: user.numRatings
       })
     };
-  } catch (e: unknown) {
-    return createAWSResErr(500, e);
+  } catch (error: unknown) {
+    if (error instanceof Error) return createAWSResErr(500, error.message);
   }
+
+  return createAWSResErr(500, 'Internal Server Error');
 };
 
 export const handler = middy(getProfileByUsername).use(cors());
