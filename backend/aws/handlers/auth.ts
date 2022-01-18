@@ -49,7 +49,7 @@ export const handler = async (event: {
       ...policy,
       context: claims
     };
-  } catch (error: unknown) {
+  } catch (error) {
     if (error instanceof Error) return createAWSResErr(401, error.message);
   }
 

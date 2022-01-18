@@ -28,7 +28,7 @@ const login = async (event: { body: string }): Promise<IHTTP | IHTTPErr> => {
       statusCode: 200,
       body: JSON.stringify({ username: user.username, UID: user.UID })
     };
-  } catch (error: unknown) {
+  } catch (error) {
     if (error instanceof Error) return createAWSResErr(404, error.message);
   }
 

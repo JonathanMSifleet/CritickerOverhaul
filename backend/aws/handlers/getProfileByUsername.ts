@@ -26,7 +26,7 @@ const getProfileByUsername = async (event: { pathParameters: { username: string 
         numRatings: user.numRatings
       })
     };
-  } catch (error: unknown) {
+  } catch (error) {
     if (error instanceof Error) return createAWSResErr(500, error.message);
   }
 

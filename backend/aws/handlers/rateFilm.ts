@@ -38,7 +38,7 @@ const rateFilm = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
       statusCode: 201,
       body: JSON.stringify(result)
     };
-  } catch (error: unknown) {
+  } catch (error) {
     console.error(error);
     if (error instanceof Error) return createAWSResErr(520, error.message);
   }

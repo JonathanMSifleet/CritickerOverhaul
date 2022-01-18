@@ -72,8 +72,9 @@ export const checkUniqueAttribute = async (type: string, value: string): Promise
     const resultItems = result.Items;
 
     return resultItems!.length !== 0;
-  } catch (e) {
-    console.error(e);
+  } catch (error) {
+    if (error instanceof Error) console.error(error.message);
   }
+
   return false;
 };

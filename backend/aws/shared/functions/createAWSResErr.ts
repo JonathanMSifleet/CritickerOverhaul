@@ -3,15 +3,14 @@ import IHTTPErr from '../interfaces/IHTTPErr';
 export const createAWSResErr = async (statusCode: number, message: string | string[]): Promise<IHTTPErr> => {
   if (Array.isArray(message)) {
     await logErrors(message);
+    message = message.join('\n');
   } else {
     console.error(message);
   }
 
   return {
     statusCode,
-    statusText: {
-      message
-    }
+    statusText: message
   };
 };
 

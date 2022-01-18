@@ -20,11 +20,11 @@ const getUserAvatar = async (event: { pathParameters: { UID: string } }): Promis
       statusCode: 200,
       body: JSON.stringify(avatar)
     };
-  } catch (error: unknown) {
-    console.log('catch error', error);
-    // @ts-expect-error
-    return createAWSResErr(404, error);
+  } catch (error) {
+    if (error instanceof Error) return createAWSResErr(404, error.message);
   }
+
+  return createAWSResErr(500, 'Internal Server Error');
 };
 
 const getUserAvatarFromS3 = async (filename: string): Promise<string | IHTTPErr | null> => {
@@ -36,10 +36,11 @@ const getUserAvatarFromS3 = async (filename: string): Promise<string | IHTTPErr 
 
     const result = await storage.getObject(params).promise();
     return result.Body ? result.Body!.toString('utf-8') : null;
-  } catch (error: unknown) {
-    // @ts-expect-error
-    return createAWSResErr(404, error);
+  } catch (error) {
+    if (error instanceof Error) return createAWSResErr(404, error.message);
   }
+
+  return createAWSResErr(500, 'Internal Server Error');
 };
 
 export const handler = middy(getUserAvatar).use(cors());

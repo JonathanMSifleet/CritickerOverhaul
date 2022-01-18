@@ -90,7 +90,7 @@ const getFilmByParam = async (event: { pathParameters: { id: number } }): Promis
       statusCode: 200,
       body: JSON.stringify(result)
     };
-  } catch (error: unknown) {
+  } catch (error) {
     if (error instanceof Error) return createAWSResErr(500, error.message);
   }
 

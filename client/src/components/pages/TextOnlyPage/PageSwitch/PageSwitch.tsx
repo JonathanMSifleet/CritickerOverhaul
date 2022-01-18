@@ -1,4 +1,3 @@
-// @ts-expect-error react required
 import { Link } from 'react-router-dom';
 import classes from './PageSwitch.module.scss';
 

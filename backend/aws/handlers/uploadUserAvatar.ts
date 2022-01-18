@@ -19,9 +19,11 @@ export const uploadUserAvatar = async (event: {
       statusCode: 200,
       body: JSON.stringify(`Found at: ${result}`)
     };
-  } catch (error: unknown) {
-    return createAWSResErr(500, error as string[]);
+  } catch (error) {
+    if (error instanceof Error) return createAWSResErr(500, error.message);
   }
+
+  return createAWSResErr(500, 'Internal Server Error');
 };
 
 const uploadPicture = async (filename: string, body: Buffer): Promise<string> => {

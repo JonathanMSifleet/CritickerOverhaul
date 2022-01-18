@@ -30,7 +30,7 @@ const deleteAccount = async (event: {
       body: JSON.stringify(result),
       statusCode: 204
     };
-  } catch (error: unknown) {
+  } catch (error) {
     if (error instanceof Error) return createAWSResErr(403, error.message);
   }
 

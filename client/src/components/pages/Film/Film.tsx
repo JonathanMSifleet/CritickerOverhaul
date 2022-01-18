@@ -13,8 +13,9 @@ const Film: React.FC = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [film, setFilm] = useState(null as any);
   const [filmPoster, setFilmPoster] = useState(null as string | null);
-  const { id } = useParams<{ id: string }>();
   const [rating, setRating] = useState(null as unknown as number);
+
+  const { id } = useParams<{ id: string }>();
   const { globalState } = useContext(Context);
 
   // must use useEffect hook to use async functions
