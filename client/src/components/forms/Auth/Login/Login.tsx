@@ -33,28 +33,27 @@ const Login: React.FC = () => {
   }, [formInfo]);
 
   useEffect(() => {
-    if (shouldPost) {
-      const postData = async (): Promise<void> => {
-        try {
-          const response = (await HTTPRequest(LOGIN, 'POST', formInfo)) as { username: string; UID: string };
+    const postData = async (): Promise<void> => {
+      try {
+        const response = (await HTTPRequest(LOGIN, 'POST', formInfo)) as { username: string; UID: string };
 
-          const userDetails = {
-            username: response.username,
-            loggedIn: true,
-            UID: response.UID
-          };
+        const userDetails = {
+          username: response.username,
+          loggedIn: true,
+          UID: response.UID
+        };
 
-          let expiryDate = new Date().getTime();
-          expiryDate = expiryDate + 14400000; // four hours
-          sessionStorage.setItem('userData', JSON.stringify({ ...userDetails, expiryDate }));
+        let expiryDate = new Date().getTime();
+        expiryDate = expiryDate + 14400000; // four hours
+        sessionStorage.setItem('userData', JSON.stringify({ ...userDetails, expiryDate }));
 
-          setUserInfo(userDetails);
+        setUserInfo(userDetails);
 
-          setShowModal(false);
-        } catch (e) {}
-      };
-      postData();
-    }
+        setShowModal(false);
+      } catch (e) {}
+    };
+
+    if (shouldPost) postData();
   }, [shouldPost]);
 
   const inputChangedHandler = (eventValue: string, inputName: string): void => {

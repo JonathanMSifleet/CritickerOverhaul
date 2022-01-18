@@ -21,12 +21,10 @@ const Film: React.FC = () => {
   // must use useEffect hook to use async functions
   // rather than returning await asyncFunc()
   useEffect(() => {
-    async function getFilmData(): Promise<void> {
+    (async (): Promise<void> => {
       setFilmPoster(await getIMDbFilmPoster(id!));
       setFilm(await HTTPRequest(`${GET_FILM_BY_PARAM}/${id}`, 'GET'));
-    }
-
-    getFilmData();
+    })();
   }, [id]);
 
   const inputChangedHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {

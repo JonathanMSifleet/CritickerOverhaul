@@ -18,14 +18,13 @@ const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
   if (await checkUniqueAttribute('username', username)) return createAWSResErr(403, 'Username already in use');
 
   const errors = (await validateUserInputs(username, email, password)) as string[];
-  console.log('signup errors:', errors);
 
-  if (errors.length !== 0) return createAWSResErr(400, errors);
+  if (errors.length !== 0) return createAWSResErr(422, errors);
 
   // non-form attributes added here:
   const UID = shortUUID.generate();
   let memberSince = Date.now();
-  memberSince = Math.floor(memberSince / 86400) * 86400;
+  memberSince = Math.floor(memberSince / (24 * 60 * 60)) * 24 * 60 * 60;
 
   try {
     const result = await insertUserToDB(username, email, password, UID, memberSince);
@@ -35,10 +34,11 @@ const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
       statusCode: 201,
       body: JSON.stringify(result)
     };
-  } catch (e) {
-    console.error(e);
-    return createAWSResErr(520, errors);
+  } catch (error) {
+    if (error instanceof Error) return createAWSResErr(500, error.message);
   }
+
+  return createAWSResErr(500, 'Internal Server Error');
 };
 
 const insertUserToDB = async (

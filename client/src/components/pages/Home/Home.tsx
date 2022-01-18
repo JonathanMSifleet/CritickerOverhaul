@@ -10,10 +10,9 @@ const Home: React.FC = (): JSX.Element => {
   const [films, setFilms] = useState(null as IFilm[] | null);
 
   useEffect(() => {
-    async function getFilms(): Promise<void> {
+    (async (): Promise<void> => {
       setFilms((await HTTPRequest(`${GET_FILM}/home`, 'GET')) as IFilm[]);
-    }
-    getFilms();
+    })();
   }, []);
 
   useEffect(() => {

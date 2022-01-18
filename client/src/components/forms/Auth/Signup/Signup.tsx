@@ -53,6 +53,7 @@ const SignUp: React.FC = () => {
 
     // stop POSTing unnecessary attribute
     delete formInfo!.repeatPassword;
+  
     if (shouldPost) postData();
   }, [shouldPost]);
 
