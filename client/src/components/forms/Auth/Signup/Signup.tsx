@@ -1,10 +1,10 @@
 import CryptoES from 'crypto-es';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import Button from '../../../../elements/Button/Button';
 import Checkbox from '../../../../elements/Checkbox/Checkbox';
 import Input from '../../../../elements/Input/Input';
-import * as actionTypes from '../../../../hooks/store/actionTypes';
-import Context from '../../../../hooks/store/context';
+import { modalState } from '../../../../recoilStore/store';
 import { SIGNUP } from '../../../../shared/constants/endpoints';
 import HTTPRequest from '../../../../shared/functions/HTTPRequest';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
@@ -21,9 +21,9 @@ interface IState {
 const SignUp: React.FC = () => {
   const [formInfo, setFormInfo] = useState<IState>({});
   const [shouldPost, setShouldPost] = useState(false);
+  // @ts-expect-error
+  const [showModal, setShowModal] = useRecoilState(modalState);
   const [submitDisabled, setSubmitDisabled] = useState(true);
-
-  const { actions } = useContext(Context);
 
   useEffect(() => {
     if (
@@ -44,20 +44,16 @@ const SignUp: React.FC = () => {
   // cycle is called, updating the state to store the hashed password,
   // so that when it is POSTed to the server, the password is hashed
   useEffect(() => {
-    if (shouldPost) {
-      // trick to allows for await to be used inside a useEffect hook
-      const postData = async (): Promise<void> => {
-        await HTTPRequest(SIGNUP, 'POST', formInfo);
+    // trick to allows for await to be used inside a useEffect hook
+    const postData = async (): Promise<void> => {
+      await HTTPRequest(SIGNUP, 'POST', formInfo);
 
-        actions({
-          type: actionTypes.setShowModal,
-          payload: { showModal: false }
-        });
-      };
-      // stop POSTing unnecessary attribute
-      delete formInfo!.repeatPassword;
-      postData();
-    }
+      setShowModal(false);
+    };
+
+    // stop POSTing unnecessary attribute
+    delete formInfo!.repeatPassword;
+    if (shouldPost) postData();
   }, [shouldPost]);
 
   const signup = async (): Promise<void> => {

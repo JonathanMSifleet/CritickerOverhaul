@@ -1,57 +1,51 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import ShrugSVG from '../../../assets/svg/Shrug.svg';
-import Context from '../../../hooks/store/context';
+import { userInfoState } from '../../../recoilStore/store';
 import { GET_PROFILE_BY_USERNAME, GET_USER_AVATAR, UPLOAD_USER_AVATAR } from '../../../shared/constants/endpoints';
 import HTTPRequest from '../../../shared/functions/HTTPRequest';
-// @ts-expect-error
 import FileBase64 from '../../FileToBase64/build.min.js';
 import PageView from '../../hoc/PageView/PageView';
 import classes from './Profile.module.scss';
 
 const Profile: React.FC = (): JSX.Element => {
-  const [userData, setUserData] = useState(null as unknown as any);
   const [userAvatar, setUserAvatar] = useState('');
+  const [userProfile, setUserProfile] = useState(null as unknown as any);
+  // @ts-expect-error
+  const [userState, setUserState] = useRecoilState(userInfoState);
 
   const { username } = useParams<{ username: string }>();
-  const { globalState } = useContext(Context);
 
   useEffect(() => {
-    username ? loadUserProfile(username) : loadUserProfile(globalState.userInfo.username);
+    const loadUserProfile = async (username: string): Promise<void> => {
+      setUserProfile(await HTTPRequest(`${GET_PROFILE_BY_USERNAME}/${username}`, 'GET'));
+    };
+
+    username ? loadUserProfile(username) : loadUserProfile(userState!.username);
   }, []);
 
   // must use useEffect hook to use async functions
   // rather than returning await asyncFunc()
   useEffect(() => {
     const getUserAvatar = async (): Promise<void> => {
-      const url = `${GET_USER_AVATAR}/${userData.UID}`;
+      const url = `${GET_USER_AVATAR}/${userProfile.UID}`;
       console.log(url);
       const response = await HTTPRequest(url, 'GET');
 
       console.log('profile response', response);
 
       // @ts-expect-error
-      if (response.status === 404) {
-        setUserAvatar(ShrugSVG);
-      } else {
-        // @ts-expect-error
-        setUserAvatar(response);
-      }
+      response.status === 404 ? setUserAvatar(ShrugSVG) : setUserAvatar(response);
     };
 
-    userData ? getUserAvatar() : setUserAvatar(ShrugSVG);
-  }, [userData]);
+    userProfile ? getUserAvatar() : setUserAvatar(ShrugSVG);
+  }, [userProfile]);
 
-  const loadUserProfile = async (username: string): Promise<void> => {
-    if (username) setUserData(await HTTPRequest(`${GET_PROFILE_BY_USERNAME}/${username}`, 'GET'));
-  };
-
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  const handleFile = async (_event: any): Promise<void> => {
+  const handleFile = async (event: any): Promise<void> => {
     console.log(event);
-    // @ts-expect-error
     const { base64 } = event!;
-    await HTTPRequest(`${UPLOAD_USER_AVATAR}/${globalState.userInfo.UID}`, 'POST', { base64 });
+    await HTTPRequest(`${UPLOAD_USER_AVATAR}/${userState!.UID}`, 'POST', { base64 });
   };
 
   const epochToDate = (epoch: number): string => {
@@ -86,7 +80,7 @@ const Profile: React.FC = (): JSX.Element => {
           <div className={classes.ImageWrapper}>
             <img className={classes.UserAvatar} src={userAvatar} />
             {((): JSX.Element | null => {
-              if (!username && globalState.userInfo.loggedIn) {
+              if (!username && userState!.loggedIn) {
                 return (
                   <>
                     <label htmlFor="fileUpload" className={classes.UploadPictureText}>
@@ -105,15 +99,15 @@ const Profile: React.FC = (): JSX.Element => {
             })()}
           </div>
 
-          {!userData ? (
+          {!userProfile ? (
             'User not found'
           ) : (
             <div className={classes.UserDetails}>
-              <h1>{userData ? userData.username : 'Unknown'}</h1>
+              <h1>{userProfile ? userProfile.username : 'Unknown'}</h1>
               <p>
-                {getRatingRank(userData.numRatings)} - {userData.numRatings} Film Ratings
+                {getRatingRank(userProfile.numRatings)} - {userProfile.numRatings} Film Ratings
               </p>
-              <p>Member since: {epochToDate(userData.memberSince).toString()}</p>
+              <p>Member since: {epochToDate(userProfile.memberSince)}</p>
             </div>
           )}
         </div>

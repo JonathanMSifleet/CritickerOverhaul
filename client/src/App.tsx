@@ -1,16 +1,17 @@
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import Film from './components/pages/Film/Film';
 import Home from './components/pages/Home/Home';
 import Profile from './components/pages/Profile/Profile';
 import TextOnlyPage from './components/pages/TextOnlyPage/TextOnlyPage';
-import * as actionTypes from './hooks/store/actionTypes';
-import Context from './hooks/store/context';
+import { userInfoState } from './recoilStore/store';
 
 const App: React.FC = () => {
-  // application logic goes here:
+  // @ts-expect-error
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
-  const { actions } = useContext(Context);
+  // application logic goes here:
 
   useEffect(() => {
     autoLogin();
@@ -24,10 +25,7 @@ const App: React.FC = () => {
       if (new Date().getTime() > userData!.expiryDate) {
         sessionStorage.removeItem('userData');
       } else {
-        actions({
-          type: actionTypes.setUserInfo,
-          payload: userData
-        });
+        setUserInfo(userData);
       }
     }
   };

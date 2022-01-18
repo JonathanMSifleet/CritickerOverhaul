@@ -1,8 +1,9 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import Button from '../../../elements/Button/Button';
 import Input from '../../../elements/Input/Input';
-import Context from '../../../hooks/store/context';
+import { userInfoState } from '../../../recoilStore/store';
 import { GET_FILM_BY_PARAM, RATE_FILM } from '../../../shared/constants/endpoints';
 import getIMDbFilmPoster from '../../../shared/functions/getFilmImage';
 import HTTPRequest from '../../../shared/functions/HTTPRequest';
@@ -10,13 +11,12 @@ import PageView from '../../hoc/PageView/PageView';
 import classes from './Film.module.scss';
 
 const Film: React.FC = () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [film, setFilm] = useState(null as any);
   const [filmPoster, setFilmPoster] = useState(null as string | null);
   const [rating, setRating] = useState(null as unknown as number);
+  const [userState] = useRecoilState(userInfoState);
 
   const { id } = useParams<{ id: string }>();
-  const { globalState } = useContext(Context);
 
   // must use useEffect hook to use async functions
   // rather than returning await asyncFunc()
@@ -34,10 +34,10 @@ const Film: React.FC = () => {
   };
 
   const rateFilm = async (): Promise<void> => {
-    console.log(globalState.userInfo);
+    console.log(userState);
     await HTTPRequest(RATE_FILM, 'POST', {
       id: Number(id),
-      UID: globalState.userInfo.UID,
+      UID: userState!.UID,
       rating
     });
   };
@@ -60,7 +60,7 @@ const Film: React.FC = () => {
         </div>
 
         <div className={classes.RateFilmWrapper}>
-          {globalState.userInfo.loggedIn ? (
+          {userState!.loggedIn ? (
             <form
               onSubmit={(event): void => {
                 event.preventDefault();

@@ -1,9 +1,9 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
 import Logo from '../../../assets/svg/Logo.svg';
 import Button from '../../../elements/Button/Button';
-import * as actionTypes from '../../../hooks/store/actionTypes';
-import Context from '../../../hooks/store/context';
+import { modalState, userInfoState } from '../../../recoilStore/store';
 import { GET_USER_AVATAR } from '../../../shared/constants/endpoints';
 import HTTPRequest from '../../../shared/functions/HTTPRequest';
 import Auth from '../../forms/Auth/Auth';
@@ -11,32 +11,24 @@ import Modal from '../Modal/Modal';
 import classes from './Header.module.scss';
 
 const Header: React.FC = (): JSX.Element => {
-  const { globalState, actions } = useContext(Context);
+  const [userState, setUserState] = useRecoilState(userInfoState);
   const [userAvatar, setUserAvatar] = useState(null as string | null);
+  const [showModal, setShowModal] = useRecoilState(modalState);
 
   useEffect(() => {
-    // @ts-expect-error
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const getUserAvatar = async (): Promise<void> => {
-      setUserAvatar((await HTTPRequest(`${GET_USER_AVATAR}/${globalState.userInfo.UID}`, 'GET')) as string);
+      setUserAvatar((await HTTPRequest(`${GET_USER_AVATAR}/${userState!.UID}`, 'GET')) as string);
     };
 
-    if (globalState.userInfo.loggedIn) {
-      // getUserAvatar();
-    }
-  }, [globalState]);
+    if (userState!.loggedIn) getUserAvatar();
+  }, [userState]);
 
   const logout = (): void => {
-    actions({
-      type: actionTypes.logOutUser
-    });
+    setUserState(null);
   };
 
   const displayAuthModal = (): void => {
-    actions({
-      type: actionTypes.setShowModal,
-      payload: { showModal: true }
-    });
+    setShowModal(true);
   };
 
   return (
@@ -65,7 +57,8 @@ const Header: React.FC = (): JSX.Element => {
             <i className="fas fa-search"></i>
           </button>
         </div>
-        {globalState.userInfo.loggedIn ? (
+        {console.log('userState', userState)}
+        {userState!.loggedIn ? (
           <>
             <Link to="/profile">
               <img src={userAvatar!} className={`${classes.UserAvatar} rounded-circle mb-3`} />
@@ -85,7 +78,7 @@ const Header: React.FC = (): JSX.Element => {
           />
         )}
       </section>
-      {globalState.showModal ? (
+      {showModal ? (
         <Modal>
           <Auth />
         </Modal>

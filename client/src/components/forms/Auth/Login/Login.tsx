@@ -1,9 +1,9 @@
 import CryptoES from 'crypto-es';
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import Button from '../../../../elements/Button/Button';
 import Input from '../../../../elements/Input/Input';
-import * as actionTypes from '../../../../hooks/store/actionTypes';
-import Context from '../../../../hooks/store/context';
+import { modalState, userInfoState } from '../../../../recoilStore/store';
 import { LOGIN } from '../../../../shared/constants/endpoints';
 import HTTPRequest from '../../../../shared/functions/HTTPRequest';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
@@ -17,9 +17,11 @@ interface IState {
 const Login: React.FC = () => {
   const [formInfo, setFormInfo] = useState<IState>({});
   const [shouldPost, setShouldPost] = useState(false);
+  // @ts-expect-error
+  const [showModal, setShowModal] = useRecoilState(modalState);
   const [submitDisabled, setSubmitDisabled] = useState(true);
-
-  const { actions } = useContext(Context);
+  // @ts-expect-error
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
   // see signup.tsx comment for why this is here
   useEffect(() => {
@@ -46,15 +48,9 @@ const Login: React.FC = () => {
           expiryDate = expiryDate + 14400000; // four hours
           sessionStorage.setItem('userData', JSON.stringify({ ...userDetails, expiryDate }));
 
-          actions({
-            type: actionTypes.setUserInfo,
-            payload: userDetails
-          });
+          setUserInfo(userDetails);
 
-          actions({
-            type: actionTypes.setShowModal,
-            payload: { showModal: false }
-          });
+          setShowModal(false);
         } catch (e) {}
       };
       postData();

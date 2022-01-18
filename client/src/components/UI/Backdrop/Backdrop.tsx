@@ -1,19 +1,15 @@
-import { useContext } from 'react';
-import * as actionTypes from '../../../hooks/store/actionTypes';
-import Context from '../../../hooks/store/context';
+import { useRecoilState } from 'recoil';
+import { modalState } from '../../../recoilStore/store';
 import classes from './Backdrop.module.scss';
 
 const Backdrop: React.FC = (): JSX.Element | null => {
-  const { globalState, actions } = useContext(Context);
+  const [showModal, setShowModal] = useRecoilState(modalState);
 
   const hideBackdrop = (): void => {
-    actions({
-      type: actionTypes.setShowModal,
-      payload: { showModal: false }
-    });
+    setShowModal(false);
   };
 
-  return globalState.showModal ? <div className={classes.Backdrop} onClick={hideBackdrop} /> : null;
+  return showModal ? <div className={classes.Backdrop} onClick={hideBackdrop} /> : null;
 };
 
 export default Backdrop;
