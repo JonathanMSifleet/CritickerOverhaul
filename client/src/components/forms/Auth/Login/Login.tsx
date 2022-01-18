@@ -37,20 +37,17 @@ const Login: React.FC = () => {
       try {
         const response = (await HTTPRequest(LOGIN, 'POST', formInfo)) as { username: string; UID: string };
 
-        const userDetails = {
+        setUserInfo({
           username: response.username,
           loggedIn: true,
-          UID: response.UID
-        };
-
-        let expiryDate = new Date().getTime();
-        expiryDate = expiryDate + 14400000; // four hours
-        sessionStorage.setItem('userData', JSON.stringify({ ...userDetails, expiryDate }));
-
-        setUserInfo(userDetails);
+          UID: response.UID,
+          expiryDate: new Date().getTime() + 4 * 60 * 60
+        });
 
         setShowModal(false);
-      } catch (e) {}
+      } catch (error) {
+        console.error(error);
+      }
     };
 
     if (shouldPost) postData();

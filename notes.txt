@@ -1,2 +1,0 @@
-create a factory method to create HTTP requests
-  Look at state hook action types

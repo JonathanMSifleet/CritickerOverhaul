@@ -1,35 +1,10 @@
-import { useEffect } from 'react';
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
 import Film from './components/pages/Film/Film';
 import Home from './components/pages/Home/Home';
 import Profile from './components/pages/Profile/Profile';
 import TextOnlyPage from './components/pages/TextOnlyPage/TextOnlyPage';
-import { userInfoState } from './recoilStore/store';
 
 const App: React.FC = () => {
-  // @ts-expect-error
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-
-  // application logic goes here:
-
-  useEffect(() => {
-    autoLogin();
-  }, []);
-
-  const autoLogin = (): void => {
-    const sessionStorageUserData = sessionStorage.getItem('userData');
-    if (sessionStorageUserData) {
-      const userData = JSON.parse(sessionStorageUserData);
-
-      if (new Date().getTime() > userData!.expiryDate) {
-        sessionStorage.removeItem('userData');
-      } else {
-        setUserInfo(userData);
-      }
-    }
-  };
-
   return (
     <HashRouter>
       <Routes>

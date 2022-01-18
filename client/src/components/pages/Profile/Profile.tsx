@@ -18,11 +18,17 @@ const Profile: React.FC = (): JSX.Element => {
   const { username } = useParams<{ username: string }>();
 
   useEffect(() => {
-    const loadUserProfile = async (username: string): Promise<void> => {
-      setUserProfile(await HTTPRequest(`${GET_PROFILE_BY_USERNAME}/${username}`, 'GET'));
+    const loadUserProfile = async (username: string, test: string): Promise<void> => {
+      console.log('username', username);
+      console.log('test', test);
+      console.log('userState', userState);
+      console.log('get profile by username');
+      const profile = await HTTPRequest(`${GET_PROFILE_BY_USERNAME}/${username}`, 'GET');
+      console.log('profile response', profile);
+      setUserProfile(profile);
     };
 
-    username ? loadUserProfile(username) : loadUserProfile(userState!.username);
+    username ? loadUserProfile(username, 'username') : loadUserProfile(userState!.username, 'userState!.username');
   }, []);
 
   // must use useEffect hook to use async functions
@@ -43,7 +49,7 @@ const Profile: React.FC = (): JSX.Element => {
   }, [userProfile]);
 
   const handleFile = async (event: any): Promise<void> => {
-    console.log(event);
+    console.log('event', event);
     const { base64 } = event!;
     await HTTPRequest(`${UPLOAD_USER_AVATAR}/${userState!.UID}`, 'POST', { base64 });
   };
@@ -79,24 +85,20 @@ const Profile: React.FC = (): JSX.Element => {
         <div className={classes.UserDetailsWrapper}>
           <div className={classes.ImageWrapper}>
             <img className={classes.UserAvatar} src={userAvatar} />
-            {((): JSX.Element | null => {
-              if (!username && userState!.loggedIn) {
-                return (
-                  <>
-                    <label htmlFor="fileUpload" className={classes.UploadPictureText}>
-                      Upload new picture
-                    </label>
-                    <FileBase64
-                      className={classes.UploadPictureInput}
-                      id="fileUpload"
-                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                      onDone={(event: { target: any }): Promise<void> => handleFile(event)}
-                      type={'file'}
-                    />
-                  </>
-                );
-              } else return null;
-            })()}
+            {!username && userState!.loggedIn ? (
+              <>
+                <label htmlFor="fileUpload" className={classes.UploadPictureText}>
+                  Upload new picture
+                </label>
+                <FileBase64
+                  className={classes.UploadPictureInput}
+                  id="fileUpload"
+                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                  onDone={(event: { target: any }): Promise<void> => handleFile(event)}
+                  type={'file'}
+                />
+              </>
+            ) : null}
           </div>
 
           {!userProfile ? (

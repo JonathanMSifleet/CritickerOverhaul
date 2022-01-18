@@ -1,17 +1,20 @@
 import { atom } from 'recoil';
+import { recoilPersist } from 'recoil-persist';
 import IUserState from '../shared/interfaces/IUserState';
-import * as stateKeys from './stateKeys';
+
+const { persistAtom } = recoilPersist({ key: 'userState' });
 
 export const modalState = atom({
-  key: stateKeys.SHOW_MODAL,
+  key: 'SHOW_MODAL',
   default: false
 });
 
 export const userInfoState = atom({
-  key: stateKeys.USER_INFO,
+  key: 'USER_INFO',
   default: {
     UID: '',
     loggedIn: false,
     username: ''
-  } as IUserState | null
+  } as IUserState | null,
+  effects_UNSTABLE: [persistAtom]
 });

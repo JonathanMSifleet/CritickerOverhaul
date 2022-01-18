@@ -1,7 +1,7 @@
 To do:
 
-- Catch blocks
-- JSX Transform
+- Add auto logout
+- Fix logging out
 - Form validation
 - Server-side validation
 - Increment user ratings when rating submitted

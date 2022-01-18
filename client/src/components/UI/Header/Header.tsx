@@ -57,8 +57,7 @@ const Header: React.FC = (): JSX.Element => {
             <i className="fas fa-search"></i>
           </button>
         </div>
-        {console.log('userState', userState)}
-        {userState!.loggedIn ? (
+        {userState !== undefined && userState!.loggedIn ? (
           <>
             <Link to="/profile">
               <img src={userAvatar!} className={`${classes.UserAvatar} rounded-circle mb-3`} />
