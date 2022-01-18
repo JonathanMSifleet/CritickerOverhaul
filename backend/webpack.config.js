@@ -1,13 +1,11 @@
+const path = require('path');
 // runs TypeScript linting on separate process
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const path = require('path');
-const slsw = require('serverless-webpack');
 
 module.exports = {
+  context: __dirname,
   mode: 'development',
-  devtool: 'inline-cheap-module-source-map',
-  entry: slsw.lib.entries,
-  target: 'node',
+  devtool: 'eval-cheap-source-map',
   performance: {
     hints: false
   },
@@ -18,15 +16,18 @@ module.exports = {
   },
   output: {
     asyncChunks: true,
+    libraryTarget: 'umd',
     path: path.join(__dirname, '.webpack'),
     chunkFilename: '[id].[chunkhash].js'
   },
+  target: 'node',
   module: {
     rules: [
       {
-        test: /\.ts/,
+        // all files with a `.ts` or `.tsx` extension will be handled by `ts-loader`
+        test: /\.ts$/,
         loader: 'ts-loader',
-        exclude: [[/node_modules/], [/.serverless/], [/.webpack/], [/client/]],
+        exclude: [[/node_modules/], [/.serverless/], [/.webpack/]],
         options: {
           transpileOnly: true
         }
