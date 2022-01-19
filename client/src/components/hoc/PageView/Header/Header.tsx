@@ -1,35 +1,32 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
-import Logo from '../../../assets/svg/Logo.svg';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import Logo from '../../../../assets/svg/Logo.svg';
+import { GET_USER_AVATAR } from '../../../../constants/endpoints';
+import { modalState, userInfoState } from '../../../../store';
+import httpRequest from '../../../../utils/httpRequest';
+import Auth from '../../../elements/Auth/Auth';
 import Button from '../../../elements/Button/Button';
-import { modalState, userInfoState } from '../../../recoilStore/store';
-import { GET_USER_AVATAR } from '../../../shared/constants/endpoints';
-import HTTPRequest from '../../../shared/functions/HTTPRequest';
-import Auth from '../../forms/Auth/Auth';
-import Modal from '../Modal/Modal';
+import Modal from '../../../elements/UI/Modal/Modal';
 import classes from './Header.module.scss';
 
 const Header: React.FC = (): JSX.Element => {
-  const [userState, setUserState] = useRecoilState(userInfoState);
+  const resetUserState = useResetRecoilState(userInfoState);
+  const userState = useRecoilValue(userInfoState);
   const [userAvatar, setUserAvatar] = useState(null as string | null);
   const [showModal, setShowModal] = useRecoilState(modalState);
 
   useEffect(() => {
     const getUserAvatar = async (): Promise<void> => {
-      setUserAvatar((await HTTPRequest(`${GET_USER_AVATAR}/${userState!.UID}`, 'GET')) as string);
+      setUserAvatar((await httpRequest(`${GET_USER_AVATAR}/${userState!.UID}`, 'GET')) as string);
     };
 
     if (userState!.loggedIn) getUserAvatar();
   }, [userState]);
 
-  const logout = (): void => {
-    setUserState(null);
-  };
+  const logout = (): void => resetUserState();
 
-  const displayAuthModal = (): void => {
-    setShowModal(true);
-  };
+  const displayAuthModal = (): void => setShowModal(true);
 
   return (
     <nav className={`${classes.Header} navbar navbar-expand-lg bg-primary navbar-dark`}>
@@ -54,10 +51,10 @@ const Header: React.FC = (): JSX.Element => {
             </label>
           </div>
           <button type="button" className="btn btn-primary">
-            <i className="fas fa-search"></i>
+            <i className="fas fa-search" />
           </button>
         </div>
-        {userState !== undefined && userState!.loggedIn ? (
+        {userState!.loggedIn ? (
           <>
             <Link to="/profile">
               <img src={userAvatar!} className={`${classes.UserAvatar} rounded-circle mb-3`} />

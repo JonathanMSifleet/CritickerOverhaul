@@ -1,5 +1,5 @@
 import { useRecoilState } from 'recoil';
-import { modalState } from '../../../store';
+import { modalState } from '../../../../../store';
 import classes from './Backdrop.module.scss';
 
 const Backdrop: React.FC = (): JSX.Element | null => {

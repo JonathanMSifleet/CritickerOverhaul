@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import ShrugSVG from '../../../assets/svg/Shrug.svg';
-import { GET_PROFILE_BY_USERNAME, GET_USER_AVATAR, UPLOAD_USER_AVATAR } from '../../../shared/constants/endpoints';
-import HTTPRequest from '../../../shared/functions/httpRequest';
+import { GET_PROFILE_BY_USERNAME, GET_USER_AVATAR, UPLOAD_USER_AVATAR } from '../../../constants/endpoints';
 import { userInfoState } from '../../../store';
-// @ts-expect-error cannot type import
-import FileBase64 from '../../FileToBase64/build.min.js';
+import httpRequest from '../../../utils/httpRequest';
+// @ts-expect-error cannot import as type
+import FileBase64 from '../../elements/FileToBase64/build.min.js';
 import PageView from '../../hoc/PageView/PageView';
 import classes from './Profile.module.scss';
 
@@ -23,7 +23,7 @@ const Profile: React.FC = (): JSX.Element => {
       console.log('test', test);
       console.log('userState', userState);
       console.log('get profile by username');
-      const profile = await HTTPRequest(`${GET_PROFILE_BY_USERNAME}/${username}`, 'GET');
+      const profile = await httpRequest(`${GET_PROFILE_BY_USERNAME}/${username}`, 'GET');
       console.log('profile response', profile);
       setUserProfile(profile);
     };
@@ -37,7 +37,7 @@ const Profile: React.FC = (): JSX.Element => {
     const getUserAvatar = async (): Promise<void> => {
       const url = `${GET_USER_AVATAR}/${userProfile.UID}`;
       console.log(url);
-      const response = await HTTPRequest(url, 'GET');
+      const response = await httpRequest(url, 'GET');
 
       console.log('profile response', response);
 
@@ -50,7 +50,7 @@ const Profile: React.FC = (): JSX.Element => {
   const handleFile = async (event: any): Promise<void> => {
     console.log('event', event);
     const { base64 } = event!;
-    await HTTPRequest(`${UPLOAD_USER_AVATAR}/${userState!.UID}`, 'POST', { base64 });
+    await httpRequest(`${UPLOAD_USER_AVATAR}/${userState!.UID}`, 'POST', { base64 });
   };
 
   const epochToDate = (epoch: number): string => new Date(epoch).toLocaleDateString('en-GB');

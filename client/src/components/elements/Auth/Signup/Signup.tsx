@@ -1,14 +1,14 @@
 import CryptoES from 'crypto-es';
-import { useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
-import Button from '../../../../elements/Button/Button';
-import Checkbox from '../../../../elements/Checkbox/Checkbox';
-import Input from '../../../../elements/Input/Input';
+import Button from '../../../elements/Button/Button';
+import Checkbox from '../../../elements/Checkbox/Checkbox';
+import Input from '../../../elements/Input/Input';
+import { SIGNUP } from '../../../../constants/endpoints';
 import { modalState } from '../../../../store';
-import { SIGNUP } from '../../../../shared/constants/endpoints';
-import HTTPRequest from '../../../../shared/functions/httpRequest';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import classes from './Signup.module.scss';
+import httpRequest from '../../../../utils/httpRequest';
 
 interface IState {
   email?: string;
@@ -45,7 +45,7 @@ const SignUp: React.FC = () => {
   useEffect(() => {
     // trick to allows for await to be used inside a useEffect hook
     const postData = async (): Promise<void> => {
-      await HTTPRequest(SIGNUP, 'POST', formInfo);
+      await httpRequest(SIGNUP, 'POST', formInfo);
 
       setShowModal(false);
     };
@@ -80,7 +80,7 @@ const SignUp: React.FC = () => {
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         {/* Username input */}
         <Input
-          onChange={(event): void => inputChangedHandler(event, 'username')}
+          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'username')}
           placeholder={'Username'}
           type={'text'}
         />
@@ -88,7 +88,7 @@ const SignUp: React.FC = () => {
         {/* Email input */}
         <Input
           autoComplete="new-password"
-          onChange={(event): void => inputChangedHandler(event, 'email')}
+          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'email')}
           placeholder={'Email'}
           type={'email'}
         />
@@ -96,14 +96,14 @@ const SignUp: React.FC = () => {
         {/* Password input */}
         <Input
           autoComplete="new-password"
-          onChange={(event): void => inputChangedHandler(event, 'password')}
+          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'password')}
           placeholder={'Password'}
           type={'password'}
         />
 
         {/* Repeat Password input */}
         <Input
-          onChange={(event): void => inputChangedHandler(event, 'repeatPassword')}
+          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'repeatPassword')}
           placeholder={'Repeat password'}
           type={'password'}
         />
@@ -113,7 +113,7 @@ const SignUp: React.FC = () => {
       <div className={classes.TermsConditionsWrapper}>
         <label className={classes.TermsConditionsLabel}>
           <Checkbox
-            onChange={(event): void => checkboxHandler(event)}
+            onChange={(event: ChangeEvent<HTMLInputElement>): void => checkboxHandler(event)}
             placeholder={'I have read and agree to the terms'}
             value={formInfo.termsChecked}
           />

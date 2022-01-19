@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { GET_FILM } from '../../../shared/constants/endpoints';
-import HTTPRequest from '../../../shared/functions/httpRequest';
-import IFilm from '../../../shared/interfaces/IFilm';
+import { GET_FILM } from '../../../constants/endpoints';
+import HTTPRequest from '../../../utils/httpRequest';
+import IFilm from '../../../interfaces/IFilm';
 import PageView from '../../hoc/PageView/PageView';
 import FilmCard from './FilmCard/FilmCard';
 import classes from './Home.module.scss';

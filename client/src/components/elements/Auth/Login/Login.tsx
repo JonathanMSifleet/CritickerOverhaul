@@ -1,11 +1,11 @@
 import CryptoES from 'crypto-es';
 import { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
-import Button from '../../../../elements/Button/Button';
-import Input from '../../../../elements/Input/Input';
+import Button from '../../../elements/Button/Button';
+import Input from '../../../elements/Input/Input';
+import { LOGIN } from '../../../../constants/endpoints';
+import HTTPRequest from '../../../../utils/httpRequest';
 import { modalState, userInfoState } from '../../../../store';
-import { LOGIN } from '../../../../shared/constants/endpoints';
-import HTTPRequest from '../../../../shared/functions/httpRequest';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import classes from './Login.module.scss';
 
@@ -81,13 +81,15 @@ const Login: React.FC = () => {
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         <Input
           autoComplete="new-password"
-          onChange={(event): void => inputChangedHandler(event.target.value!, 'email')}
+          onChange={(event: { target: { value: string } }): void => inputChangedHandler(event.target.value!, 'email')}
           placeholder={handlePlaceholderText('email')}
           type={'email'}
         />
         <Input
           autoComplete="new-password"
-          onChange={(event): void => inputChangedHandler(event.target.value!, 'password')}
+          onChange={(event: { target: { value: string } }): void =>
+            inputChangedHandler(event.target.value!, 'password')
+          }
           placeholder={handlePlaceholderText('password')}
           type={'password'}
         />
