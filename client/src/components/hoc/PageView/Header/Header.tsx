@@ -6,7 +6,7 @@ import { modalState, userInfoState } from '../../../../store';
 import getUserAvatar from '../../../../utils/getUserAvatar';
 import Auth from '../../../elements/Auth/Auth';
 import Button from '../../../elements/Button/Button';
-import Modal from '../../../elements/UI/Modal/Modal';
+import Modal from '../../../elements/Modal/Modal';
 import classes from './Header.module.scss';
 
 const Header: React.FC = (): JSX.Element => {
