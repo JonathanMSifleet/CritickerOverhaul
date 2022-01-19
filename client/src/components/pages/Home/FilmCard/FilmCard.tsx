@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import getIMDbFilmPoster from '../../../../utils/getFilmPoster';
+import getFilmPoster from '../../../../utils/getFilmPoster';
 import IFilm from '../../../../interfaces/IFilm';
 import classes from './FilmCard.module.scss';
 
@@ -13,7 +13,7 @@ const FilmCard: React.FC<IProps> = ({ film }): JSX.Element => {
 
   useEffect(() => {
     (async (): Promise<void> => {
-      setFilmPoster(await getIMDbFilmPoster(film.imdb_title_id));
+      setFilmPoster(await getFilmPoster(film.imdb_title_id));
     })();
   }, []);
 
