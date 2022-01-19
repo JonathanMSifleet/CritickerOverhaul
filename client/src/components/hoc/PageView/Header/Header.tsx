@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import Logo from '../../../../assets/svg/Logo.svg';
-import { GET_USER_AVATAR } from '../../../../constants/endpoints';
 import { modalState, userInfoState } from '../../../../store';
-import httpRequest from '../../../../utils/httpRequest';
+import getUserAvatar from '../../../../utils/getUserAvatar';
 import Auth from '../../../elements/Auth/Auth';
 import Button from '../../../elements/Button/Button';
 import Modal from '../../../elements/UI/Modal/Modal';
@@ -17,11 +16,10 @@ const Header: React.FC = (): JSX.Element => {
   const [showModal, setShowModal] = useRecoilState(modalState);
 
   useEffect(() => {
-    const getUserAvatar = async (): Promise<void> => {
-      setUserAvatar((await httpRequest(`${GET_USER_AVATAR}/${userState!.UID}`, 'GET')) as string);
-    };
+    const fetchUserAvatar = async (): Promise<void> =>
+      setUserAvatar(await getUserAvatar(userState!.UID));
 
-    if (userState!.loggedIn) getUserAvatar();
+    if (userState!.loggedIn) fetchUserAvatar();
   }, [userState]);
 
   const logout = (): void => resetUserState();

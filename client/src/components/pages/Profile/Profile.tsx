@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import ShrugSVG from '../../../assets/svg/Shrug.svg';
-import { GET_PROFILE_BY_USERNAME, GET_USER_AVATAR, UPLOAD_USER_AVATAR } from '../../../constants/endpoints';
+import { GET_PROFILE_BY_USERNAME, UPLOAD_USER_AVATAR } from '../../../constants/endpoints';
 import { userInfoState } from '../../../store';
+import getUserAvatar from '../../../utils/getUserAvatar';
 import httpRequest from '../../../utils/httpRequest';
 // @ts-expect-error cannot import as type
 import FileBase64 from '../../elements/FileToBase64/build.min.js';
@@ -12,6 +12,7 @@ import classes from './Profile.module.scss';
 
 const Profile: React.FC = (): JSX.Element => {
   const [userAvatar, setUserAvatar] = useState('');
+  // todo
   const [userProfile, setUserProfile] = useState(null as unknown as any);
   const userState = useRecoilValue(userInfoState);
 
@@ -34,17 +35,9 @@ const Profile: React.FC = (): JSX.Element => {
   // must use useEffect hook to use async functions
   // rather than returning await asyncFunc()
   useEffect(() => {
-    const getUserAvatar = async (): Promise<void> => {
-      const url = `${GET_USER_AVATAR}/${userProfile.UID}`;
-      console.log(url);
-      const response = await httpRequest(url, 'GET');
-
-      console.log('profile response', response);
-
-      response.status === 404 ? setUserAvatar(ShrugSVG) : setUserAvatar(response);
-    };
-
-    userProfile ? getUserAvatar() : setUserAvatar(ShrugSVG);
+    (async (): Promise<void> => {
+      setUserAvatar(await getUserAvatar(userProfile.UID));
+    })();
   }, [userProfile]);
 
   const handleFile = async (event: any): Promise<void> => {
