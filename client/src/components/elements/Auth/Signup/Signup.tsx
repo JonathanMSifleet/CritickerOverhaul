@@ -1,14 +1,15 @@
 import CryptoES from 'crypto-es';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
+import { SIGNUP } from '../../../../constants/endpoints';
+import { modalState } from '../../../../store';
+import httpRequest from '../../../../utils/httpRequest';
 import Button from '../../../elements/Button/Button';
 import Checkbox from '../../../elements/Checkbox/Checkbox';
 import Input from '../../../elements/Input/Input';
-import { SIGNUP } from '../../../../constants/endpoints';
-import { modalState } from '../../../../store';
+import Spinner from '../../Spinner/Spinner';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import classes from './Signup.module.scss';
-import httpRequest from '../../../../utils/httpRequest';
 
 interface IState {
   email?: string;
@@ -20,9 +21,10 @@ interface IState {
 
 const SignUp: React.FC = () => {
   const [formInfo, setFormInfo] = useState<IState>({});
-  const [shouldPost, setShouldPost] = useState(false);
-  const setShowModal = useSetRecoilState(modalState);
+  const [isLoading, setIsLoading] = useState(false);
+  const [shouldSignup, setShouldPost] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
+  const setShowModal = useSetRecoilState(modalState);
 
   useEffect(() => {
     if (
@@ -44,8 +46,10 @@ const SignUp: React.FC = () => {
   // so that when it is POSTed to the server, the password is hashed
   useEffect(() => {
     // trick to allows for await to be used inside a useEffect hook
-    const postData = async (): Promise<void> => {
+    const attemptSignup = async (): Promise<void> => {
+      setIsLoading(true);
       await httpRequest(SIGNUP, 'POST', formInfo);
+      setIsLoading(false);
 
       setShowModal(false);
     };
@@ -53,10 +57,10 @@ const SignUp: React.FC = () => {
     // stop POSTing unnecessary attribute
     delete formInfo!.repeatPassword;
 
-    if (shouldPost) postData();
-  }, [shouldPost]);
+    if (shouldSignup) attemptSignup();
+  }, [shouldSignup]);
 
-  const signup = async (): Promise<void> => {
+  const handleSignupAttempt = async (): Promise<void> => {
     if (formInfo.password === formInfo.repeatPassword) {
       const hashedPassword = CryptoES.SHA512(formInfo.password).toString();
 
@@ -65,7 +69,10 @@ const SignUp: React.FC = () => {
     }
   };
 
-  const inputChangedHandler = (event: React.ChangeEvent<HTMLInputElement>, inputName: string): void => {
+  const inputChangedHandler = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    inputName: string
+  ): void => {
     setFormInfo({ ...formInfo, [inputName]: event.target.value });
   };
 
@@ -78,38 +85,41 @@ const SignUp: React.FC = () => {
       <ThirdPartyLogin />
 
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
-        {/* Username input */}
         <Input
-          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'username')}
+          onChange={(event: ChangeEvent<HTMLInputElement>): void =>
+            inputChangedHandler(event, 'username')
+          }
           placeholder={'Username'}
           type={'text'}
         />
 
-        {/* Email input */}
         <Input
           autoComplete="new-password"
-          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'email')}
+          onChange={(event: ChangeEvent<HTMLInputElement>): void =>
+            inputChangedHandler(event, 'email')
+          }
           placeholder={'Email'}
           type={'email'}
         />
 
-        {/* Password input */}
         <Input
           autoComplete="new-password"
-          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'password')}
+          onChange={(event: ChangeEvent<HTMLInputElement>): void =>
+            inputChangedHandler(event, 'password')
+          }
           placeholder={'Password'}
           type={'password'}
         />
 
-        {/* Repeat Password input */}
         <Input
-          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'repeatPassword')}
+          onChange={(event: ChangeEvent<HTMLInputElement>): void =>
+            inputChangedHandler(event, 'repeatPassword')
+          }
           placeholder={'Repeat password'}
           type={'password'}
         />
       </div>
 
-      {/* Checkbox */}
       <div className={classes.TermsConditionsWrapper}>
         <label className={classes.TermsConditionsLabel}>
           <Checkbox
@@ -120,14 +130,14 @@ const SignUp: React.FC = () => {
         </label>
       </div>
 
-      {/* Submit button */}
       <div className={classes.SubmitButtonWrapper}>
         <Button
           className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
           disabled={submitDisabled}
-          onClick={(): Promise<void> => signup()}
+          onClick={(): Promise<void> => handleSignupAttempt()}
           text={'Sign up'}
         />
+        {isLoading ? <Spinner /> : null}
       </div>
     </form>
   );

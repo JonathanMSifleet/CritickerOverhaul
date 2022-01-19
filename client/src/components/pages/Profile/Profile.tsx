@@ -7,10 +7,13 @@ import getUserAvatar from '../../../utils/getUserAvatar';
 import httpRequest from '../../../utils/httpRequest';
 // @ts-expect-error cannot import as type
 import FileBase64 from '../../elements/FileToBase64/build.min.js';
+import Spinner from '../../elements/Spinner/Spinner';
 import PageView from '../../hoc/PageView/PageView';
 import classes from './Profile.module.scss';
 
 const Profile: React.FC = (): JSX.Element => {
+  const [isLoadingAvatar, setIsLoadingAvatar] = useState(false);
+  const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const [userAvatar, setUserAvatar] = useState('');
   // todo
   const [userProfile, setUserProfile] = useState(null as unknown as any);
@@ -19,24 +22,22 @@ const Profile: React.FC = (): JSX.Element => {
   const { username } = useParams<{ username: string }>();
 
   useEffect(() => {
-    const loadUserProfile = async (username: string, test: string): Promise<void> => {
-      console.log('username', username);
-      console.log('test', test);
-      console.log('userState', userState);
-      console.log('get profile by username');
+    const loadUserProfile = async (username: string): Promise<void> => {
+      setIsLoadingProfile(true);
       const profile = await httpRequest(`${GET_PROFILE_BY_USERNAME}/${username}`, 'GET');
-      console.log('profile response', profile);
+      setIsLoadingProfile(false);
+
       setUserProfile(profile);
     };
 
-    username ? loadUserProfile(username, 'username') : loadUserProfile(userState!.username, 'userState!.username');
+    username ? loadUserProfile(username) : loadUserProfile(userState!.username);
   }, []);
 
-  // must use useEffect hook to use async functions
-  // rather than returning await asyncFunc()
   useEffect(() => {
     (async (): Promise<void> => {
+      setIsLoadingAvatar(true);
       setUserAvatar(await getUserAvatar(userProfile.UID));
+      setIsLoadingAvatar(false);
     })();
   }, [userProfile]);
 
@@ -72,37 +73,46 @@ const Profile: React.FC = (): JSX.Element => {
   return (
     <PageView>
       <div className={classes.PageWrapper}>
-        <div className={classes.UserDetailsWrapper}>
-          <div className={classes.ImageWrapper}>
-            <img className={classes.UserAvatar} src={userAvatar} />
-            {!username && userState!.loggedIn ? (
-              <>
-                <label htmlFor="fileUpload" className={classes.UploadPictureText}>
-                  Upload new picture
-                </label>
-                <FileBase64
-                  className={classes.UploadPictureInput}
-                  id="fileUpload"
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                  onDone={(event: { target: any }): Promise<void> => handleFile(event)}
-                  type={'file'}
-                />
-              </>
-            ) : null}
-          </div>
+        {isLoadingProfile ? (
+          <Spinner />
+        ) : (
+          <div className={classes.UserDetailsWrapper}>
+            <div className={classes.ImageWrapper}>
+              {isLoadingAvatar ? (
+                <Spinner />
+              ) : (
+                <img className={classes.UserAvatar} src={userAvatar} />
+              )}
 
-          {!userProfile ? (
-            'User not found'
-          ) : (
-            <div className={classes.UserDetails}>
-              <h1>{userProfile ? userProfile.username : 'Unknown'}</h1>
-              <p>
-                {getRatingRank(userProfile.numRatings)} - {userProfile.numRatings} Film Ratings
-              </p>
-              <p>Member since: {epochToDate(userProfile.memberSince)}</p>
+              {!username && userState!.loggedIn ? (
+                <>
+                  <label htmlFor="fileUpload" className={classes.UploadPictureText}>
+                    Upload new picture
+                  </label>
+                  <FileBase64
+                    className={classes.UploadPictureInput}
+                    id="fileUpload"
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    onDone={(event: { target: any }): Promise<void> => handleFile(event)}
+                    type={'file'}
+                  />
+                </>
+              ) : null}
             </div>
-          )}
-        </div>
+
+            {!userProfile ? (
+              'User not found'
+            ) : (
+              <div className={classes.UserDetails}>
+                <h1>{userProfile ? userProfile.username : 'Unknown'}</h1>
+                <p>
+                  {getRatingRank(userProfile.numRatings)} - {userProfile.numRatings} Film Ratings
+                </p>
+                <p>Member since: {epochToDate(userProfile.memberSince)}</p>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </PageView>
   );

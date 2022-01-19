@@ -1,11 +1,12 @@
 import CryptoES from 'crypto-es';
 import { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
+import { LOGIN } from '../../../../constants/endpoints';
+import { modalState, userInfoState } from '../../../../store';
+import HTTPRequest from '../../../../utils/httpRequest';
 import Button from '../../../elements/Button/Button';
 import Input from '../../../elements/Input/Input';
-import { LOGIN } from '../../../../constants/endpoints';
-import HTTPRequest from '../../../../utils/httpRequest';
-import { modalState, userInfoState } from '../../../../store';
+import Spinner from '../../Spinner/Spinner';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import classes from './Login.module.scss';
 
@@ -16,24 +17,25 @@ interface IState {
 
 const Login: React.FC = () => {
   const [formInfo, setFormInfo] = useState<IState>({});
-  const [shouldPost, setShouldPost] = useState(false);
-  const setShowModal = useSetRecoilState(modalState);
+  const [shouldLogin, setShouldLogin] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
+  const setShowModal = useSetRecoilState(modalState);
   const setUserInfo = useSetRecoilState(userInfoState);
 
-  // see signup.tsx comment for why this is here
   useEffect(() => {
-    if (!formInfo.email || !formInfo.password) {
-      setSubmitDisabled(true);
-    } else {
-      setSubmitDisabled(false);
-    }
+    setSubmitDisabled(!formInfo.email || !formInfo.password);
   }, [formInfo]);
 
   useEffect(() => {
-    const postData = async (): Promise<void> => {
+    const attemptLogin = async (): Promise<void> => {
       try {
-        const response = (await HTTPRequest(LOGIN, 'POST', formInfo)) as { username: string; UID: string };
+        setIsLoading(true);
+        const response = (await HTTPRequest(LOGIN, 'POST', formInfo)) as {
+          username: string;
+          UID: string;
+        };
+        setIsLoading(false);
 
         setUserInfo({
           username: response.username,
@@ -48,18 +50,17 @@ const Login: React.FC = () => {
       }
     };
 
-    if (shouldPost) postData();
-  }, [shouldPost]);
+    if (shouldLogin) attemptLogin();
+  }, [shouldLogin]);
 
-  const inputChangedHandler = (eventValue: string, inputName: string): void => {
+  const inputChangedHandler = (eventValue: string, inputName: string): void =>
     setFormInfo({ ...formInfo, [inputName]: eventValue });
-  };
 
-  const login = async (): Promise<void> => {
+  const handleLoginAttempt = async (): Promise<void> => {
     const hashedPassword = CryptoES.SHA512(formInfo.password).toString();
 
     setFormInfo({ ...formInfo, password: hashedPassword });
-    setShouldPost(true);
+    setShouldLogin(true);
   };
 
   const handlePlaceholderText = (type: string): string => {
@@ -77,11 +78,12 @@ const Login: React.FC = () => {
     <form onSubmit={(event): void => event.preventDefault()}>
       <ThirdPartyLogin />
 
-      {/* Email input */}
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         <Input
           autoComplete="new-password"
-          onChange={(event: { target: { value: string } }): void => inputChangedHandler(event.target.value!, 'email')}
+          onChange={(event: { target: { value: string } }): void =>
+            inputChangedHandler(event.target.value!, 'email')
+          }
           placeholder={handlePlaceholderText('email')}
           type={'email'}
         />
@@ -95,20 +97,19 @@ const Login: React.FC = () => {
         />
       </div>
 
-      {/* 2 column grid layout */}
+      {/* to do */}
       <div className={`${classes.PasswordOptions}`}>
-        {/* Simple link */}
         <a href="#!">Forgot password?</a>
       </div>
 
-      {/* Submit button */}
       <div className={classes.SubmitButtonWrapper}>
         <Button
           className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
           disabled={submitDisabled}
-          onClick={(): Promise<void> => login()}
+          onClick={(): Promise<void> => handleLoginAttempt()}
           text={'Sign in'}
         />
+        {isLoading ? <Spinner /> : null}
       </div>
     </form>
   );
