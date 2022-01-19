@@ -7,7 +7,9 @@ import IHTTPErr from '../shared/interfaces/IHTTPErr';
 
 const storage = new S3();
 
-const getUserAvatar = async (event: { pathParameters: { UID: string } }): Promise<IHTTP | IHTTPErr> => {
+const getUserAvatar = async (event: {
+  pathParameters: { UID: string };
+}): Promise<IHTTP | IHTTPErr> => {
   const { UID } = event.pathParameters;
 
   console.log('UID', UID);

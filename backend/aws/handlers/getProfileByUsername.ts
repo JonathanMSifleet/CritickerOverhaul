@@ -7,7 +7,9 @@ import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
 const DB = new DynamoDB.DocumentClient();
 
-const getProfileByUsername = async (event: { pathParameters: { username: string } }): Promise<IHTTP | IHTTPErr> => {
+const getProfileByUsername = async (event: {
+  pathParameters: { username: string };
+}): Promise<IHTTP | IHTTPErr> => {
   const { username } = event.pathParameters;
 
   const params = formSearchQuery('username', username);

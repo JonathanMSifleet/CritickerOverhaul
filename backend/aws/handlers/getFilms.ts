@@ -12,7 +12,10 @@ const getFilms = async (event: { pathParameters: { page: string } }): Promise<IH
   const numResults = resultsToReturn(page);
 
   try {
-    const result = await mysql.query(`SELECT * FROM films ORDER BY imdb_title_id DESC LIMIT ${numResults}`, null);
+    const result = await mysql.query(
+      `SELECT * FROM films ORDER BY imdb_title_id DESC LIMIT ${numResults}`,
+      null
+    );
     mysql.quit();
 
     console.log('Sucessfully fetched results');

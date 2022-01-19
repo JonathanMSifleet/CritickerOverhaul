@@ -7,7 +7,9 @@ import IHTTPErr from '../shared/interfaces/IHTTPErr';
 import { connectionDetails } from '../shared/MySQL/ConnectionDetails';
 const mysql = serverlessMysql({ config: connectionDetails });
 
-const getFilmByParam = async (event: { pathParameters: { id: number } }): Promise<IHTTP | IHTTPErr> => {
+const getFilmByParam = async (event: {
+  pathParameters: { id: number };
+}): Promise<IHTTP | IHTTPErr> => {
   const { id } = event.pathParameters;
 
   const mainSQL =

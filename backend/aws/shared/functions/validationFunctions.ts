@@ -18,7 +18,10 @@ export const validateUserInputs = async (
   return errors.filter((error) => error !== null);
 };
 
-export const validateValue = async (value: string, valueName: string): Promise<(string | null)[]> => {
+export const validateValue = async (
+  value: string,
+  valueName: string
+): Promise<(string | null)[]> => {
   const errors = [validateNotEmpty(value, valueName)];
 
   switch (valueName) {
@@ -29,10 +32,17 @@ export const validateValue = async (value: string, valueName: string): Promise<(
       );
       break;
     case 'Email':
-      errors.push(validateNotEmpty(value, valueName), validateLength(value, valueName, 3, 256), validateIsEmail(value));
+      errors.push(
+        validateNotEmpty(value, valueName),
+        validateLength(value, valueName, 3, 256),
+        validateIsEmail(value)
+      );
       break;
     case 'Password':
-      errors.push(validateNotEmpty(value, valueName), validateLength(value, 'Password Hash', 128, 128));
+      errors.push(
+        validateNotEmpty(value, valueName),
+        validateLength(value, 'Password Hash', 128, 128)
+      );
       break;
   }
   return await Promise.all(errors);
@@ -61,7 +71,9 @@ export const validateLength = async (
   min: number,
   max: number
 ): Promise<string | null> => {
-  return value.length < min || value.length > max ? `${valueName} must be between ${min} and ${max} chracters` : null;
+  return value.length < min || value.length > max
+    ? `${valueName} must be between ${min} and ${max} chracters`
+    : null;
 };
 
 export const checkUniqueAttribute = async (type: string, value: string): Promise<boolean> => {
