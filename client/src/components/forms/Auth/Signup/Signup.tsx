@@ -6,7 +6,7 @@ import Checkbox from '../../../../elements/Checkbox/Checkbox';
 import Input from '../../../../elements/Input/Input';
 import { modalState } from '../../../../store';
 import { SIGNUP } from '../../../../shared/constants/endpoints';
-import HTTPRequest from '../../../../shared/functions/HTTPRequest';
+import HTTPRequest from '../../../../shared/functions/httpRequest';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import classes from './Signup.module.scss';
 

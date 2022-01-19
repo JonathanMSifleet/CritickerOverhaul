@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { GET_FILM } from '../../../shared/constants/endpoints';
-import HTTPRequest from '../../../shared/functions/HTTPRequest';
+import HTTPRequest from '../../../shared/functions/httpRequest';
 import IFilm from '../../../shared/interfaces/IFilm';
 import PageView from '../../hoc/PageView/PageView';
 import FilmCard from './FilmCard/FilmCard';

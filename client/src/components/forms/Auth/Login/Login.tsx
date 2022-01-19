@@ -5,7 +5,7 @@ import Button from '../../../../elements/Button/Button';
 import Input from '../../../../elements/Input/Input';
 import { modalState, userInfoState } from '../../../../store';
 import { LOGIN } from '../../../../shared/constants/endpoints';
-import HTTPRequest from '../../../../shared/functions/HTTPRequest';
+import HTTPRequest from '../../../../shared/functions/httpRequest';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import classes from './Login.module.scss';
 

@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import ShrugSVG from '../../../assets/svg/Shrug.svg';
-import { userInfoState } from '../../../store';
 import { GET_PROFILE_BY_USERNAME, GET_USER_AVATAR, UPLOAD_USER_AVATAR } from '../../../shared/constants/endpoints';
-import HTTPRequest from '../../../shared/functions/HTTPRequest';
+import HTTPRequest from '../../../shared/functions/httpRequest';
+import { userInfoState } from '../../../store';
 // @ts-expect-error cannot type import
 import FileBase64 from '../../FileToBase64/build.min.js';
 import PageView from '../../hoc/PageView/PageView';
@@ -41,7 +41,6 @@ const Profile: React.FC = (): JSX.Element => {
 
       console.log('profile response', response);
 
-      // @ts-expect-error
       response.status === 404 ? setUserAvatar(ShrugSVG) : setUserAvatar(response);
     };
 
