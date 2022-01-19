@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
-import IUserState from '../shared/interfaces/IUserState';
+import IUserState from './shared/interfaces/IUserState';
 
 const { persistAtom } = recoilPersist({ key: 'userState' });
 
@@ -15,6 +15,6 @@ export const userInfoState = atom({
     UID: '',
     loggedIn: false,
     username: ''
-  } as IUserState | null,
+  } as IUserState,
   effects_UNSTABLE: [persistAtom]
 });
