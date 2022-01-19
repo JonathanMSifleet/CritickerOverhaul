@@ -37,6 +37,17 @@ const formSearchQuery = (type: string, value: string): DynamoDB.DocumentClient.Q
           ':UID': value
         }
       };
+    default:
+      return {
+        TableName: '',
+        KeyConditionExpression: '',
+        ExpressionAttributeNames: {
+          '': ''
+        },
+        ExpressionAttributeValues: {
+          ':': null
+        }
+      };
   }
 };
 
