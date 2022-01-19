@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import ShrugSVG from '../../../assets/svg/Shrug.svg';
-import { userInfoState } from '../../../recoilStore/store';
+import { userInfoState } from '../../../store';
 import { GET_PROFILE_BY_USERNAME, GET_USER_AVATAR, UPLOAD_USER_AVATAR } from '../../../shared/constants/endpoints';
 import HTTPRequest from '../../../shared/functions/HTTPRequest';
+// @ts-expect-error cannot type import
 import FileBase64 from '../../FileToBase64/build.min.js';
 import PageView from '../../hoc/PageView/PageView';
 import classes from './Profile.module.scss';
@@ -12,8 +13,7 @@ import classes from './Profile.module.scss';
 const Profile: React.FC = (): JSX.Element => {
   const [userAvatar, setUserAvatar] = useState('');
   const [userProfile, setUserProfile] = useState(null as unknown as any);
-  // @ts-expect-error
-  const [userState, setUserState] = useRecoilState(userInfoState);
+  const userState = useRecoilValue(userInfoState);
 
   const { username } = useParams<{ username: string }>();
 
@@ -54,9 +54,7 @@ const Profile: React.FC = (): JSX.Element => {
     await HTTPRequest(`${UPLOAD_USER_AVATAR}/${userState!.UID}`, 'POST', { base64 });
   };
 
-  const epochToDate = (epoch: number): string => {
-    return new Date(epoch).toLocaleDateString('en-GB');
-  };
+  const epochToDate = (epoch: number): string => new Date(epoch).toLocaleDateString('en-GB');
 
   const getRatingRank = (numRatings: number): string => {
     switch (true) {

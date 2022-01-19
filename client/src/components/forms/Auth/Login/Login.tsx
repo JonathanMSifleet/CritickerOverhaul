@@ -1,9 +1,9 @@
 import CryptoES from 'crypto-es';
 import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import Button from '../../../../elements/Button/Button';
 import Input from '../../../../elements/Input/Input';
-import { modalState, userInfoState } from '../../../../recoilStore/store';
+import { modalState, userInfoState } from '../../../../store';
 import { LOGIN } from '../../../../shared/constants/endpoints';
 import HTTPRequest from '../../../../shared/functions/HTTPRequest';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
@@ -17,11 +17,9 @@ interface IState {
 const Login: React.FC = () => {
   const [formInfo, setFormInfo] = useState<IState>({});
   const [shouldPost, setShouldPost] = useState(false);
-  // @ts-expect-error
-  const [showModal, setShowModal] = useRecoilState(modalState);
+  const setShowModal = useSetRecoilState(modalState);
   const [submitDisabled, setSubmitDisabled] = useState(true);
-  // @ts-expect-error
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const setUserInfo = useSetRecoilState(userInfoState);
 
   // see signup.tsx comment for why this is here
   useEffect(() => {
@@ -76,11 +74,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <form
-      onSubmit={(event): void => {
-        event.preventDefault();
-      }}
-    >
+    <form onSubmit={(event): void => event.preventDefault()}>
       <ThirdPartyLogin />
 
       {/* Email input */}

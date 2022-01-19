@@ -1,10 +1,10 @@
 import CryptoES from 'crypto-es';
 import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import Button from '../../../../elements/Button/Button';
 import Checkbox from '../../../../elements/Checkbox/Checkbox';
 import Input from '../../../../elements/Input/Input';
-import { modalState } from '../../../../recoilStore/store';
+import { modalState } from '../../../../store';
 import { SIGNUP } from '../../../../shared/constants/endpoints';
 import HTTPRequest from '../../../../shared/functions/HTTPRequest';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
@@ -21,8 +21,7 @@ interface IState {
 const SignUp: React.FC = () => {
   const [formInfo, setFormInfo] = useState<IState>({});
   const [shouldPost, setShouldPost] = useState(false);
-  // @ts-expect-error
-  const [showModal, setShowModal] = useRecoilState(modalState);
+  const setShowModal = useSetRecoilState(modalState);
   const [submitDisabled, setSubmitDisabled] = useState(true);
 
   useEffect(() => {
@@ -75,12 +74,7 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    <form
-      autoComplete="off"
-      onSubmit={(event): void => {
-        event.preventDefault();
-      }}
-    >
+    <form autoComplete="off" onSubmit={(event): void => event.preventDefault()}>
       <ThirdPartyLogin />
 
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
