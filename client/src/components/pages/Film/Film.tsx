@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import Button from '../../../elements/Button/Button';
 import Input from '../../../elements/Input/Input';
-import { userInfoState } from '../../../recoilStore/store';
+import { userInfoState } from '../../../store';
 import { GET_FILM_BY_PARAM, RATE_FILM } from '../../../shared/constants/endpoints';
 import getIMDbFilmPoster from '../../../shared/functions/getFilmImage';
 import HTTPRequest from '../../../shared/functions/HTTPRequest';

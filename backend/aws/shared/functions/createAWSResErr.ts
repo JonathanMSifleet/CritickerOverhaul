@@ -16,7 +16,5 @@ export const createAWSResErr = async (statusCode: number, message: string | stri
 
 const logErrors = async (errors: string[]): Promise<void> => {
   console.error('Errors:');
-  errors.forEach((element, i) => {
-    console.error(`${i}) ${element}`);
-  });
+  errors.forEach((element, i) => console.error(`${i}) ${element}`));
 };

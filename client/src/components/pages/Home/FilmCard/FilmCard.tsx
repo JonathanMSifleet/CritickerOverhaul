@@ -12,11 +12,9 @@ const FilmCard: React.FC<IProps> = ({ film }): JSX.Element => {
   const [filmPoster, setFilmPoster] = useState('');
 
   useEffect(() => {
-    const getFilmPoster = async (): Promise<void> => {
+    (async (): Promise<void> => {
       setFilmPoster(await getIMDbFilmPoster(film.imdb_title_id));
-    };
-
-    getFilmPoster();
+    })();
   }, []);
 
   return (
