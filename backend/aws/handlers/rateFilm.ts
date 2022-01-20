@@ -3,10 +3,18 @@ import cors from '@middy/http-cors';
 import { AWSError } from 'aws-sdk';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
 import { PromiseResult } from 'aws-sdk/lib/request';
-import IReview from '../../../shared/interfaces/IReview';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
+
+interface IReview {
+  imdb_title_id: number;
+  UID: string;
+  review: {
+    rating: number;
+    reviewText?: string;
+  };
+}
 
 const DB = new DynamoDB.DocumentClient();
 

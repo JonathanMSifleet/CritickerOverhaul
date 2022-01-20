@@ -27,10 +27,7 @@ const Profile: React.FC = (): JSX.Element => {
       setIsLoadingProfile(true);
 
       try {
-        const response = await httpRequest(`${GET_PROFILE_BY_USERNAME}/${userState.UID}`, 'GET');
-        console.log('get profile response', response);
-
-        setUserProfile(response);
+        setUserProfile(await httpRequest(`${GET_PROFILE_BY_USERNAME}/${userState.UID}`, 'GET'));
         setShouldLoadAvatar(true);
       } catch (error) {
         console.error(error);

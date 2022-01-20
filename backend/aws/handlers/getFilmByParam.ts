@@ -71,6 +71,8 @@ const getFilmByParam = async (event: {
     const getUnorderedActorResult = mysql.query(unorderedActorSQL, [id, id]);
 
     const results = await Promise.all([getFilm, getOrderedFilmActors, getUnorderedActorResult]);
+    mysql.quit();
+
     const filmData = results.flat();
 
     const result = {
@@ -85,8 +87,6 @@ const getFilmByParam = async (event: {
       // @ts-expect-error
       result.actors = result.actors + ', ' + results[2].actors;
     }
-
-    mysql.quit();
 
     console.log('Sucessfully fetched results');
     return {
