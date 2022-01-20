@@ -6,7 +6,11 @@ RatingsTable:
     AttributeDefinitions:
       - AttributeName: imdb_title_id
         AttributeType: N
+      - AttributeName: UID
+        AttributeType: S
 
     KeySchema:
       - AttributeName: imdb_title_id
         KeyType: HASH
+      - AttributeName: UID
+        KeyType: RANGE

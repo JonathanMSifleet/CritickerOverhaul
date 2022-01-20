@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "forceUpdate": "npm-check-updates -u",
-    "deployGetUserAvatar": "serverless deploy --function getUserAvatar"
+    "deployUploadUserAvatar": "serverless deploy --function rateFilm"
   },
   "dependencies": {
     "@middy/core": "^2.5.4",

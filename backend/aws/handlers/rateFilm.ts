@@ -3,6 +3,7 @@ import cors from '@middy/http-cors';
 import { AWSError } from 'aws-sdk';
 import DynamoDB from 'aws-sdk/clients/dynamodb';
 import { PromiseResult } from 'aws-sdk/lib/request';
+import IReview from '../../../shared/interfaces/IReview';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
@@ -10,30 +11,17 @@ import IHTTPErr from '../shared/interfaces/IHTTPErr';
 const DB = new DynamoDB.DocumentClient();
 
 const rateFilm = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
-  const { id, UID, rating, review } = JSON.parse(event.body);
+  const payload = JSON.parse(event.body);
 
-  // const filmsJSON = await getCurrentFilms(id);
-
-  let payload;
-
-  if (review) {
-    payload = {
-      imdb_title_id: id,
-      review: { UID, rating, review }
-    };
-  } else {
-    payload = {
-      imdb_title_id: id,
-      review: { UID, rating }
-    };
-  }
+  console.log('review to be inserted', payload);
 
   try {
     const result = await insertRatingToDB(payload);
-    const incrementResult = await incrementRatings(UID);
-    console.log('🚀 ~ file: rateFilm.ts ~ line 24 ~ rateFilm ~ incrementResult', incrementResult);
-
     console.log('Inserted rating successfully');
+
+    await incrementUserRatings(payload.UID);
+    console.log('Incremented num of user ratings successfully');
+
     return {
       statusCode: 201,
       body: JSON.stringify(result)
@@ -46,14 +34,9 @@ const rateFilm = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
   return createAWSResErr(500, 'Internal Server Error');
 };
 
-const insertRatingToDB = async (payload: {
-  imdb_title_id: string;
-  review: {
-    UID: string;
-    rating: number;
-    review?: string;
-  };
-}): Promise<PromiseResult<DynamoDB.DocumentClient.PutItemOutput, AWSError>> => {
+const insertRatingToDB = async (
+  payload: IReview
+): Promise<PromiseResult<DynamoDB.DocumentClient.PutItemOutput, AWSError>> => {
   const params: DynamoDB.DocumentClient.PutItemInput = {
     TableName: process.env.RATINGS_TABLE_NAME!,
     Item: payload,
@@ -63,7 +46,7 @@ const insertRatingToDB = async (payload: {
   return await DB.put(params).promise();
 };
 
-const incrementRatings = async (
+const incrementUserRatings = async (
   UID: string
 ): Promise<PromiseResult<DynamoDB.DocumentClient.UpdateItemOutput, AWSError>> => {
   const params = {

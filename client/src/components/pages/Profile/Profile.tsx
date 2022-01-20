@@ -14,6 +14,7 @@ import classes from './Profile.module.scss';
 const Profile: React.FC = (): JSX.Element => {
   const [isLoadingAvatar, setIsLoadingAvatar] = useState(false);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
+  const [shouldLoadAvatar, setShouldLoadAvatar] = useState(false);
   const [userAvatar, setUserAvatar] = useState('');
   // todo
   const [userProfile, setUserProfile] = useState(null as unknown as any);
@@ -24,27 +25,42 @@ const Profile: React.FC = (): JSX.Element => {
   useEffect(() => {
     const loadUserProfile = async (username: string): Promise<void> => {
       setIsLoadingProfile(true);
-      const profile = await httpRequest(`${GET_PROFILE_BY_USERNAME}/${username}`, 'GET');
-      setIsLoadingProfile(false);
 
-      setUserProfile(profile);
+      try {
+        setUserProfile(await httpRequest(`${GET_PROFILE_BY_USERNAME}/${username}`, 'GET'));
+        setShouldLoadAvatar(true);
+      } catch (error) {
+        console.error(error);
+      }
+
+      setIsLoadingProfile(false);
     };
 
-    username ? loadUserProfile(username) : loadUserProfile(userState!.username);
+    if (username) {
+      loadUserProfile(username!);
+    } else if (userState.username !== '') {
+      loadUserProfile(userState!.username);
+    }
   }, []);
 
   useEffect(() => {
-    (async (): Promise<void> => {
+    const getAvatar = async (): Promise<void> => {
       setIsLoadingAvatar(true);
+      console.log('userProfile', userProfile.UID);
+
       setUserAvatar(await getUserAvatar(userProfile.UID));
       setIsLoadingAvatar(false);
-    })();
-  }, [userProfile]);
+    };
+
+    if (shouldLoadAvatar) getAvatar();
+  }, [shouldLoadAvatar]);
 
   const handleFile = async (event: any): Promise<void> => {
-    console.log('event', event);
     const { base64 } = event!;
-    await httpRequest(`${UPLOAD_USER_AVATAR}/${userState!.UID}`, 'POST', { base64 });
+    const response = await httpRequest(`${UPLOAD_USER_AVATAR}/${userState!.UID}`, 'POST', {
+      base64
+    });
+    console.log('response', response);
   };
 
   const epochToDate = (epoch: number): string => new Date(epoch).toLocaleDateString('en-GB');
@@ -80,7 +96,7 @@ const Profile: React.FC = (): JSX.Element => {
             <div className={classes.ImageWrapper}>
               {isLoadingAvatar ? (
                 <Spinner />
-              ) : (
+              ) : !isLoadingAvatar && !shouldLoadAvatar ? null : (
                 <img className={classes.UserAvatar} src={userAvatar} />
               )}
 

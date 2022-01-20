@@ -34,7 +34,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 1,
     '@typescript-eslint/no-non-null-assertion': 0,
     'eslint/no-throw-literal': 'off',
-    'max-len': ['error', 120, 2],
+    'max-len': ['error', 100, 2],
     'react-hooks/exhaustive-deps': 'off',
     'react/jsx-closing-bracket-location': [2, 'tag-aligned'],
     'react/jsx-first-prop-new-line': [2, 'multiline'],

@@ -76,7 +76,7 @@ functions:
       - http:
           method: POST
           path: user/avatar/{UID}
-          authorizer: ${self:custom.authorizer}
+          # authorizer: ${self:custom.authorizer}
           cors: true
   getProfileByUsername:
     handler: aws/handlers/getProfileByUsername.handler
@@ -147,7 +147,7 @@ resources:
           DefaultCacheBehavior:
             Compress: true
             ForwardedValues:
-              QueryString: false
+              QueryString: true
             TargetOriginId: ${self:custom.ReactBucketTargetOrigin.name}
             ViewerProtocolPolicy: 'redirect-to-https'
           DefaultRootObject: index.html

@@ -7,11 +7,20 @@ interface IProps {
   className?: string;
   onChange?(event: React.ChangeEvent<HTMLInputElement>): string | boolean | void;
   placeholder?: string;
+  textarea?: boolean;
   type: string;
   value?: boolean;
 }
 
-const Input: React.FC<IProps> = ({ autoComplete, checked, className, onChange, placeholder, type }) => {
+const Input: React.FC<IProps> = ({
+  autoComplete,
+  checked,
+  className,
+  onChange,
+  placeholder,
+  textarea,
+  type
+}) => {
   return (
     <MDBInput
       autoComplete={autoComplete}
@@ -20,6 +29,7 @@ const Input: React.FC<IProps> = ({ autoComplete, checked, className, onChange, p
       id="formControlDefault"
       label={placeholder}
       onChange={onChange}
+      textarea={textarea}
       type={type}
     />
   );

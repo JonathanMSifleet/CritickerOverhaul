@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
 import serverlessMysql from 'serverless-mysql';

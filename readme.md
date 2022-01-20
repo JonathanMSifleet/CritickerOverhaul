@@ -1,20 +1,15 @@
 To do:
 
 - Add auto logout
-- Fix logging out
 - Form validation
 - Server-side validation
 - Increment user ratings when rating submitted
 - Check if user has already rated and display appropriately
 - Authenticate with auth0
-- Re-enable disabled lambdas that were deactivated to save money, user profile pictures
-
-Misc:
-
-- Fix Signout user
-- CSS fixes
+- Set save money to false
 - Fix footer not sticking to bottom
-- Re-enable profile image functionality
+
+---
 
 Developed using Node 14 LTS. Other versions may work but are not recommended or tested.
 

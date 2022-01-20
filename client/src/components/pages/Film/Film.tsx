@@ -16,7 +16,10 @@ const Film: React.FC = () => {
   const [film, setFilm] = useState(null as any);
   const [filmPoster, setFilmPoster] = useState(null as string | null);
   const [isLoading, setIsLoading] = useState(false);
-  const [rating, setRating] = useState(null as unknown as number);
+  // to do
+  const [userReview, setUserReview] = useState(
+    null as unknown as { rating: number; reviewText: string }
+  );
   const [userState] = useRecoilState(userInfoState);
 
   const { id } = useParams<{ id: string }>();
@@ -24,24 +27,25 @@ const Film: React.FC = () => {
   useEffect(() => {
     (async (): Promise<void> => {
       setIsLoading(true);
+
       setFilmPoster(await getFilmPoster(id!));
       setFilm(await HTTPRequest(`${GET_FILM_BY_PARAM}/${id}`, 'GET'));
+
       setIsLoading(false);
     })();
   }, [id]);
 
-  const inputChangedHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setRating(Number(event.target.value));
-  };
+  const inputChangedHandler = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    inputName: string
+  ): void => setUserReview({ ...userReview, [inputName]: event.target.value });
 
-  const rateFilm = async (): Promise<void> => {
-    const response = await HTTPRequest(RATE_FILM, 'POST', {
-      id: Number(id),
+  const rateFilm = async (): Promise<void> =>
+    await HTTPRequest(RATE_FILM, 'POST', {
+      imdb_title_id: Number(id),
       UID: userState!.UID,
-      rating
+      review: { ...userReview }
     });
-    console.log('rate film response', response);
-  };
 
   return (
     <PageView>
@@ -63,17 +67,26 @@ const Film: React.FC = () => {
               <p>Language(s): {film ? film.languages : 'Unknown'}</p>
               <p>Country(s): {film ? film.countries : 'Unknown'}</p>
             </div>
+
             <div className={classes.RateFilmWrapper}>
               {userState!.loggedIn ? (
                 <form onSubmit={(event): void => event.preventDefault()}>
                   <Input
-                    className={classes.RateFilm}
                     onChange={(event: ChangeEvent<HTMLInputElement>): void =>
-                      inputChangedHandler(event)
+                      inputChangedHandler(event, 'rating')
                     }
                     placeholder={'Rating'}
                     type={'text'}
                   />
+                  <Input
+                    onChange={(event: ChangeEvent<HTMLInputElement>): void =>
+                      inputChangedHandler(event, 'reviewText')
+                    }
+                    placeholder={'Review'}
+                    type={'text'}
+                    textarea={true}
+                  />
+
                   <Button
                     className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
                     onClick={(): Promise<void> => rateFilm()}
