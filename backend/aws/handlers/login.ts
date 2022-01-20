@@ -1,26 +1,30 @@
+import { DynamoDBClient, GetItemCommand } from '@aws-sdk/client-dynamodb';
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
-import DynamoDB from 'aws-sdk/clients/dynamodb';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
-import formSearchQuery from '../shared/functions/formSearchQuery';
+import createDynamoSearchQuery from '../shared/functions/createDynamoSearchQuery';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
-
-const DB = new DynamoDB.DocumentClient();
 
 const login = async (event: { body: string }): Promise<IHTTP | IHTTPErr> => {
   const { email, password } = JSON.parse(event.body);
 
   if (!email || !password) return createAWSResErr(401, 'Please provide email and password!');
 
-  const params = formSearchQuery('email', email);
+  const query = createDynamoSearchQuery(
+    process.env.USER_TABLE_NAME!,
+    'UID',
+    'S',
+    email,
+    'username, email'
+  );
 
   try {
-    const result = await DB.query(params).promise();
-    const user = result.Items![0];
+    const dbClient = new DynamoDBClient({});
+    const result = await dbClient.send(new GetItemCommand(query));
+    const user = result.Item;
 
     if (user === undefined) return createAWSResErr(404, 'No user found with that email');
-
     if (password !== user.password) return createAWSResErr(401, 'Incorrect password');
 
     console.log('Logged in successfully');
