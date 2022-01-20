@@ -23,11 +23,14 @@ const Profile: React.FC = (): JSX.Element => {
   const { username } = useParams<{ username: string }>();
 
   useEffect(() => {
-    const loadUserProfile = async (username: string): Promise<void> => {
+    const loadUserProfile = async (_username: string): Promise<void> => {
       setIsLoadingProfile(true);
 
       try {
-        setUserProfile(await httpRequest(`${GET_PROFILE_BY_USERNAME}/${username}`, 'GET'));
+        const response = await httpRequest(`${GET_PROFILE_BY_USERNAME}/${userState.UID}`, 'GET');
+        console.log('get profile response', response);
+
+        setUserProfile(response);
         setShouldLoadAvatar(true);
       } catch (error) {
         console.error(error);
@@ -46,8 +49,6 @@ const Profile: React.FC = (): JSX.Element => {
   useEffect(() => {
     const getAvatar = async (): Promise<void> => {
       setIsLoadingAvatar(true);
-      console.log('userProfile', userProfile.UID);
-
       setUserAvatar(await getUserAvatar(userProfile.UID));
       setIsLoadingAvatar(false);
     };

@@ -1,32 +1,37 @@
+import { DynamoDBClient, GetItemCommand } from '@aws-sdk/client-dynamodb';
+import { unmarshall } from '@aws-sdk/util-dynamodb';
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
-import DynamoDB from 'aws-sdk/clients/dynamodb';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
-import formSearchQuery from '../shared/functions/formSearchQuery';
+import createDynamoSearchQuery from '../shared/functions/createDynamoSearchQuery';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
-const DB = new DynamoDB.DocumentClient();
 
 const getProfileByUsername = async (event: {
   pathParameters: { username: string };
 }): Promise<IHTTP | IHTTPErr> => {
   const { username } = event.pathParameters;
 
-  const params = formSearchQuery('username', username);
+  const query = createDynamoSearchQuery(
+    process.env.USER_TABLE_NAME!,
+    'UID',
+    'S',
+    username,
+    'username, UID, memberSince, numRatings'
+  );
+
+  console.log('query', query);
 
   try {
-    const result = await DB.query(params).promise();
-    const user = result.Items![0];
+    const dbClient = new DynamoDBClient({});
+    const result = await dbClient.send(new GetItemCommand(query));
+
+    const user = unmarshall(result.Item!);
 
     console.log('Sucessfully fetched user profile');
     return {
       statusCode: 200,
-      body: JSON.stringify({
-        username: user.username,
-        UID: user.UID,
-        memberSince: user.memberSince,
-        numRatings: user.numRatings
-      })
+      body: JSON.stringify({ ...user })
     };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(500, error.message);

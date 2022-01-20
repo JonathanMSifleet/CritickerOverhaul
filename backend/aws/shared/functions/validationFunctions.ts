@@ -1,7 +1,6 @@
-import DynamoDB from 'aws-sdk/clients/dynamodb';
+import { DynamoDBClient, GetItemCommand } from '@aws-sdk/client-dynamodb';
 import EmailValidator from 'email-validator';
-import formSearchQuery from './formSearchQuery';
-const DB = new DynamoDB.DocumentClient();
+import createDynamoSearchQuery from './createDynamoSearchQuery';
 
 export const validateUserInputs = async (
   username: string,
@@ -76,14 +75,23 @@ export const validateLength = async (
     : null;
 };
 
-export const checkUniqueAttribute = async (type: string, value: string): Promise<boolean> => {
-  const params = formSearchQuery(type, value);
+export const checkUniqueAttribute = async (
+  variableName: string,
+  value: string
+): Promise<boolean> => {
+  const query = createDynamoSearchQuery(
+    process.env.USER_TABLE_NAME!,
+    'UID',
+    'S',
+    value,
+    variableName
+  );
 
   try {
-    const result = await DB.query(params).promise();
-    const resultItems = result.Items;
+    const dbClient = new DynamoDBClient({});
+    const result = await dbClient.send(new GetItemCommand(query));
 
-    return resultItems!.length !== 0;
+    return result.Item ? true : false;
   } catch (error) {
     if (error instanceof Error) console.error(error.message);
   }
