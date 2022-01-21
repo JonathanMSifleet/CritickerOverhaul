@@ -38,7 +38,13 @@ const Film: React.FC = () => {
   const inputChangedHandler = (
     event: React.ChangeEvent<HTMLInputElement>,
     inputName: string
-  ): void => setUserReview({ ...userReview, [inputName]: event.target.value });
+  ): void => {
+    if (inputName === 'rating') {
+      setUserReview({ ...userReview, [inputName]: Number(event.target.value) });
+    } else {
+      setUserReview({ ...userReview, [inputName]: event.target.value });
+    }
+  };
 
   const rateFilm = async (): Promise<void> =>
     await HTTPRequest(RATE_FILM, 'POST', {
