@@ -11,8 +11,7 @@ const deleteAccount = async (event: {
   const { email } = event.requestContext.authorizer;
 
   try {
-    const dbClient = new DynamoDBClient({});
-    const result = await dbClient.send(
+    const result = await new DynamoDBClient({}).send(
       new DeleteItemCommand({
         TableName: process.env.USER_TABLE_NAME!,
         Key: {
