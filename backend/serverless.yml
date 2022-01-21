@@ -205,7 +205,7 @@ custom:
   ReactBucketTargetOrigin:
     name: S3-${self:custom.ReactBucket.name}/${self:custom.BucketFolder.name}
   bundle:
-    linting: true
+    linting: false
   cloudfrontInvalidate:
     - distributionId: 'E25ASI4SIUBGJK'
       autoInvalidate: true

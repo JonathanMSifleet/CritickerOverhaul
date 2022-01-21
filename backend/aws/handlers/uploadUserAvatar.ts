@@ -1,10 +1,9 @@
+import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
-import S3 from 'aws-sdk/clients/s3';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
-const s3 = new S3();
 
 export const uploadUserAvatar = async (event: {
   pathParameters: { UID: string };
@@ -14,10 +13,11 @@ export const uploadUserAvatar = async (event: {
   const filename = `${event.pathParameters.UID}.jpg`;
 
   try {
-    const result = await uploadPicture(filename, image);
+    await uploadPicture(filename, image);
+
     return {
       statusCode: 200,
-      body: JSON.stringify(`Found at: ${result}`)
+      body: JSON.stringify('Successfully uploaded image')
     };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(500, error.message);
@@ -26,18 +26,21 @@ export const uploadUserAvatar = async (event: {
   return createAWSResErr(500, 'Internal Server Error');
 };
 
-const uploadPicture = async (filename: string, body: Buffer): Promise<string> => {
-  const result = await s3
-    .upload({
-      Bucket: process.env.USER_AVATAR_BUCKET_NAME!,
-      Key: filename,
-      Body: body,
-      ContentEncoding: 'base64',
-      ContentType: 'image/jpg'
-    })
-    .promise();
+const uploadPicture = async (filename: string, body: Buffer): Promise<void | IHTTPErr> => {
+  const params = {
+    Bucket: process.env.USER_AVATAR_BUCKET_NAME!,
+    Key: filename,
+    Body: body,
+    ContentEncoding: 'base64',
+    ContentType: 'image/jpg'
+  };
 
-  return result.Location;
+  try {
+    await new S3Client({}).send(new PutObjectCommand(params));
+    console.log('Successfully uploaded image');
+  } catch (error) {
+    if (error instanceof Error) return createAWSResErr(520, error.message);
+  }
 };
 
 export const handler = middy(uploadUserAvatar).use(cors());

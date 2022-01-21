@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "forceUpdate": "npm-check-updates -u",
-    "rateFilm": "serverless deploy --function rateFilm"
+    "getUserAvatar": "serverless deploy --function getUserAvatar"
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.47.0",
@@ -12,6 +12,7 @@
     "@middy/core": "^2.5.4",
     "@middy/http-cors": "^2.5.4",
     "email-validator": "^2.0.4",
+    "get-stream": "^6.0.1",
     "jsonwebtoken": "^8.5.1",
     "mysql2": "^2.3.3",
     "serverless": "^2.71.0",

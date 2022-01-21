@@ -1,21 +1,19 @@
+import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
-import { S3 } from 'aws-sdk';
+import getStream from 'get-stream';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
-
-const storage = new S3();
 
 const getUserAvatar = async (event: {
   pathParameters: { UID: string };
 }): Promise<IHTTP | IHTTPErr> => {
   const { UID } = event.pathParameters;
 
-  console.log('UID', UID);
-
   try {
     const avatar = await getUserAvatarFromS3(`${UID}.jpg`);
+
     if (!avatar) return createAWSResErr(404, 'No image found');
 
     return {
@@ -36,8 +34,11 @@ const getUserAvatarFromS3 = async (filename: string): Promise<string | IHTTPErr 
       Key: filename
     };
 
-    const result = await storage.getObject(params).promise();
-    return result.Body ? result.Body!.toString('utf-8') : null;
+    const result = await new S3Client({}).send(new GetObjectCommand(params));
+
+    // @ts-expect-error is compatible
+    const stream = await getStream(result.Body);
+    return JSON.parse(`{${stream}}`).base64;
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(404, error.message);
   }
