@@ -31,16 +31,16 @@ const Login: React.FC = () => {
     const attemptLogin = async (): Promise<void> => {
       try {
         setIsLoading(true);
-        const response = (await HTTPRequest(LOGIN, 'POST', formInfo)) as {
+        const userDetails = (await HTTPRequest(LOGIN, 'POST', formInfo)) as {
           username: string;
           UID: string;
         };
+
         setIsLoading(false);
 
         setUserInfo({
-          username: response.username,
+          ...userDetails,
           loggedIn: true,
-          UID: response.UID,
           expiryDate: new Date().getTime() + 4 * 60 * 60
         });
 

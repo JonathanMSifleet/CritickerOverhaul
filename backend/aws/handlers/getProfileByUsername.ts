@@ -20,11 +20,8 @@ const getProfileByUsername = async (event: {
     'username, UID, memberSince, numRatings'
   );
 
-  console.log('query', query);
-
   try {
-    const dbClient = new DynamoDBClient({});
-    const result = await dbClient.send(new GetItemCommand(query));
+    const result = await new DynamoDBClient({}).send(new GetItemCommand(query));
 
     const user = unmarshall(result.Item!);
 

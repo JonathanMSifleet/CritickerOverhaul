@@ -20,8 +20,7 @@ const login = async (event: { body: string }): Promise<IHTTP | IHTTPErr> => {
   );
 
   try {
-    const dbClient = new DynamoDBClient({});
-    const result = await dbClient.send(new GetItemCommand(query));
+    const result = await new DynamoDBClient({}).send(new GetItemCommand(query));
     const user = result.Item;
 
     if (user === undefined) return createAWSResErr(404, 'No user found with that email');
@@ -30,7 +29,7 @@ const login = async (event: { body: string }): Promise<IHTTP | IHTTPErr> => {
     console.log('Logged in successfully');
     return {
       statusCode: 200,
-      body: JSON.stringify({ username: user.username, UID: user.UID })
+      body: JSON.stringify({ ...user })
     };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(404, error.message);
