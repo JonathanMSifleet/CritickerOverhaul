@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import { GET_FILM_BY_PARAM, RATE_FILM } from '../../../constants/endpoints';
 import { userInfoState } from '../../../store';
 import getFilmPoster from '../../../utils/getFilmPoster';
-import HTTPRequest from '../../../utils/httpRequest';
+import httpRequest from '../../../utils/httpRequest';
 import Button from '../../elements/Button/Button';
 import Input from '../../elements/Input/Input';
 import Spinner from '../../elements/Spinner/Spinner';
@@ -28,8 +28,13 @@ const Film: React.FC = () => {
     (async (): Promise<void> => {
       setIsLoading(true);
 
-      setFilmPoster(await getFilmPoster(id!));
-      setFilm(await HTTPRequest(`${GET_FILM_BY_PARAM}/${id}`, 'GET'));
+      const [film, filmPoster] = [
+        await httpRequest(`${GET_FILM_BY_PARAM}/${id}`, 'GET'),
+        await getFilmPoster(id!)
+      ];
+
+      setFilm(film);
+      setFilmPoster(filmPoster);
 
       setIsLoading(false);
     })();
@@ -47,7 +52,7 @@ const Film: React.FC = () => {
   };
 
   const rateFilm = async (): Promise<void> =>
-    await HTTPRequest(RATE_FILM, 'POST', {
+    await httpRequest(RATE_FILM, 'POST', {
       imdb_title_id: Number(id),
       UID: userState!.UID,
       review: { ...userReview }

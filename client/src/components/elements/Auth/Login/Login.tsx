@@ -23,9 +23,7 @@ const Login: React.FC = () => {
   const setShowModal = useSetRecoilState(modalState);
   const setUserInfo = useSetRecoilState(userInfoState);
 
-  useEffect(() => {
-    if (!formInfo.email || !formInfo.password) setSubmitDisabled(true);
-  }, [formInfo]);
+  useEffect(() => setSubmitDisabled(!formInfo.email || !formInfo.password), [formInfo]);
 
   useEffect(() => {
     const attemptLogin = async (): Promise<void> => {

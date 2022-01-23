@@ -32,7 +32,7 @@ const getSQL = (page: string): string => {
   switch (page) {
     case 'home':
       // eslint-disable-next-line max-len
-      return 'SELECT imdb_title_id, title, description FROM films ORDER BY imdb_title_id DESC LIMIT 10';
+      return 'SELECT imdb_title_id, title, description, year FROM films ORDER BY imdb_title_id DESC LIMIT 10';
     case 'speedtest':
       return 'SELECT * FROM films ORDER BY imdb_title_id DESC LIMIT 1000';
     default:

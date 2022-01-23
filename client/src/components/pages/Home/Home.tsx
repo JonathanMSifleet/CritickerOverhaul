@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
+import IFilm from '../../../../../shared/interfaces/IFilm';
 import { GET_FILM } from '../../../constants/endpoints';
-import IFilm from '../../../interfaces/IFilm';
 import HTTPRequest from '../../../utils/httpRequest';
 import Spinner from '../../elements/Spinner/Spinner';
 import PageView from '../../hoc/PageView/PageView';

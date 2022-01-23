@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import IFilm from '../../../../interfaces/IFilm';
+import IFilm from '../../../../../../shared/interfaces/IFilm';
 import getFilmPoster from '../../../../utils/getFilmPoster';
 import Spinner from '../../../elements/Spinner/Spinner';
 import classes from './FilmCard.module.scss';
@@ -35,7 +35,7 @@ const FilmCard: React.FC<IProps> = ({ film }): JSX.Element => {
           <div className={`${classes.CardBody} card-body`}>
             <Link to={`/film/${film.imdb_title_id}`}>
               <h5 className="card-title">
-                {film.title} ({film.year})
+                {film.title} - ({film.year})
               </h5>
             </Link>
             <p className="card-text">{film.description}</p>
