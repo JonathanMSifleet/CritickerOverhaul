@@ -1,15 +1,12 @@
+import { DynamoDBClient, PutItemCommand, PutItemCommandOutput } from '@aws-sdk/client-dynamodb';
+import { marshall } from '@aws-sdk/util-dynamodb';
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
-import { AWSError } from 'aws-sdk';
-import DynamoDB from 'aws-sdk/clients/dynamodb';
-import { PromiseResult } from 'aws-sdk/lib/request';
 import shortUUID from 'short-uuid';
 import { checkUniqueAttribute, validateUserInputs } from '../shared/functions/validationFunctions';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
 import { createAWSResErr } from './../shared/functions/createAWSResErr';
-
-const DB = new DynamoDB.DocumentClient();
 
 const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
   const { username, email, password } = JSON.parse(event.body);
@@ -49,21 +46,21 @@ const insertUserToDB = async (
   password: string,
   UID: string,
   memberSince: number
-): Promise<PromiseResult<DynamoDB.DocumentClient.PutItemOutput, AWSError>> => {
-  const params: DynamoDB.DocumentClient.PutItemInput = {
+): Promise<PutItemCommandOutput> => {
+  const params = {
     TableName: process.env.USER_TABLE_NAME!,
-    Item: {
+    Item: marshall({
       UID,
       email,
       username,
       password,
       memberSince,
       numRatings: 0
-    },
+    }),
     ReturnConsumedCapacity: 'TOTAL'
   };
 
-  return await DB.put(params).promise();
+  return await new DynamoDBClient({}).send(new PutItemCommand(params));
 };
 
 export const handler = middy(signup).use(cors());
