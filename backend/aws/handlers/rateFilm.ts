@@ -11,7 +11,6 @@ import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
-
 const dbClient = new DynamoDBClient({});
 
 interface IReview {

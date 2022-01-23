@@ -5,6 +5,7 @@ import getStream from 'get-stream';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
+const s3Client = new S3Client({});
 
 const getUserAvatar = async (event: {
   pathParameters: { UID: string };
@@ -34,7 +35,7 @@ const getUserAvatarFromS3 = async (filename: string): Promise<string | IHTTPErr 
       Key: filename
     };
 
-    const result = await new S3Client({}).send(new GetObjectCommand(params));
+    const result = s3Client.send(new GetObjectCommand(params));
 
     // @ts-expect-error is compatible
     const stream = await getStream(result.Body);

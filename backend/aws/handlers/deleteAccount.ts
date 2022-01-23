@@ -4,6 +4,7 @@ import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
+const dbClient = new DynamoDBClient({});
 
 const deleteAccount = async (event: {
   requestContext: { authorizer: { email: string } };
@@ -11,7 +12,7 @@ const deleteAccount = async (event: {
   const { email } = event.requestContext.authorizer;
 
   try {
-    const result = await new DynamoDBClient({}).send(
+    const result = await dbClient.send(
       new DeleteItemCommand({
         TableName: process.env.USER_TABLE_NAME!,
         Key: {

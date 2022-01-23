@@ -5,13 +5,11 @@ interface IProps {
   children: React.ReactNode;
 }
 
-const Modal: React.FC<IProps> = ({ children }) => {
-  return (
-    <>
-      <Backdrop />
-      <div className={classes.Modal}>{children}</div>
-    </>
-  );
-};
+const Modal: React.FC<IProps> = ({ children }) => (
+  <>
+    <Backdrop />
+    <div className={classes.Modal}>{children}</div>
+  </>
+);
 
 export default Modal;

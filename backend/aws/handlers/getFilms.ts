@@ -9,17 +9,11 @@ const mysql = serverlessMysql({ config: connectionDetails });
 
 const getFilms = async (event: { pathParameters: { page: string } }): Promise<IHTTP | IHTTPErr> => {
   const { page } = event.pathParameters;
-  let sql;
-
-  switch (page) {
-    case 'home':
-      // eslint-disable-next-line max-len
-      sql = `SELECT (imdb_title_id, title, description) FROM films ORDER BY imdb_title_id DESC LIMIT 10`;
-      break;
-  }
+  const sql = getSQL(page);
 
   try {
     const result = await mysql.query(sql, null);
+    console.log('result', result);
     mysql.quit();
 
     console.log('Sucessfully fetched results');
@@ -32,6 +26,18 @@ const getFilms = async (event: { pathParameters: { page: string } }): Promise<IH
   }
 
   return createAWSResErr(500, 'Internal Server Error');
+};
+
+const getSQL = (page: string): string => {
+  switch (page) {
+    case 'home':
+      // eslint-disable-next-line max-len
+      return 'SELECT imdb_title_id, title, description FROM films ORDER BY imdb_title_id DESC LIMIT 10';
+    case 'speedtest':
+      return 'SELECT * FROM films ORDER BY imdb_title_id DESC LIMIT 1000';
+    default:
+      return 'SELECT NULL';
+  }
 };
 
 export const handler = middy(getFilms).use(cors());

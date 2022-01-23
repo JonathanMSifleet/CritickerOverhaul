@@ -7,14 +7,12 @@ interface IProps {
   children?: ReactNode;
 }
 
-const PageView: React.FC<IProps> = ({ children }): JSX.Element => {
-  return (
-    <div className={classes.PageViewContainer}>
-      <Header />
-      <div className={classes.Body}> {children} </div>
-      <Footer />
-    </div>
-  );
-};
+const PageView: React.FC<IProps> = ({ children }): JSX.Element => (
+  <div className={classes.PageViewContainer}>
+    <Header />
+    <div className={classes.Body}> {children} </div>
+    <Footer />
+  </div>
+);
 
 export default PageView;

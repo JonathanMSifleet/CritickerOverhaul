@@ -20,19 +20,17 @@ const Input: React.FC<IProps> = ({
   placeholder,
   textarea,
   type
-}) => {
-  return (
-    <MDBInput
-      autoComplete={autoComplete}
-      checked={checked}
-      className={`${classes.FormInput} ${className} form-control`}
-      id="formControlDefault"
-      label={placeholder}
-      onChange={onChange}
-      textarea={textarea}
-      type={type}
-    />
-  );
-};
+}) => (
+  <MDBInput
+    autoComplete={autoComplete}
+    checked={checked}
+    className={`${classes.FormInput} ${className} form-control`}
+    id="formControlDefault"
+    label={placeholder}
+    onChange={onChange}
+    textarea={textarea}
+    type={type}
+  />
+);
 
 export default Input;

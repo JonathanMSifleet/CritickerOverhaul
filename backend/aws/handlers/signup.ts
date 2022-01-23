@@ -7,6 +7,7 @@ import { checkUniqueAttribute, validateUserInputs } from '../shared/functions/va
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
 import { createAWSResErr } from './../shared/functions/createAWSResErr';
+const dbClient = new DynamoDBClient({});
 
 const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
   const { username, email, password } = JSON.parse(event.body);
@@ -60,7 +61,7 @@ const insertUserToDB = async (
     ReturnConsumedCapacity: 'TOTAL'
   };
 
-  return await new DynamoDBClient({}).send(new PutItemCommand(params));
+  return await dbClient.send(new PutItemCommand(params));
 };
 
 export const handler = middy(signup).use(cors());

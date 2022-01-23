@@ -17,14 +17,14 @@ interface IState {
 
 const Login: React.FC = () => {
   const [formInfo, setFormInfo] = useState<IState>({});
-  const [shouldLogin, setShouldLogin] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [shouldLogin, setShouldLogin] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
   const setShowModal = useSetRecoilState(modalState);
   const setUserInfo = useSetRecoilState(userInfoState);
 
   useEffect(() => {
-    setSubmitDisabled(!formInfo.email || !formInfo.password);
+    if (!formInfo.email || !formInfo.password) setSubmitDisabled(true);
   }, [formInfo]);
 
   useEffect(() => {

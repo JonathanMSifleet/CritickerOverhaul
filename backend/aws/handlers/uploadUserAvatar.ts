@@ -4,6 +4,7 @@ import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
+const s3Client = new S3Client({});
 
 export const uploadUserAvatar = async (event: {
   pathParameters: { UID: string };
@@ -36,7 +37,7 @@ const uploadPicture = async (filename: string, body: Buffer): Promise<void | IHT
   };
 
   try {
-    await new S3Client({}).send(new PutObjectCommand(params));
+    await s3Client.send(new PutObjectCommand(params));
     console.log('Successfully uploaded image');
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, error.message);

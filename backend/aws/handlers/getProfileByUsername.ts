@@ -6,6 +6,7 @@ import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import createDynamoSearchQuery from '../shared/functions/createDynamoSearchQuery';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
+const dbClient = new DynamoDBClient({});
 
 const getProfileByUsername = async (event: {
   pathParameters: { username: string };
@@ -21,7 +22,7 @@ const getProfileByUsername = async (event: {
   );
 
   try {
-    const result = await new DynamoDBClient({}).send(new GetItemCommand(query));
+    const result = await dbClient.send(new GetItemCommand(query));
 
     const user = unmarshall(result.Item!);
 

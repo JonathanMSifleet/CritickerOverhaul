@@ -15,7 +15,6 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: eu-west-2
   environment:
-    AUTH0_PUBLIC_KEY: ${file(secret.pem)}
     REACT_BUCKET_NAME: ${self:custom.ReactBucket.name}
     RATINGS_TABLE_NAME: ${self:custom.RatingsTable.name}
     USER_AVATAR_BUCKET_NAME: ${self:custom.UserAvatarBucket.name}
@@ -32,15 +31,12 @@ package:
   individually: true
 
 functions:
-  auth:
-    handler: aws/handlers/auth.handler
   deleteAccount:
     handler: aws/handlers/deleteAccount.handler
     events:
       - http:
           method: DELETE
           path: deleteAccount
-          authorizer: auth
           cors: true
   login:
     handler: aws/handlers/login.handler
@@ -76,7 +72,6 @@ functions:
       - http:
           method: POST
           path: user/avatar/{UID}
-          # authorizer: ${self:custom.authorizer}
           cors: true
   getProfileByUsername:
     handler: aws/handlers/getProfileByUsername.handler
@@ -84,7 +79,6 @@ functions:
       - http:
           method: GET
           path: user/profile/{username}
-          # authorizer: ${self:custom.authorizer}
           cors: true
   rateFilm:
     handler: aws/handlers/rateFilm.handler
@@ -92,7 +86,6 @@ functions:
       - http:
           method: POST
           path: review/rateFilm
-          # authorizer: ${self:custom.authorizer}
           cors: true
   signup:
     handler: aws/handlers/signup.handler
@@ -114,7 +107,6 @@ functions:
       - http:
           path: private
           method: POST
-          authorizer: auth
           cors: true
 resources:
   Resources:
@@ -189,7 +181,6 @@ resources:
         StatusCode: '401'
 
 custom:
-  authorizer: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:CritickerOverhaul-${self:provider.stage}-auth
   UserTable:
     name: !Ref UserTable
     arn: !GetAtt UserTable.Arn

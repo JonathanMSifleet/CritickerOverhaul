@@ -5,6 +5,7 @@ import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import createDynamoSearchQuery from '../shared/functions/createDynamoSearchQuery';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
+const dbClient = new DynamoDBClient({});
 
 const login = async (event: { body: string }): Promise<IHTTP | IHTTPErr> => {
   const { email, password } = JSON.parse(event.body);
@@ -20,7 +21,7 @@ const login = async (event: { body: string }): Promise<IHTTP | IHTTPErr> => {
   );
 
   try {
-    const result = await new DynamoDBClient({}).send(new GetItemCommand(query));
+    const result = await dbClient.send(new GetItemCommand(query));
     const user = result.Item;
 
     if (user === undefined) return createAWSResErr(404, 'No user found with that email');
