@@ -3,7 +3,7 @@ import { marshall } from '@aws-sdk/util-dynamodb';
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
 import shortUUID from 'short-uuid';
-import { checkUniqueAttribute, validateUserInputs } from '../shared/functions/validationFunctions';
+import { validateUserInputs } from '../shared/functions/validationFunctions';
 import IHTTP from '../shared/interfaces/IHTTP';
 import { createAWSResErr } from './../shared/functions/createAWSResErr';
 const dbClient = new DynamoDBClient({});
@@ -11,14 +11,8 @@ const dbClient = new DynamoDBClient({});
 const signup = async (event: { body: string }): Promise<IHTTP> => {
   const { username, email, password } = JSON.parse(event.body);
 
-  if (await checkUniqueAttribute(process.env.EMAIL_INDEX!, 'email', email))
-    return createAWSResErr(403, 'Email already in use');
-  if (await checkUniqueAttribute(process.env.USERNAME_INDEX!, 'username', username))
-    return createAWSResErr(403, 'Username already in use');
-
-  const errors = (await validateUserInputs(username, email, password)) as string[];
-
-  if (errors.length !== 0) return createAWSResErr(422, errors);
+  const errors = await validateUserInputs(username, email, password);
+  if (errors.length !== 0) return createAWSResErr(422, errors as string[]);
 
   // non-form attributes added here:
   const UID = shortUUID.generate();

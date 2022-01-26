@@ -7,14 +7,15 @@ export const validateUserInputs = async (
   email: string,
   password: string
 ): Promise<(string | null)[]> => {
-  const validationMessages = await Promise.all([
+  const errors = await Promise.all([
+    checkUniqueAttribute(process.env.EMAIL_INDEX!, 'email', email),
+    checkUniqueAttribute(process.env.USERNAME_INDEX!, 'username', username),
     validateValue(username, 'Username'),
     validateValue(email, 'Email'),
     validateValue(password, 'Password')
   ]);
 
-  const errors = validationMessages.flat();
-  return errors.filter((error) => error !== null);
+  return errors.flat().filter((error) => error !== null);
 };
 
 export const validateValue = async (
@@ -52,40 +53,35 @@ export const validateAgainstRegex = async (
   name: string,
   regex: RegExp,
   message: string
-): Promise<string | null> => {
-  return regex.test(value) ? `${name} ${message}` : null;
-};
+): Promise<string | null> => (regex.test(value) ? `${name} ${message}` : null);
 
-export const validateIsEmail = async (value: string): Promise<string | null> => {
-  return !EmailValidator.validate(value) ? `Email must be valid` : null;
-};
+export const validateIsEmail = async (value: string): Promise<string | null> =>
+  !EmailValidator.validate(value) ? `Email must be valid` : null;
 
-export const validateNotEmpty = async (value: string, name: string): Promise<string | null> => {
-  return value === null || value === '' || value === undefined ? `${name} must not be empty` : null;
-};
+export const validateNotEmpty = async (value: string, name: string): Promise<string | null> =>
+  value === null || value === '' || value === undefined ? `${name} must not be empty` : null;
 
 export const validateLength = async (
   value: string,
   valueName: string,
   min: number,
   max: number
-): Promise<string | null> => {
-  return value.length < min || value.length > max
+): Promise<string | null> =>
+  value.length < min || value.length > max
     ? `${valueName} must be between ${min} and ${max} chracters`
     : null;
-};
 
 export const checkUniqueAttribute = async (
   indexName: string,
-  variableName: string,
-  primaryKeyValue: string
-): Promise<boolean> => {
+  keyName: string,
+  keyValue: string
+): Promise<string | null> => {
   const query = createDynamoSearchQuery(
     process.env.USER_TABLE_NAME!,
     indexName,
-    variableName,
-    variableName,
-    primaryKeyValue,
+    keyName,
+    keyName,
+    keyValue,
     'S'
   );
 
@@ -93,10 +89,12 @@ export const checkUniqueAttribute = async (
     const dbClient = new DynamoDBClient({});
     const result = await dbClient.send(new QueryCommand(query));
 
-    return result.Items![0] ? true : false;
+    return result.Items![0] ? `${alphabeticalizeFirstChar(keyName)} already in use` : null;
   } catch (error) {
     if (error instanceof Error) console.error(error.message);
+    return null;
   }
-
-  return false;
 };
+
+const alphabeticalizeFirstChar = (input: string): string =>
+  input.charAt(0).toUpperCase() + input.slice(1);

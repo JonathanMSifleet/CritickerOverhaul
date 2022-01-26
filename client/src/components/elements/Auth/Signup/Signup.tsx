@@ -48,10 +48,14 @@ const SignUp: React.FC = () => {
     // trick to allows for await to be used inside a useEffect hook
     const attemptSignup = async (): Promise<void> => {
       setIsLoading(true);
-      await httpRequest(endpoints.SIGNUP, 'POST', formInfo);
+      try {
+        const response = await httpRequest(endpoints.SIGNUP, 'POST', formInfo);
+        console.log('🚀 ~ file: Signup.tsx ~ line 53 ~ attemptSignup ~ response', response);
+        setShowModal(false);
+      } catch (error) {
+        console.error(error);
+      }
       setIsLoading(false);
-
-      setShowModal(false);
     };
 
     // stop POSTing unnecessary attribute
