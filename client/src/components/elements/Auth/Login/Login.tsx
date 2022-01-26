@@ -1,7 +1,7 @@
 import CryptoES from 'crypto-es';
 import { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { LOGIN } from '../../../../constants/endpoints';
+import * as endpoints from '../../../../constants/endpoints';
 import { modalState, userInfoState } from '../../../../store';
 import HTTPRequest from '../../../../utils/httpRequest';
 import Button from '../../../elements/Button/Button';
@@ -29,7 +29,7 @@ const Login: React.FC = () => {
     const attemptLogin = async (): Promise<void> => {
       try {
         setIsLoading(true);
-        const userDetails = (await HTTPRequest(LOGIN, 'POST', formInfo)) as {
+        const userDetails = (await HTTPRequest(endpoints.LOGIN, 'POST', formInfo)) as {
           username: string;
           UID: string;
         };

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import { GET_PROFILE_BY_USERNAME, UPLOAD_USER_AVATAR } from '../../../constants/endpoints';
+import * as endpoints from '../../../constants/endpoints';
 import { userInfoState } from '../../../store';
 import getUserAvatar from '../../../utils/getUserAvatar';
 import httpRequest from '../../../utils/httpRequest';
@@ -23,11 +23,11 @@ const Profile: React.FC = (): JSX.Element => {
   const { username } = useParams<{ username: string }>();
 
   useEffect(() => {
-    const loadUserProfile = async (_username: string): Promise<void> => {
+    const loadUserProfile = async (username: string): Promise<void> => {
       setIsLoadingProfile(true);
 
       try {
-        setUserProfile(await httpRequest(`${GET_PROFILE_BY_USERNAME}/${userState.UID}`, 'GET'));
+        setUserProfile(await httpRequest(`${endpoints.GET_PROFILE_BY_USERNAME}/${username}`, 'GET'));
         setShouldLoadAvatar(true);
       } catch (error) {
         console.error(error);
@@ -41,7 +41,7 @@ const Profile: React.FC = (): JSX.Element => {
     } else if (userState.username !== '') {
       loadUserProfile(userState!.username);
     }
-  }, []);
+  }, [username]);
 
   useEffect(() => {
     const getAvatar = async (): Promise<void> => {
@@ -55,7 +55,7 @@ const Profile: React.FC = (): JSX.Element => {
 
   const handleFile = async (event: any): Promise<void> => {
     const { base64 } = event!;
-    const response = await httpRequest(`${UPLOAD_USER_AVATAR}/${userState!.UID}`, 'POST', {
+    const response = await httpRequest(`${endpoints.UPLOAD_USER_AVATAR}/${userState!.UID}`, 'POST', {
       base64
     });
     console.log('response', response);

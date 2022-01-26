@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import IFilm from '../../../../../shared/interfaces/IFilm';
-import { GET_FILM } from '../../../constants/endpoints';
-import HTTPRequest from '../../../utils/httpRequest';
+import * as endpoints from '../../../constants/endpoints';
+import httpRequest from '../../../utils/httpRequest';
 import Spinner from '../../elements/Spinner/Spinner';
 import PageView from '../../hoc/PageView/PageView';
 import FilmCard from './FilmCard/FilmCard';
@@ -14,7 +14,7 @@ const Home: React.FC = (): JSX.Element => {
   useEffect(() => {
     (async (): Promise<void> => {
       setIsLoading(true);
-      setFilms((await HTTPRequest(`${GET_FILM}/home`, 'GET')) as IFilm[]);
+      setFilms((await httpRequest(`${endpoints.GET_FILM}/home`, 'GET')) as IFilm[]);
       setIsLoading(false);
     })();
   }, []);

@@ -1,7 +1,7 @@
 import CryptoES from 'crypto-es';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
-import { SIGNUP } from '../../../../constants/endpoints';
+import * as endpoints from '../../../../constants/endpoints';
 import { modalState } from '../../../../store';
 import httpRequest from '../../../../utils/httpRequest';
 import Button from '../../../elements/Button/Button';
@@ -48,7 +48,7 @@ const SignUp: React.FC = () => {
     // trick to allows for await to be used inside a useEffect hook
     const attemptSignup = async (): Promise<void> => {
       setIsLoading(true);
-      await httpRequest(SIGNUP, 'POST', formInfo);
+      await httpRequest(endpoints.SIGNUP, 'POST', formInfo);
       setIsLoading(false);
 
       setShowModal(false);
