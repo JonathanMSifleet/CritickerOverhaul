@@ -19,6 +19,9 @@ provider:
     RATINGS_TABLE_NAME: ${self:custom.RatingsTable.name}
     USER_AVATAR_BUCKET_NAME: ${self:custom.UserAvatarBucket.name}
     USER_TABLE_NAME: ${self:custom.UserTable.name}
+    EMAIL_INDEX: email
+    UID_INDEX: UID
+    USERNAME_INDEX: username
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
   lambdaHashingVersion: 20201221
   iam:
@@ -110,10 +113,10 @@ functions:
           cors: true
 resources:
   Resources:
-    UserTable: ${file(aws/resources/UserTable.yml):UserTable}
     RatingsTable: ${file(aws/resources/RatingsTable.yml):RatingsTable}
     ReactBucket: ${file(aws/resources/ReactBucket.yml):ReactBucket}
     UserAvatarBucket: ${file(aws/resources/UserAvatarBucket.yml):UserAvatarBucket}
+    UserTable: ${file(aws/resources/UserTable.yml):UserTable}
     # Policies:
     ReactBucketPolicy: ${file(aws/resources/ReactBucket.yml):ReactBucketPolicy}
     UserAvatarBucketPolicy: ${file(aws/resources/UserAvatarBucket.yml):UserAvatarBucketPolicy}

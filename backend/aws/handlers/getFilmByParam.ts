@@ -2,15 +2,12 @@
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
 import serverlessMysql from 'serverless-mysql';
+import { connectionDetails } from '../shared/constants/ConnectionDetails';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
-import IHTTPErr from '../shared/interfaces/IHTTPErr';
-import { connectionDetails } from '../shared/constants/ConnectionDetails';
 const mysql = serverlessMysql({ config: connectionDetails });
 
-const getFilmByParam = async (event: {
-  pathParameters: { id: number };
-}): Promise<IHTTP | IHTTPErr> => {
+const getFilmByParam = async (event: { pathParameters: { id: number } }): Promise<IHTTP> => {
   const { id } = event.pathParameters;
 
   try {
@@ -18,24 +15,23 @@ const getFilmByParam = async (event: {
     const getOrderedFilmActors = mysql.query(orderedActorSQL, [id]);
     const getUnorderedActorResult = mysql.query(unorderedActorSQL, [id, id]);
 
-    const results = await Promise.all([getFilm, getOrderedFilmActors, getUnorderedActorResult]);
+    const results = (await Promise.all([
+      getFilm,
+      getOrderedFilmActors,
+      getUnorderedActorResult
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ])) as any;
     mysql.quit();
 
     const filmData = results.flat();
 
     // to do
     const result = {
-      // @ts-expect-error
       ...filmData[0],
-      // @ts-expect-error
       ...filmData[1]
     };
 
-    // @ts-expect-error
-    if (results[2].actors) {
-      // @ts-expect-error
-      result.actors = result.actors + ', ' + results[2].actors;
-    }
+    if (results[2].actors) result.actors = result.actors + ', ' + results[2].actors;
 
     console.log('Sucessfully fetched results');
     return {

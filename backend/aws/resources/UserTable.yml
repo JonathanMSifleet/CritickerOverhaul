@@ -10,10 +10,6 @@ UserTable:
         AttributeType: S
       - AttributeName: UID
         AttributeType: S
-      - AttributeName: memberSince
-        AttributeType: N
-      - AttributeName: numRatings
-        AttributeType: N
 
     KeySchema:
       - AttributeName: UID

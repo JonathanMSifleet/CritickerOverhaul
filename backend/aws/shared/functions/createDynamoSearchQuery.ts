@@ -1,19 +1,22 @@
-import { AttributeValue, GetItemCommandInput } from '@aws-sdk/client-dynamodb';
+import { QueryCommandInput } from '@aws-sdk/client-dynamodb';
 
 const createDynamoSearchQuery = (
   tableName: string,
+  indexName: string,
+  fields: string,
   primaryKeyName: string,
-  primaryKeyType: string,
-  keyValue: string,
-  fields: string
-): GetItemCommandInput => {
+  primaryKeyValue: string,
+  primaryKeyType: string
+): QueryCommandInput => {
   return {
     TableName: tableName,
-    Key: {
-      [primaryKeyName]: { [primaryKeyType]: keyValue } as unknown as AttributeValue
-    },
-    ProjectionExpression: fields
-  };
+    IndexName: indexName,
+    ProjectionExpression: fields,
+    KeyConditionExpression: `${primaryKeyName} = :${primaryKeyName}`,
+    ExpressionAttributeValues: {
+      [`:${primaryKeyName}`]: { [primaryKeyType]: primaryKeyValue }
+    }
+  } as unknown as QueryCommandInput;
 };
 
 export default createDynamoSearchQuery;

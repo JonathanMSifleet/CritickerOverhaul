@@ -5,16 +5,15 @@ import cors from '@middy/http-cors';
 import shortUUID from 'short-uuid';
 import { checkUniqueAttribute, validateUserInputs } from '../shared/functions/validationFunctions';
 import IHTTP from '../shared/interfaces/IHTTP';
-import IHTTPErr from '../shared/interfaces/IHTTPErr';
 import { createAWSResErr } from './../shared/functions/createAWSResErr';
 const dbClient = new DynamoDBClient({});
 
-const signup = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
+const signup = async (event: { body: string }): Promise<IHTTP> => {
   const { username, email, password } = JSON.parse(event.body);
 
-  if (await checkUniqueAttribute('email', email))
+  if (await checkUniqueAttribute(process.env.EMAIL_INDEX!, 'email', email))
     return createAWSResErr(403, 'Email already in use');
-  if (await checkUniqueAttribute('username', username))
+  if (await checkUniqueAttribute(process.env.USERNAME_INDEX!, 'username', username))
     return createAWSResErr(403, 'Username already in use');
 
   const errors = (await validateUserInputs(username, email, password)) as string[];

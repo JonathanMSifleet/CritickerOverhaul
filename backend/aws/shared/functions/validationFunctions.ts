@@ -1,4 +1,4 @@
-import { DynamoDBClient, GetItemCommand } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
 import EmailValidator from 'email-validator';
 import createDynamoSearchQuery from './createDynamoSearchQuery';
 
@@ -76,22 +76,24 @@ export const validateLength = async (
 };
 
 export const checkUniqueAttribute = async (
+  indexName: string,
   variableName: string,
-  value: string
+  primaryKeyValue: string
 ): Promise<boolean> => {
   const query = createDynamoSearchQuery(
     process.env.USER_TABLE_NAME!,
-    'UID',
-    'S',
-    value,
-    variableName
+    indexName,
+    variableName,
+    variableName,
+    primaryKeyValue,
+    'S'
   );
 
   try {
     const dbClient = new DynamoDBClient({});
-    const result = await dbClient.send(new GetItemCommand(query));
+    const result = await dbClient.send(new QueryCommand(query));
 
-    return result.Item ? true : false;
+    return result.Items![0] ? true : false;
   } catch (error) {
     if (error instanceof Error) console.error(error.message);
   }
