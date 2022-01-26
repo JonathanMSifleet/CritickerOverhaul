@@ -5,7 +5,7 @@ import serverlessMysql from 'serverless-mysql';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IHTTPErr from '../shared/interfaces/IHTTPErr';
-import { connectionDetails } from '../shared/MySQL/ConnectionDetails';
+import { connectionDetails } from '../shared/constants/ConnectionDetails';
 const mysql = serverlessMysql({ config: connectionDetails });
 
 const getFilmByParam = async (event: {
