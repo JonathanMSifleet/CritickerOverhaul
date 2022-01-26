@@ -68,7 +68,7 @@ export const validateLength = async (
   max: number
 ): Promise<string | null> =>
   value.length < min || value.length > max
-    ? `${valueName} must be between ${min} and ${max} chracters`
+    ? `${valueName} must be between ${min} and ${max} characters`
     : null;
 
 export const checkUniqueAttribute = async (

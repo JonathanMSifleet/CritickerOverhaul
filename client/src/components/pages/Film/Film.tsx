@@ -1,13 +1,14 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
-import { GET_FILM_BY_PARAM, RATE_FILM } from '../../../constants/endpoints';
+import * as endpoints from '../../../constants/endpoints';
 import { userInfoState } from '../../../store';
 import getFilmPoster from '../../../utils/getFilmPoster';
 import httpRequest from '../../../utils/httpRequest';
 import Button from '../../elements/Button/Button';
 import Input from '../../elements/Input/Input';
 import Spinner from '../../elements/Spinner/Spinner';
+import SpinnerButton from '../../elements/SpinnerButton/SpinnerButton';
 import PageView from '../../hoc/PageView/PageView';
 import classes from './Film.module.scss';
 
@@ -16,6 +17,7 @@ const Film: React.FC = () => {
   const [film, setFilm] = useState(null as any);
   const [filmPoster, setFilmPoster] = useState(null as string | null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isRating, setIsRating] = useState(false);
   // to do
   const [userReview, setUserReview] = useState(
     null as unknown as { rating: number; reviewText: string }
@@ -29,7 +31,7 @@ const Film: React.FC = () => {
       setIsLoading(true);
 
       const [film, filmPoster] = [
-        await httpRequest(`${GET_FILM_BY_PARAM}/${id}`, 'GET'),
+        await httpRequest(`${endpoints.GET_FILM_BY_PARAM}/${id}`, 'GET'),
         await getFilmPoster(id!)
       ];
 
@@ -51,12 +53,22 @@ const Film: React.FC = () => {
     }
   };
 
-  const rateFilm = async (): Promise<void> =>
-    await httpRequest(RATE_FILM, 'POST', {
-      imdb_title_id: Number(id),
-      UID: userState!.UID,
-      review: { ...userReview }
-    });
+  const rateFilm = async (): Promise<void> => {
+    setIsRating(true);
+
+    try {
+      const ratingResponse = await httpRequest(endpoints.RATE_FILM, 'POST', {
+        imdb_title_id: Number(id),
+        UID: userState!.UID,
+        review: { ...userReview }
+      });
+      console.log('🚀 ~ file: Film.tsx ~ line 65 ~ rateFilm ~ ratingResponse', ratingResponse);
+    } catch (error) {
+      console.error(error);
+    }
+
+    setIsRating(false);
+  };
 
   return (
     <PageView>
@@ -98,11 +110,15 @@ const Film: React.FC = () => {
                     textarea={true}
                   />
 
-                  <Button
-                    className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
-                    onClick={(): Promise<void> => rateFilm()}
-                    text={'Rate film'}
-                  />
+                  {isRating ? (
+                    <SpinnerButton />
+                  ) : (
+                    <Button
+                      className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
+                      onClick={(): Promise<void> => rateFilm()}
+                      text={'Rate film'}
+                    />
+                  )}
                 </form>
               ) : null}
             </div>

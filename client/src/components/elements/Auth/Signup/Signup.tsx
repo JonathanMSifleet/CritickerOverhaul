@@ -9,6 +9,7 @@ import Checkbox from '../../../elements/Checkbox/Checkbox';
 import Input from '../../../elements/Input/Input';
 import Spinner from '../../Spinner/Spinner';
 import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
+import extractValidationMessages from './../../../../utils/extractValidationMessages';
 import classes from './Signup.module.scss';
 
 interface IState {
@@ -22,23 +23,23 @@ interface IState {
 const SignUp: React.FC = () => {
   const [formInfo, setFormInfo] = useState<IState>({});
   const [isLoading, setIsLoading] = useState(false);
-  const [shouldSignup, setShouldPost] = useState(false);
+  const [shouldSignup, setShouldSignup] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
   const setShowModal = useSetRecoilState(modalState);
+  const [usernameValidationMessages, setUsernameValidationMessages] = useState([] as any);
+  const [emailValidationMessages, setEmailValidationMessages] = useState([] as string[]);
 
-  useEffect(() => {
-    if (
-      !formInfo.email ||
-      !formInfo.password ||
-      !formInfo.repeatPassword ||
-      !formInfo.username ||
-      !formInfo.termsChecked
-    ) {
-      setSubmitDisabled(true);
-    } else {
-      setSubmitDisabled(false);
-    }
-  }, [formInfo]);
+  useEffect(
+    () =>
+      setSubmitDisabled(
+        !formInfo.email ||
+          !formInfo.password ||
+          !formInfo.repeatPassword ||
+          !formInfo.username ||
+          !formInfo.termsChecked
+      ),
+    [formInfo]
+  );
 
   // when hashing the password client-side, React does not update the
   // state until the next render-cycle, by using useEffect, a new render
@@ -50,11 +51,13 @@ const SignUp: React.FC = () => {
       setIsLoading(true);
       try {
         const response = await httpRequest(endpoints.SIGNUP, 'POST', formInfo);
-        console.log('🚀 ~ file: Signup.tsx ~ line 53 ~ attemptSignup ~ response', response);
+        if (!response.statusCode.toString().startsWith('2')) throw new Error(response.message);
+
         setShowModal(false);
       } catch (error) {
-        console.error(error);
+        handleValidationMessage(extractValidationMessages(error as string));
       }
+
       setIsLoading(false);
     };
 
@@ -64,25 +67,41 @@ const SignUp: React.FC = () => {
     if (shouldSignup) attemptSignup();
   }, [shouldSignup]);
 
-  const handleSignupAttempt = async (): Promise<void> => {
-    if (formInfo.password === formInfo.repeatPassword) {
-      const hashedPassword = CryptoES.SHA512(formInfo.password).toString();
+  const handleValidationMessage = (valMessages: { [key: string]: string }[]): void => {
+    valMessages.forEach((message) => {
+      switch (Object.keys(message)[0]) {
+        case 'Username':
+          const replacementUsernameList = usernameValidationMessages;
+          replacementUsernameList.push(message.Username);
+          setUsernameValidationMessages(replacementUsernameList);
+          break;
+        case 'Email':
+          const replacementEmailList = emailValidationMessages;
+          replacementEmailList.push(message.Email);
+          setEmailValidationMessages(replacementEmailList);
+          break;
+        default:
+          console.error('Unhandled validation key:', Object.keys(message)[0]);
+      }
+    });
+  };
 
-      setFormInfo({ ...formInfo, password: hashedPassword });
-      setShouldPost(true);
-    }
+  const handleSignupAttempt = async (): Promise<void> => {
+    if (formInfo.password !== formInfo.repeatPassword) return;
+
+    const hashedPassword = CryptoES.SHA512(formInfo.password).toString();
+
+    setFormInfo({ ...formInfo, password: hashedPassword });
+    setShouldSignup(true);
   };
 
   const inputChangedHandler = (
     event: React.ChangeEvent<HTMLInputElement>,
     inputName: string
-  ): void => {
-    setFormInfo({ ...formInfo, [inputName]: event.target.value });
-  };
+  ): void => setFormInfo({ ...formInfo, [inputName]: event.target.value });
 
-  const checkboxHandler = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const checkboxHandler = (event: React.ChangeEvent<HTMLInputElement>): void =>
     setFormInfo({ ...formInfo, termsChecked: event.target.checked });
-  };
 
   return (
     <form autoComplete="off" onSubmit={(event): void => event.preventDefault()}>
@@ -90,12 +109,20 @@ const SignUp: React.FC = () => {
 
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         <Input
+          className={classes.AuthInput}
           onChange={(event: ChangeEvent<HTMLInputElement>): void =>
             inputChangedHandler(event, 'username')
           }
           placeholder={'Username'}
           type={'text'}
         />
+        {usernameValidationMessages.length > 0
+          ? usernameValidationMessages.map((message: string) => (
+              <li key={message} className={`${classes.ValidationText} text-danger`}>
+                Username {message}
+              </li>
+            ))
+          : null}
 
         <Input
           autoComplete="new-password"
@@ -105,6 +132,13 @@ const SignUp: React.FC = () => {
           placeholder={'Email'}
           type={'email'}
         />
+        {emailValidationMessages.length > 0
+          ? emailValidationMessages.map((message: string) => (
+              <li key={message} className={`${classes.ValidationText} text-danger`}>
+                Email {message}
+              </li>
+            ))
+          : null}
 
         <Input
           autoComplete="new-password"
