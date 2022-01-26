@@ -1,9 +1,9 @@
-import IHTTPErr from '../interfaces/IHTTPErr';
+import IHTTP from '../interfaces/IHTTP';
 
 export const createAWSResErr = async (
   statusCode: number,
   message: string | string[]
-): Promise<IHTTPErr> => {
+): Promise<IHTTP> => {
   if (Array.isArray(message)) {
     await logErrors(message);
     message = message.join('\n');
@@ -13,7 +13,7 @@ export const createAWSResErr = async (
 
   return {
     statusCode,
-    statusText: message
+    body: JSON.stringify(message)
   };
 };
 

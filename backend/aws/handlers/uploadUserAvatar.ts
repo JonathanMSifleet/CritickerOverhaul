@@ -3,13 +3,12 @@ import middy from '@middy/core';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
-import IHTTPErr from '../shared/interfaces/IHTTPErr';
 const s3Client = new S3Client({});
 
 export const uploadUserAvatar = async (event: {
   pathParameters: { UID: string };
   body: Buffer;
-}): Promise<IHTTPErr | IHTTP> => {
+}): Promise<IHTTP> => {
   const image = event.body.slice(1, -1);
   const filename = `${event.pathParameters.UID}.jpg`;
 
@@ -27,7 +26,7 @@ export const uploadUserAvatar = async (event: {
   return createAWSResErr(500, 'Internal Server Error');
 };
 
-const uploadPicture = async (filename: string, body: Buffer): Promise<void | IHTTPErr> => {
+const uploadPicture = async (filename: string, body: Buffer): Promise<IHTTP> => {
   const params = {
     Bucket: process.env.USER_AVATAR_BUCKET_NAME!,
     Key: filename,
@@ -42,6 +41,8 @@ const uploadPicture = async (filename: string, body: Buffer): Promise<void | IHT
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, error.message);
   }
+
+  return createAWSResErr(500, 'Internal Server Error');
 };
 
 export const handler = middy(uploadUserAvatar).use(cors());

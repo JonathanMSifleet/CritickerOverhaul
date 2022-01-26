@@ -3,12 +3,11 @@ import middy from '@middy/core';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
-import IHTTPErr from '../shared/interfaces/IHTTPErr';
 const dbClient = new DynamoDBClient({});
 
 const deleteAccount = async (event: {
   requestContext: { authorizer: { email: string } };
-}): Promise<IHTTP | IHTTPErr> => {
+}): Promise<IHTTP> => {
   const { email } = event.requestContext.authorizer;
 
   try {

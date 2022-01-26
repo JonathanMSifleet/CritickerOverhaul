@@ -3,11 +3,10 @@ import cors from '@middy/http-cors';
 import serverlessMysql from 'serverless-mysql';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
-import IHTTPErr from '../shared/interfaces/IHTTPErr';
 import { connectionDetails } from '../shared/constants/ConnectionDetails';
 const mysql = serverlessMysql({ config: connectionDetails });
 
-const getFilms = async (event: { pathParameters: { page: string } }): Promise<IHTTP | IHTTPErr> => {
+const getFilms = async (event: { pathParameters: { page: string } }): Promise<IHTTP> => {
   const { page } = event.pathParameters;
   const sql = getSQL(page);
 

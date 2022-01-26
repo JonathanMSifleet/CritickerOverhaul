@@ -10,7 +10,6 @@ import middy from '@middy/core';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
-import IHTTPErr from '../shared/interfaces/IHTTPErr';
 const dbClient = new DynamoDBClient({});
 
 interface IReview {
@@ -22,7 +21,7 @@ interface IReview {
   };
 }
 
-const rateFilm = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
+const rateFilm = async (event: { body: string }): Promise<IHTTP> => {
   const payload = JSON.parse(event.body);
 
   try {
@@ -41,7 +40,7 @@ const rateFilm = async (event: { body: string }): Promise<IHTTPErr | IHTTP> => {
   return createAWSResErr(500, 'Internal Server Error');
 };
 
-const insertRatingToDB = async (payload: IReview): Promise<void | IHTTPErr> => {
+const insertRatingToDB = async (payload: IReview): Promise<IHTTP> => {
   const params = {
     TableName: process.env.RATINGS_TABLE_NAME!,
     Item: marshall(payload),
@@ -54,9 +53,11 @@ const insertRatingToDB = async (payload: IReview): Promise<void | IHTTPErr> => {
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, error.message);
   }
+
+  return createAWSResErr(500, 'Internal Server Error');
 };
 
-const incrementNumRatings = async (UID: string): Promise<void | IHTTPErr> => {
+const incrementNumRatings = async (UID: string): Promise<IHTTP> => {
   const params = {
     TableName: process.env.USER_TABLE_NAME!,
     Key: {
@@ -75,6 +76,8 @@ const incrementNumRatings = async (UID: string): Promise<void | IHTTPErr> => {
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, error.message);
   }
+
+  return createAWSResErr(500, 'Internal Server Error');
 };
 
 export const handler = middy(rateFilm).use(cors());

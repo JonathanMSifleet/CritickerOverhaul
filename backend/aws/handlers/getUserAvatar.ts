@@ -4,12 +4,9 @@ import cors from '@middy/http-cors';
 import getStream from 'get-stream';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
-import IHTTPErr from '../shared/interfaces/IHTTPErr';
 const s3Client = new S3Client({});
 
-const getUserAvatar = async (event: {
-  pathParameters: { UID: string };
-}): Promise<IHTTP | IHTTPErr> => {
+const getUserAvatar = async (event: { pathParameters: { UID: string } }): Promise<IHTTP> => {
   const { UID } = event.pathParameters;
 
   try {
@@ -28,7 +25,7 @@ const getUserAvatar = async (event: {
   return createAWSResErr(500, 'Internal Server Error');
 };
 
-const getUserAvatarFromS3 = async (filename: string): Promise<string | IHTTPErr | null> => {
+const getUserAvatarFromS3 = async (filename: string): Promise<string | IHTTP | null> => {
   try {
     const params = {
       Bucket: process.env.USER_AVATAR_BUCKET_NAME!,
