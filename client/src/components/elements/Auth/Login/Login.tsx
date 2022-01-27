@@ -6,7 +6,7 @@ import { modalState, userInfoState } from '../../../../store';
 import HTTPRequest from '../../../../utils/httpRequest';
 import Button from '../../../elements/Button/Button';
 import Input from '../../../elements/Input/Input';
-import Spinner from '../../Spinner/Spinner';
+import SpinnerButton from './../../SpinnerButton/SpinnerButton';
 import classes from './Login.module.scss';
 
 interface IState {
@@ -33,13 +33,13 @@ const Login: React.FC = () => {
           UID: string;
         };
 
-        setIsLoading(false);
-
         setUserInfo({
           ...userDetails,
           loggedIn: true,
           expiryDate: new Date().getTime() + 4 * 60 * 60
         });
+
+        setIsLoading(false);
 
         setShowModal(false);
       } catch (error) {
@@ -98,13 +98,16 @@ const Login: React.FC = () => {
       </div>
 
       <div className={classes.SubmitButtonWrapper}>
-        <Button
-          className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
-          disabled={submitDisabled}
-          onClick={(): Promise<void> => handleLoginAttempt()}
-          text={'Sign in'}
-        />
-        {isLoading ? <Spinner /> : null}
+        {isLoading ? (
+          <SpinnerButton />
+        ) : (
+          <Button
+            className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
+            disabled={submitDisabled}
+            onClick={(): Promise<void> => handleLoginAttempt()}
+            text={'Sign in'}
+          />
+        )}
       </div>
     </form>
   );

@@ -7,8 +7,8 @@ import httpRequest from '../../../../utils/httpRequest';
 import Button from '../../../elements/Button/Button';
 import Checkbox from '../../../elements/Checkbox/Checkbox';
 import Input from '../../../elements/Input/Input';
-import Spinner from '../../Spinner/Spinner';
 import extractValidationMessages from './../../../../utils/extractValidationMessages';
+import SpinnerButton from './../../SpinnerButton/SpinnerButton';
 import classes from './Signup.module.scss';
 
 interface IState {
@@ -179,13 +179,16 @@ const SignUp: React.FC = () => {
       </div>
 
       <div className={classes.SubmitButtonWrapper}>
-        <Button
-          className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
-          disabled={submitDisabled}
-          onClick={(): Promise<void> => handleSignupAttempt()}
-          text={'Sign up'}
-        />
-        {isLoading ? <Spinner /> : null}
+        {isLoading ? (
+          <SpinnerButton />
+        ) : (
+          <Button
+            className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
+            disabled={submitDisabled}
+            onClick={(): Promise<void> => handleSignupAttempt()}
+            text={'Sign up'}
+          />
+        )}
       </div>
     </form>
   );
