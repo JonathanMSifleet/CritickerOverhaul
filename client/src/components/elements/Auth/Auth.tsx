@@ -9,7 +9,11 @@ const Auth: React.FC = () => {
 
   return (
     <div className={classes.FormWrapper}>
-      <div className={`btn-group ${classes.AuthButtonGroup}`} role="group" aria-label="Basic example">
+      <div
+        className={`btn-group ${classes.AuthButtonGroup}`}
+        role="group"
+        aria-label="Basic example"
+      >
         <Button
           className={`${classes.Button} btn btn-primary bg-primary text-white`}
           disabled={displayLoginForm ? true : false}
@@ -24,7 +28,9 @@ const Auth: React.FC = () => {
           text="Register"
         />
       </div>
-      <p className={classes.InstructionText}>{displayLoginForm ? 'Log in' : 'Register'} with:</p>
+      {/* <p className={classes.InstructionText}>{displayLoginForm
+        ? 'Log in' : 'Register'} with:</p> */}
+      {/* <ThirdPartyLogin /> */}
 
       {displayLoginForm ? <Login /> : <SignUp />}
     </div>
