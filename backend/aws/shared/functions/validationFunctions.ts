@@ -5,9 +5,11 @@ import createDynamoSearchQuery from './createDynamoSearchQuery';
 export const validateUserInputs = async (
   username: string,
   email: string,
-  password: string
+  password: string,
+  repeatPassword: string
 ): Promise<(string | null)[]> => {
   const errors = await Promise.all([
+    checkMatch(password, repeatPassword),
     checkUniqueAttribute(process.env.EMAIL_INDEX!, 'email', email),
     checkUniqueAttribute(process.env.USERNAME_INDEX!, 'username', username),
     validateValue(username, 'Username'),
@@ -17,6 +19,11 @@ export const validateUserInputs = async (
 
   return errors.flat().filter((error) => error !== null);
 };
+
+export const checkMatch = async (
+  password: string,
+  repeatPassword: string
+): Promise<string | null> => (password !== repeatPassword ? 'Passwords do not match' : null);
 
 export const validateValue = async (
   value: string,
@@ -32,17 +39,7 @@ export const validateValue = async (
       );
       break;
     case 'Email':
-      errors.push(
-        validateNotEmpty(value, valueName),
-        validateLength(value, valueName, 3, 256),
-        validateIsEmail(value)
-      );
-      break;
-    case 'Password':
-      errors.push(
-        validateNotEmpty(value, valueName),
-        validateLength(value, 'Password Hash', 128, 128)
-      );
+      errors.push(validateLength(value, valueName, 3, 256), validateIsEmail(value));
       break;
   }
   return await Promise.all(errors);

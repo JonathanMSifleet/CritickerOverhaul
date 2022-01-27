@@ -6,7 +6,6 @@
     "forceUpdate": "npm-check-updates -u"
   },
   "dependencies": {
-    "@reduxjs/toolkit": "^1.7.1",
     "crypto-es": "^1.2.7",
     "mdb-react-ui-kit": "^2.3.0",
     "react": "^17.0.2",

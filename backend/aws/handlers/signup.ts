@@ -9,9 +9,9 @@ import { createAWSResErr } from './../shared/functions/createAWSResErr';
 const dbClient = new DynamoDBClient({});
 
 const signup = async (event: { body: string }): Promise<IHTTP> => {
-  const { username, email, password } = JSON.parse(event.body);
+  const { username, email, password, repeatPassword } = JSON.parse(event.body);
 
-  const errors = await validateUserInputs(username, email, password);
+  const errors = await validateUserInputs(username, email, password, repeatPassword);
   if (errors.length !== 0) return createAWSResErr(422, errors as string[]);
 
   // non-form attributes added here:

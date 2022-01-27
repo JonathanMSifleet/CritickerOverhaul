@@ -35,8 +35,8 @@ const SignUp: React.FC = () => {
         !formInfo.email ||
           !formInfo.password ||
           !formInfo.repeatPassword ||
-          !formInfo.username ||
-          !formInfo.termsChecked
+          !formInfo.termsChecked ||
+          !formInfo.username
       ),
     [formInfo]
   );
@@ -72,13 +72,18 @@ const SignUp: React.FC = () => {
       switch (Object.keys(message)[0]) {
         case 'Username':
           const replacementUsernameValList = usernameValidationMessages;
-          replacementUsernameValList.push(message.Username);
+          replacementUsernameValList.push(`${Object.keys(message)[0]} ${message.Username}`);
           setUsernameValidationMessages(replacementUsernameValList);
           break;
         case 'Email':
           const replacementEmailValList = emailValidationMessages;
-          replacementEmailValList.push(message.Email);
+          replacementEmailValList.push(`${Object.keys(message)[0]} ${message.Email}`);
           setEmailValidationMessages(replacementEmailValList);
+          break;
+        case 'Passwords':
+          const replacementPasswordValList = passwordValidationMessages;
+          replacementPasswordValList.push(`${Object.keys(message)[0]} ${message.Passwords}`);
+          setPasswordValidationMessages(replacementPasswordValList);
           break;
         default:
           console.error('Unhandled validation key:', Object.keys(message)[0]);
@@ -86,18 +91,10 @@ const SignUp: React.FC = () => {
     });
   };
 
-  const handleSignupAttempt = async (): Promise<void> => {
-    if (formInfo.password !== formInfo.repeatPassword) {
-      const replacementPasswordValList = passwordValidationMessages;
-      replacementPasswordValList.push('Passwords do not match');
-      setPasswordValidationMessages(replacementPasswordValList);
-      return;
-    }
-
+  const hashPasswords = async (): Promise<void> => {
     const hashedPassword = CryptoES.SHA512(formInfo.password).toString();
-
-    setFormInfo({ ...formInfo, password: hashedPassword });
-    setShouldSignup(true);
+    const hashedRepeatPassword = CryptoES.SHA512(formInfo.repeatPassword).toString();
+    setFormInfo({ ...formInfo, password: hashedPassword, repeatPassword: hashedRepeatPassword });
   };
 
   const inputChangedHandler = (
@@ -116,32 +113,20 @@ const SignUp: React.FC = () => {
           onChange={(event: ChangeEvent<HTMLInputElement>): void =>
             inputChangedHandler(event, 'username')
           }
+          errors={usernameValidationMessages}
           placeholder={'Username'}
           type={'text'}
         />
-        {usernameValidationMessages.length > 0
-          ? usernameValidationMessages.map((message: string) => (
-              <li key={message} className={`${classes.ValidationText} text-danger`}>
-                Username {message}
-              </li>
-            ))
-          : null}
 
         <Input
-          autoComplete="new-password"
           onChange={(event: ChangeEvent<HTMLInputElement>): void =>
             inputChangedHandler(event, 'email')
           }
+          autoComplete="new-password"
+          errors={emailValidationMessages}
           placeholder={'Email'}
           type={'email'}
         />
-        {emailValidationMessages.length > 0
-          ? emailValidationMessages.map((message: string) => (
-              <li key={message} className={`${classes.ValidationText} text-danger`}>
-                Email {message}
-              </li>
-            ))
-          : null}
 
         <Input
           autoComplete="new-password"
@@ -156,16 +141,10 @@ const SignUp: React.FC = () => {
           onChange={(event: ChangeEvent<HTMLInputElement>): void =>
             inputChangedHandler(event, 'repeatPassword')
           }
+          errors={passwordValidationMessages}
           placeholder={'Repeat password'}
           type={'password'}
         />
-        {passwordValidationMessages.length > 0
-          ? passwordValidationMessages.map((message: string) => (
-              <li key={message} className={`${classes.ValidationText} text-danger`}>
-                {message}
-              </li>
-            ))
-          : null}
       </div>
 
       <div className={classes.TermsConditionsWrapper}>
@@ -185,7 +164,10 @@ const SignUp: React.FC = () => {
           <Button
             className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
             disabled={submitDisabled}
-            onClick={(): Promise<void> => handleSignupAttempt()}
+            onClick={(): void => {
+              hashPasswords();
+              setShouldSignup(true);
+            }}
             text={'Sign up'}
           />
         )}
