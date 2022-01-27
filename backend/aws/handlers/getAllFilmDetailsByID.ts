@@ -7,7 +7,7 @@ import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
 const mysql = serverlessMysql({ config: connectionDetails });
 
-const getFilmByParam = async (event: { pathParameters: { id: number } }): Promise<IHTTP> => {
+const getAllFilmDetailsByID = async (event: { pathParameters: { id: number } }): Promise<IHTTP> => {
   const { id } = event.pathParameters;
 
   try {
@@ -97,4 +97,4 @@ const unorderedActorSQL =
   'LEFT JOIN people ' +
   'ON fromSubQuery.imdb_name_id = people.imdb_name_id';
 
-export const handler = middy(getFilmByParam).use(cors());
+export const handler = middy(getAllFilmDetailsByID).use(cors());
