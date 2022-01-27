@@ -1,8 +1,9 @@
 To do:
 
 - Add auto logout
-- Form validation
-- Server-side validation
+- Auth:
+  - Front end Form validation
+- General input validation
 - Increment user ratings when rating submitted
 - Check if user has already rated and display appropriately
 - Authenticate with auth0

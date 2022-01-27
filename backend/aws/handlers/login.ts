@@ -10,8 +10,6 @@ const dbClient = new DynamoDBClient({});
 const login = async (event: { body: string }): Promise<IHTTP> => {
   const { email, password } = JSON.parse(event.body);
 
-  if (!email || !password) return createAWSResErr(401, 'Please provide email and password!');
-
   const query = createDynamoSearchQuery(
     process.env.USER_TABLE_NAME!,
     process.env.EMAIL_INDEX!,
@@ -23,10 +21,11 @@ const login = async (event: { body: string }): Promise<IHTTP> => {
 
   try {
     const result = await dbClient.send(new QueryCommand(query));
-    const user = unmarshall(result.Items![0]);
+    if (result.Count === 0)
+      return createAWSResErr(404, 'Email address is not associated with any user');
 
-    if (user === undefined) return createAWSResErr(404, 'No user found with that email');
-    if (password !== user.password) return createAWSResErr(401, 'Incorrect password');
+    const user = unmarshall(result.Items![0]);
+    if (password !== user.password) return createAWSResErr(401, 'Password is incorrect');
 
     console.log('Logged in successfully');
     return {

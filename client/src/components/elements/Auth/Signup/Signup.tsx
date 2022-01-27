@@ -58,6 +58,7 @@ const SignUp: React.FC = () => {
         handleValidationMessage(extractValidationMessages(error as string));
       }
 
+      setShouldSignup(false);
       setIsLoading(false);
     };
 
