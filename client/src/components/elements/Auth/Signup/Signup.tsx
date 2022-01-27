@@ -8,7 +8,6 @@ import Button from '../../../elements/Button/Button';
 import Checkbox from '../../../elements/Checkbox/Checkbox';
 import Input from '../../../elements/Input/Input';
 import Spinner from '../../Spinner/Spinner';
-import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import extractValidationMessages from './../../../../utils/extractValidationMessages';
 import classes from './Signup.module.scss';
 
@@ -21,13 +20,14 @@ interface IState {
 }
 
 const SignUp: React.FC = () => {
+  const [emailValidationMessages, setEmailValidationMessages] = useState([] as string[]);
   const [formInfo, setFormInfo] = useState<IState>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [passwordValidationMessages, setPasswordValidationMessages] = useState([] as string[]);
   const [shouldSignup, setShouldSignup] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
+  const [usernameValidationMessages, setUsernameValidationMessages] = useState([] as string[]);
   const setShowModal = useSetRecoilState(modalState);
-  const [usernameValidationMessages, setUsernameValidationMessages] = useState([] as any);
-  const [emailValidationMessages, setEmailValidationMessages] = useState([] as string[]);
 
   useEffect(
     () =>
@@ -71,14 +71,14 @@ const SignUp: React.FC = () => {
     valMessages.forEach((message) => {
       switch (Object.keys(message)[0]) {
         case 'Username':
-          const replacementUsernameList = usernameValidationMessages;
-          replacementUsernameList.push(message.Username);
-          setUsernameValidationMessages(replacementUsernameList);
+          const replacementUsernameValList = usernameValidationMessages;
+          replacementUsernameValList.push(message.Username);
+          setUsernameValidationMessages(replacementUsernameValList);
           break;
         case 'Email':
-          const replacementEmailList = emailValidationMessages;
-          replacementEmailList.push(message.Email);
-          setEmailValidationMessages(replacementEmailList);
+          const replacementEmailValList = emailValidationMessages;
+          replacementEmailValList.push(message.Email);
+          setEmailValidationMessages(replacementEmailValList);
           break;
         default:
           console.error('Unhandled validation key:', Object.keys(message)[0]);
@@ -87,7 +87,12 @@ const SignUp: React.FC = () => {
   };
 
   const handleSignupAttempt = async (): Promise<void> => {
-    if (formInfo.password !== formInfo.repeatPassword) return;
+    if (formInfo.password !== formInfo.repeatPassword) {
+      const replacementPasswordValList = passwordValidationMessages;
+      replacementPasswordValList.push('Passwords do not match');
+      setPasswordValidationMessages(replacementPasswordValList);
+      return;
+    }
 
     const hashedPassword = CryptoES.SHA512(formInfo.password).toString();
 
@@ -105,8 +110,6 @@ const SignUp: React.FC = () => {
 
   return (
     <form autoComplete="off" onSubmit={(event): void => event.preventDefault()}>
-      <ThirdPartyLogin />
-
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         <Input
           className={classes.AuthInput}
@@ -156,6 +159,13 @@ const SignUp: React.FC = () => {
           placeholder={'Repeat password'}
           type={'password'}
         />
+        {passwordValidationMessages.length > 0
+          ? passwordValidationMessages.map((message: string) => (
+              <li key={message} className={`${classes.ValidationText} text-danger`}>
+                {message}
+              </li>
+            ))
+          : null}
       </div>
 
       <div className={classes.TermsConditionsWrapper}>

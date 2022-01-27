@@ -7,7 +7,6 @@ import HTTPRequest from '../../../../utils/httpRequest';
 import Button from '../../../elements/Button/Button';
 import Input from '../../../elements/Input/Input';
 import Spinner from '../../Spinner/Spinner';
-import ThirdPartyLogin from '../ThirdPartyLogin/ThirdPartyLogin';
 import classes from './Login.module.scss';
 
 interface IState {
@@ -74,8 +73,6 @@ const Login: React.FC = () => {
 
   return (
     <form onSubmit={(event): void => event.preventDefault()}>
-      <ThirdPartyLogin />
-
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         <Input
           autoComplete="new-password"
