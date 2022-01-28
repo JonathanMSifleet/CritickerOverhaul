@@ -126,15 +126,15 @@ const Login: React.FC = () => {
       </div>
 
       <div className={classes.SubmitButtonWrapper}>
-        {isLoading ? (
-          <SpinnerButton />
-        ) : (
+        {!isLoading ? (
           <Button
             className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
             disabled={submitDisabled}
             onClick={(): Promise<void> => handleLoginAttempt()}
             text={'Sign in'}
           />
+        ) : (
+          <SpinnerButton />
         )}
       </div>
     </form>

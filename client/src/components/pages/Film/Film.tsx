@@ -73,9 +73,7 @@ const Film: React.FC = () => {
   return (
     <PageView>
       <div className={classes.PageWrapper}>
-        {isLoading ? (
-          <Spinner />
-        ) : (
+        {!isLoading ? (
           <>
             <div className={classes.FilmDetails}>
               <img className={classes.Poster} src={filmPoster!} />
@@ -123,6 +121,8 @@ const Film: React.FC = () => {
               ) : null}
             </div>
           </>
+        ) : (
+          <Spinner />
         )}
       </div>
     </PageView>

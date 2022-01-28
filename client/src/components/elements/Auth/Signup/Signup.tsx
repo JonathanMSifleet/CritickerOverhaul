@@ -159,9 +159,7 @@ const SignUp: React.FC = () => {
       </div>
 
       <div className={classes.SubmitButtonWrapper}>
-        {isLoading ? (
-          <SpinnerButton />
-        ) : (
+        {!isLoading ? (
           <Button
             className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
             disabled={submitDisabled}
@@ -171,6 +169,8 @@ const SignUp: React.FC = () => {
             }}
             text={'Sign up'}
           />
+        ) : (
+          <SpinnerButton />
         )}
       </div>
     </form>

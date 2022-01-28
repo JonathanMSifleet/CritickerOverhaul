@@ -25,10 +25,10 @@ const FilmCard: React.FC<IProps> = ({ film }): JSX.Element => {
     <div className={`${classes.CardWrapper} card mb-3`}>
       <div className={`${classes.CardContainer} row g-0`}>
         <div className={`${classes.ImageColumn} col-md-1`}>
-          {isLoading ? (
-            <Spinner />
-          ) : (
+          {!isLoading ? (
             <img src={filmPoster} className={`${classes.Image} img-fluid rounded-start`} />
+          ) : (
+            <Spinner />
           )}
         </div>
         <div className={`${classes.TextColumn} col-md-8`}>

@@ -30,13 +30,13 @@ const Home: React.FC = (): JSX.Element => {
       <div className={classes.HomeWrapper}>
         <div className={classes.FilmsContainer}>
           {isLoading ? (
-            <Spinner />
-          ) : (
             <>
               {films
                 ? films.map((film: IFilm) => <FilmCard film={film} key={film.imdb_title_id} />)
                 : null}
             </>
+          ) : (
+            <Spinner />
           )}
         </div>
       </div>

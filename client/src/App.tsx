@@ -17,9 +17,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      {!fontReady ? (
-        <Spinner />
-      ) : (
+      {fontReady ? (
         <HashRouter>
           <Suspense fallback={<Spinner />}>
             <Routes>
@@ -37,6 +35,8 @@ const App: React.FC = () => {
             </Routes>
           </Suspense>
         </HashRouter>
+      ) : (
+        <Spinner />
       )}
     </>
   );
