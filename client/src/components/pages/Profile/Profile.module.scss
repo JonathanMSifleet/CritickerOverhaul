@@ -1,5 +1,6 @@
 @import '../../../styles/variables';
 
+
 .UserDetails {
   float: left;
   margin: 1%;
@@ -16,5 +17,11 @@
 }
 
 .UserProfileText {
+  margin-bottom: 0;
+}
+
+.UserProfileLink {
+  color: $mainBlue;
+  cursor: pointer;
   margin-bottom: 0;
 }

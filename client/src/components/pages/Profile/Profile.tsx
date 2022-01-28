@@ -8,20 +8,16 @@ import Spinner from '../../elements/Spinner/Spinner';
 import PageView from '../../hoc/PageView/PageView';
 import Avatar from './Avatar/Avatar';
 import classes from './Profile.module.scss';
+import UpdateUserDetailsForm from './UpdateUserDetailsForm/UpdateUserDetailsForm';
 
 const Profile: React.FC = (): JSX.Element => {
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const [shouldLoadAvatar, setShouldLoadAvatar] = useState(false);
+  const [showUpdateDetailsForm, setShowUpdateDetailsForm] = useState(false);
   // todo
   const [userProfile, setUserProfile] = useState(null as unknown as any);
   const userState = useRecoilValue(userInfoState);
-
   const { username } = useParams<{ username: string }>();
-
-  useEffect(
-    () => console.log('🚀 ~ file: Profile.tsx ~ line 15 ~ shouldLoadAvatar', shouldLoadAvatar),
-    [shouldLoadAvatar]
-  );
 
   useEffect(() => {
     const loadUserProfile = async (username: string): Promise<void> => {
@@ -91,9 +87,14 @@ const Profile: React.FC = (): JSX.Element => {
               <p className={classes.UserProfileText}>
                 <b>Member since:</b> {epochToDate(userProfile.memberSince)}
               </p>
-              <p className={classes.UserProfileText}>View your profile as it appears to others</p>
-              <p className={classes.UserProfileText}>Update Personal Information</p>
-              <p className={classes.UserProfileText}>Update Password</p>
+              <p
+                className={classes.UserProfileLink}
+                onClick={(): void => setShowUpdateDetailsForm(true)}
+              >
+                Update Personal Information
+              </p>
+              <p className={classes.UserProfileLink}>Update Password</p>
+              {showUpdateDetailsForm ? <UpdateUserDetailsForm /> : null}
             </div>
           ) : (
             'User not found'

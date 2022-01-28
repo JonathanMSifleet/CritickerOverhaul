@@ -48,7 +48,7 @@ const Avatar: React.FC<IProps> = ({
   return (
     <div className={classes.ImageWrapper}>
       {!isLoadingAvatar ? <img className={classes.UserAvatar} src={userAvatar} /> : null}
-      {!username && loggedIn ? (
+      {username && loggedIn ? (
         <>
           <FileBase64
             className={classes.UploadPictureInput}
