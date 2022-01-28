@@ -3,31 +3,34 @@ import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import * as endpoints from '../../../constants/endpoints';
 import { userInfoState } from '../../../store';
-import getUserAvatar from '../../../utils/getUserAvatar';
 import httpRequest from '../../../utils/httpRequest';
-// @ts-expect-error cannot import as type
-import FileBase64 from '../../elements/FileToBase64/build.min.js';
 import Spinner from '../../elements/Spinner/Spinner';
 import PageView from '../../hoc/PageView/PageView';
+import Avatar from './Avatar/Avatar';
 import classes from './Profile.module.scss';
 
 const Profile: React.FC = (): JSX.Element => {
-  const [isLoadingAvatar, setIsLoadingAvatar] = useState(false);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const [shouldLoadAvatar, setShouldLoadAvatar] = useState(false);
-  const [userAvatar, setUserAvatar] = useState('');
   // todo
   const [userProfile, setUserProfile] = useState(null as unknown as any);
   const userState = useRecoilValue(userInfoState);
 
   const { username } = useParams<{ username: string }>();
 
+  useEffect(
+    () => console.log('🚀 ~ file: Profile.tsx ~ line 15 ~ shouldLoadAvatar', shouldLoadAvatar),
+    [shouldLoadAvatar]
+  );
+
   useEffect(() => {
     const loadUserProfile = async (username: string): Promise<void> => {
       setIsLoadingProfile(true);
 
       try {
-        setUserProfile(await httpRequest(`${endpoints.GET_PROFILE_BY_USERNAME}/${username}`, 'GET'));
+        setUserProfile(
+          await httpRequest(`${endpoints.GET_PROFILE_BY_USERNAME}/${username}`, 'GET')
+        );
         setShouldLoadAvatar(true);
       } catch (error) {
         console.error(error);
@@ -37,48 +40,30 @@ const Profile: React.FC = (): JSX.Element => {
     };
 
     if (username) {
-      loadUserProfile(username!);
+      loadUserProfile(username);
     } else if (userState.username !== '') {
-      loadUserProfile(userState!.username);
+      loadUserProfile(userState.username);
     }
   }, [username]);
-
-  useEffect(() => {
-    const getAvatar = async (): Promise<void> => {
-      setIsLoadingAvatar(true);
-      setUserAvatar(await getUserAvatar(userProfile.UID));
-      setIsLoadingAvatar(false);
-    };
-
-    if (shouldLoadAvatar) getAvatar();
-  }, [shouldLoadAvatar]);
-
-  const handleFile = async (event: any): Promise<void> => {
-    const { base64 } = event!;
-    const response = await httpRequest(`${endpoints.UPLOAD_USER_AVATAR}/${userState!.UID}`, 'POST', {
-      base64
-    });
-    console.log('response', response);
-  };
 
   const epochToDate = (epoch: number): string => new Date(epoch).toLocaleDateString('en-GB');
 
   const getRatingRank = (numRatings: number): string => {
     switch (true) {
       case numRatings < 10:
-        return 'Newbie';
+        return 'newbie';
       case numRatings < 100:
-        return 'Flick Fan';
+        return 'flick fan';
       case numRatings < 500:
-        return 'Movie Buff';
+        return 'movie buff';
       case numRatings < 1000:
-        return 'Film Freak';
+        return 'film freak';
       case numRatings < 2500:
-        return 'Cinema Addict';
+        return 'cinema addict';
       case numRatings < 5000:
-        return 'Celluloid Junkie';
+        return 'celluloid junkie';
       case numRatings >= 5000:
-        return 'Criticker Zealot';
+        return 'criticker zealot';
       default:
         return 'Error determining rank';
     }
@@ -86,48 +71,37 @@ const Profile: React.FC = (): JSX.Element => {
 
   return (
     <PageView>
-      <div className={classes.PageWrapper}>
-        {isLoadingProfile ? (
-          <Spinner />
-        ) : (
-          <div className={classes.UserDetailsWrapper}>
-            <div className={classes.ImageWrapper}>
-              {isLoadingAvatar ? (
-                <Spinner />
-              ) : !isLoadingAvatar && !shouldLoadAvatar ? null : (
-                <img className={classes.UserAvatar} src={userAvatar} />
-              )}
+      {!isLoadingProfile ? (
+        <>
+          <Avatar
+            loggedIn={userState.loggedIn}
+            setShouldLoadAvatar={setShouldLoadAvatar}
+            shouldLoadAvatar={shouldLoadAvatar}
+            UID={userState.UID}
+            username={userState.username}
+          />
 
-              {!username && userState!.loggedIn ? (
-                <>
-                  <label htmlFor="fileUpload" className={classes.UploadPictureText}>
-                    Upload new picture
-                  </label>
-                  <FileBase64
-                    className={classes.UploadPictureInput}
-                    id="fileUpload"
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    onDone={(event: { target: any }): Promise<void> => handleFile(event)}
-                    type={'file'}
-                  />
-                </>
-              ) : null}
+          {userProfile ? (
+            <div className={classes.UserDetails}>
+              <h1 className={classes.UsernameHeader}>
+                {userProfile.username}
+                <span className={classes.UserRank}> {getRatingRank(userProfile.numRatings)}</span>
+              </h1>
+              <p className={classes.UserProfileText}>{userProfile.numRatings} Film Ratings</p>
+              <p className={classes.UserProfileText}>
+                <b>Member since:</b> {epochToDate(userProfile.memberSince)}
+              </p>
+              <p className={classes.UserProfileText}>View your profile as it appears to others</p>
+              <p className={classes.UserProfileText}>Update Personal Information</p>
+              <p className={classes.UserProfileText}>Update Password</p>
             </div>
-
-            {!userProfile ? (
-              'User not found'
-            ) : (
-              <div className={classes.UserDetails}>
-                <h1>{userProfile ? userProfile.username : 'Unknown'}</h1>
-                <p>
-                  {getRatingRank(userProfile.numRatings)} - {userProfile.numRatings} Film Ratings
-                </p>
-                <p>Member since: {epochToDate(userProfile.memberSince)}</p>
-              </div>
-            )}
-          </div>
-        )}
-      </div>
+          ) : (
+            'User not found'
+          )}
+        </>
+      ) : (
+        <Spinner />
+      )}
     </PageView>
   );
 };

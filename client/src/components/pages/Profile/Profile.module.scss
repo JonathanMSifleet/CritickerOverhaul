@@ -1,47 +1,20 @@
 @import '../../../styles/variables';
 
-.PageWrapper {
-  height: 100%;
-  width: 100%;
-}
-
-.UserDetailsWrapper {
-  height: 100%;
-  width: 100%;
-}
-
-.ImageWrapper {
-  width: fit-content;
-  margin-left: 1%;
-}
-
-.UserAvatar {
-  aspect-ratio: 1;
-  background-color: $mercury;
-  border-radius: 25px;
-  clear: right;
-  float: left;
-  height: auto;
-  margin: 1%;
-  padding: 1%;
-  width: 100%;
-}
-
-.UploadPictureInput {
-  display: none;
-}
-
-.UploadPictureText {
-  color: $mainBlue;
-  cursor: pointer;
-  float: left;
-  font-weight: bold;
-  display: block;
-  margin: auto;
-  text-align: center;
-  width: 100%;
-}
-
 .UserDetails {
   float: left;
+  margin: 1%;
+}
+
+.UsernameHeader {
+  margin: 0 !important;
+  color: $mainBlue;
+}
+
+.UserRank {
+  color: #585858;
+  font-size: 1.25rem;
+}
+
+.UserProfileText {
+  margin-bottom: 0;
 }
