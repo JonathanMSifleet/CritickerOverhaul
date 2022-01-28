@@ -29,7 +29,7 @@ const Home: React.FC = (): JSX.Element => {
     <PageView>
       <div className={classes.HomeWrapper}>
         <div className={classes.FilmsContainer}>
-          {isLoading ? (
+          {!isLoading ? (
             <>
               {films
                 ? films.map((film: IFilm) => <FilmCard film={film} key={film.imdb_title_id} />)
