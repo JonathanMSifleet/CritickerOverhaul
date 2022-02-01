@@ -7,9 +7,9 @@ const s3Client = new S3Client({});
 
 export const uploadUserAvatar = async (event: {
   pathParameters: { UID: string };
-  body: Buffer;
+  body: string;
 }): Promise<IHTTP> => {
-  const image = event.body.slice(1, -1);
+  const image = JSON.parse(event.body).image;
   const filename = `${event.pathParameters.UID}.jpg`;
 
   try {
@@ -26,11 +26,11 @@ export const uploadUserAvatar = async (event: {
   return createAWSResErr(500, 'Internal Server Error');
 };
 
-const uploadPicture = async (filename: string, body: Buffer): Promise<IHTTP> => {
+const uploadPicture = async (filename: string, image: string): Promise<IHTTP> => {
   const params = {
     Bucket: process.env.USER_AVATAR_BUCKET_NAME!,
     Key: filename,
-    Body: body,
+    Body: image,
     ContentEncoding: 'base64',
     ContentType: 'image/jpg'
   };

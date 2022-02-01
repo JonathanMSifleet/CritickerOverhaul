@@ -1,5 +1,8 @@
 To do:
 
+- Fix footer not sticking to bottom
+- redirect on 404
+- fix getting user avatar
 - Add auto logout
 - Auth:
   - Front end Form validation
@@ -8,8 +11,6 @@ To do:
 - Check if user has already rated and display appropriately
 - Authenticate with auth0
 - Set save money to false
-- Fix footer not sticking to bottom
-- redirect on 404
 
 ---
 

@@ -1,3 +1,3 @@
-const saveMoney = true;
+const saveMoney = false;
 
 export default saveMoney;

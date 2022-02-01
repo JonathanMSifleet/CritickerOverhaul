@@ -22,7 +22,7 @@ provider:
     UID_INDEX: UID
     USERNAME_INDEX: username
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
-  lambdaHashingVersion: 20200924
+  lambdaHashingVersion: 20201221
   iam:
     role:
       statements:
