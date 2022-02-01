@@ -11,7 +11,6 @@ const getUserAvatar = async (event: { pathParameters: { UID: string } }): Promis
 
   try {
     const avatar = await getUserAvatarFromS3(`${UID}.jpg`);
-
     if (!avatar) return createAWSResErr(404, 'No image found');
 
     return {
@@ -32,11 +31,9 @@ const getUserAvatarFromS3 = async (filename: string): Promise<string | IHTTP | n
       Key: filename
     };
 
-    const result = s3Client.send(new GetObjectCommand(params));
-
+    const result = await s3Client.send(new GetObjectCommand(params));
     // @ts-expect-error is compatible
-    const stream = await getStream(result.Body);
-    return JSON.parse(`{${stream}}`).base64;
+    return await getStream(result.Body);
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(404, error.message);
   }
