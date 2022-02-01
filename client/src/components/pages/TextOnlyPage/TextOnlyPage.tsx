@@ -1,6 +1,4 @@
-import { Suspense } from 'react';
-import { Link } from 'react-router-dom';
-import Spinner from '../../elements/Spinner/Spinner';
+import { Link } from 'preact-router/match';
 import PageView from '../../hoc/PageView/PageView';
 import classes from './TextOnlyPage.module.scss';
 interface IProps {
@@ -294,7 +292,7 @@ const TextOnlyPage: React.FC<IProps> = ({ pageName }) => {
                 submissions usually take a few days to be approved.
               </p>
             </span>
-            <Link to="/submissions">[Placeholder] Go to the Submission Form </Link>
+            <Link href="/submissions">[Placeholder] Go to the Submission Form </Link>
             <br />
             <h2>
               <b>Import Your Scores</b>
@@ -307,7 +305,7 @@ const TextOnlyPage: React.FC<IProps> = ({ pageName }) => {
                 your leisure.
               </p>
             </span>
-            <Link to="/submissions">[Placeholder] Go to the Import Tool</Link>
+            <Link href="/submissions">[Placeholder] Go to the Import Tool</Link>
             <br />
             <h2>
               <b>General Feeds</b>
@@ -324,7 +322,7 @@ const TextOnlyPage: React.FC<IProps> = ({ pageName }) => {
             <span className={classes.ParagraphWrapper}>
               <p>
                 Each of Criticker's forum topics has its own RSS feed.{' '}
-                <Link to="/forum">Browse the forums now</Link> and subscribe to whichever ones you
+                <Link href="/forum">Browse the forums now</Link> and subscribe to whichever ones you
                 want!
               </p>
             </span>
@@ -438,7 +436,7 @@ const TextOnlyPage: React.FC<IProps> = ({ pageName }) => {
     }
   };
 
-  return <PageView>{<Suspense fallback={<Spinner />}>{getPage(pageName)}</Suspense>}</PageView>;
+  return <PageView>{getPage(pageName)}</PageView>;
 };
 
 export default TextOnlyPage;

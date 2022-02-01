@@ -7,7 +7,11 @@ import PageView from '../../hoc/PageView/PageView';
 import FilmCard from './FilmCard/FilmCard';
 import classes from './Home.module.scss';
 
-const Home: React.FC = (): JSX.Element => {
+interface IProps {
+  path?: string;
+}
+
+const Home: React.FC<IProps> = (): JSX.Element => {
   const [films, setFilms] = useState(null as IFilm[] | null);
   const [isLoading, setIsLoading] = useState(false);
 

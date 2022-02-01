@@ -1,5 +1,5 @@
+import { Link } from 'preact-router/match';
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import Logo from '../../../../assets/svg/Logo.svg';
 import { modalState, userInfoState } from '../../../../store';
@@ -33,7 +33,7 @@ const Header: React.FC = (): JSX.Element => {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className={`${classes.LeftContent} navbar-nav me-auto mb-2 mb-lg-0`}>
           <li className="nav-item">
-            <Link className="nav-link text-white" to="/">
+            <Link className="nav-link text-white" href="/">
               Home
             </Link>
           </li>
@@ -54,7 +54,7 @@ const Header: React.FC = (): JSX.Element => {
         </div>
         {userState!.loggedIn ? (
           <>
-            <Link to="/profile">
+            <Link href="/profile">
               <img src={userAvatar!} className={`${classes.UserAvatar} rounded-circle mb-3`} />
             </Link>
 
