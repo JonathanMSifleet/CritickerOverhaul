@@ -1,5 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 import * as endpoints from '../../../constants/endpoints';
 import { userInfoState } from '../../../store';
@@ -12,7 +11,11 @@ import SpinnerButton from '../../elements/SpinnerButton/SpinnerButton';
 import PageView from '../../hoc/PageView/PageView';
 import classes from './Film.module.scss';
 
-const Film: React.FC = () => {
+interface IProps {
+  id?: string;
+}
+
+const Film: FC<IProps> = ({ id }) => {
   // to do
   const [film, setFilm] = useState(null as any);
   const [filmPoster, setFilmPoster] = useState(null as string | null);
@@ -23,8 +26,6 @@ const Film: React.FC = () => {
     null as unknown as { rating: number; reviewText: string }
   );
   const [userState] = useRecoilState(userInfoState);
-
-  const { id } = useParams<{ id: string }>();
 
   useEffect(() => {
     (async (): Promise<void> => {

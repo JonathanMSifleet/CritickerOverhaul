@@ -1,12 +1,23 @@
 import { Link } from 'preact-router/match';
+import { FC } from 'react';
 import PageView from '../../hoc/PageView/PageView';
 import classes from './TextOnlyPage.module.scss';
+
 interface IProps {
-  pageName: string;
+  about?: string;
+  abuse?: string;
+  contact?: string;
+  privacy?: string;
+  resources?: string;
+  terms?: string;
 }
 
-const TextOnlyPage: React.FC<IProps> = ({ pageName }) => {
-  const getPage = (pageName: string): JSX.Element | null => {
+const TextOnlyPage: FC<IProps> = ({ about, abuse, contact, privacy, resources, terms }) => {
+  const getPage = (): JSX.Element | null => {
+    const pageName = [about, abuse, contact, privacy, resources, terms].filter(
+      (name) => name !== undefined
+    )[0];
+
     switch (pageName) {
       case 'privacy':
         return (
@@ -431,12 +442,13 @@ const TextOnlyPage: React.FC<IProps> = ({ pageName }) => {
           </div>
         );
       default:
+        console.error('pageName', pageName);
         // eslint-disable-next-line no-throw-literal
         throw 'Invalid route';
     }
   };
 
-  return <PageView>{getPage(pageName)}</PageView>;
+  return <PageView>{getPage()}</PageView>;
 };
 
 export default TextOnlyPage;

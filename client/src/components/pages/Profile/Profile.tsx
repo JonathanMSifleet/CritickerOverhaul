@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { FC, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import * as endpoints from '../../../constants/endpoints';
 import { userInfoState } from '../../../store';
@@ -10,14 +9,17 @@ import Avatar from './Avatar/Avatar';
 import classes from './Profile.module.scss';
 import UpdateUserDetailsForm from './UpdateUserDetailsForm/UpdateUserDetailsForm';
 
-const Profile: React.FC = (): JSX.Element => {
+interface IProps {
+  username?: string;
+}
+
+const Profile: FC<IProps> = ({ username }): JSX.Element => {
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const [shouldLoadAvatar, setShouldLoadAvatar] = useState(false);
   const [showUpdateDetailsForm, setShowUpdateDetailsForm] = useState(false);
   // todo
   const [userProfile, setUserProfile] = useState(null as unknown as any);
   const userState = useRecoilValue(userInfoState);
-  const { username } = useParams<{ username: string }>();
 
   useEffect(() => {
     const loadUserProfile = async (username: string): Promise<void> => {

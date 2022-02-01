@@ -1,12 +1,10 @@
+// @ts-nocheck
+import AsyncRoute from 'preact-async-route';
 import Router from 'preact-router';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Spinner from './components/elements/Spinner/Spinner';
-// const Film = lazy(() => import('./components/pages/Film/Film'));
-import Home from './components/pages/Home/Home';
-// const Profile = lazy(() => import('./components/pages/Profile/Profile'));
-// const TextOnlyPage = lazy(() => import('./components/pages/TextOnlyPage/TextOnlyPage'));
 
-const App: React.FC = () => {
+const App: FC = () => {
   const [fontReady, setFontReady] = useState(false);
 
   useEffect(() => {
@@ -18,19 +16,79 @@ const App: React.FC = () => {
   return (
     <>
       {fontReady ? (
-        // @ts-expect-error
         <Router>
-          <Home path={'/'} />
-          {/* <TextOnlyPage path={'/privacy'}  />
-              <TextOnlyPage path={'/abuse'} />
-              <TextOnlyPage path={'/contact'}  />
-              <TextOnlyPage path={'/about'}  />
-              <TextOnlyPage path={'/resources'} e />
-              <TextOnlyPage path={'/terms'} />
-              <Route path={'/profile/'} element={<Profile />} />
-              <Route path={'/profile/:username'} element={<Profile />} />
-              <Route path={'/film/:id'} element={<Film />} />
-              <Route path="/*" element={<Navigate to="/?error=404" />} /> */}
+          <AsyncRoute
+            path={'/'}
+            getComponent={(): Promise<FC> =>
+              import('./components/pages/Home/Home').then((module) => module.default)
+            }
+          />
+          <AsyncRoute
+            path={'/:about'}
+            getComponent={(): Promise<FC> =>
+              import('./components/pages/TextOnlyPage/TextOnlyPage').then(
+                (module) => module.default
+              )
+            }
+          />
+          <AsyncRoute
+            path={'/:abuse'}
+            getComponent={(): Promise<FC> =>
+              import('./components/pages/TextOnlyPage/TextOnlyPage').then(
+                (module) => module.default
+              )
+            }
+          />
+          <AsyncRoute
+            path={'/:contact'}
+            getComponent={(): Promise<FC> =>
+              import('./components/pages/TextOnlyPage/TextOnlyPage').then(
+                (module) => module.default
+              )
+            }
+          />
+          <AsyncRoute
+            path={'/film/:id'}
+            getComponent={(): Promise<FC> =>
+              import('./components/pages/Film/Film').then((module) => module.default)
+            }
+          />
+          <AsyncRoute
+            path={'/:privacy'}
+            getComponent={(): Promise<FC> =>
+              import('./components/pages/TextOnlyPage/TextOnlyPage').then(
+                (module) => module.default
+              )
+            }
+          />
+          <AsyncRoute
+            path={'/profile/:username?'}
+            getComponent={(): Promise<FC> =>
+              import('./components/pages/Profile/Profile').then((module) => module.default)
+            }
+          />
+          <AsyncRoute
+            path={'/:resources'}
+            getComponent={(): Promise<FC> =>
+              import('./components/pages/TextOnlyPage/TextOnlyPage').then(
+                (module) => module.default
+              )
+            }
+          />
+          <AsyncRoute
+            path={'/:terms'}
+            getComponent={(): Promise<FC> =>
+              import('./components/pages/TextOnlyPage/TextOnlyPage').then(
+                (module) => module.default
+              )
+            }
+          />
+          {/* to do: <AsyncRoute
+            path={'/*'}
+            getComponent={(): Promise<FC> =>
+              import('./components/pages/Home/Home').then((module) => module.default)
+            }
+          /> */}
         </Router>
       ) : (
         <Spinner />

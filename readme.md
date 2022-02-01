@@ -9,6 +9,7 @@ To do:
 - Authenticate with auth0
 - Set save money to false
 - Fix footer not sticking to bottom
+- redirect on 404
 
 ---
 

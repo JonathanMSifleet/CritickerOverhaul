@@ -9,10 +9,10 @@
     "crypto-es": "^1.2.7",
     "mdb-react-ui-kit": "^2.3.0",
     "preact": "^10.6.5",
+    "preact-async-route": "^2.2.1",
     "preact-router": "^4.0.1",
     "react-calendar": "^3.6.0",
     "react-country-region-selector": "^3.4.0",
-    "react-router-dom": "^6.2.1",
     "recoil": "^0.5.2",
     "recoil-persist": "^4.0.0",
     "source-map-support": "^0.5.21"
