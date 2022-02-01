@@ -1,9 +1,8 @@
-// @ts-nocheck
+import { createHashHistory } from 'history';
 import AsyncRoute from 'preact-async-route';
 import Router from 'preact-router';
 import { FC, useEffect, useState } from 'react';
 import Spinner from './components/elements/Spinner/Spinner';
-import { createHashHistory } from 'history';
 
 const App: FC = () => {
   const [fontReady, setFontReady] = useState(false);
@@ -25,7 +24,7 @@ const App: FC = () => {
             }
           />
           <AsyncRoute
-            path={'/:about'}
+            path={'/information/:about'}
             getComponent={(): Promise<FC> =>
               import('./components/pages/TextOnlyPage/TextOnlyPage').then(
                 (module) => module.default
@@ -33,7 +32,7 @@ const App: FC = () => {
             }
           />
           <AsyncRoute
-            path={'/:abuse'}
+            path={'/information/:abuse'}
             getComponent={(): Promise<FC> =>
               import('./components/pages/TextOnlyPage/TextOnlyPage').then(
                 (module) => module.default
@@ -41,7 +40,7 @@ const App: FC = () => {
             }
           />
           <AsyncRoute
-            path={'/:contact'}
+            path={'/information/:contact'}
             getComponent={(): Promise<FC> =>
               import('./components/pages/TextOnlyPage/TextOnlyPage').then(
                 (module) => module.default
@@ -55,7 +54,7 @@ const App: FC = () => {
             }
           />
           <AsyncRoute
-            path={'/:privacy'}
+            path={'/information/:privacy'}
             getComponent={(): Promise<FC> =>
               import('./components/pages/TextOnlyPage/TextOnlyPage').then(
                 (module) => module.default
@@ -63,13 +62,13 @@ const App: FC = () => {
             }
           />
           <AsyncRoute
-            path={'/profile/:username?'}
+            path={'/profile/'}
             getComponent={(): Promise<FC> =>
               import('./components/pages/Profile/Profile').then((module) => module.default)
             }
           />
           <AsyncRoute
-            path={'/:resources'}
+            path={'/information/:resources'}
             getComponent={(): Promise<FC> =>
               import('./components/pages/TextOnlyPage/TextOnlyPage').then(
                 (module) => module.default
@@ -77,7 +76,7 @@ const App: FC = () => {
             }
           />
           <AsyncRoute
-            path={'/:terms'}
+            path={'/information/:terms'}
             getComponent={(): Promise<FC> =>
               import('./components/pages/TextOnlyPage/TextOnlyPage').then(
                 (module) => module.default

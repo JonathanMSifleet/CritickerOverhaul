@@ -9,17 +9,14 @@ import Avatar from './Avatar/Avatar';
 import classes from './Profile.module.scss';
 import UpdateUserDetailsForm from './UpdateUserDetailsForm/UpdateUserDetailsForm';
 
-interface IProps {
-  username?: string;
-}
-
-const Profile: FC<IProps> = ({ username }): JSX.Element => {
+const Profile: FC = (): JSX.Element => {
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const [shouldLoadAvatar, setShouldLoadAvatar] = useState(false);
   const [showUpdateDetailsForm, setShowUpdateDetailsForm] = useState(false);
   // todo
   const [userProfile, setUserProfile] = useState(null as unknown as any);
   const userState = useRecoilValue(userInfoState);
+  const [username] = useState('jonathansifleet');
 
   useEffect(() => {
     const loadUserProfile = async (username: string): Promise<void> => {
