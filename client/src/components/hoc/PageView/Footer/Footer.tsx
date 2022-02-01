@@ -5,27 +5,27 @@ const Footer: React.FC = (): JSX.Element => {
   return (
     <footer className={`${classes.Footer} bg-primary text-center text-white text-lg-start`}>
       <ul className={`${classes.FooterLinksWrapper} list-group list-group-horizontal`}>
-        <Link href="/privacy" className={`${classes.LinkComponent} text-white`}>
+        <Link href="#privacy" className={`${classes.LinkComponent} text-white`}>
           <li className={`${classes.LinkText} list-group-item bg-primary`}>Privacy Policy</li>
         </Link>
 
-        <Link href="/abuse" className={`${classes.LinkComponent} text-white`}>
+        <Link href="#abuse" className={`${classes.LinkComponent} text-white`}>
           <li className={`${classes.LinkText} list-group-item bg-primary`}>Abuse Policy</li>
         </Link>
 
-        <Link href="/contact" className={`${classes.LinkComponent} text-white`}>
+        <Link href="#contact" className={`${classes.LinkComponent} text-white`}>
           <li className={`${classes.LinkText} list-group-item bg-primary`}>Contact</li>
         </Link>
 
-        <Link href="/about" className={`${classes.LinkComponent} text-white`}>
+        <Link href="#about" className={`${classes.LinkComponent} text-white`}>
           <li className={`${classes.LinkText} list-group-item bg-primary`}>About us</li>
         </Link>
 
-        <Link href="/resources" className={`${classes.LinkComponent} text-white`}>
+        <Link href="#resources" className={`${classes.LinkComponent} text-white`}>
           <li className={`${classes.LinkText} list-group-item bg-primary`}>RSS</li>
         </Link>
 
-        <Link href="/terms" className={`${classes.LinkComponent} text-white`}>
+        <Link href="#terms" className={`${classes.LinkComponent} text-white`}>
           <li className={`${classes.LinkText} list-group-item bg-primary`}>Terms & Conditions</li>
         </Link>
       </ul>

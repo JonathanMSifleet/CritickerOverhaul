@@ -303,7 +303,7 @@ const TextOnlyPage: FC<IProps> = ({ about, abuse, contact, privacy, resources, t
                 submissions usually take a few days to be approved.
               </p>
             </span>
-            <Link href="/submissions">[Placeholder] Go to the Submission Form </Link>
+            <Link href="#submissions">[Placeholder] Go to the Submission Form </Link>
             <br />
             <h2>
               <b>Import Your Scores</b>
@@ -316,7 +316,7 @@ const TextOnlyPage: FC<IProps> = ({ about, abuse, contact, privacy, resources, t
                 your leisure.
               </p>
             </span>
-            <Link href="/submissions">[Placeholder] Go to the Import Tool</Link>
+            <Link href="#submissions">[Placeholder] Go to the Import Tool</Link>
             <br />
             <h2>
               <b>General Feeds</b>
@@ -333,7 +333,7 @@ const TextOnlyPage: FC<IProps> = ({ about, abuse, contact, privacy, resources, t
             <span className={classes.ParagraphWrapper}>
               <p>
                 Each of Criticker's forum topics has its own RSS feed.{' '}
-                <Link href="/forum">Browse the forums now</Link> and subscribe to whichever ones you
+                <Link href="#forum">Browse the forums now</Link> and subscribe to whichever ones you
                 want!
               </p>
             </span>

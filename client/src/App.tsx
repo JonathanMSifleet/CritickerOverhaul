@@ -3,6 +3,7 @@ import AsyncRoute from 'preact-async-route';
 import Router from 'preact-router';
 import { FC, useEffect, useState } from 'react';
 import Spinner from './components/elements/Spinner/Spinner';
+import { createHashHistory } from 'history';
 
 const App: FC = () => {
   const [fontReady, setFontReady] = useState(false);
@@ -16,7 +17,7 @@ const App: FC = () => {
   return (
     <>
       {fontReady ? (
-        <Router>
+        <Router history={createHashHistory()}>
           <AsyncRoute
             path={'/'}
             getComponent={(): Promise<FC> =>

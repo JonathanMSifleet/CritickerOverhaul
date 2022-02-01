@@ -33,7 +33,7 @@ const Header: FC = (): JSX.Element => {
       <div className="collapse navbar-collapse" id="navbarSupportedContent">
         <ul className={`${classes.LeftContent} navbar-nav me-auto mb-2 mb-lg-0`}>
           <li className="nav-item">
-            <Link className="nav-link text-white" href="/">
+            <Link className="nav-link text-white" href="#">
               Home
             </Link>
           </li>
@@ -54,7 +54,7 @@ const Header: FC = (): JSX.Element => {
         </div>
         {userState!.loggedIn ? (
           <>
-            <Link href="/profile">
+            <Link href="#profile">
               <img src={userAvatar!} className={`${classes.UserAvatar} rounded-circle mb-3`} />
             </Link>
 

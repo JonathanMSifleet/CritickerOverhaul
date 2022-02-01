@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "crypto-es": "^1.2.7",
+    "history": "^5.2.0",
     "mdb-react-ui-kit": "^2.3.0",
     "preact": "^10.6.5",
     "preact-async-route": "^2.2.1",
