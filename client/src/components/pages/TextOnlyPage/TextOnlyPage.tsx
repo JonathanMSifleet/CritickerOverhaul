@@ -4,21 +4,12 @@ import PageView from '../../hoc/PageView/PageView';
 import classes from './TextOnlyPage.module.scss';
 
 interface IProps {
-  about?: string;
-  abuse?: string;
-  contact?: string;
-  privacy?: string;
-  resources?: string;
-  terms?: string;
+  path: string;
 }
 
-const TextOnlyPage: FC<IProps> = ({ about, abuse, contact, privacy, resources, terms }) => {
+const TextOnlyPage: FC<IProps> = ({ path }) => {
   const getPage = (): JSX.Element | null => {
-    const pageName = [about, abuse, contact, privacy, resources, terms].filter(
-      (name) => name !== undefined
-    )[0];
-
-    switch (pageName) {
+    switch (path) {
       case 'privacy':
         return (
           <div className={classes.ContentWrapper}>
@@ -442,7 +433,6 @@ const TextOnlyPage: FC<IProps> = ({ about, abuse, contact, privacy, resources, t
           </div>
         );
       default:
-        console.error('pageName', pageName);
         // eslint-disable-next-line no-throw-literal
         throw 'Invalid route';
     }

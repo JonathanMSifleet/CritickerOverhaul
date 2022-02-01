@@ -1,6 +1,10 @@
+const Film = lazy(() => import('./components/pages/Film/Film'));
+const Home = lazy(() => import('./components/pages/Home/Home'));
+const Profile = lazy(() => import('./components/pages/Profile/Profile'));
+const TextOnlyPage = lazy(() => import('./components/pages/TextOnlyPage/TextOnlyPage'));
 import { createHashHistory } from 'history';
-import AsyncRoute from 'preact-async-route';
 import Router from 'preact-router';
+import { lazy, Suspense } from 'preact/compat';
 import { FC, useEffect, useState } from 'react';
 import Spinner from './components/elements/Spinner/Spinner';
 
@@ -16,80 +20,22 @@ const App: FC = () => {
   return (
     <>
       {fontReady ? (
-        <Router history={createHashHistory()}>
-          <AsyncRoute
-            path={'/'}
-            getComponent={(): Promise<FC> =>
-              import('./components/pages/Home/Home').then((module) => module.default)
-            }
-          />
-          <AsyncRoute
-            path={'/information/:about'}
-            getComponent={(): Promise<FC> =>
-              import('./components/pages/TextOnlyPage/TextOnlyPage').then(
-                (module) => module.default
-              )
-            }
-          />
-          <AsyncRoute
-            path={'/information/:abuse'}
-            getComponent={(): Promise<FC> =>
-              import('./components/pages/TextOnlyPage/TextOnlyPage').then(
-                (module) => module.default
-              )
-            }
-          />
-          <AsyncRoute
-            path={'/information/:contact'}
-            getComponent={(): Promise<FC> =>
-              import('./components/pages/TextOnlyPage/TextOnlyPage').then(
-                (module) => module.default
-              )
-            }
-          />
-          <AsyncRoute
-            path={'/film/:id'}
-            getComponent={(): Promise<FC> =>
-              import('./components/pages/Film/Film').then((module) => module.default)
-            }
-          />
-          <AsyncRoute
-            path={'/information/:privacy'}
-            getComponent={(): Promise<FC> =>
-              import('./components/pages/TextOnlyPage/TextOnlyPage').then(
-                (module) => module.default
-              )
-            }
-          />
-          <AsyncRoute
-            path={'/profile/'}
-            getComponent={(): Promise<FC> =>
-              import('./components/pages/Profile/Profile').then((module) => module.default)
-            }
-          />
-          <AsyncRoute
-            path={'/information/:resources'}
-            getComponent={(): Promise<FC> =>
-              import('./components/pages/TextOnlyPage/TextOnlyPage').then(
-                (module) => module.default
-              )
-            }
-          />
-          <AsyncRoute
-            path={'/information/:terms'}
-            getComponent={(): Promise<FC> =>
-              import('./components/pages/TextOnlyPage/TextOnlyPage').then(
-                (module) => module.default
-              )
-            }
-          />
-          {/* to do: <AsyncRoute
+        // @ts-expect-error
+        <Suspense fallback={<Spinner />}>
+          {/* @ts-expect-error */}
+          <Router history={createHashHistory()}>
+            <Home path="/" />
+            <TextOnlyPage path="/information/:path" />
+            <Film path={'/film/:id'} />
+            <Profile path={'/profile/:username?'} />
+            {/* to do: <AsyncRoute
             path={'/*'}
             getComponent={(): Promise<FC> =>
               import('./components/pages/Home/Home').then((module) => module.default)
             }
           /> */}
-        </Router>
+          </Router>
+        </Suspense>
       ) : (
         <Spinner />
       )}

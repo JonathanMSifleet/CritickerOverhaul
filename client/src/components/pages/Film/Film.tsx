@@ -11,11 +11,12 @@ import SpinnerButton from '../../elements/SpinnerButton/SpinnerButton';
 import PageView from '../../hoc/PageView/PageView';
 import classes from './Film.module.scss';
 
-interface IProps {
-  id?: string;
+interface IUrlParams {
+  path?: string;
+  id?: number;
 }
 
-const Film: FC<IProps> = ({ id }) => {
+const Film: FC<IUrlParams> = ({ id }) => {
   // to do
   const [film, setFilm] = useState(null as any);
   const [filmPoster, setFilmPoster] = useState(null as string | null);

@@ -1,8 +1,10 @@
-const convertIDToIMDbFormat = (type: string, id: string): string => {
-  if (id.toString().length < 7) {
-    const zerosToPrepend = 7 - id.toString().length;
+const convertIDToIMDbFormat = (type: string, id: number): string => {
+  let formattedID = id.toString();
+
+  if (formattedID.length < 7) {
+    const zerosToPrepend = 7 - formattedID.toString().length;
     for (let i = 0; i < zerosToPrepend; i++) {
-      id = '0' + id;
+      formattedID = '0' + formattedID;
     }
   }
 

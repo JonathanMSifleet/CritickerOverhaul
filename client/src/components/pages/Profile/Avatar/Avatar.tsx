@@ -1,9 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import * as endpoints from '../../../../constants/endpoints';
 import getUserAvatar from '../../../../utils/getUserAvatar';
-import httpRequest from '../../../../utils/httpRequest';
-// @ts-expect-error cannot import as type
-import FileBase64 from '../../../elements/FileToBase64/build.min.js';
 import classes from './Avatar.module.scss';
 
 interface IProps {
@@ -31,25 +27,25 @@ const Avatar: FC<IProps> = ({ loggedIn, UID, setShouldLoadAvatar, shouldLoadAvat
     if (shouldLoadAvatar) getAvatar();
   }, [shouldLoadAvatar]);
 
-  const handleFile = async (event: { base64: string }): Promise<void> => {
-    const { base64 } = event!;
-    const response = await httpRequest(`${endpoints.UPLOAD_USER_AVATAR}/${UID}`, 'POST', {
-      base64
-    });
-    console.log('response', response);
-  };
+  // const handleFile = async (event: { base64: string }): Promise<void> => {
+  //   const { base64 } = event!;
+  //   const response = await httpRequest(`${endpoints.UPLOAD_USER_AVATAR}/${UID}`, 'POST', {
+  //     base64
+  //   });
+  //   console.log('response', response);
+  // };
 
   return (
     <div className={classes.ImageWrapper}>
       {!isLoadingAvatar ? <img className={classes.UserAvatar} src={userAvatar} /> : null}
       {username && loggedIn ? (
         <>
-          <FileBase64
+          {/* <FileBase64
             className={classes.UploadPictureInput}
             id="fileUpload"
             onDone={(event: { base64: string }): Promise<void> => handleFile(event)}
             type={'file'}
-          />
+          /> */}
           <label htmlFor="fileUpload" className={classes.UploadPictureText}>
             Upload new picture
           </label>
