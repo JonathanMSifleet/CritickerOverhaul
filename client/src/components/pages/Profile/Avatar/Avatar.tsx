@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import * as endpoints from '../../../../constants/endpoints';
 import getUserAvatar from '../../../../utils/getUserAvatar';
 import httpRequest from '../../../../utils/httpRequest';
@@ -14,13 +14,7 @@ interface IProps {
   username: string;
 }
 
-const Avatar: React.FC<IProps> = ({
-  loggedIn,
-  UID,
-  setShouldLoadAvatar,
-  shouldLoadAvatar,
-  username
-}) => {
+const Avatar: FC<IProps> = ({ loggedIn, UID, setShouldLoadAvatar, shouldLoadAvatar, username }) => {
   const [isLoadingAvatar, setIsLoadingAvatar] = useState(false);
   const [userAvatar, setUserAvatar] = useState('');
 

@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import classes from './Checkbox.module.scss';
 
 interface IProps {
@@ -7,7 +8,7 @@ interface IProps {
   value?: boolean;
 }
 
-const Checkbox: React.FC<IProps> = ({ checked, onChange, placeholder }) => (
+const Checkbox: FC<IProps> = ({ checked, onChange, placeholder }) => (
   <div className={`${classes.InputWrapper} form-check d-flex justify-content-center mb-4`}>
     <input
       checked={checked}

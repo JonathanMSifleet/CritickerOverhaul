@@ -1,12 +1,12 @@
 import { MDBRadio } from 'mdb-react-ui-kit';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { CountryDropdown } from 'react-country-region-selector';
 import Input from '../../../elements/Input/Input';
 import classes from './UpdateUserDetailsForm.module.scss';
 
-const UpdateUserDetailsForm: React.FC = () => {
+const UpdateUserDetailsForm: FC = () => {
   const [country, setCountry] = useState('');
   const [formInfo, setFormInfo] = useState({});
   // Date of Birth

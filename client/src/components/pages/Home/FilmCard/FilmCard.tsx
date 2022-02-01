@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import { Link } from 'preact-router/match';
+import { FC, useEffect, useState } from 'react';
 import IFilm from '../../../../../../shared/interfaces/IFilm';
 import getFilmPoster from '../../../../utils/getFilmPoster';
 import Spinner from '../../../elements/Spinner/Spinner';
@@ -9,7 +9,7 @@ interface IProps {
   film: IFilm;
 }
 
-const FilmCard: React.FC<IProps> = ({ film }): JSX.Element => {
+const FilmCard: FC<IProps> = ({ film }): JSX.Element => {
   const [filmPoster, setFilmPoster] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 

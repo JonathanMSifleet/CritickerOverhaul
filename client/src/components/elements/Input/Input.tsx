@@ -1,4 +1,5 @@
 import { MDBInput } from 'mdb-react-ui-kit';
+import { FC } from 'react';
 import classes from './Input.module.scss';
 
 interface IProps {
@@ -13,7 +14,7 @@ interface IProps {
   value?: boolean;
 }
 
-const Input: React.FC<IProps> = ({
+const Input: FC<IProps> = ({
   autoComplete,
   checked,
   className,

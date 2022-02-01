@@ -1,7 +1,8 @@
+import { FC } from 'react';
 import Button from '../../../elements/Button/Button';
 import classes from './ThirdPartyLogin.module.scss';
 
-const ThirdPartyLogin: React.FC = () => (
+const ThirdPartyLogin: FC = () => (
   <div className={`${classes.LoginWrapper} text-center mb-3`}>
     <Button
       className="btn btn-primary btn-floating mx-1"

@@ -1,5 +1,5 @@
 import { Link } from 'preact-router/match';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import Logo from '../../../../assets/svg/Logo.svg';
 import { modalState, userInfoState } from '../../../../store';
@@ -9,7 +9,7 @@ import Button from '../../../elements/Button/Button';
 import Modal from '../../../elements/Modal/Modal';
 import classes from './Header.module.scss';
 
-const Header: React.FC = (): JSX.Element => {
+const Header: FC = (): JSX.Element => {
   const resetUserState = useResetRecoilState(userInfoState);
   const userState = useRecoilValue(userInfoState);
   const [userAvatar, setUserAvatar] = useState(null as string | null);

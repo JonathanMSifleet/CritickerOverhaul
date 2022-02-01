@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import IFilm from '../../../../../shared/interfaces/IFilm';
 import * as endpoints from '../../../constants/endpoints';
 import httpRequest from '../../../utils/httpRequest';
@@ -11,7 +11,7 @@ interface IProps {
   path?: string;
 }
 
-const Home: React.FC<IProps> = (): JSX.Element => {
+const Home: FC<IProps> = (): JSX.Element => {
   const [films, setFilms] = useState(null as IFilm[] | null);
   const [isLoading, setIsLoading] = useState(false);
 

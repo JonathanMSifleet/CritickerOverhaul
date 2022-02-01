@@ -1,3 +1,5 @@
+import { FC } from 'react';
+
 interface IProps {
   className: string;
   disabled?: boolean;
@@ -5,7 +7,7 @@ interface IProps {
   text?: string | JSX.Element;
 }
 
-const Button: React.FC<IProps> = ({ className, disabled, onClick, text }) => (
+const Button: FC<IProps> = ({ className, disabled, onClick, text }) => (
   <button className={className} disabled={disabled} onClick={onClick}>
     {text}
   </button>

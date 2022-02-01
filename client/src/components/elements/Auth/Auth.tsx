@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { FC, useState } from 'react';
 import Button from '../../elements/Button/Button';
 import classes from './Auth.module.scss';
 import Login from './Login/Login';
 import SignUp from './Signup/Signup';
 
-const Auth: React.FC = () => {
+const Auth: FC = () => {
   const [displayLoginForm, setDisplayLoginForm] = useState(true);
 
   return (

@@ -1,5 +1,5 @@
 import CryptoES from 'crypto-es';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import * as endpoints from '../../../../constants/endpoints';
 import { modalState } from '../../../../store';
@@ -19,7 +19,7 @@ interface IState {
   termsChecked?: boolean;
 }
 
-const SignUp: React.FC = () => {
+const SignUp: FC = () => {
   const [emailValidationMessages, setEmailValidationMessages] = useState([] as string[]);
   const [formInfo, setFormInfo] = useState<IState>({});
   const [isLoading, setIsLoading] = useState(false);

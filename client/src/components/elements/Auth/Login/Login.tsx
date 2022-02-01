@@ -1,5 +1,5 @@
 import CryptoES from 'crypto-es';
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import * as endpoints from '../../../../constants/endpoints';
 import { modalState, userInfoState } from '../../../../store';
@@ -15,7 +15,7 @@ interface IState {
   password?: string;
 }
 
-const Login: React.FC = () => {
+const Login: FC = () => {
   const [emailValidationMessages, setEmailValidationMessages] = useState([] as string[]);
   const [passwordValidationMessages, setPasswordValidationMessages] = useState([] as string[]);
   const [formInfo, setFormInfo] = useState<IState>({});
