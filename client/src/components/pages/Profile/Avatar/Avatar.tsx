@@ -1,3 +1,4 @@
+import Compress from 'compress.js';
 import { FC, useEffect, useState } from 'react';
 import * as endpoints from '../../../../constants/endpoints';
 import getUserAvatar from '../../../../utils/getUserAvatar';
@@ -20,9 +21,7 @@ const Avatar: FC<IProps> = ({ loggedIn, UID, setShouldLoadAvatar, shouldLoadAvat
     const getAvatar = async (): Promise<void> => {
       setIsLoadingAvatar(true);
 
-      const response = await getUserAvatar(UID);
-      console.log('🚀 ~ file: Avatar.tsx ~ line 24 ~ getAvatar ~ response', response);
-      setUserAvatar(response);
+      setUserAvatar(await getUserAvatar(UID));
 
       setIsLoadingAvatar(false);
       setShouldLoadAvatar(false);
@@ -31,19 +30,20 @@ const Avatar: FC<IProps> = ({ loggedIn, UID, setShouldLoadAvatar, shouldLoadAvat
     if (shouldLoadAvatar) getAvatar();
   }, [shouldLoadAvatar]);
 
-  const convertImageToBase64 = (file: Blob): Promise<unknown> =>
-    new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = (): void => resolve(fileReader.result);
-      fileReader.onerror = (error): void => reject(error);
+  const uploadFile = async (image: File): Promise<void> => {
+    const resizedImage = await new Compress().compress([image], {
+      maxHeight: 540,
+      maxWidth: 540,
+      quality: 1,
+      size: 0.3
     });
 
-  const uploadFile = async (image: string): Promise<void> => {
+    const newImage = `${resizedImage[0].prefix}${resizedImage[0].data}`;
+
     const response = await httpRequest(`${endpoints.UPLOAD_USER_AVATAR}/${UID}`, 'POST', {
-      image
+      image: newImage
     });
-    console.log('response', response);
+    console.log('🚀 ~ file: Avatar.tsx ~ line 55 ~ uploadFile ~ response', response);
   };
 
   return (
@@ -56,10 +56,7 @@ const Avatar: FC<IProps> = ({ loggedIn, UID, setShouldLoadAvatar, shouldLoadAvat
             <input
               className={classes.UploadPictureInput}
               type="file"
-              onChange={async (event): Promise<void> => {
-                const base64Image = await convertImageToBase64(event.target.files![0]);
-                uploadFile(base64Image as string);
-              }}
+              onChange={async (event): Promise<void> => uploadFile(event.target.files![0])}
             />
           </label>
         </>

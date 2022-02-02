@@ -6,6 +6,7 @@
     "forceUpdate": "npm-check-updates -u"
   },
   "dependencies": {
+    "compress.js": "^1.2.2",
     "crypto-es": "^1.2.7",
     "history": "^5.2.0",
     "mdb-react-ui-kit": "^2.3.0",
