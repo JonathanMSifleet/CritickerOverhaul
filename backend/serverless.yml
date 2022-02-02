@@ -16,7 +16,7 @@ provider:
   environment:
     REACT_BUCKET_NAME: ${self:custom.ReactBucket.name}
     RATINGS_TABLE_NAME: ${self:custom.RatingsTable.name}
-    USER_AVATAR_BUCKET_NAME: ${self:custom.UserAvatarBucket.name}
+    AVATAR_TABLE_NAME: ${self:custom.AvatarTable.name}
     USER_TABLE_NAME: ${self:custom.UserTable.name}
     EMAIL_INDEX: email
     UID_INDEX: UID
@@ -28,6 +28,7 @@ provider:
       statements:
         - ${file(aws/iam/UserTableIAM.yml):UserTableIAM}
         - ${file(aws/iam/RatingsTableIAM.yml):RatingsTableIAM}
+        - ${file(aws/iam/AvatarTableIAM.yml):AvatarTableIAM}
 
 package:
   individually: true
@@ -112,13 +113,14 @@ functions:
           cors: true
 resources:
   Resources:
-    RatingsTable: ${file(aws/resources/RatingsTable.yml):RatingsTable}
+    # Buckets:
     ReactBucket: ${file(aws/resources/ReactBucket.yml):ReactBucket}
-    UserAvatarBucket: ${file(aws/resources/UserAvatarBucket.yml):UserAvatarBucket}
+    # Tables:
+    AvatarTable: ${file(aws/resources/AvatarTable.yml):AvatarTable}
+    RatingsTable: ${file(aws/resources/RatingsTable.yml):RatingsTable}
     UserTable: ${file(aws/resources/UserTable.yml):UserTable}
-    # Policies:
+    # Bucket policies:
     ReactBucketPolicy: ${file(aws/resources/ReactBucket.yml):ReactBucketPolicy}
-    UserAvatarBucketPolicy: ${file(aws/resources/UserAvatarBucket.yml):UserAvatarBucketPolicy}
     # Cloudfront:
     CloudFrontOriginAccessIdentity:
       Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
@@ -189,8 +191,9 @@ custom:
   RatingsTable:
     name: !Ref RatingsTable
     arn: !GetAtt RatingsTable.Arn
-  UserAvatarBucket:
-    name: user-avatar-bucket-tr628eqe-${self:provider.stage}
+  AvatarTable:
+    name: !Ref AvatarTable
+    arn: !GetAtt AvatarTable.Arn
   ReactBucket:
     name: react-bucket-x3blze4m-${self:provider.stage}
   BucketFolder:

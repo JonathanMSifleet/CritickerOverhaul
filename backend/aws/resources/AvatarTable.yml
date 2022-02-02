@@ -1,0 +1,12 @@
+AvatarTable:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    TableName: AvatarTable
+    BillingMode: PAY_PER_REQUEST
+    AttributeDefinitions:
+      - AttributeName: UID
+        AttributeType: S
+
+    KeySchema:
+      - AttributeName: UID
+        KeyType: HASH

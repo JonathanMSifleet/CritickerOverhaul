@@ -2,11 +2,11 @@ import { QueryCommandInput } from '@aws-sdk/client-dynamodb';
 
 const createDynamoSearchQuery = (
   tableName: string,
-  indexName: string,
   fields: string,
   primaryKeyName: string,
   primaryKeyValue: string,
-  primaryKeyType: string
+  primaryKeyType: string,
+  indexName?: string
 ): QueryCommandInput => {
   return {
     TableName: tableName,

@@ -1,16 +1,18 @@
-import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
+import { unmarshall } from '@aws-sdk/util-dynamodb';
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
-import getStream from 'get-stream';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
+import createDynamoSearchQuery from '../shared/functions/createDynamoSearchQuery';
 import IHTTP from '../shared/interfaces/IHTTP';
-const s3Client = new S3Client({});
+const dbClient = new DynamoDBClient({});
 
 const getUserAvatar = async (event: { pathParameters: { UID: string } }): Promise<IHTTP> => {
+  console.log('function invoked');
   const { UID } = event.pathParameters;
 
   try {
-    const avatar = await getUserAvatarFromS3(`${UID}.jpg`);
+    const avatar = await getUserAvatarFromDB(UID);
     if (!avatar) return createAWSResErr(404, 'No image found');
 
     return {
@@ -24,21 +26,13 @@ const getUserAvatar = async (event: { pathParameters: { UID: string } }): Promis
   return createAWSResErr(500, 'Internal Server Error');
 };
 
-const getUserAvatarFromS3 = async (filename: string): Promise<string | IHTTP | null> => {
-  try {
-    const params = {
-      Bucket: process.env.USER_AVATAR_BUCKET_NAME!,
-      Key: filename
-    };
+const getUserAvatarFromDB = async (UID: string): Promise<{ [key: string]: any } | IHTTP> => {
+  const query = createDynamoSearchQuery(process.env.AVATAR_TABLE_NAME!, 'image', 'UID', UID, 'S');
 
-    const result = await s3Client.send(new GetObjectCommand(params));
-    // @ts-expect-error is compatible
-    return await getStream(result.Body);
-  } catch (error) {
-    if (error instanceof Error) return createAWSResErr(404, error.message);
-  }
-
-  return createAWSResErr(500, 'Internal Server Error');
+  const result = await dbClient.send(new QueryCommand(query));
+  const image = unmarshall(result.Items![0]).image;
+  console.log('🚀 ~ file: getUserAvatar.ts ~ line 36 ~ getUserAvatarFromDB ~ image', image);
+  return image;
 };
 
 export const handler = middy(getUserAvatar).use(cors());

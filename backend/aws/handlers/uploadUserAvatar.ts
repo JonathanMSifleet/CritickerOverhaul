@@ -1,19 +1,24 @@
-import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
+import { DynamoDBClient, PutItemCommand, PutItemCommandOutput } from '@aws-sdk/client-dynamodb';
+import { marshall } from '@aws-sdk/util-dynamodb';
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
-const s3Client = new S3Client({});
+const dbClient = new DynamoDBClient({});
 
 export const uploadUserAvatar = async (event: {
   pathParameters: { UID: string };
   body: string;
 }): Promise<IHTTP> => {
   const image = JSON.parse(event.body).image;
-  const filename = `${event.pathParameters.UID}.jpg`;
+  const { UID } = event.pathParameters;
 
   try {
-    await uploadPicture(filename, image);
+    try {
+      await uploadPicture(UID, image);
+    } catch (error) {
+      if (error instanceof Error) return createAWSResErr(500, error.message);
+    }
 
     return {
       statusCode: 200,
@@ -26,23 +31,17 @@ export const uploadUserAvatar = async (event: {
   return createAWSResErr(500, 'Internal Server Error');
 };
 
-const uploadPicture = async (filename: string, image: string): Promise<IHTTP> => {
+const uploadPicture = async (UID: string, image: string): Promise<PutItemCommandOutput | IHTTP> => {
   const params = {
-    Bucket: process.env.USER_AVATAR_BUCKET_NAME!,
-    Key: filename,
-    Body: image,
-    ContentEncoding: 'base64',
-    ContentType: 'image/jpg'
+    TableName: process.env.AVATAR_TABLE_NAME!,
+    Item: marshall({
+      UID,
+      image
+    }),
+    ReturnConsumedCapacity: 'TOTAL'
   };
 
-  try {
-    await s3Client.send(new PutObjectCommand(params));
-    console.log('Successfully uploaded image');
-  } catch (error) {
-    if (error instanceof Error) return createAWSResErr(520, error.message);
-  }
-
-  return createAWSResErr(500, 'Internal Server Error');
+  return await dbClient.send(new PutItemCommand(params));
 };
 
 export const handler = middy(uploadUserAvatar).use(cors());

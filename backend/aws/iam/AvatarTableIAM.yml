@@ -1,0 +1,7 @@
+AvatarTableIAM:
+  Effect: Allow
+  Action:
+    - dynamodb:PutItem
+    - dynamodb:Query
+  Resource:
+    - ${self:custom.AvatarTable.arn}

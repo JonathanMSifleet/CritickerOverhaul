@@ -75,11 +75,11 @@ export const checkUniqueAttribute = async (
 ): Promise<string | null> => {
   const query = createDynamoSearchQuery(
     process.env.USER_TABLE_NAME!,
-    indexName,
     keyName,
     keyName,
     keyValue,
-    'S'
+    'S',
+    indexName
   );
 
   try {

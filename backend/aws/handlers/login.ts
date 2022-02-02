@@ -12,11 +12,11 @@ const login = async (event: { body: string }): Promise<IHTTP> => {
 
   const query = createDynamoSearchQuery(
     process.env.USER_TABLE_NAME!,
-    process.env.EMAIL_INDEX!,
     'username, email, password, UID',
     'email',
     email,
-    'S'
+    'S',
+    process.env.EMAIL_INDEX!
   );
 
   try {
