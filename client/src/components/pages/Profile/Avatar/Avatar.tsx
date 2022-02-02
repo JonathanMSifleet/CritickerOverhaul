@@ -40,10 +40,9 @@ const Avatar: FC<IProps> = ({ loggedIn, UID, setShouldLoadAvatar, shouldLoadAvat
 
     const newImage = `${resizedImage[0].prefix}${resizedImage[0].data}`;
 
-    const response = await httpRequest(`${endpoints.UPLOAD_USER_AVATAR}/${UID}`, 'POST', {
+    await httpRequest(`${endpoints.UPLOAD_USER_AVATAR}/${UID}`, 'POST', {
       image: newImage
     });
-    console.log('🚀 ~ file: Avatar.tsx ~ line 55 ~ uploadFile ~ response', response);
   };
 
   return (

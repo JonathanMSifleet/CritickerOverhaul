@@ -13,6 +13,7 @@ export const userInfoState = atom({
   key: 'USER_INFO',
   default: {
     UID: '',
+    avatar: '',
     loggedIn: false,
     username: ''
   } as IUserState,

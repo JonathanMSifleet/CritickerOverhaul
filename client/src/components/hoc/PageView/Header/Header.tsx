@@ -1,6 +1,6 @@
 import { Link } from 'preact-router/match';
-import { FC, useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+import { FC, useEffect } from 'react';
+import { useRecoilState, useResetRecoilState } from 'recoil';
 import Logo from '../../../../assets/svg/Logo.svg';
 import { modalState, userInfoState } from '../../../../store';
 import getUserAvatar from '../../../../utils/getUserAvatar';
@@ -11,16 +11,17 @@ import classes from './Header.module.scss';
 
 const Header: FC = (): JSX.Element => {
   const resetUserState = useResetRecoilState(userInfoState);
-  const userState = useRecoilValue(userInfoState);
-  const [userAvatar, setUserAvatar] = useState(null as string | null);
+  const [userState, setUserState] = useRecoilState(userInfoState);
   const [showModal, setShowModal] = useRecoilState(modalState);
 
   useEffect(() => {
-    const fetchUserAvatar = async (): Promise<void> =>
-      setUserAvatar(await getUserAvatar(userState!.UID));
+    const fetchUserAvatar = async (): Promise<void> => {
+      const userAvatar = await getUserAvatar(userState!.UID);
+      setUserState({ ...userState, avatar: userAvatar });
+    };
 
-    if (userState!.loggedIn) fetchUserAvatar();
-  }, [userState]);
+    if (userState!.loggedIn && userState.avatar === '') fetchUserAvatar();
+  }, []);
 
   const logout = (): void => resetUserState();
 
@@ -54,8 +55,8 @@ const Header: FC = (): JSX.Element => {
         </div>
         {userState!.loggedIn ? (
           <>
-            <Link href="#profile">
-              <img src={userAvatar!} className={`${classes.UserAvatar} rounded-circle mb-3`} />
+            <Link className={classes.UserAvatarLink} href="#profile">
+              <img src={userState.avatar} className={`${classes.UserAvatar} rounded-circle mb-3`} />
             </Link>
 
             <Button

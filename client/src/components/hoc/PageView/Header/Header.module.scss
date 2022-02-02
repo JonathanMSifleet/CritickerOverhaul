@@ -29,12 +29,16 @@
   align-items: center;
 }
 
+.UserAvatarLink {
+  margin-right: 2%;
+}
+
 .UserAvatar {
-  height: $headerHeight;
-  width: $headerHeight;
-  margin: 0 !important;
-  float: left;
   background-color: #ffffff;
+  float: left;
+  height: $headerHeight - 1.5vh;
+  margin: 0 !important;
+  width: $headerHeight - 1.5vh;
 }
 
 .SearchWrapper {
