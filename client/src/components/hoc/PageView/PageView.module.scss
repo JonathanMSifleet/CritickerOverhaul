@@ -1,14 +1,26 @@
 @import '../../../styles/variables';
-@import '../../../styles/LayoutVariables.scss';
 
 .PageViewContainer {
-  background-color: $lightGrey;
+  background-color: #F0F0F0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.Row {
+  height: 100%;
+  margin: 0;
 }
 
 .Body {
-  height: $bodyHeight;
-  width: 70%;
-  margin: auto;
-  padding: 1%;
-  background-color: white;
+  background-color: transparent;
+  padding: 0.5%;
+}
+
+.Column {
+  background-color: transparent;
+  display: flex;
+  height: 100vh;
+  padding: 0;
 }

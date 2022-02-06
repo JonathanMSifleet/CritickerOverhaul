@@ -1,12 +1,9 @@
 @import '../../../../styles/variables';
-@import '../../../../styles/LayoutVariables.scss';
 
 .Footer {
-  height: $footerHeight;
-  margin-top: calc($footerHeight * -1);
+  height: 6vh;
   width: 100%;
   clear: both;
-  position: relative;
   background-color: $mainBlue !important;
 }
 

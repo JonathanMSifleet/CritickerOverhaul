@@ -1,4 +1,9 @@
-import { Link } from 'preact-router/match';
+import {
+  MDBContainer,
+  MDBIcon, MDBInput, MDBNavbar, MDBNavbarItem,
+  MDBNavbarLink, MDBNavbarNav, MDBNavbarToggler
+} from 'mdb-react-ui-kit';
+import { Link } from 'preact-router';
 import { FC, useEffect } from 'react';
 import { useRecoilState, useResetRecoilState } from 'recoil';
 import Logo from '../../../../assets/svg/Logo.svg';
@@ -28,33 +33,32 @@ const Header: FC = (): JSX.Element => {
   const displayAuthModal = (): void => setShowModal(true);
 
   return (
-    <nav className={`${classes.Header} navbar navbar-expand-lg bg-primary navbar-dark`}>
-      <img className={classes.Logo} src={Logo} alt="Criticker Logo" />
-
-      <div className="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul className={`${classes.LeftContent} navbar-nav me-auto mb-2 mb-lg-0`}>
-          <li className="nav-item">
-            <Link className="nav-link text-white" href="#">
-              Home
-            </Link>
-          </li>
-        </ul>
-      </div>
-
-      <section className={classes.RightContent}>
-        <div className="input-group rounded">
-          <div className={`${classes.SearchWrapper} form-outline`}>
-            <input type="search" id="form1" className={`${classes.SearchInput} form-control`} />
-            <label className="form-label" htmlFor="form1">
-              Placeholder
-            </label>
+    <header>
+      {/* @ts-expect-error */}
+      <MDBNavbar className={classes.Header} expand='lg' light bgColor='white' fixed>
+        <MDBContainer fluid>
+          <img className={classes.Logo} src={Logo} alt="Criticker Logo" />
+          <MDBNavbarToggler
+            aria-controls='navbarExample01'
+            aria-expanded='false'
+            aria-label='Toggle navigation'
+          >
+          <MDBIcon fas icon='bars' />
+          </MDBNavbarToggler>
+          <div className='collapse navbar-collapse' id='navbarExample01'>
+            <MDBNavbarNav right className='mb-2 mb-lg-0'>
+              <MDBNavbarItem active>
+                <MDBNavbarLink aria-current='page' href='#'>
+                  Home
+                </MDBNavbarLink>
+              </MDBNavbarItem>
+            </MDBNavbarNav>
           </div>
-          <button type="button" className="btn btn-primary">
-            <i className="fas fa-search" />
-          </button>
-        </div>
-        {userState!.loggedIn ? (
-          <>
+          <div className={classes.InputWrapper}>
+            <MDBInput className={classes.SearchInput} label='Search' type='text' />
+          </div>
+          {userState!.loggedIn ? (
+            <>
             <Link className={classes.UserAvatarLink} href="#profile">
               <img src={userState.avatar} className={`${classes.UserAvatar} rounded-circle mb-3`} />
             </Link>
@@ -64,7 +68,7 @@ const Header: FC = (): JSX.Element => {
               onClick={(): void => logout()}
               text={'Log out'}
             />
-          </>
+            </>
         ) : (
           <Button
             className={`${classes.AuthButton} btn btn-white text-primary me-3 font-weight-bold`}
@@ -72,13 +76,14 @@ const Header: FC = (): JSX.Element => {
             text={'Log in / sign up'}
           />
         )}
-      </section>
+        </MDBContainer>
+      </MDBNavbar>
       {showModal ? (
         <Modal>
           <Auth />
         </Modal>
       ) : null}
-    </nav>
+    </header>
   );
 };
 
