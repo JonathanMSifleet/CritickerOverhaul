@@ -69,7 +69,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   };
 
   return (
-    <PageView>
+    <PageView backgroundCSS={classes.PageWrapper}>
       {!isLoadingProfile ? (
         <>
           <Avatar

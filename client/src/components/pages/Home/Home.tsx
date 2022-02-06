@@ -5,7 +5,6 @@ import httpRequest from '../../../utils/httpRequest';
 import Spinner from '../../elements/Spinner/Spinner';
 import PageView from '../../hoc/PageView/PageView';
 import FilmCard from './FilmCard/FilmCard';
-import classes from './Home.module.scss';
 
 interface IUrlParams {
   path?: string;
@@ -31,19 +30,15 @@ const Home: FC<IUrlParams> = (): JSX.Element => {
 
   return (
     <PageView>
-      <div className={classes.HomeWrapper}>
-        <div className={classes.FilmsContainer}>
-          {!isLoading ? (
-            <>
-              {films
-                ? films.map((film: IFilm) => <FilmCard film={film} key={film.imdb_title_id} />)
-                : null}
-            </>
-          ) : (
-            <Spinner />
-          )}
-        </div>
-      </div>
+      {!isLoading ? (
+        <>
+          {films
+            ? films.map((film: IFilm) => <FilmCard film={film} key={film.imdb_title_id} />)
+            : null}
+        </>
+      ) : (
+        <Spinner />
+      )}
     </PageView>
   );
 };
