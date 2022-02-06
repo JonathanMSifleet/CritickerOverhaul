@@ -12,7 +12,7 @@
     "--": "",
     "fullDeploy": "npm run preBuild && npm run clientDeploy && npm run slsDeploy",
     "---": "",
-    "deployLocally": "cd ./client && webpack serve --mode=development",
+    "serve": "cd ./client && webpack serve --mode=development",
     "forceUpdate": "npx npm-check-updates -u && npm i"
   },
   "dependencies": {

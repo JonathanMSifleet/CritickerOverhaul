@@ -1,9 +1,10 @@
 @import '../../../../styles/variables';
 
 .Footer {
-  height: 6vh;
+  height: 6.5vh;
   width: 100%;
   clear: both;
+  position: relative;
   background-color: $mainBlue !important;
 }
 
@@ -29,7 +30,7 @@
 }
 
 .Copyright {
-  margin-top: -1vh;
+  margin-top: -0.5vh;
   padding: 0;
 }
 

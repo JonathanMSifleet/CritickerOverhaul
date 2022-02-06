@@ -6,17 +6,18 @@ import classes from './PageView.module.scss';
 
 interface IProps {
   children?: ReactNode;
+  backgroundCSS?: string;
 }
 
-const PageView: FC<IProps> = ({ children }): JSX.Element => (
+const PageView: FC<IProps> = ({ children, backgroundCSS }): JSX.Element => (
   <MDBContainer fluid className={classes.PageViewContainer}>
     <Header />
     <MDBRow className={classes.Row}>
-      <MDBCol className={classes.Column} md="2"/>
-      <MDBCol className={classes.Body} md="8">
+      <MDBCol className={classes.Column} md="2" />
+      <MDBCol className={`${classes.Body} ${backgroundCSS}`} md="8">
         {children}
       </MDBCol>
-      <MDBCol className={classes.Column} md="2"/>
+      <MDBCol className={classes.Column} md="2" />
     </MDBRow>
     <Footer />
   </MDBContainer>

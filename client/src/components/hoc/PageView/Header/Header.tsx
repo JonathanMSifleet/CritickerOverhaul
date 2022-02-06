@@ -1,7 +1,12 @@
 import {
   MDBContainer,
-  MDBIcon, MDBInput, MDBNavbar, MDBNavbarItem,
-  MDBNavbarLink, MDBNavbarNav, MDBNavbarToggler
+  MDBIcon,
+  MDBInput,
+  MDBNavbar,
+  MDBNavbarItem,
+  MDBNavbarLink,
+  MDBNavbarNav,
+  MDBNavbarToggler
 } from 'mdb-react-ui-kit';
 import { Link } from 'preact-router';
 import { FC, useEffect } from 'react';
@@ -35,47 +40,52 @@ const Header: FC = (): JSX.Element => {
   return (
     <header>
       {/* @ts-expect-error */}
-      <MDBNavbar className={classes.Header} expand='lg' light bgColor='white' fixed>
+      <MDBNavbar className={classes.Header} expand="lg" light bgColor="white" fixed>
         <MDBContainer fluid>
           <img className={classes.Logo} src={Logo} alt="Criticker Logo" />
+
           <MDBNavbarToggler
-            aria-controls='navbarExample01'
-            aria-expanded='false'
-            aria-label='Toggle navigation'
+            aria-controls="navbarExample01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
           >
-          <MDBIcon fas icon='bars' />
+            <MDBIcon fas icon="bars" />
           </MDBNavbarToggler>
-          <div className='collapse navbar-collapse' id='navbarExample01'>
-            <MDBNavbarNav right className='mb-2 mb-lg-0'>
+
+          <div className="collapse navbar-collapse" id="navbarExample01">
+            <MDBNavbarNav right className="mb-2 mb-lg-0">
               <MDBNavbarItem active>
-                <MDBNavbarLink aria-current='page' href='#'>
+                <MDBNavbarLink aria-current="page" href="/">
                   Home
                 </MDBNavbarLink>
               </MDBNavbarItem>
             </MDBNavbarNav>
           </div>
-          <div className={classes.InputWrapper}>
-            <MDBInput className={classes.SearchInput} label='Search' type='text' />
-          </div>
+
+          <MDBInput className={`${classes.SearchInput} bg-light`} label="Search" type="text" />
+
           {userState!.loggedIn ? (
             <>
-            <Link className={classes.UserAvatarLink} href="#profile">
-              <img src={userState.avatar} className={`${classes.UserAvatar} rounded-circle mb-3`} />
-            </Link>
+              <Link className={classes.UserAvatarLink} href="#profile">
+                <img
+                  src={userState.avatar}
+                  className={`${classes.UserAvatar} rounded-circle mb-3`}
+                />
+              </Link>
 
+              <Button
+                className={`${classes.AuthButton} btn btn-white text-primary me-3 font-weight-bold`}
+                onClick={(): void => logout()}
+                text={'Log out'}
+              />
+            </>
+          ) : (
             <Button
               className={`${classes.AuthButton} btn btn-white text-primary me-3 font-weight-bold`}
-              onClick={(): void => logout()}
-              text={'Log out'}
+              onClick={displayAuthModal}
+              text={'Log in / sign up'}
             />
-            </>
-        ) : (
-          <Button
-            className={`${classes.AuthButton} btn btn-white text-primary me-3 font-weight-bold`}
-            onClick={displayAuthModal}
-            text={'Log in / sign up'}
-          />
-        )}
+          )}
         </MDBContainer>
       </MDBNavbar>
       {showModal ? (

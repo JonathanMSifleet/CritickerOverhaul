@@ -32,7 +32,7 @@ const Footer: React.FC = (): JSX.Element => {
 
       <div className={`${classes.Copyright} copyright text-center`}>
         <span className={classes.CopyrightText}>
-          Criticker.com © 2004-2021 - All Rights Reserved
+          Criticker.com © 2004-{new Date().getFullYear()} - All Rights Reserved
         </span>
       </div>
     </footer>

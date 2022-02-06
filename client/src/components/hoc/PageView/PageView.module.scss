@@ -1,11 +1,11 @@
 @import '../../../styles/variables';
 
 .PageViewContainer {
-  background-color: #F0F0F0;
   height: 100%;
   margin: 0;
   padding: 0;
   width: 100%;
+  background-color: #f0f0f0;
 }
 
 .Row {
@@ -14,12 +14,10 @@
 }
 
 .Body {
-  background-color: transparent;
   padding: 0.5%;
 }
 
 .Column {
-  background-color: transparent;
   display: flex;
   height: 100vh;
   padding: 0;
