@@ -7,12 +7,12 @@ import createDynamoSearchQuery from '../shared/functions/createDynamoSearchQuery
 import IHTTP from '../shared/interfaces/IHTTP';
 const dbClient = new DynamoDBClient({});
 
-const getUserAvatar = async (event: { pathParameters: { UID: string } }): Promise<IHTTP> => {
+const getUserAvatar = async (event: { pathParameters: { username: string } }): Promise<IHTTP> => {
   console.log('function invoked');
-  const { UID } = event.pathParameters;
+  const { username } = event.pathParameters;
 
   try {
-    const avatar = await getUserAvatarFromDB(UID);
+    const avatar = await getUserAvatarFromDB(username);
     if (!avatar) return createAWSResErr(404, 'No image found');
 
     return {
@@ -26,7 +26,7 @@ const getUserAvatar = async (event: { pathParameters: { UID: string } }): Promis
   return createAWSResErr(500, 'Internal Server Error');
 };
 
-const getUserAvatarFromDB = async (UID: string): Promise<{ [key: string]: any } | IHTTP> => {
+const getUserAvatarFromDB = async (username: string): Promise<{ [key: string]: any } | IHTTP> => {
   const query = createDynamoSearchQuery(process.env.AVATAR_TABLE_NAME!, 'image', 'UID', UID, 'S');
 
   const result = await dbClient.send(new QueryCommand(query));

@@ -1,6 +1,8 @@
 import Compress from 'compress.js';
 import { FC, useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import * as endpoints from '../../../../constants/endpoints';
+import { userInfoState } from '../../../../store';
 import getUserAvatar from '../../../../utils/getUserAvatar';
 import httpRequest from '../../../../utils/httpRequest';
 import classes from './Avatar.module.scss';
@@ -13,15 +15,20 @@ interface IProps {
   username: string;
 }
 
-const Avatar: FC<IProps> = ({ loggedIn, UID, setShouldLoadAvatar, shouldLoadAvatar, username }) => {
+const Avatar: FC<IProps> = ({ setShouldLoadAvatar, shouldLoadAvatar, username }) => {
   const [isLoadingAvatar, setIsLoadingAvatar] = useState(false);
   const [userAvatar, setUserAvatar] = useState('');
+  const userState = useRecoilValue(userInfoState);
 
   useEffect(() => {
     const getAvatar = async (): Promise<void> => {
       setIsLoadingAvatar(true);
 
-      setUserAvatar(await getUserAvatar(UID));
+      if (username === userState.username) {
+        setUserAvatar(userState.avatar);
+      } else {
+        setUserAvatar(await getUserAvatar(UID));
+      }
 
       setIsLoadingAvatar(false);
       setShouldLoadAvatar(false);
@@ -48,7 +55,7 @@ const Avatar: FC<IProps> = ({ loggedIn, UID, setShouldLoadAvatar, shouldLoadAvat
   return (
     <div className={classes.ImageWrapper}>
       {!isLoadingAvatar ? <img className={classes.UserAvatar} src={userAvatar} /> : null}
-      {username && loggedIn ? (
+      {username && userState.loggedIn ? (
         <>
           <label className={classes.UploadPictureText}>
             Upload new picture

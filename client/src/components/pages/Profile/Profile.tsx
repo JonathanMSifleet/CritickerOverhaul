@@ -73,11 +73,9 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
       {!isLoadingProfile ? (
         <>
           <Avatar
-            loggedIn={userState.loggedIn}
             setShouldLoadAvatar={setShouldLoadAvatar}
             shouldLoadAvatar={shouldLoadAvatar}
-            UID={userState.UID}
-            username={userState.username}
+            username={username!}
           />
 
           {userProfile ? (

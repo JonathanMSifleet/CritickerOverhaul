@@ -1,5 +1,6 @@
 To do:
 
+- Load user's avatar on profile page
 - Fix footer not sticking to bottom
 - redirect on 404
 - fix getting user avatar
