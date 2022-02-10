@@ -56,7 +56,10 @@ const Avatar: FC<IProps> = ({ setShouldLoadAvatar, shouldLoadAvatar, username })
 
   return (
     <div className={classes.ImageWrapper}>
-      {!isLoadingAvatar ? <img className={classes.UserAvatar} src={userAvatar} /> : null}
+      {!isLoadingAvatar && (username || userState.loggedIn) ? (
+        <img className={classes.UserAvatar} src={userAvatar} />
+      ) : null}
+      
       {!username && userState.loggedIn ? (
         <>
           <label className={classes.UploadPictureText}>
