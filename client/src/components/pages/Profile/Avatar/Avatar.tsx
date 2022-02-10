@@ -8,10 +8,8 @@ import httpRequest from '../../../../utils/httpRequest';
 import classes from './Avatar.module.scss';
 
 interface IProps {
-  loggedIn: boolean;
   shouldLoadAvatar: boolean;
   setShouldLoadAvatar: (val: boolean) => void;
-  UID: string;
   username: string;
 }
 
@@ -24,10 +22,10 @@ const Avatar: FC<IProps> = ({ setShouldLoadAvatar, shouldLoadAvatar, username })
     const getAvatar = async (): Promise<void> => {
       setIsLoadingAvatar(true);
 
-      if (username === userState.username) {
-        setUserAvatar(userState.avatar);
-      } else {
-        setUserAvatar(await getUserAvatar(UID));
+      try {
+        setUserAvatar(username ? await getUserAvatar(username) : userState.avatar);
+      } catch (e) {
+        console.error(e);
       }
 
       setIsLoadingAvatar(false);
@@ -47,15 +45,19 @@ const Avatar: FC<IProps> = ({ setShouldLoadAvatar, shouldLoadAvatar, username })
 
     const newImage = `${resizedImage[0].prefix}${resizedImage[0].data}`;
 
-    await httpRequest(`${endpoints.UPLOAD_USER_AVATAR}/${UID}`, 'POST', {
-      image: newImage
-    });
+    await httpRequest(
+      `${endpoints.UPLOAD_USER_AVATAR}/${username ? username : userState.username}`,
+      'POST',
+      {
+        image: newImage
+      }
+    );
   };
 
   return (
     <div className={classes.ImageWrapper}>
       {!isLoadingAvatar ? <img className={classes.UserAvatar} src={userAvatar} /> : null}
-      {username && userState.loggedIn ? (
+      {!username && userState.loggedIn ? (
         <>
           <label className={classes.UploadPictureText}>
             Upload new picture

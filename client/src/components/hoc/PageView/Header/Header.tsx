@@ -9,11 +9,10 @@ import {
   MDBNavbarToggler
 } from 'mdb-react-ui-kit';
 import { Link } from 'preact-router';
-import { FC, useEffect } from 'react';
-import { useRecoilState, useResetRecoilState } from 'recoil';
+import { FC } from 'react';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import Logo from '../../../../assets/svg/Logo.svg';
 import { modalState, userInfoState } from '../../../../store';
-import getUserAvatar from '../../../../utils/getUserAvatar';
 import Auth from '../../../elements/Auth/Auth';
 import Button from '../../../elements/Button/Button';
 import Modal from '../../../elements/Modal/Modal';
@@ -21,17 +20,8 @@ import classes from './Header.module.scss';
 
 const Header: FC = (): JSX.Element => {
   const resetUserState = useResetRecoilState(userInfoState);
-  const [userState, setUserState] = useRecoilState(userInfoState);
+  const userState = useRecoilValue(userInfoState);
   const [showModal, setShowModal] = useRecoilState(modalState);
-
-  useEffect(() => {
-    const fetchUserAvatar = async (): Promise<void> => {
-      const userAvatar = await getUserAvatar(userState!.UID);
-      setUserState({ ...userState, avatar: userAvatar });
-    };
-
-    if (userState!.loggedIn && userState.avatar === '') fetchUserAvatar();
-  }, []);
 
   const logout = (): void => resetUserState();
 

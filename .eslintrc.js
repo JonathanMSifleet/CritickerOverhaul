@@ -33,7 +33,12 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 2,
     '@typescript-eslint/no-explicit-any': 1,
     '@typescript-eslint/no-non-null-assertion': 0,
+    'eol-last': [2, 'windows'],
     'eslint/no-throw-literal': 'off',
+    'linebreak-style': [
+      'error',
+      'windows'
+    ],
     'max-len': ['error', 100, 2],
     'react-hooks/exhaustive-deps': 'off',
     'react/jsx-closing-bracket-location': [2, 'tag-aligned'],

@@ -5,6 +5,7 @@ import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import createDynamoSearchQuery from '../shared/functions/createDynamoSearchQuery';
 import IHTTP from '../shared/interfaces/IHTTP';
+import getUserAvatarFromDB from './../shared/functions/getUserAvatarFromDB';
 const dbClient = new DynamoDBClient({});
 
 const login = async (event: { body: string }): Promise<IHTTP> => {
@@ -27,10 +28,12 @@ const login = async (event: { body: string }): Promise<IHTTP> => {
     const user = unmarshall(result.Items![0]);
     if (password !== user.password) return createAWSResErr(401, 'Password is incorrect');
 
+    const userAvatar = await getUserAvatarFromDB(user.username);
+
     console.log('Logged in successfully');
     return {
       statusCode: 200,
-      body: JSON.stringify({ username: user.username, UID: user.UID })
+      body: JSON.stringify({ username: user.username, UID: user.UID, avatar: userAvatar })
     };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(404, error.message);

@@ -14,6 +14,7 @@ export const userInfoState = atom({
   default: {
     UID: '',
     avatar: '',
+    expiry: null as number | null,
     loggedIn: false,
     username: ''
   } as IUserState,

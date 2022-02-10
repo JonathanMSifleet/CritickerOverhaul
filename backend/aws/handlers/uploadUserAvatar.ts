@@ -7,19 +7,20 @@ import IHTTP from '../shared/interfaces/IHTTP';
 const dbClient = new DynamoDBClient({});
 
 export const uploadUserAvatar = async (event: {
-  pathParameters: { UID: string };
+  pathParameters: { username: string };
   body: string;
 }): Promise<IHTTP> => {
   const image = JSON.parse(event.body).image;
-  const { UID } = event.pathParameters;
+  const { username } = event.pathParameters;
 
   try {
     try {
-      await uploadPicture(UID, image);
+      await uploadPicture(username, image);
     } catch (error) {
       if (error instanceof Error) return createAWSResErr(500, error.message);
     }
 
+    console.log('Successfully uploaded image');
     return {
       statusCode: 200,
       body: JSON.stringify('Successfully uploaded image')
@@ -31,11 +32,14 @@ export const uploadUserAvatar = async (event: {
   return createAWSResErr(500, 'Internal Server Error');
 };
 
-const uploadPicture = async (UID: string, image: string): Promise<PutItemCommandOutput | IHTTP> => {
+const uploadPicture = async (
+  username: string,
+  image: string
+): Promise<PutItemCommandOutput | IHTTP> => {
   const params = {
     TableName: process.env.AVATAR_TABLE_NAME!,
     Item: marshall({
-      UID,
+      username,
       image
     }),
     ReturnConsumedCapacity: 'TOTAL'

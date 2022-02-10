@@ -22,7 +22,6 @@ provider:
     UID_INDEX: UID
     USERNAME_INDEX: username
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
-  lambdaHashingVersion: 20201221
   iam:
     role:
       statements:
@@ -67,14 +66,14 @@ functions:
     events:
       - http:
           method: GET
-          path: user/avatar/{UID}
+          path: user/avatar/{username}
           cors: true
   uploadUserAvatar:
     handler: aws/handlers/uploadUserAvatar.handler
     events:
       - http:
           method: POST
-          path: user/avatar/{UID}
+          path: user/avatar/{username}
           cors: true
   getProfileByUsername:
     handler: aws/handlers/getProfileByUsername.handler
@@ -201,7 +200,7 @@ custom:
   ReactBucketTargetOrigin:
     name: S3-${self:custom.ReactBucket.name}/${self:custom.BucketFolder.name}
   bundle:
-    linting: false
+    linting: true
   cloudfrontInvalidate:
     - distributionId: 'E25ASI4SIUBGJK'
       autoInvalidate: true

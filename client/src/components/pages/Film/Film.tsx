@@ -1,5 +1,5 @@
 import { ChangeEvent, FC, useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import * as endpoints from '../../../constants/endpoints';
 import { userInfoState } from '../../../store';
 import getFilmPoster from '../../../utils/getFilmPoster';
@@ -26,7 +26,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
   const [userReview, setUserReview] = useState(
     null as unknown as { rating: number; reviewText: string }
   );
-  const [userState] = useRecoilState(userInfoState);
+  const userState = useRecoilValue(userInfoState);
 
   useEffect(() => {
     (async (): Promise<void> => {
@@ -59,12 +59,11 @@ const Film: FC<IUrlParams> = ({ id }) => {
     setIsRating(true);
 
     try {
-      const ratingResponse = await httpRequest(endpoints.RATE_FILM, 'POST', {
+      await httpRequest(endpoints.RATE_FILM, 'POST', {
         imdb_title_id: Number(id),
         UID: userState!.UID,
         review: { ...userReview }
       });
-      console.log('🚀 ~ file: Film.tsx ~ line 65 ~ rateFilm ~ ratingResponse', ratingResponse);
     } catch (error) {
       console.error(error);
     }

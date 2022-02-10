@@ -4,9 +4,9 @@ AvatarTable:
     TableName: AvatarTable
     BillingMode: PAY_PER_REQUEST
     AttributeDefinitions:
-      - AttributeName: UID
+      - AttributeName: username
         AttributeType: S
 
     KeySchema:
-      - AttributeName: UID
+      - AttributeName: username
         KeyType: HASH

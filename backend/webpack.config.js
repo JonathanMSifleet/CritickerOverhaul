@@ -34,12 +34,5 @@ module.exports = {
       }
     ]
   },
-  plugins: [
-    new ForkTsCheckerWebpackPlugin({
-      eslint: {
-        files: './aws/**/*.ts'
-      },
-      typescript: true
-    })
-  ]
+  plugins: [new ForkTsCheckerWebpackPlugin()]
 };
