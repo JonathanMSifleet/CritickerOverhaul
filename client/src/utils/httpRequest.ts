@@ -2,7 +2,15 @@
 const httpRequest = async (url: string, method: string, body?: unknown): Promise<any> => {
   const options = body ? { method, body: JSON.stringify(body) } : { method };
 
-  const result = await fetch(url, { ...options, cache: 'force-cache' });
+  const result = await fetch(url, {
+    ...options,
+    cache: 'default',
+    headers: {
+      'Accept-Encoding': 'gzip, br',
+      'Content-Type': 'application/json'
+    }
+  });
+
   return await result.json();
 };
 
