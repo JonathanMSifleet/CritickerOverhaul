@@ -25,7 +25,7 @@ module.exports = {
       react: 'preact/compat',
       'react-dom/test-utils': 'preact/test-utils',
       'react-dom': 'preact/compat', // Must be below test-utils
-      'react/jsx-runtime': 'preact/jsx-runtime',
+      'react/jsx-runtime': 'preact/jsx-runtime'
     }
   },
   module: {
@@ -51,7 +51,10 @@ module.exports = {
     ]
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: './src/index.html' }),
+    new HtmlWebpackPlugin({
+      template: './src/index.html',
+      favicon: './src/assets/favicon.ico'
+    }),
     new MiniCssExtractPlugin(),
     new webpack.DefinePlugin({
       'process.env.DEVELOPMENT': JSON.stringify(false),
