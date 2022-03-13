@@ -26,7 +26,6 @@ const rateFilm = async (event: { body: string }): Promise<IHTTP> => {
 
   try {
     await insertRatingToDB(payload);
-
     await incrementNumRatings(payload.UID);
 
     return {
@@ -40,7 +39,7 @@ const rateFilm = async (event: { body: string }): Promise<IHTTP> => {
   return createAWSResErr(500, 'Internal Server Error');
 };
 
-const insertRatingToDB = async (payload: IReview): Promise<IHTTP> => {
+const insertRatingToDB = async (payload: IReview): Promise<IHTTP | void> => {
   const params = {
     TableName: process.env.RATINGS_TABLE_NAME!,
     Item: marshall(payload),
@@ -50,6 +49,7 @@ const insertRatingToDB = async (payload: IReview): Promise<IHTTP> => {
   try {
     await dbClient.send(new PutItemCommand(params));
     console.log('Inserted rating successfully');
+    return;
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, error.message);
   }
