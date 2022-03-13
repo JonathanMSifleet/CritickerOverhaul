@@ -1,0 +1,36 @@
+@import '../../../styles/variables.scss';
+
+.Header {
+  background-color: $mainBlue !important;
+  height: $headerHeight;
+  padding: 0;
+}
+
+.Logo {
+  padding: 0.5%;
+  height: 100%;
+  width: auto;
+}
+
+.UserAvatarLink {
+  margin-left: 0.5%;
+  margin-right: 0.5%;
+}
+
+.UserAvatar {
+  background-color: #ffffff;
+  float: left;
+  height: $headerHeight - 1.5vh;
+  margin: 0 !important;
+  width: $headerHeight - 1.5vh;
+}
+
+
+.AuthButton {
+  font-size: 0.6rem;
+  height: $headerHeight - 1.5vh;
+  margin: 0 !important;
+  padding: 0;
+  vertical-align: middle;
+  width: 7%;
+}

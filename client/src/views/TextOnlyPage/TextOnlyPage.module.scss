@@ -1,0 +1,26 @@
+@import '../../styles/variables';
+
+.ContentWrapper {
+  margin: 0;
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+h1,
+h2 {
+  padding: 0;
+  margin: 0;
+  width: auto;
+  color: $critickerTextColour;
+  display: inline-block;
+}
+
+.ParagraphWrapper {
+  padding: 0;
+  margin: 0;
+  width: auto;
+}
+
+p {
+  margin: 0;
+}

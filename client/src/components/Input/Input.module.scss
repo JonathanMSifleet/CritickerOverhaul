@@ -1,0 +1,15 @@
+@import '../../styles/variables';
+
+.FormInput {
+  border: 1px solid $mainBlue;
+  margin: auto;
+  margin-top: 3% !important;
+  margin-bottom: 0 !important;
+  width: 100%;
+}
+
+.ValidationText {
+  font-size: 0.85rem;
+  padding-left: 5%;
+  margin: 0 !important;
+}

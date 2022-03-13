@@ -1,12 +1,12 @@
-const Film = lazy(() => import('./components/pages/Film/Film'));
-const Home = lazy(() => import('./components/pages/Home/Home'));
-const Profile = lazy(() => import('./components/pages/Profile/Profile'));
-const TextOnlyPage = lazy(() => import('./components/pages/TextOnlyPage/TextOnlyPage'));
+const Film = lazy(() => import('./views/Film/Film'));
+const Home = lazy(() => import('./views/Home/Home'));
+const Profile = lazy(() => import('./views/Profile/Profile'));
+const TextOnlyPage = lazy(() => import('./views/TextOnlyPage/TextOnlyPage'));
 import { createHashHistory } from 'history';
 import Router from 'preact-router';
 import { lazy, Suspense } from 'preact/compat';
 import { FC, useEffect, useState } from 'react';
-import Spinner from './components/elements/Spinner/Spinner';
+import Spinner from './components/Spinner/Spinner';
 
 const App: FC = () => {
   const [fontReady, setFontReady] = useState(false);

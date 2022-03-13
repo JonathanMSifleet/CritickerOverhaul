@@ -1,0 +1,39 @@
+@import '../../../styles/variables';
+
+.CardWrapper {
+  height: 15vh;
+}
+
+.CardContainer {
+  height: 100%;
+  margin: 0;
+}
+
+.ImageColumn {
+  height: 100%;
+  margin: 0 !important;
+}
+
+.Image {
+  float: left;
+  object-fit: contain;
+  padding: 2%;
+  height: 100% !important;
+  width: auto;
+}
+
+.SpinnerWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.TextColumn {
+  padding: 0;
+}
+
+.CardBody {
+  padding-left: 0;
+  padding-right: 0;
+}
