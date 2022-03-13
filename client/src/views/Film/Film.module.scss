@@ -8,7 +8,7 @@
   padding: 1%;
 }
 
-.DeleteReview {
+.ModifyReview {
   cursor: pointer;
   color: $mainBlue;
 }
@@ -22,4 +22,12 @@
 
 .FilmDetails {
   float: left;
+}
+
+.FilmDescription {
+  clear: left;
+}
+
+.FilmInfo {
+  clear: both;
 }

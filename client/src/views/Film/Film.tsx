@@ -29,15 +29,15 @@ const Film: FC<IUrlParams> = ({ id }) => {
       setIsLoading(true);
 
       try {
-        const [film, filmPoster, userReview] = [
+        const [film, filmPoster] = [
           await httpRequest(`${endpoints.GET_FILM_BY_PARAM}/${id}`, 'GET'),
-          await getFilmPoster(id!),
-          await getUserRating(id!, userState.UID)
+          await getFilmPoster(id!)
         ];
+
+        if (userState.loggedIn) setFetchedUserReview(await getUserRating(id!, userState.UID));
 
         setFilm(film);
         setFilmPoster(filmPoster);
-        setFetchedUserReview(userReview);
       } catch (error) {
         if (error instanceof Error) console.error(error.message);
       } finally {
@@ -82,11 +82,20 @@ const Film: FC<IUrlParams> = ({ id }) => {
                 <>
                   <p>Your Score {fetchedUserReview.rating}</p>
                   <p>Your mini-review: {fetchedUserReview.reviewText}</p>
-                  <p className={classes.DeleteReview} onClick={deleteReview}>
-                    Delete Rating
+                  <p>
+                    <span
+                      className={classes.ModifyReview}
+                      onClick={(): void => setFetchedUserReview(null)}
+                    >
+                      Update Rating
+                    </span>
+                    {' - '}
+                    <span className={classes.ModifyReview} onClick={deleteReview}>
+                      Delete Rating
+                    </span>
                   </p>
                 </>
-              ) : !hasSubmittedRating ? (
+              ) : !hasSubmittedRating && userState.loggedIn ? (
                 <RateFilm
                   filmID={id!}
                   setHasSubmittedRating={(hasSubmittedRating: boolean): void =>
@@ -95,15 +104,17 @@ const Film: FC<IUrlParams> = ({ id }) => {
                   userState={userState}
                 />
               ) : null}
-              <p>{film ? film.description : null}</p>
+              <p className={classes.FilmDescription}>{film ? film.description : null}</p>
 
-              <h2>Cast and information</h2>
-              <p>Directed by: {film ? film.directors : 'Unknown'}</p>
-              <p>Written by: {film ? film.writers : 'Unknown'} </p>
-              <p>Starring: {film ? film.actors : 'Unknown'}</p>
-              <p>Genre(s): {film ? film.genres : 'Unknown'}</p>
-              <p>Language(s): {film ? film.languages : 'Unknown'}</p>
-              <p>Country(s): {film ? film.countries : 'Unknown'}</p>
+              <div className={classes.FilmInfo}>
+                <h4>Cast and information</h4>
+                <p>Directed by: {film ? film.directors : 'Unknown'}</p>
+                <p>Written by: {film ? film.writers : 'Unknown'} </p>
+                <p>Starring: {film ? film.actors : 'Unknown'}</p>
+                <p>Genre(s): {film ? film.genres : 'Unknown'}</p>
+                <p>Language(s): {film ? film.languages : 'Unknown'}</p>
+                <p>Country(s): {film ? film.countries : 'Unknown'}</p>
+              </div>
             </div>
           </>
         ) : (
