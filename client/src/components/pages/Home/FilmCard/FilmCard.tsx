@@ -28,7 +28,9 @@ const FilmCard: FC<IProps> = ({ film }): JSX.Element => {
           {!isLoading ? (
             <img src={filmPoster} className={`${classes.Image} img-fluid rounded-start`} />
           ) : (
-            <Spinner />
+            <div className={classes.SpinnerWrapper}>
+              <Spinner />
+            </div>
           )}
         </div>
         <div className={`${classes.TextColumn} col-md-8`}>
