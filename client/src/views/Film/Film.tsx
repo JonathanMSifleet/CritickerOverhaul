@@ -16,43 +16,53 @@ interface IUrlParams {
   id?: number;
 }
 
+interface IUserReview {
+  rating: number;
+  reviewText?: string;
+}
+
 const Film: FC<IUrlParams> = ({ id }) => {
   // to do
   const [film, setFilm] = useState(null as any);
   const [filmPoster, setFilmPoster] = useState(null as string | null);
   const [isLoading, setIsLoading] = useState(false);
   const [isRating, setIsRating] = useState(false);
+  const [fetchedUserRating, setFetchedUserRating] = useState(null as null | IUserReview);
   // to do
-  const [userReview, setUserReview] = useState(
-    null as unknown as { rating: number; reviewText: string }
-  );
+  const [userReview, setUserReview] = useState(null as null | IUserReview);
   const userState = useRecoilValue(userInfoState);
 
   useEffect(() => {
     (async (): Promise<void> => {
       setIsLoading(true);
 
-      const [film, filmPoster] = [
-        await httpRequest(`${endpoints.GET_FILM_BY_PARAM}/${id}`, 'GET'),
-        await getFilmPoster(id!)
-      ];
+      try {
+        const [film, filmPoster, userReview] = [
+          await httpRequest(`${endpoints.GET_FILM_BY_PARAM}/${id}`, 'GET'),
+          await getFilmPoster(id!),
+          await getUserRating(id!, userState.UID)
+        ];
 
-      setFilm(film);
-      setFilmPoster(filmPoster);
-
-      setIsLoading(false);
+        setFilm(film);
+        setFilmPoster(filmPoster);
+        setFetchedUserRating(userReview!);
+      } catch (error) {
+      } finally {
+        setIsLoading(false);
+      }
     })();
   }, [id]);
+
+  const getUserRating = async (id: number, userID: string): Promise<void> =>
+    await httpRequest(`${endpoints.GET_USER_RATING}/${id}/${userID}`, 'GET');
 
   const inputChangedHandler = (
     event: React.ChangeEvent<HTMLInputElement>,
     inputName: string
   ): void => {
-    if (inputName === 'rating') {
-      setUserReview({ ...userReview, [inputName]: Number(event.target.value) });
-    } else {
-      setUserReview({ ...userReview, [inputName]: event.target.value });
-    }
+    inputName === 'rating'
+      ? setUserReview({ ...userReview, [inputName]: Number(event.target.value) })
+      : setUserReview({ ...userReview!, [inputName]: event.target.value });
   };
 
   const rateFilm = async (): Promise<void> => {
@@ -78,7 +88,8 @@ const Film: FC<IUrlParams> = ({ id }) => {
           <>
             <div className={classes.FilmDetails}>
               <img className={classes.Poster} src={filmPoster!} />
-              <h1>{film ? film.title : null}</h1>
+              <h1 color="primary">{film ? film.title : null}</h1>
+              {/* <p>Your Score {score}</p> */}
               <p>{film ? film.description : null}</p>
 
               <h2>Cast and information</h2>

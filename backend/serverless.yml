@@ -69,6 +69,13 @@ functions:
           method: GET
           path: user/avatar/{username}
           cors: true
+  getUserRating:
+    handler: aws/handlers/getUserRating.handler
+    events:
+      - http:
+          method: GET
+          path: review/getRating/{imdb_title_id}/{UID}
+          cors: true
   uploadUserAvatar:
     handler: aws/handlers/uploadUserAvatar.handler
     events:
