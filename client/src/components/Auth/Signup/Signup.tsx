@@ -47,22 +47,25 @@ const SignUp: FC = () => {
     // trick to allows for await to be used inside a useEffect hook
     const attemptSignup = async (): Promise<void> => {
       setIsLoading(true);
+      const preHashPassword = formInfo.password;
 
       try {
+        if (formInfo.password !== formInfo.repeatPassword)
+          throw new Error('Passwords do not match');
+
+        formInfo.password = CryptoES.SHA512(formInfo.password).toString();
         const response = await httpRequest(endpoints.SIGNUP, 'POST', formInfo);
         if (!response.statusCode.toString().startsWith('2')) throw new Error(response.message);
 
         setShowModal(false);
       } catch (error) {
         handleValidationMessage(extractValidationMessages(error as string));
+        setFormInfo({ ...formInfo, password: preHashPassword });
+      } finally {
+        setShouldSignup(false);
+        setIsLoading(false);
       }
-
-      setShouldSignup(false);
-      setIsLoading(false);
     };
-
-    // stop POSTing unnecessary attribute
-    delete formInfo!.repeatPassword;
 
     if (shouldSignup) attemptSignup();
   }, [shouldSignup]);
@@ -88,18 +91,13 @@ const SignUp: FC = () => {
           break;
         default:
           console.error('Unhandled validation key:', Object.keys(message)[0]);
+          console.error('Validation message:', message);
       }
     });
 
     setUsernameValidationMessages(replacementUsernameValList);
     setEmailValidationMessages(replacementEmailValList);
     setPasswordValidationMessages(replacementPasswordValList);
-  };
-
-  const hashPasswords = async (): Promise<void> => {
-    const hashedPassword = CryptoES.SHA512(formInfo.password).toString();
-    const hashedRepeatPassword = CryptoES.SHA512(formInfo.repeatPassword).toString();
-    setFormInfo({ ...formInfo, password: hashedPassword, repeatPassword: hashedRepeatPassword });
   };
 
   const inputChangedHandler = (
@@ -164,10 +162,7 @@ const SignUp: FC = () => {
           <Button
             className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
             disabled={submitDisabled}
-            onClick={(): void => {
-              hashPasswords();
-              setShouldSignup(true);
-            }}
+            onClick={(): void => setShouldSignup(true)}
             text={'Sign up'}
           />
         ) : (

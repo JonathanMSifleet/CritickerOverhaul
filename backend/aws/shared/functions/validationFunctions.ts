@@ -6,10 +6,8 @@ export const validateUserInputs = async (
   username: string,
   email: string,
   password: string,
-  repeatPassword: string
 ): Promise<(string | null)[]> => {
   const errors = await Promise.all([
-    checkMatch(password, repeatPassword),
     checkUniqueAttribute(process.env.EMAIL_INDEX!, 'email', email),
     checkUniqueAttribute(process.env.USERNAME_INDEX!, 'username', username),
     validateValue(username, 'Username'),
@@ -19,11 +17,6 @@ export const validateUserInputs = async (
 
   return errors.flat().filter((error) => error !== null);
 };
-
-export const checkMatch = async (
-  password: string,
-  repeatPassword: string
-): Promise<string | null> => (password !== repeatPassword ? 'Passwords do not match' : null);
 
 export const validateValue = async (
   value: string,

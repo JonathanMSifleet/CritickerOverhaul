@@ -1,17 +1,10 @@
 To do:
 
-- Load user's avatar on profile page
-- Fix footer not sticking to bottom
+- display successful sign up message
 - redirect on 404
-- fix getting user avatar
 - Add auto logout
-- Auth:
-  - Front end Form validation
-- General input validation
 - Increment user ratings when rating submitted
-- Check if user has already rated and display appropriately
 - Authenticate with auth0
-- Set save money to false
 
 ---
 
