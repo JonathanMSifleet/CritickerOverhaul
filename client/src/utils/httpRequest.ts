@@ -11,7 +11,7 @@ const httpRequest = async (url: string, method: string, body?: unknown): Promise
     }
   });
 
-  return await result.json();
+  return result.status === 204 ? { statusCode: 204 } : await result.json();
 };
 
 export default httpRequest;

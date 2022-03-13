@@ -10,10 +10,11 @@ import classes from './RateFilm.module.scss';
 
 interface IProps {
   filmID: number;
+  setHasSubmittedRating: (hasSubmittedRating: boolean) => void;
   userState: IUserState;
 }
 
-const RateFilm: FC<IProps> = ({ filmID, userState }): JSX.Element => {
+const RateFilm: FC<IProps> = ({ filmID, setHasSubmittedRating, userState }): JSX.Element => {
   const [isRating, setIsRating] = useState(false);
   const [userReview, setUserReview] = useState(null as null | IUserReview);
 
@@ -39,6 +40,7 @@ const RateFilm: FC<IProps> = ({ filmID, userState }): JSX.Element => {
       console.error(error);
     }
 
+    setHasSubmittedRating(true);
     setIsRating(false);
   };
 

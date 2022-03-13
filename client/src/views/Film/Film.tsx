@@ -19,6 +19,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
   // to do
   const [film, setFilm] = useState(null as any);
   const [filmPoster, setFilmPoster] = useState(null as string | null);
+  const [hasSubmittedRating, setHasSubmittedRating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [fetchedUserReview, setFetchedUserReview] = useState(null as null | IUserReview);
   const userState = useRecoilValue(userInfoState);
@@ -36,28 +37,38 @@ const Film: FC<IUrlParams> = ({ id }) => {
 
         setFilm(film);
         setFilmPoster(filmPoster);
-        setFetchedUserReview(userReview!);
+        setFetchedUserReview(userReview);
       } catch (error) {
+        if (error instanceof Error) console.error(error.message);
       } finally {
         setIsLoading(false);
       }
     })();
   }, [id]);
 
+  useEffect(() => {
+    const fetchUserReview = async (): Promise<void> =>
+      setFetchedUserReview(await getUserRating(id!, userState.UID));
+
+    if (hasSubmittedRating) fetchUserReview();
+  }, [hasSubmittedRating]);
+
   const deleteReview = async (): Promise<void> => {
     try {
-      const result = await httpRequest(
-        `${endpoints.DELETE_REVIEW}/${id}/${userState.UID}`,
-        'DELETE'
-      );
-      console.log('🚀 ~ file: Film.tsx ~ line 53 ~ deleteReview ~ result', result);
+      await httpRequest(`${endpoints.DELETE_REVIEW}/${id}/${userState.UID}`, 'DELETE');
 
       setFetchedUserReview(null);
-    } catch (error) {}
+      setHasSubmittedRating(false);
+    } catch (error) {
+      if (error instanceof Error) console.error(error.message);
+    }
   };
 
-  const getUserRating = async (id: number, userID: string): Promise<void> =>
-    await httpRequest(`${endpoints.GET_USER_RATING}/${id}/${userID}`, 'GET');
+  const getUserRating = async (id: number, userID: string): Promise<null | IUserReview> => {
+    const result = await httpRequest(`${endpoints.GET_USER_RATING}/${id}/${userID}`, 'GET');
+
+    return result.statusCode === 404 ? null : result;
+  };
 
   return (
     <PageView>
@@ -66,16 +77,24 @@ const Film: FC<IUrlParams> = ({ id }) => {
           <>
             <div className={classes.FilmDetails}>
               <img className={classes.Poster} src={filmPoster!} />
-              <h1 color="primary">{film ? film.title : null}</h1>
+              <h1>{film ? film.title : null}</h1>
               {fetchedUserReview ? (
                 <>
-                  <p>Your Score {fetchedUserReview!.rating}</p>
-                  <p>Your mini-review: {fetchedUserReview!.reviewText}</p>
-                  <p onClick={deleteReview}>Delete Rating</p>
+                  <p>Your Score {fetchedUserReview.rating}</p>
+                  <p>Your mini-review: {fetchedUserReview.reviewText}</p>
+                  <p className={classes.DeleteReview} onClick={deleteReview}>
+                    Delete Rating
+                  </p>
                 </>
-              ) : (
-                <RateFilm filmID={id!} userState={userState} />
-              )}
+              ) : !hasSubmittedRating ? (
+                <RateFilm
+                  filmID={id!}
+                  setHasSubmittedRating={(hasSubmittedRating: boolean): void =>
+                    setHasSubmittedRating(hasSubmittedRating)
+                  }
+                  userState={userState}
+                />
+              ) : null}
               <p>{film ? film.description : null}</p>
 
               <h2>Cast and information</h2>

@@ -4,5 +4,5 @@ export default interface IHTTP {
     'Access-Control-Allow-Credentials': boolean;
   };
   statusCode: number;
-  body: string;
+  body?: string;
 }

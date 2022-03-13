@@ -1,9 +1,16 @@
+@import '../../styles/variables.scss';
+
 .PageWrapper {
   height: 100%;
   width: 100%;
   background-color: white;
   border-radius: 25px;
   padding: 1%;
+}
+
+.DeleteReview {
+  cursor: pointer;
+  color: $mainBlue;
 }
 
 .Poster {
