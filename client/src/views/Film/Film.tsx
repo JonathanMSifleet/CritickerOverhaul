@@ -1,24 +1,18 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import Button from '../../components/Button/Button';
-import Input from '../../components/Input/Input';
 import PageView from '../../components/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
-import SpinnerButton from '../../components/SpinnerButton/SpinnerButton';
 import * as endpoints from '../../constants/endpoints';
+import IUserReview from '../../interfaces/IUserReview';
 import { userInfoState } from '../../store';
 import getFilmPoster from '../../utils/getFilmPoster';
 import httpRequest from '../../utils/httpRequest';
 import classes from './Film.module.scss';
+import RateFilm from './RateFilm/RateFilm';
 
 interface IUrlParams {
   path?: string;
   id?: number;
-}
-
-interface IUserReview {
-  rating: number;
-  reviewText?: string;
 }
 
 const Film: FC<IUrlParams> = ({ id }) => {
@@ -26,10 +20,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
   const [film, setFilm] = useState(null as any);
   const [filmPoster, setFilmPoster] = useState(null as string | null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isRating, setIsRating] = useState(false);
-  const [fetchedUserRating, setFetchedUserRating] = useState(null as null | IUserReview);
-  // to do
-  const [userReview, setUserReview] = useState(null as null | IUserReview);
+  const [fetchedUserReview, setFetchedUserReview] = useState(null as null | IUserReview);
   const userState = useRecoilValue(userInfoState);
 
   useEffect(() => {
@@ -45,7 +36,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
 
         setFilm(film);
         setFilmPoster(filmPoster);
-        setFetchedUserRating(userReview!);
+        setFetchedUserReview(userReview!);
       } catch (error) {
       } finally {
         setIsLoading(false);
@@ -53,33 +44,12 @@ const Film: FC<IUrlParams> = ({ id }) => {
     })();
   }, [id]);
 
+  useEffect(() => {
+    console.log(fetchedUserReview);
+  }, [fetchedUserReview]);
+
   const getUserRating = async (id: number, userID: string): Promise<void> =>
     await httpRequest(`${endpoints.GET_USER_RATING}/${id}/${userID}`, 'GET');
-
-  const inputChangedHandler = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    inputName: string
-  ): void => {
-    inputName === 'rating'
-      ? setUserReview({ ...userReview, [inputName]: Number(event.target.value) })
-      : setUserReview({ ...userReview!, [inputName]: event.target.value });
-  };
-
-  const rateFilm = async (): Promise<void> => {
-    setIsRating(true);
-
-    try {
-      await httpRequest(endpoints.RATE_FILM, 'POST', {
-        imdb_title_id: Number(id),
-        UID: userState!.UID,
-        review: { ...userReview }
-      });
-    } catch (error) {
-      console.error(error);
-    }
-
-    setIsRating(false);
-  };
 
   return (
     <PageView>
@@ -89,7 +59,12 @@ const Film: FC<IUrlParams> = ({ id }) => {
             <div className={classes.FilmDetails}>
               <img className={classes.Poster} src={filmPoster!} />
               <h1 color="primary">{film ? film.title : null}</h1>
-              {/* <p>Your Score {score}</p> */}
+              {fetchedUserReview ? (
+                <>
+                  <p>Your Score {fetchedUserReview!.rating}</p>
+                  <p>Your mini-review: {fetchedUserReview!.reviewText}</p>
+                </>
+              ) : null}
               <p>{film ? film.description : null}</p>
 
               <h2>Cast and information</h2>
@@ -101,37 +76,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
               <p>Country(s): {film ? film.countries : 'Unknown'}</p>
             </div>
 
-            <div className={classes.RateFilmWrapper}>
-              {userState!.loggedIn ? (
-                <form onSubmit={(event): void => event.preventDefault()}>
-                  <Input
-                    onChange={(event: ChangeEvent<HTMLInputElement>): void =>
-                      inputChangedHandler(event, 'rating')
-                    }
-                    placeholder={'Rating'}
-                    type={'text'}
-                  />
-                  <Input
-                    onChange={(event: ChangeEvent<HTMLInputElement>): void =>
-                      inputChangedHandler(event, 'reviewText')
-                    }
-                    placeholder={'Review'}
-                    type={'text'}
-                    textarea={true}
-                  />
-
-                  {isRating ? (
-                    <SpinnerButton />
-                  ) : (
-                    <Button
-                      className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
-                      onClick={(): Promise<void> => rateFilm()}
-                      text={'Rate film'}
-                    />
-                  )}
-                </form>
-              ) : null}
-            </div>
+            <RateFilm filmID={id!} userState={userState} />
           </>
         ) : (
           <Spinner />
