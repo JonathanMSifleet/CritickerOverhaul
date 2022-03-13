@@ -44,9 +44,17 @@ const Film: FC<IUrlParams> = ({ id }) => {
     })();
   }, [id]);
 
-  useEffect(() => {
-    console.log(fetchedUserReview);
-  }, [fetchedUserReview]);
+  const deleteReview = async (): Promise<void> => {
+    try {
+      const result = await httpRequest(
+        `${endpoints.DELETE_REVIEW}/${id}/${userState.UID}`,
+        'DELETE'
+      );
+      console.log('🚀 ~ file: Film.tsx ~ line 53 ~ deleteReview ~ result', result);
+
+      setFetchedUserReview(null);
+    } catch (error) {}
+  };
 
   const getUserRating = async (id: number, userID: string): Promise<void> =>
     await httpRequest(`${endpoints.GET_USER_RATING}/${id}/${userID}`, 'GET');
@@ -63,8 +71,11 @@ const Film: FC<IUrlParams> = ({ id }) => {
                 <>
                   <p>Your Score {fetchedUserReview!.rating}</p>
                   <p>Your mini-review: {fetchedUserReview!.reviewText}</p>
+                  <p onClick={deleteReview}>Delete Rating</p>
                 </>
-              ) : null}
+              ) : (
+                <RateFilm filmID={id!} userState={userState} />
+              )}
               <p>{film ? film.description : null}</p>
 
               <h2>Cast and information</h2>
@@ -75,8 +86,6 @@ const Film: FC<IUrlParams> = ({ id }) => {
               <p>Language(s): {film ? film.languages : 'Unknown'}</p>
               <p>Country(s): {film ? film.countries : 'Unknown'}</p>
             </div>
-
-            <RateFilm filmID={id!} userState={userState} />
           </>
         ) : (
           <Spinner />

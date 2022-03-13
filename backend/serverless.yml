@@ -41,6 +41,13 @@ functions:
           method: DELETE
           path: deleteAccount
           cors: true
+  deleteReview:
+    handler: aws/handlers/deleteReview.handler
+    events:
+      - http:
+          method: DELETE
+          path: review/deleteReview/{imdb_title_id}/{UID}
+          cors: true
   login:
     handler: aws/handlers/login.handler
     events:
