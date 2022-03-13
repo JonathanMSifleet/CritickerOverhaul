@@ -1,8 +1,9 @@
 import { Link } from 'preact-router/match';
 import { FC, useEffect, useState } from 'react';
 import IFilm from '../../../../../shared/interfaces/IFilm';
-import getFilmPoster from '../../../utils/getFilmPoster';
+import ShrugSVG from '../../../assets/svg/Shrug.svg';
 import Spinner from '../../../components/Spinner/Spinner';
+import getFilmPoster from '../../../utils/getFilmPoster';
 import classes from './FilmCard.module.scss';
 
 interface IProps {
@@ -16,8 +17,14 @@ const FilmCard: FC<IProps> = ({ film }): JSX.Element => {
   useEffect(() => {
     (async (): Promise<void> => {
       setIsLoading(true);
-      setFilmPoster(await getFilmPoster(film.imdb_title_id));
-      setIsLoading(false);
+
+      try {
+        setFilmPoster(await getFilmPoster(film.imdb_title_id));
+      } catch (error) {
+        setFilmPoster(ShrugSVG);
+      } finally {
+        setIsLoading(false);
+      }
     })();
   }, []);
 
