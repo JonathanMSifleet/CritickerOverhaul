@@ -29,17 +29,15 @@ const SignUp: FC = () => {
   const [usernameValidationMessages, setUsernameValidationMessages] = useState([] as string[]);
   const setShowModal = useSetRecoilState(modalState);
 
-  useEffect(
-    () =>
-      setSubmitDisabled(
-        !formInfo.email ||
-          !formInfo.password ||
-          !formInfo.repeatPassword ||
-          !formInfo.termsChecked ||
-          !formInfo.username
-      ),
-    [formInfo]
-  );
+  useEffect(() => {
+    setSubmitDisabled(
+      !formInfo.email ||
+        !formInfo.password ||
+        !formInfo.repeatPassword ||
+        !formInfo.termsChecked ||
+        !formInfo.username
+    );
+  }, [formInfo]);
 
   // when hashing the password client-side, React does not update the
   // state until the next render-cycle, by using useEffect, a new render
@@ -49,6 +47,7 @@ const SignUp: FC = () => {
     // trick to allows for await to be used inside a useEffect hook
     const attemptSignup = async (): Promise<void> => {
       setIsLoading(true);
+
       try {
         const response = await httpRequest(endpoints.SIGNUP, 'POST', formInfo);
         if (!response.statusCode.toString().startsWith('2')) throw new Error(response.message);
@@ -68,28 +67,33 @@ const SignUp: FC = () => {
     if (shouldSignup) attemptSignup();
   }, [shouldSignup]);
 
+  const checkboxHandler = (event: React.ChangeEvent<HTMLInputElement>): void =>
+    setFormInfo({ ...formInfo, termsChecked: event.target.checked });
+
   const handleValidationMessage = (valMessages: { [key: string]: string }[]): void => {
+    const replacementEmailValList = [] as string[];
+    const replacementPasswordValList = [] as string[];
+    const replacementUsernameValList = [] as string[];
+
     valMessages.forEach((message) => {
       switch (Object.keys(message)[0]) {
         case 'Username':
-          const replacementUsernameValList = usernameValidationMessages;
           replacementUsernameValList.push(`${Object.keys(message)[0]} ${message.Username}`);
-          setUsernameValidationMessages(replacementUsernameValList);
           break;
         case 'Email':
-          const replacementEmailValList = emailValidationMessages;
           replacementEmailValList.push(`${Object.keys(message)[0]} ${message.Email}`);
-          setEmailValidationMessages(replacementEmailValList);
           break;
         case 'Passwords':
-          const replacementPasswordValList = passwordValidationMessages;
           replacementPasswordValList.push(`${Object.keys(message)[0]} ${message.Passwords}`);
-          setPasswordValidationMessages(replacementPasswordValList);
           break;
         default:
           console.error('Unhandled validation key:', Object.keys(message)[0]);
       }
     });
+
+    setUsernameValidationMessages(replacementUsernameValList);
+    setEmailValidationMessages(replacementEmailValList);
+    setPasswordValidationMessages(replacementPasswordValList);
   };
 
   const hashPasswords = async (): Promise<void> => {
@@ -102,9 +106,6 @@ const SignUp: FC = () => {
     event: React.ChangeEvent<HTMLInputElement>,
     inputName: string
   ): void => setFormInfo({ ...formInfo, [inputName]: event.target.value });
-
-  const checkboxHandler = (event: React.ChangeEvent<HTMLInputElement>): void =>
-    setFormInfo({ ...formInfo, termsChecked: event.target.checked });
 
   return (
     <form autoComplete="off" onSubmit={(event): void => event.preventDefault()}>
