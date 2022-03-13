@@ -7,7 +7,9 @@ import createDynamoSearchQuery from '../shared/functions/createDynamoSearchQuery
 import IHTTP from '../shared/interfaces/IHTTP';
 const dbClient = new DynamoDBClient({});
 
-const getUserRating = async (event: { pathParameters: {imdb_title_id: number, UID: string } }): Promise<IHTTP> => {
+const getUserRating = async (event: {
+  pathParameters: { imdb_title_id: number; UID: string };
+}): Promise<IHTTP> => {
   const { imdb_title_id, UID } = event.pathParameters;
 
   try {
@@ -26,7 +28,7 @@ const getUserRating = async (event: { pathParameters: {imdb_title_id: number, UI
   return createAWSResErr(500, 'Internal Server Error');
 };
 
- const getUserRatingFromDB = async (imdb_title_id: number, UID: string): Promise<any | IHTTP> => {
+const getUserRatingFromDB = async (imdb_title_id: number, UID: string): Promise<any | IHTTP> => {
   const query = createDynamoSearchQuery(
     process.env.RATINGS_TABLE_NAME!,
     'review',
@@ -41,6 +43,6 @@ const getUserRating = async (event: { pathParameters: {imdb_title_id: number, UI
 
   const result = await dbClient.send(new QueryCommand(query));
   return unmarshall(result.Items![0]).review;
- }
+};
 
 export const handler = middy(getUserRating).use(cors());
