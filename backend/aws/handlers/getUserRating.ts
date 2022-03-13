@@ -28,10 +28,11 @@ const getUserRating = async (event: {
   return createAWSResErr(500, 'Internal Server Error');
 };
 
+// to do:
 const getUserRatingFromDB = async (imdb_title_id: number, UID: string): Promise<any | IHTTP> => {
   const query = createDynamoSearchQuery(
     process.env.RATINGS_TABLE_NAME!,
-    'review',
+    'review, createdAt',
     'imdb_title_id',
     imdb_title_id,
     'N',
@@ -42,7 +43,7 @@ const getUserRatingFromDB = async (imdb_title_id: number, UID: string): Promise<
   );
 
   const result = await dbClient.send(new QueryCommand(query));
-  return unmarshall(result.Items![0]).review;
+  return unmarshall(result.Items![0]);
 };
 
 export const handler = middy(getUserRating).use(cors());

@@ -1,8 +1,4 @@
-import {
-  DynamoDBClient,
-  PutItemCommand,
-  PutItemCommandInput
-} from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, PutItemCommand, PutItemCommandInput } from '@aws-sdk/client-dynamodb';
 import { marshall } from '@aws-sdk/util-dynamodb';
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
@@ -18,14 +14,22 @@ interface IReview {
     rating: number;
     reviewText?: string;
   };
+  createdAt: number;
 }
 
 const rateFilm = async (event: { body: string }): Promise<IHTTP> => {
-  const payload = JSON.parse(event.body);
+  const { imdb_title_id, UID, review } = JSON.parse(event.body);
+
+  const payload = {
+    imdb_title_id,
+    UID,
+    review,
+    createdAt: Date.now()
+  };
 
   try {
     await insertRatingToDB(payload);
-    await alterNumRatings(payload.UID, true);
+    await alterNumRatings(UID, true);
 
     return {
       statusCode: 201,
@@ -39,6 +43,7 @@ const rateFilm = async (event: { body: string }): Promise<IHTTP> => {
 };
 
 const insertRatingToDB = async (payload: IReview): Promise<IHTTP | void> => {
+  console.log('🚀 ~ file: rateFilm.ts ~ line 46 ~ insertRatingToDB ~ payload', payload);
   const params = {
     TableName: process.env.RATINGS_TABLE_NAME!,
     Item: marshall(payload),

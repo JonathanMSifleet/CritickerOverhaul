@@ -3,7 +3,6 @@ import Button from '../../../components/Button/Button';
 import Input from '../../../components/Input/Input';
 import SpinnerButton from '../../../components/SpinnerButton/SpinnerButton';
 import * as endpoints from '../../../constants/endpoints';
-import IUserReview from '../../../interfaces/IUserReview';
 import IUserState from '../../../interfaces/IUserState';
 import httpRequest from '../../../utils/httpRequest';
 import classes from './RateFilm.module.scss';
@@ -16,14 +15,17 @@ interface IProps {
 
 const RateFilm: FC<IProps> = ({ filmID, setHasSubmittedRating, userState }): JSX.Element => {
   const [isRating, setIsRating] = useState(false);
-  const [userReview, setUserReview] = useState(null as null | IUserReview);
+  const [userReview, setUserReview] = useState(null as null | {
+      rating: number;
+      reviewText?: string;
+  });
 
   const inputChangedHandler = (
     event: React.ChangeEvent<HTMLInputElement>,
     inputName: string
   ): void => {
     inputName === 'rating'
-      ? setUserReview({ ...userReview, [inputName]: Number(event.target.value) })
+      ? setUserReview({ ...userReview!, [inputName]: Number(event.target.value) })
       : setUserReview({ ...userReview!, [inputName]: event.target.value });
   };
 

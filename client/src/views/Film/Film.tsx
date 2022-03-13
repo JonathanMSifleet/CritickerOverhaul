@@ -47,6 +47,10 @@ const Film: FC<IUrlParams> = ({ id }) => {
   }, [id]);
 
   useEffect(() => {
+    console.log("🚀 ~ file: Film.tsx ~ line 52 ~ fetchedUserReview", fetchedUserReview)
+  }, [fetchedUserReview]);
+
+  useEffect(() => {
     const fetchUserReview = async (): Promise<void> =>
       setFetchedUserReview(await getUserRating(id!, userState.UID));
 
@@ -80,8 +84,14 @@ const Film: FC<IUrlParams> = ({ id }) => {
               <h1>{film ? film.title : null}</h1>
               {fetchedUserReview ? (
                 <>
-                  <p>Your Score {fetchedUserReview.rating}</p>
-                  <p>Your mini-review: {fetchedUserReview.reviewText}</p>
+                  <p>Your Score {fetchedUserReview.review.rating}</p>
+                  <p>Your mini-review: {fetchedUserReview.review.reviewText}</p>
+                  <p>Rated on: {new Date(fetchedUserReview.createdAt).toLocaleDateString('en-GB', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric'
+                    })}
+                  </p>
                   <p>
                     <span
                       className={classes.ModifyReview}

@@ -22,7 +22,7 @@ const deleteReview = async (event: {
       })
     );
 
-    await alterNumRatings(UID, false)
+    await alterNumRatings(UID, false);
 
     console.log('Review deleted successfully');
     return { statusCode: 204 };

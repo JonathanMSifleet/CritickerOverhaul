@@ -1,4 +1,7 @@
 export default interface IUserReview {
-  rating: number;
-  reviewText?: string;
+  createdAt: number;
+  review: {
+    rating: number;
+    reviewText?: string;
+  };
 }

@@ -3,7 +3,6 @@ To do:
 - display successful sign up message
 - redirect on 404
 - Add auto logout
-- Increment user ratings when rating submitted
 - Authenticate with auth0
 
 ---
