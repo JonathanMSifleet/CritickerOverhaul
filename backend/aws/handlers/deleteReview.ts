@@ -1,6 +1,7 @@
 import { DeleteItemCommand, DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
+import alterNumRatings from '../shared/functions/alterNumRatings';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
 const dbClient = new DynamoDBClient({});
@@ -20,6 +21,8 @@ const deleteReview = async (event: {
         }
       })
     );
+
+    await alterNumRatings(UID, false)
 
     console.log('Review deleted successfully');
     return { statusCode: 204 };
