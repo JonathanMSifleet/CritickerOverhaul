@@ -69,6 +69,13 @@ functions:
           method: GET
           path: getFilms/{page}
           cors: true
+  getProfileByUsername:
+    handler: aws/handlers/getProfileByUsername.handler
+    events:
+      - http:
+          method: GET
+          path: user/profile/{username}
+          cors: true
   getUserAvatar:
     handler: aws/handlers/getUserAvatar.handler
     events:
@@ -83,20 +90,6 @@ functions:
           method: GET
           path: review/getRating/{imdb_title_id}/{UID}
           cors: true
-  uploadUserAvatar:
-    handler: aws/handlers/uploadUserAvatar.handler
-    events:
-      - http:
-          method: POST
-          path: user/avatar/{username}
-          cors: true
-  getProfileByUsername:
-    handler: aws/handlers/getProfileByUsername.handler
-    events:
-      - http:
-          method: GET
-          path: user/profile/{username}
-          cors: true
   rateFilm:
     handler: aws/handlers/rateFilm.handler
     events:
@@ -110,6 +103,20 @@ functions:
       - http:
           method: POST
           path: signup
+          cors: true
+  updateUserProfile:
+    handler: aws/handlers/updateUserProfile.handler
+    events:
+      - http:
+          method: POST
+          path: user/profile/{username}
+          cors: true
+  uploadUserAvatar:
+    handler: aws/handlers/uploadUserAvatar.handler
+    events:
+      - http:
+          method: POST
+          path: user/avatar/{username}
           cors: true
   publicEndpoint:
     handler: aws/handlers/public.handler

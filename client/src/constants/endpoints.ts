@@ -10,3 +10,4 @@ export const LOGIN = `${ROOT}/login`;
 export const RATE_FILM = `${ROOT}/review/rateFilm`;
 export const SIGNUP = `${ROOT}/signup`;
 export const UPLOAD_USER_AVATAR = `${ROOT}/user/avatar`;
+export const UPDATE_USER_PROFILE = `${ROOT}/user/profile`;

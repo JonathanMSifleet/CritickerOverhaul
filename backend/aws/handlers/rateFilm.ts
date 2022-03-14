@@ -1,4 +1,4 @@
-import { DynamoDBClient, PutItemCommand, PutItemCommandInput } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb';
 import { marshall } from '@aws-sdk/util-dynamodb';
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
@@ -30,7 +30,7 @@ const rateFilm = async (event: { body: string }): Promise<IHTTP> => {
   try {
     await insertRatingToDB(payload);
 
-    if(!reviewAlreadyExists) await alterNumRatings(UID, true);
+    if (!reviewAlreadyExists) await alterNumRatings(UID, true);
 
     return {
       statusCode: 201,
@@ -48,7 +48,7 @@ const insertRatingToDB = async (payload: IReview): Promise<IHTTP | void> => {
     TableName: process.env.RATINGS_TABLE_NAME!,
     Item: marshall(payload),
     ReturnConsumedCapacity: 'TOTAL'
-  } as PutItemCommandInput;
+  };
 
   try {
     await dbClient.send(new PutItemCommand(params));

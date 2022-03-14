@@ -2,48 +2,60 @@ import { ChangeEvent, FC, useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { CountryDropdown } from 'react-country-region-selector';
+import { useRecoilValue } from 'recoil';
+import IUserProfile from '../../../../../shared/interfaces/IUserProfile';
+import Button from '../../../components/Button/Button';
 import Input from '../../../components/Input/Input';
 import Radio from '../../../components/Radio/Radio';
+import * as endpoints from '../../../constants/endpoints';
+import { userInfoState } from '../../../store';
+import httpRequest from '../../../utils/httpRequest';
 import classes from './UpdateUserDetailsForm.module.scss';
 
 interface IProps {
   // to do
-  userProfile: any;
+  userProfile: IUserProfile;
 }
 
 const UpdateUserDetailsForm: FC<IProps> = ({ userProfile }) => {
-  const [country, setCountry] = useState('');
   const [formInfo, setFormInfo] = useState({} as { [key: string]: string | number });
-  const [gender, setGender] = useState('');
-
-  // const userState = useRecoilValue(userInfoState);
+  const userState = useRecoilValue(userInfoState);
 
   /*
-  email
-  first name
-  last name
-  country
-  state
-  city
-  gender
-  date of birth
-  Bio
-  Profile options:
-    display:
-      location
-      personal info
-    Minimum films in common
+    date of birth
+    Bio
+    Profile options:
+      display:
+        location
+        personal info
+      Minimum films in common
   */
 
   useEffect(() => {
     console.log(userProfile);
-    setFormInfo({ ...formInfo, username: userProfile.username, email: userProfile.email });
+    setFormInfo({
+      ...formInfo,
+      country: userProfile.country!,
+      email: userProfile.email!,
+      gender: userProfile.gender!,
+      UID: userState.UID,
+      username: userProfile.username!,
+    });
   }, []);
 
   const inputChangedHandler = (value: string | number, inputName: string): void =>
     setFormInfo({ ...formInfo, [inputName]: value });
 
-  const selectCountry = (country: string): void => setCountry(country);
+  const selectCountry = (country: string): void => setFormInfo({ ...formInfo, country });
+
+  const updateUserProfile = async (): Promise<void> => {
+    try {
+      const result = await httpRequest(`${endpoints.UPDATE_USER_PROFILE}/${userProfile.username}`, 'POST', formInfo);
+      console.log("🚀 ~ file: UpdateUserDetailsForm.tsx ~ line 50 ~ updateUserProfile ~ result", result)
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <>
@@ -71,6 +83,7 @@ const UpdateUserDetailsForm: FC<IProps> = ({ userProfile }) => {
         }
         placeholder={'First name'}
         type={'text'}
+        value={formInfo.firstName as string}
       />
 
       <Input
@@ -79,38 +92,47 @@ const UpdateUserDetailsForm: FC<IProps> = ({ userProfile }) => {
         }
         placeholder={'Last name'}
         type={'text'}
+        value={formInfo.lastName as string}
       />
 
+      <p>Country:</p>
       <CountryDropdown
         classes={classes.CountrySelect}
         onChange={(country): void => selectCountry(country)}
-        value={country}
+        value={formInfo.country as string}
       />
 
       <p>Gender</p>
       <>
         <Radio
           name={'GenderRadio'}
-          onChange={(event: { target: { value: string } }): void => setGender(event.target.value)}
+          onChange={(event: { target: { value: string } }): void =>
+            setFormInfo({ ...formInfo, gender: event.target.value })
+          }
           value={'Female'}
         />
         <Radio
           name={'GenderRadio'}
-          onChange={(event: { target: { value: string } }): void => setGender(event.target.value)}
+          onChange={(event: { target: { value: string } }): void =>
+            setFormInfo({ ...formInfo, gender: event.target.value })
+          }
           value={'Male'}
         />
         <Radio
           name={'GenderRadio'}
-          onChange={(event: { target: { value: string } }): void => setGender(event.target.value)}
+          onChange={(event: { target: { value: string } }): void =>
+            setFormInfo({ ...formInfo, gender: event.target.value })
+          }
           value={'Other'}
         />
       </>
 
-      <p>Country:</p>
+      <p>Date of birth:</p>
       <Calendar
         onChange={(value: Date): void => inputChangedHandler(value.getTime() / 1000, 'dob')}
         value={null}
       />
+      <Button onClick={(): Promise<void> => updateUserProfile()} text={'Submit'} />
     </>
   );
 };

@@ -1,5 +1,7 @@
+import { lazy, Suspense } from 'preact/compat';
 import { FC, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import IUserProfile from '../../../../shared/interfaces/IUserProfile';
 import PageView from '../../components/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
 import * as endpoints from '../../constants/endpoints';
@@ -7,7 +9,7 @@ import { userInfoState } from '../../store';
 import httpRequest from '../../utils/httpRequest';
 import Avatar from './Avatar/Avatar';
 import classes from './Profile.module.scss';
-import UpdateUserDetailsForm from './UpdateUserDetailsForm/UpdateUserDetailsForm';
+const UpdateUserDetailsForm = lazy(() => import('./UpdateUserDetailsForm/UpdateUserDetailsForm'));
 
 interface IUrlParams {
   path?: string;
@@ -19,7 +21,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   const [shouldLoadAvatar, setShouldLoadAvatar] = useState(false);
   const [showUpdateDetailsForm, setShowUpdateDetailsForm] = useState(false);
   // todo
-  const [userProfile, setUserProfile] = useState(null as unknown as any);
+  const [userProfile, setUserProfile] = useState(null as null | IUserProfile);
   const userState = useRecoilValue(userInfoState);
 
   useEffect(() => {
@@ -82,11 +84,13 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
             <div className={classes.UserDetails}>
               <h1 className={classes.UsernameHeader}>
                 {userProfile.username}
-                <span className={classes.UserRank}> {getRatingRank(userProfile.numRatings)}</span>
+                <span className={classes.UserRank}> {getRatingRank(userProfile.numRatings!)}</span>
               </h1>
-              <p className={classes.UserProfileText}>{userProfile.numRatings} Film Ratings</p>
               <p className={classes.UserProfileText}>
-                <b>Member since:</b> {epochToDate(userProfile.memberSince)}
+                {userProfile.numRatings} Film Rating{userProfile.numRatings === 0 ? 's' : null}
+              </p>
+              <p className={classes.UserProfileText}>
+                <b>Member since:</b> {epochToDate(userProfile.memberSince!)}
               </p>
               <p
                 className={classes.UserProfileLink}
@@ -95,7 +99,12 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                 Update Personal Information
               </p>
               <p className={classes.UserProfileLink}>Update Password</p>
-              {showUpdateDetailsForm ? <UpdateUserDetailsForm userProfile={userProfile}/> : null}
+              {showUpdateDetailsForm ? (
+                // @ts-expect-error
+                <Suspense fallback={<Spinner />}>
+                  <UpdateUserDetailsForm userProfile={userProfile} />
+                </Suspense>
+              ) : null}
             </div>
           ) : (
             'User not found'

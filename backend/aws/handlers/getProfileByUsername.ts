@@ -14,7 +14,7 @@ const getProfileByUsername = async (event: {
 
   const query = createDynamoSearchQuery(
     process.env.USER_TABLE_NAME!,
-    'username, email, memberSince, numRatings, UID',
+    'email, firstName, gender, lastName, memberSince, numRatings, UID, username',
     'username',
     username,
     'S',

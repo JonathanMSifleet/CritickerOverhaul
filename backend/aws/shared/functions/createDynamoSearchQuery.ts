@@ -9,9 +9,8 @@ const createDynamoSearchQuery = (
   indexName?: string,
   secondaryKeyName?: string,
   secondaryKeyValue?: string | number,
-  secondaryKeyType?: string,
+  secondaryKeyType?: string
 ): QueryCommandInput => {
-
   let query = {
     TableName: tableName,
     ProjectionExpression: fields,
@@ -21,16 +20,19 @@ const createDynamoSearchQuery = (
     }
   } as unknown as QueryCommandInput;
 
-  if(indexName) query = {...query, IndexName: indexName};
+  if (indexName) query = { ...query, IndexName: indexName };
 
-  if(secondaryKeyName) {
-    query = {...query,
-      KeyConditionExpression: `${primaryKeyName} = :${primaryKeyName} AND ${secondaryKeyName} = :${secondaryKeyName}`,
+  if (secondaryKeyName) {
+    query = {
+      ...query,
+      KeyConditionExpression:
+        `${primaryKeyName} = :${primaryKeyName} ` +
+        `AND ${secondaryKeyName} = :${secondaryKeyName}`,
       ExpressionAttributeValues: {
         [`:${primaryKeyName}`]: { [primaryKeyType]: primaryKeyValue },
         [`:${secondaryKeyName}`]: { [secondaryKeyType!]: secondaryKeyValue }
       }
-    } as unknown as QueryCommandInput
+    } as unknown as QueryCommandInput;
   }
 
   return query;
