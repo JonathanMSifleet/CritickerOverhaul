@@ -1,7 +1,8 @@
 import { Link } from 'preact-router/match';
+import { FC } from 'react';
 import classes from './Footer.module.scss';
 
-const Footer: React.FC = (): JSX.Element => {
+const Footer: FC = (): JSX.Element => {
   return (
     <footer className={`${classes.Footer} bg-primary text-center text-white text-lg-start`}>
       <ul className={`${classes.FooterLinksWrapper} list-group list-group-horizontal`}>

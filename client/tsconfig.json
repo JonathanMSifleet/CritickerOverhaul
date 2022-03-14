@@ -27,7 +27,7 @@
     "target": "es2020",
     "types": ["node"]
   },
-  "include": ["**/*"],
+  "include": ["**/*", "**/*.tsx", "**/*.ts"],
   "exclude": [
     "node_modules/**/*",
     ".webpack/**/*",
