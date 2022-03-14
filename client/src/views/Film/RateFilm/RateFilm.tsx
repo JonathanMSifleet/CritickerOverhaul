@@ -9,16 +9,24 @@ import classes from './RateFilm.module.scss';
 
 interface IProps {
   filmID: number;
+  reviewAlreadyExists: boolean;
   setHasSubmittedRating: (hasSubmittedRating: boolean) => void;
   userState: IUserState;
 }
 
-const RateFilm: FC<IProps> = ({ filmID, setHasSubmittedRating, userState }): JSX.Element => {
+const RateFilm: FC<IProps> = ({
+  filmID,
+  reviewAlreadyExists,
+  setHasSubmittedRating,
+  userState
+}): JSX.Element => {
   const [isRating, setIsRating] = useState(false);
-  const [userReview, setUserReview] = useState(null as null | {
+  const [userReview, setUserReview] = useState(
+    null as null | {
       rating: number;
       reviewText?: string;
-  });
+    }
+  );
 
   const inputChangedHandler = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -36,7 +44,8 @@ const RateFilm: FC<IProps> = ({ filmID, setHasSubmittedRating, userState }): JSX
       await httpRequest(endpoints.RATE_FILM, 'POST', {
         imdb_title_id: Number(filmID),
         UID: userState!.UID,
-        review: { ...userReview }
+        review: { ...userReview },
+        reviewAlreadyExists
       });
     } catch (error) {
       console.error(error);

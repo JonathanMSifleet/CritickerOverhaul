@@ -16,12 +16,13 @@ interface IUrlParams {
 }
 
 const Film: FC<IUrlParams> = ({ id }) => {
+  const [fetchedUserReview, setFetchedUserReview] = useState(null as null | IUserReview);
   // to do
   const [film, setFilm] = useState(null as any);
   const [filmPoster, setFilmPoster] = useState(null as string | null);
   const [hasSubmittedRating, setHasSubmittedRating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [fetchedUserReview, setFetchedUserReview] = useState(null as null | IUserReview);
+  const [reviewAlreadyExists, setReviewAlreadyExists] = useState(false);
   const userState = useRecoilValue(userInfoState);
 
   useEffect(() => {
@@ -34,7 +35,10 @@ const Film: FC<IUrlParams> = ({ id }) => {
           await getFilmPoster(id!)
         ];
 
-        if (userState.loggedIn) setFetchedUserReview(await getUserRating(id!, userState.UID));
+        if (userState.loggedIn) {
+          setFetchedUserReview(await getUserRating(id!, userState.UID));
+          setReviewAlreadyExists(true);
+        }
 
         setFilm(film);
         setFilmPoster(filmPoster);
@@ -45,10 +49,6 @@ const Film: FC<IUrlParams> = ({ id }) => {
       }
     })();
   }, [id]);
-
-  useEffect(() => {
-    console.log("🚀 ~ file: Film.tsx ~ line 52 ~ fetchedUserReview", fetchedUserReview)
-  }, [fetchedUserReview]);
 
   useEffect(() => {
     const fetchUserReview = async (): Promise<void> =>
@@ -86,7 +86,9 @@ const Film: FC<IUrlParams> = ({ id }) => {
                 <>
                   <p>Your Score {fetchedUserReview.review.rating}</p>
                   <p>Your mini-review: {fetchedUserReview.review.reviewText}</p>
-                  <p>Rated on: {new Date(fetchedUserReview.createdAt).toLocaleDateString('en-GB', {
+                  <p>
+                    Rated on:{' '}
+                    {new Date(fetchedUserReview.createdAt).toLocaleDateString('en-GB', {
                       day: 'numeric',
                       month: 'long',
                       year: 'numeric'
@@ -108,9 +110,10 @@ const Film: FC<IUrlParams> = ({ id }) => {
               ) : !hasSubmittedRating && userState.loggedIn ? (
                 <RateFilm
                   filmID={id!}
-                  setHasSubmittedRating={(hasSubmittedRating: boolean): void =>
-                    setHasSubmittedRating(hasSubmittedRating)
-                  }
+                  reviewAlreadyExists={reviewAlreadyExists}
+                  setHasSubmittedRating={(hasSubmittedRating: boolean): void => {
+                    setHasSubmittedRating(hasSubmittedRating);
+                  }}
                   userState={userState}
                 />
               ) : null}

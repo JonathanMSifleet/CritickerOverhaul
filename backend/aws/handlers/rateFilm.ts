@@ -18,7 +18,7 @@ interface IReview {
 }
 
 const rateFilm = async (event: { body: string }): Promise<IHTTP> => {
-  const { imdb_title_id, UID, review } = JSON.parse(event.body);
+  const { imdb_title_id, UID, review, reviewAlreadyExists } = JSON.parse(event.body);
 
   const payload = {
     imdb_title_id,
@@ -29,7 +29,8 @@ const rateFilm = async (event: { body: string }): Promise<IHTTP> => {
 
   try {
     await insertRatingToDB(payload);
-    await alterNumRatings(UID, true);
+
+    if(!reviewAlreadyExists) await alterNumRatings(UID, true);
 
     return {
       statusCode: 201,
