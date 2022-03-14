@@ -30,7 +30,6 @@ const Auth: FC = () => {
       </div>
       {/* <p className={classes.InstructionText}>{displayLoginForm
         ? 'Log in' : 'Register'} with:</p> */}
-      {/* <ThirdPartyLogin /> */}
 
       {displayLoginForm ? <Login /> : <SignUp />}
     </div>

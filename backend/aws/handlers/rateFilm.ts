@@ -44,7 +44,6 @@ const rateFilm = async (event: { body: string }): Promise<IHTTP> => {
 };
 
 const insertRatingToDB = async (payload: IReview): Promise<IHTTP | void> => {
-  console.log('🚀 ~ file: rateFilm.ts ~ line 46 ~ insertRatingToDB ~ payload', payload);
   const params = {
     TableName: process.env.RATINGS_TABLE_NAME!,
     Item: marshall(payload),
