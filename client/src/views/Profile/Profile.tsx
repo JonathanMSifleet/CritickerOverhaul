@@ -33,9 +33,9 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
         setShouldLoadAvatar(true);
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsLoadingProfile(false);
       }
-
-      setIsLoadingProfile(false);
     };
 
     if (username) {
@@ -95,7 +95,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                 Update Personal Information
               </p>
               <p className={classes.UserProfileLink}>Update Password</p>
-              {showUpdateDetailsForm ? <UpdateUserDetailsForm /> : null}
+              {showUpdateDetailsForm ? <UpdateUserDetailsForm userProfile={userProfile}/> : null}
             </div>
           ) : (
             'User not found'

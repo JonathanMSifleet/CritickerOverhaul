@@ -1,5 +1,5 @@
 import { MDBInput } from 'mdb-react-ui-kit';
-import { FC } from 'react';
+import { ChangeEvent, FC } from 'react';
 import classes from './Input.module.scss';
 
 interface IProps {
@@ -7,11 +7,11 @@ interface IProps {
   checked?: boolean;
   className?: string;
   errors?: string[];
-  onChange?(event: React.ChangeEvent<HTMLInputElement>): string | boolean | void;
+  onChange?(event: ChangeEvent<HTMLInputElement>): string | boolean | void;
   placeholder?: string;
   textarea?: boolean;
   type?: string;
-  value?: boolean;
+  value?: string;
 }
 
 const Input: FC<IProps> = ({
@@ -22,7 +22,8 @@ const Input: FC<IProps> = ({
   onChange,
   placeholder,
   textarea,
-  type
+  type,
+  value
 }) => {
   return (
     <>
@@ -35,6 +36,7 @@ const Input: FC<IProps> = ({
         onChange={onChange}
         textarea={textarea}
         type={type}
+        value={value}
       />
       {errors && errors!.length > 0
         ? errors!.map((message: string) => (

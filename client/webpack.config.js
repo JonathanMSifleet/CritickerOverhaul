@@ -57,7 +57,7 @@ module.exports = {
     }),
     new MiniCssExtractPlugin(),
     new webpack.DefinePlugin({
-      'process.env.DEVELOPMENT': JSON.stringify(false),
+      'process.env.DEVELOPMENT': JSON.stringify(true),
       'process.env.SAVE_MONEY': JSON.stringify(true),
       'process.env.TMDB_KEY': JSON.stringify('2a6fdeb294b4f2342ca8a611d7ecab34')
     })

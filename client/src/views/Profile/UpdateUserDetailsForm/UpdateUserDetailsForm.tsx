@@ -1,20 +1,44 @@
-import { MDBRadio } from 'mdb-react-ui-kit';
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { CountryDropdown } from 'react-country-region-selector';
 import Input from '../../../components/Input/Input';
+import Radio from '../../../components/Radio/Radio';
 import classes from './UpdateUserDetailsForm.module.scss';
 
-const UpdateUserDetailsForm: FC = () => {
+interface IProps {
+  // to do
+  userProfile: any;
+}
+
+const UpdateUserDetailsForm: FC<IProps> = ({ userProfile }) => {
   const [country, setCountry] = useState('');
-  const [formInfo, setFormInfo] = useState({});
-  // Date of Birth
-  // Bio
+  const [formInfo, setFormInfo] = useState({} as { [key: string]: string | number });
+  const [gender, setGender] = useState('');
+
+  // const userState = useRecoilValue(userInfoState);
+
+  /*
+  email
+  first name
+  last name
+  country
+  state
+  city
+  gender
+  date of birth
+  Bio
+  Profile options:
+    display:
+      location
+      personal info
+    Minimum films in common
+  */
 
   useEffect(() => {
-    console.log(formInfo);
-  }, [formInfo]);
+    console.log(userProfile);
+    setFormInfo({ ...formInfo, username: userProfile.username, email: userProfile.email });
+  }, []);
 
   const inputChangedHandler = (value: string | number, inputName: string): void =>
     setFormInfo({ ...formInfo, [inputName]: value });
@@ -29,6 +53,7 @@ const UpdateUserDetailsForm: FC = () => {
         }
         placeholder={'Username'}
         type={'text'}
+        value={formInfo.username as string}
       />
 
       <Input
@@ -37,6 +62,7 @@ const UpdateUserDetailsForm: FC = () => {
         }
         placeholder={'Email'}
         type={'email'}
+        value={formInfo.email as string}
       />
 
       <Input
@@ -61,12 +87,26 @@ const UpdateUserDetailsForm: FC = () => {
         value={country}
       />
 
+      <p>Gender</p>
       <>
-        <MDBRadio name="inlineRadio" id="inlineRadio1" value="option1" label="Female" inline />
-        <MDBRadio name="inlineRadio" id="inlineRadio2" value="option2" label="Male" inline />
-        <MDBRadio name="inlineRadio" id="inlineRadio3" value="option3" label="Other" inline />
+        <Radio
+          name={'GenderRadio'}
+          onChange={(event: { target: { value: string } }): void => setGender(event.target.value)}
+          value={'Female'}
+        />
+        <Radio
+          name={'GenderRadio'}
+          onChange={(event: { target: { value: string } }): void => setGender(event.target.value)}
+          value={'Male'}
+        />
+        <Radio
+          name={'GenderRadio'}
+          onChange={(event: { target: { value: string } }): void => setGender(event.target.value)}
+          value={'Other'}
+        />
       </>
 
+      <p>Country:</p>
       <Calendar
         onChange={(value: Date): void => inputChangedHandler(value.getTime() / 1000, 'dob')}
         value={null}

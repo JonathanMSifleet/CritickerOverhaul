@@ -5,6 +5,7 @@ const TextOnlyPage = lazy(() => import('./views/TextOnlyPage/TextOnlyPage'));
 import { createHashHistory } from 'history';
 import Router from 'preact-router';
 import { lazy, Suspense } from 'preact/compat';
+import 'preact/debug';
 import { FC, useEffect, useState } from 'react';
 import Spinner from './components/Spinner/Spinner';
 
