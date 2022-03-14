@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 interface IProps {
-  className: string;
+  className?: string;
   disabled?: boolean;
   onClick?(): void;
   text?: string | JSX.Element;

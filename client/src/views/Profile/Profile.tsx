@@ -1,5 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import FileSelector from '../../components/FileSelector/FileSelector';
 import PageView from '../../components/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
 import * as endpoints from '../../constants/endpoints';
@@ -94,8 +95,9 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
               >
                 Update Personal Information
               </p>
-              <p className={classes.UserProfileLink}>Update Password</p>
+              {/* to do: */}
               {showUpdateDetailsForm ? <UpdateUserDetailsForm /> : null}
+              <FileSelector text={'Import Criticker Ratings'} />
             </div>
           ) : (
             'User not found'
