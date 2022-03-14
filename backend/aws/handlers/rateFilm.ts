@@ -40,7 +40,7 @@ const rateFilm = async (event: { body: string }): Promise<IHTTP> => {
     if (error instanceof Error) return createAWSResErr(520, error.message);
   }
 
-  return createAWSResErr(500, 'Internal Server Error');
+  return createAWSResErr(500, 'Unhandled Exception');
 };
 
 const insertRatingToDB = async (payload: IReview): Promise<IHTTP | void> => {
@@ -59,7 +59,7 @@ const insertRatingToDB = async (payload: IReview): Promise<IHTTP | void> => {
     if (error instanceof Error) return createAWSResErr(520, error.message);
   }
 
-  return createAWSResErr(500, 'Internal Server Error');
+  return createAWSResErr(500, 'Unhandled Exception');
 };
 
 export const handler = middy(rateFilm).use(cors());

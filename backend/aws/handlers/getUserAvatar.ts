@@ -20,7 +20,7 @@ const getUserAvatar = async (event: { pathParameters: { username: string } }): P
     if (error instanceof Error) return createAWSResErr(404, error.message);
   }
 
-  return createAWSResErr(500, 'Internal Server Error');
+  return createAWSResErr(500, 'Unhandled Exception');
 };
 
 export const handler = middy(getUserAvatar).use(cors());

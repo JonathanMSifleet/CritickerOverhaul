@@ -1,9 +1,9 @@
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
 import serverlessMysql from 'serverless-mysql';
+import { connectionDetails } from '../shared/constants/ConnectionDetails';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
-import { connectionDetails } from '../shared/constants/ConnectionDetails';
 const mysql = serverlessMysql({ config: connectionDetails });
 
 const getFilms = async (event: { pathParameters: { page: string } }): Promise<IHTTP> => {
@@ -24,7 +24,7 @@ const getFilms = async (event: { pathParameters: { page: string } }): Promise<IH
     if (error instanceof Error) return createAWSResErr(500, error.message);
   }
 
-  return createAWSResErr(500, 'Internal Server Error');
+  return createAWSResErr(500, 'Unhandled Exception');
 };
 
 const getSQL = (page: string): string => {

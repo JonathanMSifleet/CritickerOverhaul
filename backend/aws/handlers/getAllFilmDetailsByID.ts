@@ -42,7 +42,7 @@ const getAllFilmDetailsByID = async (event: { pathParameters: { id: number } }):
     if (error instanceof Error) return createAWSResErr(500, error.message);
   }
 
-  return createAWSResErr(500, 'Internal Server Error');
+  return createAWSResErr(500, 'Unhandled Exception');
 };
 
 const mainSQL =

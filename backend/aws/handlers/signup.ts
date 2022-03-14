@@ -31,7 +31,7 @@ const signup = async (event: { body: string }): Promise<IHTTP> => {
     if (error instanceof Error) return createAWSResErr(500, error.message);
   }
 
-  return createAWSResErr(500, 'Internal Server Error');
+  return createAWSResErr(500, 'Unhandled Exception');
 };
 
 const insertUserToDB = async (

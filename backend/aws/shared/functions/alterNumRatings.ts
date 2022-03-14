@@ -1,7 +1,7 @@
 import {
-  DynamoDBClient,
-  UpdateItemCommand,
-  UpdateItemCommandInput
+    DynamoDBClient,
+    UpdateItemCommand,
+    UpdateItemCommandInput
 } from '@aws-sdk/client-dynamodb';
 import IHTTP from '../interfaces/IHTTP';
 import { createAWSResErr } from './createAWSResErr';
@@ -31,7 +31,7 @@ const alterNumRatings = async (UID: string, isAddition: boolean): Promise<void |
     if (error instanceof Error) return createAWSResErr(520, error.message);
   }
 
-  return createAWSResErr(500, 'Internal Server Error');
+  return createAWSResErr(500, 'Unhandled Exception');
 };
 
 export default alterNumRatings;

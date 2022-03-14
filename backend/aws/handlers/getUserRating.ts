@@ -25,7 +25,7 @@ const getUserRating = async (event: {
     if (error instanceof Error) return createAWSResErr(404, error.message);
   }
 
-  return createAWSResErr(500, 'Internal Server Error');
+  return createAWSResErr(500, 'Unhandled Exception');
 };
 
 // to do:

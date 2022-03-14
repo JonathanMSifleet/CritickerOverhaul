@@ -34,7 +34,7 @@ const getProfileByUsername = async (event: {
     if (error instanceof Error) return createAWSResErr(500, error.message);
   }
 
-  return createAWSResErr(500, 'Internal Server Error');
+  return createAWSResErr(500, 'Unhandled Exception');
 };
 
 export const handler = middy(getProfileByUsername).use(cors());
