@@ -14,7 +14,7 @@ UserTable:
     KeySchema:
       - AttributeName: UID
         KeyType: HASH
-    # use GSI for querying on non primary key
+
     GlobalSecondaryIndexes:
       - IndexName: username
         KeySchema:

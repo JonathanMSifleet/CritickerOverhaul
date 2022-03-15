@@ -1,14 +1,14 @@
 import {
-    DynamoDBClient,
-    UpdateItemCommand,
-    UpdateItemCommandInput
+  DynamoDBClient,
+  UpdateItemCommand,
+  UpdateItemCommandInput
 } from '@aws-sdk/client-dynamodb';
 import IHTTP from '../interfaces/IHTTP';
 import { createAWSResErr } from './createAWSResErr';
 const dbClient = new DynamoDBClient({});
 
 const alterNumRatings = async (UID: string, isAddition: boolean): Promise<void | IHTTP> => {
-  let params = {
+  const params = {
     TableName: process.env.USER_TABLE_NAME!,
     Key: {
       UID: { S: UID }
@@ -19,9 +19,9 @@ const alterNumRatings = async (UID: string, isAddition: boolean): Promise<void |
     ReturnValues: 'UPDATED_NEW'
   } as UpdateItemCommandInput;
 
-  params = isAddition
-    ? { ...params, UpdateExpression: 'set numRatings = numRatings + :val' }
-    : { ...params, UpdateExpression: 'set numRatings = numRatings - :val' };
+  params.UpdateExpression = isAddition
+    ? 'set numRatings = numRatings + :val'
+    : 'set numRatings = numRatings - :val';
 
   try {
     await dbClient.send(new UpdateItemCommand(params));

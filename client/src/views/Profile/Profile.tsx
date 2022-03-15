@@ -2,6 +2,7 @@ import { XMLParser } from 'fast-xml-parser';
 import { lazy, Suspense } from 'preact/compat';
 import { FC, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import IReview from '../../../../shared/interfaces/IReview';
 import IUserProfile from '../../../../shared/interfaces/IUserProfile';
 import FileSelector from '../../components/FileSelector/FileSelector';
 import PageView from '../../components/PageView/PageView';
@@ -9,7 +10,6 @@ import Spinner from '../../components/Spinner/Spinner';
 import * as endpoints from '../../constants/endpoints';
 import { userInfoState } from '../../store';
 import httpRequest from '../../utils/httpRequest';
-import IProcessedReview from './../../../../shared/interfaces/IProcessedReview';
 import Avatar from './Avatar/Avatar';
 import classes from './Profile.module.scss';
 const UpdateUserDetailsForm = lazy(() => import('./UpdateUserDetailsForm/UpdateUserDetailsForm'));
@@ -81,19 +81,13 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
     const processedReviews = parsedJSON.map((review) => {
       const imdb_title_id = review.imdbid.toString().slice(2).replace(/^0+/, '');
 
-      let processedReview = {
+      const processedReview = {
         imdb_title_id: Number(imdb_title_id),
-        review: {
-          rating: review.rating
-        },
+        rating: review.rating,
         UID
-      } as IProcessedReview;
+      } as IReview;
 
-      if (review.quote !== '')
-        processedReview = {
-          ...processedReview,
-          review: { ...processedReview.review, reviewText: review.quote as string }
-        };
+      if (review.quote !== '') processedReview.review = review.quote as string;
 
       return processedReview;
     });
@@ -122,9 +116,11 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
     }
   };
 
-  const uploadReviews = async (reviews: IProcessedReview[]): Promise<void> => {
+  const uploadReviews = async (reviews: IReview[]): Promise<void> => {
     try {
-      setImportMessage(await httpRequest(endpoints.IMPORT_REVIEWS, 'POST', reviews));
+      setImportMessage(
+        await httpRequest(endpoints.IMPORT_REVIEWS, 'POST', { reviews, UID: userState.UID })
+      );
     } catch (error) {
       setImportMessage('Error importing reviews');
     } finally {

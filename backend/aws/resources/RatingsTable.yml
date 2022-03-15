@@ -14,3 +14,11 @@ RatingsTable:
         KeyType: HASH
       - AttributeName: UID
         KeyType: RANGE
+
+    GlobalSecondaryIndexes:
+        - IndexName: UID
+          KeySchema:
+            - AttributeName: UID
+              KeyType: HASH
+          Projection:
+            ProjectionType: ALL
