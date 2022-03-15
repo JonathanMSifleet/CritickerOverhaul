@@ -18,6 +18,15 @@ interface IUrlParams {
   username?: string;
 }
 
+interface IProcessedReview {
+  imdb_title_id: number;
+  review: {
+    rating: number;
+    reviewText: string;
+  };
+  UID: string;
+}
+
 const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const [shouldLoadAvatar, setShouldLoadAvatar] = useState(false);
@@ -72,7 +81,37 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
     }
   };
 
-  const processReviews = (parsedJSON: any): void => {};
+  const processReviews = (parsedJSON: [{ [key: string]: string | number }]): void => {
+    const UID = userState.UID;
+
+    // reviewdate
+
+    const processedReviews = parsedJSON.map((review) => {
+      let imdb_title_id = review.imdbid.toString().slice(2);
+      imdb_title_id = imdb_title_id.replace(/^0+/, '');
+
+      let processedReview = {
+        imdb_title_id: Number(imdb_title_id),
+        review: {
+          rating: review.rating
+        },
+        UID
+      } as IProcessedReview;
+
+      if (review.quote !== '')
+        processedReview = {
+          ...processedReview,
+          review: { ...processedReview.review, reviewText: review.quote as string }
+        };
+
+      return processedReview;
+    });
+
+    console.log(
+      '🚀 ~ file: Profile.tsx ~ line 91 ~ processedReviews ~ processedReviews',
+      processedReviews
+    );
+  };
 
   const uploadFile = (event: { target: { files: Blob[] } }): void => {
     const fileReader = new FileReader();
