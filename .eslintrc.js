@@ -22,8 +22,8 @@ module.exports = {
     }
   },
   parserOptions: {
-    project: './tsconfig.json',
-    tsconfigRootDir: './',
+    project: ['./backend/tsconfig.json', './client/tsconfig.json'],
+    tsconfigRootDir: __dirname,
     sourceType: 'module',
     ecmaVersion: 2020,
     ecmaFeatures: { jsx: true, legacyDecorators: true }
