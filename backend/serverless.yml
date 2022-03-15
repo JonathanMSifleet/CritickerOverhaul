@@ -90,14 +90,14 @@ functions:
           method: GET
           path: review/getRating/{imdb_title_id}/{UID}
           cors: true
-  # importReviews:
-  #   handler: aws/handlers/processReviews.handler
-  #   timeout: 899
-  #   events:
-  #     - http:
-  #         method: POST
-  #         path: review/processReviews
-  #         cors: true
+  importReviews:
+    handler: aws/handlers/importReviews.handler
+    timeout: 30
+    events:
+      - http:
+          method: POST
+          path: review/importReviews
+          cors: true
   rateFilm:
     handler: aws/handlers/rateFilm.handler
     events:

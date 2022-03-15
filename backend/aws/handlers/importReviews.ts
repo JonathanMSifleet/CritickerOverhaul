@@ -10,10 +10,10 @@ import middy from '@middy/core';
 import cors from '@middy/http-cors';
 import chunk from 'chunk';
 import serverlessMysql from 'serverless-mysql';
+import IProcessedReview from '../../../shared/interfaces/IProcessedReview';
 import { connectionDetails } from '../shared/constants/ConnectionDetails';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
-import IProcessedReview from '../../../shared/interfaces/IProcessedReview';
 const mysql = serverlessMysql({ config: connectionDetails });
 const dbClient = new DynamoDBClient({});
 
@@ -21,11 +21,9 @@ const importReviews = async (event: { body: string }): Promise<IHTTP> => {
   const reviews = JSON.parse(event.body);
 
   const matchedFilmIDs = await getMatchedFilmIDs(reviews);
-
   const filteredReviews = reviews.filter((review: { imdb_title_id: number }) =>
     matchedFilmIDs.includes(review.imdb_title_id)
   );
-
   const chunkedReviews = chunk(filteredReviews, 25) as IProcessedReview[][];
 
   try {
@@ -34,16 +32,17 @@ const importReviews = async (event: { body: string }): Promise<IHTTP> => {
       batchInserts.push(batchInsertReviews(reviewChunk));
     });
 
-    const results = await Promise.all(batchInserts);
-    console.log('🚀 ~ file: processReviews.ts ~ line 38 ~ updateUserProfile ~ results', results);
-  } catch (error) {
-    if (error instanceof Error) return createAWSResErr(500, error.message);
-  }
+    await Promise.all(batchInserts);
+    console.log(`Successfully inserted ${filteredReviews.length} reviews`);
 
-  try {
     return {
       statusCode: 200,
-      body: JSON.stringify('')
+      body: JSON.stringify(
+        `Inserted ${filteredReviews.length} out of ${reviews.length} reviews. Success rate: ${(
+          100 -
+          ((filteredReviews.length - reviews.length) / reviews.length) * -100
+        ).toFixed(2)}%`
+      )
     };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, error.message);

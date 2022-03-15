@@ -114,7 +114,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
 
   const uploadReviews = async (reviews: IProcessedReview[]): Promise<void> => {
     try {
-      const result = await httpRequest(endpoints.PROCESS_REVIEWS, 'POST', reviews);
+      const result = await httpRequest(endpoints.IMPORT_REVIEWS, 'POST', reviews);
       console.log('🚀 ~ file: Profile.tsx ~ line 123 ~ uploadReviews ~ result', result);
     } catch (error) {
       console.error(error);
