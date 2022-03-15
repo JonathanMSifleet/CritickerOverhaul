@@ -9,6 +9,7 @@ import Spinner from '../../components/Spinner/Spinner';
 import * as endpoints from '../../constants/endpoints';
 import { userInfoState } from '../../store';
 import httpRequest from '../../utils/httpRequest';
+import IProcessedReview from './../../../../shared/interfaces/IProcessedReview';
 import Avatar from './Avatar/Avatar';
 import classes from './Profile.module.scss';
 const UpdateUserDetailsForm = lazy(() => import('./UpdateUserDetailsForm/UpdateUserDetailsForm'));
@@ -18,16 +19,8 @@ interface IUrlParams {
   username?: string;
 }
 
-interface IProcessedReview {
-  imdb_title_id: number;
-  review: {
-    rating: number;
-    reviewText: string;
-  };
-  UID: string;
-}
-
 const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
+  const [importingReviews, setImportingReviews] = useState(false);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const [shouldLoadAvatar, setShouldLoadAvatar] = useState(false);
   const [showUpdateDetailsForm, setShowUpdateDetailsForm] = useState(false);
@@ -84,11 +77,8 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   const processReviews = (parsedJSON: [{ [key: string]: string | number }]): void => {
     const UID = userState.UID;
 
-    // reviewdate
-
     const processedReviews = parsedJSON.map((review) => {
-      let imdb_title_id = review.imdbid.toString().slice(2);
-      imdb_title_id = imdb_title_id.replace(/^0+/, '');
+      const imdb_title_id = review.imdbid.toString().slice(2).replace(/^0+/, '');
 
       let processedReview = {
         imdb_title_id: Number(imdb_title_id),
@@ -107,13 +97,12 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
       return processedReview;
     });
 
-    console.log(
-      '🚀 ~ file: Profile.tsx ~ line 91 ~ processedReviews ~ processedReviews',
-      processedReviews
-    );
+    uploadReviews(processedReviews);
   };
 
   const uploadFile = (event: { target: { files: Blob[] } }): void => {
+    setImportingReviews(true);
+
     const fileReader = new FileReader();
 
     fileReader.readAsText(event.target.files[0]);
@@ -121,6 +110,17 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
       const parsedJSON = new XMLParser().parse(fileReader.result as string).recentratings.film;
       processReviews(parsedJSON);
     };
+  };
+
+  const uploadReviews = async (reviews: IProcessedReview[]): Promise<void> => {
+    try {
+      const result = await httpRequest(endpoints.PROCESS_REVIEWS, 'POST', reviews);
+      console.log('🚀 ~ file: Profile.tsx ~ line 123 ~ uploadReviews ~ result', result);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setImportingReviews(false);
+    }
   };
 
   return (
@@ -158,11 +158,11 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                   <UpdateUserDetailsForm userProfile={userProfile} />
                 </Suspense>
               ) : null}
-              {/* to do: */}
               <FileSelector
                 onChange={(event): void => uploadFile(event)}
                 text={'Import Criticker Ratings'}
               />
+              {importingReviews ? <Spinner /> : null}
             </div>
           ) : (
             'User not found'

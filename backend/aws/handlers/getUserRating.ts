@@ -5,6 +5,7 @@ import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import createDynamoSearchQuery from '../shared/functions/createDynamoSearchQuery';
 import IHTTP from '../shared/interfaces/IHTTP';
+import IUserReview from './../../../client/src/interfaces/IUserReview';
 const dbClient = new DynamoDBClient({});
 
 const getUserRating = async (event: {
@@ -29,7 +30,10 @@ const getUserRating = async (event: {
 };
 
 // to do:
-const getUserRatingFromDB = async (imdb_title_id: number, UID: string): Promise<any | IHTTP> => {
+const getUserRatingFromDB = async (
+  imdb_title_id: number,
+  UID: string
+): Promise<{ createdAt: number; review: IUserReview }> => {
   const query = createDynamoSearchQuery(
     process.env.RATINGS_TABLE_NAME!,
     'review, createdAt',
@@ -43,7 +47,7 @@ const getUserRatingFromDB = async (imdb_title_id: number, UID: string): Promise<
   );
 
   const result = await dbClient.send(new QueryCommand(query));
-  return unmarshall(result.Items![0]);
+  return unmarshall(result.Items![0]) as { createdAt: number; review: IUserReview };
 };
 
 export const handler = middy(getUserRating).use(cors());

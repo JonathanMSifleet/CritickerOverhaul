@@ -7,5 +7,6 @@ RatingsTableIAM:
     - dynamodb:DeleteItem
     - dynamodb:UpdateItem
     - dynamodb:Query
+    - dynamodb:BatchWriteItem
   Resource:
     - ${self:custom.RatingsTable.arn}

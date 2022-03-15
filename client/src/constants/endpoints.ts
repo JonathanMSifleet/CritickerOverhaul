@@ -7,6 +7,7 @@ export const GET_PROFILE_BY_USERNAME = `${ROOT}/user/profile`;
 export const GET_USER_AVATAR = `${ROOT}/user/avatar`;
 export const GET_USER_RATING = `${ROOT}/review/getRating`;
 export const LOGIN = `${ROOT}/login`;
+export const PROCESS_REVIEWS = `${ROOT}/review/processReviews`;
 export const RATE_FILM = `${ROOT}/review/rateFilm`;
 export const SIGNUP = `${ROOT}/signup`;
 export const UPLOAD_USER_AVATAR = `${ROOT}/user/avatar`;
