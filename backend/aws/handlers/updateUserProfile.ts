@@ -82,7 +82,18 @@ const generateExpressionAttributeValues = (payload: IUserProfile): IExpressionAt
 
   Object.keys(payload).forEach((key) => {
     // @ts-expect-error key can be used as index on payload
-    expressionAttributeValues[`:${key}`] = { S: payload[key] };
+    const value = payload[key];
+    switch (value) {
+      case 'string':
+        expressionAttributeValues[`:${key}`] = { S: value };
+        break;
+      case 'number':
+        expressionAttributeValues[`:${key}`] = { N: value };
+        break;
+      case 'boolean':
+        expressionAttributeValues[`:${key}`] = { BOOL: value };
+        break;
+    }
   });
 
   return expressionAttributeValues;

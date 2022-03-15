@@ -1,3 +1,4 @@
+import { MDBBtn } from 'mdb-react-ui-kit';
 import { FC } from 'react';
 
 interface IProps {
@@ -8,9 +9,9 @@ interface IProps {
 }
 
 const Button: FC<IProps> = ({ className, disabled, onClick, text }) => (
-  <button className={className} disabled={disabled} onClick={onClick}>
+  <MDBBtn className={className} disabled={disabled} onClick={onClick}>
     {text}
-  </button>
+  </MDBBtn>
 );
 
 export default Button;
