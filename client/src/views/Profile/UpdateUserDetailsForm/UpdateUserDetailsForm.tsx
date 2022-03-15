@@ -39,7 +39,7 @@ const UpdateUserDetailsForm: FC<IProps> = ({ userProfile }) => {
       email: userProfile.email!,
       gender: userProfile.gender!,
       UID: userState.UID,
-      username: userProfile.username!,
+      username: userProfile.username!
     });
   }, []);
 
@@ -50,8 +50,15 @@ const UpdateUserDetailsForm: FC<IProps> = ({ userProfile }) => {
 
   const updateUserProfile = async (): Promise<void> => {
     try {
-      const result = await httpRequest(`${endpoints.UPDATE_USER_PROFILE}/${userProfile.username}`, 'POST', formInfo);
-      console.log("🚀 ~ file: UpdateUserDetailsForm.tsx ~ line 50 ~ updateUserProfile ~ result", result)
+      const result = await httpRequest(
+        `${endpoints.UPDATE_USER_PROFILE}/${userProfile.username}`,
+        'PUT',
+        formInfo
+      );
+      console.log(
+        '🚀 ~ file: UpdateUserDetailsForm.tsx ~ line 50 ~ updateUserProfile ~ result',
+        result
+      );
     } catch (error) {
       console.error(error);
     }

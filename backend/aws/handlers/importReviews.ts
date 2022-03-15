@@ -13,11 +13,11 @@ import serverlessMysql from 'serverless-mysql';
 import { connectionDetails } from '../shared/constants/ConnectionDetails';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
-import IProcessedReview from './../../../shared/interfaces/IProcessedReview';
+import IProcessedReview from '../../../shared/interfaces/IProcessedReview';
 const mysql = serverlessMysql({ config: connectionDetails });
 const dbClient = new DynamoDBClient({});
 
-const updateUserProfile = async (event: { body: string }): Promise<IHTTP> => {
+const importReviews = async (event: { body: string }): Promise<IHTTP> => {
   const reviews = JSON.parse(event.body);
 
   const matchedFilmIDs = await getMatchedFilmIDs(reviews);
@@ -100,4 +100,4 @@ const batchInsertReviews = async (
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
-export const handler = middy(updateUserProfile).use(cors());
+export const handler = middy(importReviews).use(cors());
