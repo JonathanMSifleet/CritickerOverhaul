@@ -1,9 +1,9 @@
 import { FC, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import IReview from '../../../../shared/interfaces/IReview';
 import PageView from '../../components/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
 import * as endpoints from '../../constants/endpoints';
-import IUserReview from '../../interfaces/IUserReview';
 import { userInfoState } from '../../store';
 import getFilmPoster from '../../utils/getFilmPoster';
 import httpRequest from '../../utils/httpRequest';
@@ -16,7 +16,7 @@ interface IUrlParams {
 }
 
 const Film: FC<IUrlParams> = ({ id }) => {
-  const [fetchedUserReview, setFetchedUserReview] = useState(null as null | IUserReview);
+  const [fetchedUserReview, setFetchedUserReview] = useState(null as null | IReview);
   // to do
   const [film, setFilm] = useState(null as any);
   const [filmPoster, setFilmPoster] = useState(null as string | null);
@@ -68,7 +68,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
     }
   };
 
-  const getUserRating = async (id: number, userID: string): Promise<null | IUserReview> => {
+  const getUserRating = async (id: number, userID: string): Promise<null | IReview> => {
     const result = await httpRequest(`${endpoints.GET_USER_RATING}/${id}/${userID}`, 'GET');
 
     return result.statusCode === 404 ? null : result;
@@ -84,11 +84,11 @@ const Film: FC<IUrlParams> = ({ id }) => {
               <h1>{film ? film.title : null}</h1>
               {fetchedUserReview ? (
                 <>
-                  <p>Your Score {fetchedUserReview.review.rating}</p>
-                  <p>Your mini-review: {fetchedUserReview.review.reviewText}</p>
+                  <p>Your Score {fetchedUserReview.rating}</p>
+                  <p>Your mini-review: {fetchedUserReview.review}</p>
                   <p>
                     Rated on:{' '}
-                    {new Date(fetchedUserReview.createdAt).toLocaleDateString('en-GB', {
+                    {new Date(fetchedUserReview.createdAt!).toLocaleDateString('en-GB', {
                       day: 'numeric',
                       month: 'long',
                       year: 'numeric'

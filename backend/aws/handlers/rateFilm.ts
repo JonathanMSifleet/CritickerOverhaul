@@ -10,22 +10,22 @@ const dbClient = new DynamoDBClient({});
 interface IReview {
   imdb_title_id: number;
   UID: string;
-  review: {
-    rating: number;
-    reviewText?: string;
-  };
+  rating: number;
+  review?: string;
   createdAt: number;
 }
 
 const rateFilm = async (event: { body: string }): Promise<IHTTP> => {
-  const { imdb_title_id, UID, review, reviewAlreadyExists } = JSON.parse(event.body);
+  const { imdb_title_id, UID, rating, review, reviewAlreadyExists } = JSON.parse(event.body);
 
   const payload = {
-    imdb_title_id,
     UID,
-    review,
-    createdAt: Date.now()
-  };
+    createdAt: Date.now(),
+    imdb_title_id,
+    rating
+  } as IReview;
+
+  if (review) payload.review = review;
 
   try {
     await insertRatingToDB(payload);

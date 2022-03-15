@@ -2,10 +2,10 @@ import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import middy from '@middy/core';
 import cors from '@middy/http-cors';
+import IReview from '../../../shared/interfaces/IReview';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import createDynamoSearchQuery from '../shared/functions/createDynamoSearchQuery';
 import IHTTP from '../shared/interfaces/IHTTP';
-import IUserReview from './../../../client/src/interfaces/IUserReview';
 const dbClient = new DynamoDBClient({});
 
 const getUserRating = async (event: {
@@ -30,13 +30,10 @@ const getUserRating = async (event: {
 };
 
 // to do:
-const getUserRatingFromDB = async (
-  imdb_title_id: number,
-  UID: string
-): Promise<{ createdAt: number; review: IUserReview }> => {
+const getUserRatingFromDB = async (imdb_title_id: number, UID: string): Promise<IReview> => {
   const query = createDynamoSearchQuery(
     process.env.RATINGS_TABLE_NAME!,
-    'review, createdAt',
+    'rating, review, createdAt',
     'imdb_title_id',
     imdb_title_id,
     'N',
@@ -47,7 +44,7 @@ const getUserRatingFromDB = async (
   );
 
   const result = await dbClient.send(new QueryCommand(query));
-  return unmarshall(result.Items![0]) as { createdAt: number; review: IUserReview };
+  return unmarshall(result.Items![0]) as IReview;
 };
 
 export const handler = middy(getUserRating).use(cors());

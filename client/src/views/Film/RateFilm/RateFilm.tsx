@@ -21,20 +21,16 @@ const RateFilm: FC<IProps> = ({
   userState
 }): JSX.Element => {
   const [isRating, setIsRating] = useState(false);
-  const [userReview, setUserReview] = useState(
-    null as null | {
-      rating: number;
-      reviewText?: string;
-    }
-  );
+  const [userRating, setUserRating] = useState(null as null | number);
+  const [userReview, setUserReview] = useState(null as null | string);
 
   const inputChangedHandler = (
     event: React.ChangeEvent<HTMLInputElement>,
     inputName: string
   ): void => {
     inputName === 'rating'
-      ? setUserReview({ ...userReview!, [inputName]: Number(event.target.value) })
-      : setUserReview({ ...userReview!, [inputName]: event.target.value });
+      ? setUserRating(Number(event.target.value))
+      : setUserReview(event.target.value);
   };
 
   const rateFilm = async (): Promise<void> => {
@@ -44,7 +40,8 @@ const RateFilm: FC<IProps> = ({
       await httpRequest(endpoints.RATE_FILM, 'POST', {
         imdb_title_id: Number(filmID),
         UID: userState!.UID,
-        review: { ...userReview },
+        rating: userRating,
+        review: userReview,
         reviewAlreadyExists
       });
     } catch (error) {
@@ -67,7 +64,7 @@ const RateFilm: FC<IProps> = ({
         />
         <Input
           onChange={(event: ChangeEvent<HTMLInputElement>): void =>
-            inputChangedHandler(event, 'reviewText')
+            inputChangedHandler(event, 'review')
           }
           placeholder={'Review'}
           type={'text'}
