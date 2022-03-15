@@ -20,6 +20,7 @@ interface IUrlParams {
 }
 
 const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
+  const [importMessage, setImportMessage] = useState('');
   const [importingReviews, setImportingReviews] = useState(false);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const [shouldLoadAvatar, setShouldLoadAvatar] = useState(false);
@@ -101,23 +102,31 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   };
 
   const uploadFile = (event: { target: { files: Blob[] } }): void => {
-    setImportingReviews(true);
+    try {
+      setImportingReviews(true);
 
-    const fileReader = new FileReader();
+      const fileReader = new FileReader();
 
-    fileReader.readAsText(event.target.files[0]);
-    fileReader.onload = (): void => {
-      const parsedJSON = new XMLParser().parse(fileReader.result as string).recentratings.film;
-      processReviews(parsedJSON);
-    };
+      fileReader.readAsText(event.target.files[0]);
+      fileReader.onload = (): void => {
+        try {
+          const parsedJSON = new XMLParser().parse(fileReader.result as string).recentratings.film;
+          processReviews(parsedJSON);
+        } catch (error) {
+          setImportingReviews(false);
+          setImportMessage('Error importing reviews');
+        }
+      };
+    } catch (error) {
+      setImportMessage('Error importing reviews');
+    }
   };
 
   const uploadReviews = async (reviews: IProcessedReview[]): Promise<void> => {
     try {
-      const result = await httpRequest(endpoints.IMPORT_REVIEWS, 'POST', reviews);
-      console.log('🚀 ~ file: Profile.tsx ~ line 123 ~ uploadReviews ~ result', result);
+      setImportMessage(await httpRequest(endpoints.IMPORT_REVIEWS, 'POST', reviews));
     } catch (error) {
-      console.error(error);
+      setImportMessage('Error importing reviews');
     } finally {
       setImportingReviews(false);
     }
@@ -162,6 +171,17 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                 onChange={(event): void => uploadFile(event)}
                 text={'Import Criticker Ratings'}
               />
+              {importMessage !== '' ? (
+                <p
+                  className={
+                    importMessage.split(' ')[0] !== 'Error'
+                      ? classes.SuccessImportMessage
+                      : classes.ErrorImportMessage
+                  }
+                >
+                  {importMessage}
+                </p>
+              ) : null}
               {importingReviews ? <Spinner /> : null}
             </div>
           ) : (
