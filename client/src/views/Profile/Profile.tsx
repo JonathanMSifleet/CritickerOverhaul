@@ -1,3 +1,4 @@
+import { XMLParser } from 'fast-xml-parser';
 import { lazy, Suspense } from 'preact/compat';
 import { FC, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -71,6 +72,18 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
     }
   };
 
+  const processReviews = (parsedJSON: any): void => {};
+
+  const uploadFile = (event: { target: { files: Blob[] } }): void => {
+    const fileReader = new FileReader();
+
+    fileReader.readAsText(event.target.files[0]);
+    fileReader.onload = (): void => {
+      const parsedJSON = new XMLParser().parse(fileReader.result as string).recentratings.film;
+      processReviews(parsedJSON);
+    };
+  };
+
   return (
     <PageView backgroundCSS={classes.PageWrapper}>
       {!isLoadingProfile ? (
@@ -107,7 +120,10 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                 </Suspense>
               ) : null}
               {/* to do: */}
-              <FileSelector text={'Import Criticker Ratings'} />
+              <FileSelector
+                onChange={(event): void => uploadFile(event)}
+                text={'Import Criticker Ratings'}
+              />
             </div>
           ) : (
             'User not found'
