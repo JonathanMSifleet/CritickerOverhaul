@@ -17,8 +17,7 @@
     "react-calendar": "^3.7.0",
     "react-country-region-selector": "^3.4.0",
     "recoil": "^0.6.1",
-    "recoil-persist": "^4.0.0",
-    "source-map-support": "^0.5.21"
+    "recoil-persist": "^4.0.0"
   },
   "devDependencies": {
     "css-loader": "^6.7.1",
@@ -30,7 +29,9 @@
     "sass": "^1.49.9",
     "sass-loader": "^12.6.0",
     "source-map-loader": "^3.0.1",
+    "source-map-support": "^0.5.21",
     "style-loader": "^3.3.1",
+    "terser-webpack-plugin": "^5.3.1",
     "ts-loader": "^9.2.8",
     "typescript": "^4.6.2",
     "webpack": "^5.70.0",
