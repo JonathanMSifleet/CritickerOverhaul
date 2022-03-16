@@ -1,11 +1,13 @@
-import Compress from 'compress.js';
-import { FC, useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 import * as endpoints from '../../../constants/endpoints';
-import { userInfoState } from '../../../store';
+
+import { FC, useEffect, useState } from 'react';
+
+import Compress from 'compress.js';
+import classes from './Avatar.module.scss';
 import getUserAvatar from '../../../utils/getUserAvatar';
 import httpRequest from '../../../utils/httpRequest';
-import classes from './Avatar.module.scss';
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../../../store';
 
 interface IProps {
   shouldLoadAvatar: boolean;
@@ -45,13 +47,9 @@ const Avatar: FC<IProps> = ({ setShouldLoadAvatar, shouldLoadAvatar, username })
 
     const newImage = `${resizedImage[0].prefix}${resizedImage[0].data}`;
 
-    await httpRequest(
-      `${endpoints.UPLOAD_USER_AVATAR}/${username ? username : userState.username}`,
-      'POST',
-      {
-        image: newImage
-      }
-    );
+    await httpRequest(`${endpoints.UPLOAD_USER_AVATAR}/${username ? username : userState.username}`, 'POST', {
+      image: newImage
+    });
   };
 
   return (

@@ -1,9 +1,6 @@
 import IHTTP from '../interfaces/IHTTP';
 
-export const createAWSResErr = async (
-  statusCode: number,
-  message: string | string[]
-): Promise<IHTTP> => {
+export const createAWSResErr = async (statusCode: number, message: string | string[]): Promise<IHTTP> => {
   if (Array.isArray(message)) {
     await logErrors(message);
     message = message.join('\n');

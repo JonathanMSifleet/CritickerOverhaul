@@ -1,16 +1,19 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
-import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { CountryDropdown } from 'react-country-region-selector';
-import { useRecoilValue } from 'recoil';
-import IUserProfile from '../../../../../shared/interfaces/IUserProfile';
+
+import * as endpoints from '../../../constants/endpoints';
+
+import { ChangeEvent, FC, useEffect, useState } from 'react';
+
 import Button from '../../../components/Button/Button';
+import Calendar from 'react-calendar';
+import { CountryDropdown } from 'react-country-region-selector';
+import IUserProfile from '../../../../../shared/interfaces/IUserProfile';
 import Input from '../../../components/Input/Input';
 import Radio from '../../../components/Radio/Radio';
-import * as endpoints from '../../../constants/endpoints';
-import { userInfoState } from '../../../store';
-import httpRequest from '../../../utils/httpRequest';
 import classes from './UpdateUserDetailsForm.module.scss';
+import httpRequest from '../../../utils/httpRequest';
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../../../store';
 
 interface IProps {
   // to do
@@ -50,15 +53,8 @@ const UpdateUserDetailsForm: FC<IProps> = ({ userProfile }) => {
 
   const updateUserProfile = async (): Promise<void> => {
     try {
-      const result = await httpRequest(
-        `${endpoints.UPDATE_USER_PROFILE}/${userProfile.username}`,
-        'PUT',
-        formInfo
-      );
-      console.log(
-        '🚀 ~ file: UpdateUserDetailsForm.tsx ~ line 50 ~ updateUserProfile ~ result',
-        result
-      );
+      const result = await httpRequest(`${endpoints.UPDATE_USER_PROFILE}/${userProfile.username}`, 'PUT', formInfo);
+      console.log('🚀 ~ file: UpdateUserDetailsForm.tsx ~ line 50 ~ updateUserProfile ~ result', result);
     } catch (error) {
       console.error(error);
     }
@@ -67,36 +63,28 @@ const UpdateUserDetailsForm: FC<IProps> = ({ userProfile }) => {
   return (
     <>
       <Input
-        onChange={(event: ChangeEvent<HTMLInputElement>): void =>
-          inputChangedHandler(event.target.value, 'username')
-        }
+        onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event.target.value, 'username')}
         placeholder={'Username'}
         type={'text'}
         value={formInfo.username as string}
       />
 
       <Input
-        onChange={(event: ChangeEvent<HTMLInputElement>): void =>
-          inputChangedHandler(event.target.value, 'email')
-        }
+        onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event.target.value, 'email')}
         placeholder={'Email'}
         type={'email'}
         value={formInfo.email as string}
       />
 
       <Input
-        onChange={(event: ChangeEvent<HTMLInputElement>): void =>
-          inputChangedHandler(event.target.value, 'firstName')
-        }
+        onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event.target.value, 'firstName')}
         placeholder={'First name'}
         type={'text'}
         value={formInfo.firstName as string}
       />
 
       <Input
-        onChange={(event: ChangeEvent<HTMLInputElement>): void =>
-          inputChangedHandler(event.target.value, 'lastName')
-        }
+        onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event.target.value, 'lastName')}
         placeholder={'Last name'}
         type={'text'}
         value={formInfo.lastName as string}
@@ -135,10 +123,7 @@ const UpdateUserDetailsForm: FC<IProps> = ({ userProfile }) => {
       </>
 
       <p>Date of birth:</p>
-      <Calendar
-        onChange={(value: Date): void => inputChangedHandler(value.getTime() / 1000, 'dob')}
-        value={null}
-      />
+      <Calendar onChange={(value: Date): void => inputChangedHandler(value.getTime() / 1000, 'dob')} value={null} />
       <Button onClick={(): Promise<void> => updateUserProfile()} text={'Submit'} />
     </>
   );

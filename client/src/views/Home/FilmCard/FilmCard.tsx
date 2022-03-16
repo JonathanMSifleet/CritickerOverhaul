@@ -1,10 +1,11 @@
-import { Link } from 'preact-router/match';
 import { FC, useEffect, useState } from 'react';
+
 import IFilm from '../../../../../shared/interfaces/IFilm';
+import { Link } from 'preact-router/match';
 import ShrugSVG from '../../../assets/svg/Shrug.svg';
 import Spinner from '../../../components/Spinner/Spinner';
-import getFilmPoster from '../../../utils/getFilmPoster';
 import classes from './FilmCard.module.scss';
+import getFilmPoster from '../../../utils/getFilmPoster';
 
 interface IProps {
   film: IFilm;

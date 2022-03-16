@@ -1,14 +1,11 @@
-import {
-  AttributeValue,
-  DynamoDBClient,
-  UpdateItemCommand,
-  UpdateItemCommandInput
-} from '@aws-sdk/client-dynamodb';
-import middy from '@middy/core';
-import cors from '@middy/http-cors';
-import { createAWSResErr } from '../shared/functions/createAWSResErr';
+import { AttributeValue, DynamoDBClient, UpdateItemCommand, UpdateItemCommandInput } from '@aws-sdk/client-dynamodb';
+
 import IHTTP from '../shared/interfaces/IHTTP';
 import IUserProfile from './../../../shared/interfaces/IUserProfile';
+import cors from '@middy/http-cors';
+import { createAWSResErr } from '../shared/functions/createAWSResErr';
+import middy from '@middy/core';
+
 const dbClient = new DynamoDBClient({});
 
 interface IExpressionAttributeValues {

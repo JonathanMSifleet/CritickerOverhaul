@@ -1,11 +1,12 @@
 import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
+
 import EmailValidator from 'email-validator';
 import createDynamoSearchQuery from './createDynamoSearchQuery';
 
 export const validateUserInputs = async (
   username: string,
   email: string,
-  password: string,
+  password: string
 ): Promise<(string | null)[]> => {
   const errors = await Promise.all([
     checkUniqueAttribute(process.env.EMAIL_INDEX!, 'email', email),
@@ -18,10 +19,7 @@ export const validateUserInputs = async (
   return errors.flat().filter((error) => error !== null);
 };
 
-export const validateValue = async (
-  value: string,
-  valueName: string
-): Promise<(string | null)[]> => {
+export const validateValue = async (value: string, valueName: string): Promise<(string | null)[]> => {
   const errors = [validateNotEmpty(value, valueName)];
 
   switch (valueName) {
@@ -57,23 +55,14 @@ export const validateLength = async (
   min: number,
   max: number
 ): Promise<string | null> =>
-  value.length < min || value.length > max
-    ? `${valueName} must be between ${min} and ${max} characters`
-    : null;
+  value.length < min || value.length > max ? `${valueName} must be between ${min} and ${max} characters` : null;
 
 export const checkUniqueAttribute = async (
   indexName: string,
   keyName: string,
   keyValue: string
 ): Promise<string | null> => {
-  const query = createDynamoSearchQuery(
-    process.env.USER_TABLE_NAME!,
-    keyName,
-    keyName,
-    keyValue,
-    'S',
-    indexName
-  );
+  const query = createDynamoSearchQuery(process.env.USER_TABLE_NAME!, keyName, keyName, keyValue, 'S', indexName);
 
   try {
     const dbClient = new DynamoDBClient({});
@@ -86,5 +75,4 @@ export const checkUniqueAttribute = async (
   }
 };
 
-const alphabeticalizeFirstChar = (input: string): string =>
-  input.charAt(0).toUpperCase() + input.slice(1);
+const alphabeticalizeFirstChar = (input: string): string => input.charAt(0).toUpperCase() + input.slice(1);

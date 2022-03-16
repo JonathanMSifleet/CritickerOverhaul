@@ -1,9 +1,10 @@
-import middy from '@middy/core';
-import cors from '@middy/http-cors';
-import serverlessMysql from 'serverless-mysql';
-import { connectionDetails } from '../shared/constants/ConnectionDetails';
-import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import IHTTP from '../shared/interfaces/IHTTP';
+import { connectionDetails } from '../shared/constants/ConnectionDetails';
+import cors from '@middy/http-cors';
+import { createAWSResErr } from '../shared/functions/createAWSResErr';
+import middy from '@middy/core';
+import serverlessMysql from 'serverless-mysql';
+
 const mysql = serverlessMysql({ config: connectionDetails });
 
 const getFilms = async (event: { pathParameters: { page: string } }): Promise<IHTTP> => {

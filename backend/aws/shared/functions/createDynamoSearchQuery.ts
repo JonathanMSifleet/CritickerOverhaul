@@ -25,9 +25,7 @@ const createDynamoSearchQuery = (
   if (secondaryKeyName) {
     query = {
       ...query,
-      KeyConditionExpression:
-        `${primaryKeyName} = :${primaryKeyName} ` +
-        `AND ${secondaryKeyName} = :${secondaryKeyName}`,
+      KeyConditionExpression: `${primaryKeyName} = :${primaryKeyName} AND ${secondaryKeyName} = :${secondaryKeyName}`,
       ExpressionAttributeValues: {
         [`:${primaryKeyName}`]: { [primaryKeyType]: primaryKeyValue },
         [`:${secondaryKeyName}`]: { [secondaryKeyType!]: secondaryKeyValue }

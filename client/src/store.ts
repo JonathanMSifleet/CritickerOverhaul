@@ -1,6 +1,6 @@
+import IUserState from './interfaces/IUserState';
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
-import IUserState from './interfaces/IUserState';
 
 const { persistAtom } = recoilPersist({ key: 'userState' });
 

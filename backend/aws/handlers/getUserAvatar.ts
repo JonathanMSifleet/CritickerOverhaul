@@ -1,8 +1,8 @@
-import middy from '@middy/core';
+import IHTTP from '../shared/interfaces/IHTTP';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import getUserAvatarFromDB from '../shared/functions/getUserAvatarFromDB';
-import IHTTP from '../shared/interfaces/IHTTP';
+import middy from '@middy/core';
 
 const getUserAvatar = async (event: { pathParameters: { username: string } }): Promise<IHTTP> => {
   const { username } = event.pathParameters;

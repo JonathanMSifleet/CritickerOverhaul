@@ -1,10 +1,12 @@
+import * as endpoints from '../../constants/endpoints';
+
 import { FC, useEffect, useState } from 'react';
+
+import FilmCard from './FilmCard/FilmCard';
 import IFilm from '../../../../shared/interfaces/IFilm';
 import PageView from '../../components/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
-import * as endpoints from '../../constants/endpoints';
 import httpRequest from '../../utils/httpRequest';
-import FilmCard from './FilmCard/FilmCard';
 
 interface IUrlParams {
   path?: string;
@@ -31,11 +33,7 @@ const Home: FC<IUrlParams> = (): JSX.Element => {
   return (
     <PageView>
       {!isLoading ? (
-        <>
-          {films
-            ? films.map((film: IFilm) => <FilmCard film={film} key={film.imdb_title_id} />)
-            : null}
-        </>
+        <>{films ? films.map((film: IFilm) => <FilmCard film={film} key={film.imdb_title_id} />) : null}</>
       ) : (
         <Spinner />
       )}

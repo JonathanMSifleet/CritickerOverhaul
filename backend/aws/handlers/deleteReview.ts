@@ -1,14 +1,14 @@
 import { DeleteItemCommand, DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import middy from '@middy/core';
-import cors from '@middy/http-cors';
-import alterNumRatings from '../shared/functions/alterNumRatings';
-import { createAWSResErr } from '../shared/functions/createAWSResErr';
+
 import IHTTP from '../shared/interfaces/IHTTP';
+import alterNumRatings from '../shared/functions/alterNumRatings';
+import cors from '@middy/http-cors';
+import { createAWSResErr } from '../shared/functions/createAWSResErr';
+import middy from '@middy/core';
+
 const dbClient = new DynamoDBClient({});
 
-const deleteReview = async (event: {
-  pathParameters: { imdb_title_id: number; UID: string };
-}): Promise<IHTTP> => {
+const deleteReview = async (event: { pathParameters: { imdb_title_id: number; UID: string } }): Promise<IHTTP> => {
   const { imdb_title_id, UID } = event.pathParameters;
 
   try {

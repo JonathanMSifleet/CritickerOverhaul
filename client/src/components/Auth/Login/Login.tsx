@@ -1,14 +1,16 @@
-import CryptoES from 'crypto-es';
-import { FC, useEffect, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
 import * as endpoints from '../../../constants/endpoints';
+
+import { FC, useEffect, useState } from 'react';
 import { modalState, userInfoState } from '../../../store';
-import extractValidationMessages from '../../../utils/extractValidationMessages';
-import HTTPRequest from '../../../utils/httpRequest';
+
 import Button from '../../Button/Button';
+import CryptoES from 'crypto-es';
+import HTTPRequest from '../../../utils/httpRequest';
 import Input from '../../Input/Input';
 import SpinnerButton from './../../SpinnerButton/SpinnerButton';
 import classes from './Login.module.scss';
+import extractValidationMessages from '../../../utils/extractValidationMessages';
+import { useSetRecoilState } from 'recoil';
 
 interface IState {
   email?: string;
@@ -38,8 +40,7 @@ const Login: FC = () => {
 
       try {
         const response = await HTTPRequest(endpoints.LOGIN, 'POST', formInfo);
-        if (response.statusCode && !response.statusCode.toString().startsWith('2'))
-          throw new Error(response.message);
+        if (response.statusCode && !response.statusCode.toString().startsWith('2')) throw new Error(response.message);
 
         setUserInfo({
           ...response,
@@ -103,9 +104,7 @@ const Login: FC = () => {
     <form onSubmit={(event): void => event.preventDefault()}>
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         <Input
-          onChange={(event: { target: { value: string } }): void =>
-            inputChangedHandler(event.target.value!, 'email')
-          }
+          onChange={(event: { target: { value: string } }): void => inputChangedHandler(event.target.value!, 'email')}
           autoComplete="new-password"
           errors={emailValidationMessages}
           placeholder={handlePlaceholderText('email')}

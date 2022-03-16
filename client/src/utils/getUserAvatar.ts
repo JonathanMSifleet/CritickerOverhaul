@@ -1,5 +1,6 @@
-import ShrugSVG from '../assets/svg/Shrug.svg';
 import * as endpoints from '../constants/endpoints';
+
+import ShrugSVG from '../assets/svg/Shrug.svg';
 import httpRequest from './httpRequest';
 
 const getUserAvatar = async (username: string): Promise<string> => {

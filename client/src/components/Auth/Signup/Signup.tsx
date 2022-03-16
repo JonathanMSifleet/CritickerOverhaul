@@ -1,15 +1,17 @@
-import CryptoES from 'crypto-es';
-import { ChangeEvent, FC, useEffect, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
 import * as endpoints from '../../../constants/endpoints';
-import { modalState } from '../../../store';
-import httpRequest from '../../../utils/httpRequest';
+
+import { ChangeEvent, FC, useEffect, useState } from 'react';
+
 import Button from '../../Button/Button';
 import Checkbox from '../../Checkbox/Checkbox';
+import CryptoES from 'crypto-es';
 import Input from '../../Input/Input';
-import extractValidationMessages from './../../../utils/extractValidationMessages';
 import SpinnerButton from './../../SpinnerButton/SpinnerButton';
 import classes from './Signup.module.scss';
+import extractValidationMessages from './../../../utils/extractValidationMessages';
+import httpRequest from '../../../utils/httpRequest';
+import { modalState } from '../../../store';
+import { useSetRecoilState } from 'recoil';
 
 interface IState {
   email?: string;
@@ -31,11 +33,7 @@ const SignUp: FC = () => {
 
   useEffect(() => {
     setSubmitDisabled(
-      !formInfo.email ||
-        !formInfo.password ||
-        !formInfo.repeatPassword ||
-        !formInfo.termsChecked ||
-        !formInfo.username
+      !formInfo.email || !formInfo.password || !formInfo.repeatPassword || !formInfo.termsChecked || !formInfo.username
     );
   }, [formInfo]);
 
@@ -50,8 +48,7 @@ const SignUp: FC = () => {
       const preHashPassword = formInfo.password;
 
       try {
-        if (formInfo.password !== formInfo.repeatPassword)
-          throw new Error('Passwords do not match');
+        if (formInfo.password !== formInfo.repeatPassword) throw new Error('Passwords do not match');
 
         formInfo.password = CryptoES.SHA512(formInfo.password).toString();
         const response = await httpRequest(endpoints.SIGNUP, 'POST', formInfo);
@@ -100,28 +97,22 @@ const SignUp: FC = () => {
     setPasswordValidationMessages(replacementPasswordValList);
   };
 
-  const inputChangedHandler = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    inputName: string
-  ): void => setFormInfo({ ...formInfo, [inputName]: event.target.value });
+  const inputChangedHandler = (event: React.ChangeEvent<HTMLInputElement>, inputName: string): void =>
+    setFormInfo({ ...formInfo, [inputName]: event.target.value });
 
   return (
     <form autoComplete="off" onSubmit={(event): void => event.preventDefault()}>
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         <Input
           className={classes.AuthInput}
-          onChange={(event: ChangeEvent<HTMLInputElement>): void =>
-            inputChangedHandler(event, 'username')
-          }
+          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'username')}
           errors={usernameValidationMessages}
           placeholder={'Username'}
           type={'text'}
         />
 
         <Input
-          onChange={(event: ChangeEvent<HTMLInputElement>): void =>
-            inputChangedHandler(event, 'email')
-          }
+          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'email')}
           autoComplete="new-password"
           errors={emailValidationMessages}
           placeholder={'Email'}
@@ -130,17 +121,13 @@ const SignUp: FC = () => {
 
         <Input
           autoComplete="new-password"
-          onChange={(event: ChangeEvent<HTMLInputElement>): void =>
-            inputChangedHandler(event, 'password')
-          }
+          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'password')}
           placeholder={'Password'}
           type={'password'}
         />
 
         <Input
-          onChange={(event: ChangeEvent<HTMLInputElement>): void =>
-            inputChangedHandler(event, 'repeatPassword')
-          }
+          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'repeatPassword')}
           errors={passwordValidationMessages}
           placeholder={'Repeat password'}
           type={'password'}

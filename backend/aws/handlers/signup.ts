@@ -1,11 +1,13 @@
 import { DynamoDBClient, PutItemCommand, PutItemCommandOutput } from '@aws-sdk/client-dynamodb';
+
+import IHTTP from '../shared/interfaces/IHTTP';
+import cors from '@middy/http-cors';
+import { createAWSResErr } from './../shared/functions/createAWSResErr';
 import { marshall } from '@aws-sdk/util-dynamodb';
 import middy from '@middy/core';
-import cors from '@middy/http-cors';
 import shortUUID from 'short-uuid';
 import { validateUserInputs } from '../shared/functions/validationFunctions';
-import IHTTP from '../shared/interfaces/IHTTP';
-import { createAWSResErr } from './../shared/functions/createAWSResErr';
+
 const dbClient = new DynamoDBClient({});
 
 const signup = async (event: { body: string }): Promise<IHTTP> => {

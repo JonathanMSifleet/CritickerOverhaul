@@ -1,11 +1,13 @@
 import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
-import { unmarshall } from '@aws-sdk/util-dynamodb';
-import middy from '@middy/core';
+
+import IHTTP from '../shared/interfaces/IHTTP';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import createDynamoSearchQuery from '../shared/functions/createDynamoSearchQuery';
-import IHTTP from '../shared/interfaces/IHTTP';
 import getUserAvatarFromDB from './../shared/functions/getUserAvatarFromDB';
+import middy from '@middy/core';
+import { unmarshall } from '@aws-sdk/util-dynamodb';
+
 const dbClient = new DynamoDBClient({});
 
 const login = async (event: { body: string }): Promise<IHTTP> => {
@@ -22,8 +24,7 @@ const login = async (event: { body: string }): Promise<IHTTP> => {
 
   try {
     const result = await dbClient.send(new QueryCommand(query));
-    if (result.Count === 0)
-      return createAWSResErr(404, 'Email address is not associated with any user');
+    if (result.Count === 0) return createAWSResErr(404, 'Email address is not associated with any user');
 
     const user = unmarshall(result.Items![0]);
     if (password !== user.password) return createAWSResErr(401, 'Password is incorrect');

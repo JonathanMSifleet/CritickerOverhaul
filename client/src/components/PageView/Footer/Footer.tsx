@@ -1,5 +1,5 @@
-import { Link } from 'preact-router/match';
 import { FC } from 'react';
+import { Link } from 'preact-router/match';
 import classes from './Footer.module.scss';
 
 const Footer: FC = (): JSX.Element => {

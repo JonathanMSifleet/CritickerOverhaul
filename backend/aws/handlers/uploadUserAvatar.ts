@@ -1,9 +1,11 @@
 import { DynamoDBClient, PutItemCommand, PutItemCommandOutput } from '@aws-sdk/client-dynamodb';
-import { marshall } from '@aws-sdk/util-dynamodb';
-import middy from '@middy/core';
+
+import IHTTP from '../shared/interfaces/IHTTP';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
-import IHTTP from '../shared/interfaces/IHTTP';
+import { marshall } from '@aws-sdk/util-dynamodb';
+import middy from '@middy/core';
+
 const dbClient = new DynamoDBClient({});
 
 export const uploadUserAvatar = async (event: {
@@ -32,10 +34,7 @@ export const uploadUserAvatar = async (event: {
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
-const uploadPicture = async (
-  username: string,
-  image: string
-): Promise<PutItemCommandOutput | IHTTP> => {
+const uploadPicture = async (username: string, image: string): Promise<PutItemCommandOutput | IHTTP> => {
   const params = {
     TableName: process.env.AVATAR_TABLE_NAME!,
     Item: marshall({

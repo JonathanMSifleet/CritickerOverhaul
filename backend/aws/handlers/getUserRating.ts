@@ -1,16 +1,16 @@
 import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
-import { unmarshall } from '@aws-sdk/util-dynamodb';
-import middy from '@middy/core';
-import cors from '@middy/http-cors';
+
+import IHTTP from '../shared/interfaces/IHTTP';
 import IReview from '../../../shared/interfaces/IReview';
+import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import createDynamoSearchQuery from '../shared/functions/createDynamoSearchQuery';
-import IHTTP from '../shared/interfaces/IHTTP';
+import middy from '@middy/core';
+import { unmarshall } from '@aws-sdk/util-dynamodb';
+
 const dbClient = new DynamoDBClient({});
 
-const getUserRating = async (event: {
-  pathParameters: { imdb_title_id: number; UID: string };
-}): Promise<IHTTP> => {
+const getUserRating = async (event: { pathParameters: { imdb_title_id: number; UID: string } }): Promise<IHTTP> => {
   const { imdb_title_id, UID } = event.pathParameters;
 
   try {

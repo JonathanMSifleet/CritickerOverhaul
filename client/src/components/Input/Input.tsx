@@ -1,5 +1,6 @@
-import { MDBInput } from 'mdb-react-ui-kit';
 import { ChangeEvent, FC } from 'react';
+
+import { MDBInput } from 'mdb-react-ui-kit';
 import classes from './Input.module.scss';
 
 interface IProps {

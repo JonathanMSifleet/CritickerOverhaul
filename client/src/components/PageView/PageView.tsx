@@ -1,5 +1,6 @@
-import { MDBCol, MDBContainer, MDBRow } from 'mdb-react-ui-kit';
 import { FC, ReactNode } from 'react';
+import { MDBCol, MDBContainer, MDBRow } from 'mdb-react-ui-kit';
+
 import Footer from '../../components/PageView/Footer/Footer';
 import Header from '../../components/PageView/Header/Header';
 import classes from './PageView.module.scss';

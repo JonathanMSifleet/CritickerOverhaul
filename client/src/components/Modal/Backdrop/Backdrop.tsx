@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import { useRecoilState } from 'recoil';
-import { modalState } from '../../../store';
 import classes from './Backdrop.module.scss';
+import { modalState } from '../../../store';
+import { useRecoilState } from 'recoil';
 
 const Backdrop: FC = (): JSX.Element | null => {
   const [showModal, setShowModal] = useRecoilState(modalState);

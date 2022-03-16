@@ -1,14 +1,16 @@
+import * as endpoints from '../../constants/endpoints';
+
 import { FC, useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+
 import IReview from '../../../../shared/interfaces/IReview';
 import PageView from '../../components/PageView/PageView';
+import RateFilm from './RateFilm/RateFilm';
 import Spinner from '../../components/Spinner/Spinner';
-import * as endpoints from '../../constants/endpoints';
-import { userInfoState } from '../../store';
+import classes from './Film.module.scss';
 import getFilmPoster from '../../utils/getFilmPoster';
 import httpRequest from '../../utils/httpRequest';
-import classes from './Film.module.scss';
-import RateFilm from './RateFilm/RateFilm';
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../../store';
 
 interface IUrlParams {
   path?: string;
@@ -51,8 +53,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
   }, [id]);
 
   useEffect(() => {
-    const fetchUserReview = async (): Promise<void> =>
-      setFetchedUserReview(await getUserRating(id!, userState.UID));
+    const fetchUserReview = async (): Promise<void> => setFetchedUserReview(await getUserRating(id!, userState.UID));
 
     if (hasSubmittedRating) fetchUserReview();
   }, [hasSubmittedRating]);
@@ -95,10 +96,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
                     })}
                   </p>
                   <p>
-                    <span
-                      className={classes.ModifyReview}
-                      onClick={(): void => setFetchedUserReview(null)}
-                    >
+                    <span className={classes.ModifyReview} onClick={(): void => setFetchedUserReview(null)}>
                       Update Rating
                     </span>
                     {' - '}

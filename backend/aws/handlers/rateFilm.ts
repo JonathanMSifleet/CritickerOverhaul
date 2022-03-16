@@ -1,10 +1,12 @@
 import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb';
+
+import IHTTP from '../shared/interfaces/IHTTP';
+import alterNumRatings from '../shared/functions/alterNumRatings';
+import cors from '@middy/http-cors';
+import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import { marshall } from '@aws-sdk/util-dynamodb';
 import middy from '@middy/core';
-import cors from '@middy/http-cors';
-import alterNumRatings from '../shared/functions/alterNumRatings';
-import { createAWSResErr } from '../shared/functions/createAWSResErr';
-import IHTTP from '../shared/interfaces/IHTTP';
+
 const dbClient = new DynamoDBClient({});
 
 interface IReview {

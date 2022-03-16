@@ -1,13 +1,13 @@
 import { DeleteItemCommand, DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import middy from '@middy/core';
+
+import IHTTP from '../shared/interfaces/IHTTP';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
-import IHTTP from '../shared/interfaces/IHTTP';
+import middy from '@middy/core';
+
 const dbClient = new DynamoDBClient({});
 
-const deleteAccount = async (event: {
-  requestContext: { authorizer: { email: string } };
-}): Promise<IHTTP> => {
+const deleteAccount = async (event: { requestContext: { authorizer: { email: string } } }): Promise<IHTTP> => {
   const { email } = event.requestContext.authorizer;
 
   try {

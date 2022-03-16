@@ -1,5 +1,5 @@
-import { MDBBtn } from 'mdb-react-ui-kit';
 import { FC } from 'react';
+import { MDBBtn } from 'mdb-react-ui-kit';
 
 interface IProps {
   className?: string;
