@@ -4,7 +4,7 @@ import IHTTP from '../shared/interfaces/IHTTP';
 import IReview from '../../../shared/interfaces/IReview';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
-import createDynamoSearchQuery from '../shared/functions/createDynamoSearchQuery';
+import createDynamoSearchQuery from '../shared/functions/DynamoDB/createDynamoSearchQuery';
 import middy from '@middy/core';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 

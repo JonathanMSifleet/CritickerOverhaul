@@ -3,7 +3,7 @@ import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
 import IHTTP from '../shared/interfaces/IHTTP';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
-import createDynamoSearchQuery from '../shared/functions/createDynamoSearchQuery';
+import createDynamoSearchQuery from '../shared/functions/DynamoDB/createDynamoSearchQuery';
 import getUserAvatarFromDB from './../shared/functions/getUserAvatarFromDB';
 import middy from '@middy/core';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
