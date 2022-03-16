@@ -29,10 +29,33 @@
   margin-bottom: 0;
 }
 
+.ImportInstructions {
+  font-weight: bold;
+  margin-bottom: 1%;
+}
+
 .SuccessImportMessage {
   color: green;
 }
 
 .ErrorImportMessage {
   color: red;
+}
+
+.FileSelectorWrapper {
+  float: left;
+}
+
+.RatingSpinner {
+  float: left;
+}
+
+.RecentRatingsWrapper {
+  clear: both;
+  float: left;
+}
+
+.RecentRatingsHeader {
+  color: $mainBlue;
+  font-size: 1.4rem;
 }

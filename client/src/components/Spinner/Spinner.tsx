@@ -1,7 +1,12 @@
+import { FC } from 'react';
 import { MDBSpinner } from 'mdb-react-ui-kit';
 
-const Spinner = (): JSX.Element => (
-  <div className="d-flex justify-content-center">
+interface IProps {
+  className?: string;
+}
+
+const Spinner: FC<IProps> = ({ className }) => (
+  <div className={`${className} d-flex justify-content-center`}>
     <MDBSpinner role="status" color="primary" />
   </div>
 );

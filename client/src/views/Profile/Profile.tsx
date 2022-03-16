@@ -26,6 +26,9 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   const [importMessage, setImportMessage] = useState('');
   const [importingRatings, setImportingRatings] = useState(false);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
+  // to do:
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [_recentRatings, setRecentRatings] = useState(null as unknown);
   const [shouldLoadAvatar, setShouldLoadAvatar] = useState(false);
   const [showUpdateDetailsForm, setShowUpdateDetailsForm] = useState(false);
   // todo
@@ -38,6 +41,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
 
       try {
         setUserProfile(await httpRequest(`${endpoints.GET_PROFILE_BY_USERNAME}/${username}`, 'GET'));
+        setRecentRatings(await httpRequest(`${endpoints.GET_FILM}/profile/${userState.UID}`, 'GET'));
         setShouldLoadAvatar(true);
       } catch (error) {
         console.error(error);
@@ -47,6 +51,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
     };
 
     if (username) {
+      loadUserProfile(username);
       loadUserProfile(username);
     } else if (userState.username !== '') {
       loadUserProfile(userState.username);
@@ -120,7 +125,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
 
   const uploadRatings = async (ratings: IRating[]): Promise<void> => {
     try {
-      setImportMessage(await httpRequest(endpoints.IMPORT_REVIEWS, 'POST', { ratings, UID: userState.UID }));
+      setImportMessage(await httpRequest(endpoints.IMPORT_RATINGS, 'POST', { ratings, UID: userState.UID }));
     } catch (error) {
       setImportMessage('Error importing ratings');
     } finally {
@@ -135,39 +140,50 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
           <Avatar setShouldLoadAvatar={setShouldLoadAvatar} shouldLoadAvatar={shouldLoadAvatar} username={username!} />
 
           {userProfile ? (
-            <div className={classes.UserDetails}>
-              <h1 className={classes.UsernameHeader}>
-                {userProfile.username}
-                <span className={classes.UserRank}> {getRatingRank(userProfile.numRatings!)}</span>
-              </h1>
-              <p className={classes.UserProfileText}>
-                {userProfile.numRatings} Film Rating{userProfile.numRatings === 0 ? 's' : null}
-              </p>
-              <p className={classes.UserProfileText}>
-                <b>Member since:</b> {epochToDate(userProfile.memberSince!)}
-              </p>
-              <p className={classes.UserProfileLink} onClick={(): void => setShowUpdateDetailsForm(true)}>
-                Update Personal Information
-              </p>
-              <p className={classes.UserProfileLink}>Update Password</p>
-              {showUpdateDetailsForm ? (
-                // @ts-expect-error
-                <Suspense fallback={<Spinner />}>
-                  <UpdateUserDetailsForm userProfile={userProfile} />
-                </Suspense>
-              ) : null}
-              <FileSelector onChange={(event): void => uploadFile(event)} text={'Import Criticker Ratings'} />
-              {importMessage !== '' ? (
-                <p
-                  className={
-                    importMessage.split(' ')[0] !== 'Error' ? classes.SuccessImportMessage : classes.ErrorImportMessage
-                  }
-                >
-                  {importMessage}
+            <>
+              <div className={classes.UserDetails}>
+                <h1 className={classes.UsernameHeader}>
+                  {userProfile.username}
+                  <span className={classes.UserRank}> {getRatingRank(userProfile.numRatings!)}</span>
+                </h1>
+                <p className={classes.UserProfileText}>
+                  {userProfile.numRatings} Film Rating{userProfile.numRatings === 0 ? 's' : null}
                 </p>
-              ) : null}
-              {importingRatings ? <Spinner /> : null}
-            </div>
+                <p className={classes.UserProfileText}>
+                  <b>Member since:</b> {epochToDate(userProfile.memberSince!)}
+                </p>
+                <p className={classes.UserProfileLink} onClick={(): void => setShowUpdateDetailsForm(true)}>
+                  Update Personal Information
+                </p>
+                {showUpdateDetailsForm ? (
+                  // @ts-expect-error
+                  <Suspense fallback={<Spinner />}>
+                    <UpdateUserDetailsForm userProfile={userProfile} />
+                  </Suspense>
+                ) : null}
+
+                <p className={classes.ImportInstructions}>Import Criticker Ratings:</p>
+                <div className={classes.FileSelectorWrapper}>
+                  <FileSelector onChange={(event): void => uploadFile(event)} />
+
+                  {importMessage !== '' ? (
+                    <p
+                      className={
+                        importMessage.split(' ')[0] !== 'Error'
+                          ? classes.SuccessImportMessage
+                          : classes.ErrorImportMessage
+                      }
+                    >
+                      {importMessage}
+                    </p>
+                  ) : null}
+                  {importingRatings ? <Spinner className={classes.RatingSpinner} /> : null}
+                </div>
+              </div>
+              <div className={classes.RecentRatingsWrapper}>
+                <h2 className={classes.RecentRatingsHeader}>Recent Ratings</h2>
+              </div>
+            </>
           ) : (
             'User not found'
           )}

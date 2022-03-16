@@ -1,16 +1,13 @@
 import { MDBFile } from 'mdb-react-ui-kit';
-import classes from './FileSelector.module.scss';
 
 interface IProps {
-  // to do
-  onChange: (event: any) => void;
-  text: string;
+  onChange: (event: { target: { files: Blob[] } }) => void;
 }
 
-const FileSelector: React.FC<IProps> = ({ onChange, text }) => {
+const FileSelector: React.FC<IProps> = ({ onChange }) => {
   return (
     <div className="file-container">
-      <MDBFile onChange={onChange} label={text} id="customFile" labelClass={classes.Label} />
+      <MDBFile onChange={onChange} id="customFile" />
     </div>
   );
 };
