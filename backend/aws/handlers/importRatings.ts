@@ -36,7 +36,7 @@ interface IPercentile {
   percentile: number;
 }
 
-const importReviews = async (event: { body: string }): Promise<IHTTP> => {
+const importRatings = async (event: { body: string }): Promise<IHTTP> => {
   const { ratings, UID } = JSON.parse(event.body);
 
   const filteredRatings = await filterRatings(ratings);
@@ -190,7 +190,7 @@ const getUserRatings = async (UID: string): Promise<QueryCommandOutput | IHTTP> 
     'UID',
     UID,
     'S',
-    'UID'
+    process.env.UID_INDEX
   );
 
   try {
@@ -224,4 +224,4 @@ const updateNumUserRatings = async (UID: string, numRatings: number): Promise<IH
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
-export const handler = middy(importReviews).use(cors());
+export const handler = middy(importRatings).use(cors());
