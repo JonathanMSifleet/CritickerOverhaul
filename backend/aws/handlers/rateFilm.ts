@@ -1,6 +1,7 @@
 import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb';
 
 import IHTTP from '../shared/interfaces/IHTTP';
+import IRating from '../../../shared/interfaces/IRating';
 import alterNumRatings from '../shared/functions/alterNumRatings';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
@@ -8,14 +9,6 @@ import { marshall } from '@aws-sdk/util-dynamodb';
 import middy from '@middy/core';
 
 const dbClient = new DynamoDBClient({});
-
-interface IReview {
-  imdb_title_id: number;
-  UID: string;
-  rating: number;
-  review?: string;
-  createdAt: number;
-}
 
 const rateFilm = async (event: { body: string }): Promise<IHTTP> => {
   const { imdb_title_id, UID, rating, review, reviewAlreadyExists } = JSON.parse(event.body);
@@ -25,7 +18,7 @@ const rateFilm = async (event: { body: string }): Promise<IHTTP> => {
     createdAt: Date.now(),
     imdb_title_id,
     rating
-  } as IReview;
+  } as IRating;
 
   if (review) payload.review = review;
 
@@ -45,7 +38,7 @@ const rateFilm = async (event: { body: string }): Promise<IHTTP> => {
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
-const insertRatingToDB = async (payload: IReview): Promise<IHTTP | void> => {
+const insertRatingToDB = async (payload: IRating): Promise<IHTTP | void> => {
   const params = {
     TableName: process.env.RATINGS_TABLE_NAME!,
     Item: marshall(payload),

@@ -2,7 +2,7 @@ import * as endpoints from '../../constants/endpoints';
 
 import { FC, useEffect, useState } from 'react';
 
-import IReview from '../../../../shared/interfaces/IReview';
+import IRating from '../../../../shared/interfaces/IRating';
 import PageView from '../../components/PageView/PageView';
 import RateFilm from './RateFilm/RateFilm';
 import Spinner from '../../components/Spinner/Spinner';
@@ -18,7 +18,7 @@ interface IUrlParams {
 }
 
 const Film: FC<IUrlParams> = ({ id }) => {
-  const [fetchedUserReview, setFetchedUserReview] = useState(null as null | IReview);
+  const [fetchedUserReview, setFetchedUserReview] = useState(null as null | IRating);
   // to do
   const [film, setFilm] = useState(null as any);
   const [filmPoster, setFilmPoster] = useState(null as string | null);
@@ -69,7 +69,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
     }
   };
 
-  const getUserRating = async (id: number, userID: string): Promise<null | IReview> => {
+  const getUserRating = async (id: number, userID: string): Promise<null | IRating> => {
     const result = await httpRequest(`${endpoints.GET_USER_RATING}/${id}/${userID}`, 'GET');
 
     return result.statusCode === 404 ? null : result;

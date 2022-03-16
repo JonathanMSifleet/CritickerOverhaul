@@ -5,7 +5,7 @@ import { Suspense, lazy } from 'preact/compat';
 
 import Avatar from './Avatar/Avatar';
 import FileSelector from '../../components/FileSelector/FileSelector';
-import IReview from '../../../../shared/interfaces/IReview';
+import IRating from '../../../../shared/interfaces/IRating';
 import IUserProfile from '../../../../shared/interfaces/IUserProfile';
 import PageView from '../../components/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
@@ -24,7 +24,7 @@ interface IUrlParams {
 
 const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   const [importMessage, setImportMessage] = useState('');
-  const [importingReviews, setImportingReviews] = useState(false);
+  const [importingRatings, setImportingRatings] = useState(false);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const [shouldLoadAvatar, setShouldLoadAvatar] = useState(false);
   const [showUpdateDetailsForm, setShowUpdateDetailsForm] = useState(false);
@@ -76,30 +76,30 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
     }
   };
 
-  const processReviews = (parsedJSON: [{ [key: string]: string | number }]): void => {
+  const processRatings = (parsedJSON: [{ [key: string]: string | number }]): void => {
     const UID = userState.UID;
 
-    const processedReviews = parsedJSON.map((review) => {
-      const imdb_title_id = review.imdbid.toString().slice(2).replace(/^0+/, '');
+    const processedRatings = parsedJSON.map((rating) => {
+      const imdb_title_id = rating.imdbid.toString().slice(2).replace(/^0+/, '');
 
-      const processedReview = {
-        createdAt: new Date(review.reviewdate).getTime(),
+      const processedRating = {
+        createdAt: new Date(rating.reviewdate).getTime(),
         imdb_title_id: Number(imdb_title_id),
-        rating: review.rating,
+        rating: rating.rating,
         UID
-      } as IReview;
+      } as IRating;
 
-      if (review.quote !== '') processedReview.review = review.quote as string;
+      if (rating.quote !== '') processedRating.review = rating.quote as string;
 
-      return processedReview;
+      return processedRating;
     });
 
-    uploadReviews(processedReviews);
+    uploadRatings(processedRatings);
   };
 
   const uploadFile = (event: { target: { files: Blob[] } }): void => {
     try {
-      setImportingReviews(true);
+      setImportingRatings(true);
 
       const fileReader = new FileReader();
 
@@ -107,24 +107,24 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
       fileReader.onload = (): void => {
         try {
           const parsedJSON = new XMLParser().parse(fileReader.result as string).recentratings.film;
-          processReviews(parsedJSON);
+          processRatings(parsedJSON);
         } catch (error) {
-          setImportingReviews(false);
-          setImportMessage('Error importing reviews');
+          setImportingRatings(false);
+          setImportMessage('Error importing ratings');
         }
       };
     } catch (error) {
-      setImportMessage('Error importing reviews');
+      setImportMessage('Error importing ratings');
     }
   };
 
-  const uploadReviews = async (reviews: IReview[]): Promise<void> => {
+  const uploadRatings = async (ratings: IRating[]): Promise<void> => {
     try {
-      setImportMessage(await httpRequest(endpoints.IMPORT_REVIEWS, 'POST', { reviews, UID: userState.UID }));
+      setImportMessage(await httpRequest(endpoints.IMPORT_REVIEWS, 'POST', { ratings, UID: userState.UID }));
     } catch (error) {
-      setImportMessage('Error importing reviews');
+      setImportMessage('Error importing ratings');
     } finally {
-      setImportingReviews(false);
+      setImportingRatings(false);
     }
   };
 
@@ -166,7 +166,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                   {importMessage}
                 </p>
               ) : null}
-              {importingReviews ? <Spinner /> : null}
+              {importingRatings ? <Spinner /> : null}
             </div>
           ) : (
             'User not found'
