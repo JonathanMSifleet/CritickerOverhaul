@@ -6,20 +6,26 @@ const createDynamoUpdateQuery = (
   primaryKeyValue: string,
   primaryKeyType: string,
   updateKeyName: string,
-  updateKeyValue: string | number,
-  updateKeyType: string
+  updateKeyValue: string,
+  updateKeyType: string,
+  rangeKeyName?: string,
+  rangeKeyValue?: string,
+  rangeKeyType?: string
 ): UpdateItemCommandInput => {
-  const query = {
+  let query = {
     TableName: tableName,
     Key: {
       [primaryKeyName]: { [primaryKeyType]: primaryKeyValue }
     },
     UpdateExpression: `set ${updateKeyName} = :${updateKeyName}`,
     ExpressionAttributeValues: {
-      [`:${updateKeyName}`]: { [updateKeyType]: updateKeyValue.toString() }
+      [`:${updateKeyName}`]: { [updateKeyType]: updateKeyValue }
     },
     ReturnValues: 'UPDATED_NEW'
   } as unknown as UpdateItemCommandInput;
+
+  // @ts-expect-error Key works as intended
+  if (rangeKeyName) query = { ...query, Key: { ...query.Key, [rangeKeyName]: { [rangeKeyType!]: rangeKeyValue } } };
 
   return query;
 };
