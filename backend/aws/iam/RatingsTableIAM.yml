@@ -14,3 +14,7 @@ RatingsTableIAM:
       - ''
       - - ${self:custom.RatingsTable.arn}
         - /index/UID
+    - Fn::Join:
+      - ''
+      - - ${self:custom.RatingsTable.arn}
+        - /index/createdAt

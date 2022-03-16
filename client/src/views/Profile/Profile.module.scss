@@ -51,6 +51,7 @@
 }
 
 .RecentRatingsWrapper {
+  margin-top: 1%;
   clear: both;
   float: left;
 }
@@ -58,4 +59,14 @@
 .RecentRatingsHeader {
   color: $mainBlue;
   font-size: 1.4rem;
+}
+
+.RecentRatingColumn {
+  width: 33.33%;
+  float: left;
+}
+
+.RatingLink {
+  clear: both;
+  float: left;
 }

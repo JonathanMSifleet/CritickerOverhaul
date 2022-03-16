@@ -41,12 +41,12 @@ functions:
           method: DELETE
           path: deleteAccount
           cors: true
-  deleteReview:
-    handler: aws/handlers/deleteReview.handler
+  deleteRating:
+    handler: aws/handlers/deleteRating.handler
     events:
       - http:
           method: DELETE
-          path: review/deleteReview/{imdb_title_id}/{UID}
+          path: review/deleteRating/{imdb_title_id}/{UID}
           cors: true
   login:
     handler: aws/handlers/login.handler
@@ -67,7 +67,7 @@ functions:
     events:
       - http:
           method: GET
-          path: getFilms/{page}
+          path: getFilms/{page}/{UID}
           cors: true
   getProfileByUsername:
     handler: aws/handlers/getProfileByUsername.handler
@@ -90,13 +90,13 @@ functions:
           method: GET
           path: review/getRating/{imdb_title_id}/{UID}
           cors: true
-  importReviews:
-    handler: aws/handlers/importReviews.handler
+  importRatings:
+    handler: aws/handlers/importRatings.handler
     timeout: 30
     events:
       - http:
           method: POST
-          path: review/importReviews
+          path: review/importRatings
           cors: true
   rateFilm:
     handler: aws/handlers/rateFilm.handler

@@ -32,10 +32,8 @@ const Film: FC<IUrlParams> = ({ id }) => {
       setIsLoading(true);
 
       try {
-        const [film, filmPoster] = [
-          await httpRequest(`${endpoints.GET_FILM_BY_PARAM}/${id}`, 'GET'),
-          await getFilmPoster(id!)
-        ];
+        const film = await httpRequest(`${endpoints.GET_FILM_BY_PARAM}/${id}`, 'GET');
+        const filmPoster = await getFilmPoster(id!);
 
         if (userState.loggedIn) {
           setFetchedUserReview(await getUserRating(id!, userState.UID));
@@ -43,6 +41,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
         }
 
         setFilm(film);
+
         setFilmPoster(filmPoster);
       } catch (error) {
         if (error instanceof Error) console.error(error.message);
@@ -60,7 +59,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
 
   const deleteReview = async (): Promise<void> => {
     try {
-      await httpRequest(`${endpoints.DELETE_REVIEW}/${id}/${userState.UID}`, 'DELETE');
+      await httpRequest(`${endpoints.DELETE_RATING}/${id}/${userState.UID}`, 'DELETE');
 
       setFetchedUserReview(null);
       setHasSubmittedRating(false);

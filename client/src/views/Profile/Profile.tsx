@@ -7,9 +7,11 @@ import Avatar from './Avatar/Avatar';
 import FileSelector from '../../components/FileSelector/FileSelector';
 import IRating from '../../../../shared/interfaces/IRating';
 import IUserProfile from '../../../../shared/interfaces/IUserProfile';
+import { Link } from 'preact-router/match';
 import PageView from '../../components/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
 import { XMLParser } from 'fast-xml-parser';
+import chunk from 'chunk';
 import classes from './Profile.module.scss';
 import httpRequest from '../../utils/httpRequest';
 import { useRecoilValue } from 'recoil';
@@ -22,13 +24,20 @@ interface IUrlParams {
   username?: string;
 }
 
+interface IRecentRating {
+  imdb_title_id: number;
+  rating: number;
+  ratingPercentile: number;
+  title: string;
+  year: number;
+  createdAt: number;
+}
+
 const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   const [importMessage, setImportMessage] = useState('');
   const [importingRatings, setImportingRatings] = useState(false);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
-  // to do:
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_recentRatings, setRecentRatings] = useState(null as unknown);
+  const [recentRatings, setRecentRatings] = useState(null as any);
   const [shouldLoadAvatar, setShouldLoadAvatar] = useState(false);
   const [showUpdateDetailsForm, setShowUpdateDetailsForm] = useState(false);
   // todo
@@ -36,12 +45,18 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   const userState = useRecoilValue(userInfoState);
 
   useEffect(() => {
-    const loadUserProfile = async (username: string): Promise<void> => {
+    const loadUserProfile = async (determinedUsername: string): Promise<void> => {
       setIsLoadingProfile(true);
 
+      const userHTTPRequests = [];
       try {
-        setUserProfile(await httpRequest(`${endpoints.GET_PROFILE_BY_USERNAME}/${username}`, 'GET'));
-        setRecentRatings(await httpRequest(`${endpoints.GET_FILM}/profile/${userState.UID}`, 'GET'));
+        userHTTPRequests.push(await httpRequest(`${endpoints.GET_PROFILE_BY_USERNAME}/${determinedUsername}`, 'GET'));
+        userHTTPRequests.push(await httpRequest(`${endpoints.GET_RECENT_RATINGS}/${determinedUsername}`, 'GET'));
+
+        const results = await Promise.all(userHTTPRequests);
+
+        setUserProfile(results[0]);
+        setRecentRatings(chunk(results[1], 10));
         setShouldLoadAvatar(true);
       } catch (error) {
         console.error(error);
@@ -51,7 +66,6 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
     };
 
     if (username) {
-      loadUserProfile(username);
       loadUserProfile(username);
     } else if (userState.username !== '') {
       loadUserProfile(userState.username);
@@ -180,8 +194,23 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                   {importingRatings ? <Spinner className={classes.RatingSpinner} /> : null}
                 </div>
               </div>
+
               <div className={classes.RecentRatingsWrapper}>
                 <h2 className={classes.RecentRatingsHeader}>Recent Ratings</h2>
+                {recentRatings.map((column: IRecentRating[], index: number) => (
+                  <div className={classes.RecentRatingColumn} key={index}>
+                    {column.map((rating) => (
+                      <Link
+                        className={classes.RatingLink}
+                        href={`/film/${rating.imdb_title_id}`}
+                        key={rating.imdb_title_id}
+                      >
+                        {rating.rating} {rating.ratingPercentile}% {rating.title} ({rating.year}){' - '}
+                        {new Date(rating.createdAt).toLocaleDateString('en-GB')}
+                      </Link>
+                    ))}
+                  </div>
+                ))}
               </div>
             </>
           ) : (

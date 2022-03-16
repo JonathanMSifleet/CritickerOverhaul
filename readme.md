@@ -1,3 +1,9 @@
+Order on attribute:
+
+Define a local secondary index with the "normal" hash key to be the hash key of the LSI as well
+Define the field you want to sort as "Sort Key" of the LSI
+Query the LSI and set the ordering as desired
+
 To do:
 
 - display successful sign up message

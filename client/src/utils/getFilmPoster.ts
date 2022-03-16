@@ -11,8 +11,12 @@ const getFilmPoster = async (imdb_title_id: number): Promise<string> => {
 
   const response = await httpRequest(url, 'GET');
 
-  const poster = response.movie_results[0].poster_path;
-  return poster ? `http://image.tmdb.org/t/p/original${poster}` : ShrugSVG;
+  try {
+    const poster = response.movie_results[0].poster_path;
+    return `http://image.tmdb.org/t/p/original${poster}`;
+  } catch (error) {
+    return ShrugSVG;
+  }
 };
 
 export default getFilmPoster;
