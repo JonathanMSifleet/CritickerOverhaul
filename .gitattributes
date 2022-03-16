@@ -1,3 +1,12 @@
 # Auto detect text files and perform LF normalization
 * eol=crlf
 *.scss linguist-detectable=false
+*.001 binary
+*.002 binary
+*.003 binary
+*.004 binary
+*.005 binary
+*.006 binary
+*.007 binary
+*.008 binary
+*.009 binary
