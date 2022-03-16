@@ -1,17 +1,20 @@
-import { XMLParser } from 'fast-xml-parser';
-import { lazy, Suspense } from 'preact/compat';
+import * as endpoints from '../../constants/endpoints';
+
 import { FC, useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { Suspense, lazy } from 'preact/compat';
+
+import Avatar from './Avatar/Avatar';
+import FileSelector from '../../components/FileSelector/FileSelector';
 import IReview from '../../../../shared/interfaces/IReview';
 import IUserProfile from '../../../../shared/interfaces/IUserProfile';
-import FileSelector from '../../components/FileSelector/FileSelector';
 import PageView from '../../components/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
-import * as endpoints from '../../constants/endpoints';
-import { userInfoState } from '../../store';
-import httpRequest from '../../utils/httpRequest';
-import Avatar from './Avatar/Avatar';
+import { XMLParser } from 'fast-xml-parser';
 import classes from './Profile.module.scss';
+import httpRequest from '../../utils/httpRequest';
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../../store';
+
 const UpdateUserDetailsForm = lazy(() => import('./UpdateUserDetailsForm/UpdateUserDetailsForm'));
 
 interface IUrlParams {
@@ -34,9 +37,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
       setIsLoadingProfile(true);
 
       try {
-        setUserProfile(
-          await httpRequest(`${endpoints.GET_PROFILE_BY_USERNAME}/${username}`, 'GET')
-        );
+        setUserProfile(await httpRequest(`${endpoints.GET_PROFILE_BY_USERNAME}/${username}`, 'GET'));
         setShouldLoadAvatar(true);
       } catch (error) {
         console.error(error);
@@ -82,6 +83,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
       const imdb_title_id = review.imdbid.toString().slice(2).replace(/^0+/, '');
 
       const processedReview = {
+        createdAt: new Date(review.reviewdate).getTime(),
         imdb_title_id: Number(imdb_title_id),
         rating: review.rating,
         UID
@@ -118,9 +120,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
 
   const uploadReviews = async (reviews: IReview[]): Promise<void> => {
     try {
-      setImportMessage(
-        await httpRequest(endpoints.IMPORT_REVIEWS, 'POST', { reviews, UID: userState.UID })
-      );
+      setImportMessage(await httpRequest(endpoints.IMPORT_REVIEWS, 'POST', { reviews, UID: userState.UID }));
     } catch (error) {
       setImportMessage('Error importing reviews');
     } finally {
@@ -132,11 +132,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
     <PageView backgroundCSS={classes.PageWrapper}>
       {!isLoadingProfile ? (
         <>
-          <Avatar
-            setShouldLoadAvatar={setShouldLoadAvatar}
-            shouldLoadAvatar={shouldLoadAvatar}
-            username={username!}
-          />
+          <Avatar setShouldLoadAvatar={setShouldLoadAvatar} shouldLoadAvatar={shouldLoadAvatar} username={username!} />
 
           {userProfile ? (
             <div className={classes.UserDetails}>
@@ -150,10 +146,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
               <p className={classes.UserProfileText}>
                 <b>Member since:</b> {epochToDate(userProfile.memberSince!)}
               </p>
-              <p
-                className={classes.UserProfileLink}
-                onClick={(): void => setShowUpdateDetailsForm(true)}
-              >
+              <p className={classes.UserProfileLink} onClick={(): void => setShowUpdateDetailsForm(true)}>
                 Update Personal Information
               </p>
               <p className={classes.UserProfileLink}>Update Password</p>
@@ -163,16 +156,11 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                   <UpdateUserDetailsForm userProfile={userProfile} />
                 </Suspense>
               ) : null}
-              <FileSelector
-                onChange={(event): void => uploadFile(event)}
-                text={'Import Criticker Ratings'}
-              />
+              <FileSelector onChange={(event): void => uploadFile(event)} text={'Import Criticker Ratings'} />
               {importMessage !== '' ? (
                 <p
                   className={
-                    importMessage.split(' ')[0] !== 'Error'
-                      ? classes.SuccessImportMessage
-                      : classes.ErrorImportMessage
+                    importMessage.split(' ')[0] !== 'Error' ? classes.SuccessImportMessage : classes.ErrorImportMessage
                   }
                 >
                   {importMessage}
