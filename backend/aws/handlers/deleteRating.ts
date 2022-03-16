@@ -8,7 +8,7 @@ import middy from '@middy/core';
 
 const dbClient = new DynamoDBClient({});
 
-const deleteReview = async (event: { pathParameters: { imdb_title_id: number; UID: string } }): Promise<IHTTP> => {
+const deleteRating = async (event: { pathParameters: { imdb_title_id: number; UID: string } }): Promise<IHTTP> => {
   const { imdb_title_id, UID } = event.pathParameters;
 
   try {
@@ -24,7 +24,7 @@ const deleteReview = async (event: { pathParameters: { imdb_title_id: number; UI
 
     await alterNumRatings(UID, false);
 
-    console.log('Review deleted successfully');
+    console.log('Rating deleted successfully');
     return { statusCode: 204 };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(403, error.message);
@@ -33,4 +33,4 @@ const deleteReview = async (event: { pathParameters: { imdb_title_id: number; UI
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
-export const handler = middy(deleteReview).use(cors());
+export const handler = middy(deleteRating).use(cors());
