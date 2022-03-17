@@ -19,6 +19,7 @@ provider:
     RATINGS_TABLE_NAME: ${self:custom.RatingsTable.name}
     AVATAR_TABLE_NAME: ${self:custom.AvatarTable.name}
     USER_TABLE_NAME: ${self:custom.UserTable.name}
+    CREATED_AT_INDEX: createdAt
     EMAIL_INDEX: email
     UID_INDEX: UID
     USERNAME_INDEX: username
@@ -46,7 +47,7 @@ functions:
     events:
       - http:
           method: DELETE
-          path: review/deleteRating/{imdb_title_id}/{UID}
+          path: rating/deleteRating/{imdb_title_id}/{UID}
           cors: true
   login:
     handler: aws/handlers/login.handler
@@ -88,7 +89,7 @@ functions:
     events:
       - http:
           method: GET
-          path: review/getRating/{imdb_title_id}/{UID}
+          path: rating/getRating/{imdb_title_id}/{UID}
           cors: true
   importRatings:
     handler: aws/handlers/importRatings.handler
@@ -96,14 +97,14 @@ functions:
     events:
       - http:
           method: POST
-          path: review/importRatings
+          path: rating/importRatings
           cors: true
   rateFilm:
     handler: aws/handlers/rateFilm.handler
     events:
       - http:
           method: POST
-          path: review/rateFilm
+          path: rating/rateFilm
           cors: true
   signup:
     handler: aws/handlers/signup.handler
