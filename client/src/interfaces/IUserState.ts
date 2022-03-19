@@ -1,5 +1,5 @@
 export default interface IUserState {
-  UID: string;
+  avatar?: string;
   loggedIn: boolean;
   username: string;
 }

@@ -10,11 +10,12 @@ import middy from '@middy/core';
 
 const dbClient = new DynamoDBClient({});
 
-const rateFilm = async (event: { body: string }): Promise<IHTTP> => {
-  const { imdb_title_id, UID, rating, review, reviewAlreadyExists } = JSON.parse(event.body);
+const rateFilm = async (event: { body: string; pathParameters: { username: string } }): Promise<IHTTP> => {
+  const { imdb_title_id, rating, review, reviewAlreadyExists } = JSON.parse(event.body);
+  const { username } = event.pathParameters;
 
   const payload = {
-    UID,
+    username,
     createdAt: Date.now(),
     imdb_title_id,
     rating
@@ -25,7 +26,7 @@ const rateFilm = async (event: { body: string }): Promise<IHTTP> => {
   try {
     await insertRatingToDB(payload);
 
-    if (!reviewAlreadyExists) await alterNumRatings(UID, true);
+    if (!reviewAlreadyExists) await alterNumRatings(username, true);
 
     return {
       statusCode: 201,

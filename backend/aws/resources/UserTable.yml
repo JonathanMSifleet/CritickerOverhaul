@@ -8,20 +8,12 @@ UserTable:
         AttributeType: S
       - AttributeName: email
         AttributeType: S
-      - AttributeName: UID
-        AttributeType: S
 
     KeySchema:
-      - AttributeName: UID
+      - AttributeName: username
         KeyType: HASH
 
     GlobalSecondaryIndexes:
-      - IndexName: username
-        KeySchema:
-          - AttributeName: username
-            KeyType: HASH
-        Projection:
-          ProjectionType: ALL
       - IndexName: email
         KeySchema:
           - AttributeName: email

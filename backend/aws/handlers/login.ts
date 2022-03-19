@@ -15,7 +15,7 @@ const login = async (event: { body: string }): Promise<IHTTP> => {
 
   const query = createDynamoSearchQuery(
     process.env.USER_TABLE_NAME!,
-    'username, email, password, UID',
+    'username, email, password',
     'email',
     email,
     'S',
@@ -29,12 +29,17 @@ const login = async (event: { body: string }): Promise<IHTTP> => {
     const user = unmarshall(result.Items![0]);
     if (password !== user.password) return createAWSResErr(401, 'Password is incorrect');
 
-    const userAvatar = await getUserAvatarFromDB(user.username);
+    let userAvatar;
+    try {
+      userAvatar = await getUserAvatarFromDB(user.username);
+    } catch (error) {
+      console.log('No avatar found');
+    }
 
     console.log('Logged in successfully');
     return {
       statusCode: 200,
-      body: JSON.stringify({ username: user.username, UID: user.UID, avatar: userAvatar })
+      body: JSON.stringify({ username: user.username, avatar: userAvatar })
     };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(404, error.message);

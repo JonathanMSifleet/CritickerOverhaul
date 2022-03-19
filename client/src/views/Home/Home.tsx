@@ -19,7 +19,7 @@ const Home: FC<IUrlParams> = (): JSX.Element => {
   useEffect(() => {
     (async (): Promise<void> => {
       setIsLoading(true);
-      setFilms((await httpRequest(`${endpoints.GET_FILM}/home`, 'GET')) as IFilm[]);
+      setFilms((await httpRequest(endpoints.GET_FILMS, 'GET')) as IFilm[]);
       setIsLoading(false);
     })();
   }, []);

@@ -5,7 +5,6 @@ import cors from '@middy/http-cors';
 import { createAWSResErr } from './../shared/functions/createAWSResErr';
 import { marshall } from '@aws-sdk/util-dynamodb';
 import middy from '@middy/core';
-import shortUUID from 'short-uuid';
 import { validateUserInputs } from '../shared/functions/validationFunctions';
 
 const dbClient = new DynamoDBClient({});
@@ -16,13 +15,11 @@ const signup = async (event: { body: string }): Promise<IHTTP> => {
   const errors = await validateUserInputs(username, email, password);
   if (errors.length !== 0) return createAWSResErr(422, errors as string[]);
 
-  // non-form attributes added here:
-  const UID = shortUUID.generate();
   let memberSince = Date.now();
   memberSince = Math.floor(memberSince / (24 * 60 * 60)) * 24 * 60 * 60;
 
   try {
-    const result = await insertUserToDB(username, email, password, UID, memberSince);
+    const result = await insertUserToDB(username, email, password, memberSince);
 
     console.log('Signed up successfully');
     return {
@@ -40,13 +37,11 @@ const insertUserToDB = async (
   username: string,
   email: string,
   password: string,
-  UID: string,
   memberSince: number
 ): Promise<PutItemCommandOutput> => {
   const params = {
     TableName: process.env.USER_TABLE_NAME!,
     Item: marshall({
-      UID,
       email,
       username,
       password,

@@ -5,11 +5,11 @@ import { createAWSResErr } from './createAWSResErr';
 
 const dbClient = new DynamoDBClient({});
 
-const alterNumRatings = async (UID: string, isAddition: boolean): Promise<void | IHTTP> => {
+const alterNumRatings = async (username: string, isAddition: boolean): Promise<void | IHTTP> => {
   const params = {
     TableName: process.env.USER_TABLE_NAME!,
     Key: {
-      UID: { S: UID }
+      username: { S: username }
     },
     ExpressionAttributeValues: {
       ':val': { N: '1' }

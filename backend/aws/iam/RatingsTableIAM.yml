@@ -10,11 +10,4 @@ RatingsTableIAM:
     - dynamodb:BatchWriteItem
   Resource:
     - ${self:custom.RatingsTable.arn}
-    - Fn::Join:
-      - ''
-      - - ${self:custom.RatingsTable.arn}
-        - /index/UID
-    - Fn::Join:
-      - ''
-      - - ${self:custom.RatingsTable.arn}
-        - /index/createdAt
+    - !Join ['/', ['${self:custom.RatingsTable.arn}', 'index', 'username']]

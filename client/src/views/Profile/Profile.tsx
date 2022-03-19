@@ -40,7 +40,6 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   const [recentRatings, setRecentRatings] = useState(null as any);
   const [shouldLoadAvatar, setShouldLoadAvatar] = useState(false);
   const [showUpdateDetailsForm, setShowUpdateDetailsForm] = useState(false);
-  // todo
   const [userProfile, setUserProfile] = useState(null as null | IUserProfile);
   const userState = useRecoilValue(userInfoState);
 
@@ -96,16 +95,13 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   };
 
   const processRatings = (parsedJSON: [{ [key: string]: string | number }]): void => {
-    const UID = userState.UID;
-
     const processedRatings = parsedJSON.map((rating) => {
       const imdb_title_id = rating.imdbid.toString().slice(2).replace(/^0+/, '');
 
       const processedRating = {
         createdAt: new Date(rating.reviewdate).getTime(),
         imdb_title_id: Number(imdb_title_id),
-        rating: rating.rating,
-        UID
+        rating: rating.rating
       } as IRating;
 
       if (rating.quote !== '') processedRating.review = rating.quote as string;
@@ -139,7 +135,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
 
   const uploadRatings = async (ratings: IRating[]): Promise<void> => {
     try {
-      setImportMessage(await httpRequest(endpoints.IMPORT_RATINGS, 'POST', { ratings, UID: userState.UID }));
+      setImportMessage(await httpRequest(`${endpoints.IMPORT_RATINGS}/${userState.username}`, 'POST', { ratings }));
     } catch (error) {
       setImportMessage('Error importing ratings');
     } finally {

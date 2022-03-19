@@ -6,29 +6,19 @@ RatingsTable:
     AttributeDefinitions:
       - AttributeName: imdb_title_id
         AttributeType: N
-      - AttributeName: UID
+      - AttributeName: username
         AttributeType: S
-      - AttributeName: createdAt
-        AttributeType: N
 
     KeySchema:
       - AttributeName: imdb_title_id
         KeyType: HASH
-      - AttributeName: UID
+      - AttributeName: username
         KeyType: RANGE
 
     GlobalSecondaryIndexes:
-        - IndexName: UID
+        - IndexName: username
           KeySchema:
-            - AttributeName: UID
+            - AttributeName: username
               KeyType: HASH
-          Projection:
-            ProjectionType: ALL
-        - IndexName: createdAt
-          KeySchema:
-            - AttributeName: UID
-              KeyType: HASH
-            - AttributeName: createdAt
-              KeyType: RANGE
           Projection:
             ProjectionType: ALL

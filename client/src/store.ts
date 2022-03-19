@@ -12,7 +12,6 @@ export const modalState = atom({
 export const userInfoState = atom({
   key: 'USER_INFO',
   default: {
-    UID: '',
     avatar: '',
     expiry: null as number | null,
     loggedIn: false,

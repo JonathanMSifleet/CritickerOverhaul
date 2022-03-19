@@ -8,8 +8,8 @@ import middy from '@middy/core';
 
 const dbClient = new DynamoDBClient({});
 
-const deleteRating = async (event: { pathParameters: { imdb_title_id: number; UID: string } }): Promise<IHTTP> => {
-  const { imdb_title_id, UID } = event.pathParameters;
+const deleteRating = async (event: { pathParameters: { imdb_title_id: number; username: string } }): Promise<IHTTP> => {
+  const { imdb_title_id, username } = event.pathParameters;
 
   try {
     await dbClient.send(
@@ -17,12 +17,12 @@ const deleteRating = async (event: { pathParameters: { imdb_title_id: number; UI
         TableName: process.env.RATINGS_TABLE_NAME,
         Key: {
           imdb_title_id: { N: imdb_title_id.toString() },
-          UID: { S: UID }
+          username: { S: username }
         }
       })
     );
 
-    await alterNumRatings(UID, false);
+    await alterNumRatings(username, false);
 
     console.log('Rating deleted successfully');
     return { statusCode: 204 };

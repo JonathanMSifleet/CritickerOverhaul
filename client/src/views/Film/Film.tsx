@@ -36,7 +36,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
         const filmPoster = await getFilmPoster(id!);
 
         if (userState.loggedIn) {
-          setFetchedUserReview(await getUserRating(id!, userState.UID));
+          setFetchedUserReview(await getUserRating(id!));
           setReviewAlreadyExists(true);
         }
 
@@ -52,14 +52,14 @@ const Film: FC<IUrlParams> = ({ id }) => {
   }, [id]);
 
   useEffect(() => {
-    const fetchUserReview = async (): Promise<void> => setFetchedUserReview(await getUserRating(id!, userState.UID));
+    const fetchUserReview = async (): Promise<void> => setFetchedUserReview(await getUserRating(id!));
 
     if (hasSubmittedRating) fetchUserReview();
   }, [hasSubmittedRating]);
 
   const deleteReview = async (): Promise<void> => {
     try {
-      await httpRequest(`${endpoints.DELETE_RATING}/${id}/${userState.UID}`, 'DELETE');
+      await httpRequest(`${endpoints.DELETE_RATING}/${id}/${userState.username}`, 'DELETE');
 
       setFetchedUserReview(null);
       setHasSubmittedRating(false);
@@ -68,8 +68,8 @@ const Film: FC<IUrlParams> = ({ id }) => {
     }
   };
 
-  const getUserRating = async (id: number, userID: string): Promise<null | IRating> => {
-    const result = await httpRequest(`${endpoints.GET_USER_RATING}/${id}/${userID}`, 'GET');
+  const getUserRating = async (id: number): Promise<null | IRating> => {
+    const result = await httpRequest(`${endpoints.GET_USER_RATING}/${id}/${userState.username}`, 'GET');
 
     return result.statusCode === 404 ? null : result;
   };

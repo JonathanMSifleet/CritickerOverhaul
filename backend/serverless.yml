@@ -21,7 +21,6 @@ provider:
     USER_TABLE_NAME: ${self:custom.UserTable.name}
     CREATED_AT_INDEX: createdAt
     EMAIL_INDEX: email
-    UID_INDEX: UID
     USERNAME_INDEX: username
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
   iam:
@@ -47,7 +46,7 @@ functions:
     events:
       - http:
           method: DELETE
-          path: rating/deleteRating/{imdb_title_id}/{UID}
+          path: rating/deleteRating/{imdb_title_id}/{username}
           cors: true
   login:
     handler: aws/handlers/login.handler
@@ -68,7 +67,7 @@ functions:
     events:
       - http:
           method: GET
-          path: getFilms/{page}/{UID}
+          path: getFilms
           cors: true
   getProfileByUsername:
     handler: aws/handlers/getProfileByUsername.handler
@@ -84,12 +83,19 @@ functions:
           method: GET
           path: user/avatar/{username}
           cors: true
+  getRecentRatings:
+    handler: aws/handlers/getRecentRatings.handler
+    events:
+      - http:
+          method: GET
+          path: rating/getRecentRatings/{username}
+          cors: true
   getUserRating:
     handler: aws/handlers/getUserRating.handler
     events:
       - http:
           method: GET
-          path: rating/getRating/{imdb_title_id}/{UID}
+          path: rating/getUserRating/{imdb_title_id}/{username}
           cors: true
   importRatings:
     handler: aws/handlers/importRatings.handler
@@ -97,14 +103,14 @@ functions:
     events:
       - http:
           method: POST
-          path: rating/importRatings
+          path: rating/importRatings/{username}
           cors: true
   rateFilm:
     handler: aws/handlers/rateFilm.handler
     events:
       - http:
           method: POST
-          path: rating/rateFilm
+          path: rating/rateFilm/{username}
           cors: true
   signup:
     handler: aws/handlers/signup.handler

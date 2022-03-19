@@ -12,9 +12,9 @@ interface IExpressionAttributeValues {
   [key: string]: AttributeValue;
 }
 
-const updateUserProfile = async (event: { body: string }): Promise<IHTTP> => {
-  const { country, email, firstName, gender, lastName, UID, username } = JSON.parse(event.body);
-
+const updateUserProfile = async (event: { body: string; pathParameters: { username: string } }): Promise<IHTTP> => {
+  const { country, email, firstName, gender, lastName } = JSON.parse(event.body);
+  const { username } = event.pathParameters;
   try {
     try {
       await updateProfileInDB(
@@ -23,10 +23,9 @@ const updateUserProfile = async (event: { body: string }): Promise<IHTTP> => {
           email,
           firstName,
           gender,
-          lastName,
-          username
+          lastName
         },
-        UID
+        username
       );
     } catch (error) {
       if (error instanceof Error) throw new Error(error.message);
@@ -43,12 +42,12 @@ const updateUserProfile = async (event: { body: string }): Promise<IHTTP> => {
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
-const updateProfileInDB = async (payload: IUserProfile, UID: string): Promise<IHTTP | void> => {
+const updateProfileInDB = async (payload: IUserProfile, username: string): Promise<IHTTP | void> => {
   const params = {
     TableName: process.env.USER_TABLE_NAME!,
     Key: {
-      UID: {
-        S: UID
+      username: {
+        S: username
       }
     },
     UpdateExpression: generateUpdateExpression(payload),

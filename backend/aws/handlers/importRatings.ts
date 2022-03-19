@@ -31,15 +31,16 @@ interface IDynamoReview {
 }
 
 interface IPercentile {
-  UID: string;
+  username: string;
   imdb_title_id: number;
   percentile: number;
 }
 
-const importRatings = async (event: { body: string }): Promise<IHTTP> => {
-  const { ratings, UID } = JSON.parse(event.body);
+const importRatings = async (event: { body: string; pathParameters: { username: string } }): Promise<IHTTP> => {
+  const { ratings } = JSON.parse(event.body);
+  const { username } = event.pathParameters;
 
-  const filteredRatings = await filterRatings(ratings);
+  const filteredRatings = await filterRatings(ratings, username);
   const chunkedRatings = chunk(filteredRatings, 25);
 
   try {
@@ -48,16 +49,19 @@ const importRatings = async (event: { body: string }): Promise<IHTTP> => {
       batchInserts.push(batchInsertRatings(reviewChunk));
     });
 
-    await Promise.all(batchInserts);
+    const result = await Promise.all(batchInserts);
+    // @ts-expect-error statusCode does exist
+    if (result.some((res) => res.statusCode === 520)) return createAWSResErr(520, 'Unhandled Exception');
+
     console.log(`Successfully inserted ${filteredRatings.length} reviews`);
 
-    const userRatings = await getUserRatings(UID);
+    const userRatings = await getUserRatings(username);
 
     // @ts-expect-error Count does exist:
-    await updateNumUserRatings(UID, userRatings.Count);
+    await updateNumUserRatings(username, userRatings.Count);
     // @ts-expect-error Items does exist:
     const extractedRatings = extractRatings(userRatings.Items);
-    const percentiles = calculatePercentiles(UID, extractedRatings);
+    const percentiles = calculatePercentiles(username, extractedRatings);
     await updatePercentiles(percentiles);
 
     return {
@@ -83,7 +87,7 @@ const batchInsertRatings = async (reviews: IRating[]): Promise<BatchWriteItemCom
 
   const params = {
     RequestItems: {
-      [process.env.RATINGS_TABLE_NAME as string]: items
+      [process.env.RATINGS_TABLE_NAME!]: items
     }
   } as BatchWriteItemCommandInput;
 
@@ -96,7 +100,10 @@ const batchInsertRatings = async (reviews: IRating[]): Promise<BatchWriteItemCom
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
-const calculatePercentiles = (UID: string, ratings: { imdb_title_id: number; rating: number }[]): IPercentile[] => {
+const calculatePercentiles = (
+  username: string,
+  ratings: { imdb_title_id: number; rating: number }[]
+): IPercentile[] => {
   ratings = ratings.sort((a, b) => a.rating - b.rating);
   const numValues = ratings.length;
 
@@ -112,7 +119,7 @@ const calculatePercentiles = (UID: string, ratings: { imdb_title_id: number; rat
     }
 
     const percentile = Math.round((firstAppearance / numValues) * 100);
-    percentiles.push({ UID, imdb_title_id: ratings[i].imdb_title_id, percentile });
+    percentiles.push({ username, imdb_title_id: ratings[i].imdb_title_id, percentile });
   }
 
   console.log('Calculated percentiles successfully');
@@ -125,10 +132,14 @@ const extractRatings = (userReviews: IDynamoReview[]): { imdb_title_id: number; 
     imdb_title_id: Number(review.imdb_title_id.N)
   }));
 
-const filterRatings = async (reviews: IRating[]): Promise<IRating[]> => {
+const filterRatings = async (reviews: IRating[], username: string): Promise<IRating[]> => {
   const matchedFilmIDs = await getMatchedFilmIDs(reviews);
 
-  return reviews.filter((review: { imdb_title_id: number }) => matchedFilmIDs.includes(review.imdb_title_id));
+  const filteredRatings = reviews.filter((review: { imdb_title_id: number }) =>
+    matchedFilmIDs.includes(review.imdb_title_id)
+  );
+
+  return filteredRatings.map((rating) => ({ ...rating, username }));
 };
 
 const getMatchedFilmIDs = async (reviews: { imdb_title_id: number }[]): Promise<number[]> => {
@@ -165,8 +176,8 @@ const updatePercentiles = async (percentiles: IPercentile[]): Promise<IHTTP | vo
         'ratingPercentile',
         percentile.percentile.toString(),
         'N',
-        'UID',
-        percentile.UID,
+        'username',
+        percentile.username,
         'S'
       );
 
@@ -183,14 +194,14 @@ const updatePercentiles = async (percentiles: IPercentile[]): Promise<IHTTP | vo
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
-const getUserRatings = async (UID: string): Promise<QueryCommandOutput | IHTTP> => {
+const getUserRatings = async (username: string): Promise<QueryCommandOutput | IHTTP> => {
   const query = createDynamoSearchQuery(
     process.env.RATINGS_TABLE_NAME!,
     'imdb_title_id, rating',
-    'UID',
-    UID,
+    'username',
+    username,
     'S',
-    process.env.UID_INDEX
+    process.env.USERNAME_INDEX
   );
 
   try {
@@ -202,11 +213,11 @@ const getUserRatings = async (UID: string): Promise<QueryCommandOutput | IHTTP> 
   return createAWSResErr(500, 'Unhandled exception');
 };
 
-const updateNumUserRatings = async (UID: string, numRatings: number): Promise<IHTTP | void> => {
+const updateNumUserRatings = async (username: string, numRatings: number): Promise<IHTTP | void> => {
   const params = createDynamoUpdateQuery(
     process.env.USER_TABLE_NAME!,
-    'UID',
-    UID,
+    'username',
+    username,
     'S',
     'numRatings',
     numRatings.toString(),

@@ -10,11 +10,11 @@ import { unmarshall } from '@aws-sdk/util-dynamodb';
 
 const dbClient = new DynamoDBClient({});
 
-const getUserRating = async (event: { pathParameters: { imdb_title_id: number; UID: string } }): Promise<IHTTP> => {
-  const { imdb_title_id, UID } = event.pathParameters;
+const getUserRating = async (event: { pathParameters: { imdb_title_id: number; username: string } }): Promise<IHTTP> => {
+  const { imdb_title_id, username} = event.pathParameters;
 
   try {
-    const rating = await getUserRatingFromDB(imdb_title_id, UID);
+    const rating = await getUserRatingFromDB(imdb_title_id, username);
     if (!rating) return createAWSResErr(404, 'No rating found');
 
     console.log('Successfully fetched user rating');
@@ -30,7 +30,7 @@ const getUserRating = async (event: { pathParameters: { imdb_title_id: number; U
 };
 
 // to do:
-const getUserRatingFromDB = async (imdb_title_id: number, UID: string): Promise<IRating> => {
+const getUserRatingFromDB = async (imdb_title_id: number, username: string): Promise<IRating> => {
   const query = createDynamoSearchQuery(
     process.env.RATINGS_TABLE_NAME!,
     'rating, review, createdAt',
@@ -38,8 +38,8 @@ const getUserRatingFromDB = async (imdb_title_id: number, UID: string): Promise<
     imdb_title_id,
     'N',
     undefined,
-    'UID',
-    UID,
+    'username',
+    username,
     'S'
   );
 
