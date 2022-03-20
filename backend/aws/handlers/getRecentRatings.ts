@@ -49,7 +49,7 @@ const getRecentRatings = async (event: { pathParameters: { username: string } })
 const getRecentRatingsFromDynamo = async (username: string): Promise<IHTTP | IUnmarshalledRating[]> => {
   // to do: figure out why ProjectionExpression causes error
   // imdb_title_id, createdAt, rating, ratingPercentile
-  const params = createDynamoSearchQuery(
+  const query = createDynamoSearchQuery(
     process.env.RATINGS_TABLE_NAME!,
     undefined,
     'username',
@@ -57,14 +57,13 @@ const getRecentRatingsFromDynamo = async (username: string): Promise<IHTTP | IUn
     'S',
     'username'
   );
+  query.ScanIndexForward = false;
+  query.Limit = 20;
 
   try {
-    const results = await dbClient.send(new QueryCommand(params));
+    const results = await dbClient.send(new QueryCommand(query));
 
-    let unmarshalledResults = results.Items!.map((result) => unmarshall(result)) as IUnmarshalledRating[];
-
-    unmarshalledResults = unmarshalledResults.sort((a, b) => b.createdAt - a.createdAt);
-    return unmarshalledResults.slice(0, 20);
+    return results.Items!.map((result) => unmarshall(result)) as IUnmarshalledRating[];
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(500, error.message);
   }
