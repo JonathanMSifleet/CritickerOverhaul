@@ -1,52 +1,33 @@
-import IHTTP from '../shared/interfaces/IHTTP';
-import { connectionDetails } from '../shared/constants/ConnectionDetails';
-import cors from '@middy/http-cors';
-import { createAWSResErr } from '../shared/functions/createAWSResErr';
-import middy from '@middy/core';
-import serverlessMysql from 'serverless-mysql';
+import IFilm from './../../../../shared/interfaces/IFilm';
+import { ServerlessMysql } from 'serverless-mysql';
 
-const mysql = serverlessMysql({ config: connectionDetails });
+const getIndividualFilmDetails = async (id: number, mysql: ServerlessMysql): Promise<IFilm> => {
+  const getFilm = mysql.query(mainSQL, [id]);
+  const getDirector = mysql.query(directorSQL, [id]);
+  const getWriters = mysql.query(writerSQL, [id]);
+  const getOrderedFilmActors = mysql.query(orderedActorSQL, [id]);
+  const getUnorderedActorResult = mysql.query(unorderedActorSQL, [id, id]);
 
-const getAllFilmDetailsByID = async (event: { pathParameters: { id: number } }): Promise<IHTTP> => {
-  const { id } = event.pathParameters;
+  const [film, director, writers, filmActors, unorderedFilmActors] = (await Promise.all([
+    getFilm,
+    getDirector,
+    getWriters,
+    getOrderedFilmActors,
+    getUnorderedActorResult
+  ])) as any;
 
-  try {
-    const getFilm = mysql.query(mainSQL, [id]);
-    const getDirector = mysql.query(directorSQL, [id]);
-    const getWriters = mysql.query(writerSQL, [id]);
-    const getOrderedFilmActors = mysql.query(orderedActorSQL, [id]);
-    const getUnorderedActorResult = mysql.query(unorderedActorSQL, [id, id]);
+  const result = {
+    ...film[0],
+    ...director[0],
+    ...writers[0],
+    ...filmActors[0]
+  };
 
-    const [film, director, writers, filmActors, unorderedFilmActors] = (await Promise.all([
-      getFilm,
-      getDirector,
-      getWriters,
-      getOrderedFilmActors,
-      getUnorderedActorResult
-    ])) as any;
-
-    mysql.quit();
-
-    const result = {
-      ...film[0],
-      ...director[0],
-      ...writers[0],
-      ...filmActors[0]
-    };
-
-    if (unorderedFilmActors[0].actors) result.actors = `${result.actors}, ${unorderedFilmActors[0].actors}`;
-
-    console.log('Sucessfully fetched results');
-    return {
-      statusCode: 200,
-      body: JSON.stringify(result)
-    };
-  } catch (error) {
-    if (error instanceof Error) return createAWSResErr(500, error.message);
-  }
-
-  return createAWSResErr(500, 'Unhandled Exception');
+  if (unorderedFilmActors[0].actors) result.actors = `${result.actors}, ${unorderedFilmActors[0].actors}`;
+  return result;
 };
+
+export default getIndividualFilmDetails;
 
 const mainSQL =
   'SELECT films.year, films.title, ' +
@@ -103,5 +84,3 @@ const unorderedActorSQL =
   ') as fromSubQuery ' +
   'LEFT JOIN people ' +
   'ON fromSubQuery.imdb_name_id = people.imdb_name_id';
-
-export const handler = middy(getAllFilmDetailsByID).use(cors());
