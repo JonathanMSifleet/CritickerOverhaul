@@ -1,11 +1,14 @@
-import { DynamoDBClient, ScanCommand } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
 
 import IHTTP from '../shared/interfaces/IHTTP';
 import { connectionDetails } from '../shared/constants/ConnectionDetails';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
+import createDynamoSearchQuery from './../shared/functions/DynamoDB/createDynamoSearchQuery';
+import matchDynamoAndMudfootResults from '../shared/functions/matchDynamoAndMudfootResults';
 import middy from '@middy/core';
 import serverlessMysql from 'serverless-mysql';
+import { unmarshall } from '@aws-sdk/util-dynamodb';
 
 const dbClient = new DynamoDBClient({});
 const mysql = serverlessMysql({ config: connectionDetails });
@@ -17,7 +20,7 @@ interface IUnmarshalledRating {
   ratingPercentile: number;
 }
 
-const getRecentRatings = async (event: { pathParameters: { username: string } }): Promise<any> => {
+const getRecentRatings = async (event: { pathParameters: { username: string } }): Promise<IHTTP> => {
   const { username } = event.pathParameters;
 
   const dynamoRatings = (await getRecentRatingsFromDynamo(username)) as IUnmarshalledRating[];
@@ -32,18 +35,10 @@ const getRecentRatings = async (event: { pathParameters: { username: string } })
     queries.push(mysql.query(sql, [rating.imdb_title_id]));
   });
 
-  const results = await Promise.all(queries);
+  const mudfootResults = await Promise.all(queries);
   mysql.quit();
 
-  const mergedRatings = dynamoRatings.map((rating) => {
-    const matchingResult = results.find((result) => result[0].imdb_title_id === rating.imdb_title_id);
-    return matchingResult
-      ? {
-          ...rating,
-          ...matchingResult[0]
-        }
-      : rating;
-  });
+  const mergedRatings = matchDynamoAndMudfootResults(dynamoRatings, mudfootResults);
 
   return {
     statusCode: 200,
@@ -52,26 +47,21 @@ const getRecentRatings = async (event: { pathParameters: { username: string } })
 };
 
 const getRecentRatingsFromDynamo = async (username: string): Promise<IHTTP | IUnmarshalledRating[]> => {
-  const params = {
-    TableName: process.env.RATINGS_TABLE_NAME!,
-    ProjectionExpression: 'imdb_title_id, createdAt, rating, ratingPercentile',
-    FilterExpression: 'username = :username',
-    ExpressionAttributeValues: {
-      ':username': { S: username }
-    }
-  };
+  // to do: figure out why ProjectionExpression causes error
+  // imdb_title_id, createdAt, rating, ratingPercentile
+  const params = createDynamoSearchQuery(
+    process.env.RATINGS_TABLE_NAME!,
+    undefined,
+    'username',
+    username,
+    'S',
+    'username'
+  );
 
   try {
-    const results = await dbClient.send(new ScanCommand(params));
+    const results = await dbClient.send(new QueryCommand(params));
 
-    let unmarshalledResults = results.Items!.map((result) => {
-      return {
-        imdb_title_id: Number(result.imdb_title_id.N),
-        createdAt: Number(result.createdAt.N),
-        rating: Number(result.rating.N),
-        ratingPercentile: Number(result.ratingPercentile.N)
-      };
-    }) as IUnmarshalledRating[];
+    let unmarshalledResults = results.Items!.map((result) => unmarshall(result)) as IUnmarshalledRating[];
 
     unmarshalledResults = unmarshalledResults.sort((a, b) => b.createdAt - a.createdAt);
     return unmarshalledResults.slice(0, 20);

@@ -16,9 +16,9 @@ RatingsTable:
         KeyType: RANGE
 
     GlobalSecondaryIndexes:
-        - IndexName: username
-          KeySchema:
-            - AttributeName: username
-              KeyType: HASH
-          Projection:
-            ProjectionType: ALL
+      - IndexName: username
+        KeySchema:
+          - AttributeName: username
+            KeyType: HASH
+        Projection:
+          ProjectionType: ALL
