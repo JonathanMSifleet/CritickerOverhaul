@@ -10,6 +10,8 @@ RatingsTable:
         AttributeType: S
       - AttributeName: createdAt
         AttributeType: N
+      - AttributeName: rating
+        AttributeType: N
 
     KeySchema:
       - AttributeName: imdb_title_id
@@ -22,7 +24,21 @@ RatingsTable:
         KeySchema:
           - AttributeName: username
             KeyType: HASH
+        Projection:
+          ProjectionType: ALL
+      - IndexName: usernameCreatedAt
+        KeySchema:
+          - AttributeName: username
+            KeyType: HASH
           - AttributeName: createdAt
+            KeyType: RANGE
+        Projection:
+          ProjectionType: ALL
+      - IndexName: usernameRating
+        KeySchema:
+          - AttributeName: username
+            KeyType: HASH
+          - AttributeName: rating
             KeyType: RANGE
         Projection:
           ProjectionType: ALL

@@ -55,7 +55,7 @@ const getRecentRatingsFromDynamo = async (username: string): Promise<IHTTP | IUn
     'username',
     username,
     'S',
-    'username'
+    'usernameCreatedAt'
   );
   query.ScanIndexForward = false;
   query.Limit = 20;

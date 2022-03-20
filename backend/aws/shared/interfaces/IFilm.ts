@@ -1,12 +1,13 @@
 export default interface IFilm {
-  year: number;
-  title: string;
-  duration: number;
+  actors: string;
+  countries: string;
   description: string;
+  directors: string;
+  duration: number;
   genres: string;
   languages: string;
-  countries: string;
-  directors: string;
+  imdb_title_id: number;
+  title: string;
   writers: string;
-  actors: string;
+  year: number;
 }

@@ -10,8 +10,10 @@ import { unmarshall } from '@aws-sdk/util-dynamodb';
 
 const dbClient = new DynamoDBClient({});
 
-const getUserRating = async (event: { pathParameters: { imdb_title_id: number; username: string } }): Promise<IHTTP> => {
-  const { imdb_title_id, username} = event.pathParameters;
+const getUserRating = async (event: {
+  pathParameters: { imdb_title_id: number; username: string };
+}): Promise<IHTTP> => {
+  const { imdb_title_id, username } = event.pathParameters;
 
   try {
     const rating = await getUserRatingFromDB(imdb_title_id, username);
