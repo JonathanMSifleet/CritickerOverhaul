@@ -32,7 +32,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
       setIsLoading(true);
 
       try {
-        const film = await httpRequest(`${endpoints.GET_FILM_BY_PARAM}/${id}`, 'GET');
+        const film = await httpRequest(`${endpoints.GET_FILM_DETAILS}/${id}`, 'GET');
         const filmPoster = await getFilmPoster(id!);
 
         if (userState.loggedIn) {

@@ -19,7 +19,7 @@ const login = async (event: { body: string }): Promise<IHTTP> => {
     'email',
     email,
     'S',
-    process.env.EMAIL_INDEX!
+    'email'
   );
 
   try {

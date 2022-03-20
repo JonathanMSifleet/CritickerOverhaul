@@ -2,7 +2,7 @@ import { QueryCommandInput } from '@aws-sdk/client-dynamodb';
 
 const createDynamoSearchQuery = (
   tableName: string,
-  fields: string,
+  fields: string | undefined,
   primaryKeyName: string,
   primaryKeyValue: string | number,
   primaryKeyType: string,

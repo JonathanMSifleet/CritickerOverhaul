@@ -201,7 +201,7 @@ const getUserRatings = async (username: string): Promise<QueryCommandOutput | IH
     'username',
     username,
     'S',
-    process.env.USERNAME_INDEX
+    'username'
   );
 
   try {

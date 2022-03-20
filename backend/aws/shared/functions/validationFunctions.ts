@@ -9,8 +9,8 @@ export const validateUserInputs = async (
   password: string
 ): Promise<(string | null)[]> => {
   const errors = await Promise.all([
-    checkUniqueAttribute(process.env.EMAIL_INDEX!, 'email', email),
-    checkUniqueAttribute(process.env.USERNAME_INDEX!, 'username', username),
+    checkUniqueAttribute('email', 'email', email),
+    checkUniqueAttribute('username', 'username', username),
     validateValue(username, 'Username'),
     validateValue(email, 'Email'),
     validateValue(password, 'Password')

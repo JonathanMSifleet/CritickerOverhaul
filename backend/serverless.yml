@@ -19,9 +19,6 @@ provider:
     RATINGS_TABLE_NAME: ${self:custom.RatingsTable.name}
     AVATAR_TABLE_NAME: ${self:custom.AvatarTable.name}
     USER_TABLE_NAME: ${self:custom.UserTable.name}
-    CREATED_AT_INDEX: createdAt
-    EMAIL_INDEX: email
-    USERNAME_INDEX: username
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
   iam:
     role:
@@ -48,19 +45,19 @@ functions:
           method: DELETE
           path: rating/deleteRating/{imdb_title_id}/{username}
           cors: true
-  login:
-    handler: aws/handlers/login.handler
-    events:
-      - http:
-          method: POST
-          path: login
-          cors: true
-  getAllFilmDetailsByID:
-    handler: aws/handlers/getAllFilmDetailsByID.handler
+  getAllRatings:
+    handler: aws/handlers/getAllRatings.handler
     events:
       - http:
           method: GET
-          path: getFilm/{id}
+          path: rating/getAllRatings/{username}
+          cors: true
+  getFilmDetails:
+    handler: aws/handlers/getFilmDetails.handler
+    events:
+      - http:
+          method: GET
+          path: getFilmDetails/{id}
           cors: true
   getFilms:
     handler: aws/handlers/getFilms.handler
@@ -104,6 +101,13 @@ functions:
       - http:
           method: POST
           path: rating/importRatings/{username}
+          cors: true
+  login:
+    handler: aws/handlers/login.handler
+    events:
+      - http:
+          method: POST
+          path: login
           cors: true
   rateFilm:
     handler: aws/handlers/rateFilm.handler

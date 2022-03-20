@@ -216,8 +216,8 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
 
                         const ratingColour =
                           columnIndex === 0
-                            ? { backgroundColor: cellIndex % 2 === 0 ? '#FBFBFB' : '#eeeeee' }
-                            : { backgroundColor: cellIndex % 2 === 0 ? '#eeeeee' : '#FBFBFB' };
+                            ? { backgroundColor: cellIndex % 2 === 0 ? '#FBFBFB' : '#E5F3FF' }
+                            : { backgroundColor: cellIndex % 2 === 0 ? '#E5F3FF' : '#FBFBFB' };
 
                         return (
                           <Link
