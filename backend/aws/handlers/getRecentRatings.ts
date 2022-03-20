@@ -74,7 +74,7 @@ const getRecentRatingsFromDynamo = async (username: string): Promise<IHTTP | IUn
     }) as IUnmarshalledRating[];
 
     unmarshalledResults = unmarshalledResults.sort((a, b) => b.createdAt - a.createdAt);
-    return unmarshalledResults.slice(0, 30);
+    return unmarshalledResults.slice(0, 20);
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(500, error.message);
   }

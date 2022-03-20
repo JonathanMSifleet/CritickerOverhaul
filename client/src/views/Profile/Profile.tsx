@@ -6,23 +6,21 @@ import { Suspense, lazy } from 'preact/compat';
 import Avatar from './Avatar/Avatar';
 import FileSelector from '../../components/FileSelector/FileSelector';
 import IRating from '../../../../shared/interfaces/IRating';
+import IUrlParams from '../../interfaces/IUrlParams';
 import IUserProfile from '../../../../shared/interfaces/IUserProfile';
 import { Link } from 'preact-router/match';
+import { MDBCol } from 'mdb-react-ui-kit';
 import PageView from '../../components/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
 import { XMLParser } from 'fast-xml-parser';
 import chunk from 'chunk';
 import classes from './Profile.module.scss';
+import colourGradient from 'javascript-color-gradient';
 import httpRequest from '../../utils/httpRequest';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../store';
 
 const UpdateUserDetailsForm = lazy(() => import('./UpdateUserDetailsForm/UpdateUserDetailsForm'));
-
-interface IUrlParams {
-  path?: string;
-  username?: string;
-}
 
 interface IRecentRating {
   imdb_title_id: number;
@@ -43,14 +41,24 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   const [userProfile, setUserProfile] = useState(null as null | IUserProfile);
   const userState = useRecoilValue(userInfoState);
 
+  // @ts-expect-error property does exist
+  const colourArray = colourGradient.setGradient('#FF0000', '#FBFB13', '#228A00').setMidpoint(5);
+
   useEffect(() => {
-    const loadUserProfile = async (determinedUsername: string): Promise<void> => {
+    (async (): Promise<void> => {
       setIsLoadingProfile(true);
+
+      let localUsername;
+      if (username) {
+        localUsername = username;
+      } else if (userState.username !== '') {
+        localUsername = userState.username;
+      }
 
       const userHTTPRequests = [];
       try {
-        userHTTPRequests.push(await httpRequest(`${endpoints.GET_PROFILE_BY_USERNAME}/${determinedUsername}`, 'GET'));
-        userHTTPRequests.push(await httpRequest(`${endpoints.GET_RECENT_RATINGS}/${determinedUsername}`, 'GET'));
+        userHTTPRequests.push(await httpRequest(`${endpoints.GET_PROFILE_BY_USERNAME}/${localUsername}`, 'GET'));
+        userHTTPRequests.push(await httpRequest(`${endpoints.GET_RECENT_RATINGS}/${localUsername}`, 'GET'));
 
         const results = await Promise.all(userHTTPRequests);
 
@@ -62,16 +70,17 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
       } finally {
         setIsLoadingProfile(false);
       }
-    };
-
-    if (username) {
-      loadUserProfile(username);
-    } else if (userState.username !== '') {
-      loadUserProfile(userState.username);
-    }
+    })();
   }, [username]);
 
   const epochToDate = (epoch: number): string => new Date(epoch).toLocaleDateString('en-GB');
+
+  const getColourGradient = (ratingPercentile: number): { color: string } => {
+    let colourIndex = Math.round(ratingPercentile / 10);
+    if (colourIndex <= 0) colourIndex = 1;
+
+    return { color: colourArray.getColor(colourIndex) };
+  };
 
   const getRatingRank = (numRatings: number): string => {
     switch (true) {
@@ -162,7 +171,10 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                 <p className={classes.UserProfileText}>
                   <b>Member since:</b> {epochToDate(userProfile.memberSince!)}
                 </p>
-                <p className={classes.UserProfileLink} onClick={(): void => setShowUpdateDetailsForm(true)}>
+                <p
+                  className={classes.UserProfileLink}
+                  onClick={(): void => setShowUpdateDetailsForm(!showUpdateDetailsForm)}
+                >
                   Update Personal Information
                 </p>
                 {showUpdateDetailsForm ? (
@@ -193,20 +205,50 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
 
               <div className={classes.RecentRatingsWrapper}>
                 <h2 className={classes.RecentRatingsHeader}>Recent Ratings</h2>
-                {recentRatings.map((column: IRecentRating[], index: number) => (
-                  <div className={classes.RecentRatingColumn} key={index}>
-                    {column.map((rating) => (
-                      <Link
-                        className={classes.RatingLink}
-                        href={`/film/${rating.imdb_title_id}`}
-                        key={rating.imdb_title_id}
-                      >
-                        {rating.rating} {rating.ratingPercentile}% {rating.title} ({rating.year}){' - '}
-                        {new Date(rating.createdAt).toLocaleDateString('en-GB')}
-                      </Link>
-                    ))}
-                  </div>
-                ))}
+                <Link href={'/ratings'}>View all ratings</Link>
+
+                <div className="d-flex align-items-start bg-light mb-2">
+                  {recentRatings.map((column: IRecentRating[], columnIndex: number) => (
+                    <MDBCol className={classes.RecentRatingColumn} key={columnIndex}>
+                      {column.map((rating, cellIndex) => {
+                        // if index is odd alternate background colour
+                        // const ratingColour = cellIndex % 2 === 0 ? 'bg-light' : 'bg-info';
+
+                        const ratingColour =
+                          columnIndex === 0
+                            ? { backgroundColor: cellIndex % 2 === 0 ? '#FBFBFB' : '#eeeeee' }
+                            : { backgroundColor: cellIndex % 2 === 0 ? '#eeeeee' : '#FBFBFB' };
+
+                        return (
+                          <Link
+                            className={classes.RatingLink}
+                            style={ratingColour}
+                            href={`/film/${rating.imdb_title_id}`}
+                            key={rating.imdb_title_id}
+                          >
+                            {((): JSX.Element => {
+                              const colourGradient = getColourGradient(rating.ratingPercentile);
+                              return (
+                                <>
+                                  <span style={colourGradient}>{rating.rating}</span>
+                                  <span className={classes.RatingPercentile} style={colourGradient}>
+                                    {' '}
+                                    {rating.ratingPercentile}%
+                                  </span>
+                                </>
+                              );
+                            })()}{' '}
+                            <span>
+                              <b>{rating.title}</b>
+                            </span>{' '}
+                            ({rating.year}){' - '}
+                            {new Date(rating.createdAt).toLocaleDateString('en-GB')}
+                          </Link>
+                        );
+                      })}
+                    </MDBCol>
+                  ))}
+                </div>
               </div>
             </>
           ) : (

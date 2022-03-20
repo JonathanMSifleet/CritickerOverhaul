@@ -51,22 +51,34 @@
 }
 
 .RecentRatingsWrapper {
-  margin-top: 1%;
   clear: both;
   float: left;
+  margin-top: 1%;
+  width: 100%;
 }
 
 .RecentRatingsHeader {
   color: $mainBlue;
   font-size: 1.4rem;
+  width: 100%;
 }
 
 .RecentRatingColumn {
-  width: 33.33%;
+  width: 46%;
   float: left;
+  margin: 1%;
 }
 
 .RatingLink {
+  border-radius: 10px;
   clear: both;
+  color: black;
   float: left;
+  font-size: 1.2rem;
+  padding: 1%;
+  width: 100%;
+}
+
+.RatingPercentile {
+  font-size: 0.8rem;
 }
