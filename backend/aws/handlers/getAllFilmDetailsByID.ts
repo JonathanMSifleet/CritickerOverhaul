@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-
 import IHTTP from '../shared/interfaces/IHTTP';
 import { connectionDetails } from '../shared/constants/ConnectionDetails';
 import cors from '@middy/http-cors';
@@ -14,26 +12,29 @@ const getAllFilmDetailsByID = async (event: { pathParameters: { id: number } }):
 
   try {
     const getFilm = mysql.query(mainSQL, [id]);
+    const getDirector = mysql.query(directorSQL, [id]);
+    const getWriters = mysql.query(writerSQL, [id]);
     const getOrderedFilmActors = mysql.query(orderedActorSQL, [id]);
     const getUnorderedActorResult = mysql.query(unorderedActorSQL, [id, id]);
 
-    const results = (await Promise.all([
+    const [film, director, writers, filmActors, unorderedFilmActors] = (await Promise.all([
       getFilm,
+      getDirector,
+      getWriters,
       getOrderedFilmActors,
       getUnorderedActorResult
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ])) as any;
+
     mysql.quit();
 
-    const filmData = results.flat();
-
-    // to do
     const result = {
-      ...filmData[0],
-      ...filmData[1]
+      ...film[0],
+      ...director[0],
+      ...writers[0],
+      ...filmActors[0]
     };
 
-    if (results[2].actors) result.actors = result.actors + ', ' + results[2].actors;
+    if (unorderedFilmActors[0].actors) result.actors = `${result.actors}, ${unorderedFilmActors[0].actors}`;
 
     console.log('Sucessfully fetched results');
     return {
@@ -51,19 +52,9 @@ const mainSQL =
   'SELECT films.year, films.title, ' +
   'films.duration, films.description, ' +
   "GROUP_CONCAT(DISTINCT genres.genre_name ORDER BY genres.genre_name ASC SEPARATOR ', ') AS genres, " +
-  "GROUP_CONCAT(DISTINCT pd.name ORDER BY pd.name ASC SEPARATOR ', ') AS directors, " +
-  "GROUP_CONCAT(DISTINCT pw.name ORDER BY pw.name ASC SEPARATOR ', ') AS writers, " +
   "GROUP_CONCAT(DISTINCT language_name ORDER BY language_name ASC SEPARATOR ', ') AS languages, " +
   "GROUP_CONCAT(DISTINCT country_name ORDER BY country_name ASC SEPARATOR ', ') AS countries " +
   'FROM films ' +
-  'LEFT JOIN film_directors ' +
-  'ON films.imdb_title_id = film_directors.imdb_title_id ' +
-  'LEFT JOIN people as pd ' +
-  'ON film_directors.imdb_name_id = pd.imdb_name_id ' +
-  'LEFT JOIN film_writers ' +
-  'ON films.imdb_title_id = film_writers.imdb_title_id ' +
-  'LEFT JOIN people as pw ' +
-  'ON film_writers.imdb_name_id = pw.imdb_name_id ' +
   'LEFT JOIN film_genres ' +
   'ON films.imdb_title_id = film_genres.imdb_title_id ' +
   'LEFT JOIN genres ' +
@@ -78,6 +69,20 @@ const mainSQL =
   'ON film_countries.country_id = countries.country_id ' +
   'WHERE films.imdb_title_id = ? ' +
   'GROUP BY films.imdb_title_id';
+
+const directorSQL =
+  "SELECT GROUP_CONCAT(DISTINCT people.name ORDER BY people.name ASC SEPARATOR ', ') AS directors " +
+  'FROM people ' +
+  'LEFT JOIN film_directors ' +
+  'ON film_directors.imdb_name_id = people.imdb_name_id ' +
+  'WHERE film_directors.imdb_title_id = ?';
+
+const writerSQL =
+  "SELECT GROUP_CONCAT(DISTINCT people.name ORDER BY people.name ASC SEPARATOR ', ') AS writers " +
+  'FROM people ' +
+  'LEFT JOIN film_writers ' +
+  'ON film_writers.imdb_name_id = people.imdb_name_id ' +
+  'WHERE film_writers.imdb_title_id = ?';
 
 const orderedActorSQL =
   "SELECT GROUP_CONCAT(DISTINCT people.name ORDER BY film_actor_ordering.ordering ASC SEPARATOR ', ') AS actors " +
