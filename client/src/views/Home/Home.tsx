@@ -19,8 +19,15 @@ const Home: FC<IUrlParams> = (): JSX.Element => {
   useEffect(() => {
     (async (): Promise<void> => {
       setIsLoading(true);
-      setFilms((await httpRequest(endpoints.GET_FILMS, 'GET')) as IFilm[]);
-      setIsLoading(false);
+
+      try {
+        const result = await httpRequest(endpoints.GET_FILMS, 'GET');
+        if (result.statusCode !== 500) setFilms(result as IFilm[]);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
     })();
   }, []);
 
@@ -33,7 +40,7 @@ const Home: FC<IUrlParams> = (): JSX.Element => {
   return (
     <PageView>
       {!isLoading ? (
-        <>{films ? films.map((film: IFilm) => <FilmCard film={film} key={film.imdb_title_id} />) : null}</>
+        <>{films ? films.map((film: IFilm) => <FilmCard film={film} key={film.imdbID} />) : null}</>
       ) : (
         <Spinner />
       )}

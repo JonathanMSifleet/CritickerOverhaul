@@ -13,7 +13,6 @@ import { MDBCol } from 'mdb-react-ui-kit';
 import PageView from '../../components/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
 import { XMLParser } from 'fast-xml-parser';
-import chunk from 'chunk';
 import classes from './Profile.module.scss';
 import colourGradient from 'javascript-color-gradient';
 import httpRequest from '../../utils/httpRequest';
@@ -23,7 +22,7 @@ import { userInfoState } from '../../store';
 const UpdateUserDetailsForm = lazy(() => import('./UpdateUserDetailsForm/UpdateUserDetailsForm'));
 
 interface IRecentRating {
-  imdb_title_id: number;
+  imdbID: number;
   rating: number;
   ratingPercentile: number;
   title: string;
@@ -35,7 +34,8 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   const [importMessage, setImportMessage] = useState('');
   const [importingRatings, setImportingRatings] = useState(false);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
-  const [recentRatings, setRecentRatings] = useState(null as any);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [recentRatings, _setRecentRatings] = useState(null as any);
   const [shouldLoadAvatar, setShouldLoadAvatar] = useState(false);
   const [showUpdateDetailsForm, setShowUpdateDetailsForm] = useState(false);
   const [userProfile, setUserProfile] = useState(null as null | IUserProfile);
@@ -58,12 +58,12 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
       const userHTTPRequests = [];
       try {
         userHTTPRequests.push(await httpRequest(`${endpoints.GET_PROFILE_BY_USERNAME}/${localUsername}`, 'GET'));
-        userHTTPRequests.push(await httpRequest(`${endpoints.GET_RECENT_RATINGS}/${localUsername}`, 'GET'));
+        // userHTTPRequests.push(await httpRequest(`${endpoints.GET_RECENT_RATINGS}/${localUsername}`, 'GET'));
 
         const results = await Promise.all(userHTTPRequests);
 
         setUserProfile(results[0]);
-        setRecentRatings(chunk(results[1], 10));
+        // setRecentRatings(chunk(results[1], 10));
         setShouldLoadAvatar(true);
       } catch (error) {
         console.error(error);
@@ -105,11 +105,11 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
 
   const processRatings = (parsedJSON: [{ [key: string]: string | number }]): void => {
     const processedRatings = parsedJSON.map((rating) => {
-      const imdb_title_id = rating.imdbid.toString().slice(2).replace(/^0+/, '');
+      const imdbID = rating.imdbid.toString().slice(2).replace(/^0+/, '');
 
       const processedRating = {
         createdAt: new Date(rating.reviewdate).getTime(),
-        imdb_title_id: Number(imdb_title_id),
+        imdbID: Number(imdbID),
         rating: rating.rating
       } as IRating;
 
@@ -208,46 +208,48 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                 <Link href={'/ratings'}>View all ratings</Link>
 
                 <div className="d-flex align-items-start bg-light mb-2">
-                  {recentRatings.map((column: IRecentRating[], columnIndex: number) => (
-                    <MDBCol className={classes.RecentRatingColumn} key={columnIndex}>
-                      {column.map((rating, cellIndex) => {
-                        // if index is odd alternate background colour
-                        // const ratingColour = cellIndex % 2 === 0 ? 'bg-light' : 'bg-info';
+                  {recentRatings
+                    ? recentRatings.map((column: IRecentRating[], columnIndex: number) => (
+                        <MDBCol className={classes.RecentRatingColumn} key={columnIndex}>
+                          {column.map((rating, cellIndex) => {
+                            // if index is odd alternate background colour
+                            // const ratingColour = cellIndex % 2 === 0 ? 'bg-light' : 'bg-info';
 
-                        const ratingColour =
-                          columnIndex === 0
-                            ? { backgroundColor: cellIndex % 2 === 0 ? '#FBFBFB' : '#E5F3FF' }
-                            : { backgroundColor: cellIndex % 2 === 0 ? '#E5F3FF' : '#FBFBFB' };
+                            const ratingColour =
+                              columnIndex === 0
+                                ? { backgroundColor: cellIndex % 2 === 0 ? '#FBFBFB' : '#E5F3FF' }
+                                : { backgroundColor: cellIndex % 2 === 0 ? '#E5F3FF' : '#FBFBFB' };
 
-                        return (
-                          <Link
-                            className={classes.RatingLink}
-                            style={ratingColour}
-                            href={`/film/${rating.imdb_title_id}`}
-                            key={rating.imdb_title_id}
-                          >
-                            {((): JSX.Element => {
-                              const colourGradient = getColourGradient(rating.ratingPercentile);
-                              return (
-                                <>
-                                  <span style={colourGradient}>{rating.rating}</span>
-                                  <span className={classes.RatingPercentile} style={colourGradient}>
-                                    {' '}
-                                    {rating.ratingPercentile}%
-                                  </span>
-                                </>
-                              );
-                            })()}{' '}
-                            <span>
-                              <b>{rating.title}</b>
-                            </span>{' '}
-                            ({rating.year}){' - '}
-                            {new Date(rating.createdAt).toLocaleDateString('en-GB')}
-                          </Link>
-                        );
-                      })}
-                    </MDBCol>
-                  ))}
+                            return (
+                              <Link
+                                className={classes.RatingLink}
+                                style={ratingColour}
+                                href={`/film/${rating.imdbID}`}
+                                key={rating.imdbID}
+                              >
+                                {((): JSX.Element => {
+                                  const colourGradient = getColourGradient(rating.ratingPercentile);
+                                  return (
+                                    <>
+                                      <span style={colourGradient}>{rating.rating}</span>
+                                      <span className={classes.RatingPercentile} style={colourGradient}>
+                                        {' '}
+                                        {rating.ratingPercentile}%
+                                      </span>
+                                    </>
+                                  );
+                                })()}{' '}
+                                <span>
+                                  <b>{rating.title}</b>
+                                </span>{' '}
+                                ({rating.year}){' - '}
+                                {new Date(rating.createdAt).toLocaleDateString('en-GB')}
+                              </Link>
+                            );
+                          })}
+                        </MDBCol>
+                      ))
+                    : null}
                 </div>
               </div>
             </>

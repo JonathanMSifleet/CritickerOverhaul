@@ -15,17 +15,19 @@ provider:
   stage: ${opt:stage, 'dev'}
   region: eu-west-2
   environment:
-    REACT_BUCKET_NAME: ${self:custom.ReactBucket.name}
-    RATINGS_TABLE_NAME: ${self:custom.RatingsTable.name}
     AVATAR_TABLE_NAME: ${self:custom.AvatarTable.name}
+    FILMS_TABLE_NAME: ${self:custom.FilmsTable.name}
+    RATINGS_TABLE_NAME: ${self:custom.RatingsTable.name}
+    REACT_BUCKET_NAME: ${self:custom.ReactBucket.name}
     USER_TABLE_NAME: ${self:custom.UserTable.name}
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
   iam:
     role:
       statements:
-        - ${file(aws/iam/UserTableIAM.yml):UserTableIAM}
-        - ${file(aws/iam/RatingsTableIAM.yml):RatingsTableIAM}
         - ${file(aws/iam/AvatarTableIAM.yml):AvatarTableIAM}
+        - ${file(aws/iam/FilmsTableIAM.yml):FilmsTableIAM}
+        - ${file(aws/iam/RatingsTableIAM.yml):RatingsTableIAM}
+        - ${file(aws/iam/UserTableIAM.yml):UserTableIAM}
 
 package:
   individually: true
@@ -106,6 +108,14 @@ functions:
           method: GET
           path: rating/getUserRating/{imdb_title_id}/{username}
           cors: true
+  importFilmBatch:
+    handler: aws/handlers/importFilmBatch.handler
+    timeout: 30
+    events:
+      - http:
+          method: POST
+          path: films/importFilmBatch
+          cors: true
   importRatings:
     handler: aws/handlers/importRatings.handler
     timeout: 30
@@ -169,6 +179,7 @@ resources:
     ReactBucket: ${file(aws/resources/ReactBucket.yml):ReactBucket}
     # Tables:
     AvatarTable: ${file(aws/resources/AvatarTable.yml):AvatarTable}
+    FilmsTable: ${file(aws/resources/FilmsTable.yml):FilmsTable}
     RatingsTable: ${file(aws/resources/RatingsTable.yml):RatingsTable}
     UserTable: ${file(aws/resources/UserTable.yml):UserTable}
     # Bucket policies:
@@ -247,15 +258,18 @@ resources:
         StatusCode: '401'
 
 custom:
+  AvatarTable:
+    name: !Ref AvatarTable
+    arn: !GetAtt AvatarTable.Arn
+  FilmsTable:
+    name: !Ref FilmsTable
+    arn: !GetAtt FilmsTable.Arn
   UserTable:
     name: !Ref UserTable
     arn: !GetAtt UserTable.Arn
   RatingsTable:
     name: !Ref RatingsTable
     arn: !GetAtt RatingsTable.Arn
-  AvatarTable:
-    name: !Ref AvatarTable
-    arn: !GetAtt AvatarTable.Arn
   ReactBucket:
     name: react-bucket-x3blze4m-${self:provider.stage}
   BucketFolder:

@@ -1,0 +1,12 @@
+FilmsTable:
+  Type: AWS::DynamoDB::Table
+  Properties:
+    TableName: FilmsTable
+    BillingMode: PAY_PER_REQUEST
+    AttributeDefinitions:
+      - AttributeName: imdbID
+        AttributeType: N
+
+    KeySchema:
+      - AttributeName: imdbID
+        KeyType: HASH

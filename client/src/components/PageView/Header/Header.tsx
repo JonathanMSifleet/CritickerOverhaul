@@ -8,25 +8,47 @@ import {
   MDBNavbarNav,
   MDBNavbarToggler
 } from 'mdb-react-ui-kit';
+import { Suspense, lazy } from 'preact/compat';
 import { modalState, userInfoState } from '../../../store';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
-import Auth from '../../Auth/Auth';
 import Button from '../../Button/Button';
 import { FC } from 'react';
+import FileSelector from '../../FileSelector/FileSelector';
 import { Link } from 'preact-router';
 import Logo from '../../../assets/svg/Logo.svg';
 import Modal from '../../Modal/Modal';
+import Spinner from '../../Spinner/Spinner';
 import classes from './Header.module.scss';
+import migrateFilms from '../../../utils/migrateFilms';
+
+const Auth = lazy(() => import('../../Auth/Auth'));
 
 const Header: FC = (): JSX.Element => {
   const resetUserState = useResetRecoilState(userInfoState);
   const userState = useRecoilValue(userInfoState);
   const [showModal, setShowModal] = useRecoilState(modalState);
 
+  const displayAuthModal = (): void => setShowModal(true);
+
   const logout = (): void => resetUserState();
 
-  const displayAuthModal = (): void => setShowModal(true);
+  const uploadFile = (event: { target: { files: Blob[] } }): void => {
+    try {
+      const fileReader = new FileReader();
+
+      fileReader.readAsText(event.target.files[0]);
+      fileReader.onload = (): void => {
+        try {
+          migrateFilms(JSON.parse(fileReader.result as string));
+        } catch (error) {
+          console.error(error);
+        }
+      };
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <header>
@@ -48,6 +70,8 @@ const Header: FC = (): JSX.Element => {
               </MDBNavbarItem>
             </MDBNavbarNav>
           </div>
+
+          <FileSelector onChange={(event): void => uploadFile(event)} />
 
           <MDBInput className={`${classes.SearchInput} bg-light`} label="Search" type="text" />
 
@@ -74,7 +98,10 @@ const Header: FC = (): JSX.Element => {
       </MDBNavbar>
       {showModal ? (
         <Modal>
-          <Auth />
+          {/* @ts-expect-error works correctly */}
+          <Suspense fallback={<Spinner />}>
+            <Auth />
+          </Suspense>
         </Modal>
       ) : null}
     </header>
