@@ -8,7 +8,7 @@ import serverlessMysql from 'serverless-mysql';
 const mysql = serverlessMysql({ config: connectionDetails });
 
 const getFilms = async (): Promise<IHTTP> => {
-  const sql = 'SELECT imdb_title_id, title, description, year FROM films ORDER BY imdb_title_id DESC LIMIT 10';
+  const sql = 'SELECT imdbID, title, description, year FROM films ORDER BY imdbID DESC LIMIT 10';
 
   try {
     const result = await mysql.query(sql, null);

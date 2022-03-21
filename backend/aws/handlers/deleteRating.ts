@@ -8,15 +8,15 @@ import middy from '@middy/core';
 
 const dbClient = new DynamoDBClient({});
 
-const deleteRating = async (event: { pathParameters: { imdb_title_id: number; username: string } }): Promise<IHTTP> => {
-  const { imdb_title_id, username } = event.pathParameters;
+const deleteRating = async (event: { pathParameters: { imdbID: number; username: string } }): Promise<IHTTP> => {
+  const { imdbID, username } = event.pathParameters;
 
   try {
     await dbClient.send(
       new DeleteItemCommand({
         TableName: process.env.RATINGS_TABLE_NAME,
         Key: {
-          imdb_title_id: { N: imdb_title_id.toString() },
+          imdbID: { N: imdbID.toString() },
           username: { S: username }
         }
       })

@@ -20,7 +20,7 @@ const FilmCard: FC<IProps> = ({ film }): JSX.Element => {
       setIsLoading(true);
 
       try {
-        setFilmPoster(await getFilmPoster(film.imdb_title_id));
+        setFilmPoster(await getFilmPoster(film.imdbID));
       } catch (error) {
         setFilmPoster(ShrugSVG);
       } finally {
@@ -43,7 +43,7 @@ const FilmCard: FC<IProps> = ({ film }): JSX.Element => {
         </div>
         <div className={`${classes.TextColumn} col-md-8`}>
           <div className={`${classes.CardBody} card-body`}>
-            <Link href={`/film/${film.imdb_title_id}`}>
+            <Link href={`/film/${film.imdbID}`}>
               <h5 className="card-title">
                 {film.title} - ({film.year})
               </h5>

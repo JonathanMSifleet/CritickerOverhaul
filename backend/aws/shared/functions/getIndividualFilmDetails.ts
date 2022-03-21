@@ -17,7 +17,7 @@ const getIndividualFilmDetails = async (
 export default getIndividualFilmDetails;
 
 const getAllRatingsDetails = async (id: number, mysql: ServerlessMysql): Promise<IFilm> => {
-  const filmSQL = mainSQL.replace('films.description,', 'films.imdb_title_id,');
+  const filmSQL = mainSQL.replace('films.description,', 'films.imdbID,');
 
   const getFilm = mysql.query(filmSQL, [id]);
   const getDirector = mysql.query(directorSQL, [id]);
@@ -66,50 +66,50 @@ const mainSQL =
   "GROUP_CONCAT(DISTINCT country_name ORDER BY country_name ASC SEPARATOR ', ') AS countries " +
   'FROM films ' +
   'LEFT JOIN film_genres ' +
-  'ON films.imdb_title_id = film_genres.imdb_title_id ' +
+  'ON films.imdbID = film_genres.imdbID ' +
   'LEFT JOIN genres ' +
   'ON film_genres.genre_id =  genres.genre_id ' +
   'LEFT JOIN film_languages ' +
-  'ON films.imdb_title_id = film_languages.imdb_title_id ' +
+  'ON films.imdbID = film_languages.imdbID ' +
   'LEFT JOIN languages ' +
   'ON film_languages.language_id = languages.language_id ' +
   'LEFT JOIN film_countries ' +
-  'ON films.imdb_title_id = film_countries.imdb_title_id ' +
+  'ON films.imdbID = film_countries.imdbID ' +
   'LEFT JOIN countries ' +
   'ON film_countries.country_id = countries.country_id ' +
-  'WHERE films.imdb_title_id = ? ' +
-  'GROUP BY films.imdb_title_id';
+  'WHERE films.imdbID = ? ' +
+  'GROUP BY films.imdbID';
 
 const directorSQL =
   "SELECT GROUP_CONCAT(DISTINCT people.name ORDER BY people.name ASC SEPARATOR ', ') AS directors " +
   'FROM people ' +
   'LEFT JOIN film_directors ' +
   'ON film_directors.imdb_name_id = people.imdb_name_id ' +
-  'WHERE film_directors.imdb_title_id = ?';
+  'WHERE film_directors.imdbID = ?';
 
 const writerSQL =
   "SELECT GROUP_CONCAT(DISTINCT people.name ORDER BY people.name ASC SEPARATOR ', ') AS writers " +
   'FROM people ' +
   'LEFT JOIN film_writers ' +
   'ON film_writers.imdb_name_id = people.imdb_name_id ' +
-  'WHERE film_writers.imdb_title_id = ?';
+  'WHERE film_writers.imdbID = ?';
 
 const orderedActorSQL =
   "SELECT GROUP_CONCAT(DISTINCT people.name ORDER BY film_actor_ordering.ordering ASC SEPARATOR ', ') AS actors " +
   'FROM film_actor_ordering ' +
   'LEFT JOIN people ' +
   'ON film_actor_ordering.imdb_name_id = people.imdb_name_id ' +
-  'WHERE film_actor_ordering.imdb_title_id = ? ' +
-  'GROUP BY film_actor_ordering.imdb_title_id';
+  'WHERE film_actor_ordering.imdbID = ? ' +
+  'GROUP BY film_actor_ordering.imdbID';
 
 const unorderedActorSQL =
   "SELECT GROUP_CONCAT(DISTINCT name ORDER BY name ASC SEPARATOR ', ') AS actors " +
   'FROM ( ' +
-  '  SELECT imdb_title_id, imdb_name_id FROM film_actors ' +
-  '  WHERE imdb_title_id = ? ' +
+  '  SELECT imdbID, imdb_name_id FROM film_actors ' +
+  '  WHERE imdbID = ? ' +
   '  EXCEPT ' +
-  '  SELECT imdb_title_id, imdb_name_id FROM film_actor_ordering ' +
-  '  WHERE imdb_title_id = ? ' +
+  '  SELECT imdbID, imdb_name_id FROM film_actor_ordering ' +
+  '  WHERE imdbID = ? ' +
   ') as fromSubQuery ' +
   'LEFT JOIN people ' +
   'ON fromSubQuery.imdb_name_id = people.imdb_name_id';

@@ -6,7 +6,7 @@ export default interface IFilm {
   duration: number;
   genres: string;
   languages: string;
-  imdb_title_id: number;
+  imdbID: number;
   title: string;
   writers: string;
   year: number;

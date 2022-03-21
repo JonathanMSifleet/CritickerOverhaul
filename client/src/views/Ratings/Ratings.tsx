@@ -22,7 +22,7 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
   const [isLoadingRatings, setIsLoadingRatings] = useState(false);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [lastEvaluatedKey, setLastEvaluatedKey] = useState({
-    imdb_title_id: 79470,
+    imdbID: 79470,
     rating: 6,
     username: 'jonathanmsifleet'
   } as IAttributeValue);

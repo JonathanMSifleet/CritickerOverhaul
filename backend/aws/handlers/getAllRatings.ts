@@ -30,7 +30,7 @@ const getAllRatings = async (event: {
     lastEvaluatedKey = parse(event.pathParameters.lastEvaluatedKey!);
 
     lastEvaluatedKey = {
-      imdb_title_id: { N: lastEvaluatedKey.imdb_title_id },
+      imdbID: { N: lastEvaluatedKey.imdbID },
       username: { S: lastEvaluatedKey.username },
       rating: { N: lastEvaluatedKey.rating }
     };
@@ -50,7 +50,7 @@ const getAllRatings = async (event: {
     const filmQueries = [] as any[];
 
     dynamoRatings.forEach((rating: IFilm) => {
-      filmQueries.push(getIndividualFilmDetails(rating.imdb_title_id, mysql, 'allRatings'));
+      filmQueries.push(getIndividualFilmDetails(rating.imdbID, mysql, 'allRatings'));
     });
 
     const mudfootResults = await Promise.all(filmQueries);
@@ -76,7 +76,7 @@ const getDynamoRatings = async (
   try {
     const query = createDynamoSearchQuery(
       process.env.RATINGS_TABLE_NAME!,
-      'imdb_title_id, rating',
+      'imdbID, rating',
       'username',
       username,
       'S',

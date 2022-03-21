@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -77,7 +76,6 @@ module.exports = {
       'process.env.DEVELOPMENT': JSON.stringify(true),
       'process.env.SAVE_MONEY': JSON.stringify(false),
       'process.env.TMDB_KEY': JSON.stringify('2a6fdeb294b4f2342ca8a611d7ecab34')
-    }),
-    new BundleAnalyzerPlugin()
+    })
   ]
 };

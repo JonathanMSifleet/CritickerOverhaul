@@ -14,7 +14,7 @@ const dbClient = new DynamoDBClient({});
 const mysql = serverlessMysql({ config: connectionDetails });
 
 interface IUnmarshalledRating {
-  imdb_title_id: number;
+  imdbID: number;
   createdAt: number;
   rating: number;
   ratingPercentile: number;
@@ -25,14 +25,14 @@ const getRecentRatings = async (event: { pathParameters: { username: string } })
 
   const dynamoRatings = (await getRecentRatingsFromDynamo(username)) as IUnmarshalledRating[];
 
-  const sql = 'SELECT title, year, imdb_title_id FROM films WHERE imdb_title_id = ?';
+  const sql = 'SELECT title, year, imdbID FROM films WHERE imdbID = ?';
 
   // To do
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const queries: any[] = [];
 
   dynamoRatings.forEach((rating) => {
-    queries.push(mysql.query(sql, [rating.imdb_title_id]));
+    queries.push(mysql.query(sql, [rating.imdbID]));
   });
 
   let mudfootResults = await Promise.all(queries);
@@ -51,7 +51,7 @@ const getRecentRatings = async (event: { pathParameters: { username: string } })
 const getRecentRatingsFromDynamo = async (username: string): Promise<IHTTP | IUnmarshalledRating[]> => {
   const query = createDynamoSearchQuery(
     process.env.RATINGS_TABLE_NAME!,
-    'imdb_title_id, createdAt, rating, ratingPercentile',
+    'imdbID, createdAt, rating, ratingPercentile',
     'username',
     username,
     'S',

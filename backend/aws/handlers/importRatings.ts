@@ -27,12 +27,12 @@ const dbClient = new DynamoDBClient({});
 
 interface IDynamoReview {
   rating: { N: string };
-  imdb_title_id: { N: string };
+  imdbID: { N: string };
 }
 
 interface IPercentile {
   username: string;
-  imdb_title_id: number;
+  imdbID: number;
   percentile: number;
 }
 
@@ -100,10 +100,7 @@ const batchInsertRatings = async (reviews: IRating[]): Promise<BatchWriteItemCom
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
-const calculatePercentiles = (
-  username: string,
-  ratings: { imdb_title_id: number; rating: number }[]
-): IPercentile[] => {
+const calculatePercentiles = (username: string, ratings: { imdbID: number; rating: number }[]): IPercentile[] => {
   ratings = ratings.sort((a, b) => a.rating - b.rating);
   const numValues = ratings.length;
 
@@ -119,34 +116,32 @@ const calculatePercentiles = (
     }
 
     const percentile = Math.round((firstAppearance / numValues) * 100);
-    percentiles.push({ username, imdb_title_id: ratings[i].imdb_title_id, percentile });
+    percentiles.push({ username, imdbID: ratings[i].imdbID, percentile });
   }
 
   console.log('Calculated percentiles successfully');
   return percentiles;
 };
 
-const extractRatings = (userReviews: IDynamoReview[]): { imdb_title_id: number; rating: number }[] =>
+const extractRatings = (userReviews: IDynamoReview[]): { imdbID: number; rating: number }[] =>
   userReviews.map((review: IDynamoReview) => ({
     rating: Number(review.rating.N),
-    imdb_title_id: Number(review.imdb_title_id.N)
+    imdbID: Number(review.imdbID.N)
   }));
 
 const filterRatings = async (reviews: IRating[], username: string): Promise<IRating[]> => {
   const matchedFilmIDs = await getMatchedFilmIDs(reviews);
 
-  const filteredRatings = reviews.filter((review: { imdb_title_id: number }) =>
-    matchedFilmIDs.includes(review.imdb_title_id)
-  );
+  const filteredRatings = reviews.filter((review: { imdbID: number }) => matchedFilmIDs.includes(review.imdbID));
 
   return filteredRatings.map((rating) => ({ ...rating, username }));
 };
 
-const getMatchedFilmIDs = async (reviews: { imdb_title_id: number }[]): Promise<number[]> => {
-  const sql = 'SELECT imdb_title_id FROM films WHERE imdb_title_id = ?';
+const getMatchedFilmIDs = async (reviews: { imdbID: number }[]): Promise<number[]> => {
+  const sql = 'SELECT imdbID FROM films WHERE imdbID = ?';
 
-  const queries = [] as Promise<{ RowDataPacket: { imdb_title_id: number } }>[];
-  reviews.forEach((review: { imdb_title_id: number }) => queries.push(mysql.query(sql, [review.imdb_title_id])));
+  const queries = [] as Promise<{ RowDataPacket: { imdbID: number } }>[];
+  reviews.forEach((review: { imdbID: number }) => queries.push(mysql.query(sql, [review.imdbID])));
 
   const results = await Promise.all(queries);
   mysql.quit();
@@ -156,7 +151,7 @@ const getMatchedFilmIDs = async (reviews: { imdb_title_id: number }[]): Promise<
   results.forEach((result) => {
     try {
       // @ts-expect-error 0 can be used as index
-      matchedIDs.push(result[0].imdb_title_id);
+      matchedIDs.push(result[0].imdbID);
     } catch (error) {}
   });
 
@@ -170,8 +165,8 @@ const updatePercentiles = async (percentiles: IPercentile[]): Promise<IHTTP | vo
     percentiles.forEach(async (percentile: IPercentile) => {
       const params = createDynamoUpdateQuery(
         process.env.RATINGS_TABLE_NAME!,
-        'imdb_title_id',
-        percentile.imdb_title_id.toString(),
+        'imdbID',
+        percentile.imdbID.toString(),
         'N',
         'ratingPercentile',
         percentile.percentile.toString(),
@@ -197,7 +192,7 @@ const updatePercentiles = async (percentiles: IPercentile[]): Promise<IHTTP | vo
 const getUserRatings = async (username: string): Promise<QueryCommandOutput | IHTTP> => {
   const query = createDynamoSearchQuery(
     process.env.RATINGS_TABLE_NAME!,
-    'imdb_title_id, rating',
+    'imdbID, rating',
     'username',
     username,
     'S',
