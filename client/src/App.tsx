@@ -1,6 +1,7 @@
 const Film = lazy(() => import('./views/Film/Film'));
 const Home = lazy(() => import('./views/Home/Home'));
 const Profile = lazy(() => import('./views/Profile/Profile'));
+const Ratings = lazy(() => import('./views/Ratings/Ratings'));
 const TextOnlyPage = lazy(() => import('./views/TextOnlyPage/TextOnlyPage'));
 
 import 'preact/debug';
@@ -32,12 +33,7 @@ const App: FC = () => {
             <TextOnlyPage path="/information/:path" />
             <Film path={'/film/:id'} />
             <Profile path={'/profile/:username?'} />
-            {/* to do: <AsyncRoute
-            path={'/*'}
-            getComponent={(): Promise<FC> =>
-              import('./components/pages/Home/Home').then((module) => module.default)
-            }
-          /> */}
+            <Ratings path={'/ratings/:username?'} />
           </Router>
         </Suspense>
       ) : (
