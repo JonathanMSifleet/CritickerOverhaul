@@ -3,5 +3,6 @@ export const connectionDetails = {
   port: 6306,
   user: 'sifleetj',
   password: 'Joosderg6',
-  database: 'sifleetj'
+  database: 'sifleetj',
+  connUtilization: 1
 };
