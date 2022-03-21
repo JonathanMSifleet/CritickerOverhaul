@@ -35,8 +35,10 @@ const getRecentRatings = async (event: { pathParameters: { username: string } })
     queries.push(mysql.query(sql, [rating.imdb_title_id]));
   });
 
-  const mudfootResults = await Promise.all(queries);
+  let mudfootResults = await Promise.all(queries);
   mysql.quit();
+
+  mudfootResults = mudfootResults.map((result) => result[0]);
 
   const mergedRatings = mergeDynamoAndMudfootResults(dynamoRatings, mudfootResults);
 
@@ -47,11 +49,9 @@ const getRecentRatings = async (event: { pathParameters: { username: string } })
 };
 
 const getRecentRatingsFromDynamo = async (username: string): Promise<IHTTP | IUnmarshalledRating[]> => {
-  // to do: figure out why ProjectionExpression causes error
-  // imdb_title_id, createdAt, rating, ratingPercentile
   const query = createDynamoSearchQuery(
     process.env.RATINGS_TABLE_NAME!,
-    undefined,
+    'imdb_title_id, createdAt, rating, ratingPercentile',
     'username',
     username,
     'S',

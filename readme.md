@@ -1,8 +1,6 @@
-Order on attribute:
+Pagination:
 
-Define a local secondary index with the "normal" hash key to be the hash key of the LSI as well
-Define the field you want to sort as "Sort Key" of the LSI
-Query the LSI and set the ordering as desired
+https://stackoverflow.com/a/61451760/12743194
 
 To do:
 

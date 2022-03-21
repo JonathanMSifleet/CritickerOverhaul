@@ -15,6 +15,9 @@ const createDynamoSearchQuery = (
     TableName: tableName,
     ProjectionExpression: fields,
     KeyConditionExpression: `${primaryKeyName} = :${primaryKeyName}`,
+    ExpessionAttributeNames: {
+      [`${primaryKeyName}`]: primaryKeyName
+    },
     ExpressionAttributeValues: {
       [`:${primaryKeyName}`]: { [primaryKeyType]: primaryKeyValue }
     }

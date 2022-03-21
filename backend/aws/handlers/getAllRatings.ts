@@ -5,7 +5,7 @@ import IHTTP from '../shared/interfaces/IHTTP';
 import { connectionDetails } from '../shared/constants/ConnectionDetails';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
-import createDynamoSearchQuery from './../shared/functions/DynamoDB/createDynamoSearchQuery';
+import createDynamoSearchQuery from '../shared/functions/DynamoDB/createDynamoSearchQuery';
 import getIndividualFilmDetails from '../shared/functions/getIndividualFilmDetails';
 import mergeDynamoAndMudfootResults from '../shared/functions/mergeDynamoAndMudfootResults';
 import middy from '@middy/core';
@@ -74,10 +74,9 @@ const getDynamoRatings = async (
   lastEvaluatedKey?: ILastEvaluatedKey
 ): Promise<IHTTP | { dynamoRatings: IFilm[]; dynamoLastEvaluatedKey: ILastEvaluatedKey }> => {
   try {
-    // to do: figure out why ProjectionExpression causes error
     const query = createDynamoSearchQuery(
       process.env.RATINGS_TABLE_NAME!,
-      undefined,
+      'imdb_title_id, rating',
       'username',
       username,
       'S',
