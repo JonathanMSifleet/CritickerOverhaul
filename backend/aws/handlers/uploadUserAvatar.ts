@@ -1,9 +1,8 @@
-import { DynamoDBClient, PutItemCommand, PutItemCommandOutput } from '@aws-sdk/client-dynamodb';
+import { AttributeValue, DynamoDBClient, PutItemCommand, PutItemCommandOutput } from '@aws-sdk/client-dynamodb';
 
 import IHTTP from '../shared/interfaces/IHTTP';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
-import { marshall } from '@aws-sdk/util-dynamodb';
 import middy from '@middy/core';
 
 const dbClient = new DynamoDBClient({});
@@ -37,10 +36,10 @@ export const uploadUserAvatar = async (event: {
 const uploadPicture = async (username: string, image: string): Promise<PutItemCommandOutput | IHTTP> => {
   const params = {
     TableName: process.env.AVATAR_TABLE_NAME!,
-    Item: marshall({
-      username,
-      image
-    }),
+    Item: {
+      username: { S: username } as AttributeValue,
+      image: { B: image } as unknown as AttributeValue
+    },
     ReturnConsumedCapacity: 'TOTAL'
   };
 
