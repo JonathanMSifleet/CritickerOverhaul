@@ -71,6 +71,13 @@ functions:
           method: GET
           path: getFilms
           cors: true
+  getNumberOfRatings:
+    handler: aws/handlers/getNumberOfRatings.handler
+    events:
+      - http:
+          method: GET
+          path: rating/getNumberOfRatings/{username}
+          cors: true
   getProfileByUsername:
     handler: aws/handlers/getProfileByUsername.handler
     events:
