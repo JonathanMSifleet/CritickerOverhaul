@@ -53,6 +53,10 @@ functions:
           method: GET
           path: rating/getAllRatings/{username}
           cors: true
+      - http:
+          method: GET
+          path: rating/getAllRatings/{username}/{lastEvaluatedKey}
+          cors: true
   getFilmDetails:
     handler: aws/handlers/getFilmDetails.handler
     events:

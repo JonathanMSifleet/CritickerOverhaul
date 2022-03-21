@@ -1,4 +1,4 @@
-import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
+import { AttributeValue, DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
 
 import IFilm from '../shared/interfaces/IFilm';
 import IHTTP from '../shared/interfaces/IHTTP';
@@ -9,17 +9,43 @@ import createDynamoSearchQuery from './../shared/functions/DynamoDB/createDynamo
 import getIndividualFilmDetails from '../shared/functions/getIndividualFilmDetails';
 import mergeDynamoAndMudfootResults from '../shared/functions/mergeDynamoAndMudfootResults';
 import middy from '@middy/core';
+import { parse } from 'query-string';
 import serverlessMysql from 'serverless-mysql';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 
 const mysql = serverlessMysql({ config: connectionDetails });
 const dbClient = new DynamoDBClient({});
 
-const getAllRatings = async (event: { pathParameters: { username: string } }): Promise<void | IHTTP> => {
+interface ILastEvaluatedKey {
+  [key: string]: AttributeValue;
+}
+
+const getAllRatings = async (event: {
+  pathParameters: { username: string; lastEvaluatedKey?: string };
+}): Promise<void | IHTTP> => {
   const { username } = event.pathParameters;
 
+  let lastEvaluatedKey = undefined;
   try {
-    const dynamoRatings = (await getDynamoRatings(username)) as IFilm[];
+    lastEvaluatedKey = parse(event.pathParameters.lastEvaluatedKey!);
+
+    lastEvaluatedKey = {
+      imdb_title_id: { N: lastEvaluatedKey.imdb_title_id },
+      username: { S: lastEvaluatedKey.username },
+      rating: { N: lastEvaluatedKey.rating }
+    };
+  } catch (error) {
+    console.error(error);
+  }
+
+  try {
+    const { dynamoRatings, dynamoLastEvaluatedKey } = (await getDynamoRatings(
+      username,
+      lastEvaluatedKey as ILastEvaluatedKey | undefined
+    )) as {
+      dynamoRatings: IFilm[];
+      dynamoLastEvaluatedKey: ILastEvaluatedKey;
+    };
 
     const filmQueries = [] as any[];
 
@@ -34,7 +60,7 @@ const getAllRatings = async (event: { pathParameters: { username: string } }): P
 
     return {
       statusCode: 200,
-      body: JSON.stringify(mergedResults)
+      body: JSON.stringify({ results: mergedResults, lastEvaluatedKey: unmarshall(dynamoLastEvaluatedKey) })
     };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, error.message);
@@ -43,7 +69,10 @@ const getAllRatings = async (event: { pathParameters: { username: string } }): P
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
-const getDynamoRatings = async (username: string): Promise<IHTTP | IFilm[]> => {
+const getDynamoRatings = async (
+  username: string,
+  lastEvaluatedKey?: ILastEvaluatedKey
+): Promise<IHTTP | { dynamoRatings: IFilm[]; dynamoLastEvaluatedKey: ILastEvaluatedKey }> => {
   try {
     // to do: figure out why ProjectionExpression causes error
     const query = createDynamoSearchQuery(
@@ -55,10 +84,15 @@ const getDynamoRatings = async (username: string): Promise<IHTTP | IFilm[]> => {
       'usernameRating'
     );
     query.ScanIndexForward = false;
-    query.Limit = 50;
+    query.Limit = 60;
+
+    if (lastEvaluatedKey) query.ExclusiveStartKey = lastEvaluatedKey;
 
     const result = await dbClient.send(new QueryCommand(query));
-    return result.Items!.map((item) => unmarshall(item)) as IFilm[];
+    return {
+      dynamoRatings: result.Items!.map((item) => unmarshall(item)) as IFilm[],
+      dynamoLastEvaluatedKey: result.LastEvaluatedKey!
+    };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, error.message);
   }
