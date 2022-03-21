@@ -5,7 +5,7 @@ import { connectionDetails } from '../shared/constants/ConnectionDetails';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import createDynamoSearchQuery from './../shared/functions/DynamoDB/createDynamoSearchQuery';
-import matchDynamoAndMudfootResults from '../shared/functions/matchDynamoAndMudfootResults';
+import mergeDynamoAndMudfootResults from '../shared/functions/mergeDynamoAndMudfootResults';
 import middy from '@middy/core';
 import serverlessMysql from 'serverless-mysql';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
@@ -38,7 +38,7 @@ const getRecentRatings = async (event: { pathParameters: { username: string } })
   const mudfootResults = await Promise.all(queries);
   mysql.quit();
 
-  const mergedRatings = matchDynamoAndMudfootResults(dynamoRatings, mudfootResults);
+  const mergedRatings = mergeDynamoAndMudfootResults(dynamoRatings, mudfootResults);
 
   return {
     statusCode: 200,

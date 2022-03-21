@@ -11,3 +11,5 @@ RatingsTableIAM:
   Resource:
     - ${self:custom.RatingsTable.arn}
     - !Join ['/', ['${self:custom.RatingsTable.arn}', 'index', 'username']]
+    - !Join ['/', ['${self:custom.RatingsTable.arn}', 'index', 'usernameCreatedAt']]
+    - !Join ['/', ['${self:custom.RatingsTable.arn}', 'index', 'usernameRating']]

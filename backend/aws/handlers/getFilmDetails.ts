@@ -12,7 +12,7 @@ const getFilmDetails = async (event: { pathParameters: { id: number } }): Promis
   const { id } = event.pathParameters;
 
   try {
-    const details = await getIndividualFilmDetails(id, mysql);
+    const details = await getIndividualFilmDetails(id, mysql, 'filmPage');
     mysql.quit();
 
     console.log('Sucessfully fetched results');

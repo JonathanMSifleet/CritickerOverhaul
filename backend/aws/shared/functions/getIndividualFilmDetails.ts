@@ -1,7 +1,38 @@
 import IFilm from './../../../../shared/interfaces/IFilm';
 import { ServerlessMysql } from 'serverless-mysql';
 
-const getIndividualFilmDetails = async (id: number, mysql: ServerlessMysql): Promise<IFilm> => {
+const getIndividualFilmDetails = async (
+  id: number,
+  mysql: ServerlessMysql,
+  page: string
+): Promise<IFilm | undefined> => {
+  switch (page) {
+    case 'allRatings':
+      return await getAllRatingsDetails(id, mysql);
+    case 'filmPage':
+      return await getFilmPageDetails(id, mysql);
+  }
+};
+
+export default getIndividualFilmDetails;
+
+const getAllRatingsDetails = async (id: number, mysql: ServerlessMysql): Promise<IFilm> => {
+  const filmSQL = mainSQL.replace('films.description,', 'films.imdb_title_id,');
+
+  const getFilm = mysql.query(filmSQL, [id]);
+  const getDirector = mysql.query(directorSQL, [id]);
+  const getWriters = mysql.query(writerSQL, [id]);
+
+  const [film, director, writers] = (await Promise.all([getFilm, getDirector, getWriters])) as any;
+
+  return {
+    ...film[0],
+    ...director[0],
+    ...writers[0]
+  };
+};
+
+const getFilmPageDetails = async (id: number, mysql: ServerlessMysql): Promise<IFilm> => {
   const getFilm = mysql.query(mainSQL, [id]);
   const getDirector = mysql.query(directorSQL, [id]);
   const getWriters = mysql.query(writerSQL, [id]);
@@ -26,8 +57,6 @@ const getIndividualFilmDetails = async (id: number, mysql: ServerlessMysql): Pro
   if (unorderedFilmActors[0].actors) result.actors = `${result.actors}, ${unorderedFilmActors[0].actors}`;
   return result;
 };
-
-export default getIndividualFilmDetails;
 
 const mainSQL =
   'SELECT films.year, films.title, ' +

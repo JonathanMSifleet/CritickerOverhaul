@@ -47,6 +47,7 @@ functions:
           cors: true
   getAllRatings:
     handler: aws/handlers/getAllRatings.handler
+    timeout: 30
     events:
       - http:
           method: GET
