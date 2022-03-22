@@ -1,8 +1,1 @@
-done:
-	main
-to do:
-	actors
-	people
-	director
-	company
-	writers
+people

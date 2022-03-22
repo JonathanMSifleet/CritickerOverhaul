@@ -40,7 +40,7 @@ const migrateActors = async (actors: ISQLActor[]): Promise<void> => {
     const updateBatch: any[] = [];
     batch.forEach((actor) => {
       updateBatch.push(httpRequest(endpoints.ADD_ACTORS, 'PUT', actor));
-      console.log(`Merged actor ${i} out of ${mergedActors.length}`);
+      console.log(`Imported actor ${i} out of ${mergedActors.length}`);
       i++;
     });
 

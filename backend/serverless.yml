@@ -40,6 +40,20 @@ functions:
           method: PUT
           path: migration/addActors
           cors: true
+  addDirectors:
+    handler: aws/handlers/migration/addDirectors.handler
+    events:
+      - http:
+          method: PUT
+          path: migration/addDirectors
+          cors: true
+  addWriters:
+    handler: aws/handlers/migration/addWriters.handler
+    events:
+      - http:
+          method: PUT
+          path: migration/addWriters
+          cors: true
   deleteAccount:
     handler: aws/handlers/deleteAccount.handler
     events:
@@ -52,7 +66,7 @@ functions:
     events:
       - http:
           method: DELETE
-          path: rating/deleteRating/{imdb_title_id}/{username}
+          path: rating/deleteRating/{imdbID}/{username}
           cors: true
   getAllRatings:
     handler: aws/handlers/getAllRatings.handler
@@ -113,7 +127,7 @@ functions:
     events:
       - http:
           method: GET
-          path: rating/getUserRating/{imdb_title_id}/{username}
+          path: rating/getUserRating/{imdbID}/{username}
           cors: true
   importFilmBatch:
     handler: aws/handlers/migration/importFilmBatch.handler
