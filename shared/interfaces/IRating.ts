@@ -1,5 +1,5 @@
 export default interface IRating {
-  createdAt?: number;
+  createdAt: number;
   imdbID: number;
   rating: number;
   review?: string;

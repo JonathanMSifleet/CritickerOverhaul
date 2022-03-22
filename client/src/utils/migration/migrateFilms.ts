@@ -12,7 +12,7 @@ interface ISQLFilm {
   imdbID: number;
   languages: string;
   title: string;
-  year: number;
+  releaseYear: number;
 }
 
 const migrateFilms = async (films: ISQLFilm[]): Promise<void> => {
@@ -25,7 +25,7 @@ const migrateFilms = async (films: ISQLFilm[]): Promise<void> => {
 
     Object.keys(film).forEach((key: string) => {
       switch (true) {
-        case key === 'duration' || key === 'year' || key === 'imdbID':
+        case key === 'duration' || key === 'releaseYear' || key === 'imdbID':
           // @ts-expect-error key can be used as index
           film[key] = { N: film[key] };
           break;

@@ -45,7 +45,7 @@ const FilmCard: FC<IProps> = ({ film }): JSX.Element => {
           <div className={`${classes.CardBody} card-body`}>
             <Link href={`/film/${film.imdbID}`}>
               <h5 className="card-title">
-                {film.title} - ({film.year})
+                {film.title} - ({film.releaseYear})
               </h5>
             </Link>
             <p className="card-text">{film.description}</p>

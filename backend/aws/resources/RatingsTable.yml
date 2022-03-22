@@ -4,7 +4,7 @@ RatingsTable:
     TableName: RatingsTable
     BillingMode: PAY_PER_REQUEST
     AttributeDefinitions:
-      - AttributeName: imdb_title_id
+      - AttributeName: imdbID
         AttributeType: N
       - AttributeName: username
         AttributeType: S
@@ -14,7 +14,7 @@ RatingsTable:
         AttributeType: N
 
     KeySchema:
-      - AttributeName: imdb_title_id
+      - AttributeName: imdbID
         KeyType: HASH
       - AttributeName: username
         KeyType: RANGE

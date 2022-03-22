@@ -9,5 +9,5 @@ export default interface IFilm {
   imdbID: number;
   title: string;
   writers: string;
-  year: number;
+  releaseYear: number;
 }

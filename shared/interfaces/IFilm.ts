@@ -4,5 +4,5 @@ export default interface IFilm {
   duration: number;
   imdbID: number;
   title: string;
-  year: number;
+  releaseYear: number;
 }
