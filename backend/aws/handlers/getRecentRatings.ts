@@ -1,17 +1,13 @@
-import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, QueryCommand, QueryCommandOutput } from '@aws-sdk/client-dynamodb';
 
 import IHTTP from '../shared/interfaces/IHTTP';
-import { connectionDetails } from '../shared/constants/ConnectionDetails';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import createDynamoSearchQuery from './../shared/functions/DynamoDB/createDynamoSearchQuery';
-import mergeDynamoAndMudfootResults from '../shared/functions/mergeDynamoAndMudfootResults';
 import middy from '@middy/core';
-import serverlessMysql from 'serverless-mysql';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 
 const dbClient = new DynamoDBClient({});
-const mysql = serverlessMysql({ config: connectionDetails });
 
 interface IUnmarshalledRating {
   imdbID: number;
@@ -25,27 +21,45 @@ const getRecentRatings = async (event: { pathParameters: { username: string } })
 
   const dynamoRatings = (await getRecentRatingsFromDynamo(username)) as IUnmarshalledRating[];
 
-  const sql = 'SELECT title, year, imdbID FROM films WHERE imdbID = ?';
-
-  // To do
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const queries: any[] = [];
-
+  const detailQueries = [] as any;
   dynamoRatings.forEach((rating) => {
-    queries.push(mysql.query(sql, [rating.imdbID]));
+    detailQueries.push(getFilmDetails(rating.imdbID));
   });
 
-  let mudfootResults = await Promise.all(queries);
-  mysql.quit();
+  const detailQueryResults = await Promise.all(detailQueries);
+  const extractedFilmDetails = detailQueryResults.map((result) => unmarshall(result.Items![0]));
 
-  mudfootResults = mudfootResults.map((result) => result[0]);
+  const mergedResults = dynamoRatings.map((rating) => {
+    const matchingResult = extractedFilmDetails.find((details) => details.imdbID === rating.imdbID);
 
-  const mergedRatings = mergeDynamoAndMudfootResults(dynamoRatings, mudfootResults);
+    return {
+      ...rating,
+      ...matchingResult
+    };
+  });
 
   return {
     statusCode: 200,
-    body: JSON.stringify(mergedRatings)
+    body: JSON.stringify(mergedResults)
   };
+};
+
+const getFilmDetails = async (imdbID: number): Promise<IHTTP | QueryCommandOutput> => {
+  const query = createDynamoSearchQuery(
+    process.env.FILMS_TABLE_NAME!,
+    'imdbID, title, releaseYear',
+    'imdbID',
+    imdbID.toString(),
+    'N'
+  );
+
+  try {
+    return await dbClient.send(new QueryCommand(query));
+  } catch (error) {
+    if (error instanceof Error) return createAWSResErr(500, error.message);
+  }
+
+  return createAWSResErr(500, 'Unhandled Exception');
 };
 
 const getRecentRatingsFromDynamo = async (username: string): Promise<IHTTP | IUnmarshalledRating[]> => {
