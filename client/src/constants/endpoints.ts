@@ -1,5 +1,6 @@
 const ROOT = 'https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev';
 
+export const ADD_ACTORS = `${ROOT}/migration/addActors`;
 export const DELETE_RATING = `${ROOT}/rating/deleteRating`;
 export const GET_ALL_RATINGS = `${ROOT}/rating/getAllRatings`;
 export const GET_FILMS = `${ROOT}/getFilms`;
@@ -9,7 +10,7 @@ export const GET_RECENT_RATINGS = `${ROOT}/rating/getRecentRatings`;
 export const GET_USER_AVATAR = `${ROOT}/user/avatar`;
 export const GET_USER_RATING = `${ROOT}/rating/getUserRating`;
 export const IMPORT_RATINGS = `${ROOT}/rating/importRatings`;
-export const IMPORT_FILM_BATCH = `${ROOT}/films/importFilmBatch`;
+export const IMPORT_FILM_BATCH = `${ROOT}/migration/importFilmBatch`;
 export const LOGIN = `${ROOT}/login`;
 export const RATE_FILM = `${ROOT}/rating/rateFilm`;
 export const SIGNUP = `${ROOT}/signup`;

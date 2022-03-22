@@ -20,7 +20,7 @@ import Logo from '../../../assets/svg/Logo.svg';
 import Modal from '../../Modal/Modal';
 import Spinner from '../../Spinner/Spinner';
 import classes from './Header.module.scss';
-import migrateFilms from '../../../utils/migrateFilms';
+import migrateActors from '../../../utils/migration/migrateActors';
 
 const Auth = lazy(() => import('../../Auth/Auth'));
 
@@ -40,7 +40,7 @@ const Header: FC = (): JSX.Element => {
       fileReader.readAsText(event.target.files[0]);
       fileReader.onload = (): void => {
         try {
-          migrateFilms(JSON.parse(fileReader.result as string));
+          migrateActors(JSON.parse(fileReader.result as string));
         } catch (error) {
           console.error(error);
         }

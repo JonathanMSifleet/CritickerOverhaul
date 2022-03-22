@@ -1,7 +1,7 @@
-import * as endpoints from '../constants/endpoints';
+import * as endpoints from '../../constants/endpoints';
 
 import chunk from 'chunk';
-import httpRequest from './httpRequest';
+import httpRequest from '../httpRequest';
 
 interface ISQLFilm {
   company: string;
@@ -15,7 +15,7 @@ interface ISQLFilm {
   year: number;
 }
 
-const migrateFilms = async (films: ISQLFilm[]): Promise<any> => {
+const migrateFilms = async (films: ISQLFilm[]): Promise<void> => {
   const marshalledFilms = films.map((film: ISQLFilm) => {
     // remove null attributes from film object
     Object.keys(film).forEach((key: string) => {
@@ -40,8 +40,8 @@ const migrateFilms = async (films: ISQLFilm[]): Promise<any> => {
   });
 
   const filmBatches = chunk(marshalledFilms, 25);
-  // max chrome concurrent connections = 6
-  const largeFilmBatches = chunk(filmBatches, 6);
+  // max chrome concurrent connections = 6, use 4 to be safe
+  const largeFilmBatches = chunk(filmBatches, 4);
 
   console.log('Starting import');
 

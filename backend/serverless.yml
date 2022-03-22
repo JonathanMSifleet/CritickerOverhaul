@@ -33,6 +33,13 @@ package:
   individually: true
 
 functions:
+  addActors:
+    handler: aws/handlers/migration/addActors.handler
+    events:
+      - http:
+          method: PUT
+          path: migration/addActors
+          cors: true
   deleteAccount:
     handler: aws/handlers/deleteAccount.handler
     events:
@@ -109,12 +116,12 @@ functions:
           path: rating/getUserRating/{imdb_title_id}/{username}
           cors: true
   importFilmBatch:
-    handler: aws/handlers/importFilmBatch.handler
+    handler: aws/handlers/migration/importFilmBatch.handler
     timeout: 30
     events:
       - http:
           method: POST
-          path: films/importFilmBatch
+          path: migration/importFilmBatch
           cors: true
   importRatings:
     handler: aws/handlers/importRatings.handler
