@@ -1,6 +1,9 @@
-const path = require('path');
+/* eslint-disable @typescript-eslint/no-var-requires */
+
 // runs TypeScript linting on separate process
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const path = require('path');
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = {
   context: __dirname,
@@ -21,6 +24,19 @@ module.exports = {
     chunkFilename: '[id].[chunkhash].js'
   },
   target: 'node',
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          output: {
+            comments: false
+          }
+        },
+        extractComments: false
+      })
+    ]
+  },
   module: {
     rules: [
       {

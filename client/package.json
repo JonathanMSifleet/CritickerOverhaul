@@ -25,6 +25,7 @@
   "devDependencies": {
     "css-loader": "^6.7.1",
     "depcheck": "^1.4.3",
+    "fork-ts-checker-webpack-plugin": "^7.2.1",
     "html-webpack-plugin": "^5.5.0",
     "mini-css-extract-plugin": "^2.6.0",
     "npm-check-updates": "^12.5.3",

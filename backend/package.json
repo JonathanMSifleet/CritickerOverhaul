@@ -6,16 +6,16 @@
     "getUserAvatar": "serverless deploy --function getUserAvatar"
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.54.1",
-    "@aws-sdk/client-lambda": "^3.54.1",
-    "@aws-sdk/util-dynamodb": "^3.54.1",
+    "@aws-sdk/client-dynamodb": "^3.55.0",
+    "@aws-sdk/client-lambda": "^3.55.0",
+    "@aws-sdk/util-dynamodb": "^3.55.0",
     "@middy/core": "^2.5.7",
     "@middy/http-cors": "^2.5.7",
     "chunk": "0.0.3",
     "email-validator": "^2.0.4",
     "mysql2": "^2.3.3",
     "query-string": "^7.1.1",
-    "serverless": "^3.7.9",
+    "serverless": "^3.8.0",
     "serverless-mysql": "^1.5.4"
   },
   "devDependencies": {
@@ -25,6 +25,7 @@
     "remove-node-modules": "^1.7.6",
     "serverless-cloudfront-invalidate": "^1.11.0",
     "serverless-webpack": "^5.6.1",
+    "terser-webpack-plugin": "^5.3.1",
     "ts-loader": "^9.2.8",
     "typescript": "^4.6.2",
     "webpack": "^5.70.0",
