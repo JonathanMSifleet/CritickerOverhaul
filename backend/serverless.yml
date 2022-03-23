@@ -71,7 +71,7 @@ functions:
     events:
       - http:
           method: GET
-          path: getFilmDetails/{id}
+          path: getFilmDetails/{imdbID}
           cors: true
   getFilms:
     handler: aws/handlers/getFilms.handler

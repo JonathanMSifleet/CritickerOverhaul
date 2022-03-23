@@ -1,23 +1,33 @@
+import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
+
 import IHTTP from '../shared/interfaces/IHTTP';
-import { connectionDetails } from '../shared/constants/ConnectionDetails';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
+import createDynamoSearchQuery from './../shared/functions/DynamoDB/createDynamoSearchQuery';
 import middy from '@middy/core';
-import serverlessMysql from 'serverless-mysql';
+import { unmarshall } from '@aws-sdk/util-dynamodb';
 
-const mysql = serverlessMysql({ config: connectionDetails });
+const dbClient = new DynamoDBClient({});
 
 const getFilms = async (): Promise<IHTTP> => {
-  const sql = 'SELECT imdbID, title, description, releaseYear FROM films ORDER BY imdbID DESC LIMIT 10';
+  const query = createDynamoSearchQuery(
+    process.env.FILMS_TABLE_NAME!,
+    'imdbID, title, description, releaseYear',
+    'releaseYear',
+    '2020',
+    'N',
+    'releaseYear'
+  );
+  query.Limit = 10;
 
   try {
-    const result = await mysql.query(sql, null);
-    mysql.quit();
+    const results = await dbClient.send(new QueryCommand(query));
+    const films = results.Items!.map((result) => unmarshall(result));
 
     console.log('Sucessfully fetched results');
     return {
       statusCode: 200,
-      body: JSON.stringify(result)
+      body: JSON.stringify(films)
     };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(500, error.message);

@@ -10,3 +10,4 @@ FilmsTableIAM:
     - dynamodb:BatchWriteItem
   Resource:
     - ${self:custom.FilmsTable.arn}
+    - !Join ['/', ['${self:custom.FilmsTable.arn}', 'index', 'releaseYear']]
