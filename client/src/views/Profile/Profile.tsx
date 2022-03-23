@@ -1,24 +1,23 @@
-import * as endpoints from '../../constants/endpoints';
-
-import { FC, useEffect, useState } from 'react';
-import { Suspense, lazy } from 'preact/compat';
-
-import Avatar from './Avatar/Avatar';
-import FileSelector from '../../components/FileSelector/FileSelector';
-import IRating from '../../../../shared/interfaces/IRating';
-import IUrlParams from '../../interfaces/IUrlParams';
-import IUserProfile from '../../../../shared/interfaces/IUserProfile';
-import { Link } from 'preact-router/match';
+import chunk from 'chunk';
+import { XMLParser } from 'fast-xml-parser';
 import { MDBCol } from 'mdb-react-ui-kit';
+import { Link } from 'preact-router/match';
+import { lazy, Suspense } from 'preact/compat';
+import { FC, useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import IRating from '../../../../shared/interfaces/IRating';
+import IUserProfile from '../../../../shared/interfaces/IUserProfile';
+import FileSelector from '../../components/FileSelector/FileSelector';
 import PageView from '../../components/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
-import { XMLParser } from 'fast-xml-parser';
-import chunk from 'chunk';
-import classes from './Profile.module.scss';
-import colourGradient from 'javascript-color-gradient';
-import httpRequest from '../../utils/httpRequest';
-import { useRecoilValue } from 'recoil';
+import * as endpoints from '../../constants/endpoints';
+import IUrlParams from '../../interfaces/IUrlParams';
 import { userInfoState } from '../../store';
+import getCellColour from '../../utils/getCellColour';
+import getColourGradient from '../../utils/getColourGradient';
+import httpRequest from '../../utils/httpRequest';
+import Avatar from './Avatar/Avatar';
+import classes from './Profile.module.scss';
 
 const UpdateUserDetailsForm = lazy(() => import('./UpdateUserDetailsForm/UpdateUserDetailsForm'));
 
@@ -35,19 +34,11 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   const [importMessage, setImportMessage] = useState('');
   const [importingRatings, setImportingRatings] = useState(false);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [recentRatings, setRecentRatings] = useState(null as any);
+  const [recentRatings, setRecentRatings] = useState(null as null | IRecentRating[][]);
   const [shouldLoadAvatar, setShouldLoadAvatar] = useState(false);
   const [showUpdateDetailsForm, setShowUpdateDetailsForm] = useState(false);
   const [userProfile, setUserProfile] = useState(null as null | IUserProfile);
   const userState = useRecoilValue(userInfoState);
-
-  // @ts-expect-error property does exist
-  const colourArray = colourGradient.setGradient('#FF0000', '#FBFB13', '#228A00').setMidpoint(5);
-
-  useEffect(() => {
-    console.log(importMessage);
-  }, [importMessage]);
 
   useEffect(() => {
     (async (): Promise<void> => {
@@ -79,13 +70,6 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   }, [username]);
 
   const epochToDate = (epoch: number): string => new Date(epoch).toLocaleDateString('en-GB');
-
-  const getColourGradient = (ratingPercentile: number): { color: string } => {
-    let colourIndex = Math.round(ratingPercentile / 10);
-    if (colourIndex <= 0) colourIndex = 1;
-
-    return { color: colourArray.getColor(colourIndex) };
-  };
 
   const getRatingRank = (numRatings: number): string => {
     switch (true) {
@@ -217,27 +201,24 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                     {recentRatings.map((column: IRecentRating[], columnIndex: number) => (
                       <MDBCol className={classes.RecentRatingColumn} key={columnIndex}>
                         {column.map((rating, cellIndex) => {
-                          // if index is odd alternate background colour
-                          // const ratingColour = cellIndex % 2 === 0 ? 'bg-light' : 'bg-info';
-
-                          const ratingColour =
-                            columnIndex === 0
-                              ? { backgroundColor: cellIndex % 2 === 0 ? '#FBFBFB' : '#E5F3FF' }
-                              : { backgroundColor: cellIndex % 2 === 0 ? '#E5F3FF' : '#FBFBFB' };
+                          const cellColour = getCellColour(columnIndex, cellIndex);
 
                           return (
                             <Link
                               className={classes.RatingLink}
-                              style={ratingColour}
+                              style={cellColour}
                               href={`/film/${rating.imdbID}`}
                               key={rating.imdbID}
                             >
                               {((): JSX.Element => {
                                 const colourGradient = getColourGradient(rating.ratingPercentile);
+
                                 return (
                                   <>
-                                    <span style={colourGradient}>{rating.rating}</span>
-                                    <span className={classes.RatingPercentile} style={colourGradient}>
+                                    {/* @ts-expect-error works as intended */}
+                                    <span style={{ color: colourGradient }}>{rating.rating}</span>
+                                    {/* @ts-expect-error works as intended */}
+                                    <span className={classes.RatingPercentile} style={{ color: colourGradient }}>
                                       {' '}
                                       {rating.ratingPercentile}%
                                     </span>

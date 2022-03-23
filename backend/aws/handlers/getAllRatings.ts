@@ -4,9 +4,9 @@ import middy from '@middy/core';
 import cors from '@middy/http-cors';
 import chunk from 'chunk';
 import { parse } from 'query-string';
+import IFilm from '../../../shared/interfaces/IFilm';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import createDynamoSearchQuery from '../shared/functions/DynamoDB/createDynamoSearchQuery';
-import IFilm from '../shared/interfaces/IFilm';
 import IHTTP from '../shared/interfaces/IHTTP';
 
 const dbClient = new DynamoDBClient({});
@@ -80,7 +80,7 @@ const getDynamoRatings = async (
   try {
     const query = createDynamoSearchQuery(
       process.env.RATINGS_TABLE_NAME!,
-      'imdbID, rating',
+      'imdbID, rating, ratingPercentile',
       'username',
       username,
       'S',
