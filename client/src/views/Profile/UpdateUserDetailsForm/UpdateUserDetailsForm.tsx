@@ -1,19 +1,16 @@
-import 'react-calendar/dist/Calendar.css';
-
-import * as endpoints from '../../../constants/endpoints';
-
 import { ChangeEvent, FC, useEffect, useState } from 'react';
-
-import Button from '../../../components/Button/Button';
 import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 import { CountryDropdown } from 'react-country-region-selector';
+import { useRecoilValue } from 'recoil';
 import IUserProfile from '../../../../../shared/interfaces/IUserProfile';
+import Button from '../../../components/Button/Button';
 import Input from '../../../components/Input/Input';
 import Radio from '../../../components/Radio/Radio';
-import classes from './UpdateUserDetailsForm.module.scss';
-import httpRequest from '../../../utils/httpRequest';
-import { useRecoilValue } from 'recoil';
+import * as endpoints from '../../../constants/endpoints';
 import { userInfoState } from '../../../store';
+import httpRequest from '../../../utils/httpRequest';
+import classes from './UpdateUserDetailsForm.module.scss';
 
 interface IProps {
   // to do
