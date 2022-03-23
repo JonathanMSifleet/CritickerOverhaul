@@ -17,6 +17,10 @@ interface IExtractedLastEvaluatedKey {
   rating: { N: AttributeValue };
 }
 
+interface IFilmDetails {
+  [key: string]: string | number;
+}
+
 interface ILastEvaluatedKey {
   [key: string]: AttributeValue;
 }
@@ -39,6 +43,7 @@ const getAllRatings = async (event: {
 
     const results = await getResults(dynamoRatings);
 
+    console.log('Successfully fetched ratings');
     return {
       statusCode: 200,
       body: JSON.stringify({ results, lastEvaluatedKey: unmarshall(dynamoLastEvaluatedKey) })
@@ -52,7 +57,7 @@ const getAllRatings = async (event: {
 
 export const handler = middy(getAllRatings).use(cors());
 
-const batchGetFilmDetails = async (imdbIDs: number[]): Promise<any> => {
+const batchGetFilmDetails = async (imdbIDs: number[]): Promise<IFilmDetails[] | IHTTP> => {
   const params = {
     RequestItems: {
       [process.env.FILMS_TABLE_NAME!]: {
@@ -104,31 +109,30 @@ const getDynamoRatings = async (
 };
 
 const getLastEvaluatedKey = (passedLastEvaluatedKey: string): IExtractedLastEvaluatedKey | undefined => {
-  try {
-    const lastEvaluatedKey = parse(passedLastEvaluatedKey) as unknown as ILastEvaluatedKey;
+  if (passedLastEvaluatedKey === undefined) return undefined;
 
-    return {
-      imdbID: { N: lastEvaluatedKey.imdbID },
-      username: { S: lastEvaluatedKey.username },
-      rating: { N: lastEvaluatedKey.rating }
-    };
-  } catch (error) {
-    return undefined;
-  }
+  const lastEvaluatedKey = parse(passedLastEvaluatedKey) as unknown as ILastEvaluatedKey;
+
+  return {
+    imdbID: { N: lastEvaluatedKey.imdbID },
+    username: { S: lastEvaluatedKey.username },
+    rating: { N: lastEvaluatedKey.rating }
+  };
 };
 
 const getResults = async (dynamoRatings: IFilm[]): Promise<{ imdbID: number }[]> => {
   const extractedImdbIDs = dynamoRatings.map((film) => film.imdbID);
   const chunkedImdbIDs = chunk(extractedImdbIDs, 25);
 
-  const filmQueries = [] as any[];
+  const filmQueries = [] as Promise<IFilmDetails[]>[];
 
   chunkedImdbIDs.forEach((imdbIDChunk) => {
-    filmQueries.push(batchGetFilmDetails(imdbIDChunk));
+    filmQueries.push(batchGetFilmDetails(imdbIDChunk) as Promise<IFilmDetails[]>);
   });
 
   const filmData = await Promise.all(filmQueries);
 
+  // @ts-expect-error imdbID is defined in type
   return await mergeResults(dynamoRatings, filmData.flat());
 };
 
