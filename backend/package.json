@@ -1,10 +1,6 @@
 {
   "name": "critickeroverhaul",
   "version": "1.0.0",
-  "scripts": {
-    "forceUpdate": "npm-check-updates -u",
-    "getUserAvatar": "serverless deploy --function getUserAvatar"
-  },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.55.0",
     "@aws-sdk/client-lambda": "^3.55.0",

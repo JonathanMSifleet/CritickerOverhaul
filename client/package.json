@@ -1,10 +1,6 @@
 {
   "name": "critickeroverhaul",
   "version": "1.0.0",
-  "description": "",
-  "scripts": {
-    "forceUpdate": "npm-check-updates -u"
-  },
   "dependencies": {
     "chunk": "0.0.3",
     "compress.js": "^1.2.2",
