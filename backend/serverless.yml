@@ -33,26 +33,12 @@ package:
   individually: true
 
 functions:
-  addActors:
-    handler: aws/handlers/migration/addActors.handler
+  addPeople:
+    handler: aws/handlers/migration/addPeople.handler
     events:
       - http:
           method: PUT
-          path: migration/addActors
-          cors: true
-  addDirectors:
-    handler: aws/handlers/migration/addDirectors.handler
-    events:
-      - http:
-          method: PUT
-          path: migration/addDirectors
-          cors: true
-  addWriters:
-    handler: aws/handlers/migration/addWriters.handler
-    events:
-      - http:
-          method: PUT
-          path: migration/addWriters
+          path: migration/addPeople/{type}
           cors: true
   deleteAccount:
     handler: aws/handlers/deleteAccount.handler
