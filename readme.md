@@ -4,6 +4,8 @@ https://stackoverflow.com/a/61451760/12743194
 
 To do:
 
+- migrate people table
+- re-migrate film table to include duration
 - display successful sign up message
 - redirect on 404
 - Add auto logout

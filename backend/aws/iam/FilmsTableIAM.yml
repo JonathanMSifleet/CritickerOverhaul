@@ -7,6 +7,7 @@ FilmsTableIAM:
     - dynamodb:DeleteItem
     - dynamodb:UpdateItem
     - dynamodb:Query
+    - dynamodb:BatchGetItem
     - dynamodb:BatchWriteItem
   Resource:
     - ${self:custom.FilmsTable.arn}
