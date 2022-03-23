@@ -13,10 +13,8 @@
     "@middy/http-cors": "^2.5.7",
     "chunk": "0.0.3",
     "email-validator": "^2.0.4",
-    "mysql2": "^2.3.3",
     "query-string": "^7.1.1",
-    "serverless": "^3.8.0",
-    "serverless-mysql": "^1.5.4"
+    "serverless": "^3.8.0"
   },
   "devDependencies": {
     "depcheck": "^1.4.3",
