@@ -5,6 +5,7 @@ export const DELETE_RATING = `${ROOT}/rating/deleteRating`;
 export const GET_ALL_RATINGS = `${ROOT}/rating/getAllRatings`;
 export const GET_FILMS = `${ROOT}/getFilms`;
 export const GET_FILM_DETAILS = `${ROOT}/getFilmDetails`;
+export const GET_NUM_RATINGS = `${ROOT}/rating/getNumRatings`;
 export const GET_PROFILE_BY_USERNAME = `${ROOT}/user/profile`;
 export const GET_RECENT_RATINGS = `${ROOT}/rating/getRecentRatings`;
 export const GET_USER_AVATAR = `${ROOT}/user/avatar`;

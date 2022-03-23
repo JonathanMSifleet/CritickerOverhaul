@@ -80,12 +80,12 @@ functions:
           method: GET
           path: getFilms
           cors: true
-  getNumberOfRatings:
-    handler: aws/handlers/getNumberOfRatings.handler
+  getNumRatings:
+    handler: aws/handlers/getNumRatings.handler
     events:
       - http:
           method: GET
-          path: rating/getNumberOfRatings/{username}
+          path: rating/getNumRatings/{username}
           cors: true
   getProfileByUsername:
     handler: aws/handlers/getProfileByUsername.handler
