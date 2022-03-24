@@ -27,11 +27,17 @@ interface IFilm {
   writers: string;
 }
 
+interface ILastEvaluatedKey {
+  imdbID: number;
+  rating: number;
+  username: string;
+}
+
 const Ratings: FC<IUrlParams> = ({ username }) => {
   const [isLoadingRatings, setIsLoadingRatings] = useState(false);
   const [numPages, setNumPages] = useState(-1);
   const [ratings, setRatings] = useState([] as IFilm[]);
-  const [paginationKeys, setPaginationKeys] = useState([] as any);
+  const [paginationKeys, setPaginationKeys] = useState([] as ILastEvaluatedKey[]);
   const [selectedPage, setSelectedPage] = useState(0);
   const userState = useRecoilValue(userInfoState);
 
@@ -63,7 +69,11 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
     })();
   }, [username]);
 
-  const fetchPaginationKeys = async (localUsername: string, lastEvaluatedKey: any, localRatings: any): Promise<any> => {
+  const fetchPaginationKeys = async (
+    localUsername: string,
+    lastEvaluatedKey: ILastEvaluatedKey,
+    localRatings: IFilm[]
+  ): Promise<void> => {
     const paginationResult = await httpRequest(
       `${endpoints.GET_ALL_RATINGS}/${localUsername}/${stringify(lastEvaluatedKey)}`,
       'GET'
@@ -78,7 +88,7 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
       : setRatings(localRatings);
   };
 
-  const paginateArray = (array: any[], selectedPage: number): any[] => {
+  const paginateArray = (array: IFilm[], selectedPage: number): IFilm[] => {
     const pageSize = 60;
 
     const startIndex = selectedPage * pageSize;
