@@ -1,11 +1,10 @@
 import { DynamoDBClient, QueryCommand, QueryCommandOutput } from '@aws-sdk/client-dynamodb';
-
-import IHTTP from '../shared/interfaces/IHTTP';
+import { unmarshall } from '@aws-sdk/util-dynamodb';
+import middy from '@middy/core';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
+import IHTTP from '../shared/interfaces/IHTTP';
 import createDynamoSearchQuery from './../shared/functions/DynamoDB/createDynamoSearchQuery';
-import middy from '@middy/core';
-import { unmarshall } from '@aws-sdk/util-dynamodb';
 
 const dbClient = new DynamoDBClient({});
 
@@ -37,6 +36,8 @@ const getRecentRatings = async (event: { pathParameters: { username: string } })
       ...matchingResult
     };
   });
+
+  console.log('Successfully fetched recent ratings');
 
   return {
     statusCode: 200,
