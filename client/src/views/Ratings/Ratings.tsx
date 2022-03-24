@@ -1,4 +1,6 @@
+import chunk from 'chunk';
 import { MDBCol } from 'mdb-react-ui-kit';
+import { Link } from 'preact-router/match';
 import { stringify } from 'query-string';
 import { FC, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
@@ -7,6 +9,8 @@ import Spinner from '../../components/Spinner/Spinner';
 import * as endpoints from '../../constants/endpoints';
 import IUrlParams from '../../interfaces/IUrlParams';
 import { userInfoState } from '../../store';
+import getCellColour from '../../utils/getCellColour';
+import getColourGradient from '../../utils/getColourGradient';
 import httpRequest from '../../utils/httpRequest';
 import classes from './Ratings.module.scss';
 
@@ -26,9 +30,9 @@ interface IFilm {
 const Ratings: FC<IUrlParams> = ({ username }) => {
   const [isLoadingRatings, setIsLoadingRatings] = useState(false);
   const [numPages, setNumPages] = useState(-1);
+  const [ratings, setRatings] = useState([] as IFilm[]);
   const [paginationKeys, setPaginationKeys] = useState([] as any);
-  const [ratings, _setRatings] = useState(null as null | IFilm[][]);
-  const [_selectedPage, setSelectedPage] = useState(1);
+  const [selectedPage, setSelectedPage] = useState(0);
   const userState = useRecoilValue(userInfoState);
 
   useEffect(() => {
@@ -44,17 +48,13 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
 
       try {
         const numRatings = await httpRequest(`${endpoints.GET_NUM_RATINGS}/${localUsername}`, 'GET');
-        const localNumPages = Math.ceil(numRatings / 60);
-        setNumPages(localNumPages);
+        setNumPages(Math.ceil(numRatings / 60));
 
         const result = await httpRequest(`${endpoints.GET_ALL_RATINGS}/${localUsername}`, 'GET');
-        // setRatings(chunk(result.results, Math.ceil(result.results.length / 3)));
 
         setIsLoadingRatings(false);
 
-        setPaginationKeys(paginationKeys.concat([result.lastEvaluatedKey]));
-
-        await fetchPaginationKeys(localUsername, 1, localNumPages, result.lastEvaluatedKey);
+        await fetchPaginationKeys(localUsername, result.lastEvaluatedKey, result.results);
       } catch (error) {
         console.error(error);
       } finally {
@@ -63,35 +63,28 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
     })();
   }, [username]);
 
-  const displayPageNumbers = (): JSX.Element[] => {
-    const pageNumberElements = [];
-
-    for (let i = 1; i <= numPages + 1; i++) {
-      pageNumberElements.push(
-        <p className={classes.PageSelector} onClick={setSelectedPage(i)!}>
-          {i}
-        </p>
-      );
-    }
-
-    return pageNumberElements;
-  };
-
-  const fetchPaginationKeys = async (
-    localUsername: string,
-    curPage: number,
-    pageNum: number,
-    lastEvaluatedKey: any
-  ): Promise<any> => {
+  const fetchPaginationKeys = async (localUsername: string, lastEvaluatedKey: any, localRatings: any): Promise<any> => {
     const paginationResult = await httpRequest(
       `${endpoints.GET_ALL_RATINGS}/${localUsername}/${stringify(lastEvaluatedKey)}`,
       'GET'
     );
 
+    localRatings = localRatings.concat(paginationResult.results);
+
     setPaginationKeys(paginationKeys.concat([paginationResult.lastEvaluatedKey]));
 
-    if (curPage !== pageNum && paginationResult.lastEvaluatedKey !== undefined)
-      await fetchPaginationKeys(localUsername, ++curPage, pageNum, paginationResult.lastEvaluatedKey);
+    paginationResult.lastEvaluatedKey !== undefined
+      ? await fetchPaginationKeys(localUsername, paginationResult.lastEvaluatedKey, localRatings)
+      : setRatings(localRatings);
+  };
+
+  const paginateArray = (array: any[], selectedPage: number): any[] => {
+    const pageSize = 60;
+
+    const startIndex = selectedPage * pageSize;
+    const endIndex = startIndex + pageSize;
+
+    return array.slice(startIndex, endIndex);
   };
 
   return (
@@ -101,35 +94,53 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
           <div className={`${classes.RatingsWrapper} d-flex align-items-start bg-light mb-2`}>
             <MDBCol md="3">Filter</MDBCol>
             <MDBCol md="9">
-              {numPages !== -1 ? <div className={classes.PageSelectorWrappper}>{displayPageNumbers()}</div> : null}
-
-              {/*  <div className={classes.ColumnWrapper}>
-                {ratings.map((column: IFilm[], columnIndex: number) => (
-                  <MDBCol className={classes.RatingColumn} key={columnIndex}>
-                    {column.map((film: IFilm, cellIndex: number) => {
-                      const cellColour = getCellColour(columnIndex, cellIndex);
-
-                      return (
-                        <Link
-                          className={classes.FilmCell}
-                          style={cellColour}
-                          href={`/film/${film.imdbID}`}
-                          key={film.imdbID}
-                        >
-                          <span
-                            // @ts-expect-error can be used
-                            style={{ color: getColourGradient(film.ratingPercentile) }}
-                            className={classes.FilmCellRating}
-                          >
-                            {film.rating}
-                          </span>
-                          <span className={classes.FilmTitle}>{film.title}</span> ({film.releaseYear})
-                        </Link>
-                      );
-                    })}
-                  </MDBCol>
+              <div className={classes.PageSelectorsWrapper}>
+                {Array.from({ length: numPages }, (_, i) => i++).map((pageNumber) => (
+                  <div
+                    className={classes.PageSelectorWrapper}
+                    onClick={(): void => setSelectedPage(pageNumber)}
+                    key={pageNumber}
+                  >
+                    <p className={pageNumber !== selectedPage ? classes.PageSelector : classes.DisabledPageSelector}>
+                      {pageNumber + 1}
+                    </p>
+                  </div>
                 ))}
-              </div>  */}
+              </div>
+
+              <div className={classes.ColumnWrapper}>
+                {((): JSX.Element[] => {
+                  const paginatedRatings = paginateArray(ratings, selectedPage);
+
+                  return chunk(paginatedRatings, Math.ceil(paginatedRatings.length / 3)).map(
+                    (column: IFilm[], columnIndex: number) => (
+                      <MDBCol className={classes.RatingColumn} key={columnIndex}>
+                        {column.map((film: IFilm, cellIndex: number) => {
+                          const cellColour = getCellColour(columnIndex, cellIndex);
+
+                          return (
+                            <Link
+                              className={classes.FilmCell}
+                              style={cellColour}
+                              href={`/film/${film.imdbID}`}
+                              key={film.imdbID}
+                            >
+                              <span
+                                // @ts-expect-error can be used
+                                style={{ color: getColourGradient(film.ratingPercentile) }}
+                                className={classes.FilmCellRating}
+                              >
+                                {film.rating}
+                              </span>
+                              <span className={classes.FilmTitle}>{film.title}</span> ({film.releaseYear})
+                            </Link>
+                          );
+                        })}
+                      </MDBCol>
+                    )
+                  );
+                })()}
+              </div>
             </MDBCol>
           </div>
         </>

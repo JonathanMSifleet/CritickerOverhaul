@@ -1,14 +1,36 @@
+@import '../../styles/variables.scss';
+
 .RatingsWrapper {
   padding: 1%;
   border-radius: 25px;
+}
+
+.PageSelectorsWrapper {
+  display: flex;
+  justify-content: space-between;
+  padding-left: 5%;
+  padding-right: 5%;
 }
 
 .PageSelectorWrappper {
   clear: both;
 }
 
-.PageSelector {
+.PageSelectorWrapper {
+  cursor: pointer;
   float: left;
+  padding-left: 1%;
+  padding-right: 1%;
+}
+
+.PageSelector, .DisabledPageSelector {
+  color: $mainBlue;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+.DisabledPageSelector {
+  color: #A9A9A9;
 }
 
 .ColumnWrapper {
