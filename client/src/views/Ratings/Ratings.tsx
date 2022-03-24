@@ -32,8 +32,16 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
   const [numPages, setNumPages] = useState(-1);
   const [ratings, setRatings] = useState([] as IFilm[]);
   const [paginationKeys, setPaginationKeys] = useState([] as any);
-  const [_selectedPage, _setSelectedPage] = useState(0);
+  const [selectedPage, setSelectedPage] = useState(0);
   const userState = useRecoilValue(userInfoState);
+
+  useEffect(() => {
+    console.log(selectedPage);
+  }, [selectedPage]);
+
+  useEffect(() => {
+    console.log(ratings);
+  }, [ratings]);
 
   useEffect(() => {
     (async (): Promise<void> => {
@@ -51,13 +59,12 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
         setNumPages(Math.ceil(numRatings / 60));
 
         const result = await httpRequest(`${endpoints.GET_ALL_RATINGS}/${localUsername}`, 'GET');
-        console.log('🚀 ~ file: Ratings.tsx ~ line 63 ~ result', result);
 
         setRatings(ratings.concat(result.results));
 
         setIsLoadingRatings(false);
 
-        await fetchPaginationKeys(localUsername, result.lastEvaluatedKey);
+        await fetchPaginationKeys(localUsername, result.lastEvaluatedKey, ratings);
       } catch (error) {
         console.error(error);
       } finally {
@@ -66,16 +73,29 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
     })();
   }, [username]);
 
-  const fetchPaginationKeys = async (localUsername: string, lastEvaluatedKey: any): Promise<any> => {
+  const fetchPaginationKeys = async (localUsername: string, lastEvaluatedKey: any, localRatings: any): Promise<any> => {
     const paginationResult = await httpRequest(
       `${endpoints.GET_ALL_RATINGS}/${localUsername}/${stringify(lastEvaluatedKey)}`,
       'GET'
     );
+    console.log('🚀 ~ file: Ratings.tsx ~ line 82 ~ fetchPaginationKeys ~ paginationResult', paginationResult);
+
+    localRatings = localRatings.concat(paginationResult.results);
 
     setPaginationKeys(paginationKeys.concat([paginationResult.lastEvaluatedKey]));
 
-    if (paginationResult.lastEvaluatedKey !== undefined)
-      await fetchPaginationKeys(localUsername, paginationResult.lastEvaluatedKey);
+    paginationResult.lastEvaluatedKey !== undefined
+      ? await fetchPaginationKeys(localUsername, paginationResult.lastEvaluatedKey, localRatings)
+      : setRatings(localRatings);
+  };
+
+  const paginateArray = (array: any[], selectedPage: number): any[] => {
+    const pageSize = 60;
+
+    const startIndex = selectedPage * pageSize;
+    const endIndex = startIndex + pageSize;
+
+    return array.slice(startIndex, endIndex);
   };
 
   return (
@@ -86,36 +106,42 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
             <MDBCol md="3">Filter</MDBCol>
             <MDBCol md="9">
               {Array.from({ length: numPages }, (_, i) => i++).map((pageNumber) => (
-                <p className={classes.PageSelector} key={pageNumber}>
+                <p onClick={(): void => setSelectedPage(pageNumber)} className={classes.PageSelector} key={pageNumber}>
                   {pageNumber + 1}
                 </p>
               ))}
               <div className={classes.ColumnWrapper}>
-                {chunk(ratings, Math.ceil(ratings.length / 3)).map((column: IFilm[], columnIndex: number) => (
-                  <MDBCol className={classes.RatingColumn} key={columnIndex}>
-                    {column.map((film: IFilm, cellIndex: number) => {
-                      const cellColour = getCellColour(columnIndex, cellIndex);
+                {((): JSX.Element[] => {
+                  const paginatedRatings = paginateArray(ratings, selectedPage);
 
-                      return (
-                        <Link
-                          className={classes.FilmCell}
-                          style={cellColour}
-                          href={`/film/${film.imdbID}`}
-                          key={film.imdbID}
-                        >
-                          <span
-                            // @ts-expect-error can be used
-                            style={{ color: getColourGradient(film.ratingPercentile) }}
-                            className={classes.FilmCellRating}
-                          >
-                            {film.rating}
-                          </span>
-                          <span className={classes.FilmTitle}>{film.title}</span> ({film.releaseYear})
-                        </Link>
-                      );
-                    })}
-                  </MDBCol>
-                ))}
+                  return chunk(paginatedRatings, Math.ceil(paginatedRatings.length / 3)).map(
+                    (column: IFilm[], columnIndex: number) => (
+                      <MDBCol className={classes.RatingColumn} key={columnIndex}>
+                        {column.map((film: IFilm, cellIndex: number) => {
+                          const cellColour = getCellColour(columnIndex, cellIndex);
+
+                          return (
+                            <Link
+                              className={classes.FilmCell}
+                              style={cellColour}
+                              href={`/film/${film.imdbID}`}
+                              key={film.imdbID}
+                            >
+                              <span
+                                // @ts-expect-error can be used
+                                style={{ color: getColourGradient(film.ratingPercentile) }}
+                                className={classes.FilmCellRating}
+                              >
+                                {film.rating}
+                              </span>
+                              <span className={classes.FilmTitle}>{film.title}</span> ({film.releaseYear})
+                            </Link>
+                          );
+                        })}
+                      </MDBCol>
+                    )
+                  );
+                })()}
               </div>
             </MDBCol>
           </div>
