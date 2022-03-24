@@ -30,7 +30,7 @@ interface IFilm {
 const Ratings: FC<IUrlParams> = ({ username }) => {
   const [isLoadingRatings, setIsLoadingRatings] = useState(false);
   const [_numPages, setNumPages] = useState(-1);
-  const [ratings, setRatings] = useState(null as null | IFilm[][]);
+  const [ratings, setRatings] = useState([] as IFilm[]);
   const [paginationKeys, setPaginationKeys] = useState([] as any);
   const [_selectedPage, _setSelectedPage] = useState(0);
   const userState = useRecoilValue(userInfoState);
@@ -53,7 +53,7 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
         const result = await httpRequest(`${endpoints.GET_ALL_RATINGS}/${localUsername}`, 'GET');
         console.log('🚀 ~ file: Ratings.tsx ~ line 63 ~ result', result);
 
-        setRatings(chunk(result.results, Math.ceil(result.results.length / 3)));
+        setRatings(ratings.concat(result.results));
 
         setIsLoadingRatings(false);
 
@@ -85,7 +85,7 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
           <div className={`${classes.RatingsWrapper} d-flex align-items-start bg-light mb-2`}>
             <MDBCol md="3">Filter</MDBCol>
             <MDBCol md="9">
-              {ratings.map((column: IFilm[], columnIndex: number) => (
+              {chunk(ratings, Math.ceil(ratings.length / 3)).map((column: IFilm[], columnIndex: number) => (
                 <MDBCol className={classes.RatingColumn} key={columnIndex}>
                   {column.map((film: IFilm, cellIndex: number) => {
                     const cellColour = getCellColour(columnIndex, cellIndex);
