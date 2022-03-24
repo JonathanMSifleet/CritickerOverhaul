@@ -36,14 +36,6 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
   const userState = useRecoilValue(userInfoState);
 
   useEffect(() => {
-    console.log(selectedPage);
-  }, [selectedPage]);
-
-  useEffect(() => {
-    console.log(ratings);
-  }, [ratings]);
-
-  useEffect(() => {
     (async (): Promise<void> => {
       setIsLoadingRatings(true);
 
@@ -60,11 +52,9 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
 
         const result = await httpRequest(`${endpoints.GET_ALL_RATINGS}/${localUsername}`, 'GET');
 
-        setRatings(ratings.concat(result.results));
-
         setIsLoadingRatings(false);
 
-        await fetchPaginationKeys(localUsername, result.lastEvaluatedKey, ratings);
+        await fetchPaginationKeys(localUsername, result.lastEvaluatedKey, result.results);
       } catch (error) {
         console.error(error);
       } finally {
@@ -78,7 +68,6 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
       `${endpoints.GET_ALL_RATINGS}/${localUsername}/${stringify(lastEvaluatedKey)}`,
       'GET'
     );
-    console.log('🚀 ~ file: Ratings.tsx ~ line 82 ~ fetchPaginationKeys ~ paginationResult', paginationResult);
 
     localRatings = localRatings.concat(paginationResult.results);
 
@@ -105,11 +94,20 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
           <div className={`${classes.RatingsWrapper} d-flex align-items-start bg-light mb-2`}>
             <MDBCol md="3">Filter</MDBCol>
             <MDBCol md="9">
-              {Array.from({ length: numPages }, (_, i) => i++).map((pageNumber) => (
-                <p onClick={(): void => setSelectedPage(pageNumber)} className={classes.PageSelector} key={pageNumber}>
-                  {pageNumber + 1}
-                </p>
-              ))}
+              <div className={classes.PageSelectorsWrapper}>
+                {Array.from({ length: numPages }, (_, i) => i++).map((pageNumber) => (
+                  <div
+                    className={classes.PageSelectorWrapper}
+                    onClick={(): void => setSelectedPage(pageNumber)}
+                    key={pageNumber}
+                  >
+                    <p className={pageNumber !== selectedPage ? classes.PageSelector : classes.DisabledPageSelector}>
+                      {pageNumber + 1}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
               <div className={classes.ColumnWrapper}>
                 {((): JSX.Element[] => {
                   const paginatedRatings = paginateArray(ratings, selectedPage);
