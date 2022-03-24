@@ -14,10 +14,6 @@ import getColourGradient from '../../utils/getColourGradient';
 import httpRequest from '../../utils/httpRequest';
 import classes from './Ratings.module.scss';
 
-interface IAttributeValue {
-  [key: string]: string | number;
-}
-
 interface IFilm {
   countries: string;
   directors: string;
@@ -33,14 +29,10 @@ interface IFilm {
 
 const Ratings: FC<IUrlParams> = ({ username }) => {
   const [isLoadingRatings, setIsLoadingRatings] = useState(false);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [lastEvaluatedKey, setLastEvaluatedKey] = useState({
-    imdbID: 79470,
-    rating: 6,
-    username: 'jonathanmsifleet'
-  } as IAttributeValue);
-
+  const [_numPages, setNumPages] = useState(-1);
   const [ratings, setRatings] = useState(null as null | IFilm[][]);
+  const [paginationKeys, setPaginationKeys] = useState([] as any);
+  const [_selectedPage, _setSelectedPage] = useState(0);
   const userState = useRecoilValue(userInfoState);
 
   useEffect(() => {
@@ -55,15 +47,17 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
       }
 
       try {
-        const result =
-          lastEvaluatedKey === undefined
-            ? await httpRequest(`${endpoints.GET_ALL_RATINGS}/${localUsername}`, 'GET')
-            : await httpRequest(`${endpoints.GET_ALL_RATINGS}/${localUsername}/${stringify(lastEvaluatedKey)}`, 'GET');
+        const numRatings = await httpRequest(`${endpoints.GET_NUM_RATINGS}/${localUsername}`, 'GET');
+        setNumPages(Math.ceil(numRatings / 60));
 
-        console.log('🚀 ~ file: Ratings.tsx ~ line 37 ~ result', result);
+        const result = await httpRequest(`${endpoints.GET_ALL_RATINGS}/${localUsername}`, 'GET');
+        console.log('🚀 ~ file: Ratings.tsx ~ line 63 ~ result', result);
 
-        setLastEvaluatedKey(result.lastEvaluatedKey);
         setRatings(chunk(result.results, Math.ceil(result.results.length / 3)));
+
+        setIsLoadingRatings(false);
+
+        await fetchPaginationKeys(localUsername, result.lastEvaluatedKey);
       } catch (error) {
         console.error(error);
       } finally {
@@ -71,6 +65,18 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
       }
     })();
   }, [username]);
+
+  const fetchPaginationKeys = async (localUsername: string, lastEvaluatedKey: any): Promise<any> => {
+    const paginationResult = await httpRequest(
+      `${endpoints.GET_ALL_RATINGS}/${localUsername}/${stringify(lastEvaluatedKey)}`,
+      'GET'
+    );
+
+    setPaginationKeys(paginationKeys.concat([paginationResult.lastEvaluatedKey]));
+
+    if (paginationResult.lastEvaluatedKey !== undefined)
+      await fetchPaginationKeys(localUsername, paginationResult.lastEvaluatedKey);
+  };
 
   return (
     <PageView>
