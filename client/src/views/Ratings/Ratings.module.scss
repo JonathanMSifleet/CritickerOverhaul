@@ -3,15 +3,21 @@
   border-radius: 25px;
 }
 
+.PageSelectorWrappper {
+  clear: both;
+}
+
+.PageSelector {
+  float: left;
+}
+
+.ColumnWrapper {
+  clear: both;
+}
+
 .RatingColumn {
   float: left;
   width: 33.33%;
-}
-
-.FilmCell {
-  width: 100%;
-  height: 100%;
-  clear: both;
 }
 
 .FilmCell {

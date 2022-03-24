@@ -46,7 +46,10 @@ const getAllRatings = async (event: {
     console.log('Successfully fetched ratings');
     return {
       statusCode: 200,
-      body: JSON.stringify({ results, lastEvaluatedKey: unmarshall(dynamoLastEvaluatedKey) })
+      body: JSON.stringify({
+        results,
+        lastEvaluatedKey: dynamoLastEvaluatedKey === undefined ? undefined : unmarshall(dynamoLastEvaluatedKey)
+      })
     };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, error.message);
