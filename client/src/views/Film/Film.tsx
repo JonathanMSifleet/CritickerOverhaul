@@ -1,16 +1,15 @@
-import * as endpoints from '../../constants/endpoints';
-
 import { FC, useEffect, useState } from 'react';
-
+import { useRecoilValue } from 'recoil';
+import IFilm from '../../../../shared/interfaces/IFilm';
 import IRating from '../../../../shared/interfaces/IRating';
 import PageView from '../../components/PageView/PageView';
-import RateFilm from './RateFilm/RateFilm';
 import Spinner from '../../components/Spinner/Spinner';
-import classes from './Film.module.scss';
+import * as endpoints from '../../constants/endpoints';
+import { userInfoState } from '../../store';
 import getFilmPoster from '../../utils/getFilmPoster';
 import httpRequest from '../../utils/httpRequest';
-import { useRecoilValue } from 'recoil';
-import { userInfoState } from '../../store';
+import classes from './Film.module.scss';
+import RateFilm from './RateFilm/RateFilm';
 
 interface IUrlParams {
   path?: string;
@@ -19,8 +18,7 @@ interface IUrlParams {
 
 const Film: FC<IUrlParams> = ({ id }) => {
   const [fetchedUserReview, setFetchedUserReview] = useState(null as null | IRating);
-  // to do
-  const [film, setFilm] = useState(null as any);
+  const [film, setFilm] = useState(null as null | IFilm);
   const [filmPoster, setFilmPoster] = useState(null as string | null);
   const [hasSubmittedRating, setHasSubmittedRating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -31,22 +29,16 @@ const Film: FC<IUrlParams> = ({ id }) => {
     (async (): Promise<void> => {
       setIsLoading(true);
 
-      try {
-        const film = await httpRequest(`${endpoints.GET_FILM_DETAILS}/${id}`, 'GET');
-        const filmPoster = await getFilmPoster(id!);
-
-        if (userState.loggedIn) {
-          setFetchedUserReview(await getUserRating(id!));
-          setReviewAlreadyExists(true);
-        }
-
-        setFilm(film);
-
-        setFilmPoster(filmPoster);
-      } catch (error) {
-        if (error instanceof Error) console.error(error.message);
-      } finally {
+      httpRequest(`${endpoints.GET_FILM_DETAILS}/${id}`, 'GET').then((film) => {
+        setFilm(parseFilmPeople(film));
         setIsLoading(false);
+      });
+
+      getFilmPoster(id!).then((filmPoster) => setFilmPoster(filmPoster));
+
+      if (userState.loggedIn) {
+        setFetchedUserReview(await getUserRating(id!));
+        setReviewAlreadyExists(true);
       }
     })();
   }, [id]);
@@ -56,6 +48,14 @@ const Film: FC<IUrlParams> = ({ id }) => {
 
     if (hasSubmittedRating) fetchUserReview();
   }, [hasSubmittedRating]);
+
+  const arrayToString = (input: string): string => {
+    let localString = '';
+    const parsedInput = JSON.parse(input);
+
+    parsedInput.forEach((person: { name: string }) => (localString += `${person.name}, `));
+    return localString.slice(0, -2);
+  };
 
   const deleteReview = async (): Promise<void> => {
     try {
@@ -72,6 +72,14 @@ const Film: FC<IUrlParams> = ({ id }) => {
     const result = await httpRequest(`${endpoints.GET_USER_RATING}/${id}/${userState.username}`, 'GET');
 
     return result.statusCode === 404 ? null : result;
+  };
+
+  const parseFilmPeople = (film: IFilm): IFilm => {
+    if (film.directors !== undefined) film.directors = arrayToString(film.directors);
+    if (film.writers !== undefined) film.writers = arrayToString(film.writers);
+    if (film.actors !== undefined) film.actors = arrayToString(film.actors);
+
+    return film;
   };
 
   return (
