@@ -51,21 +51,15 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
         localUsername = userState.username;
       }
 
-      const userHTTPRequests = [];
-      try {
-        userHTTPRequests.push(await httpRequest(`${endpoints.GET_PROFILE_BY_USERNAME}/${localUsername}`, 'GET'));
-        userHTTPRequests.push(await httpRequest(`${endpoints.GET_RECENT_RATINGS}/${localUsername}`, 'GET'));
-
-        const results = await Promise.all(userHTTPRequests);
-
-        setUserProfile(results[0]);
-        setRecentRatings(chunk(results[1], 10));
-        setShouldLoadAvatar(true);
-      } catch (error) {
-        console.error(error);
-      } finally {
+      httpRequest(`${endpoints.GET_PROFILE_BY_USERNAME}/${localUsername}`, 'GET').then((results) => {
+        setUserProfile(results);
         setIsLoadingProfile(false);
-      }
+        setShouldLoadAvatar(true);
+      });
+
+      httpRequest(`${endpoints.GET_RECENT_RATINGS}/${localUsername}`, 'GET').then((ratings) =>
+        setRecentRatings(chunk(ratings, 10))
+      );
     })();
   }, [username]);
 
