@@ -8,7 +8,7 @@ const convertIDToIMDbFormat = (type: string, id: number): string => {
     }
   }
 
-  return type === 'film' ? 'tt' + id : 'nm' + id;
+  return type === 'film' ? 'tt' + formattedID : 'nm' + formattedID;
 };
 
 export default convertIDToIMDbFormat;
