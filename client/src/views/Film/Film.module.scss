@@ -24,8 +24,26 @@
   float: left;
 }
 
-.FilmDescription {
-  clear: left;
+.FilmTitle {
+  color: $mainBlue;
+  margin: 0;
+  margin-bottom: 1%;
+}
+
+.RatingValue {
+  border-radius: 14px;
+  color: white;
+  float: left;
+  font-size: 1.8rem;
+  padding: 1%;
+  padding-left: 2%;
+  padding-right: 2%;
+}
+
+.FilmPercentile {
+  // float: left;
+  clear: both;
+  margin-top: 1%;
 }
 
 .FilmInfo {

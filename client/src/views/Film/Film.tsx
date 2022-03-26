@@ -6,6 +6,7 @@ import PageView from '../../components/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
 import * as endpoints from '../../constants/endpoints';
 import { userInfoState } from '../../store';
+import getColourGradient from '../../utils/getColourGradient';
 import getFilmPoster from '../../utils/getFilmPoster';
 import httpRequest from '../../utils/httpRequest';
 import classes from './Film.module.scss';
@@ -89,19 +90,32 @@ const Film: FC<IUrlParams> = ({ id }) => {
           <>
             <div className={classes.FilmDetails}>
               <img className={classes.Poster} src={filmPoster!} />
-              <h1>{film ? film.title : null}</h1>
+              <h1 className={classes.FilmTitle}>{film ? film.title : null}</h1>
               {fetchedUserReview ? (
                 <>
-                  <p>Your Score {fetchedUserReview.rating}</p>
-                  <p>Your mini-review: {fetchedUserReview.review}</p>
-                  <p>
-                    Rated on:{' '}
-                    {new Date(fetchedUserReview.createdAt!).toLocaleDateString('en-GB', {
-                      day: 'numeric',
-                      month: 'long',
-                      year: 'numeric'
-                    })}
-                  </p>
+                  {((): JSX.Element => {
+                    const colourGradient = getColourGradient(fetchedUserReview.ratingPercentile);
+
+                    return (
+                      <>
+                        <span
+                          className={classes.RatingValue}
+                          // @ts-expect-error
+                          style={{ backgroundColor: colourGradient }}
+                        >
+                          {fetchedUserReview.rating}
+                        </span>
+
+                        {/* @ts-expect-error */}
+                        <p className={classes.FilmPercentile} style={{ color: colourGradient }}>
+                          {fetchedUserReview.ratingPercentile}%
+                        </p>
+                      </>
+                    );
+                  })()}
+
+                  {fetchedUserReview.review ? <p>Your mini-review: {fetchedUserReview.review}</p> : null}
+
                   <p>
                     <span className={classes.ModifyReview} onClick={(): void => setFetchedUserReview(null)}>
                       Update Rating
@@ -110,6 +124,17 @@ const Film: FC<IUrlParams> = ({ id }) => {
                     <span className={classes.ModifyReview} onClick={deleteReview}>
                       Delete Rating
                     </span>
+                  </p>
+
+                  <p>
+                    <i>
+                      Rated on:{' '}
+                      {new Date(fetchedUserReview.createdAt!).toLocaleDateString('en-GB', {
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                      })}
+                    </i>
                   </p>
                 </>
               ) : !hasSubmittedRating && userState.loggedIn ? (
@@ -122,6 +147,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
                   userState={userState}
                 />
               ) : null}
+
               <p className={classes.FilmDescription}>{film ? film.description : null}</p>
 
               <div className={classes.FilmInfo}>

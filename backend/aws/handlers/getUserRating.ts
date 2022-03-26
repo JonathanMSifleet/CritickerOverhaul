@@ -33,7 +33,7 @@ const getUserRating = async (event: { pathParameters: { imdbID: number; username
 const getUserRatingFromDB = async (imdbID: number, username: string): Promise<IRating> => {
   const query = createDynamoSearchQuery(
     process.env.RATINGS_TABLE_NAME!,
-    'rating, review, createdAt',
+    'rating, ratingPercentile, review, createdAt',
     'imdbID',
     imdbID,
     'N',
