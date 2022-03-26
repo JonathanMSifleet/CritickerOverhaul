@@ -34,7 +34,9 @@ interface ILastEvaluatedKey {
 }
 
 const Ratings: FC<IUrlParams> = ({ username }) => {
+  const [_allRatings, setAllRatings] = useState([] as IFilm[]);
   const [isLoadingRatings, setIsLoadingRatings] = useState(false);
+  // const [filters, setFilters] = useState(null as any);
   const [numPages, setNumPages] = useState(-1);
   const [ratings, setRatings] = useState([] as IFilm[]);
   const [paginationKeys, setPaginationKeys] = useState([] as ILastEvaluatedKey[]);
@@ -83,9 +85,12 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
 
     setPaginationKeys(paginationKeys.concat([paginationResult.lastEvaluatedKey]));
 
-    paginationResult.lastEvaluatedKey !== undefined
-      ? await fetchPaginationKeys(localUsername, paginationResult.lastEvaluatedKey, localRatings)
-      : setRatings(localRatings);
+    if (paginationResult.lastEvaluatedKey !== undefined) {
+      await fetchPaginationKeys(localUsername, paginationResult.lastEvaluatedKey, localRatings);
+    } else {
+      setRatings(localRatings);
+      setAllRatings(localRatings);
+    }
   };
 
   const paginateArray = (array: IFilm[], selectedPage: number): IFilm[] => {

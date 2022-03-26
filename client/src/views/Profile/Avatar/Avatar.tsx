@@ -1,13 +1,12 @@
-import * as endpoints from '../../../constants/endpoints';
-
-import { FC, useEffect, useState } from 'react';
-
 import Compress from 'compress.js';
-import classes from './Avatar.module.scss';
+import { FC, useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
+import Spinner from '../../../components/Spinner/Spinner';
+import * as endpoints from '../../../constants/endpoints';
+import { userInfoState } from '../../../store';
 import getUserAvatar from '../../../utils/getUserAvatar';
 import httpRequest from '../../../utils/httpRequest';
-import { useRecoilValue } from 'recoil';
-import { userInfoState } from '../../../store';
+import classes from './Avatar.module.scss';
 
 interface IProps {
   shouldLoadAvatar: boolean;
@@ -28,10 +27,10 @@ const Avatar: FC<IProps> = ({ setShouldLoadAvatar, shouldLoadAvatar, username })
         setUserAvatar(username ? await getUserAvatar(username) : userState.avatar);
       } catch (e) {
         console.error(e);
+      } finally {
+        setIsLoadingAvatar(false);
+        setShouldLoadAvatar(false);
       }
-
-      setIsLoadingAvatar(false);
-      setShouldLoadAvatar(false);
     };
 
     if (shouldLoadAvatar) getAvatar();
@@ -56,7 +55,9 @@ const Avatar: FC<IProps> = ({ setShouldLoadAvatar, shouldLoadAvatar, username })
     <div className={classes.ImageWrapper}>
       {!isLoadingAvatar && (username || userState.loggedIn) ? (
         <img className={classes.UserAvatar} src={userAvatar} />
-      ) : null}
+      ) : (
+        <Spinner />
+      )}
 
       {!username && userState.loggedIn ? (
         <>

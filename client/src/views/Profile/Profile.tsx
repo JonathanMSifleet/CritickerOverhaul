@@ -34,6 +34,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   const [importMessage, setImportMessage] = useState('');
   const [importingRatings, setImportingRatings] = useState(false);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
+  const [isLoadingRecentRatings, setIsLoadingRecentRatings] = useState(false);
   const [recentRatings, setRecentRatings] = useState(null as null | IRecentRating[][]);
   const [shouldLoadAvatar, setShouldLoadAvatar] = useState(false);
   const [showUpdateDetailsForm, setShowUpdateDetailsForm] = useState(false);
@@ -43,6 +44,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   useEffect(() => {
     (async (): Promise<void> => {
       setIsLoadingProfile(true);
+      setIsLoadingRecentRatings(true);
 
       let localUsername;
       if (username) {
@@ -57,9 +59,10 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
         setShouldLoadAvatar(true);
       });
 
-      httpRequest(`${endpoints.GET_RECENT_RATINGS}/${localUsername}`, 'GET').then((ratings) =>
-        setRecentRatings(chunk(ratings, 10))
-      );
+      httpRequest(`${endpoints.GET_RECENT_RATINGS}/${localUsername}`, 'GET').then((ratings) => {
+        setRecentRatings(chunk(ratings, 10));
+        setIsLoadingRecentRatings(false);
+      });
     })();
   }, [username]);
 
@@ -186,52 +189,56 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                 </div>
               </div>
 
-              {recentRatings ? (
-                <div className={classes.RecentRatingsWrapper}>
-                  <h2 className={classes.RecentRatingsHeader}>Recent Ratings</h2>
-                  <Link href={'/ratings'}>View all ratings</Link>
+              <div className={classes.RecentRatingsWrapper}>
+                {!isLoadingRecentRatings ? (
+                  <>
+                    <h2 className={classes.RecentRatingsHeader}>Recent Ratings</h2>
+                    <Link href={'/ratings'}>View all ratings</Link>
 
-                  <div className="d-flex align-items-start bg-light mb-2">
-                    {recentRatings.map((column: IRecentRating[], columnIndex: number) => (
-                      <MDBCol className={classes.RecentRatingColumn} key={columnIndex}>
-                        {column.map((rating, cellIndex) => {
-                          const cellColour = getCellColour(columnIndex, cellIndex);
+                    <div className="d-flex align-items-start bg-light mb-2">
+                      {recentRatings!.map((column: IRecentRating[], columnIndex: number) => (
+                        <MDBCol className={classes.RecentRatingColumn} key={columnIndex}>
+                          {column.map((rating, cellIndex) => {
+                            const cellColour = getCellColour(columnIndex, cellIndex);
 
-                          return (
-                            <Link
-                              className={classes.RatingLink}
-                              style={cellColour}
-                              href={`/film/${rating.imdbID}`}
-                              key={rating.imdbID}
-                            >
-                              {((): JSX.Element => {
-                                const colourGradient = getColourGradient(rating.ratingPercentile);
+                            return (
+                              <Link
+                                className={classes.RatingLink}
+                                style={cellColour}
+                                href={`/film/${rating.imdbID}`}
+                                key={rating.imdbID}
+                              >
+                                {((): JSX.Element => {
+                                  const colourGradient = getColourGradient(rating.ratingPercentile);
 
-                                return (
-                                  <>
-                                    {/* @ts-expect-error works as intended */}
-                                    <span style={{ color: colourGradient }}>{rating.rating}</span>
-                                    {/* @ts-expect-error works as intended */}
-                                    <span className={classes.RatingPercentile} style={{ color: colourGradient }}>
-                                      {' '}
-                                      {rating.ratingPercentile}%
-                                    </span>
-                                  </>
-                                );
-                              })()}{' '}
-                              <span>
-                                <b>{rating.title}</b>
-                              </span>{' '}
-                              ({rating.releaseYear}){' - '}
-                              {new Date(rating.createdAt).toLocaleDateString('en-GB')}
-                            </Link>
-                          );
-                        })}
-                      </MDBCol>
-                    ))}
-                  </div>
-                </div>
-              ) : null}
+                                  return (
+                                    <>
+                                      {/* @ts-expect-error works as intended */}
+                                      <span style={{ color: colourGradient }}>{rating.rating}</span>
+                                      {/* @ts-expect-error works as intended */}
+                                      <span className={classes.RatingPercentile} style={{ color: colourGradient }}>
+                                        {' '}
+                                        {rating.ratingPercentile}%
+                                      </span>
+                                    </>
+                                  );
+                                })()}{' '}
+                                <span>
+                                  <b>{rating.title}</b>
+                                </span>{' '}
+                                ({rating.releaseYear}){' - '}
+                                {new Date(rating.createdAt).toLocaleDateString('en-GB')}
+                              </Link>
+                            );
+                          })}
+                        </MDBCol>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <Spinner />
+                )}
+              </div>
             </>
           ) : (
             'User not found'
