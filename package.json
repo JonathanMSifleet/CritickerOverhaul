@@ -5,7 +5,7 @@
   "scripts": {
     "buildClient": "cd ./client && webpack --mode production",
     "syncClient": "cd ./client && aws s3 rm s3://react-bucket-x3blze4m-dev --recursive && aws s3 sync ./dist s3://react-bucket-x3blze4m-dev",
-    "deployClient": "npm run clientBuild && npm run clientSync",
+    "deployClient": "npm run buildClient && npm run syncClient",
     "slsDeploy": "cd ./backend && serverless deploy --verbose",
     "-": "",
     "clean": "cd ./backend && RMDIR /Q/S .serverless 2>nul && cd ./client && RMDIR /Q/S dist 2>nul",

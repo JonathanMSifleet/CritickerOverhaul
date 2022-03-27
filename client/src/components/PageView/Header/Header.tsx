@@ -8,19 +8,16 @@ import {
   MDBNavbarNav,
   MDBNavbarToggler
 } from 'mdb-react-ui-kit';
-import { Suspense, lazy } from 'preact/compat';
-import { modalState, userInfoState } from '../../../store';
-import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-
-import Button from '../../Button/Button';
-import { FC } from 'react';
-import FileSelector from '../../FileSelector/FileSelector';
 import { Link } from 'preact-router';
+import { lazy, Suspense } from 'preact/compat';
+import { FC } from 'react';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import Logo from '../../../assets/svg/Logo.svg';
+import { modalState, userInfoState } from '../../../store';
+import Button from '../../Button/Button';
 import Modal from '../../Modal/Modal';
 import Spinner from '../../Spinner/Spinner';
 import classes from './Header.module.scss';
-import migratePeople from './../../../utils/migration/migratePeople';
 
 const Auth = lazy(() => import('../../Auth/Auth'));
 
@@ -33,22 +30,22 @@ const Header: FC = (): JSX.Element => {
 
   const logout = (): void => resetUserState();
 
-  const uploadFile = (event: { target: { files: Blob[] } }): void => {
-    try {
-      const fileReader = new FileReader();
+  // const uploadFile = (event: { target: { files: Blob[] } }): void => {
+  //   try {
+  //     const fileReader = new FileReader();
 
-      fileReader.readAsText(event.target.files[0]);
-      fileReader.onload = (): void => {
-        try {
-          migratePeople(JSON.parse(fileReader.result as string), 'directors');
-        } catch (error) {
-          console.error(error);
-        }
-      };
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //     fileReader.readAsText(event.target.files[0]);
+  //     fileReader.onload = (): void => {
+  //       try {
+  //         migratePeople(JSON.parse(fileReader.result as string), 'directors');
+  //       } catch (error) {
+  //         console.error(error);
+  //       }
+  //     };
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <header>
@@ -71,7 +68,7 @@ const Header: FC = (): JSX.Element => {
             </MDBNavbarNav>
           </div>
 
-          <FileSelector onChange={(event): void => uploadFile(event)} />
+          {/* <FileSelector onChange={(event): void => uploadFile(event)} /> */}
 
           <MDBInput className={`${classes.SearchInput} bg-light`} label="Search" type="text" />
 

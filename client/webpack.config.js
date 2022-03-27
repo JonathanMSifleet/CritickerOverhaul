@@ -12,7 +12,7 @@ module.exports = {
   devtool: 'eval-source-map',
   entry: './src/index.tsx',
   output: {
-    filename: 'index.bundle.js',
+    filename: '[name].[contenthash].js',
     assetModuleFilename: 'images/[hash][ext][query]'
   },
   target: 'web',
@@ -33,7 +33,22 @@ module.exports = {
         },
         extractComments: false
       })
-    ]
+    ],
+    splitChunks: {
+      chunks: 'async',
+      cacheGroups: {
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+          reuseExistingChunk: true
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true
+        }
+      }
+    }
   },
   performance: {
     hints: false

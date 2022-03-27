@@ -221,7 +221,7 @@ resources:
               - POST
               - PUT
             Compress: true
-            DefaultTTL: 86400
+            DefaultTTL: 300
             ForwardedValues:
               QueryString: true
             TargetOriginId: ${self:custom.ReactBucketTargetOrigin.name}
