@@ -1,11 +1,10 @@
 import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
-
-import IHTTP from '../shared/interfaces/IHTTP';
+import { unmarshall } from '@aws-sdk/util-dynamodb';
+import middy from '@middy/core';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import createDynamoSearchQuery from '../shared/functions/DynamoDB/createDynamoSearchQuery';
-import middy from '@middy/core';
-import { unmarshall } from '@aws-sdk/util-dynamodb';
+import IHTTP from '../shared/interfaces/IHTTP';
 
 const dbClient = new DynamoDBClient({});
 
@@ -22,6 +21,8 @@ const getProfileByUsername = async (event: { pathParameters: { username: string 
 
   try {
     const result = await dbClient.send(new QueryCommand(query));
+    if (result.Items!.length === 0) return createAWSResErr(404, 'No user found');
+
     const user = unmarshall(result.Items![0]);
 
     console.log('Sucessfully fetched user profile');

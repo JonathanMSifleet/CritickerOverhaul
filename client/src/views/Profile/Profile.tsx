@@ -53,7 +53,17 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
         localUsername = userState.username;
       }
 
+      if (localUsername === undefined) {
+        setIsLoadingProfile(false);
+        return;
+      }
+
       httpRequest(`${endpoints.GET_PROFILE_BY_USERNAME}/${localUsername}`, 'GET').then((results) => {
+        if (results.statusCode === 404) {
+          setIsLoadingProfile(false);
+          return;
+        }
+
         setUserProfile(results);
         setIsLoadingProfile(false);
         setShouldLoadAvatar(true);
@@ -142,10 +152,14 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
     <PageView backgroundCSS={classes.PageWrapper}>
       {!isLoadingProfile ? (
         <>
-          <Avatar setShouldLoadAvatar={setShouldLoadAvatar} shouldLoadAvatar={shouldLoadAvatar} username={username!} />
-
           {userProfile ? (
             <>
+              <Avatar
+                setShouldLoadAvatar={setShouldLoadAvatar}
+                shouldLoadAvatar={shouldLoadAvatar}
+                username={username!}
+              />
+
               <div className={classes.UserDetails}>
                 <h1 className={classes.UsernameHeader}>
                   {userProfile.username}
