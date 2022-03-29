@@ -1,8 +1,10 @@
 import { DynamoDBClient, PutItemCommand, PutItemCommandOutput } from '@aws-sdk/client-dynamodb';
 
+import IAccessToken from '../shared/interfaces/IAccessToken';
 import IHTTP from '../shared/interfaces/IHTTP';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from './../shared/functions/createAWSResErr';
+import generateAccessToken from '../shared/functions/generateAccessToken';
 import { marshall } from '@aws-sdk/util-dynamodb';
 import middy from '@middy/core';
 import { validateUserInputs } from '../shared/functions/validationFunctions';
@@ -15,11 +17,12 @@ const signup = async (event: { body: string }): Promise<IHTTP> => {
   const errors = await validateUserInputs(username, email, password);
   if (errors.length !== 0) return createAWSResErr(422, errors as string[]);
 
-  let memberSince = Date.now();
-  memberSince = Math.floor(memberSince / (24 * 60 * 60)) * 24 * 60 * 60;
+  const memberSince = getSignupDate();
+  console.log('🚀 ~ file: signup.ts ~ line 19 ~ signup ~ memberSince', memberSince);
+  const accessToken = (await generateAccessToken()) as IAccessToken;
 
   try {
-    const result = await insertUserToDB(username, email, password, memberSince);
+    const result = await insertUserToDB(username, email, password, memberSince, accessToken);
 
     console.log('Signed up successfully');
     return {
@@ -33,11 +36,16 @@ const signup = async (event: { body: string }): Promise<IHTTP> => {
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
+export const handler = middy(signup).use(cors());
+
+const getSignupDate = (): number => Math.floor(Date.now() / (24 * 60 * 60)) * 24 * 60 * 60;
+
 const insertUserToDB = async (
   username: string,
   email: string,
   password: string,
-  memberSince: number
+  memberSince: number,
+  accessToken: IAccessToken
 ): Promise<PutItemCommandOutput> => {
   const params = {
     TableName: process.env.USER_TABLE_NAME!,
@@ -46,12 +54,11 @@ const insertUserToDB = async (
       username,
       password,
       memberSince,
-      numRatings: 0
+      numRatings: 0,
+      accessToken: JSON.stringify(accessToken)
     }),
     ReturnConsumedCapacity: 'TOTAL'
   };
 
   return await dbClient.send(new PutItemCommand(params));
 };
-
-export const handler = middy(signup).use(cors());

@@ -1,4 +1,4 @@
-import IHTTP from '../shared/interfaces/IHTTP';
+import IHTTP from '../../shared/interfaces/IHTTP';
 
 export const handler = (): IHTTP => {
   return {

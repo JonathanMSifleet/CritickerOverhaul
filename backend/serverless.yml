@@ -14,13 +14,18 @@ provider:
   memorySize: 256
   stage: ${opt:stage, 'dev'}
   region: eu-west-2
+  # environment variables:
   environment:
+    AUTH0_AUDIENCE: https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev/signup
+    AUTH0_ID: uftV0Jb8KRKl7rGzmzEZXPwIgoEr77tR
+    AUTH0_SECRET: ${file(./clientSecret.pem)}
+    AUTH0_URL: https://dev-btmyx7mm.eu.auth0.com/oauth/token
     AVATAR_TABLE_NAME: ${self:custom.AvatarTable.name}
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     FILMS_TABLE_NAME: ${self:custom.FilmsTable.name}
     RATINGS_TABLE_NAME: ${self:custom.RatingsTable.name}
     REACT_BUCKET_NAME: ${self:custom.ReactBucket.name}
     USER_TABLE_NAME: ${self:custom.UserTable.name}
-    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
   iam:
     role:
       statements:
@@ -40,6 +45,7 @@ functions:
           method: PUT
           path: migration/addPeople/{type}
           cors: true
+          # authorizer: ${self:custom.authoriser}
   deleteAccount:
     handler: aws/handlers/deleteAccount.handler
     events:
@@ -47,6 +53,7 @@ functions:
           method: DELETE
           path: deleteAccount
           cors: true
+          authorizer: ${self:custom.authoriser}
   deleteRating:
     handler: aws/handlers/deleteRating.handler
     events:
@@ -54,6 +61,7 @@ functions:
           method: DELETE
           path: rating/deleteRating/{imdbID}/{username}
           cors: true
+          authorizer: ${self:custom.authoriser}
   getAllRatings:
     handler: aws/handlers/getAllRatings.handler
     timeout: 30
@@ -94,6 +102,7 @@ functions:
           method: GET
           path: user/profile/{username}
           cors: true
+          authorizer: ${self:custom.authoriser}
   getUserAvatar:
     handler: aws/handlers/getUserAvatar.handler
     events:
@@ -123,6 +132,7 @@ functions:
           method: POST
           path: migration/importFilmBatch
           cors: true
+          authorizer: ${self:custom.authoriser}
   importRatings:
     handler: aws/handlers/importRatings.handler
     timeout: 30
@@ -131,6 +141,7 @@ functions:
           method: POST
           path: rating/importRatings/{username}
           cors: true
+          authorizer: ${self:custom.authoriser}
   login:
     handler: aws/handlers/login.handler
     events:
@@ -145,6 +156,7 @@ functions:
           method: POST
           path: rating/rateFilm/{username}
           cors: true
+          authorizer: ${self:custom.authoriser}
   signup:
     handler: aws/handlers/signup.handler
     events:
@@ -159,6 +171,7 @@ functions:
           method: PUT
           path: user/profile/{username}
           cors: true
+          authorizer: ${self:custom.authoriser}
   uploadUserAvatar:
     handler: aws/handlers/uploadUserAvatar.handler
     events:
@@ -166,20 +179,26 @@ functions:
           method: POST
           path: user/avatar/{username}
           cors: true
+          authorizer: ${self:custom.authoriser}
+
+  # auth functions:
+  authoriser:
+    handler: aws/handlers/auth/authoriser.handler
   publicEndpoint:
-    handler: aws/handlers/public.handler
+    handler: aws/handlers/auth/public.handler
     events:
       - http:
           path: public
           method: POST
           cors: true
   privateEndpoint:
-    handler: aws/handlers/private.handler
+    handler: aws/handlers/auth/private.handler
     events:
       - http:
           path: private
           method: POST
           cors: true
+          authorizer: ${self:custom.authoriser}
 resources:
   Resources:
     # Buckets:
@@ -283,6 +302,7 @@ custom:
     name: CritickerOverhaul
   ReactBucketTargetOrigin:
     name: S3-${self:custom.ReactBucket.name}/${self:custom.BucketFolder.name}
+  authoriser: arn:aws:lambda:${aws:region}:${aws:accountId}:function:CritickerOverhaul-${self:provider.stage}-authoriser
   bundle:
     linting: true
   cloudfrontInvalidate:

@@ -9,8 +9,8 @@ export const validateUserInputs = async (
   password: string
 ): Promise<(string | null)[]> => {
   const errors = await Promise.all([
-    checkUniqueAttribute('email', 'email', email),
-    checkUniqueAttribute('username', 'username', username),
+    checkUniqueAttribute('email', email, 'email'),
+    checkUniqueAttribute('username', username, undefined),
     validateValue(username, 'Username'),
     validateValue(email, 'Email'),
     validateValue(password, 'Password')
@@ -58,9 +58,9 @@ export const validateLength = async (
   value.length < min || value.length > max ? `${valueName} must be between ${min} and ${max} characters` : null;
 
 export const checkUniqueAttribute = async (
-  indexName: string,
   keyName: string,
-  keyValue: string
+  keyValue: string,
+  indexName?: string
 ): Promise<string | null> => {
   const query = createDynamoSearchQuery(process.env.USER_TABLE_NAME!, keyName, keyName, keyValue, 'S', indexName);
 
