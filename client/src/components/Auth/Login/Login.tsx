@@ -39,13 +39,14 @@ const Login: FC = () => {
       setPasswordValidationMessages([]);
 
       try {
-        const response = await HTTPRequest(endpoints.LOGIN, 'POST', formInfo);
+        const response = await HTTPRequest(endpoints.LOGIN, 'POST', false, undefined, formInfo);
         if (response.statusCode && !response.statusCode.toString().startsWith('2')) throw new Error(response.message);
 
         setUserInfo({
-          ...response,
+          username: response.username,
+          avatar: response.avatar,
           loggedIn: true,
-          expiryDate: new Date().getTime() + 4 * 60 * 60
+          accessToken: JSON.parse(response.accessToken)
         });
 
         setShowModal(false);

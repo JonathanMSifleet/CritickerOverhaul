@@ -1,5 +1,6 @@
 import * as endpoints from '../../constants/endpoints';
 
+import IUserState from '../../interfaces/IUserState';
 import chunk from 'chunk';
 import httpRequest from '../httpRequest';
 
@@ -15,7 +16,7 @@ interface ISQLFilm {
   releaseYear: number;
 }
 
-const migrateFilms = async (films: ISQLFilm[]): Promise<void> => {
+const migrateFilms = async (films: ISQLFilm[], userState: IUserState): Promise<void> => {
   const marshalledFilms = films.map((film: ISQLFilm) => {
     // remove null attributes from film object
     Object.keys(film).forEach((key: string) => {
@@ -51,7 +52,7 @@ const migrateFilms = async (films: ISQLFilm[]): Promise<void> => {
     largeBatch.forEach(async (batch: any) => {
       console.log(`Importing batch ${i} out of ${filmBatches.length}`);
       i++;
-      importRequests.push(httpRequest(endpoints.IMPORT_FILM_BATCH, 'POST', batch));
+      importRequests.push(httpRequest(endpoints.IMPORT_FILM_BATCH, 'POST', true, userState.accessToken, batch));
     });
 
     try {

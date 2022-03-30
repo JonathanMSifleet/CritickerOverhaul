@@ -1,23 +1,25 @@
-import chunk from 'chunk';
-import { XMLParser } from 'fast-xml-parser';
-import { MDBCol } from 'mdb-react-ui-kit';
-import { Link } from 'preact-router/match';
-import { lazy, Suspense } from 'preact/compat';
+import * as endpoints from '../../constants/endpoints';
+
 import { FC, useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
-import IRating from '../../../../shared/interfaces/IRating';
-import IUserProfile from '../../../../shared/interfaces/IUserProfile';
+import { Suspense, lazy } from 'preact/compat';
+
+import Avatar from './Avatar/Avatar';
 import FileSelector from '../../components/FileSelector/FileSelector';
+import IRating from '../../../../shared/interfaces/IRating';
+import IUrlParams from '../../interfaces/IUrlParams';
+import IUserProfile from '../../../../shared/interfaces/IUserProfile';
+import { Link } from 'preact-router/match';
+import { MDBCol } from 'mdb-react-ui-kit';
 import PageView from '../../components/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
-import * as endpoints from '../../constants/endpoints';
-import IUrlParams from '../../interfaces/IUrlParams';
-import { userInfoState } from '../../store';
+import { XMLParser } from 'fast-xml-parser';
+import chunk from 'chunk';
+import classes from './Profile.module.scss';
 import getCellColour from '../../utils/getCellColour';
 import getColourGradient from '../../utils/getColourGradient';
 import httpRequest from '../../utils/httpRequest';
-import Avatar from './Avatar/Avatar';
-import classes from './Profile.module.scss';
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../../store';
 
 const UpdateUserDetailsForm = lazy(() => import('./UpdateUserDetailsForm/UpdateUserDetailsForm'));
 
@@ -58,18 +60,20 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
         return;
       }
 
-      httpRequest(`${endpoints.GET_PROFILE_BY_USERNAME}/${localUsername}`, 'GET').then((results) => {
-        if (results.statusCode === 404) {
+      httpRequest(`${endpoints.GET_PROFILE_BY_USERNAME}/${localUsername}`, 'GET', true, userState.accessToken).then(
+        (results) => {
+          if (results.statusCode === 404) {
+            setIsLoadingProfile(false);
+            return;
+          }
+
+          setUserProfile(results);
           setIsLoadingProfile(false);
-          return;
+          setShouldLoadAvatar(true);
         }
+      );
 
-        setUserProfile(results);
-        setIsLoadingProfile(false);
-        setShouldLoadAvatar(true);
-      });
-
-      httpRequest(`${endpoints.GET_RECENT_RATINGS}/${localUsername}`, 'GET').then((ratings) => {
+      httpRequest(`${endpoints.GET_RECENT_RATINGS}/${localUsername}`, 'GET', false).then((ratings) => {
         setRecentRatings(chunk(ratings, 10));
         setIsLoadingRecentRatings(false);
       });
@@ -140,7 +144,11 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
 
   const uploadRatings = async (ratings: IRating[]): Promise<void> => {
     try {
-      setImportMessage(await httpRequest(`${endpoints.IMPORT_RATINGS}/${userState.username}`, 'POST', { ratings }));
+      setImportMessage(
+        await httpRequest(`${endpoints.IMPORT_RATINGS}/${userState.username}`, 'POST', true, userState.accessToken, {
+          ratings
+        })
+      );
     } catch (error) {
       setImportMessage('Error importing ratings');
     } finally {
@@ -158,6 +166,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                 setShouldLoadAvatar={setShouldLoadAvatar}
                 shouldLoadAvatar={shouldLoadAvatar}
                 username={username!}
+                userState={userState}
               />
 
               <div className={classes.UserDetails}>
@@ -180,7 +189,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                 {showUpdateDetailsForm ? (
                   // @ts-expect-error
                   <Suspense fallback={<Spinner />}>
-                    <UpdateUserDetailsForm userProfile={userProfile} />
+                    <UpdateUserDetailsForm userProfile={userProfile} userState={userState} />
                   </Suspense>
                 ) : null}
 

@@ -1,25 +1,26 @@
-import { ChangeEvent, FC, useEffect, useState } from 'react';
-import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
-import { CountryDropdown } from 'react-country-region-selector';
-import { useRecoilValue } from 'recoil';
-import IUserProfile from '../../../../../shared/interfaces/IUserProfile';
+
+import * as endpoints from '../../../constants/endpoints';
+
+import { ChangeEvent, FC, useEffect, useState } from 'react';
+
 import Button from '../../../components/Button/Button';
+import Calendar from 'react-calendar';
+import { CountryDropdown } from 'react-country-region-selector';
+import IUserProfile from '../../../../../shared/interfaces/IUserProfile';
+import IUserState from '../../../interfaces/IUserState';
 import Input from '../../../components/Input/Input';
 import Radio from '../../../components/Radio/Radio';
-import * as endpoints from '../../../constants/endpoints';
-import { userInfoState } from '../../../store';
-import httpRequest from '../../../utils/httpRequest';
 import classes from './UpdateUserDetailsForm.module.scss';
+import httpRequest from '../../../utils/httpRequest';
 
 interface IProps {
-  // to do
   userProfile: IUserProfile;
+  userState: IUserState;
 }
 
-const UpdateUserDetailsForm: FC<IProps> = ({ userProfile }) => {
+const UpdateUserDetailsForm: FC<IProps> = ({ userProfile, userState }) => {
   const [formInfo, setFormInfo] = useState({} as { [key: string]: string | number });
-  const userState = useRecoilValue(userInfoState);
 
   /*
     date of birth
@@ -49,7 +50,13 @@ const UpdateUserDetailsForm: FC<IProps> = ({ userProfile }) => {
 
   const updateUserProfile = async (): Promise<void> => {
     try {
-      const result = await httpRequest(`${endpoints.UPDATE_USER_PROFILE}/${userState.username}`, 'PUT', formInfo);
+      const result = await httpRequest(
+        `${endpoints.UPDATE_USER_PROFILE}/${userState.username}`,
+        'PUT',
+        true,
+        userState.accessToken,
+        formInfo
+      );
       console.log('🚀 ~ file: UpdateUserDetailsForm.tsx ~ line 50 ~ updateUserProfile ~ result', result);
     } catch (error) {
       console.error(error);

@@ -29,7 +29,7 @@ const RateFilm: FC<IProps> = ({ filmID, reviewAlreadyExists, setHasSubmittedRati
     setIsRating(true);
 
     try {
-      await httpRequest(`${endpoints.RATE_FILM}/${userState.username}`, 'POST', {
+      await httpRequest(`${endpoints.RATE_FILM}/${userState.username}`, 'POST', true, userState.accessToken, {
         imdbID: Number(filmID),
         rating: userRating,
         review: userReview,

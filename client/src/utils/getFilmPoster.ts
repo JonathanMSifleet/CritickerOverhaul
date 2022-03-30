@@ -9,7 +9,7 @@ const getFilmPoster = async (imdbID: number): Promise<string> => {
   const url =
     `https://api.themoviedb.org/3/find/${formattedID}?api_key=${process.env.TMDB_KEY}&external_source=imdb_id`;
 
-  const response = await httpRequest(url, 'GET');
+  const response = await httpRequest(url, 'GET', false);
 
   try {
     const poster = response.movie_results[0].poster_path;

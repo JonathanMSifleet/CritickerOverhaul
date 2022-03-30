@@ -1,4 +1,4 @@
-import IAccessToken from '../interfaces/IAccessToken';
+import IAccessToken from '../../../../shared/interfaces/IAccessToken';
 import IHTTP from '../interfaces/IHTTP';
 import { createAWSResErr } from './createAWSResErr';
 import fetch from 'node-fetch';

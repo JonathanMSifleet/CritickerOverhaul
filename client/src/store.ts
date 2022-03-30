@@ -1,3 +1,4 @@
+import IAccessToken from '../../shared/interfaces/IAccessToken';
 import IUserState from './interfaces/IUserState';
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
@@ -12,8 +13,8 @@ export const modalState = atom({
 export const userInfoState = atom({
   key: 'USER_INFO',
   default: {
+    accessToken: null as null | IAccessToken,
     avatar: '',
-    expiry: null as number | null,
     loggedIn: false,
     username: ''
   } as IUserState,

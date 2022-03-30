@@ -1,18 +1,20 @@
-import chunk from 'chunk';
-import { MDBCol } from 'mdb-react-ui-kit';
-import { Link } from 'preact-router/match';
-import { stringify } from 'query-string';
+import * as endpoints from '../../constants/endpoints';
+
 import { FC, useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+
+import IUrlParams from '../../interfaces/IUrlParams';
+import { Link } from 'preact-router/match';
+import { MDBCol } from 'mdb-react-ui-kit';
 import PageView from '../../components/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
-import * as endpoints from '../../constants/endpoints';
-import IUrlParams from '../../interfaces/IUrlParams';
-import { userInfoState } from '../../store';
+import chunk from 'chunk';
+import classes from './Ratings.module.scss';
 import getCellColour from '../../utils/getCellColour';
 import getColourGradient from '../../utils/getColourGradient';
 import httpRequest from '../../utils/httpRequest';
-import classes from './Ratings.module.scss';
+import { stringify } from 'query-string';
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../../store';
 
 interface IFilm {
   countries: string;
@@ -55,14 +57,14 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
       }
 
       try {
-        const numRatings = await httpRequest(`${endpoints.GET_NUM_RATINGS}/${localUsername}`, 'GET');
+        const numRatings = await httpRequest(`${endpoints.GET_NUM_RATINGS}/${localUsername}`, 'GET', false);
         setNumPages(Math.ceil(numRatings / 60));
 
-        const result = await httpRequest(`${endpoints.GET_ALL_RATINGS}/${localUsername}`, 'GET');
+        const ratings = await httpRequest(`${endpoints.GET_ALL_RATINGS}/${localUsername}`, 'GET', false);
 
         setIsLoadingRatings(false);
 
-        await fetchPaginationKeys(localUsername, result.lastEvaluatedKey, result.results);
+        await fetchPaginationKeys(localUsername, ratings.lastEvaluatedKey, ratings.results);
       } catch (error) {
         console.error(error);
       } finally {
@@ -78,7 +80,8 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
   ): Promise<void> => {
     const paginationResult = await httpRequest(
       `${endpoints.GET_ALL_RATINGS}/${localUsername}/${stringify(lastEvaluatedKey)}`,
-      'GET'
+      'GET',
+      false
     );
 
     localRatings = localRatings.concat(paginationResult.results);

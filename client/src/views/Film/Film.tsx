@@ -1,16 +1,18 @@
+import * as endpoints from '../../constants/endpoints';
+
 import { FC, useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+
 import IFilm from '../../../../shared/interfaces/IFilm';
 import IRating from '../../../../shared/interfaces/IRating';
 import PageView from '../../components/PageView/PageView';
+import RateFilm from './RateFilm/RateFilm';
 import Spinner from '../../components/Spinner/Spinner';
-import * as endpoints from '../../constants/endpoints';
-import { userInfoState } from '../../store';
+import classes from './Film.module.scss';
 import getColourGradient from '../../utils/getColourGradient';
 import getFilmPoster from '../../utils/getFilmPoster';
 import httpRequest from '../../utils/httpRequest';
-import classes from './Film.module.scss';
-import RateFilm from './RateFilm/RateFilm';
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../../store';
 
 interface IUrlParams {
   path?: string;
@@ -30,7 +32,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
     (async (): Promise<void> => {
       setIsLoading(true);
 
-      httpRequest(`${endpoints.GET_FILM_DETAILS}/${id}`, 'GET').then((film) => {
+      httpRequest(`${endpoints.GET_FILM_DETAILS}/${id}`, 'GET', false).then((film) => {
         setFilm(parseFilmPeople(film));
         setIsLoading(false);
       });
@@ -60,7 +62,12 @@ const Film: FC<IUrlParams> = ({ id }) => {
 
   const deleteReview = async (): Promise<void> => {
     try {
-      await httpRequest(`${endpoints.DELETE_RATING}/${id}/${userState.username}`, 'DELETE');
+      await httpRequest(
+        `${endpoints.DELETE_RATING}/${id}/${userState.username}`,
+        'DELETE',
+        true,
+        userState.accessToken
+      );
 
       setFetchedUserReview(null);
       setHasSubmittedRating(false);
@@ -70,7 +77,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
   };
 
   const getUserRating = async (id: number): Promise<null | IRating> => {
-    const result = await httpRequest(`${endpoints.GET_USER_RATING}/${id}/${userState.username}`, 'GET');
+    const result = await httpRequest(`${endpoints.GET_USER_RATING}/${id}/${userState.username}`, 'GET', false);
 
     return result.statusCode === 404 ? null : result;
   };

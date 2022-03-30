@@ -6,8 +6,7 @@ import httpRequest from './httpRequest';
 const getUserAvatar = async (username: string): Promise<string> => {
   if (process.env.SAVE_MONEY) return ShrugSVG;
 
-  const url = `${endpoints.GET_USER_AVATAR}/${username}`;
-  const response = await httpRequest(url, 'GET');
+  const response = await httpRequest(`${endpoints.GET_USER_AVATAR}/${username}`, 'GET', false);
 
   return response.statusCode === 404 ? ShrugSVG : response;
 };

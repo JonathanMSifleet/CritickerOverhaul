@@ -8,13 +8,14 @@ import {
   MDBNavbarNav,
   MDBNavbarToggler
 } from 'mdb-react-ui-kit';
-import { Link } from 'preact-router';
-import { lazy, Suspense } from 'preact/compat';
-import { FC } from 'react';
-import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-import Logo from '../../../assets/svg/Logo.svg';
+import { Suspense, lazy } from 'preact/compat';
 import { modalState, userInfoState } from '../../../store';
+import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
+
 import Button from '../../Button/Button';
+import { FC } from 'react';
+import { Link } from 'preact-router';
+import Logo from '../../../assets/svg/Logo.svg';
 import Modal from '../../Modal/Modal';
 import Spinner from '../../Spinner/Spinner';
 import classes from './Header.module.scss';
