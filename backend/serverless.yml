@@ -60,7 +60,7 @@ functions:
     events:
       - http:
           method: DELETE
-          path: rating/deleteRating/{imdbID}/{username}
+          path: rating/deleteRating/{imdbID}/{username}/{accessToken}
           cors: true
           authorizer: ${self:custom.authoriser}
   getAllRatings:

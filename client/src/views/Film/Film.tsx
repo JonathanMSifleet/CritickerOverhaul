@@ -62,12 +62,19 @@ const Film: FC<IUrlParams> = ({ id }) => {
 
   const deleteReview = async (): Promise<void> => {
     try {
-      await httpRequest(`${endpoints.DELETE_RATING}/${id}/${userState.username}`, 'DELETE', userState.accessToken);
+      const result = await httpRequest(
+        `${endpoints.DELETE_RATING}/${id}/${userState.username}/${userState.accessToken.accessToken}`,
+        'DELETE',
+        userState.accessToken
+      );
+
+      if (result.statusCode === 401) throw new Error('Invalid access token');
+      if (result.statusCode === 500) throw new Error('Error deleting rating');
 
       setFetchedUserReview(null);
       setHasSubmittedRating(false);
     } catch (error) {
-      if (error instanceof Error) console.error(error.message);
+      alert(error);
     }
   };
 
@@ -96,7 +103,12 @@ const Film: FC<IUrlParams> = ({ id }) => {
               {fetchedUserReview ? (
                 <>
                   {((): JSX.Element => {
-                    const colourGradient = getColourGradient(fetchedUserReview.ratingPercentile);
+                    let colourGradient;
+                    try {
+                      colourGradient = getColourGradient(fetchedUserReview.ratingPercentile);
+                    } catch (error) {
+                      colourGradient = '#000000';
+                    }
 
                     return (
                       <>
@@ -108,10 +120,12 @@ const Film: FC<IUrlParams> = ({ id }) => {
                           {fetchedUserReview.rating}
                         </span>
 
-                        {/* @ts-expect-error */}
-                        <p className={classes.FilmPercentile} style={{ color: colourGradient }}>
-                          {fetchedUserReview.ratingPercentile}%
-                        </p>
+                        {fetchedUserReview.ratingPercentile !== undefined ? (
+                          // @ts-expect-error
+                          <p className={classes.FilmPercentile} style={{ color: colourGradient }}>
+                            {fetchedUserReview.ratingPercentile}%
+                          </p>
+                        ) : null}
                       </>
                     );
                   })()}

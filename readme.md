@@ -1,17 +1,11 @@
-Pagination:
-
-https://stackoverflow.com/a/61451760/12743194
-
 To do:
 
-- replace cached user image when uploading new image
 - Verify access token on:
   - delete account
-  - delete rating
   - import film batch
   - import ratings
-  - rate film
   - update profile
+- update percentile
 - migrate people table
 - re-migrate film table to include duration
 - display successful sign up message

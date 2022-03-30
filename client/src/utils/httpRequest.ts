@@ -24,7 +24,7 @@ const httpRequest = async (url: string, method: string, accessToken?: IAccessTok
   if (accessToken?.accessToken !== undefined) {
     options.headers = { ...headers, Authorization: `Bearer ${accessToken?.accessToken}` };
     // @ts-expect-error body is object
-    options.body = { ...options.body, accessToken: accessToken!.accessToken };
+    if (body) options.body = { ...options.body, accessToken: accessToken!.accessToken };
   }
 
   if (body) options.body = JSON.stringify(options.body);
