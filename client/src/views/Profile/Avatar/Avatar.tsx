@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from 'react';
 
 import Compress from 'compress.js';
 import IUserState from './../../../interfaces/IUserState';
+import { SetterOrUpdater } from 'recoil';
 import Spinner from '../../../components/Spinner/Spinner';
 import classes from './Avatar.module.scss';
 import getUserAvatar from '../../../utils/getUserAvatar';
@@ -12,11 +13,12 @@ import httpRequest from '../../../utils/httpRequest';
 interface IProps {
   shouldLoadAvatar: boolean;
   setShouldLoadAvatar: (val: boolean) => void;
+  setUserInfo: SetterOrUpdater<any>;
   username: string;
   userState: IUserState;
 }
 
-const Avatar: FC<IProps> = ({ setShouldLoadAvatar, shouldLoadAvatar, username, userState }) => {
+const Avatar: FC<IProps> = ({ setShouldLoadAvatar, shouldLoadAvatar, setUserInfo, username, userState }) => {
   const [isLoadingAvatar, setIsLoadingAvatar] = useState(false);
   const [userAvatar, setUserAvatar] = useState('');
 
@@ -47,15 +49,26 @@ const Avatar: FC<IProps> = ({ setShouldLoadAvatar, shouldLoadAvatar, username, u
 
     const newImage = `${resizedImage[0].prefix}${resizedImage[0].data}`;
 
-    await httpRequest(
-      `${endpoints.UPLOAD_USER_AVATAR}/${username ? username : userState.username}`,
-      'POST',
-      true,
-      userState.accessToken,
-      {
-        image: newImage
-      }
-    );
+    try {
+      const result = await httpRequest(
+        `${endpoints.UPLOAD_USER_AVATAR}/${userState.username}`,
+        'POST',
+        true,
+        userState.accessToken,
+        {
+          image: newImage
+        }
+      );
+
+      if (result.statusCode === 401) throw new Error('Invalid access token');
+
+      setUserInfo({ ...userState, avatar: newImage });
+      setUserAvatar(newImage);
+
+      alert('Successfully updated your avatar');
+    } catch (error) {
+      alert(error);
+    }
   };
 
   return (

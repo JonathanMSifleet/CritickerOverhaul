@@ -2,6 +2,7 @@ import * as endpoints from '../../constants/endpoints';
 
 import { FC, useEffect, useState } from 'react';
 import { Suspense, lazy } from 'preact/compat';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 
 import Avatar from './Avatar/Avatar';
 import FileSelector from '../../components/FileSelector/FileSelector';
@@ -18,7 +19,6 @@ import classes from './Profile.module.scss';
 import getCellColour from '../../utils/getCellColour';
 import getColourGradient from '../../utils/getColourGradient';
 import httpRequest from '../../utils/httpRequest';
-import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../store';
 
 const UpdateUserDetailsForm = lazy(() => import('./UpdateUserDetailsForm/UpdateUserDetailsForm'));
@@ -42,6 +42,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   const [showUpdateDetailsForm, setShowUpdateDetailsForm] = useState(false);
   const [userProfile, setUserProfile] = useState(null as null | IUserProfile);
   const userState = useRecoilValue(userInfoState);
+  const setUserInfo = useSetRecoilState(userInfoState);
 
   useEffect(() => {
     (async (): Promise<void> => {
@@ -162,6 +163,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
             <>
               <Avatar
                 setShouldLoadAvatar={setShouldLoadAvatar}
+                setUserInfo={setUserInfo}
                 shouldLoadAvatar={shouldLoadAvatar}
                 username={username!}
                 userState={userState}

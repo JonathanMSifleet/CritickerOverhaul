@@ -1,9 +1,10 @@
-import { AttributeValue, DynamoDBClient, PutItemCommand, PutItemCommandOutput } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, PutItemCommand, PutItemCommandOutput } from '@aws-sdk/client-dynamodb';
 
 import IHTTP from '../shared/interfaces/IHTTP';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import middy from '@middy/core';
+import validateAccessToken from './../shared/functions/validateAccessToken';
 
 const dbClient = new DynamoDBClient({});
 
@@ -11,15 +12,14 @@ export const uploadUserAvatar = async (event: {
   pathParameters: { username: string };
   body: string;
 }): Promise<IHTTP> => {
-  const image = JSON.parse(event.body).image;
+  const { image, accessToken } = JSON.parse(event.body);
   const { username } = event.pathParameters;
 
+  const validToken = await validateAccessToken(username, accessToken);
+  if (validToken !== true) return createAWSResErr(401, 'Access token invalid');
+
   try {
-    try {
-      await uploadPicture(username, image);
-    } catch (error) {
-      if (error instanceof Error) return createAWSResErr(500, error.message);
-    }
+    await uploadPicture(username, image);
 
     console.log('Successfully uploaded image');
     return {
@@ -37,8 +37,8 @@ const uploadPicture = async (username: string, image: string): Promise<PutItemCo
   const params = {
     TableName: process.env.AVATAR_TABLE_NAME!,
     Item: {
-      username: { S: username } as AttributeValue,
-      image: { B: image } as unknown as AttributeValue
+      username: { S: username },
+      image: { S: image }
     },
     ReturnConsumedCapacity: 'TOTAL'
   };

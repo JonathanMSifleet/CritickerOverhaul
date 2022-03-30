@@ -1,27 +1,35 @@
 import IAccessToken from '../../../shared/interfaces/IAccessToken';
 
-const httpRequest = async (
-  url: string,
-  method: string,
-  requiresAuth: boolean,
-  accessToken?: IAccessToken,
-  body?: unknown
-): Promise<any> => {
-  const options = body ? { method, body: JSON.stringify(body) } : { method };
+interface IHTTPRequest {
+  body?: BodyInit;
+  headers: {
+    [key: string]: string;
+  };
+  method: string;
+}
 
+const httpRequest = async (url: string, method: string, accessToken?: IAccessToken, body?: any): Promise<any> => {
   let headers = {
     'Accept-Encoding': 'gzip, br',
     'Content-Type': 'application/json'
   } as { [key: string]: string };
 
-  if (requiresAuth) headers = { ...headers, Authorization: `Bearer ${accessToken?.accessToken}` };
-
-  const result = await fetch(url, {
-    ...options,
-    cache: 'default',
+  const options = {
+    method,
     headers
-  });
+  } as IHTTPRequest;
 
+  if (body) options.body = body;
+
+  if (accessToken !== undefined) {
+    headers = { ...headers, Authorization: `Bearer ${accessToken?.accessToken}` };
+    // @ts-expect-error body is object
+    options.body = { ...options.body, accessToken: accessToken!.accessToken };
+  }
+
+  if (body) options.body = JSON.stringify(options.body);
+
+  const result = await fetch(url, options);
   return result.status === 204 ? { statusCode: 204 } : await result.json();
 };
 
