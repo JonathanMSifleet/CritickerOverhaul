@@ -57,10 +57,10 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
       }
 
       try {
-        const numRatings = await httpRequest(`${endpoints.GET_NUM_RATINGS}/${localUsername}`, 'GET', false);
+        const numRatings = await httpRequest(`${endpoints.GET_NUM_RATINGS}/${localUsername}`, 'GET');
         setNumPages(Math.ceil(numRatings / 60));
 
-        const ratings = await httpRequest(`${endpoints.GET_ALL_RATINGS}/${localUsername}`, 'GET', false);
+        const ratings = await httpRequest(`${endpoints.GET_ALL_RATINGS}/${localUsername}`, 'GET');
 
         setIsLoadingRatings(false);
 
@@ -80,8 +80,7 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
   ): Promise<void> => {
     const paginationResult = await httpRequest(
       `${endpoints.GET_ALL_RATINGS}/${localUsername}/${stringify(lastEvaluatedKey)}`,
-      'GET',
-      false
+      'GET'
     );
 
     localRatings = localRatings.concat(paginationResult.results);

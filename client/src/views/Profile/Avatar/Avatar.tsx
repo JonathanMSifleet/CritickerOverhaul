@@ -53,7 +53,6 @@ const Avatar: FC<IProps> = ({ setShouldLoadAvatar, shouldLoadAvatar, setUserInfo
       const result = await httpRequest(
         `${endpoints.UPLOAD_USER_AVATAR}/${userState.username}`,
         'POST',
-        true,
         userState.accessToken,
         {
           image: newImage

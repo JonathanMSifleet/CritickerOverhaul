@@ -39,7 +39,7 @@ const Login: FC = () => {
       setPasswordValidationMessages([]);
 
       try {
-        const response = await HTTPRequest(endpoints.LOGIN, 'POST', false, undefined, formInfo);
+        const response = await HTTPRequest(endpoints.LOGIN, 'POST', undefined, formInfo);
         if (response.statusCode && !response.statusCode.toString().startsWith('2')) throw new Error(response.message);
 
         setUserInfo({

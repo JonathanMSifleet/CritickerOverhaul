@@ -21,7 +21,7 @@ const Home: FC<IUrlParams> = (): JSX.Element => {
       setIsLoading(true);
 
       try {
-        const result = await httpRequest(endpoints.GET_FILMS, 'GET', false);
+        const result = await httpRequest(endpoints.GET_FILMS, 'GET');
         if (result.statusCode !== 500) setFilms(result as IFilm[]);
       } catch (error) {
         console.error(error);

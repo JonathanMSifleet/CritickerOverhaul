@@ -32,7 +32,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
     (async (): Promise<void> => {
       setIsLoading(true);
 
-      httpRequest(`${endpoints.GET_FILM_DETAILS}/${id}`, 'GET', false).then((film) => {
+      httpRequest(`${endpoints.GET_FILM_DETAILS}/${id}`, 'GET').then((film) => {
         setFilm(parseFilmPeople(film));
         setIsLoading(false);
       });
@@ -62,12 +62,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
 
   const deleteReview = async (): Promise<void> => {
     try {
-      await httpRequest(
-        `${endpoints.DELETE_RATING}/${id}/${userState.username}`,
-        'DELETE',
-        true,
-        userState.accessToken
-      );
+      await httpRequest(`${endpoints.DELETE_RATING}/${id}/${userState.username}`, 'DELETE', userState.accessToken);
 
       setFetchedUserReview(null);
       setHasSubmittedRating(false);
@@ -77,7 +72,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
   };
 
   const getUserRating = async (id: number): Promise<null | IRating> => {
-    const result = await httpRequest(`${endpoints.GET_USER_RATING}/${id}/${userState.username}`, 'GET', false);
+    const result = await httpRequest(`${endpoints.GET_USER_RATING}/${id}/${userState.username}`, 'GET');
 
     return result.statusCode === 404 ? null : result;
   };

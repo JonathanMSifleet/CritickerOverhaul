@@ -53,7 +53,6 @@ const UpdateUserDetailsForm: FC<IProps> = ({ userProfile, userState }) => {
       const result = await httpRequest(
         `${endpoints.UPDATE_USER_PROFILE}/${userState.username}`,
         'PUT',
-        true,
         userState.accessToken,
         formInfo
       );

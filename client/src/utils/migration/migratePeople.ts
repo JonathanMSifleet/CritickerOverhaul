@@ -37,9 +37,7 @@ const migratePeople = async (people: ISQLPerson[], type: string, userState: IUse
   for await (const batch of peopleUpdateBatch) {
     const updateBatch: any[] = [];
     batch.forEach((person) => {
-      updateBatch.push(
-        httpRequest(`${endpoints.ADD_PEOPLE}/${type}`, 'PUT', true, userState.accessToken, person as any)
-      );
+      updateBatch.push(httpRequest(`${endpoints.ADD_PEOPLE}/${type}`, 'PUT', userState.accessToken, person as any));
       console.log(`Merged person ${i} out of ${mergedPeople.length}`);
       i++;
     });

@@ -61,7 +61,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
         return;
       }
 
-      httpRequest(`${endpoints.GET_PROFILE_BY_USERNAME}/${localUsername}`, 'GET', false).then((results) => {
+      httpRequest(`${endpoints.GET_PROFILE_BY_USERNAME}/${localUsername}`, 'GET').then((results) => {
         if (results.statusCode === 404) {
           setIsLoadingProfile(false);
           return;
@@ -72,7 +72,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
         setShouldLoadAvatar(true);
       });
 
-      httpRequest(`${endpoints.GET_RECENT_RATINGS}/${localUsername}`, 'GET', false).then((ratings) => {
+      httpRequest(`${endpoints.GET_RECENT_RATINGS}/${localUsername}`, 'GET').then((ratings) => {
         setRecentRatings(chunk(ratings, 10));
         setIsLoadingRecentRatings(false);
       });
@@ -144,7 +144,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   const uploadRatings = async (ratings: IRating[]): Promise<void> => {
     try {
       setImportMessage(
-        await httpRequest(`${endpoints.IMPORT_RATINGS}/${userState.username}`, 'POST', true, userState.accessToken, {
+        await httpRequest(`${endpoints.IMPORT_RATINGS}/${userState.username}`, 'POST', userState.accessToken, {
           ratings
         })
       );
