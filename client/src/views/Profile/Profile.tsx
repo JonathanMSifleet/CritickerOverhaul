@@ -178,83 +178,94 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                 <p className={classes.UserProfileText}>
                   <b>Member since:</b> {epochToDate(userProfile.memberSince!)}
                 </p>
-                <p
-                  className={classes.UserProfileLink}
-                  onClick={(): void => setShowUpdateDetailsForm(!showUpdateDetailsForm)}
-                >
-                  Update Personal Information
-                </p>
-                {showUpdateDetailsForm ? (
-                  // @ts-expect-error
-                  <Suspense fallback={<Spinner />}>
-                    <UpdateUserDetailsForm userProfile={userProfile} userState={userState} />
-                  </Suspense>
-                ) : null}
 
-                <p className={classes.ImportInstructions}>Import Criticker Ratings:</p>
-                <div className={classes.FileSelectorWrapper}>
-                  <FileSelector onChange={(event): void => uploadFile(event)} />
-
-                  {importMessage !== '' ? (
+                {userState.username === username || username === '' ? (
+                  <>
                     <p
-                      className={
-                        importMessage.split(' ')[0] !== 'Error'
-                          ? classes.SuccessImportMessage
-                          : classes.ErrorImportMessage
-                      }
+                      className={classes.UserProfileLink}
+                      onClick={(): void => setShowUpdateDetailsForm(!showUpdateDetailsForm)}
                     >
-                      {importMessage}
+                      Update Personal Information
                     </p>
-                  ) : null}
-                  {importingRatings ? <Spinner className={classes.RatingSpinner} /> : null}
-                </div>
+                    {showUpdateDetailsForm ? (
+                      // @ts-expect-error
+                      <Suspense fallback={<Spinner />}>
+                        <UpdateUserDetailsForm userProfile={userProfile} userState={userState} />
+                      </Suspense>
+                    ) : null}
+
+                    <p className={classes.ImportInstructions}>Import Criticker Ratings:</p>
+                    <div className={classes.FileSelectorWrapper}>
+                      <FileSelector onChange={(event): void => uploadFile(event)} />
+
+                      {importMessage !== '' ? (
+                        <p
+                          className={
+                            importMessage.split(' ')[0] !== 'Error'
+                              ? classes.SuccessImportMessage
+                              : classes.ErrorImportMessage
+                          }
+                        >
+                          {importMessage}
+                        </p>
+                      ) : null}
+                      {importingRatings ? <Spinner className={classes.RatingSpinner} /> : null}
+                    </div>
+                  </>
+                ) : null}
               </div>
 
               <div className={classes.RecentRatingsWrapper}>
                 {!isLoadingRecentRatings ? (
                   <>
-                    <h2 className={classes.RecentRatingsHeader}>Recent Ratings</h2>
-                    <Link href={'/ratings'}>View all ratings</Link>
+                    {recentRatings!.length !== 0 ? (
+                      <>
+                        <h2 className={classes.RecentRatingsHeader}>Recent Ratings</h2>
+                        <Link href={'/ratings'}>View all ratings</Link>
 
-                    <div className="d-flex align-items-start bg-light mb-2">
-                      {recentRatings!.map((column: IRecentRating[], columnIndex: number) => (
-                        <MDBCol className={classes.RecentRatingColumn} key={columnIndex}>
-                          {column.map((rating, cellIndex) => {
-                            const cellColour = getCellColour(columnIndex, cellIndex);
+                        <div className="d-flex align-items-start bg-light mb-2">
+                          {recentRatings!.map((column: IRecentRating[], columnIndex: number) => (
+                            <MDBCol className={classes.RecentRatingColumn} key={columnIndex}>
+                              {column.map((rating, cellIndex) => {
+                                const cellColour = getCellColour(columnIndex, cellIndex);
 
-                            return (
-                              <Link
-                                className={classes.RatingLink}
-                                style={cellColour}
-                                href={`/film/${rating.imdbID}`}
-                                key={rating.imdbID}
-                              >
-                                {((): JSX.Element => {
-                                  const colourGradient = getColourGradient(rating.ratingPercentile);
+                                return (
+                                  <Link
+                                    className={classes.RatingLink}
+                                    style={cellColour}
+                                    href={`/film/${rating.imdbID}`}
+                                    key={rating.imdbID}
+                                  >
+                                    {((): JSX.Element => {
+                                      const colourGradient = getColourGradient(rating.ratingPercentile);
 
-                                  return (
-                                    <>
-                                      {/* @ts-expect-error works as intended */}
-                                      <span style={{ color: colourGradient }}>{rating.rating}</span>
-                                      {/* @ts-expect-error works as intended */}
-                                      <span className={classes.RatingPercentile} style={{ color: colourGradient }}>
-                                        {' '}
-                                        {rating.ratingPercentile}%
-                                      </span>
-                                    </>
-                                  );
-                                })()}{' '}
-                                <span>
-                                  <b>{rating.title}</b>
-                                </span>{' '}
-                                ({rating.releaseYear}){' - '}
-                                {new Date(rating.createdAt).toLocaleDateString('en-GB')}
-                              </Link>
-                            );
-                          })}
-                        </MDBCol>
-                      ))}
-                    </div>
+                                      return (
+                                        <>
+                                          {/* @ts-expect-error works as intended */}
+                                          <span style={{ color: colourGradient }}>{rating.rating}</span>
+                                          {/* @ts-expect-error works as intended */}
+                                          <span className={classes.RatingPercentile} style={{ color: colourGradient }}>
+                                            {' '}
+                                            {rating.ratingPercentile}%
+                                          </span>
+                                        </>
+                                      );
+                                    })()}{' '}
+                                    <span>
+                                      <b>{rating.title}</b>
+                                    </span>{' '}
+                                    ({rating.releaseYear}){' - '}
+                                    {new Date(rating.createdAt).toLocaleDateString('en-GB')}
+                                  </Link>
+                                );
+                              })}
+                            </MDBCol>
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <p>No ratings yet</p>
+                    )}
                   </>
                 ) : (
                   <Spinner />
