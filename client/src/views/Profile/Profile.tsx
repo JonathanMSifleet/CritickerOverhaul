@@ -239,7 +239,12 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                                     key={rating.imdbID}
                                   >
                                     {((): JSX.Element => {
-                                      const colourGradient = getColourGradient(rating.ratingPercentile);
+                                      let colourGradient;
+                                      try {
+                                        colourGradient = getColourGradient(rating.ratingPercentile);
+                                      } catch (error) {
+                                        colourGradient = '#000000';
+                                      }
 
                                       return (
                                         <>
