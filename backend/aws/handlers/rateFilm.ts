@@ -7,12 +7,16 @@ import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import { marshall } from '@aws-sdk/util-dynamodb';
 import middy from '@middy/core';
+import validateAccessToken from '../shared/functions/validateAccessToken';
 
 const dbClient = new DynamoDBClient({});
 
 const rateFilm = async (event: { body: string; pathParameters: { username: string } }): Promise<IHTTP> => {
-  const { imdbID, rating, review, reviewAlreadyExists } = JSON.parse(event.body);
+  const { accessToken, imdbID, rating, review, reviewAlreadyExists } = JSON.parse(event.body);
   const { username } = event.pathParameters;
+
+  const validToken = await validateAccessToken(username, accessToken);
+  if (validToken !== true) return createAWSResErr(401, 'Access token invalid');
 
   const payload = {
     username,

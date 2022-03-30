@@ -21,26 +21,28 @@ const RateFilm: FC<IProps> = ({ filmID, reviewAlreadyExists, setHasSubmittedRati
   const [userRating, setUserRating] = useState(null as null | number);
   const [userReview, setUserReview] = useState(null as null | string);
 
-  const inputChangedHandler = (event: React.ChangeEvent<HTMLInputElement>, inputName: string): void => {
+  const inputChangedHandler = (event: React.ChangeEvent<HTMLInputElement>, inputName: string): void =>
     inputName === 'rating' ? setUserRating(Number(event.target.value)) : setUserReview(event.target.value);
-  };
 
   const rateFilm = async (): Promise<void> => {
     setIsRating(true);
 
     try {
-      await httpRequest(`${endpoints.RATE_FILM}/${userState.username}`, 'POST', userState.accessToken, {
+      const result = await httpRequest(`${endpoints.RATE_FILM}/${userState.username}`, 'POST', userState.accessToken, {
         imdbID: Number(filmID),
         rating: userRating,
         review: userReview,
         reviewAlreadyExists
       });
-    } catch (error) {
-      console.error(error);
-    }
 
-    setHasSubmittedRating(true);
-    setIsRating(false);
+      if (result.statusCode === 401) throw new Error('Invalid access token');
+      setHasSubmittedRating(true);
+    } catch (error) {
+      alert(error);
+      setHasSubmittedRating(false);
+    } finally {
+      setIsRating(false);
+    }
   };
 
   return (

@@ -9,7 +9,7 @@ interface IHTTPRequest {
 }
 
 const httpRequest = async (url: string, method: string, accessToken?: IAccessToken, body?: any): Promise<any> => {
-  let headers = {
+  const headers = {
     'Accept-Encoding': 'gzip, br',
     'Content-Type': 'application/json'
   } as { [key: string]: string };
@@ -21,8 +21,8 @@ const httpRequest = async (url: string, method: string, accessToken?: IAccessTok
 
   if (body) options.body = body;
 
-  if (accessToken !== undefined) {
-    headers = { ...headers, Authorization: `Bearer ${accessToken?.accessToken}` };
+  if (accessToken?.accessToken !== undefined) {
+    options.headers = { ...headers, Authorization: `Bearer ${accessToken?.accessToken}` };
     // @ts-expect-error body is object
     options.body = { ...options.body, accessToken: accessToken!.accessToken };
   }
