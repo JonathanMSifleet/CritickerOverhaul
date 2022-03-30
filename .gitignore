@@ -33,4 +33,4 @@ yarn-debug.log*
 yarn-error.log*
 backend/lib/tsconfig.tsbuildinfo
 *.tsbuildinfo
-**/clientSecret.pem
+**/privateKey.pem

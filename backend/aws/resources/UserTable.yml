@@ -8,6 +8,8 @@ UserTable:
         AttributeType: S
       - AttributeName: email
         AttributeType: S
+      - AttributeName: accessToken
+        AttributeType: S
 
     KeySchema:
       - AttributeName: username
@@ -17,6 +19,12 @@ UserTable:
       - IndexName: email
         KeySchema:
           - AttributeName: email
+            KeyType: HASH
+        Projection:
+          ProjectionType: ALL
+      - IndexName: accessToken
+        KeySchema:
+          - AttributeName: accessToken
             KeyType: HASH
         Projection:
           ProjectionType: ALL

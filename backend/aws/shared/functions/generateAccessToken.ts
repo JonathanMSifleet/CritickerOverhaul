@@ -10,7 +10,7 @@ const generateAccessToken = async (): Promise<IAccessToken | IHTTP> => {
     body: JSON.stringify({
       audience: process.env.AUTH0_AUDIENCE,
       client_id: process.env.AUTH0_ID,
-      client_secret: process.env.AUTH0_SECRET,
+      client_secret: process.env.AUTH0_PRIVATE_KEY,
       grant_type: 'client_credentials'
     })
   };

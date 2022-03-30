@@ -1,28 +1,34 @@
-import { JwtPayload, verify } from 'jsonwebtoken';
-
 import IHTTP from '../../shared/interfaces/IHTTP';
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
+import { verify } from 'jsonwebtoken';
+
+interface IContext {
+  [key: string]: string;
+}
+
+type IPolicyDocument = {
+  policyDocument: { Version: string; Statement: { Action: string; Effect: string; Resource: string }[] };
+};
 
 interface IPolicy {
   principalId: string;
-  policyDocument: { Version: string; Statement: { Action: string; Effect: string; Resource: string }[] };
+  policyDocument: IPolicyDocument;
 }
 
 interface IPayload {
-  context: string | JwtPayload;
+  context: IContext;
   principalId: string;
-  policyDocument: { Version: string; Statement: { Action: string; Effect: string; Resource: string }[] };
+  policyDocument: IPolicyDocument;
 }
 
 const authoriser = async (event: { authorizationToken: string; methodArn: string }): Promise<IPayload | IHTTP> => {
-  console.log('🚀 ~ file: authoriser.ts ~ line 17 ~ authoriser ~ event', event);
-  if (!event.authorizationToken) throw 'Unauthorised';
+  if (!event.authorizationToken) return createAWSResErr(401, 'Unauthorized');
 
   const token = event.authorizationToken.replace('Bearer ', '');
 
   try {
-    const claims = verify(token, process.env.AUTH0_PUBLIC_KEY!);
-    const policy = generatePolicy(claims.sub as string, event.methodArn);
+    const claims = verify(token, process.env.AUTH0_PUBLIC_KEY!) as IContext;
+    const policy = generatePolicy(claims.sub, event.methodArn);
 
     return {
       ...policy,
@@ -35,7 +41,7 @@ const authoriser = async (event: { authorizationToken: string; methodArn: string
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
-export default authoriser;
+export const handler = authoriser;
 
 const generatePolicy = (principalId: string, methodArn: string): IPolicy => {
   const apiGatewayWildcard = methodArn.split('/', 2).join('/') + '/*';
@@ -43,6 +49,7 @@ const generatePolicy = (principalId: string, methodArn: string): IPolicy => {
   return {
     principalId,
     policyDocument: {
+      // @ts-expect-error Version is part of Policy Document interface
       Version: '2012-10-17',
       Statement: [
         {

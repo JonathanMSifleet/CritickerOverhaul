@@ -24,12 +24,12 @@ import { userInfoState } from '../../store';
 const UpdateUserDetailsForm = lazy(() => import('./UpdateUserDetailsForm/UpdateUserDetailsForm'));
 
 interface IRecentRating {
+  createdAt: number;
   imdbID: number;
   rating: number;
   ratingPercentile: number;
-  title: string;
   releaseYear: number;
-  createdAt: number;
+  title: string;
 }
 
 const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
@@ -60,18 +60,16 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
         return;
       }
 
-      httpRequest(`${endpoints.GET_PROFILE_BY_USERNAME}/${localUsername}`, 'GET', true, userState.accessToken).then(
-        (results) => {
-          if (results.statusCode === 404) {
-            setIsLoadingProfile(false);
-            return;
-          }
-
-          setUserProfile(results);
+      httpRequest(`${endpoints.GET_PROFILE_BY_USERNAME}/${localUsername}`, 'GET', false).then((results) => {
+        if (results.statusCode === 404) {
           setIsLoadingProfile(false);
-          setShouldLoadAvatar(true);
+          return;
         }
-      );
+
+        setUserProfile(results);
+        setIsLoadingProfile(false);
+        setShouldLoadAvatar(true);
+      });
 
       httpRequest(`${endpoints.GET_RECENT_RATINGS}/${localUsername}`, 'GET', false).then((ratings) => {
         setRecentRatings(chunk(ratings, 10));

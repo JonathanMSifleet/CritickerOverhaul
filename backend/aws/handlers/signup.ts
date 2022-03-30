@@ -1,6 +1,6 @@
 import { DynamoDBClient, PutItemCommand, PutItemCommandOutput } from '@aws-sdk/client-dynamodb';
 
-import IAccessToken from '../shared/interfaces/IAccessToken';
+import IAccessToken from '../../../shared/interfaces/IAccessToken';
 import IHTTP from '../shared/interfaces/IHTTP';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from './../shared/functions/createAWSResErr';
@@ -18,7 +18,6 @@ const signup = async (event: { body: string }): Promise<IHTTP> => {
   if (errors.length !== 0) return createAWSResErr(422, errors as string[]);
 
   const memberSince = getSignupDate();
-  console.log('🚀 ~ file: signup.ts ~ line 19 ~ signup ~ memberSince', memberSince);
   const accessToken = (await generateAccessToken()) as IAccessToken;
 
   try {

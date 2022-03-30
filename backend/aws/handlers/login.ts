@@ -47,7 +47,6 @@ export const handler = middy(login).use(cors());
 
 const createNewAccessToken = async (username: string): Promise<string> => {
   const refreshedToken = await generateAccessToken();
-  console.log('🚀 ~ file: login.ts ~ line 50 ~ createNewAccessToken ~ refreshedToken', refreshedToken);
 
   const params = createDynamoUpdateQuery(
     process.env.USER_TABLE_NAME!,
@@ -59,8 +58,7 @@ const createNewAccessToken = async (username: string): Promise<string> => {
     'S'
   );
 
-  const result = await dbClient.send(new UpdateItemCommand(params));
-  console.log('🚀 ~ file: login.ts ~ line 85 ~ verifyAccessToken ~ result', result);
+  await dbClient.send(new UpdateItemCommand(params));
   return JSON.stringify(refreshedToken);
 };
 

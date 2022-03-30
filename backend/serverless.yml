@@ -18,7 +18,8 @@ provider:
   environment:
     AUTH0_AUDIENCE: https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev/signup
     AUTH0_ID: uftV0Jb8KRKl7rGzmzEZXPwIgoEr77tR
-    AUTH0_SECRET: ${file(./clientSecret.pem)}
+    AUTH0_PRIVATE_KEY: ${file(./privateKey.pem)}
+    AUTH0_PUBLIC_KEY: ${file(./publicKey.pem)}
     AUTH0_URL: https://dev-btmyx7mm.eu.auth0.com/oauth/token
     AVATAR_TABLE_NAME: ${self:custom.AvatarTable.name}
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
@@ -102,7 +103,6 @@ functions:
           method: GET
           path: user/profile/{username}
           cors: true
-          authorizer: ${self:custom.authoriser}
   getUserAvatar:
     handler: aws/handlers/getUserAvatar.handler
     events:
