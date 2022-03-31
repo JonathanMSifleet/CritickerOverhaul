@@ -143,7 +143,6 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
                               key={film.imdbID}
                             >
                               <span
-                                // @ts-expect-error can be used
                                 style={{ color: getColourGradient(film.ratingPercentile) }}
                                 className={classes.FilmCellRating}
                               >

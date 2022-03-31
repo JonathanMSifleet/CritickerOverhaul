@@ -248,9 +248,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
 
                                       return (
                                         <>
-                                          {/* @ts-expect-error works as intended */}
                                           <span style={{ color: colourGradient }}>{rating.rating}</span>
-                                          {/* @ts-expect-error works as intended */}
                                           <span className={classes.RatingPercentile} style={{ color: colourGradient }}>
                                             {' '}
                                             {rating.ratingPercentile}%

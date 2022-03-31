@@ -20,6 +20,7 @@ interface IUrlParams {
 }
 
 const Film: FC<IUrlParams> = ({ id }) => {
+  const [colourGradient, setColourGradient] = useState('');
   const [fetchedUserReview, setFetchedUserReview] = useState(null as null | IRating);
   const [film, setFilm] = useState(null as null | IFilm);
   const [filmPoster, setFilmPoster] = useState(null as string | null);
@@ -40,7 +41,10 @@ const Film: FC<IUrlParams> = ({ id }) => {
       getFilmPoster(id!).then((filmPoster) => setFilmPoster(filmPoster));
 
       if (userState.loggedIn) {
-        setFetchedUserReview(await getUserRating(id!));
+        const userReview = await getUserRating(id!);
+        setFetchedUserReview(userReview);
+
+        setColourGradient(determineColourGradient(userReview!.ratingPercentile));
         setReviewAlreadyExists(true);
       }
     })();
@@ -78,6 +82,9 @@ const Film: FC<IUrlParams> = ({ id }) => {
     }
   };
 
+  const determineColourGradient = (ratingPercentile: number): string =>
+    ratingPercentile !== undefined ? getColourGradient(ratingPercentile) : '#ffffff';
+
   const getUserRating = async (id: number): Promise<null | IRating> => {
     const result = await httpRequest(`${endpoints.GET_USER_RATING}/${id}/${userState.username}`, 'GET');
 
@@ -102,33 +109,15 @@ const Film: FC<IUrlParams> = ({ id }) => {
               <h1 className={classes.FilmTitle}>{film ? film.title : null}</h1>
               {fetchedUserReview ? (
                 <>
-                  {((): JSX.Element => {
-                    let colourGradient;
-                    try {
-                      colourGradient = getColourGradient(fetchedUserReview.ratingPercentile);
-                    } catch (error) {
-                      colourGradient = '#000000';
-                    }
+                  <p className={classes.RatingValue} style={{ backgroundColor: colourGradient }}>
+                    {fetchedUserReview.rating}
+                  </p>
 
-                    return (
-                      <>
-                        <p
-                          className={classes.RatingValue}
-                          // @ts-expect-error
-                          style={{ backgroundColor: colourGradient }}
-                        >
-                          {fetchedUserReview.rating}
-                        </p>
-
-                        {fetchedUserReview.ratingPercentile !== undefined ? (
-                          // @ts-expect-error
-                          <p className={classes.FilmPercentile} style={{ color: colourGradient }}>
-                            {fetchedUserReview.ratingPercentile}%
-                          </p>
-                        ) : null}
-                      </>
-                    );
-                  })()}
+                  {fetchedUserReview.ratingPercentile !== undefined ? (
+                    <p className={classes.FilmPercentile} style={{ color: colourGradient }}>
+                      {fetchedUserReview.ratingPercentile}%
+                    </p>
+                  ) : null}
 
                   {fetchedUserReview.review ? <p>Your mini-review: {fetchedUserReview.review}</p> : null}
 
