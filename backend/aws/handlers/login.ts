@@ -22,14 +22,14 @@ const login = async (event: { body: string }): Promise<IHTTP> => {
     const user = unmarshall(result.Items![0]);
     if (password !== user.password) return createAWSResErr(401, 'Password is incorrect');
 
-    const userAvatar = await getUserAvatar(user.username);
-
     let newAccessToken;
     try {
       newAccessToken = await verifyAccessToken(user.username, user.accessToken);
     } catch (error) {
-      return createAWSResErr(500, 'Error verifying access token');
+      return createAWSResErr(500, 'Error verifying / creating access token');
     }
+
+    const userAvatar = await getUserAvatar(user.username);
 
     console.log('Logged in successfully');
     return {
@@ -62,12 +62,12 @@ const createNewAccessToken = async (username: string): Promise<string> => {
   return JSON.stringify(refreshedToken);
 };
 
-const getUserAvatar = async (username: string): Promise<string | undefined> => {
+const getUserAvatar = async (username: string): Promise<string | void> => {
   try {
-    return await getUserAvatarFromDB(username);
+    return (await getUserAvatarFromDB(username)) as string;
   } catch (error) {
     console.log('No avatar found');
-    return undefined;
+    return;
   }
 };
 

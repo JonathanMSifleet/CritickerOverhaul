@@ -17,6 +17,7 @@ import { FC } from 'react';
 import { Link } from 'preact-router';
 import Logo from '../../../assets/svg/Logo.svg';
 import Modal from '../../Modal/Modal';
+import ShrugSVG from '../../../assets/svg/Shrug.svg';
 import Spinner from '../../Spinner/Spinner';
 import classes from './Header.module.scss';
 
@@ -76,7 +77,10 @@ const Header: FC = (): JSX.Element => {
           {userState!.loggedIn ? (
             <>
               <Link className={classes.UserAvatarLink} href="#profile">
-                <img src={userState.avatar} className={`${classes.UserAvatar} rounded-circle mb-3`} />
+                <img
+                  src={userState.avatar !== undefined ? userState.avatar : ShrugSVG}
+                  className={`${classes.UserAvatar} rounded-circle mb-3`}
+                />
               </Link>
 
               <Button

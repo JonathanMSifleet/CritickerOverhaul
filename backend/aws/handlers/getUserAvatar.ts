@@ -9,7 +9,7 @@ const getUserAvatar = async (event: { pathParameters: { username: string } }): P
 
   try {
     const avatar = await getUserAvatarFromDB(username);
-    if (!avatar) return createAWSResErr(404, 'No image found');
+    if (avatar instanceof Error) return createAWSResErr(404, 'No avatar found');
 
     console.log('Successfully fetched user avatar');
     return {

@@ -27,7 +27,7 @@ const Avatar: FC<IProps> = ({ setShouldLoadAvatar, shouldLoadAvatar, setUserInfo
       setIsLoadingAvatar(true);
 
       try {
-        setUserAvatar(username ? await getUserAvatar(username) : userState.avatar!);
+        setUserAvatar(await getUserAvatar(username, userState));
       } catch (e) {
         console.error(e);
       } finally {
