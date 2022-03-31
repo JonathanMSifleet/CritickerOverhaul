@@ -1,9 +1,8 @@
-import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
-
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import IHTTP from '../shared/interfaces/IHTTP';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
-import createDynamoSearchQuery from '../shared/functions/DynamoDB/createDynamoSearchQuery';
+import getNumRatingsFromDB from '../shared/functions/getNumRatingsFromDB';
 import middy from '@middy/core';
 
 const dbClient = new DynamoDBClient({});
@@ -11,23 +10,13 @@ const dbClient = new DynamoDBClient({});
 const getNumRatings = async (event: { pathParameters: { username: string } }): Promise<IHTTP> => {
   const { username } = event.pathParameters;
 
-  const query = createDynamoSearchQuery(
-    process.env.RATINGS_TABLE_NAME!,
-    undefined,
-    'username',
-    username,
-    'S',
-    'username'
-  );
-  query.Select = 'COUNT';
-
   try {
-    const result = await dbClient.send(new QueryCommand(query));
+    const numRatings = await getNumRatingsFromDB(dbClient, username);
 
     console.log('Successfully got number of ratings');
     return {
       statusCode: 200,
-      body: JSON.stringify(result.Count)
+      body: JSON.stringify(numRatings)
     };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(500, error.message);
