@@ -31,13 +31,21 @@
 }
 
 .RatingValue {
-  border-radius: 14px;
-  color: white;
-  float: left;
-  font-size: 1.8rem;
-  padding: 1%;
-  padding-left: 2%;
-  padding-right: 2%;
+  align-items: center;
+  border-radius: 10px;
+  coLor: white;
+  display: flex;
+  flex: 1 0 auto;
+  font-size: 1.5rem;
+  height: auto;
+  justify-content: center;
+  width: 6%;
+}
+
+.RatingValue:before {
+  content: '';
+  display: block;
+  padding-top: 100%;
 }
 
 .FilmPercentile {

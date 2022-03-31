@@ -112,13 +112,13 @@ const Film: FC<IUrlParams> = ({ id }) => {
 
                     return (
                       <>
-                        <span
+                        <p
                           className={classes.RatingValue}
                           // @ts-expect-error
                           style={{ backgroundColor: colourGradient }}
                         >
                           {fetchedUserReview.rating}
-                        </span>
+                        </p>
 
                         {fetchedUserReview.ratingPercentile !== undefined ? (
                           // @ts-expect-error
