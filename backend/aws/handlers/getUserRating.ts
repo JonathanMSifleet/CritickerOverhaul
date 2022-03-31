@@ -15,7 +15,7 @@ const getUserRating = async (event: { pathParameters: { imdbID: number; username
 
   try {
     const rating = await getUserRatingFromDB(imdbID, username);
-    if (!rating) return createAWSResErr(404, 'No rating found');
+    if (rating instanceof Error) return createAWSResErr(404, 'No rating found');
 
     console.log('Successfully fetched user rating');
     return {
@@ -30,7 +30,7 @@ const getUserRating = async (event: { pathParameters: { imdbID: number; username
 };
 
 // to do:
-const getUserRatingFromDB = async (imdbID: number, username: string): Promise<IRating> => {
+const getUserRatingFromDB = async (imdbID: number, username: string): Promise<IRating | Error> => {
   const query = createDynamoSearchQuery(
     process.env.RATINGS_TABLE_NAME!,
     'rating, ratingPercentile, review, createdAt',
@@ -43,8 +43,12 @@ const getUserRatingFromDB = async (imdbID: number, username: string): Promise<IR
     'S'
   );
 
-  const result = await dbClient.send(new QueryCommand(query));
-  return unmarshall(result.Items![0]) as IRating;
+  try {
+    const result = await dbClient.send(new QueryCommand(query));
+    return unmarshall(result.Items![0]) as IRating;
+  } catch (error) {
+    return new Error();
+  }
 };
 
 export const handler = middy(getUserRating).use(cors());
