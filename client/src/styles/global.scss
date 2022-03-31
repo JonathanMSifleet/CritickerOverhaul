@@ -1,4 +1,4 @@
-@import 'reset';
+@import './reset.scss';
 
 // Set full screen
 html,
@@ -8,7 +8,7 @@ body,
 }
 
 body {
-  font-family: Roboto;
+  font-family: 'Roboto', sans-serif;
 }
 
 // Set base pixel size for rem styling
