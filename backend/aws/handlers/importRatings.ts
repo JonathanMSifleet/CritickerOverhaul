@@ -19,6 +19,7 @@ import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import createDynamoSearchQuery from '../shared/functions/DynamoDB/createDynamoSearchQuery';
 import createDynamoUpdateQuery from '../shared/functions/DynamoDB/createDynamoUpdateQuery';
 import middy from '@middy/core';
+import percentRank from 'percentile-rank';
 
 const dbClient = new DynamoDBClient({});
 
@@ -77,8 +78,10 @@ const importRatings = async (event: { body: string; pathParameters: { username: 
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
+export const handler = middy(importRatings).use(cors());
+
 const batchInsertRatings = async (reviews: IRating[]): Promise<BatchWriteItemCommandOutput | IHTTP> => {
-  const items = [] as { PutRequest: { Item: { [key: string]: AttributeValue } } }[];
+  const items: { PutRequest: { Item: { [key: string]: AttributeValue } } }[] = [];
 
   reviews.forEach((review: IRating) => items.push({ PutRequest: { Item: marshall(review) } }));
 
@@ -99,22 +102,16 @@ const batchInsertRatings = async (reviews: IRating[]): Promise<BatchWriteItemCom
 
 const calculatePercentiles = (username: string, ratings: { imdbID: number; rating: number }[]): IPercentile[] => {
   ratings = ratings.sort((a, b) => a.rating - b.rating);
-  const numValues = ratings.length;
+
+  const extractedRatings = ratings.map((rating) => rating.rating);
 
   const percentiles: IPercentile[] = [];
 
-  let latestValue = -1;
-  let firstAppearance = -1;
+  ratings.forEach((rating) => {
+    const calculatedPercentile = Math.round(percentRank(extractedRatings, rating.rating) * 100);
 
-  for (let i = 0; i < numValues; i++) {
-    if (ratings[i].rating > latestValue) {
-      latestValue = ratings[i].rating;
-      firstAppearance = i;
-    }
-
-    const percentile = Math.round((firstAppearance / numValues) * 100);
-    percentiles.push({ username, imdbID: ratings[i].imdbID, percentile });
-  }
+    percentiles.push({ username, imdbID: rating.imdbID, percentile: calculatedPercentile as number });
+  });
 
   console.log('Calculated percentiles successfully');
   return percentiles;
@@ -225,5 +222,3 @@ const updateNumUserRatings = async (username: string, numRatings: number): Promi
 
   return createAWSResErr(500, 'Unhandled Exception');
 };
-
-export const handler = middy(importRatings).use(cors());
