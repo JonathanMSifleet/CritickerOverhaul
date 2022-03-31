@@ -23,8 +23,8 @@ import middy from '@middy/core';
 const dbClient = new DynamoDBClient({});
 
 interface IDynamoReview {
-  rating: { N: string };
-  imdbID: { N: string };
+  rating: AttributeValue;
+  imdbID: AttributeValue;
 }
 
 interface IPercentile {

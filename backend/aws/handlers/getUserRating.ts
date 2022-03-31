@@ -29,7 +29,6 @@ const getUserRating = async (event: { pathParameters: { imdbID: number; username
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
-// to do:
 const getUserRatingFromDB = async (imdbID: number, username: string): Promise<IRating | Error> => {
   const query = createDynamoSearchQuery(
     process.env.RATINGS_TABLE_NAME!,

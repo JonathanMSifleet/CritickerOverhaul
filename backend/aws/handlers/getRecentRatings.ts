@@ -1,10 +1,11 @@
 import { DynamoDBClient, QueryCommand, QueryCommandOutput } from '@aws-sdk/client-dynamodb';
-import { unmarshall } from '@aws-sdk/util-dynamodb';
-import middy from '@middy/core';
+
+import IHTTP from '../shared/interfaces/IHTTP';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
-import IHTTP from '../shared/interfaces/IHTTP';
 import createDynamoSearchQuery from './../shared/functions/DynamoDB/createDynamoSearchQuery';
+import middy from '@middy/core';
+import { unmarshall } from '@aws-sdk/util-dynamodb';
 
 const dbClient = new DynamoDBClient({});
 
@@ -20,12 +21,12 @@ const getRecentRatings = async (event: { pathParameters: { username: string } })
 
   const dynamoRatings = (await getRecentRatingsFromDynamo(username)) as IUnmarshalledRating[];
 
-  const detailQueries = [] as any;
+  const detailQueries = [] as Promise<IHTTP | QueryCommandOutput>[];
   dynamoRatings.forEach((rating) => {
     detailQueries.push(getFilmDetails(rating.imdbID));
   });
 
-  const detailQueryResults = await Promise.all(detailQueries);
+  const detailQueryResults = (await Promise.all(detailQueries)) as QueryCommandOutput[];
   const extractedFilmDetails = detailQueryResults.map((result) => unmarshall(result.Items![0]));
 
   const mergedResults = dynamoRatings.map((rating) => {

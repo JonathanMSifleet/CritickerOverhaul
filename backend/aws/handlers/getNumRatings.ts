@@ -1,12 +1,14 @@
 import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
-import middy from '@middy/core';
+
+import IHTTP from '../shared/interfaces/IHTTP';
 import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import createDynamoSearchQuery from '../shared/functions/DynamoDB/createDynamoSearchQuery';
+import middy from '@middy/core';
 
 const dbClient = new DynamoDBClient({});
 
-const getNumRatings = async (event: { pathParameters: { username: string } }): Promise<any> => {
+const getNumRatings = async (event: { pathParameters: { username: string } }): Promise<IHTTP> => {
   const { username } = event.pathParameters;
 
   const query = createDynamoSearchQuery(

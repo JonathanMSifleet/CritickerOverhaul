@@ -13,7 +13,7 @@ import httpRequest from '../../../utils/httpRequest';
 interface IProps {
   shouldLoadAvatar: boolean;
   setShouldLoadAvatar: (val: boolean) => void;
-  setUserInfo: SetterOrUpdater<any>;
+  setUserInfo: SetterOrUpdater<IUserState>;
   username: string;
   userState: IUserState;
 }

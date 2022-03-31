@@ -48,7 +48,7 @@ const migrateFilms = async (films: ISQLFilm[], userState: IUserState): Promise<v
 
   let i = 1;
   for await (const largeBatch of largeFilmBatches) {
-    const importRequests = [] as any;
+    const importRequests = [] as Promise<any>[];
     largeBatch.forEach(async (batch: any) => {
       console.log(`Importing batch ${i} out of ${filmBatches.length}`);
       i++;
