@@ -4,17 +4,19 @@ const Profile = lazy(() => import('./views/Profile/Profile'));
 const Ratings = lazy(() => import('./views/Ratings/Ratings'));
 const TextOnlyPage = lazy(() => import('./views/TextOnlyPage/TextOnlyPage'));
 
-import 'preact/debug';
-
 import { FC, useEffect, useState } from 'react';
 import { Suspense, lazy } from 'preact/compat';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 
 import Router from 'preact-router';
 import Spinner from './components/Spinner/Spinner';
 import { createHashHistory } from 'history';
+import { userInfoState } from './store';
 
 const App: FC = () => {
   const [fontReady, setFontReady] = useState(false);
+  const resetUserState = useResetRecoilState(userInfoState);
+  const userState = useRecoilValue(userInfoState);
 
   useEffect(() => {
     document.fonts.load('1rem "Roboto"').then(() => {
@@ -22,13 +24,22 @@ const App: FC = () => {
     });
   }, []);
 
+  const detectRouteChange = (): void => {
+    if (!userState.loggedIn) return;
+
+    if (userState.accessToken.accessTokenExpiry < Date.now()) {
+      alert('Your access token has expired. Please log in again');
+      resetUserState();
+    }
+  };
+
   return (
     <>
       {fontReady ? (
         // @ts-expect-error
         <Suspense fallback={<Spinner />}>
           {/* @ts-expect-error */}
-          <Router history={createHashHistory()}>
+          <Router history={createHashHistory()} onChange={detectRouteChange}>
             <Home path="/" />
             <TextOnlyPage path="/information/:path" />
             <Film path={'/film/:id'} />
