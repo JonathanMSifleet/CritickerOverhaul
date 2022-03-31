@@ -102,7 +102,6 @@ const batchInsertRatings = async (reviews: IRating[]): Promise<BatchWriteItemCom
 
 const calculatePercentiles = (username: string, ratings: { imdbID: number; rating: number }[]): IPercentile[] => {
   ratings = ratings.sort((a, b) => a.rating - b.rating);
-
   const extractedRatings = ratings.map((rating) => rating.rating);
 
   const percentiles: IPercentile[] = [];
@@ -113,7 +112,6 @@ const calculatePercentiles = (username: string, ratings: { imdbID: number; ratin
     percentiles.push({ username, imdbID: rating.imdbID, percentile: calculatedPercentile as number });
   });
 
-  console.log('Calculated percentiles successfully');
   return percentiles;
 };
 

@@ -8,6 +8,7 @@ import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import createDynamoSearchQuery from './../shared/functions/DynamoDB/createDynamoSearchQuery';
 import middy from '@middy/core';
+import percentRank from 'percentile-rank';
 import validateAccessToken from '../shared/functions/validateAccessToken';
 
 const dbClient = new DynamoDBClient({});
@@ -29,9 +30,10 @@ const rateFilm = async (event: { body: string; pathParameters: { username: strin
   if (review) payload.review = review;
 
   try {
-    await insertRatingToDB(payload);
+    const percentile = await getPercentile(payload.rating, username);
+    payload.ratingPercentile = percentile;
 
-    await getAllRatings(payload.rating, username);
+    await insertRatingToDB(payload);
 
     if (!reviewAlreadyExists) await alterNumRatings(username, 1);
 
@@ -46,7 +48,7 @@ const rateFilm = async (event: { body: string; pathParameters: { username: strin
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
-const getAllRatings = async (rating: number, username: string): Promise<void> => {
+const getPercentile = async (rating: number, username: string): Promise<number> => {
   const query = createDynamoSearchQuery(
     process.env.RATINGS_TABLE_NAME!,
     'rating',
@@ -57,17 +59,9 @@ const getAllRatings = async (rating: number, username: string): Promise<void> =>
   );
 
   const results = await dbClient.send(new QueryCommand(query));
+  const unmarshalledResults = results.Items!.map((result) => unmarshall(result).rating);
 
-  const unmarshalledResults = results.Items!.map((result) => unmarshall(result));
-
-  // calculate percentile of rating in unmarshalledResults[i].rating
-  const percentile =
-    unmarshalledResults.reduce((acc, curr) => {
-      if (curr.rating === rating) return acc + 1;
-      return acc;
-    }, 0) / unmarshalledResults.length;
-
-  console.log(percentile);
+  return Math.round(percentRank(unmarshalledResults, rating) * 100);
 };
 
 const insertRatingToDB = async (payload: IRating): Promise<IHTTP | void> => {
