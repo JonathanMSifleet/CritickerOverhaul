@@ -199,6 +199,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                     <p className={classes.ImportInstructions}>Import Criticker Ratings:</p>
                     <div className={classes.FileSelectorWrapper}>
                       <FileSelector onChange={(event): void => uploadFile(event)} />
+                      {importingRatings ? <Spinner className={classes.RatingSpinner} /> : null}
 
                       {importMessage !== '' ? (
                         <p
@@ -211,7 +212,6 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                           {importMessage}
                         </p>
                       ) : null}
-                      {importingRatings ? <Spinner className={classes.RatingSpinner} /> : null}
                     </div>
                   </>
                 ) : null}
