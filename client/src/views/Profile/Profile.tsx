@@ -72,10 +72,11 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
         setShouldLoadAvatar(true);
       });
 
-      httpRequest(`${endpoints.GET_RECENT_RATINGS}/${localUsername}`, 'GET').then((ratings) => {
-        setRecentRatings(chunk(ratings, 10));
-        setIsLoadingRecentRatings(false);
-      });
+      httpRequest(`${endpoints.GET_RECENT_RATINGS}/${localUsername}`, 'GET')
+        .then((ratings) => {
+          setRecentRatings(chunk(ratings, 10));
+        })
+        .finally(() => setIsLoadingRecentRatings(false));
     })();
   }, [username]);
 

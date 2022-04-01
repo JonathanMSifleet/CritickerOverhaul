@@ -27,7 +27,13 @@ const getRecentRatings = async (event: { pathParameters: { username: string } })
   });
 
   const detailQueryResults = (await Promise.all(detailQueries)) as QueryCommandOutput[];
-  const extractedFilmDetails = detailQueryResults.map((result) => unmarshall(result.Items![0]));
+
+  let extractedFilmDetails: { [key: string]: any }[] = [];
+  try {
+    extractedFilmDetails = detailQueryResults.map((result) => unmarshall(result.Items![0]));
+  } catch (error) {
+    return createAWSResErr(404, 'No films found');
+  }
 
   const mergedResults = dynamoRatings.map((rating) => {
     const matchingResult = extractedFilmDetails.find((details) => details.imdbID === rating.imdbID);
