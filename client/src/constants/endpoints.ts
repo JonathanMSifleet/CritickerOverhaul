@@ -1,6 +1,7 @@
 const ROOT = 'https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev';
 
 export const ADD_PEOPLE = `${ROOT}/migration/addPeople`;
+export const ADD_ACCOUNTS = `${ROOT}/migration/addAccounts`;
 export const DELETE_RATING = `${ROOT}/rating/deleteRating`;
 export const GET_ALL_RATINGS = `${ROOT}/rating/getAllRatings`;
 export const GET_FILMS = `${ROOT}/getFilms`;

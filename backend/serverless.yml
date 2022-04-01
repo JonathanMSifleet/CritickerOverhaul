@@ -39,14 +39,6 @@ package:
   individually: true
 
 functions:
-  addPeople:
-    handler: aws/handlers/migration/addPeople.handler
-    events:
-      - http:
-          method: PUT
-          path: migration/addPeople/{type}
-          cors: true
-          # authorizer: ${self:custom.authoriser}
   deleteAccount:
     handler: aws/handlers/deleteAccount.handler
     events:
@@ -124,15 +116,6 @@ functions:
           method: GET
           path: rating/getUserRating/{imdbID}/{username}
           cors: true
-  importFilmBatch:
-    handler: aws/handlers/migration/importFilmBatch.handler
-    timeout: 30
-    events:
-      - http:
-          method: POST
-          path: migration/importFilmBatch
-          cors: true
-          authorizer: ${self:custom.authoriser}
   importRatings:
     handler: aws/handlers/importRatings.handler
     timeout: 30
@@ -180,7 +163,30 @@ functions:
           path: user/avatar/{username}
           cors: true
           authorizer: ${self:custom.authoriser}
-
+  # migration functions:
+  addPeople:
+    handler: aws/handlers/migration/addPeople.handler
+    events:
+      - http:
+          method: PUT
+          path: migration/addPeople/{type}
+          cors: true
+  addAccounts:
+    handler: aws/handlers/migration/addAccounts.handler
+    timeout: 30
+    events:
+      - http:
+          method: POST
+          path: migration/addAccounts
+          cors: true
+  importFilmBatch:
+    handler: aws/handlers/migration/importFilmBatch.handler
+    timeout: 30
+    events:
+      - http:
+          method: POST
+          path: migration/importFilmBatch
+          cors: true
   # auth functions:
   authoriser:
     handler: aws/handlers/auth/authoriser.handler

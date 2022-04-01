@@ -7,6 +7,7 @@ UserTableIAM:
     - dynamodb:DeleteItem
     - dynamodb:UpdateItem
     - dynamodb:Query
+    - dynamodb:BatchWriteItem
   Resource:
     - ${self:custom.UserTable.arn}
     - !Join ['/', ['${self:custom.UserTable.arn}', 'index', 'email']]
