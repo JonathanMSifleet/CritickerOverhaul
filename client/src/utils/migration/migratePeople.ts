@@ -1,6 +1,5 @@
 import * as endpoints from '../../constants/endpoints';
 
-import IUserState from './../../interfaces/IUserState';
 import chunk from 'chunk';
 import httpRequest from '../httpRequest';
 
@@ -22,7 +21,7 @@ interface IArrayedPerson {
   writers?: TPerson[] | string;
 }
 
-const migratePeople = async (people: ISQLPerson[], type: string, userState: IUserState): Promise<void> => {
+const migratePeople = async (people: ISQLPerson[], type: string): Promise<void> => {
   const processedPeople = convertPersonToArray(people, type);
 
   console.log('Processing people');
@@ -37,7 +36,7 @@ const migratePeople = async (people: ISQLPerson[], type: string, userState: IUse
   for await (const batch of peopleUpdateBatch) {
     const updateBatch = [] as Promise<any>[];
     batch.forEach((person) => {
-      updateBatch.push(httpRequest(`${endpoints.ADD_PEOPLE}/${type}`, 'PUT', userState.accessToken, person));
+      updateBatch.push(httpRequest(`${endpoints.ADD_PEOPLE}/${type}`, 'PUT', undefined, person));
       console.log(`Merged person ${i} out of ${mergedPeople.length}`);
       i++;
     });

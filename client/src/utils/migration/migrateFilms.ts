@@ -1,6 +1,5 @@
 import * as endpoints from '../../constants/endpoints';
 
-import IUserState from '../../interfaces/IUserState';
 import chunk from 'chunk';
 import httpRequest from '../httpRequest';
 
@@ -8,16 +7,22 @@ interface ISQLFilm {
   company: string;
   countries: string;
   description: string;
-  duration: number;
+  filmDuration: number;
   genres: string;
   imdbID: number;
   languages: string;
-  title: string;
   releaseYear: number;
+  title: string;
 }
 
-const migrateFilms = async (films: ISQLFilm[], userState: IUserState): Promise<void> => {
-  const marshalledFilms = films.map((film: ISQLFilm) => {
+type TBatch = {
+  PutRequest: {
+    Item: ISQLFilm;
+  };
+}[];
+
+const migrateFilms = async (films: ISQLFilm[]): Promise<void> => {
+  const marshalledFilms = films.map((film) => {
     // remove null attributes from film object
     Object.keys(film).forEach((key: string) => {
       // @ts-expect-error key can be used as index
@@ -26,7 +31,7 @@ const migrateFilms = async (films: ISQLFilm[], userState: IUserState): Promise<v
 
     Object.keys(film).forEach((key: string) => {
       switch (true) {
-        case key === 'duration' || key === 'releaseYear' || key === 'imdbID':
+        case key === 'filmDuration' || key === 'releaseYear' || key === 'imdbID':
           // @ts-expect-error key can be used as index
           film[key] = { N: film[key] };
           break;
@@ -49,10 +54,10 @@ const migrateFilms = async (films: ISQLFilm[], userState: IUserState): Promise<v
   let i = 1;
   for await (const largeBatch of largeFilmBatches) {
     const importRequests = [] as Promise<any>[];
-    largeBatch.forEach(async (batch: any) => {
+    largeBatch.forEach((batch: TBatch) => {
       console.log(`Importing batch ${i} out of ${filmBatches.length}`);
       i++;
-      importRequests.push(httpRequest(endpoints.IMPORT_FILM_BATCH, 'POST', userState.accessToken, batch));
+      importRequests.push(httpRequest(endpoints.IMPORT_FILM_BATCH, 'POST', undefined, batch));
     });
 
     try {
