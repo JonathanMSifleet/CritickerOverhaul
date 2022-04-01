@@ -15,6 +15,9 @@ module.exports = {
     filename: '[name].[contenthash].js',
     assetModuleFilename: 'images/[hash][ext][query]'
   },
+  stats: {
+    errorDetails: true
+  },
   target: 'web',
   devServer: {
     historyApiFallback: true,

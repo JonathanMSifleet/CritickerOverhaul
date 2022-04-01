@@ -176,7 +176,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                   <span className={classes.UserRank}> {getRatingRank(userProfile.numRatings!)}</span>
                 </h1>
                 <p className={classes.UserProfileText}>
-                  {userProfile.numRatings} Film Rating{userProfile.numRatings === 0 ? 's' : null}
+                  {userProfile.numRatings} Film Rating{userProfile.numRatings !== 0 ? 's' : null}
                 </p>
                 <p className={classes.UserProfileText}>
                   <b>Member since:</b> {epochToDate(userProfile.memberSince!)}

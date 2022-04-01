@@ -1,7 +1,9 @@
 # files that should be removed go here:
 **/.DS_Store
 **/Folder.jpg
+**/privateKey.pem
 **/thumbs.db
+*.tsbuildinfo
 .DS_Store
 .browserslistrc
 .build
@@ -23,14 +25,13 @@
 /coverage
 /node_modules
 Extras/
+backend/lib/tsconfig.tsbuildinfo
 createSecret.txt
 dist
+generateData/**/*.json
 node_modules
 npm-debug.log*
 secret.pem
 tsconfig.tsbuildinfo
 yarn-debug.log*
 yarn-error.log*
-backend/lib/tsconfig.tsbuildinfo
-*.tsbuildinfo
-**/privateKey.pem
