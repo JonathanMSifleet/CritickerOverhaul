@@ -40,13 +40,13 @@ const Film: FC<IUrlParams> = ({ id }) => {
 
       getFilmPoster(id!).then((filmPoster) => setFilmPoster(filmPoster));
 
-      if (userState.loggedIn) {
-        const userReview = await getUserRating(id!);
-        setFetchedUserReview(userReview);
+      if (!userState.loggedIn) return;
 
-        setColourGradient(determineColourGradient(userReview!.ratingPercentile));
-        setReviewAlreadyExists(true);
-      }
+      const userReview = await getUserRating(id!);
+      setFetchedUserReview(userReview);
+
+      setColourGradient(determineColourGradient(userReview!.ratingPercentile));
+      setReviewAlreadyExists(true);
     })();
   }, [id]);
 
@@ -115,11 +115,12 @@ const Film: FC<IUrlParams> = ({ id }) => {
 
                   {fetchedUserReview.ratingPercentile !== undefined ? (
                     <p className={classes.FilmPercentile} style={{ color: colourGradient }}>
-                      {fetchedUserReview.ratingPercentile}%
+                      {fetchedUserReview.ratingPercentile}
+                      {fetchedUserReview.ratingPercentile ? '%' : null}
                     </p>
                   ) : null}
 
-                  {fetchedUserReview.review ? <p>Your mini-review: {fetchedUserReview.review}</p> : null}
+                  {fetchedUserReview.review ? <p>{fetchedUserReview.review}</p> : null}
 
                   <p>
                     <span className={classes.ModifyReview} onClick={(): void => setFetchedUserReview(null)}>

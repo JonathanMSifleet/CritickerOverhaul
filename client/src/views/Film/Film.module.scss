@@ -39,18 +39,19 @@
   font-size: 1.5rem;
   height: auto;
   justify-content: center;
-  width: 6%;
+  max-width: 5%;
 }
 
 .RatingValue:before {
   content: '';
-  display: block;
+  display: inline-block;
   padding-top: 100%;
 }
 
 .FilmPercentile {
   float: left;
-  clear: both;
+  margin-right: 0.5%;
+  clear: right;
 }
 
 .FilmInfo {
