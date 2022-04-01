@@ -12,6 +12,12 @@ import { unmarshall } from '@aws-sdk/util-dynamodb';
 
 const dbClient = new DynamoDBClient({});
 
+interface IPayload {
+  accessToken: string;
+  avatar?: string;
+  username: string;
+}
+
 const login = async (event: { body: string }): Promise<IHTTP> => {
   const { email, password } = JSON.parse(event.body);
 
@@ -31,10 +37,13 @@ const login = async (event: { body: string }): Promise<IHTTP> => {
 
     const userAvatar = await getUserAvatar(user.username);
 
+    const payload = { username: user.username, accessToken: newAccessToken } as IPayload;
+    if (userAvatar !== '') payload.avatar = userAvatar as string;
+
     console.log('Logged in successfully');
     return {
       statusCode: 200,
-      body: JSON.stringify({ username: user.username, avatar: userAvatar, accessToken: newAccessToken })
+      body: JSON.stringify(payload)
     };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(404, error.message);
@@ -63,12 +72,9 @@ const createNewAccessToken = async (username: string): Promise<string> => {
 };
 
 const getUserAvatar = async (username: string): Promise<string | void> => {
-  try {
-    return (await getUserAvatarFromDB(username)) as string;
-  } catch (error) {
-    console.log('No avatar found');
-    return;
-  }
+  const avatar = await getUserAvatarFromDB(username);
+
+  return avatar instanceof Error ? undefined : avatar;
 };
 
 const loginUser = async (email: string): Promise<QueryCommandOutput> => {
