@@ -20,15 +20,15 @@ import Logo from '../../../assets/svg/Logo.svg';
 import Modal from '../../Modal/Modal';
 import ShrugSVG from '../../../assets/svg/Shrug.svg';
 import Spinner from '../../Spinner/Spinner';
-import addAccounts from '../../../utils/migration/addAccounts';
 import classes from './Header.module.scss';
+import importGeneratedRatings from '../../../utils/migration/importGeneratedRatings';
 
 const Auth = lazy(() => import('../../Auth/Auth'));
 
 const Header: FC = (): JSX.Element => {
+  const [showModal, setShowModal] = useRecoilState(modalState);
   const resetUserState = useResetRecoilState(userInfoState);
   const userState = useRecoilValue(userInfoState);
-  const [showModal, setShowModal] = useRecoilState(modalState);
 
   const displayAuthModal = (): void => setShowModal(true);
 
@@ -41,7 +41,7 @@ const Header: FC = (): JSX.Element => {
       fileReader.readAsText(event.target.files[0]);
       fileReader.onload = (): void => {
         try {
-          addAccounts(JSON.parse(fileReader.result as string));
+          importGeneratedRatings(JSON.parse(fileReader.result as string));
         } catch (error) {
           console.error(error);
         }

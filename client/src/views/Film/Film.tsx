@@ -45,7 +45,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
       const userReview = await getUserRating(id!);
       setFetchedUserReview(userReview);
 
-      setColourGradient(determineColourGradient(userReview!.ratingPercentile));
+      setColourGradient(determineColourGradient(userReview!.ratingPercentile!));
       setReviewAlreadyExists(true);
     })();
   }, [id]);

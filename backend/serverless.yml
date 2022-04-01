@@ -163,30 +163,38 @@ functions:
           path: user/avatar/{username}
           cors: true
           authorizer: ${self:custom.authoriser}
+  # dummy data functions:
+    # addAccounts:
+    #   handler: aws/handlers/migration/addAccounts.handler
+    #   timeout: 30
+    #   events:
+    #     - http:
+    #         method: POST
+    #         path: migration/addAccounts
+    #         cors: true
+  importGeneratedRatings:
+    handler: aws/handlers/importGeneratedRatings.handler
+    events:
+      - http:
+          method: POST
+          path: rating/importGeneratedRatings
+          cors: true
   # migration functions:
-  addPeople:
-    handler: aws/handlers/migration/addPeople.handler
-    events:
-      - http:
-          method: PUT
-          path: migration/addPeople/{type}
-          cors: true
-  addAccounts:
-    handler: aws/handlers/migration/addAccounts.handler
-    timeout: 30
-    events:
-      - http:
-          method: POST
-          path: migration/addAccounts
-          cors: true
-  importFilmBatch:
-    handler: aws/handlers/migration/importFilmBatch.handler
-    timeout: 30
-    events:
-      - http:
-          method: POST
-          path: migration/importFilmBatch
-          cors: true
+    # addPeople:
+    #   handler: aws/handlers/migration/addPeople.handler
+    #   events:
+    #     - http:
+    #         method: PUT
+    #         path: migration/addPeople/{type}
+    #         cors: true
+    # importFilmBatch:
+    #   handler: aws/handlers/migration/importFilmBatch.handler
+    #   timeout: 30
+    #   events:
+    #     - http:
+    #         method: POST
+    #         path: migration/importFilmBatch
+    #         cors: true
   # auth functions:
   authoriser:
     handler: aws/handlers/auth/authoriser.handler

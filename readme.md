@@ -1,14 +1,8 @@
 To do:
 
 - Verify access token on:
-  - delete account
-  - import film batch
-  - import ratings
   - update profile
 - migrate people table
-- re-migrate film table to include duration
-- display successful sign up message
-- Add auto logout
 
 ---
 
