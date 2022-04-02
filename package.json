@@ -25,6 +25,7 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.4.0",
+    "image-to-base64": "^2.2.0",
     "mysql2": "^2.3.3",
     "npm-check-updates": "^12.5.5",
     "prettier": "^2.6.2",
