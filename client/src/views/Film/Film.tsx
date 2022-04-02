@@ -80,6 +80,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
 
       setFetchedUserReview(null);
       setHasSubmittedRating(false);
+      setReviewAlreadyExists(false);
     } catch (error) {
       alert(error);
     }
