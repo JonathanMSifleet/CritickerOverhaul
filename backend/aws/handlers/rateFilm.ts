@@ -35,7 +35,7 @@ const rateFilm = async (event: { body: string; pathParameters: { username: strin
 
     await insertRatingToDB(payload);
 
-    if (!reviewAlreadyExists) await alterNumRatings(username, 1);
+    if (!reviewAlreadyExists) await alterNumRatings(dbClient, username, 1);
 
     return {
       statusCode: 201,

@@ -21,7 +21,7 @@ const deleteRating = async (event: {
     const result = await deleteRatingFromDynamo(imdbID, username);
     if (result instanceof Error) return createAWSResErr(500, 'Error deleting rating');
 
-    await alterNumRatings(username, -1);
+    await alterNumRatings(dbClient, username, -1);
 
     console.log('Rating deleted successfully');
     return { statusCode: 204 };

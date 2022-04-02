@@ -3,9 +3,7 @@ import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import IHTTP from '../interfaces/IHTTP';
 import { createAWSResErr } from './createAWSResErr';
 
-const dbClient = new DynamoDBClient({});
-
-const alterNumRatings = async (username: string, value: number): Promise<void | IHTTP> => {
+const alterNumRatings = async (dbClient: DynamoDBClient, username: string, value: number): Promise<void | IHTTP> => {
   const params = {
     TableName: process.env.USER_TABLE_NAME!,
     Key: {
