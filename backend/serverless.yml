@@ -74,6 +74,13 @@ functions:
           method: GET
           path: getFilmDetails/{imdbID}
           cors: true
+  getFilmRatings:
+    handler: aws/handlers/getFilmRatings.handler
+    events:
+      - http:
+          method: GET
+          path: getFilmRatings/{imdbID}
+          cors: true
   getFilms:
     handler: aws/handlers/getFilms.handler
     events:
@@ -163,38 +170,41 @@ functions:
           path: user/avatar/{username}
           cors: true
           authorizer: ${self:custom.authoriser}
+
   # dummy data functions:
-    # addAccounts:
-    #   handler: aws/handlers/migration/addAccounts.handler
-    #   timeout: 30
-    #   events:
-    #     - http:
-    #         method: POST
-    #         path: migration/addAccounts
-    #         cors: true
+  # addAccounts:
+  #   handler: aws/handlers/mockData/addAccounts.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         method: POST
+  #         path: mockData/addAccounts
+  #         cors: true
   importGeneratedRatings:
-    handler: aws/handlers/importGeneratedRatings.handler
+    handler: aws/handlers/mockData/importGeneratedRatings.handler
     events:
       - http:
           method: POST
-          path: rating/importGeneratedRatings
+          path: mockData/importGeneratedRatings
           cors: true
+
   # migration functions:
-    # addPeople:
-    #   handler: aws/handlers/migration/addPeople.handler
-    #   events:
-    #     - http:
-    #         method: PUT
-    #         path: migration/addPeople/{type}
-    #         cors: true
-    # importFilmBatch:
-    #   handler: aws/handlers/migration/importFilmBatch.handler
-    #   timeout: 30
-    #   events:
-    #     - http:
-    #         method: POST
-    #         path: migration/importFilmBatch
-    #         cors: true
+  # addPeople:
+  #   handler: aws/handlers/migration/addPeople.handler
+  #   events:
+  #     - http:
+  #         method: PUT
+  #         path: migration/addPeople/{type}
+  #         cors: true
+  # importFilmBatch:
+  #   handler: aws/handlers/migration/importFilmBatch.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         method: POST
+  #         path: migration/importFilmBatch
+  #         cors: true
+
   # auth functions:
   authoriser:
     handler: aws/handlers/auth/authoriser.handler

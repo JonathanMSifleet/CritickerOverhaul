@@ -10,7 +10,7 @@ const generatedReviews = [];
 
 usernames.forEach (username => {
   imdbIDs.forEach((imdbID) => {
-    if (getRandomInt(3) !== 2) return;
+    if (getRandomInt(30) !== 0) return;
 
     let userReview = undefined;
     if (getRandomInt(5) !== 4) userReview = reviews[getRandomInt(reviews.length)];
