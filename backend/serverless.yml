@@ -182,9 +182,18 @@ functions:
   #         cors: true
   importGeneratedRatings:
     handler: aws/handlers/mockData/importGeneratedRatings.handler
+    timeout: 30
     events:
       - http:
           method: POST
+          path: mockData/importGeneratedRatings
+          cors: true
+  updateNumRatings:
+    handler: aws/handlers/mockData/updateNumRatings.handler
+    timeout: 30
+    events:
+      - http:
+          method: PUT
           path: mockData/importGeneratedRatings
           cors: true
 

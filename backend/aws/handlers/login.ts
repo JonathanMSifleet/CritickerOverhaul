@@ -6,7 +6,7 @@ import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import createDynamoSearchQuery from '../shared/functions/DynamoDB/createDynamoSearchQuery';
 import createDynamoUpdateQuery from '../shared/functions/DynamoDB/createDynamoUpdateQuery';
 import generateAccessToken from '../shared/functions/generateAccessToken';
-import getUserAvatarFromDB from './../shared/functions/getUserAvatarFromDB';
+import getUserAvatarFromDB from '../shared/functions/getUserAvatarFromDB';
 import middy from '@middy/core';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 

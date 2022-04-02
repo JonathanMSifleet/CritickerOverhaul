@@ -47,6 +47,9 @@ const Film: FC<IUrlParams> = ({ id }) => {
 
       setColourGradient(determineColourGradient(userReview!.ratingPercentile!));
       setReviewAlreadyExists(true);
+
+      const results = await httpRequest(`${endpoints.GET_FILM_RATINGS}/${id}`, 'GET');
+      console.log('🚀 ~ file: Film.tsx ~ line 52 ~ results', results);
     })();
   }, [id]);
 

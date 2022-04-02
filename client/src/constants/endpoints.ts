@@ -1,7 +1,7 @@
 const ROOT = 'https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev';
 
 export const ADD_PEOPLE = `${ROOT}/migration/addPeople`;
-export const ADD_ACCOUNTS = `${ROOT}/migration/addAccounts`;
+export const ADD_ACCOUNTS = `${ROOT}/mockData/addAccounts`;
 export const DELETE_RATING = `${ROOT}/rating/deleteRating`;
 export const GET_ALL_RATINGS = `${ROOT}/rating/getAllRatings`;
 export const GET_FILMS = `${ROOT}/getFilms`;
@@ -12,11 +12,12 @@ export const GET_PROFILE_BY_USERNAME = `${ROOT}/user/profile`;
 export const GET_RECENT_RATINGS = `${ROOT}/rating/getRecentRatings`;
 export const GET_USER_AVATAR = `${ROOT}/user/avatar`;
 export const GET_USER_RATING = `${ROOT}/rating/getUserRating`;
-export const IMPORT_GENERATED_RATINGS = `${ROOT}/rating/importGeneratedRatings`;
+export const IMPORT_GENERATED_RATINGS = `${ROOT}/mockData/importGeneratedRatings`;
 export const IMPORT_RATINGS = `${ROOT}/rating/importRatings`;
 export const IMPORT_FILM_BATCH = `${ROOT}/migration/importFilmBatch`;
 export const LOGIN = `${ROOT}/login`;
 export const RATE_FILM = `${ROOT}/rating/rateFilm`;
 export const SIGNUP = `${ROOT}/signup`;
+export const UPDATE_NUM_RATINGS = `${ROOT}/mockData/importGeneratedRatings`;
 export const UPDATE_USER_PROFILE = `${ROOT}/user/profile`;
 export const UPLOAD_USER_AVATAR = `${ROOT}/user/avatar`;
