@@ -1,4 +1,4 @@
-import { AttributeValue, DynamoDBClient, UpdateItemCommand, UpdateItemCommandInput } from '@aws-sdk/client-dynamodb';
+import { AttributeValue, DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 
 import IHTTP from '../shared/interfaces/IHTTP';
 import IUserProfile from './../../../shared/interfaces/IUserProfile';
@@ -53,7 +53,7 @@ const updateProfileInDB = async (payload: IUserProfile, username: string): Promi
     UpdateExpression: generateUpdateExpression(payload),
     ExpressionAttributeValues: generateExpressionAttributeValues(payload),
     ReturnValues: 'UPDATED_NEW'
-  } as UpdateItemCommandInput;
+  };
 
   try {
     await dbClient.send(new UpdateItemCommand(params));
@@ -74,7 +74,7 @@ const generateUpdateExpression = (payload: IUserProfile): string => {
 };
 
 const generateExpressionAttributeValues = (payload: IUserProfile): IExpressionAttributeValues => {
-  const expressionAttributeValues = {} as IExpressionAttributeValues;
+  const expressionAttributeValues: IExpressionAttributeValues = {};
 
   Object.keys(payload).forEach((key) => {
     // @ts-expect-error key can be used as index on payload

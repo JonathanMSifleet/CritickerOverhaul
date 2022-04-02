@@ -34,7 +34,7 @@ const migratePeople = async (people: ISQLPerson[], type: string): Promise<void> 
   console.log('Importing people');
   let i = 1;
   for await (const batch of peopleUpdateBatch) {
-    const updateBatch = [] as Promise<any>[];
+    const updateBatch: Promise<any>[] = [];
     batch.forEach((person) => {
       updateBatch.push(httpRequest(`${endpoints.ADD_PEOPLE}/${type}`, 'PUT', undefined, person));
       console.log(`Merged person ${i} out of ${mergedPeople.length}`);
@@ -54,7 +54,7 @@ const migratePeople = async (people: ISQLPerson[], type: string): Promise<void> 
 export default migratePeople;
 
 const mergePeople = (people: IArrayedPerson[], type: string): IArrayedPerson[] => {
-  const localMergedPeople = [] as never[];
+  const localMergedPeople: never[] = [];
 
   people.forEach((person: IArrayedPerson) => {
     const index = localMergedPeople.findIndex(

@@ -9,15 +9,15 @@ interface IHTTPRequest {
 }
 
 const httpRequest = async (url: string, method: string, accessToken?: IAccessToken, body?: any): Promise<any> => {
-  const headers = {
+  const headers: { [key: string]: string } = {
     'Accept-Encoding': 'gzip, br',
     'Content-Type': 'application/json'
-  } as { [key: string]: string };
+  };
 
-  const options = {
+  const options: IHTTPRequest = {
     method,
     headers
-  } as IHTTPRequest;
+  };
 
   if (body) options.body = body;
 

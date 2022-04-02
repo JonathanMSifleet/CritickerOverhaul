@@ -1,13 +1,14 @@
 import { AttributeValue, BatchGetItemCommand, DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
-import { unmarshall } from '@aws-sdk/util-dynamodb';
-import middy from '@middy/core';
-import cors from '@middy/http-cors';
-import chunk from 'chunk';
-import { parse } from 'query-string';
+
 import IFilm from '../../../shared/interfaces/IFilm';
+import IHTTP from '../shared/interfaces/IHTTP';
+import chunk from 'chunk';
+import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import createDynamoSearchQuery from '../shared/functions/DynamoDB/createDynamoSearchQuery';
-import IHTTP from '../shared/interfaces/IHTTP';
+import middy from '@middy/core';
+import { parse } from 'query-string';
+import { unmarshall } from '@aws-sdk/util-dynamodb';
 
 const dbClient = new DynamoDBClient({});
 
@@ -127,7 +128,7 @@ const getResults = async (dynamoRatings: IFilm[]): Promise<{ imdbID: number }[]>
   const extractedImdbIDs = dynamoRatings.map((film) => film.imdbID);
   const chunkedImdbIDs = chunk(extractedImdbIDs, 25);
 
-  const filmQueries = [] as Promise<IFilmDetails[]>[];
+  const filmQueries: Promise<IFilmDetails[]>[] = [];
 
   chunkedImdbIDs.forEach((imdbIDChunk) => {
     filmQueries.push(batchGetFilmDetails(imdbIDChunk) as Promise<IFilmDetails[]>);

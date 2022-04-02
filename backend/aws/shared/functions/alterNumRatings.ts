@@ -1,4 +1,4 @@
-import { DynamoDBClient, UpdateItemCommand, UpdateItemCommandInput } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 
 import IHTTP from '../interfaces/IHTTP';
 import { createAWSResErr } from './createAWSResErr';
@@ -16,7 +16,7 @@ const alterNumRatings = async (username: string, value: number): Promise<void | 
       ':val': { N: value.toString() }
     },
     ReturnValues: 'UPDATED_NEW'
-  } as UpdateItemCommandInput;
+  };
 
   try {
     await dbClient.send(new UpdateItemCommand(params));

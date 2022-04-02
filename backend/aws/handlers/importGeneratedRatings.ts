@@ -10,11 +10,11 @@ const dbClient = new DynamoDBClient({});
 const importGeneratedRatings = async (event: { body: string }): Promise<void | IHTTP> => {
   const ratings = JSON.parse(event.body);
 
-  const params = {
+  const params: BatchWriteItemCommandInput = {
     RequestItems: {
       [process.env.RATINGS_TABLE_NAME!]: ratings
     }
-  } as BatchWriteItemCommandInput;
+  };
 
   try {
     await dbClient.send(new BatchWriteItemCommand(params));

@@ -1,7 +1,6 @@
 import {
   AttributeValue,
   BatchWriteItemCommand,
-  BatchWriteItemCommandInput,
   BatchWriteItemCommandOutput,
   DynamoDBClient,
   QueryCommand,
@@ -42,7 +41,7 @@ const importRatings = async (event: { body: string; pathParameters: { username: 
   const chunkedRatings = chunk(filteredRatings, 25);
 
   try {
-    const batchInserts = [] as Promise<BatchWriteItemCommandOutput | IHTTP>[];
+    const batchInserts: Promise<BatchWriteItemCommandOutput | IHTTP>[] = [];
     chunkedRatings.forEach(async (reviewChunk: IRating[]) => {
       batchInserts.push(batchInsertRatings(reviewChunk));
     });
@@ -89,7 +88,7 @@ const batchInsertRatings = async (reviews: IRating[]): Promise<BatchWriteItemCom
     RequestItems: {
       [process.env.RATINGS_TABLE_NAME!]: items
     }
-  } as BatchWriteItemCommandInput;
+  };
 
   try {
     return await dbClient.send(new BatchWriteItemCommand(params));
@@ -109,7 +108,7 @@ const calculatePercentiles = (username: string, ratings: { imdbID: number; ratin
   ratings.forEach((rating) => {
     const calculatedPercentile = Math.round(percentRank(extractedRatings, rating.rating) * 100);
 
-    percentiles.push({ username, imdbID: rating.imdbID, percentile: calculatedPercentile as number });
+    percentiles.push({ username, imdbID: rating.imdbID, percentile: calculatedPercentile });
   });
 
   return percentiles;
@@ -122,7 +121,7 @@ const extractRatings = (userReviews: IDynamoReview[]): { imdbID: number; rating:
   }));
 
 const filterRatings = async (reviews: IRating[], username: string): Promise<IRating[]> => {
-  const matchedImdbIDs = [] as number[];
+  const matchedImdbIDs: number[] = [];
 
   for await (const review of reviews) {
     const query = createDynamoSearchQuery(

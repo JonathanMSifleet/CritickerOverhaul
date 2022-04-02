@@ -1,4 +1,4 @@
-import { BatchWriteItemCommand, BatchWriteItemCommandInput, DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { BatchWriteItemCommand, DynamoDBClient } from '@aws-sdk/client-dynamodb';
 
 import IHTTP from '../../shared/interfaces/IHTTP';
 import cors from '@middy/http-cors';
@@ -14,7 +14,7 @@ const importFilmBatch = async (event: { body: string }): Promise<IHTTP | void> =
     RequestItems: {
       [process.env.FILMS_TABLE_NAME!]: films
     }
-  } as BatchWriteItemCommandInput;
+  };
 
   try {
     await dbClient.send(new BatchWriteItemCommand(params));

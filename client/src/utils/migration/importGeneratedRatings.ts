@@ -32,7 +32,7 @@ const importGeneratedRatings = async (ratings: IRating[]): Promise<void> => {
 
   let i = 1;
   for await (const largeBatch of largeRatingBatch) {
-    const importRequests = [] as Promise<any>[];
+    const importRequests: Promise<any>[] = [];
     largeBatch.forEach((batch) => {
       console.log(`Importing batch ${i} out of ${ratingBatch.length}`);
       i++;

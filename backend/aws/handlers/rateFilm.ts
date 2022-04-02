@@ -20,12 +20,12 @@ const rateFilm = async (event: { body: string; pathParameters: { username: strin
   const validToken = await validateAccessToken(username, accessToken);
   if (validToken !== true) return createAWSResErr(401, 'Access token invalid');
 
-  const payload = {
+  const payload: IRating = {
     username,
     createdAt: Date.now(),
     imdbID,
     rating
-  } as IRating;
+  };
 
   if (review) payload.review = review;
 

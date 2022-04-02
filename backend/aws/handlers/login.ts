@@ -37,8 +37,8 @@ const login = async (event: { body: string }): Promise<IHTTP> => {
 
     const userAvatar = await getUserAvatar(user.username);
 
-    const payload = { username: user.username, accessToken: newAccessToken } as IPayload;
-    if (userAvatar !== '') payload.avatar = userAvatar as string;
+    const payload: IPayload = { username: user.username, accessToken: newAccessToken as string };
+    if (userAvatar !== undefined) payload.avatar = userAvatar;
 
     console.log('Logged in successfully');
     return {
@@ -71,7 +71,7 @@ const createNewAccessToken = async (username: string): Promise<string> => {
   return JSON.stringify(refreshedToken);
 };
 
-const getUserAvatar = async (username: string): Promise<string | void> => {
+const getUserAvatar = async (username: string): Promise<string | undefined> => {
   const avatar = await getUserAvatarFromDB(username);
 
   return avatar instanceof Error ? undefined : avatar;

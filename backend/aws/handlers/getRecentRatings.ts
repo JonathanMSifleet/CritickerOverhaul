@@ -21,7 +21,7 @@ const getRecentRatings = async (event: { pathParameters: { username: string } })
 
   const dynamoRatings = (await getRecentRatingsFromDynamo(username)) as IUnmarshalledRating[];
 
-  const detailQueries = [] as Promise<IHTTP | QueryCommandOutput>[];
+  const detailQueries: Promise<IHTTP | QueryCommandOutput>[] = [];
   dynamoRatings.forEach((rating) => {
     detailQueries.push(getFilmDetails(rating.imdbID));
   });

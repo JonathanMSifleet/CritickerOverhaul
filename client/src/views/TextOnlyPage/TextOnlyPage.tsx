@@ -1,13 +1,10 @@
 import { FC } from 'react';
+import IUrlParams from '../../interfaces/IUrlParams';
 import { Link } from 'preact-router/match';
 import PageView from '../../components/PageView/PageView';
 import classes from './TextOnlyPage.module.scss';
 
-interface IProps {
-  path: string;
-}
-
-const TextOnlyPage: FC<IProps> = ({ path }) => {
+const TextOnlyPage: FC<IUrlParams> = ({ path }) => {
   const getPage = (): JSX.Element | null => {
     switch (path) {
       case 'privacy':
@@ -286,7 +283,8 @@ const TextOnlyPage: FC<IProps> = ({ path }) => {
               <p>
                 Import ratings directly from IMDb into Criticker. With this simple upload tool, you can upload your
                 ratings to Criticker. Tiers are kept intact, and imported ratings are added to a collection so that you
-                can tweak and fine-tune the new ratings at your leisure.
+                can tweak and fine-tune the new ratings at your limport IUrlParams from './../../interfaces/IUrlParams';
+                eisure.
               </p>
             </span>
             <Link href="#submissions">[Placeholder] Go to the Import Tool</Link>
@@ -305,7 +303,10 @@ const TextOnlyPage: FC<IProps> = ({ path }) => {
             </p>
             <span className={classes.ParagraphWrapper}>
               <p>
-                Each of Criticker's forum topics has its own RSS feed. <Link href="#forum">Browse the forums now</Link>{' '}
+                {/* eslint-disable-next-line max-len */}
+                Each of Criticker's forum topics has its own RSS feed. <Link href="#forum">
+                  Browse the forums now
+                </Link>{' '}
                 and subscribe to whichever ones you want!
               </p>
             </span>

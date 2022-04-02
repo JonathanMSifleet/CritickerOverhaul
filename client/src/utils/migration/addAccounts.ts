@@ -33,7 +33,7 @@ const addAccounts = async (accounts: IAccount[]): Promise<void> => {
 
   let i = 1;
   for await (const batch of largeBatch) {
-    const importRequests = [] as Promise<any>[];
+    const importRequests: Promise<any>[] = [];
     batch.forEach((accountBatch) => {
       console.log(`Importing batch ${i} out of ${batchAccounts.length}`);
       i++;

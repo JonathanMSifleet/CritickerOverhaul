@@ -71,9 +71,9 @@ const SignUp: FC = () => {
     setFormInfo({ ...formInfo, termsChecked: event.target.checked });
 
   const handleValidationMessage = (valMessages: { [key: string]: string }[]): void => {
-    const replacementEmailValList = [] as string[];
-    const replacementPasswordValList = [] as string[];
-    const replacementUsernameValList = [] as string[];
+    const replacementEmailValList: string[] = [];
+    const replacementPasswordValList: string[] = [];
+    const replacementUsernameValList: string[] = [];
 
     valMessages.forEach((message) => {
       switch (Object.keys(message)[0]) {
