@@ -3,5 +3,6 @@ AvatarTableIAM:
   Action:
     - dynamodb:PutItem
     - dynamodb:Query
+    - dynamodb:BatchWriteItem
   Resource:
     - ${self:custom.AvatarTable.arn}

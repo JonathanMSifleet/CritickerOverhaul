@@ -12,6 +12,7 @@ export const GET_PROFILE_BY_USERNAME = `${ROOT}/user/profile`;
 export const GET_RECENT_RATINGS = `${ROOT}/rating/getRecentRatings`;
 export const GET_USER_AVATAR = `${ROOT}/user/avatar`;
 export const GET_USER_RATING = `${ROOT}/rating/getUserRating`;
+export const IMPORT_AVATARS = `${ROOT}/mockData/importAvatars`;
 export const IMPORT_GENERATED_RATINGS = `${ROOT}/mockData/importGeneratedRatings`;
 export const IMPORT_RATINGS = `${ROOT}/rating/importRatings`;
 export const IMPORT_FILM_BATCH = `${ROOT}/migration/importFilmBatch`;
