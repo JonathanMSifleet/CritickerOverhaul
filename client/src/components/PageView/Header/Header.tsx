@@ -14,14 +14,12 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
 import Button from '../../Button/Button';
 import { FC } from 'react';
-import FileSelector from '../../FileSelector/FileSelector';
 import { Link } from 'preact-router';
 import Logo from '../../../assets/svg/Logo.svg';
 import Modal from '../../Modal/Modal';
 import ShrugSVG from '../../../assets/svg/Shrug.svg';
 import Spinner from '../../Spinner/Spinner';
 import classes from './Header.module.scss';
-import importGeneratedRatings from '../../../utils/migration/importGeneratedRatings';
 
 const Auth = lazy(() => import('../../Auth/Auth'));
 
@@ -33,23 +31,6 @@ const Header: FC = (): JSX.Element => {
   const displayAuthModal = (): void => setShowModal(true);
 
   const logout = (): void => resetUserState();
-
-  const uploadFile = (event: { target: { files: Blob[] } }): void => {
-    try {
-      const fileReader = new FileReader();
-
-      fileReader.readAsText(event.target.files[0]);
-      fileReader.onload = (): void => {
-        try {
-          importGeneratedRatings(JSON.parse(fileReader.result as string));
-        } catch (error) {
-          console.error(error);
-        }
-      };
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
     <header>
@@ -72,7 +53,7 @@ const Header: FC = (): JSX.Element => {
             </MDBNavbarNav>
           </div>
 
-          <FileSelector onChange={(event): void => uploadFile(event)} />
+          {/* <FileSelector onChange={(event): void => uploadFile(event)} /> */}
 
           <MDBInput className={`${classes.SearchInput} bg-light`} label="Search" type="text" />
 
