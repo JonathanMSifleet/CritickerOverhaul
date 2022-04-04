@@ -1,6 +1,6 @@
 import { ChangeEvent, FC } from 'react';
-
 import { MDBInput } from 'mdb-react-ui-kit';
+import Warning from './Warning/Warning';
 import classes from './Input.module.scss';
 
 interface IProps {
@@ -25,29 +25,21 @@ const Input: FC<IProps> = ({
   textarea,
   type,
   value
-}) => {
-  return (
-    <>
-      <MDBInput
-        autoComplete={autoComplete}
-        checked={checked}
-        className={`${classes.FormInput} ${className} form-control`}
-        id="formControlDefault"
-        label={placeholder}
-        onChange={onChange}
-        textarea={textarea}
-        type={type}
-        value={value}
-      />
-      {errors && errors!.length > 0
-        ? errors!.map((message: string) => (
-            <li key={message} className={`${classes.ValidationText} text-danger`}>
-              {message}
-            </li>
-          ))
-        : null}
-    </>
-  );
-};
+}) => (
+  <>
+    <MDBInput
+      autoComplete={autoComplete}
+      checked={checked}
+      className={`${classes.FormInput} ${className} form-control`}
+      id="formControlDefault"
+      label={placeholder}
+      onChange={onChange}
+      textarea={textarea}
+      type={type}
+      value={value}
+    />
+    {errors && errors!.length > 0 ? errors!.map((message: string) => <Warning key={message} text={message} />) : null}
+  </>
+);
 
 export default Input;
