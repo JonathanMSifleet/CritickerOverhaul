@@ -3,9 +3,7 @@ import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import createDynamoSearchQuery from './queries/createDynamoSearchQuery';
 
-const dbClient = new DynamoDBClient({});
-
-const getUserAvatarFromDB = async (username: string): Promise<string | Error> => {
+const getUserAvatarFromDB = async (dbClient: DynamoDBClient, username: string): Promise<string | Error> => {
   const query = createDynamoSearchQuery(process.env.AVATAR_TABLE_NAME!, 'image', 'username', username, 'S');
 
   try {

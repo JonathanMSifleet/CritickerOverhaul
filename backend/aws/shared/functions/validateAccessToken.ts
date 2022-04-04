@@ -4,9 +4,11 @@ import { unmarshall } from '@aws-sdk/util-dynamodb';
 import createDynamoSearchQuery from './queries/createDynamoSearchQuery';
 import IHTTP from '../interfaces/IHTTP';
 
-const dbClient = new DynamoDBClient({});
-
-const validateAccessToken = async (username: string, accessToken: string): Promise<IHTTP | boolean> => {
+const validateAccessToken = async (
+  dbClient: DynamoDBClient,
+  username: string,
+  accessToken: string
+): Promise<IHTTP | boolean> => {
   const params = createDynamoSearchQuery(process.env.USER_TABLE_NAME!, 'accessToken', 'username', username, 'S');
 
   const result = await dbClient.send(new QueryCommand(params));

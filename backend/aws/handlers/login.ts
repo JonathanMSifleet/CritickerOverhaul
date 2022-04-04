@@ -72,7 +72,7 @@ const createNewAccessToken = async (username: string): Promise<string> => {
 };
 
 const getUserAvatar = async (username: string): Promise<string | undefined> => {
-  const avatar = await getUserAvatarFromDB(username);
+  const avatar = await getUserAvatarFromDB(dbClient, username);
 
   return avatar instanceof Error ? undefined : avatar;
 };

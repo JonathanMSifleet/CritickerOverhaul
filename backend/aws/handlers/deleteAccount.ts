@@ -22,7 +22,7 @@ const deleteAccount = async (event: {
   const username = event.pathParameters.username;
 
   const accessToken = event.headers.Authorization.split(' ')[1];
-  const validToken = await validateAccessToken(username, accessToken);
+  const validToken = await validateAccessToken(dbClient, username, accessToken);
   if (validToken !== true) return createAWSResErr(401, 'Access token invalid');
 
   const ratings = await getUserRatings(dbClient, username, 'imdbID');
