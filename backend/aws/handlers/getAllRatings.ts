@@ -5,7 +5,7 @@ import { parse } from 'query-string';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import chunk from 'chunk';
 import cors from '@middy/http-cors';
-import createDynamoSearchQuery from '../shared/functions/DynamoDB/createDynamoSearchQuery';
+import createDynamoSearchQuery from '../shared/functions/queries/createDynamoSearchQuery';
 import IFilm from '../../../shared/interfaces/IFilm';
 import IHTTP from '../shared/interfaces/IHTTP';
 import middy from '@middy/core';

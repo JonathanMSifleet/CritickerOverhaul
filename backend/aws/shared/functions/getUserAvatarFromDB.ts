@@ -1,7 +1,7 @@
 import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
 
 import { unmarshall } from '@aws-sdk/util-dynamodb';
-import createDynamoSearchQuery from './DynamoDB/createDynamoSearchQuery';
+import createDynamoSearchQuery from './queries/createDynamoSearchQuery';
 
 const dbClient = new DynamoDBClient({});
 

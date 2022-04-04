@@ -1,6 +1,6 @@
 import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
 
-import createDynamoSearchQuery from './DynamoDB/createDynamoSearchQuery';
+import createDynamoSearchQuery from './queries/createDynamoSearchQuery';
 
 const getNumRatingsFromDB = async (dbClient: DynamoDBClient, username: string): Promise<number> => {
   const query = createDynamoSearchQuery(

@@ -3,8 +3,8 @@ import { DynamoDBClient, QueryCommand, QueryCommandOutput, UpdateItemCommand } f
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import cors from '@middy/http-cors';
-import createDynamoSearchQuery from '../shared/functions/DynamoDB/createDynamoSearchQuery';
-import createDynamoUpdateQuery from '../shared/functions/DynamoDB/createDynamoUpdateQuery';
+import createDynamoSearchQuery from '../shared/functions/queries/createDynamoSearchQuery';
+import createDynamoUpdateQuery from '../shared/functions/queries/createDynamoUpdateQuery';
 import generateAccessToken from '../shared/functions/generateAccessToken';
 import getUserAvatarFromDB from '../shared/functions/getUserAvatarFromDB';
 import IHTTP from '../shared/interfaces/IHTTP';
