@@ -1,27 +1,28 @@
 import * as endpoints from '../../constants/endpoints';
-
+import { deleteAccountModalState, userInfoState } from '../../store';
 import { FC, useEffect, useState } from 'react';
-import { Suspense, lazy } from 'preact/compat';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-
-import Avatar from './Avatar/Avatar';
-import FileSelector from '../../components/FileSelector/FileSelector';
-import IRating from '../../../../shared/interfaces/IRating';
-import IUrlParams from '../../interfaces/IUrlParams';
-import IUserProfile from '../../../../shared/interfaces/IUserProfile';
+import { lazy, Suspense } from 'preact/compat';
 import { Link } from 'preact-router/match';
 import { MDBCol } from 'mdb-react-ui-kit';
-import PageView from '../../components/PageView/PageView';
-import Spinner from '../../components/Spinner/Spinner';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { XMLParser } from 'fast-xml-parser';
+import Avatar from './Avatar/Avatar';
+import Button from '../../components/Button/Button';
 import chunk from 'chunk';
 import classes from './Profile.module.scss';
+import FileSelector from '../../components/FileSelector/FileSelector';
 import getCellColour from '../../utils/getCellColour';
 import getColourGradient from '../../utils/getColourGradient';
 import httpRequest from '../../utils/httpRequest';
-import { userInfoState } from '../../store';
+import IRating from '../../../../shared/interfaces/IRating';
+import IUrlParams from '../../interfaces/IUrlParams';
+import IUserProfile from '../../../../shared/interfaces/IUserProfile';
+import PageView from '../../components/PageView/PageView';
+import Spinner from '../../components/Spinner/Spinner';
+import SpinnerButton from '../../components/SpinnerButton/SpinnerButton';
 
 const UpdateUserDetailsForm = lazy(() => import('./UpdateUserDetailsForm/UpdateUserDetailsForm'));
+const Modal = lazy(() => import('../../components/Modal/Modal'));
 
 interface IRecentRating {
   createdAt: number;
@@ -35,14 +36,16 @@ interface IRecentRating {
 const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   const [importMessage, setImportMessage] = useState('');
   const [importingRatings, setImportingRatings] = useState(false);
+  const [isDeletingAccount, _setIsDeletingAccount] = useState(false);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const [isLoadingRecentRatings, setIsLoadingRecentRatings] = useState(false);
   const [recentRatings, setRecentRatings] = useState(null as null | IRecentRating[][]);
   const [shouldLoadAvatar, setShouldLoadAvatar] = useState(false);
+  const [showModal, setShowModal] = useRecoilState(deleteAccountModalState);
   const [showUpdateDetailsForm, setShowUpdateDetailsForm] = useState(false);
   const [userProfile, setUserProfile] = useState(null as null | IUserProfile);
-  const userState = useRecoilValue(userInfoState);
   const setUserInfo = useSetRecoilState(userInfoState);
+  const userState = useRecoilValue(userInfoState);
 
   useEffect(() => {
     (async (): Promise<void> => {
@@ -79,6 +82,17 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
         .finally(() => setIsLoadingRecentRatings(false));
     })();
   }, [username]);
+
+  const deleteAccount = async (): Promise<void> => {
+    const result = await httpRequest(
+      `${endpoints.DELETE_ACCOUNT}/${userState.username}`,
+      'DELETE',
+      userState.accessToken
+    );
+    console.log('🚀 ~ file: Profile.tsx ~ line 88 ~ deleteAccount ~ result', result);
+  };
+
+  const displayDeleteAccountModal = (): void => setShowModal(true);
 
   const epochToDate = (epoch: number): string => new Date(epoch).toLocaleDateString('en-GB');
 
@@ -169,6 +183,15 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                 username={username!}
                 userState={userState}
               />
+
+              {userState.username === username || username === '' ? (
+                <Button
+                  className={`${classes.DeleteAccountButton} bg-danger`}
+                  // eslint-disable-next-line @typescript-eslint/no-empty-function
+                  onClick={displayDeleteAccountModal}
+                  text={'Delete account'}
+                />
+              ) : null}
 
               <div className={classes.UserDetails}>
                 <h1 className={classes.UsernameHeader}>
@@ -285,6 +308,30 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
       ) : (
         <Spinner />
       )}
+      {showModal ? (
+        <Modal authState={deleteAccountModalState}>
+          <div className={classes.ModalContentWrapper}>
+            <p>Are you sure you wish to delete your account? Deletion is permanent and CANNOT be undone: </p>
+            <div className={classes.ModalButtonWrapper}>
+              {!isDeletingAccount ? (
+                <Button
+                  className={`${classes.ModalButton} bg-danger`}
+                  text={'Delete account'}
+                  onClick={deleteAccount}
+                />
+              ) : (
+                <SpinnerButton className="bg-danger" />
+              )}
+
+              <Button
+                className={`${classes.ModalButton} bg-success`}
+                text={'Cancel'}
+                onClick={(): void => setShowModal(false)}
+              />
+            </div>
+          </div>
+        </Modal>
+      ) : null}
     </PageView>
   );
 };

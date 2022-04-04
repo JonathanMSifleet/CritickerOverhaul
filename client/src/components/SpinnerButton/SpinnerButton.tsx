@@ -1,15 +1,17 @@
+import { FC } from 'react';
 import { MDBBtn, MDBSpinner } from 'mdb-react-ui-kit';
 
-import { FC } from 'react';
+interface IProps {
+  className?: string;
+  outerClassName?: string;
+}
 
-const SpinnerButton: FC = () => {
-  return (
-    <div className="d-flex justify-content-center">
-      <MDBBtn disabled className="me-2">
-        <MDBSpinner size="sm" role="status" tag="span" />
-      </MDBBtn>
-    </div>
-  );
-};
+const SpinnerButton: FC<IProps> = ({ className }) => (
+  <div className="d-flex justify-content-center">
+    <MDBBtn className={`${className} me-2`} disabled>
+      <MDBSpinner size="sm" role="status" tag="span" />
+    </MDBBtn>
+  </div>
+);
 
 export default SpinnerButton;

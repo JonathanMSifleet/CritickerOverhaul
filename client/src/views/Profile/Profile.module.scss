@@ -4,6 +4,10 @@
   background-color: white !important;
 }
 
+.DeleteAccountButton {
+  float: right;
+}
+
 .UserDetails {
   float: left;
   margin: 1%;
@@ -81,4 +85,26 @@
 
 .RatingPercentile {
   font-size: 0.8rem;
+}
+
+.ModalContentWrapper {
+  background-color: white;
+  border-radius: 25px;
+  left: 50%;
+  padding: 2vw;
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 25vw;
+  z-index: 4;
+}
+
+.ModalButtonWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.ModalButton {
+  float: left;
+  width: 45%;
 }

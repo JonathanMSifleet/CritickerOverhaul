@@ -44,7 +44,7 @@ functions:
     events:
       - http:
           method: DELETE
-          path: deleteAccount
+          path: user/deleteAccount/{username}
           cors: true
           authorizer: ${self:custom.authoriser}
   deleteRating:
