@@ -1,10 +1,9 @@
-import { DynamoDBClient, QueryCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
-import { unmarshall } from '@aws-sdk/util-dynamodb';
 import cors from '@middy/http-cors';
-import createDynamoSearchQuery from '../../shared/functions/DynamoDB/createDynamoSearchQuery';
-import createDynamoUpdateQuery from '../../shared/functions/DynamoDB/createDynamoUpdateQuery';
+import createDynamoUpdateQuery from '../../shared/functions/queries/createDynamoUpdateQuery';
+import getUserRatings from '../../shared/functions/getUserRatings';
 import IHTTP from '../../shared/interfaces/IHTTP';
 import middy from '@middy/core';
 import percentRank from 'percentile-rank';
@@ -21,7 +20,7 @@ interface IRating {
 const updatePercentiles = async (event: { pathParameters: { username: string } }): Promise<IHTTP> => {
   const username = event.pathParameters.username;
 
-  const ratings = (await getRatings(username)) as IRating[];
+  const ratings = (await getUserRatings(dbClient, username, 'imdbID, rating')) as unknown as IRating[];
   if (ratings instanceof Error) return createAWSResErr(520, ratings.message);
 
   const ratingValues = ratings.map((rating) => rating.rating);
@@ -53,26 +52,6 @@ export const handler = middy(updatePercentiles).use(cors());
 
 const calculatePercentile = (ratings: number[], curRating: number): number =>
   Math.round(percentRank(ratings, curRating) * 100);
-
-const getRatings = async (username: string): Promise<IHTTP | IRating[]> => {
-  const query = createDynamoSearchQuery(
-    process.env.RATINGS_TABLE_NAME!,
-    'imdbID, rating',
-    'username',
-    username,
-    'S',
-    'usernameRating'
-  );
-
-  try {
-    const results = await dbClient.send(new QueryCommand(query));
-    return results.Items!.map((result) => unmarshall(result) as IRating);
-  } catch (error) {
-    if (error instanceof Error) return createAWSResErr(520, error.message);
-  }
-
-  return createAWSResErr(500, 'Unhandled Exception');
-};
 
 const updatePercentile = async (username: string, rating: IRating): Promise<void | IHTTP> => {
   const query = createDynamoUpdateQuery(

@@ -3,13 +3,14 @@ import { DynamoDBClient, QueryCommand, QueryCommandOutput } from '@aws-sdk/clien
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import cors from '@middy/http-cors';
-import createDynamoSearchQuery from './../shared/functions/DynamoDB/createDynamoSearchQuery';
+import createDynamoSearchQuery from '../shared/functions/queries/createDynamoSearchQuery';
+import getUserRatings from '../shared/functions/getUserRatings';
 import IHTTP from '../shared/interfaces/IHTTP';
 import middy from '@middy/core';
 
 const dbClient = new DynamoDBClient({});
 
-interface IUnmarshalledRating {
+interface IRating {
   imdbID: number;
   createdAt: number;
   rating: number;
@@ -19,7 +20,7 @@ interface IUnmarshalledRating {
 const getRecentRatings = async (event: { pathParameters: { username: string } }): Promise<IHTTP> => {
   const { username } = event.pathParameters;
 
-  const dynamoRatings = (await getRecentRatingsFromDynamo(username)) as IUnmarshalledRating[];
+  const dynamoRatings = (await getRecentRatingsFromDynamo(username)) as IRating[];
 
   const detailQueries: Promise<IHTTP | QueryCommandOutput>[] = [];
   dynamoRatings.forEach((rating) => {
@@ -70,22 +71,12 @@ const getFilmDetails = async (imdbID: number): Promise<IHTTP | QueryCommandOutpu
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
-const getRecentRatingsFromDynamo = async (username: string): Promise<IHTTP | IUnmarshalledRating[]> => {
-  const query = createDynamoSearchQuery(
-    process.env.RATINGS_TABLE_NAME!,
-    'imdbID, createdAt, rating, ratingPercentile',
-    'username',
-    username,
-    'S',
-    'usernameCreatedAt'
-  );
-  query.ScanIndexForward = false;
-  query.Limit = 20;
-
+const getRecentRatingsFromDynamo = async (username: string): Promise<IHTTP | IRating[]> => {
   try {
-    const results = await dbClient.send(new QueryCommand(query));
-
-    return results.Items!.map((result) => unmarshall(result)) as IUnmarshalledRating[];
+    return (await getUserRatings(dbClient, username, 'imdbID, createdAt, rating, ratingPercentile', {
+      ScanIndexForward: false,
+      Limit: 20
+    })) as IRating[];
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(500, error.message);
   }

@@ -1,10 +1,10 @@
-import { DynamoDBClient, PutItemCommand, QueryCommand } from '@aws-sdk/client-dynamodb';
-import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
+import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb';
+import { marshall } from '@aws-sdk/util-dynamodb';
 
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import alterNumRatings from '../shared/functions/alterNumRatings';
 import cors from '@middy/http-cors';
-import createDynamoSearchQuery from './../shared/functions/DynamoDB/createDynamoSearchQuery';
+import getUserRatings from '../shared/functions/getUserRatings';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IRating from '../../../shared/interfaces/IRating';
 import middy from '@middy/core';
@@ -55,19 +55,10 @@ const rateFilm = async (event: {
 };
 
 const getPercentile = async (rating: number, username: string): Promise<number> => {
-  const query = createDynamoSearchQuery(
-    process.env.RATINGS_TABLE_NAME!,
-    'rating',
-    'username',
-    username,
-    'S',
-    'usernameRating'
-  );
+  const results = (await getUserRatings(dbClient, username, 'rating')) as IRating[];
+  const ratings = results.map((result) => result.rating);
 
-  const results = await dbClient.send(new QueryCommand(query));
-  const unmarshalledResults = results.Items!.map((result) => unmarshall(result).rating);
-
-  return Math.round(percentRank(unmarshalledResults, rating) * 100);
+  return Math.round(percentRank(ratings, rating) * 100);
 };
 
 const insertRatingToDB = async (payload: IRating): Promise<IHTTP | void> => {

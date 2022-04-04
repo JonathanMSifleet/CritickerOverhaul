@@ -1,15 +1,9 @@
-import {
-  BatchWriteItemCommand,
-  BatchWriteItemCommandOutput,
-  DynamoDBClient,
-  QueryCommand
-} from '@aws-sdk/client-dynamodb';
+import { BatchWriteItemCommand, BatchWriteItemCommandOutput, DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import { DeleteItemCommand } from '@aws-sdk/client-dynamodb';
-import { unmarshall } from '@aws-sdk/util-dynamodb';
 import chunk from 'chunk';
 import cors from '@middy/http-cors';
-import createDynamoSearchQuery from '../shared/functions/DynamoDB/createDynamoSearchQuery';
+import getUserRatings from '../shared/functions/getUserRatings';
 import IHTTP from '../shared/interfaces/IHTTP';
 import middy from '@middy/core';
 import validateAccessToken from '../shared/functions/validateAccessToken';
@@ -31,7 +25,7 @@ const deleteAccount = async (event: {
   const validToken = await validateAccessToken(username, accessToken);
   if (validToken !== true) return createAWSResErr(401, 'Access token invalid');
 
-  const ratings = await getRatings(username);
+  const ratings = await getUserRatings(dbClient, username, 'imdbID');
   if (ratings instanceof Error) return createAWSResErr(520, 'Error fetching ratings');
 
   const deleteRequests = [];
@@ -114,26 +108,6 @@ const deleteRatings = async (username: string, ratings: IRating[]): Promise<IHTT
     await Promise.all(deleteRequests);
     console.log('Sucessfully deleted ratings');
     return;
-  } catch (error) {
-    if (error instanceof Error) return createAWSResErr(520, error.message);
-  }
-
-  return createAWSResErr(500, 'Unhandled Exception');
-};
-
-const getRatings = async (username: string): Promise<IHTTP | IRating[]> => {
-  const query = createDynamoSearchQuery(
-    process.env.RATINGS_TABLE_NAME!,
-    'imdbID',
-    'username',
-    username,
-    'S',
-    'usernameRating'
-  );
-
-  try {
-    const results = await dbClient.send(new QueryCommand(query));
-    return results.Items!.map((result) => unmarshall(result) as IRating);
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, error.message);
   }
