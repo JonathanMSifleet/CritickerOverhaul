@@ -1,9 +1,9 @@
-import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb';
-import { marshall } from '@aws-sdk/util-dynamodb';
-
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
+import { DynamoDBClient, PutItemCommand, QueryCommand } from '@aws-sdk/client-dynamodb';
+import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 import alterNumRatings from '../shared/functions/alterNumRatings';
 import cors from '@middy/http-cors';
+import createDynamoSearchQuery from '../shared/functions/queries/createDynamoSearchQuery';
 import getUserRatings from '../shared/functions/getUserRatings';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IRating from '../../../shared/interfaces/IRating';
@@ -23,7 +23,7 @@ const rateFilm = async (event: {
 
   const accessToken = event.headers.Authorization.split(' ')[1];
 
-  const validToken = await validateAccessToken(username, accessToken);
+  const validToken = await validateAccessToken(dbClient, username, accessToken);
   if (validToken !== true) return createAWSResErr(401, 'Access token invalid');
 
   const payload: IRating = {
@@ -36,10 +36,13 @@ const rateFilm = async (event: {
   if (review) payload.review = review;
 
   try {
-    const percentile = await getPercentile(payload.rating, username);
-    payload.ratingPercentile = percentile;
+    const percentile = await getFilmWithSameRating(username, payload.rating);
+    payload.ratingPercentile = (
+      percentile instanceof Error ? await getPercentile(payload.rating, username) : percentile
+    ) as number;
 
-    await insertRatingToDB(payload);
+    const result = await insertRatingToDB(payload);
+    if (result instanceof Error) return createAWSResErr(520, result.message);
 
     if (!reviewAlreadyExists) await alterNumRatings(dbClient, username, 1);
 
@@ -51,14 +54,42 @@ const rateFilm = async (event: {
     if (error instanceof Error) return createAWSResErr(520, error.message);
   }
 
-  return createAWSResErr(500, 'Unhandled Exception');
+  return createAWSResErr(520, 'Unhandled Exception');
 };
+
+export const handler = middy(rateFilm).use(cors());
 
 const getPercentile = async (rating: number, username: string): Promise<number> => {
   const results = (await getUserRatings(dbClient, username, 'rating')) as IRating[];
   const ratings = results.map((result) => result.rating);
 
   return Math.round(percentRank(ratings, rating) * 100);
+};
+
+const getFilmWithSameRating = async (username: string, rating: number): Promise<IHTTP | { [key: string]: number }> => {
+  const query = createDynamoSearchQuery(
+    process.env.RATINGS_TABLE_NAME!,
+    'ratingPercentile',
+    'username',
+    username,
+    'S',
+    'usernameRating',
+    'rating',
+    rating.toString(),
+    'N'
+  );
+  query.Limit = 1;
+  query.ScanIndexForward = false;
+  query.KeyConditionExpression = 'username = :username AND rating <= :rating';
+
+  try {
+    const result = await dbClient.send(new QueryCommand(query));
+    return unmarshall(result.Items![0]).ratingPercentile;
+  } catch (error) {
+    if (error instanceof Error) return createAWSResErr(520, error.message);
+  }
+
+  return createAWSResErr(500, 'Unhandled Exception');
 };
 
 const insertRatingToDB = async (payload: IRating): Promise<IHTTP | void> => {
@@ -78,5 +109,3 @@ const insertRatingToDB = async (payload: IRating): Promise<IHTTP | void> => {
 
   return createAWSResErr(500, 'Unhandled Exception');
 };
-
-export const handler = middy(rateFilm).use(cors());
