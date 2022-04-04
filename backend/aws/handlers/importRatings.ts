@@ -80,9 +80,7 @@ const importRatings = async (event: { body: string; pathParameters: { username: 
 export const handler = middy(importRatings).use(cors());
 
 const batchInsertRatings = async (reviews: IRating[]): Promise<BatchWriteItemCommandOutput | IHTTP> => {
-  const items: { PutRequest: { Item: { [key: string]: AttributeValue } } }[] = [];
-
-  reviews.forEach((review: IRating) => items.push({ PutRequest: { Item: marshall(review) } }));
+  const items = reviews.map((review) => ({ PutRequest: { Item: marshall(review) } }));
 
   const params = {
     RequestItems: {
