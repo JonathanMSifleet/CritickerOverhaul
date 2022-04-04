@@ -74,7 +74,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
 
       httpRequest(`${endpoints.GET_RECENT_RATINGS}/${localUsername}`, 'GET')
         .then((ratings) => {
-          setRecentRatings(chunk(ratings, 10));
+          setRecentRatings(chunk(ratings, Math.ceil(ratings.length / 2)));
         })
         .finally(() => setIsLoadingRecentRatings(false));
     })();
