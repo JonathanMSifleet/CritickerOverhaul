@@ -25,8 +25,6 @@ const Auth: FC = () => {
           text="Register"
         />
       </div>
-      {/* <p className={classes.InstructionText}>{displayLoginForm
-        ? 'Log in' : 'Register'} with:</p> */}
 
       {displayLoginForm ? <Login /> : <SignUp />}
     </div>

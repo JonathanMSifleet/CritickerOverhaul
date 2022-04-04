@@ -2,7 +2,7 @@ import * as endpoints from '../../../constants/endpoints';
 
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 
-import { modalState } from '../../../store';
+import { authModalState } from '../../../store';
 import { useSetRecoilState } from 'recoil';
 import Button from '../../Button/Button';
 import Checkbox from '../../Checkbox/Checkbox';
@@ -29,7 +29,7 @@ const SignUp: FC = () => {
   const [shouldSignup, setShouldSignup] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
   const [usernameValidationMessages, setUsernameValidationMessages] = useState([] as string[]);
-  const setShowModal = useSetRecoilState(modalState);
+  const setShowModal = useSetRecoilState(authModalState);
 
   useEffect(() => {
     setSubmitDisabled(

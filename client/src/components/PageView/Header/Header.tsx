@@ -1,4 +1,7 @@
+import { authModalState, userInfoState } from '../../../store';
+import { FC } from 'react';
 import { lazy, Suspense } from 'preact/compat';
+import { Link } from 'preact-router';
 import {
   MDBContainer,
   MDBIcon,
@@ -9,11 +12,7 @@ import {
   MDBNavbarNav,
   MDBNavbarToggler
 } from 'mdb-react-ui-kit';
-import { modalState, userInfoState } from '../../../store';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-
-import { FC } from 'react';
-import { Link } from 'preact-router';
 import Button from '../../Button/Button';
 import classes from './Header.module.scss';
 import FileSelector from '../../FileSelector/FileSelector';
@@ -26,7 +25,7 @@ import uploadFile from '../../../utils/uploadFile';
 const Auth = lazy(() => import('../../Auth/Auth'));
 
 const Header: FC = (): JSX.Element => {
-  const [showModal, setShowModal] = useRecoilState(modalState);
+  const [showModal, setShowModal] = useRecoilState(authModalState);
   const resetUserState = useResetRecoilState(userInfoState);
   const userState = useRecoilValue(userInfoState);
 
@@ -84,7 +83,7 @@ const Header: FC = (): JSX.Element => {
         </MDBContainer>
       </MDBNavbar>
       {showModal ? (
-        <Modal>
+        <Modal authState={authModalState}>
           {/* @ts-expect-error works correctly */}
           <Suspense fallback={<Spinner />}>
             <Auth />

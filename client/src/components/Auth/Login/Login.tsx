@@ -1,8 +1,6 @@
 import * as endpoints from '../../../constants/endpoints';
-
+import { authModalState, userInfoState } from '../../../store';
 import { FC, useEffect, useState } from 'react';
-import { modalState, userInfoState } from '../../../store';
-
 import { useSetRecoilState } from 'recoil';
 import Button from '../../Button/Button';
 import classes from './Login.module.scss';
@@ -24,7 +22,7 @@ const Login: FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [shouldLogin, setShouldLogin] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
-  const setShowModal = useSetRecoilState(modalState);
+  const setShowModal = useSetRecoilState(authModalState);
   const setUserInfo = useSetRecoilState(userInfoState);
 
   useEffect(() => {

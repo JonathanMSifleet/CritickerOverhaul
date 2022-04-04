@@ -3,12 +3,13 @@ import Backdrop from './Backdrop/Backdrop';
 import classes from './Modal.module.scss';
 
 interface IProps {
+  authState: any;
   children: React.ReactNode;
 }
 
-const Modal: FC<IProps> = ({ children }) => (
+const Modal: FC<IProps> = ({ authState, children }) => (
   <>
-    <Backdrop />
+    <Backdrop authState={authState} />
     <div className={classes.Modal}>{children}</div>
   </>
 );

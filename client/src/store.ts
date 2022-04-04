@@ -5,8 +5,13 @@ import IUserState from './interfaces/IUserState';
 
 const { persistAtom } = recoilPersist({ key: 'userState' });
 
-export const modalState = atom({
-  key: 'SHOW_MODAL',
+export const authModalState = atom({
+  key: 'SHOW_AUTH_MODAL',
+  default: false
+});
+
+export const deleteAccountModalState = atom({
+  key: 'SHOW_DELETE_ACCOUNT_MODAL',
   default: false
 });
 
