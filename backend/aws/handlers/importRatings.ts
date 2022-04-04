@@ -19,6 +19,7 @@ import IHTTP from '../shared/interfaces/IHTTP';
 import IRating from '../../../shared/interfaces/IRating';
 import middy from '@middy/core';
 import percentRank from 'percentile-rank';
+import validateAccessToken from '../shared/functions/validateAccessToken';
 
 const dbClient = new DynamoDBClient({});
 
@@ -33,9 +34,18 @@ interface IPercentile {
   percentile: number;
 }
 
-const importRatings = async (event: { body: string; pathParameters: { username: string } }): Promise<IHTTP> => {
-  const { ratings } = JSON.parse(event.body);
+const importRatings = async (event: {
+  body: string;
+  headers: { Authorization: string };
+  pathParameters: { username: string };
+}): Promise<IHTTP> => {
   const { username } = event.pathParameters;
+  const accessToken = event.headers.Authorization.split(' ')[1];
+
+  const validToken = await validateAccessToken(username, accessToken);
+  if (validToken !== true) return createAWSResErr(401, 'Access token invalid');
+
+  const { ratings } = JSON.parse(event.body);
 
   const filteredRatings = await filterRatings(ratings, username);
   const chunkedRatings = chunk(filteredRatings, 25);
