@@ -141,6 +141,7 @@ functions:
           cors: true
   rateFilm:
     handler: aws/handlers/rateFilm.handler
+    timeout: 30
     events:
       - http:
           method: POST

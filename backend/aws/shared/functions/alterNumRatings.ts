@@ -3,7 +3,7 @@ import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import { createAWSResErr } from './createAWSResErr';
 import IHTTP from '../interfaces/IHTTP';
 
-const alterNumRatings = async (dbClient: DynamoDBClient, username: string, value: number): Promise<void | IHTTP> => {
+const alterNumRatings = async (dbClient: DynamoDBClient, username: string, value: number): Promise<number | IHTTP> => {
   const params = {
     TableName: process.env.USER_TABLE_NAME!,
     Key: {
@@ -17,9 +17,10 @@ const alterNumRatings = async (dbClient: DynamoDBClient, username: string, value
   };
 
   try {
-    await dbClient.send(new UpdateItemCommand(params));
+    const result = await dbClient.send(new UpdateItemCommand(params));
+
     console.log('Number of ratings altered successfully');
-    return;
+    return Number(result.Attributes!.numRatings.N);
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, error.message);
   }

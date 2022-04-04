@@ -1,9 +1,16 @@
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
-import { DynamoDBClient, PutItemCommand, QueryCommand } from '@aws-sdk/client-dynamodb';
+import {
+  DynamoDBClient,
+  PutItemCommand,
+  QueryCommand,
+  UpdateItemCommand,
+  UpdateItemCommandOutput
+} from '@aws-sdk/client-dynamodb';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 import alterNumRatings from '../shared/functions/alterNumRatings';
 import cors from '@middy/http-cors';
 import createDynamoSearchQuery from '../shared/functions/queries/createDynamoSearchQuery';
+import createDynamoUpdateQuery from '../shared/functions/queries/createDynamoUpdateQuery';
 import getUserRatings from '../shared/functions/getUserRatings';
 import IHTTP from '../shared/interfaces/IHTTP';
 import IRating from '../../../shared/interfaces/IRating';
@@ -44,7 +51,11 @@ const rateFilm = async (event: {
     const result = await insertRatingToDB(payload);
     if (result instanceof Error) return createAWSResErr(520, result.message);
 
-    if (!reviewAlreadyExists) await alterNumRatings(dbClient, username, 1);
+    if (!reviewAlreadyExists) {
+      const numRatings = (await alterNumRatings(dbClient, username, 1)) as number;
+
+      if (numRatings % 25 === 0) await regeneratePercentiles(username);
+    }
 
     return {
       statusCode: 201,
@@ -105,6 +116,41 @@ const insertRatingToDB = async (payload: IRating): Promise<IHTTP | void> => {
     return;
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, error.message);
+  }
+
+  return createAWSResErr(500, 'Unhandled Exception');
+};
+
+const regeneratePercentiles = async (username: string): Promise<IHTTP | void> => {
+  const ratings = (await getUserRatings(dbClient, username, 'imdbID, rating')) as IRating[];
+  const extractedRatings = ratings.map((rating) => rating.rating);
+
+  const percentileRequests: Promise<UpdateItemCommandOutput>[] = [];
+  ratings.forEach((rating) => {
+    const percentile = Math.round(percentRank(extractedRatings, rating.rating) * 100);
+
+    const params = createDynamoUpdateQuery(
+      process.env.RATINGS_TABLE_NAME!,
+      'imdbID',
+      rating.imdbID.toString(),
+      'N',
+      'ratingPercentile',
+      percentile.toString(),
+      'N',
+      'username',
+      username,
+      'S'
+    );
+
+    percentileRequests.push(dbClient.send(new UpdateItemCommand(params)));
+  });
+
+  try {
+    await Promise.all(percentileRequests);
+    console.log('Successfully regenerated percentiles');
+    return;
+  } catch (error) {
+    if (error instanceof Error) return createAWSResErr(500, error.message);
   }
 
   return createAWSResErr(500, 'Unhandled Exception');
