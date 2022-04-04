@@ -19,15 +19,8 @@ const httpRequest = async (url: string, method: string, accessToken?: IAccessTok
     headers
   };
 
-  if (body) options.body = body;
-
-  if (accessToken !== undefined) {
-    options.headers = { ...headers, Authorization: `Bearer ${accessToken?.accessToken}` };
-    // @ts-expect-error body is object
-    if (body) options.body = { ...options.body, accessToken: accessToken!.accessToken };
-  }
-
   if (body) options.body = JSON.stringify(options.body);
+  if (accessToken !== undefined) options.headers = { ...headers, Authorization: `Bearer ${accessToken?.accessToken}` };
 
   const result = await fetch(url, options);
   return result.status === 204 ? { statusCode: 204 } : await result.json();

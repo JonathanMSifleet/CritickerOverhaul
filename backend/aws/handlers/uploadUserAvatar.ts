@@ -9,11 +9,13 @@ import validateAccessToken from './../shared/functions/validateAccessToken';
 const dbClient = new DynamoDBClient({});
 
 export const uploadUserAvatar = async (event: {
-  pathParameters: { username: string };
   body: string;
+  headers: { Authorization: string };
+  pathParameters: { username: string };
 }): Promise<IHTTP> => {
-  const { image, accessToken } = JSON.parse(event.body);
+  const { image } = JSON.parse(event.body);
   const { username } = event.pathParameters;
+  const accessToken = event.headers.Authorization.split(' ')[1];
 
   const validToken = await validateAccessToken(username, accessToken);
   if (validToken !== true) return createAWSResErr(401, 'Access token invalid');

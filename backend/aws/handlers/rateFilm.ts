@@ -13,9 +13,15 @@ import validateAccessToken from '../shared/functions/validateAccessToken';
 
 const dbClient = new DynamoDBClient({});
 
-const rateFilm = async (event: { body: string; pathParameters: { username: string } }): Promise<IHTTP> => {
-  const { accessToken, imdbID, rating, review, reviewAlreadyExists } = JSON.parse(event.body);
+const rateFilm = async (event: {
+  body: string;
+  headers: { Authorization: string };
+  pathParameters: { username: string };
+}): Promise<IHTTP> => {
+  const { imdbID, rating, review, reviewAlreadyExists } = JSON.parse(event.body);
   const { username } = event.pathParameters;
+
+  const accessToken = event.headers.Authorization.split(' ')[1];
 
   const validToken = await validateAccessToken(username, accessToken);
   if (validToken !== true) return createAWSResErr(401, 'Access token invalid');
