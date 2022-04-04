@@ -180,14 +180,14 @@ functions:
   #         method: POST
   #         path: mockData/addAccounts
   #         cors: true
-  importAvatars:
-    handler: aws/handlers/mockData/importAvatars.handler
-    timeout: 30
-    events:
-      - http:
-          method: POST
-          path: mockData/importAvatars
-          cors: true
+  # importAvatars:
+  #   handler: aws/handlers/mockData/importAvatars.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         method: POST
+  #         path: mockData/importAvatars
+  #         cors: true
   # importGeneratedRatings:
   #   handler: aws/handlers/mockData/importGeneratedRatings.handler
   #   timeout: 30
@@ -204,6 +204,14 @@ functions:
   #         method: PUT
   #         path: mockData/importGeneratedRatings
   #         cors: true
+  updatePercentiles:
+    handler: aws/handlers/mockData/updatePercentiles.handler
+    timeout: 30
+    events:
+      - http:
+          method: PUT
+          path: mockData/updatePercentiles/{username}
+          cors: true
 
   # migration functions:
   # addPeople:
