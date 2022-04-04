@@ -1,9 +1,7 @@
-import { DynamoDBClient, QueryCommand, QueryCommandOutput } from '@aws-sdk/client-dynamodb';
-
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
+import { DynamoDBClient, GetItemCommand } from '@aws-sdk/client-dynamodb';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import cors from '@middy/http-cors';
-import createDynamoSearchQuery from '../shared/functions/queries/createDynamoSearchQuery';
 import getUserRatings from '../shared/functions/getUserRatings';
 import IHTTP from '../shared/interfaces/IHTTP';
 import middy from '@middy/core';
@@ -22,22 +20,15 @@ const getRecentRatings = async (event: { pathParameters: { username: string } })
 
   const dynamoRatings = (await getRecentRatingsFromDynamo(username)) as IRating[];
 
-  const detailQueries: Promise<IHTTP | QueryCommandOutput>[] = [];
+  const detailQueries: Promise<IHTTP | { [key: string]: number | string }>[] = [];
   dynamoRatings.forEach((rating) => {
     detailQueries.push(getFilmDetails(rating.imdbID));
   });
 
-  const detailQueryResults = (await Promise.all(detailQueries)) as QueryCommandOutput[];
-
-  let extractedFilmDetails: { [key: string]: any }[] = [];
-  try {
-    extractedFilmDetails = detailQueryResults.map((result) => unmarshall(result.Items![0]));
-  } catch (error) {
-    return createAWSResErr(404, 'No films found');
-  }
+  const detailQueryResults = (await Promise.all(detailQueries)) as { [key: string]: number | string }[];
 
   const mergedResults = dynamoRatings.map((rating) => {
-    const matchingResult = extractedFilmDetails.find((details) => details.imdbID === rating.imdbID);
+    const matchingResult = detailQueryResults.find((details) => details.imdbID === rating.imdbID);
 
     return {
       ...rating,
@@ -53,17 +44,18 @@ const getRecentRatings = async (event: { pathParameters: { username: string } })
   };
 };
 
-const getFilmDetails = async (imdbID: number): Promise<IHTTP | QueryCommandOutput> => {
-  const query = createDynamoSearchQuery(
-    process.env.FILMS_TABLE_NAME!,
-    'imdbID, title, releaseYear',
-    'imdbID',
-    imdbID.toString(),
-    'N'
-  );
+const getFilmDetails = async (imdbID: number): Promise<IHTTP | { [key: string]: number | string }> => {
+  const query = {
+    TableName: process.env.FILMS_TABLE_NAME!,
+    Key: {
+      imdbID: { N: imdbID.toString() }
+    },
+    ProjectionExpression: 'imdbID, title, releaseYear'
+  };
 
   try {
-    return await dbClient.send(new QueryCommand(query));
+    const result = await dbClient.send(new GetItemCommand(query));
+    return unmarshall(result.Item!);
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(500, error.message);
   }
@@ -75,7 +67,8 @@ const getRecentRatingsFromDynamo = async (username: string): Promise<IHTTP | IRa
   try {
     return (await getUserRatings(dbClient, username, 'imdbID, createdAt, rating, ratingPercentile', {
       ScanIndexForward: false,
-      Limit: 20
+      Limit: 20,
+      IndexName: 'usernameCreatedAt'
     })) as IRating[];
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(500, error.message);

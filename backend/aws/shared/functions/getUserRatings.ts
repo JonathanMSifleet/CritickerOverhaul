@@ -9,7 +9,7 @@ const getUserRatings = async (
   dbClient: DynamoDBClient,
   username: string,
   fields: string,
-  options?: { [key: string]: boolean | number } | undefined
+  options?: { [key: string]: boolean | number | string } | undefined
 ): Promise<IHTTP | IRating[]> => {
   let query = createDynamoSearchQuery(
     process.env.RATINGS_TABLE_NAME!,
