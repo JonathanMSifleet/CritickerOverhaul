@@ -53,6 +53,7 @@ const SignUp: FC = () => {
 
         await httpRequest(endpoints.SIGNUP, 'POST', undefined, formInfo);
 
+        alert('Account created successfully, please login');
         setShowModal(false);
       } catch (error) {
         handleValidationMessage(extractValidationMessages(error as string));
