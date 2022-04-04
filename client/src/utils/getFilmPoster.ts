@@ -1,6 +1,6 @@
-import ShrugSVG from '../assets/svg/Shrug.svg';
 import convertIDToIMDbFormat from './convertIDToIMDbFormat';
 import httpRequest from './httpRequest';
+import ShrugSVG from '../assets/svg/Shrug.svg';
 
 const getFilmPoster = async (imdbID: number): Promise<string> => {
   const formattedID = convertIDToIMDbFormat('film', imdbID);

@@ -2,16 +2,16 @@ import * as endpoints from '../../../constants/endpoints';
 
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 
-import Button from '../../Button/Button';
-import Checkbox from '../../Checkbox/Checkbox';
-import CryptoES from 'crypto-es';
-import Input from '../../Input/Input';
-import SpinnerButton from './../../SpinnerButton/SpinnerButton';
-import classes from './Signup.module.scss';
-import extractValidationMessages from './../../../utils/extractValidationMessages';
-import httpRequest from '../../../utils/httpRequest';
 import { modalState } from '../../../store';
 import { useSetRecoilState } from 'recoil';
+import Button from '../../Button/Button';
+import Checkbox from '../../Checkbox/Checkbox';
+import classes from './Signup.module.scss';
+import CryptoES from 'crypto-es';
+import extractValidationMessages from './../../../utils/extractValidationMessages';
+import httpRequest from '../../../utils/httpRequest';
+import Input from '../../Input/Input';
+import SpinnerButton from './../../SpinnerButton/SpinnerButton';
 
 interface IState {
   email?: string;

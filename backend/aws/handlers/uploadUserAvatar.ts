@@ -1,8 +1,8 @@
 import { DynamoDBClient, PutItemCommand, PutItemCommandOutput } from '@aws-sdk/client-dynamodb';
 
-import IHTTP from '../shared/interfaces/IHTTP';
-import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
+import cors from '@middy/http-cors';
+import IHTTP from '../shared/interfaces/IHTTP';
 import middy from '@middy/core';
 import validateAccessToken from './../shared/functions/validateAccessToken';
 

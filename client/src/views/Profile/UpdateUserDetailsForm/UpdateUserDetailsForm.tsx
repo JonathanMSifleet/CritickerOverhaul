@@ -4,15 +4,15 @@ import * as endpoints from '../../../constants/endpoints';
 
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 
+import { CountryDropdown } from 'react-country-region-selector';
 import Button from '../../../components/Button/Button';
 import Calendar from 'react-calendar';
-import { CountryDropdown } from 'react-country-region-selector';
-import IUserProfile from '../../../../../shared/interfaces/IUserProfile';
-import IUserState from '../../../interfaces/IUserState';
-import Input from '../../../components/Input/Input';
-import Radio from '../../../components/Radio/Radio';
 import classes from './UpdateUserDetailsForm.module.scss';
 import httpRequest from '../../../utils/httpRequest';
+import Input from '../../../components/Input/Input';
+import IUserProfile from '../../../../../shared/interfaces/IUserProfile';
+import IUserState from '../../../interfaces/IUserState';
+import Radio from '../../../components/Radio/Radio';
 
 interface IProps {
   userProfile: IUserProfile;

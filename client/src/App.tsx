@@ -5,13 +5,13 @@ const Ratings = lazy(() => import('./views/Ratings/Ratings'));
 const TextOnlyPage = lazy(() => import('./views/TextOnlyPage/TextOnlyPage'));
 
 import { FC, useEffect, useState } from 'react';
-import { Suspense, lazy } from 'preact/compat';
+import { lazy, Suspense } from 'preact/compat';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 
-import Router from 'preact-router';
-import Spinner from './components/Spinner/Spinner';
 import { createHashHistory } from 'history';
 import { userInfoState } from './store';
+import Router from 'preact-router';
+import Spinner from './components/Spinner/Spinner';
 
 const App: FC = () => {
   const [fontReady, setFontReady] = useState(false);

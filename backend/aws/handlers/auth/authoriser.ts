@@ -1,6 +1,6 @@
-import IHTTP from '../../shared/interfaces/IHTTP';
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
 import { verify } from 'jsonwebtoken';
+import IHTTP from '../../shared/interfaces/IHTTP';
 
 interface IContext {
   [key: string]: string;

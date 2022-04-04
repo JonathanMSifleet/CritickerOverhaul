@@ -3,14 +3,14 @@ import * as endpoints from '../../../constants/endpoints';
 import { FC, useEffect, useState } from 'react';
 import { modalState, userInfoState } from '../../../store';
 
+import { useSetRecoilState } from 'recoil';
 import Button from '../../Button/Button';
+import classes from './Login.module.scss';
 import CryptoES from 'crypto-es';
+import extractValidationMessages from '../../../utils/extractValidationMessages';
 import HTTPRequest from '../../../utils/httpRequest';
 import Input from '../../Input/Input';
 import SpinnerButton from './../../SpinnerButton/SpinnerButton';
-import classes from './Login.module.scss';
-import extractValidationMessages from '../../../utils/extractValidationMessages';
-import { useSetRecoilState } from 'recoil';
 
 interface IState {
   email?: string;

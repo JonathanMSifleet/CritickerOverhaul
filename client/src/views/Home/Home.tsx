@@ -3,10 +3,10 @@ import * as endpoints from '../../constants/endpoints';
 import { FC, useEffect, useState } from 'react';
 
 import FilmCard from './FilmCard/FilmCard';
+import httpRequest from '../../utils/httpRequest';
 import IFilm from '../../../../shared/interfaces/IFilm';
 import PageView from '../../components/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
-import httpRequest from '../../utils/httpRequest';
 
 interface IUrlParams {
   path?: string;

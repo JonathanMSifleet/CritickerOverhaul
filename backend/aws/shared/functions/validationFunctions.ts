@@ -1,7 +1,7 @@
 import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
 
-import EmailValidator from 'email-validator';
 import createDynamoSearchQuery from './DynamoDB/createDynamoSearchQuery';
+import EmailValidator from 'email-validator';
 
 export const validateUserInputs = async (
   username: string,

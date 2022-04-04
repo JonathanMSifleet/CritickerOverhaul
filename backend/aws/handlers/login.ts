@@ -1,14 +1,14 @@
 import { DynamoDBClient, QueryCommand, QueryCommandOutput, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 
-import IHTTP from '../shared/interfaces/IHTTP';
-import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
+import { unmarshall } from '@aws-sdk/util-dynamodb';
+import cors from '@middy/http-cors';
 import createDynamoSearchQuery from '../shared/functions/DynamoDB/createDynamoSearchQuery';
 import createDynamoUpdateQuery from '../shared/functions/DynamoDB/createDynamoUpdateQuery';
 import generateAccessToken from '../shared/functions/generateAccessToken';
 import getUserAvatarFromDB from '../shared/functions/getUserAvatarFromDB';
+import IHTTP from '../shared/interfaces/IHTTP';
 import middy from '@middy/core';
-import { unmarshall } from '@aws-sdk/util-dynamodb';
 
 const dbClient = new DynamoDBClient({});
 

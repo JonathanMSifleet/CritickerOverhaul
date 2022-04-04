@@ -1,8 +1,8 @@
 import * as endpoints from '../../constants/endpoints';
 
-import IRating from './../../../../shared/interfaces/IRating';
 import chunk from 'chunk';
 import httpRequest from '../httpRequest';
+import IRating from './../../../../shared/interfaces/IRating';
 
 const importGeneratedRatings = async (ratings: IRating[]): Promise<void> => {
   const marshalledRatings = ratings.map((rating) => {

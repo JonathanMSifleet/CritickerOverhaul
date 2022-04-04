@@ -1,8 +1,8 @@
 import * as endpoints from '../constants/endpoints';
 
+import httpRequest from './httpRequest';
 import IUserState from '../interfaces/IUserState';
 import ShrugSVG from '../assets/svg/Shrug.svg';
-import httpRequest from './httpRequest';
 
 const getUserAvatar = async (username: string, userState: IUserState): Promise<string> => {
   if (username === undefined) return userState.avatar !== undefined ? userState.avatar : ShrugSVG;

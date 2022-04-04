@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'preact/compat';
 import {
   MDBContainer,
   MDBIcon,
@@ -8,18 +9,17 @@ import {
   MDBNavbarNav,
   MDBNavbarToggler
 } from 'mdb-react-ui-kit';
-import { Suspense, lazy } from 'preact/compat';
 import { modalState, userInfoState } from '../../../store';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 
-import Button from '../../Button/Button';
 import { FC } from 'react';
 import { Link } from 'preact-router';
+import Button from '../../Button/Button';
+import classes from './Header.module.scss';
 import Logo from '../../../assets/svg/Logo.svg';
 import Modal from '../../Modal/Modal';
 import ShrugSVG from '../../../assets/svg/Shrug.svg';
 import Spinner from '../../Spinner/Spinner';
-import classes from './Header.module.scss';
 
 const Auth = lazy(() => import('../../Auth/Auth'));
 

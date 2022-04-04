@@ -2,19 +2,19 @@ import * as endpoints from '../../constants/endpoints';
 
 import { FC, useEffect, useState } from 'react';
 
-import IUrlParams from '../../interfaces/IUrlParams';
 import { Link } from 'preact-router/match';
 import { MDBCol } from 'mdb-react-ui-kit';
-import PageView from '../../components/PageView/PageView';
-import Spinner from '../../components/Spinner/Spinner';
+import { stringify } from 'query-string';
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../../store';
 import chunk from 'chunk';
 import classes from './Ratings.module.scss';
 import getCellColour from '../../utils/getCellColour';
 import getColourGradient from '../../utils/getColourGradient';
 import httpRequest from '../../utils/httpRequest';
-import { stringify } from 'query-string';
-import { useRecoilValue } from 'recoil';
-import { userInfoState } from '../../store';
+import IUrlParams from '../../interfaces/IUrlParams';
+import PageView from '../../components/PageView/PageView';
+import Spinner from '../../components/Spinner/Spinner';
 
 interface IFilm {
   countries: string;

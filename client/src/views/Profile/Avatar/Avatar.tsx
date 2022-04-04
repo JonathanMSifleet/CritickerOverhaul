@@ -2,13 +2,13 @@ import * as endpoints from '../../../constants/endpoints';
 
 import { FC, useEffect, useState } from 'react';
 
-import Compress from 'compress.js';
-import IUserState from './../../../interfaces/IUserState';
 import { SetterOrUpdater } from 'recoil';
-import Spinner from '../../../components/Spinner/Spinner';
 import classes from './Avatar.module.scss';
+import Compress from 'compress.js';
 import getUserAvatar from '../../../utils/getUserAvatar';
 import httpRequest from '../../../utils/httpRequest';
+import IUserState from './../../../interfaces/IUserState';
+import Spinner from '../../../components/Spinner/Spinner';
 
 interface IProps {
   shouldLoadAvatar: boolean;

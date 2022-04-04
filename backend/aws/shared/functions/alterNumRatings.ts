@@ -1,7 +1,7 @@
 import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 
-import IHTTP from '../interfaces/IHTTP';
 import { createAWSResErr } from './createAWSResErr';
+import IHTTP from '../interfaces/IHTTP';
 
 const alterNumRatings = async (dbClient: DynamoDBClient, username: string, value: number): Promise<void | IHTTP> => {
   const params = {

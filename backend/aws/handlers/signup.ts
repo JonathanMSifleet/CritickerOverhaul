@@ -1,13 +1,13 @@
 import { DynamoDBClient, PutItemCommand, PutItemCommandOutput } from '@aws-sdk/client-dynamodb';
 
+import { createAWSResErr } from './../shared/functions/createAWSResErr';
+import { marshall } from '@aws-sdk/util-dynamodb';
+import { validateUserInputs } from '../shared/functions/validationFunctions';
+import cors from '@middy/http-cors';
+import generateAccessToken from '../shared/functions/generateAccessToken';
 import IAccessToken from '../../../shared/interfaces/IAccessToken';
 import IHTTP from '../shared/interfaces/IHTTP';
-import cors from '@middy/http-cors';
-import { createAWSResErr } from './../shared/functions/createAWSResErr';
-import generateAccessToken from '../shared/functions/generateAccessToken';
-import { marshall } from '@aws-sdk/util-dynamodb';
 import middy from '@middy/core';
-import { validateUserInputs } from '../shared/functions/validationFunctions';
 
 const dbClient = new DynamoDBClient({});
 

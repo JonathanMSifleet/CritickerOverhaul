@@ -1,12 +1,12 @@
 import { DynamoDBClient, PutItemCommand, QueryCommand } from '@aws-sdk/client-dynamodb';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 
-import IHTTP from '../shared/interfaces/IHTTP';
-import IRating from '../../../shared/interfaces/IRating';
+import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import alterNumRatings from '../shared/functions/alterNumRatings';
 import cors from '@middy/http-cors';
-import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import createDynamoSearchQuery from './../shared/functions/DynamoDB/createDynamoSearchQuery';
+import IHTTP from '../shared/interfaces/IHTTP';
+import IRating from '../../../shared/interfaces/IRating';
 import middy from '@middy/core';
 import percentRank from 'percentile-rank';
 import validateAccessToken from '../shared/functions/validateAccessToken';

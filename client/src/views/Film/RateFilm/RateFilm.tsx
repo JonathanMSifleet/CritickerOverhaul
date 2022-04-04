@@ -3,11 +3,11 @@ import * as endpoints from '../../../constants/endpoints';
 import { ChangeEvent, FC, useState } from 'react';
 
 import Button from '../../../components/Button/Button';
-import IUserState from '../../../interfaces/IUserState';
-import Input from '../../../components/Input/Input';
-import SpinnerButton from '../../../components/SpinnerButton/SpinnerButton';
 import classes from './RateFilm.module.scss';
 import httpRequest from '../../../utils/httpRequest';
+import Input from '../../../components/Input/Input';
+import IUserState from '../../../interfaces/IUserState';
+import SpinnerButton from '../../../components/SpinnerButton/SpinnerButton';
 
 interface IProps {
   filmID: number;

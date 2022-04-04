@@ -1,9 +1,9 @@
 import { FC, useState } from 'react';
 
 import Button from '../Button/Button';
+import classes from './Auth.module.scss';
 import Login from './Login/Login';
 import SignUp from './Signup/Signup';
-import classes from './Auth.module.scss';
 
 const Auth: FC = () => {
   const [displayLoginForm, setDisplayLoginForm] = useState(true);

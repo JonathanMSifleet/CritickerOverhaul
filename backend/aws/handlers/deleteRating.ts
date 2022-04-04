@@ -1,9 +1,9 @@
 import { DeleteItemCommand, DynamoDBClient } from '@aws-sdk/client-dynamodb';
 
-import IHTTP from '../shared/interfaces/IHTTP';
+import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import alterNumRatings from '../shared/functions/alterNumRatings';
 import cors from '@middy/http-cors';
-import { createAWSResErr } from '../shared/functions/createAWSResErr';
+import IHTTP from '../shared/interfaces/IHTTP';
 import middy from '@middy/core';
 import validateAccessToken from '../shared/functions/validateAccessToken';
 

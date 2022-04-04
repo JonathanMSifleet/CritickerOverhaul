@@ -1,7 +1,7 @@
-import IAccessToken from '../../../../shared/interfaces/IAccessToken';
-import IHTTP from '../interfaces/IHTTP';
 import { createAWSResErr } from './createAWSResErr';
 import fetch from 'node-fetch';
+import IAccessToken from '../../../../shared/interfaces/IAccessToken';
+import IHTTP from '../interfaces/IHTTP';
 
 const generateAccessToken = async (): Promise<IAccessToken | IHTTP> => {
   const params = {

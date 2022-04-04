@@ -2,17 +2,17 @@ import * as endpoints from '../../constants/endpoints';
 
 import { FC, useEffect, useState } from 'react';
 
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../../store';
+import classes from './Film.module.scss';
+import getColourGradient from '../../utils/getColourGradient';
+import getFilmPoster from '../../utils/getFilmPoster';
+import httpRequest from '../../utils/httpRequest';
 import IFilm from '../../../../shared/interfaces/IFilm';
 import IRating from '../../../../shared/interfaces/IRating';
 import PageView from '../../components/PageView/PageView';
 import RateFilm from './RateFilm/RateFilm';
 import Spinner from '../../components/Spinner/Spinner';
-import classes from './Film.module.scss';
-import getColourGradient from '../../utils/getColourGradient';
-import getFilmPoster from '../../utils/getFilmPoster';
-import httpRequest from '../../utils/httpRequest';
-import { useRecoilValue } from 'recoil';
-import { userInfoState } from '../../store';
 
 interface IUrlParams {
   path?: string;

@@ -1,7 +1,7 @@
 import { ChangeEvent, FC } from 'react';
 import { MDBInput } from 'mdb-react-ui-kit';
-import Warning from './Warning/Warning';
 import classes from './Input.module.scss';
+import Warning from './Warning/Warning';
 
 interface IProps {
   autoComplete?: string;

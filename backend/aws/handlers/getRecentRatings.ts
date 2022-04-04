@@ -1,11 +1,11 @@
 import { DynamoDBClient, QueryCommand, QueryCommandOutput } from '@aws-sdk/client-dynamodb';
 
-import IHTTP from '../shared/interfaces/IHTTP';
-import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
-import createDynamoSearchQuery from './../shared/functions/DynamoDB/createDynamoSearchQuery';
-import middy from '@middy/core';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
+import cors from '@middy/http-cors';
+import createDynamoSearchQuery from './../shared/functions/DynamoDB/createDynamoSearchQuery';
+import IHTTP from '../shared/interfaces/IHTTP';
+import middy from '@middy/core';
 
 const dbClient = new DynamoDBClient({});
 

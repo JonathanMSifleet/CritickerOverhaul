@@ -1,14 +1,14 @@
 import { AttributeValue, BatchGetItemCommand, DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
 
-import IFilm from '../../../shared/interfaces/IFilm';
-import IHTTP from '../shared/interfaces/IHTTP';
-import chunk from 'chunk';
-import cors from '@middy/http-cors';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
-import createDynamoSearchQuery from '../shared/functions/DynamoDB/createDynamoSearchQuery';
-import middy from '@middy/core';
 import { parse } from 'query-string';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
+import chunk from 'chunk';
+import cors from '@middy/http-cors';
+import createDynamoSearchQuery from '../shared/functions/DynamoDB/createDynamoSearchQuery';
+import IFilm from '../../../shared/interfaces/IFilm';
+import IHTTP from '../shared/interfaces/IHTTP';
+import middy from '@middy/core';
 
 const dbClient = new DynamoDBClient({});
 

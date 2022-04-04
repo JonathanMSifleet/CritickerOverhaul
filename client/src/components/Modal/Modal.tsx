@@ -1,5 +1,5 @@
-import Backdrop from './Backdrop/Backdrop';
 import { FC } from 'react';
+import Backdrop from './Backdrop/Backdrop';
 import classes from './Modal.module.scss';
 
 interface IProps {

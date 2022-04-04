@@ -10,13 +10,13 @@ import {
 } from '@aws-sdk/client-dynamodb';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 
-import IHTTP from '../shared/interfaces/IHTTP';
-import IRating from '../../../shared/interfaces/IRating';
+import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import chunk from 'chunk';
 import cors from '@middy/http-cors';
-import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import createDynamoSearchQuery from '../shared/functions/DynamoDB/createDynamoSearchQuery';
 import createDynamoUpdateQuery from '../shared/functions/DynamoDB/createDynamoUpdateQuery';
+import IHTTP from '../shared/interfaces/IHTTP';
+import IRating from '../../../shared/interfaces/IRating';
 import middy from '@middy/core';
 import percentRank from 'percentile-rank';
 

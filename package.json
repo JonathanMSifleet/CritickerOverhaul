@@ -48,7 +48,8 @@
     "@types/node-fetch": "^2.6.1",
     "@types/react-calendar": "^3.5.0",
     "@types/recoil": "0.0.9",
-    "@types/source-map-support": "^0.5.4"
+    "@types/source-map-support": "^0.5.4",
+    "eslint-plugin-sort-imports-es6-autofix": "^0.6.0"
   },
   "repository": {
     "type": "git",
