@@ -5,6 +5,7 @@ import {
   QueryCommand
 } from '@aws-sdk/client-dynamodb';
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
+import { DeleteItemCommand } from '@aws-sdk/client-dynamodb';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import chunk from 'chunk';
 import cors from '@middy/http-cors';
@@ -33,11 +34,64 @@ const deleteAccount = async (event: {
   const ratings = await getRatings(username);
   if (ratings instanceof Error) return createAWSResErr(520, 'Error fetching ratings');
 
-  await deleteRatings(username, ratings as IRating[]);
-  if (ratings instanceof Error) return createAWSResErr(520, 'Error deleting ratings');
+  const deleteRequests = [];
+  deleteRequests.push(deleteRatings(username, ratings as IRating[]));
+  deleteRequests.push(deleteAvatar(username));
+
+  try {
+    const results = await Promise.all(deleteRequests);
+    console.log('🚀 ~ file: deleteAccount.ts ~ line 42 ~ results', results);
+    await deleteAccountFromDB(username);
+
+    return {
+      statusCode: 204
+    };
+  } catch (error) {
+    if (error instanceof Error) return createAWSResErr(520, error.message);
+  }
+
+  return createAWSResErr(500, 'Unhandled Exception');
 };
 
 export const handler = middy(deleteAccount).use(cors());
+
+const deleteAccountFromDB = async (username: string): Promise<IHTTP | void> => {
+  const query = {
+    TableName: process.env.USER_TABLE_NAME!,
+    Key: {
+      username: { S: username }
+    }
+  };
+
+  try {
+    await dbClient.send(new DeleteItemCommand(query));
+    console.log('Sucessfully deleted account');
+    return;
+  } catch (error) {
+    if (error instanceof Error) return createAWSResErr(520, error.message);
+  }
+
+  return createAWSResErr(500, 'Unhandled Exception');
+};
+
+const deleteAvatar = async (username: string): Promise<IHTTP | void> => {
+  const query = {
+    TableName: process.env.AVATAR_TABLE_NAME!,
+    Key: {
+      username: { S: username }
+    }
+  };
+
+  try {
+    await dbClient.send(new DeleteItemCommand(query));
+    console.log('Sucessfully deleted avatar');
+    return;
+  } catch (error) {
+    if (error instanceof Error) return createAWSResErr(520, error.message);
+  }
+
+  return createAWSResErr(500, 'Unhandled Exception');
+};
 
 const deleteRatings = async (username: string, ratings: IRating[]): Promise<IHTTP | void> => {
   const items = ratings.map((rating) => ({

@@ -4,7 +4,8 @@ import { FC, useEffect, useState } from 'react';
 import { lazy, Suspense } from 'preact/compat';
 import { Link } from 'preact-router/match';
 import { MDBCol } from 'mdb-react-ui-kit';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { route } from 'preact-router';
+import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { XMLParser } from 'fast-xml-parser';
 import Avatar from './Avatar/Avatar';
 import Button from '../../components/Button/Button';
@@ -36,7 +37,7 @@ interface IRecentRating {
 const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   const [importMessage, setImportMessage] = useState('');
   const [importingRatings, setImportingRatings] = useState(false);
-  const [isDeletingAccount, _setIsDeletingAccount] = useState(false);
+  const [isDeletingAccount, setIsDeletingAccount] = useState(false);
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const [isLoadingRecentRatings, setIsLoadingRecentRatings] = useState(false);
   const [recentRatings, setRecentRatings] = useState(null as null | IRecentRating[][]);
@@ -44,6 +45,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   const [showModal, setShowModal] = useRecoilState(deleteAccountModalState);
   const [showUpdateDetailsForm, setShowUpdateDetailsForm] = useState(false);
   const [userProfile, setUserProfile] = useState(null as null | IUserProfile);
+  const resetUserState = useResetRecoilState(userInfoState);
   const setUserInfo = useSetRecoilState(userInfoState);
   const userState = useRecoilValue(userInfoState);
 
@@ -84,12 +86,24 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   }, [username]);
 
   const deleteAccount = async (): Promise<void> => {
-    const result = await httpRequest(
-      `${endpoints.DELETE_ACCOUNT}/${userState.username}`,
-      'DELETE',
-      userState.accessToken
-    );
-    console.log('🚀 ~ file: Profile.tsx ~ line 88 ~ deleteAccount ~ result', result);
+    setIsDeletingAccount(true);
+    try {
+      const result = await httpRequest(
+        `${endpoints.DELETE_ACCOUNT}/${userState.username}`,
+        'DELETE',
+        userState.accessToken
+      );
+
+      if (result.statusCode === 204) {
+        resetUserState();
+        alert('Account deleted successfully');
+        route('/');
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsDeletingAccount(false);
+    }
   };
 
   const displayDeleteAccountModal = (): void => setShowModal(true);

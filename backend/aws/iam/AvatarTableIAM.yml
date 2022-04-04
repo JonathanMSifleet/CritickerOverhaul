@@ -4,5 +4,6 @@ AvatarTableIAM:
     - dynamodb:PutItem
     - dynamodb:Query
     - dynamodb:BatchWriteItem
+    - dynamodb:DeleteItem
   Resource:
     - ${self:custom.AvatarTable.arn}
