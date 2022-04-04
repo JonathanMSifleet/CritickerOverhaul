@@ -16,10 +16,12 @@ import { FC } from 'react';
 import { Link } from 'preact-router';
 import Button from '../../Button/Button';
 import classes from './Header.module.scss';
+import FileSelector from '../../FileSelector/FileSelector';
 import Logo from '../../../assets/svg/Logo.svg';
 import Modal from '../../Modal/Modal';
 import ShrugSVG from '../../../assets/svg/Shrug.svg';
 import Spinner from '../../Spinner/Spinner';
+import uploadFile from '../../../utils/uploadFile';
 
 const Auth = lazy(() => import('../../Auth/Auth'));
 
@@ -53,7 +55,7 @@ const Header: FC = (): JSX.Element => {
             </MDBNavbarNav>
           </div>
 
-          {/* <FileSelector onChange={(event): void => uploadFile(event)} /> */}
+          <FileSelector onChange={(event: { target: { files: Blob[] } }): void => uploadFile(event)} />
 
           <MDBInput className={`${classes.SearchInput} bg-light`} label="Search" type="text" />
 

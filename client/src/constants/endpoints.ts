@@ -20,5 +20,6 @@ export const LOGIN = `${ROOT}/login`;
 export const RATE_FILM = `${ROOT}/rating/rateFilm`;
 export const SIGNUP = `${ROOT}/signup`;
 export const UPDATE_NUM_RATINGS = `${ROOT}/mockData/importGeneratedRatings`;
+export const UPDATE_PERCENTILES = `${ROOT}/mockData/updatePercentiles`;
 export const UPDATE_USER_PROFILE = `${ROOT}/user/profile`;
 export const UPLOAD_USER_AVATAR = `${ROOT}/user/avatar`;

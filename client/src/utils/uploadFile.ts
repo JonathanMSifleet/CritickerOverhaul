@@ -1,4 +1,4 @@
-import importAvatars from './migration/importAvatars';
+import updatePercentiles from './migration/updatePercentiles';
 
 const uploadFile = (event: { target: { files: Blob[] } }): void => {
   try {
@@ -7,7 +7,7 @@ const uploadFile = (event: { target: { files: Blob[] } }): void => {
     fileReader.readAsText(event.target.files[0]);
     fileReader.onload = (): void => {
       try {
-        importAvatars(JSON.parse(fileReader.result as string));
+        updatePercentiles(JSON.parse(fileReader.result as string));
       } catch (error) {
         console.error(error);
       }
