@@ -13,12 +13,13 @@ export const uploadUserAvatar = async (event: {
   headers: { Authorization: string };
   pathParameters: { username: string };
 }): Promise<IHTTP> => {
-  const { image } = JSON.parse(event.body);
   const { username } = event.pathParameters;
   const accessToken = event.headers.Authorization.split(' ')[1];
 
   const validToken = await validateAccessToken(username, accessToken);
   if (validToken !== true) return createAWSResErr(401, 'Access token invalid');
+
+  const { image } = JSON.parse(event.body);
 
   try {
     await uploadPicture(username, image);

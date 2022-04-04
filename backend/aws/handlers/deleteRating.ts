@@ -13,8 +13,8 @@ const deleteRating = async (event: {
   headers: { Authorization: string };
   pathParameters: { imdbID: number; username: string };
 }): Promise<IHTTP> => {
-  const accessToken = event.headers.Authorization.split(' ')[1];
   const { imdbID, username } = event.pathParameters;
+  const accessToken = event.headers.Authorization.split(' ')[1];
 
   const validToken = await validateAccessToken(username, accessToken);
   if (validToken !== true) return createAWSResErr(401, 'Access token invalid');
