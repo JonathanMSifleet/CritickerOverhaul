@@ -49,10 +49,9 @@ const SignUp: FC = () => {
 
       try {
         if (formInfo.password !== formInfo.repeatPassword) throw new Error('Passwords do not match');
-
         formInfo.password = CryptoES.SHA512(formInfo.password).toString();
-        const response = await httpRequest(endpoints.SIGNUP, 'POST', undefined, formInfo);
-        if (!response.statusCode.toString().startsWith('2')) throw new Error(response.message);
+
+        await httpRequest(endpoints.SIGNUP, 'POST', undefined, formInfo);
 
         setShowModal(false);
       } catch (error) {

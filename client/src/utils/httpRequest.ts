@@ -19,7 +19,7 @@ const httpRequest = async (url: string, method: string, accessToken?: IAccessTok
     headers
   };
 
-  if (body) options.body = JSON.stringify(options.body);
+  if (body) options.body = JSON.stringify(body);
   if (accessToken !== undefined) options.headers = { ...headers, Authorization: `Bearer ${accessToken?.accessToken}` };
 
   const result = await fetch(url, options);
