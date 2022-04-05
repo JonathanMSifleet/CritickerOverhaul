@@ -14,7 +14,7 @@
     "preact-router": "^4.0.1",
     "query-string": "^7.1.1",
     "react-country-region-selector": "^3.4.0",
-    "react-date-picker": "^8.4.0",
+    "react-datepicker": "^4.7.0",
     "react-select-country-list": "^2.2.3",
     "recoil": "^0.7.0",
     "recoil-persist": "^4.1.0"

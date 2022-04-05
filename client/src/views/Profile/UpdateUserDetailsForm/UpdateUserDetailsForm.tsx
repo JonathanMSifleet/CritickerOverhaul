@@ -1,9 +1,10 @@
+import 'react-datepicker/dist/react-datepicker.css';
 import * as endpoints from '../../../constants/endpoints';
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { CountryDropdown } from 'react-country-region-selector';
 import Button from '../../../components/Button/Button';
 import classes from './UpdateUserDetailsForm.module.scss';
-import DatePicker from 'react-date-picker';
+import DatePicker from 'react-datepicker';
 import httpRequest from '../../../utils/httpRequest';
 import Input from '../../../components/Input/Input';
 import IUserProfile from '../../../../../shared/interfaces/IUserProfile';
@@ -107,42 +108,47 @@ const UpdateUserDetailsForm: FC<IProps> = ({ userProfile, userState }) => {
         </div>
       </div>
 
-      <p className={classes.DetailText}>Gender:</p>
-      <>
-        <Radio
-          checked={formInfo.gender === 'Female'}
-          name={'GenderRadio'}
-          onChange={(event: { target: { value: string } }): void =>
-            setFormInfo({ ...formInfo, gender: event.target.value })
-          }
-          value={'Female'}
-        />
-        <Radio
-          checked={formInfo.gender === 'Male'}
-          name={'GenderRadio'}
-          onChange={(event: { target: { value: string } }): void =>
-            setFormInfo({ ...formInfo, gender: event.target.value })
-          }
-          value={'Male'}
-        />
-        <Radio
-          checked={formInfo.gender === 'Other'}
-          name={'GenderRadio'}
-          onChange={(event: { target: { value: string } }): void =>
-            setFormInfo({ ...formInfo, gender: event.target.value })
-          }
-          value={'Other'}
-        />
-      </>
+      <div className={classes.BottomInputsWrapper}>
+        <div className={classes.GenderWrapper}>
+          <p className={classes.DetailText}>Gender:</p>
+          <Radio
+            checked={formInfo.gender === 'Female'}
+            name={'GenderRadio'}
+            onChange={(event: { target: { value: string } }): void =>
+              setFormInfo({ ...formInfo, gender: event.target.value })
+            }
+            value={'Female'}
+          />
+          <Radio
+            checked={formInfo.gender === 'Male'}
+            name={'GenderRadio'}
+            onChange={(event: { target: { value: string } }): void =>
+              setFormInfo({ ...formInfo, gender: event.target.value })
+            }
+            value={'Male'}
+          />
+          <Radio
+            checked={formInfo.gender === 'Other'}
+            name={'GenderRadio'}
+            onChange={(event: { target: { value: string } }): void =>
+              setFormInfo({ ...formInfo, gender: event.target.value })
+            }
+            value={'Other'}
+          />
+        </div>
 
-      <p className={classes.DetailText}>Date of birth:</p>
-      <DatePicker
-        onChange={(value: Date): void => {
-          inputChangedHandler(value.getTime() / 1000, 'dob');
-          setTempDate(value);
-        }}
-        value={tempDate}
-      />
+        <div className={classes.DateOfBirthWrapper}>
+          <p className={classes.DetailText}>Date of birth:</p>
+          <DatePicker
+            className={classes.DatePicker}
+            onChange={(value: Date): void => {
+              inputChangedHandler(value.getTime() / 1000, 'dob');
+              setTempDate(value);
+            }}
+            selected={tempDate}
+          />
+        </div>
+      </div>
 
       <div className={classes.SubmitButtonWrapper}>
         {!isUpdating ? (

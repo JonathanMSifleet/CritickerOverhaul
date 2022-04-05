@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
-// runs TypeScript linting on separate process
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -109,6 +108,7 @@ module.exports = {
     ]
   },
   plugins: [
+    // new BundleAnalyzerPlugin(),
     new HtmlWebpackPlugin({
       template: './src/index.html',
       favicon: './src/assets/favicon.ico'
@@ -117,7 +117,6 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.DEVELOPMENT': JSON.stringify(true),
       'process.env.TMDB_KEY': JSON.stringify('2a6fdeb294b4f2342ca8a611d7ecab34')
-    }),
-    new ForkTsCheckerWebpackPlugin({ typescript: { memoryLimit: 3072 } })
+    })
   ]
 };
