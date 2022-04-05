@@ -22,3 +22,17 @@
   height: 100vh;
   padding: 0;
 }
+
+@media only screen and (max-width: 950px) {
+  .Row {
+    height: 100vh;
+  }
+  
+  .Column {
+    display: none;
+  }
+
+  .Body {
+    width: 100%;
+  }
+}
