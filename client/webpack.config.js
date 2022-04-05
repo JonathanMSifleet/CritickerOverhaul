@@ -1,11 +1,14 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 // runs TypeScript linting on separate process
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const webpack = require('webpack');
+
+process.traceDeprecation = true;
 
 module.exports = {
   mode: 'production',
@@ -35,6 +38,17 @@ module.exports = {
           }
         },
         extractComments: false
+      }),
+      '...',
+      new CssMinimizerPlugin({
+        minimizerOptions: {
+          preset: [
+            'default',
+            {
+              discardComments: { removeAll: true }
+            }
+          ]
+        }
       })
     ],
     splitChunks: {
@@ -69,12 +83,19 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: '/node_modules/'
+        exclude: '/node_modules/',
+        use: [
+          {
+            loader: 'ts-loader',
+            options: {
+              transpileOnly: true
+            }
+          }
+        ]
       },
       {
-        test: /\.(scss|css)$/,
-        use: ['style-loader', 'css-loader', 'sass-loader']
+        test: /.s?css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
       },
       {
         test: /\.(png|woff|woff2|eot|ttf|svg)$/,
@@ -97,6 +118,6 @@ module.exports = {
       'process.env.DEVELOPMENT': JSON.stringify(true),
       'process.env.TMDB_KEY': JSON.stringify('2a6fdeb294b4f2342ca8a611d7ecab34')
     }),
-    new ForkTsCheckerWebpackPlugin()
+    new ForkTsCheckerWebpackPlugin({ typescript: { memoryLimit: 3072 } })
   ]
 };

@@ -13,13 +13,15 @@
     "preact-compat": "^3.19.0",
     "preact-router": "^4.0.1",
     "query-string": "^7.1.1",
-    "react-calendar": "^3.7.0",
     "react-country-region-selector": "^3.4.0",
+    "react-date-picker": "^8.4.0",
+    "react-select-country-list": "^2.2.3",
     "recoil": "^0.7.0",
     "recoil-persist": "^4.1.0"
   },
   "devDependencies": {
     "css-loader": "^6.7.1",
+    "css-minimizer-webpack-plugin": "^3.4.1",
     "depcheck": "^1.4.3",
     "fork-ts-checker-webpack-plugin": "^7.2.1",
     "html-webpack-plugin": "^5.5.0",
