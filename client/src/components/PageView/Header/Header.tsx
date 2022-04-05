@@ -54,7 +54,7 @@ const Header: FC = (): JSX.Element => {
             </MDBNavbarNav>
           </div>
 
-          <FileSelector onChange={(event: { target: { files: Blob[] } }): void => uploadFile(event)} />
+          <FileSelector onChange={(event: { target: { files: FileList } }): void => uploadFile(event)} />
 
           <MDBInput className={`${classes.SearchInput} bg-light`} label="Search" type="text" />
 

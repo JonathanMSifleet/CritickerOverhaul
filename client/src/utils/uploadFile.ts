@@ -1,6 +1,6 @@
 import updatePercentiles from './migration/updatePercentiles';
 
-const uploadFile = (event: { target: { files: Blob[] } }): void => {
+const uploadFile = (event: { target: { files: FileList } }): void => {
   try {
     const fileReader = new FileReader();
 

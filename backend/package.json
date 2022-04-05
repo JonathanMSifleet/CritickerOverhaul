@@ -11,14 +11,11 @@
     "jsonwebtoken": "^8.5.1",
     "percentile-rank": "^1.0.6",
     "query-string": "^7.1.1",
-    "serverless": "^3.10.2"
+    "serverless": "^3.11.0"
   },
   "devDependencies": {
-    "aws-crt": "^1.12.0",
-    "depcheck": "^1.4.3",
-    "fork-ts-checker-webpack-plugin": "^7.2.1",
-    "npm-check-updates": "^12.5.5",
-    "remove-node-modules": "^1.7.6",
+    "aws-crt": "^1.12.1",
+    "fork-ts-checker-webpack-plugin": "^7.2.3",
     "serverless-cloudfront-invalidate": "^1.11.0",
     "serverless-webpack": "^5.6.1",
     "terser-webpack-plugin": "^5.3.1",
