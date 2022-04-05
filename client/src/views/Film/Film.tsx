@@ -2,6 +2,7 @@ import * as endpoints from '../../constants/endpoints';
 
 import { FC, useEffect, useState } from 'react';
 
+import { Link } from 'preact-router/match';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../store';
 import classes from './Film.module.scss';
@@ -9,10 +10,16 @@ import getColourGradient from '../../utils/getColourGradient';
 import getFilmPoster from '../../utils/getFilmPoster';
 import httpRequest from '../../utils/httpRequest';
 import IFilm from '../../../../shared/interfaces/IFilm';
-import IRating from '../../../../shared/interfaces/IRating';
 import PageView from '../../components/PageView/PageView';
 import RateFilm from './RateFilm/RateFilm';
 import Spinner from '../../components/Spinner/Spinner';
+
+interface IRating {
+  username: string;
+  rating: number;
+  ratingPercentile: number;
+  review?: string;
+}
 
 interface IUrlParams {
   path?: string;
@@ -27,6 +34,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
   const [hasSubmittedRating, setHasSubmittedRating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [reviewAlreadyExists, setReviewAlreadyExists] = useState(false);
+  const [ratings, setRatings] = useState([] as any);
   const userState = useRecoilValue(userInfoState);
 
   useEffect(() => {
@@ -49,7 +57,8 @@ const Film: FC<IUrlParams> = ({ id }) => {
       setReviewAlreadyExists(true);
 
       const results = await httpRequest(`${endpoints.GET_FILM_RATINGS}/${id}`, 'GET');
-      console.log('🚀 ~ file: Film.tsx ~ line 52 ~ results', results);
+      console.log('🚀 ~ file: Film.tsx ~ line 53 ~ results', results);
+      setRatings(results);
     })();
   }, [id]);
 
@@ -171,6 +180,30 @@ const Film: FC<IUrlParams> = ({ id }) => {
               <p>Genre(s): {film ? film.genres : 'Unknown'}</p>
               <p>Language(s): {film ? film.languages : 'Unknown'}</p>
               <p>Country(s): {film ? film.countries : 'Unknown'}</p>
+            </div>
+          </div>
+
+          <div className={classes.FilmRatingsWrapper}>
+            <h3>Ratings:</h3>
+            <div className={classes.FilmRatings}>
+              {ratings.map((rating: IRating) => (
+                <div className={classes.UserRatingWrapper} key={rating.username}>
+                  <p className={classes.UserRating}>
+                    <Link href={`#profile/${rating.username}`}>{rating.username}</Link>
+                  </p>
+
+                  <p
+                    className={classes.UserRatingScore}
+                    style={{ color: determineColourGradient(rating.ratingPercentile) }}
+                  >
+                    {rating.rating}
+                    <span className={classes.UserRatingPercentile}>{rating.ratingPercentile}%</span>
+                  </p>
+                  <div className={classes.UserReviewTextWrapper}>
+                    {rating.review ? <p className={classes.UserReviewText}>{rating.review}</p> : null}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </>
