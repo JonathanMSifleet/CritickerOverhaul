@@ -149,7 +149,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
     uploadRatings(processedRatings);
   };
 
-  const uploadFile = (event: { target: { files: Blob[] } }): void => {
+  const uploadFile = (event: { target: { files: FileList } }): void => {
     try {
       setImportingRatings(true);
 
@@ -212,13 +212,43 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                   {userProfile.username}
                   <span className={classes.UserRank}> {getRatingRank(userProfile.numRatings!)}</span>
                 </h1>
-                <p className={classes.UserProfileText}>
-                  {userProfile.numRatings} Film Rating{userProfile.numRatings !== 0 ? 's' : null}
-                </p>
-                <p className={classes.UserProfileText}>
-                  <b>Member since:</b> {epochToDate(userProfile.memberSince!)}
-                </p>
 
+                <div className={classes.UserDetailsColumnWrapper}>
+                  <MDBCol className={classes.UserDetailsColumnLeft}>
+                    <p className={classes.UserProfileText}>
+                      {userProfile.numRatings} Film Rating{userProfile.numRatings !== 0 ? 's' : null}
+                    </p>
+                    <p className={classes.UserProfileText}>
+                      <b>Member since:</b> {epochToDate(userProfile.memberSince!)}
+                    </p>
+                  </MDBCol>
+
+                  <MDBCol className={classes.UserDetailsColumnRight}>
+                    {userProfile.firstName ? (
+                      <p className={classes.UserProfileText}>
+                        <b>First name:</b> {userProfile.firstName}
+                      </p>
+                    ) : null}
+                    {userProfile.lastName ? (
+                      <p className={classes.UserProfileText}>
+                        <b>Last name:</b> {userProfile.lastName}
+                      </p>
+                    ) : null}
+                    {userProfile.gender ? (
+                      <p className={classes.UserProfileText}>
+                        <b>Gender:</b> {userProfile.gender}
+                      </p>
+                    ) : null}
+                    {userProfile.country ? (
+                      <p className={classes.UserProfileText}>
+                        <b>Country:</b> {userProfile.country}
+                      </p>
+                    ) : null}
+                  </MDBCol>
+                </div>
+              </div>
+
+              <div>
                 {userState.username === username || username === '' ? (
                   <>
                     <p

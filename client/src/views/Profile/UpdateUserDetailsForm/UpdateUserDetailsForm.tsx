@@ -1,18 +1,15 @@
-import 'react-calendar/dist/Calendar.css';
-
 import * as endpoints from '../../../constants/endpoints';
-
 import { ChangeEvent, FC, useEffect, useState } from 'react';
-
 import { CountryDropdown } from 'react-country-region-selector';
 import Button from '../../../components/Button/Button';
-import Calendar from 'react-calendar';
 import classes from './UpdateUserDetailsForm.module.scss';
+import DatePicker from 'react-date-picker';
 import httpRequest from '../../../utils/httpRequest';
 import Input from '../../../components/Input/Input';
 import IUserProfile from '../../../../../shared/interfaces/IUserProfile';
 import IUserState from '../../../interfaces/IUserState';
 import Radio from '../../../components/Radio/Radio';
+import SpinnerButton from '../../../components/SpinnerButton/SpinnerButton';
 
 interface IProps {
   userProfile: IUserProfile;
@@ -21,9 +18,10 @@ interface IProps {
 
 const UpdateUserDetailsForm: FC<IProps> = ({ userProfile, userState }) => {
   const [formInfo, setFormInfo] = useState({} as { [key: string]: string | number });
+  const [isUpdating, setIsUpdating] = useState(false);
+  const [tempDate, setTempDate] = useState(new Date());
 
   /*
-    date of birth
     Bio
     Profile options:
       display:
@@ -38,8 +36,9 @@ const UpdateUserDetailsForm: FC<IProps> = ({ userProfile, userState }) => {
       ...formInfo,
       country: userProfile.country!,
       email: userProfile.email!,
+      firstName: userProfile.firstName!,
       gender: userProfile.gender!,
-      username: userProfile.username!
+      lastName: userProfile.lastName!
     });
   }, []);
 
@@ -49,59 +48,69 @@ const UpdateUserDetailsForm: FC<IProps> = ({ userProfile, userState }) => {
   const selectCountry = (country: string): void => setFormInfo({ ...formInfo, country });
 
   const updateUserProfile = async (): Promise<void> => {
+    setIsUpdating(true);
+
     try {
-      const result = await httpRequest(
+      await httpRequest(
         `${endpoints.UPDATE_USER_PROFILE}/${userState.username}`,
         'PUT',
         userState.accessToken,
         formInfo
       );
-      console.log('🚀 ~ file: UpdateUserDetailsForm.tsx ~ line 50 ~ updateUserProfile ~ result', result);
     } catch (error) {
       console.error(error);
+    } finally {
+      setIsUpdating(false);
     }
   };
 
   return (
     <>
-      <Input
-        onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event.target.value, 'username')}
-        placeholder={'Username'}
-        type={'text'}
-        value={formInfo.username as string}
-      />
+      <div className={classes.InputsWrapper}>
+        <div className={classes.InputWrapper}>
+          <Input
+            onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event.target.value, 'email')}
+            placeholder={'Email'}
+            type={'email'}
+            value={formInfo.email as string}
+          />
+        </div>
 
-      <Input
-        onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event.target.value, 'email')}
-        placeholder={'Email'}
-        type={'email'}
-        value={formInfo.email as string}
-      />
+        <div className={classes.InputWrapper}>
+          <Input
+            onChange={(event: ChangeEvent<HTMLInputElement>): void =>
+              inputChangedHandler(event.target.value, 'firstName')
+            }
+            placeholder={'First name'}
+            type={'text'}
+            value={formInfo.firstName as string}
+          />
+        </div>
 
-      <Input
-        onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event.target.value, 'firstName')}
-        placeholder={'First name'}
-        type={'text'}
-        value={formInfo.firstName as string}
-      />
+        <div className={classes.InputWrapper}>
+          <Input
+            onChange={(event: ChangeEvent<HTMLInputElement>): void =>
+              inputChangedHandler(event.target.value, 'lastName')
+            }
+            placeholder={'Last name'}
+            type={'text'}
+            value={formInfo.lastName as string}
+          />
+        </div>
 
-      <Input
-        onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event.target.value, 'lastName')}
-        placeholder={'Last name'}
-        type={'text'}
-        value={formInfo.lastName as string}
-      />
+        <div className={classes.InputWrapper}>
+          <CountryDropdown
+            classes={classes.CountrySelect}
+            onChange={(country): void => selectCountry(country)}
+            value={formInfo.country as string}
+          />
+        </div>
+      </div>
 
-      <p>Country:</p>
-      <CountryDropdown
-        classes={classes.CountrySelect}
-        onChange={(country): void => selectCountry(country)}
-        value={formInfo.country as string}
-      />
-
-      <p>Gender</p>
+      <p className={classes.DetailText}>Gender:</p>
       <>
         <Radio
+          checked={formInfo.gender === 'Female'}
           name={'GenderRadio'}
           onChange={(event: { target: { value: string } }): void =>
             setFormInfo({ ...formInfo, gender: event.target.value })
@@ -109,6 +118,7 @@ const UpdateUserDetailsForm: FC<IProps> = ({ userProfile, userState }) => {
           value={'Female'}
         />
         <Radio
+          checked={formInfo.gender === 'Male'}
           name={'GenderRadio'}
           onChange={(event: { target: { value: string } }): void =>
             setFormInfo({ ...formInfo, gender: event.target.value })
@@ -116,6 +126,7 @@ const UpdateUserDetailsForm: FC<IProps> = ({ userProfile, userState }) => {
           value={'Male'}
         />
         <Radio
+          checked={formInfo.gender === 'Other'}
           name={'GenderRadio'}
           onChange={(event: { target: { value: string } }): void =>
             setFormInfo({ ...formInfo, gender: event.target.value })
@@ -124,9 +135,22 @@ const UpdateUserDetailsForm: FC<IProps> = ({ userProfile, userState }) => {
         />
       </>
 
-      <p>Date of birth:</p>
-      <Calendar onChange={(value: Date): void => inputChangedHandler(value.getTime() / 1000, 'dob')} value={null} />
-      <Button onClick={(): Promise<void> => updateUserProfile()} text={'Submit'} />
+      <p className={classes.DetailText}>Date of birth:</p>
+      <DatePicker
+        onChange={(value: Date): void => {
+          inputChangedHandler(value.getTime() / 1000, 'dob');
+          setTempDate(value);
+        }}
+        value={tempDate}
+      />
+
+      <div className={classes.SubmitButtonWrapper}>
+        {!isUpdating ? (
+          <Button onClick={(): Promise<void> => updateUserProfile()} text={'Submit'} />
+        ) : (
+          <SpinnerButton />
+        )}
+      </div>
     </>
   );
 };

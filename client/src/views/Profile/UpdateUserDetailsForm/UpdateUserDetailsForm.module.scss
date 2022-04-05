@@ -1,3 +1,14 @@
+.InputsWrapper {
+  clear: both;
+}
+
+.InputWrapper {
+  float: left;
+  width: 23%;
+  margin-left: 1%;
+  margin-left: 1%;
+}
+
 .CountrySelect {
   box-sizing: border-box;
   display: block;
@@ -18,4 +29,14 @@
   transition-duration: 0.2s;
   transition-property: all;
   transition-timing-function: linear;
+}
+
+.DetailText {
+  clear: both;
+  margin: 0;
+}
+
+.SubmitButtonWrapper {
+  clear: both;
+  margin-top: 2%;
 }

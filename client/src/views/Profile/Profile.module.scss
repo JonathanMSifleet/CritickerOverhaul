@@ -11,11 +11,25 @@
 .UserDetails {
   float: left;
   margin: 1%;
+  margin-top: 0;
 }
 
 .UsernameHeader {
   margin: 0 !important;
   color: $mainBlue;
+}
+
+.UserDetailsColumnWrapper {
+  clear: both;
+  width: 100%;
+}
+
+.UserDetailsColumnLeft {
+  float: left;
+}
+
+.UserDetailsColumnRight {
+  float: right;
 }
 
 .UserRank {
@@ -29,6 +43,7 @@
 
 .UserProfileLink {
   color: $mainBlue;
+  clear: both;
   cursor: pointer;
   margin-bottom: 0;
 }
