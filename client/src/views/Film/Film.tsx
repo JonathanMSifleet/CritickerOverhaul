@@ -8,6 +8,7 @@ import { userInfoState } from '../../store';
 import classes from './Film.module.scss';
 import getColourGradient from '../../utils/getColourGradient';
 import getFilmPoster from '../../utils/getFilmPoster';
+import getUserAvatar from '../../utils/getUserAvatar';
 import httpRequest from '../../utils/httpRequest';
 import IFilm from '../../../../shared/interfaces/IFilm';
 import PageView from '../../components/PageView/PageView';
@@ -15,10 +16,11 @@ import RateFilm from './RateFilm/RateFilm';
 import Spinner from '../../components/Spinner/Spinner';
 
 interface IRating {
-  username: string;
+  createdAt: number;
   rating: number;
   ratingPercentile: number;
   review?: string;
+  username: string;
 }
 
 interface IUrlParams {
@@ -33,8 +35,10 @@ const Film: FC<IUrlParams> = ({ id }) => {
   const [filmPoster, setFilmPoster] = useState(null as string | null);
   const [hasSubmittedRating, setHasSubmittedRating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingAvatars, setIsLoadingAvatars] = useState(false);
   const [reviewAlreadyExists, setReviewAlreadyExists] = useState(false);
-  const [ratings, setRatings] = useState([] as any);
+  const [ratings, setRatings] = useState([] as IRating[]);
+  const [userAvatars, setUserAvatars] = useState({} as { [key: string]: string });
   const userState = useRecoilValue(userInfoState);
 
   useEffect(() => {
@@ -48,19 +52,25 @@ const Film: FC<IUrlParams> = ({ id }) => {
 
       getFilmPoster(id!).then((filmPoster) => setFilmPoster(filmPoster));
 
+      setIsLoadingAvatars(true);
+      httpRequest(`${endpoints.GET_FILM_RATINGS}/${id}`, 'GET').then((ratings) => {
+        setRatings(ratings);
+        getUserAvatars(ratings);
+      });
+
       if (!userState.loggedIn) return;
 
-      const userReview = await getUserRating(id!);
-      setFetchedUserReview(userReview);
-
-      setColourGradient(determineColourGradient(userReview!.ratingPercentile!));
-      setReviewAlreadyExists(true);
-
-      const results = await httpRequest(`${endpoints.GET_FILM_RATINGS}/${id}`, 'GET');
-      console.log('🚀 ~ file: Film.tsx ~ line 53 ~ results', results);
-      setRatings(results);
+      getUserRating(id!).then((userRating) => {
+        setFetchedUserReview(userRating);
+        setColourGradient(determineColourGradient(userRating!.ratingPercentile!));
+        setReviewAlreadyExists(true);
+      });
     })();
   }, [id]);
+
+  useEffect(() => {
+    // console.log(userAvatars);
+  }, [userAvatars]);
 
   useEffect(() => {
     const fetchUserReview = async (): Promise<void> => setFetchedUserReview(await getUserRating(id!));
@@ -102,6 +112,30 @@ const Film: FC<IUrlParams> = ({ id }) => {
     const result = await httpRequest(`${endpoints.GET_USER_RATING}/${id}/${userState.username}`, 'GET');
 
     return result.statusCode === 404 ? null : result;
+  };
+
+  const getUserAvatars = async (ratings: { username: string }[]): Promise<void> => {
+    const usernames = ratings.map((rating) => rating.username);
+
+    // to do replace with appropriate type
+    const userAvatarRequests: Promise<any>[] = [];
+    usernames.forEach((username) => {
+      userAvatarRequests.push(getUserAvatar(username, undefined));
+    });
+
+    try {
+      const results = await Promise.all(userAvatarRequests);
+      console.log('🚀 ~ file: Film.tsx ~ line 128 ~ getUserAvatars ~ results', results);
+
+      setUserAvatars(
+        results.reduce((acc, result) => {
+          acc[result.username] = result.avatar;
+          return acc;
+        }, {})
+      );
+    } finally {
+      setIsLoadingAvatars(false);
+    }
   };
 
   const parseFilmPeople = (film: IFilm): IFilm => {
@@ -188,10 +222,21 @@ const Film: FC<IUrlParams> = ({ id }) => {
             <div className={classes.FilmRatings}>
               {ratings.map((rating: IRating) => (
                 <div className={classes.UserRatingWrapper} key={rating.username}>
+                  {!isLoadingAvatars ? (
+                    userAvatars[rating.username] !== undefined ? (
+                      <div className={classes.RatingAvatarWrapper}>
+                        <img className={classes.RatingAvatar} src={userAvatars[rating.username]} />
+                      </div>
+                    ) : null
+                  ) : (
+                    <div className={classes.RatingAvatarWrapper}>
+                      <Spinner />
+                    </div>
+                  )}
+
                   <p className={classes.UserRating}>
                     <Link href={`#profile/${rating.username}`}>{rating.username}</Link>
                   </p>
-
                   <p
                     className={classes.UserRatingScore}
                     style={{ color: determineColourGradient(rating.ratingPercentile) }}

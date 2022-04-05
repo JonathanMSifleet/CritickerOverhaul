@@ -17,7 +17,7 @@ const getUserAvatar = async (event: { pathParameters: { username: string } }): P
     console.log('Successfully fetched user avatar');
     return {
       statusCode: 200,
-      body: JSON.stringify(avatar)
+      body: JSON.stringify({ username, avatar })
     };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(404, error.message);

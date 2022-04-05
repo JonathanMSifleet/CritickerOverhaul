@@ -27,7 +27,8 @@ const Avatar: FC<IProps> = ({ setShouldLoadAvatar, shouldLoadAvatar, setUserInfo
       setIsLoadingAvatar(true);
 
       try {
-        setUserAvatar(await getUserAvatar(username, userState));
+        const result = await getUserAvatar(username, userState);
+        setUserAvatar(result.avatar);
       } catch (e) {
         console.error(e);
       } finally {
@@ -41,8 +42,8 @@ const Avatar: FC<IProps> = ({ setShouldLoadAvatar, shouldLoadAvatar, setUserInfo
 
   const uploadFile = async (image: File): Promise<void> => {
     const resizedImage = await new Compress().compress([image], {
-      maxHeight: 540,
-      maxWidth: 540,
+      maxHeight: 200,
+      maxWidth: 200,
       quality: 1,
       size: 0.3
     });
