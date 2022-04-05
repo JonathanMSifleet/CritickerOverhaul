@@ -201,7 +201,6 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
               {userState.username === username || username === '' ? (
                 <Button
                   className={`${classes.DeleteAccountButton} bg-danger`}
-                  // eslint-disable-next-line @typescript-eslint/no-empty-function
                   onClick={displayDeleteAccountModal}
                   text={'Delete account'}
                 />

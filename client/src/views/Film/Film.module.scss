@@ -84,6 +84,24 @@
   margin-right: 1%;
 }
 
+.RatingAvatarWrapper {
+  float: left;
+  height: 5vh;
+  margin-bottom: 1%;
+  margin-left: 0;
+  margin-right: 1%;
+  margin-top: 1%;
+  width: auto;
+}
+
+.RatingAvatar {
+  aspect-ratio: 1 / 1;
+  background-color: white;
+  border-radius: 5px;
+  height: 100%;
+  width: 100%;
+}
+
 .UserRating {
   font-size: 1.25rem;
   float: left;
@@ -92,6 +110,7 @@
 
 .UserRatingScore {
   float: right;
+  line-height: 100%;
   margin: 0;
   margin-right: 1%;
   font-size: 2rem;

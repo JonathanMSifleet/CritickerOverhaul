@@ -205,15 +205,14 @@ functions:
   #         method: PUT
   #         path: mockData/importGeneratedRatings
   #         cors: true
-  updatePercentiles:
-    handler: aws/handlers/mockData/updatePercentiles.handler
-    timeout: 30
-    events:
-      - http:
-          method: PUT
-          path: mockData/updatePercentiles/{username}
-          cors: true
-
+  # updatePercentiles:
+  #   handler: aws/handlers/mockData/updatePercentiles.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         method: PUT
+  #         path: mockData/updatePercentiles/{username}
+  #         cors: true
   # migration functions:
   # addPeople:
   #   handler: aws/handlers/migration/addPeople.handler

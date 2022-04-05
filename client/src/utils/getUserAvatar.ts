@@ -4,13 +4,18 @@ import httpRequest from './httpRequest';
 import IUserState from '../interfaces/IUserState';
 import ShrugSVG from '../assets/svg/Shrug.svg';
 
-const getUserAvatar = async (username: string, userState: IUserState): Promise<string> => {
-  if (username === undefined) return userState.avatar !== undefined ? userState.avatar : ShrugSVG;
+const getUserAvatar = async (
+  username: string | undefined,
+  userState: IUserState | undefined
+): Promise<{ username: string; avatar: string }> => {
+  if (username === undefined) return userState!.avatar !== undefined ? userState!.avatar : ShrugSVG;
 
-  const url = `${endpoints.GET_USER_AVATAR}/${username === '' ? userState.username : username}`;
+  const usernameToUse = username === '' || username === undefined ? userState!.username : username;
+
+  const url = `${endpoints.GET_USER_AVATAR}/${usernameToUse}`;
   const response = await httpRequest(url, 'GET');
 
-  return response.statusCode === 404 ? ShrugSVG : response;
+  return response.statusCode === 404 ? { username: usernameToUse, avatar: ShrugSVG } : response;
 };
 
 export default getUserAvatar;
