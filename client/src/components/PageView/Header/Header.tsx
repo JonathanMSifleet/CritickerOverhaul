@@ -15,12 +15,12 @@ import {
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import Button from '../../Button/Button';
 import classes from './Header.module.scss';
-import FileSelector from '../../FileSelector/FileSelector';
+// import FileSelector from '../../FileSelector/FileSelector';
 import Logo from '../../../assets/svg/Logo.svg';
 import Modal from '../../Modal/Modal';
 import ShrugSVG from '../../../assets/svg/Shrug.svg';
 import Spinner from '../../Spinner/Spinner';
-import uploadFile from '../../../utils/uploadFile';
+// import uploadFile from '../../../utils/uploadFile';
 
 const Auth = lazy(() => import('../../Auth/Auth'));
 
@@ -54,7 +54,7 @@ const Header: FC = (): JSX.Element => {
             </MDBNavbarNav>
           </div>
 
-          <FileSelector onChange={(event: { target: { files: FileList } }): void => uploadFile(event)} />
+          {/* <FileSelector onChange={(event: { target: { files: FileList } }): void => uploadFile(event)} /> */}
 
           <MDBInput className={`${classes.SearchInput} bg-light`} label="Search" type="text" />
 

@@ -1,11 +1,10 @@
 @import '../../styles/variables.scss';
 
 .PageWrapper {
-  height: 100%;
-  width: 100%;
-  background-color: white;
-  border-radius: 25px;
-  padding: 1%;
+  background-color: white !important;
+  border-radius: 15px;
+  margin-top: 0.5%;
+  height: fit-content;
 }
 
 .ModifyReview {
@@ -27,6 +26,13 @@
 .FilmTitle {
   color: $mainBlue;
   margin: 0;
+}
+
+.FilmYear {
+  color: #4F4F4F;
+  font-size: 1.7rem;
+  margin: 0;
+  margin-left: 1%;
   margin-bottom: 1%;
 }
 

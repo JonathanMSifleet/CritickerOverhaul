@@ -104,77 +104,79 @@ const Film: FC<IUrlParams> = ({ id }) => {
   };
 
   return (
-    <PageView>
-      <div className={classes.PageWrapper}>
-        {!isLoading ? (
-          <>
-            <div className={classes.FilmDetails}>
-              <img className={classes.Poster} src={filmPoster!} />
-              <h1 className={classes.FilmTitle}>{film ? film.title : null}</h1>
-              {fetchedUserReview ? (
-                <>
-                  <p className={classes.RatingValue} style={{ backgroundColor: colourGradient }}>
-                    {fetchedUserReview.rating}
+    <PageView backgroundCSS={classes.PageWrapper}>
+      {!isLoading ? (
+        <>
+          <div className={classes.FilmDetails}>
+            <img className={classes.Poster} src={filmPoster!} />
+            <h1 className={classes.FilmTitle}>
+              {film ? film.title : null}
+              <span className={classes.FilmYear}>{film ? `${film.releaseYear}` : null}</span>
+            </h1>
+
+            {fetchedUserReview ? (
+              <>
+                <p className={classes.RatingValue} style={{ backgroundColor: colourGradient }}>
+                  {fetchedUserReview.rating}
+                </p>
+
+                {fetchedUserReview.ratingPercentile !== undefined ? (
+                  <p className={classes.FilmPercentile} style={{ color: colourGradient }}>
+                    {fetchedUserReview.ratingPercentile}
+                    {fetchedUserReview.ratingPercentile ? '%' : null}
                   </p>
+                ) : null}
 
-                  {fetchedUserReview.ratingPercentile !== undefined ? (
-                    <p className={classes.FilmPercentile} style={{ color: colourGradient }}>
-                      {fetchedUserReview.ratingPercentile}
-                      {fetchedUserReview.ratingPercentile ? '%' : null}
-                    </p>
-                  ) : null}
+                {fetchedUserReview.review ? <p>{fetchedUserReview.review}</p> : null}
 
-                  {fetchedUserReview.review ? <p>{fetchedUserReview.review}</p> : null}
+                <p>
+                  <span className={classes.ModifyReview} onClick={(): void => setFetchedUserReview(null)}>
+                    Update Rating
+                  </span>
+                  {' - '}
+                  <span className={classes.ModifyReview} onClick={deleteReview}>
+                    Delete Rating
+                  </span>
+                </p>
 
-                  <p>
-                    <span className={classes.ModifyReview} onClick={(): void => setFetchedUserReview(null)}>
-                      Update Rating
-                    </span>
-                    {' - '}
-                    <span className={classes.ModifyReview} onClick={deleteReview}>
-                      Delete Rating
-                    </span>
-                  </p>
+                <p>
+                  <i>
+                    Rated on:{' '}
+                    {new Date(fetchedUserReview.createdAt!).toLocaleDateString('en-GB', {
+                      day: 'numeric',
+                      month: 'long',
+                      year: 'numeric'
+                    })}
+                  </i>
+                </p>
+              </>
+            ) : !hasSubmittedRating && userState.loggedIn ? (
+              <RateFilm
+                filmID={id!}
+                reviewAlreadyExists={reviewAlreadyExists}
+                setHasSubmittedRating={(hasSubmittedRating: boolean): void => {
+                  setHasSubmittedRating(hasSubmittedRating);
+                }}
+                userState={userState}
+              />
+            ) : null}
 
-                  <p>
-                    <i>
-                      Rated on:{' '}
-                      {new Date(fetchedUserReview.createdAt!).toLocaleDateString('en-GB', {
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric'
-                      })}
-                    </i>
-                  </p>
-                </>
-              ) : !hasSubmittedRating && userState.loggedIn ? (
-                <RateFilm
-                  filmID={id!}
-                  reviewAlreadyExists={reviewAlreadyExists}
-                  setHasSubmittedRating={(hasSubmittedRating: boolean): void => {
-                    setHasSubmittedRating(hasSubmittedRating);
-                  }}
-                  userState={userState}
-                />
-              ) : null}
+            <p className={classes.FilmDescription}>{film ? film.description : null}</p>
 
-              <p className={classes.FilmDescription}>{film ? film.description : null}</p>
-
-              <div className={classes.FilmInfo}>
-                <h4>Cast and information</h4>
-                <p>Directed by: {film ? film.directors : 'Unknown'}</p>
-                <p>Written by: {film ? film.writers : 'Unknown'} </p>
-                <p>Starring: {film ? film.actors : 'Unknown'}</p>
-                <p>Genre(s): {film ? film.genres : 'Unknown'}</p>
-                <p>Language(s): {film ? film.languages : 'Unknown'}</p>
-                <p>Country(s): {film ? film.countries : 'Unknown'}</p>
-              </div>
+            <div className={classes.FilmInfo}>
+              <h4>Cast and information</h4>
+              <p>Directed by: {film ? film.directors : 'Unknown'}</p>
+              <p>Written by: {film ? film.writers : 'Unknown'} </p>
+              <p>Starring: {film ? film.actors : 'Unknown'}</p>
+              <p>Genre(s): {film ? film.genres : 'Unknown'}</p>
+              <p>Language(s): {film ? film.languages : 'Unknown'}</p>
+              <p>Country(s): {film ? film.countries : 'Unknown'}</p>
             </div>
-          </>
-        ) : (
-          <Spinner />
-        )}
-      </div>
+          </div>
+        </>
+      ) : (
+        <Spinner />
+      )}
     </PageView>
   );
 };

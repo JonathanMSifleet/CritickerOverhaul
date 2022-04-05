@@ -1,8 +1,6 @@
 To do:
 
-- Finish updating user profile
-- Verify access token on:
-  - update profile
+- User bio
 - migrate people table
 ---
 
