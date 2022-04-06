@@ -61,14 +61,16 @@ const importRatings = async (event: {
 
     console.log(`Successfully inserted ${filteredRatings.length} reviews`);
 
-    const userRatings = await getUserRatings(username);
+    const userRatings = (await getUserRatings(username)) as QueryCommandOutput;
+    if (userRatings instanceof Error) return createAWSResErr(500, 'Error getting user ratings');
 
-    // @ts-expect-error Count does exist:
-    await updateNumUserRatings(username, userRatings.Count);
+    await updateNumUserRatings(username, userRatings.Count!);
+
     // @ts-expect-error Items does exist:
     const extractedRatings = extractRatings(userRatings.Items);
     const percentiles = calculatePercentiles(username, extractedRatings);
-    await updatePercentiles(percentiles);
+    const updatedPercentiles = await updatePercentiles(percentiles);
+    if (updatedPercentiles instanceof Error) return createAWSResErr(500, 'Error getting user ratings');
 
     return {
       statusCode: 200,
