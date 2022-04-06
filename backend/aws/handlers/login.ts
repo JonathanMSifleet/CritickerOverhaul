@@ -1,6 +1,5 @@
-import { DynamoDBClient, QueryCommand, QueryCommandOutput, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
-
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
+import { DynamoDBClient, QueryCommand, QueryCommandOutput, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import cors from '@middy/http-cors';
 import createDynamoSearchQuery from '../shared/functions/queries/createDynamoSearchQuery';

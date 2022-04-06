@@ -9,5 +9,5 @@ UserRatingsTableIAM:
     - dynamodb:Query
     - dynamodb:BatchWriteItem
   Resource:
-    - ${self:custom.UserTable.arn}
+    - ${self:custom.UserRatingsTable.arn}
 

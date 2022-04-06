@@ -1,6 +1,5 @@
-import { DynamoDBClient, PutItemCommand, PutItemCommandOutput } from '@aws-sdk/client-dynamodb';
-
 import { createAWSResErr } from './../shared/functions/createAWSResErr';
+import { DynamoDBClient, PutItemCommand, PutItemCommandOutput } from '@aws-sdk/client-dynamodb';
 import { marshall } from '@aws-sdk/util-dynamodb';
 import { validateUserInputs } from '../shared/functions/validationFunctions';
 import cors from '@middy/http-cors';

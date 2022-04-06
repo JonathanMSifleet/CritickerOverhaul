@@ -1,6 +1,8 @@
 import { createAWSResErr } from '../shared/functions/createAWSResErr';
 import {
   DynamoDBClient,
+  GetItemCommand,
+  GetItemCommandOutput,
   PutItemCommand,
   QueryCommand,
   UpdateItemCommand,
@@ -51,6 +53,8 @@ const rateFilm = async (event: {
     const result = await insertRatingToDB(payload);
     if (result instanceof Error) return createAWSResErr(520, result.message);
 
+    await updateUserRatingsRating(username, payload);
+
     if (!reviewAlreadyExists) {
       const numRatings = (await alterNumRatings(dbClient, username, 1)) as number;
 
@@ -69,6 +73,56 @@ const rateFilm = async (event: {
 };
 
 export const handler = middy(rateFilm).use(cors());
+
+const createInitialUserRatingTableRating = async (username: string, payload: IRating): Promise<IHTTP | void> => {
+  const updatedPercentiles = marshall({
+    username,
+    ratings: JSON.stringify([{ imdbID: payload.imdbID, ratingPercentile: payload.ratingPercentile }])
+  });
+
+  try {
+    await dbClient.send(
+      new PutItemCommand({
+        TableName: process.env.USER_RATINGS_TABLE_NAME!,
+        Item: updatedPercentiles
+      })
+    );
+
+    console.log('Successfully updated user ratings table');
+    return;
+  } catch (error) {
+    if (error instanceof Error) return createAWSResErr(520, error.message);
+  }
+};
+
+const createUpdatedUserRatingTableRating = async (
+  username: string,
+  ratingsResult: GetItemCommandOutput,
+  payload: IRating
+): Promise<IHTTP | void> => {
+  const currentPercentiles = JSON.parse(unmarshall(ratingsResult.Item!).ratings);
+  currentPercentiles.push({ imdbID: payload.imdbID, ratingPercentile: payload.ratingPercentile });
+
+  const updateItemQuery = {
+    TableName: process.env.USER_RATINGS_TABLE_NAME!,
+    Key: {
+      username: { S: username }
+    },
+    UpdateExpression: 'set ratings = :ratings',
+    ExpressionAttributeValues: {
+      ':ratings': { S: JSON.stringify(currentPercentiles) }
+    }
+  };
+
+  try {
+    await dbClient.send(new UpdateItemCommand(updateItemQuery));
+
+    console.log('Successfully update user-ratings-table-ratings');
+    return;
+  } catch (error) {
+    if (error instanceof Error) return createAWSResErr(520, error.message);
+  }
+};
 
 const getPercentile = async (rating: number, username: string): Promise<number> => {
   const results = (await getUserRatings(dbClient, username, 'rating')) as IRating[];
@@ -154,4 +208,25 @@ const regeneratePercentiles = async (username: string): Promise<IHTTP | void> =>
   }
 
   return createAWSResErr(500, 'Unhandled Exception');
+};
+
+const updateUserRatingsRating = async (username: string, payload: IRating): Promise<IHTTP | void> => {
+  const query = {
+    TableName: process.env.USER_RATINGS_TABLE_NAME!,
+    Key: {
+      username: { S: username }
+    }
+  };
+
+  const ratingsResult = await dbClient.send(new GetItemCommand(query));
+
+  if (ratingsResult.Item === undefined) {
+    const createResult = await createInitialUserRatingTableRating(username, payload);
+    if (createResult instanceof Error) return createAWSResErr(520, 'Error updating user-ratings-table ratings');
+    if (createResult === null) return;
+  }
+
+  const updatedRatingResult = await createUpdatedUserRatingTableRating(username, ratingsResult, payload);
+  if (updatedRatingResult instanceof Error) return createAWSResErr(520, 'Error updating user-ratings-table ratings');
+  if (updatedRatingResult === null) return;
 };
