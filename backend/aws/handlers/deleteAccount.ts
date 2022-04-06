@@ -29,17 +29,15 @@ const deleteAccount = async (event: {
   if (ratings instanceof Error) return createAWSResErr(520, 'Error fetching ratings');
 
   const deleteRequests = [];
-  deleteRequests.push(deleteRatings(username, ratings as IRating[]));
   deleteRequests.push(deleteAvatar(username));
+  deleteRequests.push(deleteRatings(username, ratings as IRating[]));
+  deleteRequests.push(deleteUserRatingsTableRatings(username));
 
   try {
-    const results = await Promise.all(deleteRequests);
-    console.log('🚀 ~ file: deleteAccount.ts ~ line 42 ~ results', results);
+    await Promise.all(deleteRequests);
     await deleteAccountFromDB(username);
 
-    return {
-      statusCode: 204
-    };
+    return { statusCode: 204 };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, error.message);
   }
@@ -108,6 +106,23 @@ const deleteRatings = async (username: string, ratings: IRating[]): Promise<IHTT
     await Promise.all(deleteRequests);
     console.log('Sucessfully deleted ratings');
     return;
+  } catch (error) {
+    if (error instanceof Error) return createAWSResErr(520, error.message);
+  }
+
+  return createAWSResErr(500, 'Unhandled Exception');
+};
+
+const deleteUserRatingsTableRatings = async (username: string): Promise<IHTTP | void> => {
+  const query = {
+    TableName: process.env.USER_RATINGS_TABLE_NAME!,
+    Key: {
+      username: { S: username }
+    }
+  };
+
+  try {
+    await dbClient.send(new DeleteItemCommand(query));
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, error.message);
   }
