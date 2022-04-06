@@ -56,15 +56,15 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
         localUsername = userState.username;
       }
 
+      const numRatings = await httpRequest(`${endpoints.GET_NUM_RATINGS}/${localUsername}`, 'GET');
+      setNumPages(Math.ceil(numRatings / 60));
+
       try {
-        const numRatings = await httpRequest(`${endpoints.GET_NUM_RATINGS}/${localUsername}`, 'GET');
-        setNumPages(Math.ceil(numRatings / 60));
-
         const ratings = await httpRequest(`${endpoints.GET_ALL_RATINGS}/${localUsername}`, 'GET');
-
+        setRatings(ratings.results);
         setIsLoadingRatings(false);
 
-        await fetchPaginationKeys(localUsername, ratings.lastEvaluatedKey, ratings.results);
+        fetchPaginationKeys(localUsername, ratings.lastEvaluatedKey, ratings.results);
       } catch (error) {
         console.error(error);
       } finally {
@@ -104,6 +104,30 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
     return array.slice(startIndex, endIndex);
   };
 
+  const renderRatings = (): JSX.Element[] => {
+    const paginatedRatings = paginateArray(ratings, selectedPage);
+
+    return chunk(paginatedRatings, Math.ceil(paginatedRatings.length / 3)).map(
+      (column: IFilm[], columnIndex: number) => (
+        <MDBCol className={classes.RatingColumn} key={columnIndex}>
+          {column.map((film: IFilm, cellIndex: number) => (
+            <Link
+              className={classes.FilmCell}
+              style={getCellColour(columnIndex, cellIndex)}
+              href={`/film/${film.imdbID}`}
+              key={film.imdbID}
+            >
+              <span style={{ color: getColourGradient(film.ratingPercentile) }} className={classes.FilmCellRating}>
+                {film.rating}
+              </span>
+              <span className={classes.FilmTitle}>{film.title}</span> ({film.releaseYear})
+            </Link>
+          ))}
+        </MDBCol>
+      )
+    );
+  };
+
   return (
     <PageView>
       {!isLoadingRatings && ratings ? (
@@ -125,38 +149,7 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
                 ))}
               </div>
 
-              <div className={classes.ColumnWrapper}>
-                {((): JSX.Element[] => {
-                  const paginatedRatings = paginateArray(ratings, selectedPage);
-
-                  return chunk(paginatedRatings, Math.ceil(paginatedRatings.length / 3)).map(
-                    (column: IFilm[], columnIndex: number) => (
-                      <MDBCol className={classes.RatingColumn} key={columnIndex}>
-                        {column.map((film: IFilm, cellIndex: number) => {
-                          const cellColour = getCellColour(columnIndex, cellIndex);
-
-                          return (
-                            <Link
-                              className={classes.FilmCell}
-                              style={cellColour}
-                              href={`/film/${film.imdbID}`}
-                              key={film.imdbID}
-                            >
-                              <span
-                                style={{ color: getColourGradient(film.ratingPercentile) }}
-                                className={classes.FilmCellRating}
-                              >
-                                {film.rating}
-                              </span>
-                              <span className={classes.FilmTitle}>{film.title}</span> ({film.releaseYear})
-                            </Link>
-                          );
-                        })}
-                      </MDBCol>
-                    )
-                  );
-                })()}
-              </div>
+              <div className={classes.ColumnWrapper}>{((): JSX.Element[] => renderRatings())()}</div>
             </MDBCol>
           </div>
         </>
