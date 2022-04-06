@@ -66,11 +66,8 @@ const importRatings = async (event: {
 
     await updateNumUserRatings(username, userRatings.Count!);
 
-    // @ts-expect-error Items does exist:
-    const extractedRatings = extractRatings(userRatings.Items);
-    const percentiles = calculatePercentiles(username, extractedRatings);
-    const updatedPercentiles = await updatePercentiles(percentiles);
-    if (updatedPercentiles instanceof Error) return createAWSResErr(500, 'Error getting user ratings');
+    const updatedPercentiles = await updatePercentiles(userRatings.Items as unknown as IDynamoReview[], username);
+    if (updatedPercentiles instanceof Error) return createAWSResErr(500, 'Error updating percentiles');
 
     return {
       statusCode: 200,
@@ -157,7 +154,10 @@ const filterRatings = async (reviews: IRating[], username: string): Promise<IRat
   return filteredRatings.map((rating) => ({ ...rating, username }));
 };
 
-const updatePercentiles = async (percentiles: IPercentile[]): Promise<IHTTP | void> => {
+const updatePercentiles = async (ratings: IDynamoReview[], username: string): Promise<IHTTP | void> => {
+  const extractedRatings = extractRatings(ratings);
+  const percentiles = calculatePercentiles(username, extractedRatings);
+
   try {
     const updateRequests: Promise<UpdateItemCommandOutput>[] = [];
 
