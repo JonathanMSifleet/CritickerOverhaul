@@ -26,6 +26,7 @@ provider:
     FILMS_TABLE_NAME: ${self:custom.FilmsTable.name}
     RATINGS_TABLE_NAME: ${self:custom.RatingsTable.name}
     REACT_BUCKET_NAME: ${self:custom.ReactBucket.name}
+    USER_RATINGS_TABLE_NAME: ${self:custom.UserRatingsTable.name}
     USER_TABLE_NAME: ${self:custom.UserTable.name}
   iam:
     role:
@@ -33,6 +34,7 @@ provider:
         - ${file(aws/iam/AvatarTableIAM.yml):AvatarTableIAM}
         - ${file(aws/iam/FilmsTableIAM.yml):FilmsTableIAM}
         - ${file(aws/iam/RatingsTableIAM.yml):RatingsTableIAM}
+        - ${file(aws/iam/UserRatingsTableIAM.yml):UserRatingsTableIAM}
         - ${file(aws/iam/UserTableIAM.yml):UserTableIAM}
 
 package:
@@ -230,6 +232,16 @@ functions:
   #         path: migration/importFilmBatch
   #         cors: true
 
+  # aggregation functions
+  aggregateUserRatings:
+    handler: aws/handlers/aggregation/aggregateUserRatings.handler
+    timeout: 30
+    events:
+      - http:
+          method: GET
+          path: aggregation/aggregateUserRatings/{username}
+          cors: true
+
   # auth functions:
   authoriser:
     handler: aws/handlers/auth/authoriser.handler
@@ -256,6 +268,7 @@ resources:
     AvatarTable: ${file(aws/resources/AvatarTable.yml):AvatarTable}
     FilmsTable: ${file(aws/resources/FilmsTable.yml):FilmsTable}
     RatingsTable: ${file(aws/resources/RatingsTable.yml):RatingsTable}
+    UserRatingsTable: ${file(aws/resources/UserRatingsTable.yml):UserRatingsTable}
     UserTable: ${file(aws/resources/UserTable.yml):UserTable}
     # Bucket policies:
     ReactBucketPolicy: ${file(aws/resources/ReactBucket.yml):ReactBucketPolicy}
@@ -339,12 +352,15 @@ custom:
   FilmsTable:
     name: !Ref FilmsTable
     arn: !GetAtt FilmsTable.Arn
-  UserTable:
-    name: !Ref UserTable
-    arn: !GetAtt UserTable.Arn
   RatingsTable:
     name: !Ref RatingsTable
     arn: !GetAtt RatingsTable.Arn
+  UserRatingsTable:
+    name: !Ref UserRatingsTable
+    arn: !GetAtt UserRatingsTable.Arn
+  UserTable:
+    name: !Ref UserTable
+    arn: !GetAtt UserTable.Arn
   ReactBucket:
     name: react-bucket-x3blze4m-${self:provider.stage}
   BucketFolder:

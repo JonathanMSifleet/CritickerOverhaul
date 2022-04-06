@@ -1,0 +1,13 @@
+UserRatingsTableIAM:
+  Effect: Allow
+  Action:
+    - dynamodb:PutItem
+    - dynamodb:Scan
+    - dynamodb:GetItem
+    - dynamodb:DeleteItem
+    - dynamodb:UpdateItem
+    - dynamodb:Query
+    - dynamodb:BatchWriteItem
+  Resource:
+    - ${self:custom.UserTable.arn}
+
