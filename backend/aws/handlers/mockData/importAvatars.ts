@@ -20,10 +20,7 @@ const importAvatars = async (event: { body: string }): Promise<void | IHTTP> => 
     await dbClient.send(new BatchWriteItemCommand(params));
 
     console.log('Successfully imported avatars');
-    return {
-      statusCode: 200,
-      body: JSON.stringify('')
-    };
+    return { statusCode: 204 };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, error.message);
   }

@@ -19,10 +19,7 @@ const importFilmBatch = async (event: { body: string }): Promise<IHTTP | void> =
   try {
     await dbClient.send(new BatchWriteItemCommand(params));
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify('Successfully inserted batch')
-    };
+    return { statusCode: 204 };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, [error.message, films]);
   }

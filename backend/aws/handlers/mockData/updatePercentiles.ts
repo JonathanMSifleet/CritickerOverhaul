@@ -37,10 +37,7 @@ const updatePercentiles = async (event: { pathParameters: { username: string } }
     }
 
     console.log('Successfully updated percentiles');
-    return {
-      statusCode: 201,
-      body: JSON.stringify('Success')
-    };
+    return { statusCode: 204 };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, error.message);
   }

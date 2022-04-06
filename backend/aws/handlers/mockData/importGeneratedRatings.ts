@@ -20,10 +20,7 @@ const importGeneratedRatings = async (event: { body: string }): Promise<void | I
     await dbClient.send(new BatchWriteItemCommand(params));
 
     console.log('Successfully imported ratings');
-    return {
-      statusCode: 200,
-      body: JSON.stringify('')
-    };
+    return { statusCode: 204 };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, error.message);
   }

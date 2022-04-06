@@ -26,10 +26,7 @@ const addPeople = async (event: { body: string; pathParameters: { type: string }
     await dbClient.send(new UpdateItemCommand(params!));
 
     console.log(`Successfully added ${type}`);
-    return {
-      statusCode: 200,
-      body: JSON.stringify('Success')
-    };
+    return { statusCode: 204 };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, JSON.stringify(error.message));
   }

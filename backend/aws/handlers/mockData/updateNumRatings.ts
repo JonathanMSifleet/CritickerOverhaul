@@ -13,7 +13,7 @@ const dbClient = new DynamoDBClient({});
 const updateNumRatings = async (): Promise<IHTTP> => {
   const usernames = await getUsernames();
 
-  const updateRatingRequests: Promise<any>[] = [];
+  const updateRatingRequests: Promise<void | IHTTP>[] = [];
   usernames.forEach(async (username) => {
     updateRatingRequests.push(updateRatings(username));
   });
@@ -21,10 +21,7 @@ const updateNumRatings = async (): Promise<IHTTP> => {
   try {
     await Promise.all(updateRatingRequests);
 
-    return {
-      statusCode: 201,
-      body: JSON.stringify('Number of ratings altered successfully')
-    };
+    return { statusCode: 204 };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, error.message);
   }
