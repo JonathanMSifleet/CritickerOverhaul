@@ -11,7 +11,7 @@ provider:
   apiGateway:
     minimumCompressionSize: 1024
     shouldStartNameWithService: true
-  memorySize: 256
+  memorySize: 512
   stage: ${opt:stage, 'dev'}
   region: eu-west-2
   environment:
@@ -58,6 +58,14 @@ functions:
           path: rating/deleteRating/{imdbID}/{username}/{accessToken}
           cors: true
           authorizer: ${self:custom.authoriser}
+  generateTCI:
+    handler: aws/handlers/user/generateTCI.handler
+    timeout: 30
+    events:
+      - http:
+          method: POST
+          path: user/generateTCI/{usernameOne}/{usernameTwo}
+          cors: true
   getAllRatings:
     handler: aws/handlers/rating/getAllRatings.handler
     timeout: 30
