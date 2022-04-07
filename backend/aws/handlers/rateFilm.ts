@@ -53,13 +53,13 @@ const rateFilm = async (event: {
     const result = await insertRatingToDB(payload);
     if (result instanceof Error) return createAWSResErr(520, result.message);
 
-    await updateUserRatingsRating(username, payload);
-
     if (!reviewAlreadyExists) {
       const numRatings = (await alterNumRatings(dbClient, username, 1)) as number;
 
       if (numRatings % 25 === 0) await regeneratePercentiles(username);
     }
+
+    await updateUserRatingsRating(username, payload);
 
     return {
       statusCode: 201,
