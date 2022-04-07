@@ -1,7 +1,9 @@
 To do:
 
+- update 'updatePercentiles' lambda to update 'user-ratings-table' percentiles too
 - User bio
-- migrate people table
+- search page
+- generate probable score indicator
 ---
 
 Mockaroo schema: https://www.mockaroo.com/b73a8170

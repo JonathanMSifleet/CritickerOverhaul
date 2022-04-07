@@ -28,7 +28,9 @@ Extras/
 backend/lib/tsconfig.tsbuildinfo
 createSecret.txt
 dist
-generateData/**/*.json
+generateData/avatars/*.json
+generateData/reviews/*.json
+generateData/usernamePairs/*.json
 node_modules
 npm-debug.log*
 secret.pem
