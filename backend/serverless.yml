@@ -42,7 +42,7 @@ package:
 
 functions:
   deleteAccount:
-    handler: aws/handlers/deleteAccount.handler
+    handler: aws/handlers/user/deleteAccount.handler
     events:
       - http:
           method: DELETE
@@ -50,7 +50,7 @@ functions:
           cors: true
           authorizer: ${self:custom.authoriser}
   deleteRating:
-    handler: aws/handlers/deleteRating.handler
+    handler: aws/handlers/rating/deleteRating.handler
     events:
       - http:
           method: DELETE
@@ -58,7 +58,7 @@ functions:
           cors: true
           authorizer: ${self:custom.authoriser}
   getAllRatings:
-    handler: aws/handlers/getAllRatings.handler
+    handler: aws/handlers/rating/getAllRatings.handler
     timeout: 30
     events:
       - http:
@@ -70,63 +70,63 @@ functions:
           path: rating/getAllRatings/{username}/{lastEvaluatedKey}
           cors: true
   getFilmDetails:
-    handler: aws/handlers/getFilmDetails.handler
+    handler: aws/handlers/film/getFilmDetails.handler
     events:
       - http:
           method: GET
-          path: getFilmDetails/{imdbID}
+          path: film/getFilmDetails/{imdbID}
           cors: true
   getFilmRatings:
-    handler: aws/handlers/getFilmRatings.handler
+    handler: aws/handlers/film/getFilmRatings.handler
     events:
       - http:
           method: GET
-          path: getFilmRatings/{imdbID}
+          path: film/getFilmRatings/{imdbID}
           cors: true
   getFilms:
-    handler: aws/handlers/getFilms.handler
+    handler: aws/handlers/film/getFilms.handler
     events:
       - http:
           method: GET
-          path: getFilms
+          path: film/getFilms
           cors: true
   getNumRatings:
-    handler: aws/handlers/getNumRatings.handler
+    handler: aws/handlers/user/getNumRatings.handler
     events:
       - http:
           method: GET
-          path: rating/getNumRatings/{username}
+          path: user/getNumRatings/{username}
           cors: true
   getProfileByUsername:
-    handler: aws/handlers/getProfileByUsername.handler
+    handler: aws/handlers/user/getProfileByUsername.handler
     events:
       - http:
           method: GET
           path: user/profile/{username}
           cors: true
   getUserAvatar:
-    handler: aws/handlers/getUserAvatar.handler
+    handler: aws/handlers/user/getUserAvatar.handler
     events:
       - http:
           method: GET
           path: user/avatar/{username}
           cors: true
   getRecentRatings:
-    handler: aws/handlers/getRecentRatings.handler
+    handler: aws/handlers/user/getRecentRatings.handler
     events:
       - http:
           method: GET
-          path: rating/getRecentRatings/{username}
+          path: user/getRecentRatings/{username}
           cors: true
   getUserRating:
-    handler: aws/handlers/getUserRating.handler
+    handler: aws/handlers/rating/getUserRating.handler
     events:
       - http:
           method: GET
           path: rating/getUserRating/{imdbID}/{username}
           cors: true
   importRatings:
-    handler: aws/handlers/importRatings.handler
+    handler: aws/handlers/rating/importRatings.handler
     timeout: 30
     events:
       - http:
@@ -135,14 +135,14 @@ functions:
           cors: true
           authorizer: ${self:custom.authoriser}
   login:
-    handler: aws/handlers/login.handler
+    handler: aws/handlers/user/login.handler
     events:
       - http:
           method: POST
-          path: login
+          path: user/login
           cors: true
   rateFilm:
-    handler: aws/handlers/rateFilm.handler
+    handler: aws/handlers/rating/rateFilm.handler
     timeout: 30
     events:
       - http:
@@ -151,14 +151,14 @@ functions:
           cors: true
           authorizer: ${self:custom.authoriser}
   signup:
-    handler: aws/handlers/signup.handler
+    handler: aws/handlers/user/signup.handler
     events:
       - http:
           method: POST
-          path: signup
+          path: user/signup
           cors: true
   updateUserProfile:
-    handler: aws/handlers/updateUserProfile.handler
+    handler: aws/handlers/user/updateUserProfile.handler
     events:
       - http:
           method: PUT
@@ -166,7 +166,7 @@ functions:
           cors: true
           authorizer: ${self:custom.authoriser}
   uploadUserAvatar:
-    handler: aws/handlers/uploadUserAvatar.handler
+    handler: aws/handlers/user/uploadUserAvatar.handler
     events:
       - http:
           method: POST
@@ -215,16 +215,17 @@ functions:
   #         method: PUT
   #         path: mockData/updatePercentiles/{username}
   #         cors: true
+
   # migration functions:
   # addPeople:
-  #   handler: aws/handlers/migration/addPeople.handler
+  #   handler: aws/handlers/mySQLMigration/addPeople.handler
   #   events:
   #     - http:
   #         method: PUT
   #         path: migration/addPeople/{type}
   #         cors: true
   # importFilmBatch:
-  #   handler: aws/handlers/migration/importFilmBatch.handler
+  #   handler: aws/handlers/mySQLMigration/importFilmBatch.handler
   #   timeout: 30
   #   events:
   #     - http:
@@ -234,12 +235,12 @@ functions:
 
   # aggregation functions
   aggregateUserRatings:
-    handler: aws/handlers/aggregation/aggregateUserRatings.handler
+    handler: aws/handlers/mockData/aggregateUserRatings.handler
     timeout: 30
     events:
       - http:
           method: GET
-          path: aggregation/aggregateUserRatings/{username}
+          path: mockData/aggregateUserRatings/{username}
           cors: true
 
   # auth functions:
