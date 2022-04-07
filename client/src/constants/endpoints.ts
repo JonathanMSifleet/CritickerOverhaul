@@ -2,6 +2,7 @@ const ROOT = 'https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev';
 
 export const ADD_PEOPLE = `${ROOT}/migration/addPeople`;
 export const ADD_ACCOUNTS = `${ROOT}/mockData/addAccounts`;
+export const AGGREGATE_USER_RATINGS = `${ROOT}/aggregation/aggregateUserRatings`;
 export const DELETE_ACCOUNT = `${ROOT}/user/deleteAccount`;
 export const DELETE_RATING = `${ROOT}/rating/deleteRating`;
 export const GET_ALL_RATINGS = `${ROOT}/rating/getAllRatings`;
