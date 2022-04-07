@@ -1,4 +1,4 @@
-UserRatingsTableIAM:
+TciTableIAM:
   Effect: Allow
   Action:
     - dynamodb:PutItem
@@ -8,5 +8,4 @@ UserRatingsTableIAM:
     - dynamodb:Query
     - dynamodb:BatchWriteItem
   Resource:
-    - ${self:custom.UserRatingsTable.arn}
-
+    - ${self:custom.TciTable.arn}

@@ -2,7 +2,6 @@ UserTableIAM:
   Effect: Allow
   Action:
     - dynamodb:PutItem
-    - dynamodb:Scan
     - dynamodb:GetItem
     - dynamodb:DeleteItem
     - dynamodb:UpdateItem

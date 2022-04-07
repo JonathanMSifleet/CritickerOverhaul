@@ -2,10 +2,8 @@ FilmsTableIAM:
   Effect: Allow
   Action:
     - dynamodb:PutItem
-    - dynamodb:Scan
     - dynamodb:GetItem
     - dynamodb:DeleteItem
-    - dynamodb:UpdateItem
     - dynamodb:Query
     - dynamodb:BatchGetItem
     - dynamodb:BatchWriteItem

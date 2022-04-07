@@ -14,7 +14,6 @@ provider:
   memorySize: 256
   stage: ${opt:stage, 'dev'}
   region: eu-west-2
-  # environment variables:
   environment:
     AUTH0_AUDIENCE: https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev/signup
     AUTH0_ID: uftV0Jb8KRKl7rGzmzEZXPwIgoEr77tR
@@ -26,6 +25,7 @@ provider:
     FILMS_TABLE_NAME: ${self:custom.FilmsTable.name}
     RATINGS_TABLE_NAME: ${self:custom.RatingsTable.name}
     REACT_BUCKET_NAME: ${self:custom.ReactBucket.name}
+    TCI_TABLE_NAME: ${self:custom.TciTable.name}
     USER_RATINGS_TABLE_NAME: ${self:custom.UserRatingsTable.name}
     USER_TABLE_NAME: ${self:custom.UserTable.name}
   iam:
@@ -34,6 +34,7 @@ provider:
         - ${file(aws/iam/AvatarTableIAM.yml):AvatarTableIAM}
         - ${file(aws/iam/FilmsTableIAM.yml):FilmsTableIAM}
         - ${file(aws/iam/RatingsTableIAM.yml):RatingsTableIAM}
+        - ${file(aws/iam/TciTableIAM.yml):TciTableIAM}
         - ${file(aws/iam/UserRatingsTableIAM.yml):UserRatingsTableIAM}
         - ${file(aws/iam/UserTableIAM.yml):UserTableIAM}
 
@@ -183,6 +184,14 @@ functions:
   #         method: POST
   #         path: mockData/addAccounts
   #         cors: true
+  # aggregateUserRatings:
+  #   handler: aws/handlers/mockData/aggregateUserRatings.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         method: GET
+  #         path: mockData/aggregateUserRatings/{username}
+  #         cors: true
   # importAvatars:
   #   handler: aws/handlers/mockData/importAvatars.handler
   #   timeout: 30
@@ -233,16 +242,6 @@ functions:
   #         path: migration/importFilmBatch
   #         cors: true
 
-  # aggregation functions
-  aggregateUserRatings:
-    handler: aws/handlers/mockData/aggregateUserRatings.handler
-    timeout: 30
-    events:
-      - http:
-          method: GET
-          path: mockData/aggregateUserRatings/{username}
-          cors: true
-
   # auth functions:
   authoriser:
     handler: aws/handlers/auth/authoriser.handler
@@ -263,17 +262,15 @@ functions:
           authorizer: ${self:custom.authoriser}
 resources:
   Resources:
-    # Buckets:
-    ReactBucket: ${file(aws/resources/ReactBucket.yml):ReactBucket}
-    # Tables:
     AvatarTable: ${file(aws/resources/AvatarTable.yml):AvatarTable}
     FilmsTable: ${file(aws/resources/FilmsTable.yml):FilmsTable}
     RatingsTable: ${file(aws/resources/RatingsTable.yml):RatingsTable}
+    ReactBucket: ${file(aws/resources/ReactBucket.yml):ReactBucket}
+    ReactBucketPolicy: ${file(aws/resources/ReactBucket.yml):ReactBucketPolicy}
+    TciTable: ${file(aws/resources/TciTable.yml):TciTable}
     UserRatingsTable: ${file(aws/resources/UserRatingsTable.yml):UserRatingsTable}
     UserTable: ${file(aws/resources/UserTable.yml):UserTable}
-    # Bucket policies:
-    ReactBucketPolicy: ${file(aws/resources/ReactBucket.yml):ReactBucketPolicy}
-    # Cloudfront:
+
     CloudFrontOriginAccessIdentity:
       Type: AWS::CloudFront::CloudFrontOriginAccessIdentity
       Properties:
@@ -356,6 +353,9 @@ custom:
   RatingsTable:
     name: !Ref RatingsTable
     arn: !GetAtt RatingsTable.Arn
+  TciTable:
+    name: !Ref TciTable
+    arn: !GetAtt TciTable.Arn
   UserRatingsTable:
     name: !Ref UserRatingsTable
     arn: !GetAtt UserRatingsTable.Arn
