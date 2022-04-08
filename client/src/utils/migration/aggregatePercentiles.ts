@@ -2,8 +2,8 @@ import * as endpoints from '../../constants/endpoints';
 import chunk from 'chunk';
 import httpRequest from '../httpRequest';
 
-const updateAggregatedRatings = async (usernames: { username: string }[]): Promise<void> => {
-  const extractedUsernames = usernames.map((username) => username.username);
+const aggregatePercentiles = async (usernames: { name: string }[]): Promise<void> => {
+  const extractedUsernames = usernames.map((username) => username.name);
   const usernameBatch = chunk(extractedUsernames, 4);
 
   console.log('Starting import');
@@ -14,7 +14,7 @@ const updateAggregatedRatings = async (usernames: { username: string }[]): Promi
     batch.forEach((username) => {
       console.log(`Updating user ${i} out of ${extractedUsernames.length}`);
       i++;
-      updateRequests.push(httpRequest(`${endpoints.AGGREGATE_RATINGS}/${username}`, 'GET'));
+      updateRequests.push(httpRequest(`${endpoints.AGGREGATE_PERCENTILES}/${username}`, 'GET'));
     });
 
     try {
@@ -27,4 +27,4 @@ const updateAggregatedRatings = async (usernames: { username: string }[]): Promi
   console.log('Import completed');
 };
 
-export default updateAggregatedRatings;
+export default aggregatePercentiles;

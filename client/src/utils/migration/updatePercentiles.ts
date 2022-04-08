@@ -7,13 +7,13 @@ const updatePercentiles = async (usernames: { name: string }[]): Promise<void> =
 
   const usernameBatches = chunk(extractedUsernames, 4);
 
-  console.log('Starting import');
+  console.log('Starting updating');
 
   let i = 1;
   for await (const batch of usernameBatches) {
     const importRequests: Promise<any>[] = [];
     batch.forEach((name) => {
-      console.log(`Importing username ${i} out of ${extractedUsernames.length}`);
+      console.log(`Updating percentiles ${i} out of ${extractedUsernames.length}`);
       i++;
       importRequests.push(httpRequest(`${endpoints.UPDATE_PERCENTILES}/${name}`, 'PUT'));
     });
@@ -25,7 +25,7 @@ const updatePercentiles = async (usernames: { name: string }[]): Promise<void> =
     }
   }
 
-  console.log('Import completed');
+  console.log('Update completed');
 };
 
 export default updatePercentiles;

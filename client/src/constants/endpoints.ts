@@ -2,7 +2,7 @@ const ROOT = 'https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev';
 
 export const ADD_ACCOUNTS = `${ROOT}/mockData/addAccounts`;
 export const ADD_PEOPLE = `${ROOT}/migration/addPeople`;
-export const AGGREGATE_RATINGS = `${ROOT}/mockData/aggregateUserRatings`;
+export const AGGREGATE_PERCENTILES = `${ROOT}/mockData/aggregateUserPercentiles`;
 export const DELETE_ACCOUNT = `${ROOT}/user/deleteAccount`;
 export const DELETE_RATING = `${ROOT}/rating/deleteRating`;
 export const GENERATE_TCI = `${ROOT}/user/generateTCI`;
@@ -12,7 +12,7 @@ export const GET_FILM_DETAILS = `${ROOT}/film/getFilmDetails`;
 export const GET_FILM_RATINGS = `${ROOT}/film/getFilmRatings`;
 export const GET_NUM_RATINGS = `${ROOT}/user/getNumRatings`;
 export const GET_PROFILE_BY_USERNAME = `${ROOT}/user/profile`;
-export const GET_RECENT_RATINGS = `${ROOT}/rating/getRecentRatings`;
+export const GET_RECENT_RATINGS = `${ROOT}/user/getRecentRatings`;
 export const GET_USER_AVATAR = `${ROOT}/user/avatar`;
 export const GET_USER_RATING = `${ROOT}/rating/getUserRating`;
 export const IMPORT_AVATARS = `${ROOT}/mockData/importAvatars`;
