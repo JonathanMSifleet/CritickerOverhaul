@@ -79,7 +79,7 @@ const getMatchingUserRatings = (ratings: IUserRatings[]): IRating[] =>
 
 const getUserRatings = async (username: string): Promise<IHTTP | IUserRatings> => {
   const query = {
-    TableName: process.env.USER_RATINGS_TABLE_NAME!,
+    TableName: process.env.AGGREGATE_PERCENTILES_TABLE_NAME!,
     Key: {
       username: { S: username }
     },

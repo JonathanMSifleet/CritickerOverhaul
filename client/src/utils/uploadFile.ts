@@ -1,4 +1,4 @@
-import updatePercentiles from './migration/updatePercentiles';
+import updateAggregatedRatings from './migration/updateAggregatedRatings';
 
 const uploadFile = (event: { target: { files: FileList } }): void => {
   try {
@@ -7,7 +7,7 @@ const uploadFile = (event: { target: { files: FileList } }): void => {
     fileReader.readAsText(event.target.files[0]);
     fileReader.onload = (): void => {
       try {
-        updatePercentiles(JSON.parse(fileReader.result as string));
+        updateAggregatedRatings(JSON.parse(fileReader.result as string));
       } catch (error) {
         console.error(error);
       }

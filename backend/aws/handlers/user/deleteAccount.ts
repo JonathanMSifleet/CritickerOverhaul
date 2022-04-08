@@ -115,7 +115,7 @@ const deleteRatings = async (username: string, ratings: IRating[]): Promise<IHTT
 
 const deleteUserRatingsTableRatings = async (username: string): Promise<IHTTP | void> => {
   const query = {
-    TableName: process.env.USER_RATINGS_TABLE_NAME!,
+    TableName: process.env.AGGREGATE_PERCENTILES_TABLE_NAME!,
     Key: {
       username: { S: username }
     }

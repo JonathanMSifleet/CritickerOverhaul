@@ -1,7 +1,7 @@
-UserRatingsTable:
+AggregatePercentilesTable:
   Type: AWS::DynamoDB::Table
   Properties:
-    TableName: UserRatingsTable
+    TableName: AggregatePercentilesTable
     BillingMode: PAY_PER_REQUEST
     AttributeDefinitions:
       - AttributeName: username

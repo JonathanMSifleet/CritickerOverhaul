@@ -83,7 +83,7 @@ const createInitialUserRatingTableRating = async (username: string, payload: IRa
   try {
     await dbClient.send(
       new PutItemCommand({
-        TableName: process.env.USER_RATINGS_TABLE_NAME!,
+        TableName: process.env.AGGREGATE_PERCENTILES_TABLE_NAME!,
         Item: updatedPercentiles
       })
     );
@@ -104,7 +104,7 @@ const createUpdatedUserRatingTableRating = async (
   currentPercentiles.push({ imdbID: payload.imdbID, ratingPercentile: payload.ratingPercentile });
 
   const updateItemQuery = {
-    TableName: process.env.USER_RATINGS_TABLE_NAME!,
+    TableName: process.env.AGGREGATE_PERCENTILES_TABLE_NAME!,
     Key: {
       username: { S: username }
     },
@@ -212,7 +212,7 @@ const regeneratePercentiles = async (username: string): Promise<IHTTP | void> =>
 
 const updateUserRatingsRating = async (username: string, payload: IRating): Promise<IHTTP | void> => {
   const query = {
-    TableName: process.env.USER_RATINGS_TABLE_NAME!,
+    TableName: process.env.AGGREGATE_PERCENTILES_TABLE_NAME!,
     Key: {
       username: { S: username }
     }

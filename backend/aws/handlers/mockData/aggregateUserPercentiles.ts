@@ -7,25 +7,22 @@ import middy from '@middy/core';
 
 const dbClient = new DynamoDBClient({});
 
-const aggregateUserRatings = async (event: { pathParameters: { username: string } }): Promise<IHTTP> => {
+const aggregateUserPercentiles = async (event: { pathParameters: { username: string } }): Promise<IHTTP> => {
   const username = event.pathParameters.username;
-
   const ratings = await getUserRatings(dbClient, username, 'imdbID, ratingPercentile');
 
-  const payload = {
-    username: { S: username },
-    ratings: { S: JSON.stringify(ratings) }
-  };
-
   const query = {
-    TableName: process.env.USER_RATINGS_TABLE_NAME!,
-    Item: payload
+    TableName: process.env.AGGREGATE_PERCENTILES_TABLE_NAME!,
+    Item: {
+      username: { S: username },
+      ratings: { S: JSON.stringify(ratings) }
+    }
   };
 
   try {
     await dbClient.send(new PutItemCommand(query));
 
-    console.log('Successfully updated user-ratings-table ratings');
+    console.log('Successfully updated aggregated ratings');
     return { statusCode: 204 };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(403, error.message);
@@ -34,4 +31,4 @@ const aggregateUserRatings = async (event: { pathParameters: { username: string 
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
-export const handler = middy(aggregateUserRatings).use(cors());
+export const handler = middy(aggregateUserPercentiles).use(cors());

@@ -1,4 +1,4 @@
-UserRatingsTableIAM:
+AggregatePercentilesTableIAM:
   Effect: Allow
   Action:
     - dynamodb:PutItem
@@ -8,5 +8,5 @@ UserRatingsTableIAM:
     - dynamodb:Query
     - dynamodb:BatchWriteItem
   Resource:
-    - ${self:custom.UserRatingsTable.arn}
+    - ${self:custom.AggregatePercentilesTable.arn}
 
