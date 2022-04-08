@@ -11,10 +11,13 @@
     "importHelpers": true,
     "incremental": true,
     "isolatedModules": true,
-    "jsx": "react-jsx",
-    "lib": ["dom", "dom.iterable", "es2020"],
-    "module": "es2020",
-    "moduleResolution": "node",
+    "jsx": "preserve",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "noEmit": true,
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -24,8 +27,9 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es2020",
-    "types": ["node"]
+    "target": "ESNext",
+    "types": ["node"],
+    "useDefineForClassFields": true
   },
   "include": ["**/*"],
   "exclude": [
@@ -35,5 +39,6 @@
     ".vscode/**/*",
     "*/*.bak",
     "./lib/**/*"
-  ]
+  ],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -5,9 +5,9 @@ import ShrugSVG from '../assets/svg/Shrug.svg';
 const getFilmPoster = async (imdbID: number): Promise<string> => {
   const formattedID = convertIDToIMDbFormat('film', imdbID);
 
-  // eslint-disable-next-line
-  const url =
-    `https://api.themoviedb.org/3/find/${formattedID}?api_key=${process.env.TMDB_KEY}&external_source=imdb_id`;
+  const tmdbKey = '2a6fdeb294b4f2342ca8a611d7ecab34';
+
+  const url = `https://api.themoviedb.org/3/find/${formattedID}?api_key=${tmdbKey}&external_source=imdb_id`;
 
   const response = await httpRequest(url, 'GET');
 
