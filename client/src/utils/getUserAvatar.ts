@@ -6,7 +6,7 @@ import ShrugSVG from '../assets/svg/Shrug.svg';
 
 const getUserAvatar = async (
   username: string | undefined,
-  userState: IUserState | undefined
+  userState?: IUserState | undefined
 ): Promise<{ username: string; avatar: string }> => {
   if (username === undefined) return userState!.avatar !== undefined ? userState!.avatar : ShrugSVG;
 

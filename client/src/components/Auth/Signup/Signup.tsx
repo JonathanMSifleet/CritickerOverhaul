@@ -76,18 +76,20 @@ const SignUp: FC = () => {
     const replacementUsernameValList: string[] = [];
 
     valMessages.forEach((message) => {
-      switch (Object.keys(message)[0]) {
+      const validationKey = Object.keys(message)[0];
+
+      switch (validationKey) {
         case 'Username':
-          replacementUsernameValList.push(`${Object.keys(message)[0]} ${message.Username}`);
+          replacementUsernameValList.push(`${validationKey} ${message.Username}`);
           break;
         case 'Email':
-          replacementEmailValList.push(`${Object.keys(message)[0]} ${message.Email}`);
+          replacementEmailValList.push(`${validationKey} ${message.Email}`);
           break;
         case 'Passwords':
-          replacementPasswordValList.push(`${Object.keys(message)[0]} ${message.Passwords}`);
+          replacementPasswordValList.push(`${validationKey} ${message.Passwords}`);
           break;
         default:
-          console.error('Unhandled validation key:', Object.keys(message)[0]);
+          console.error('Unhandled validation key:', validationKey);
           console.error('Validation message:', message);
       }
     });
@@ -105,16 +107,16 @@ const SignUp: FC = () => {
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         <Input
           className={classes.AuthInput}
-          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'username')}
           errors={usernameValidationMessages}
+          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'username')}
           placeholder={'Username'}
           type={'text'}
         />
 
         <Input
-          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'email')}
           autoComplete="new-password"
           errors={emailValidationMessages}
+          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'email')}
           placeholder={'Email'}
           type={'email'}
         />
@@ -127,8 +129,8 @@ const SignUp: FC = () => {
         />
 
         <Input
-          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'repeatPassword')}
           errors={passwordValidationMessages}
+          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'repeatPassword')}
           placeholder={'Repeat password'}
           type={'password'}
         />
