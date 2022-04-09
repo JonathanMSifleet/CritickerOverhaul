@@ -1,12 +1,12 @@
 RatingsTableIAM:
   Effect: Allow
   Action:
-    - dynamodb:PutItem
-    - dynamodb:GetItem
-    - dynamodb:DeleteItem
-    - dynamodb:UpdateItem
-    - dynamodb:Query
     - dynamodb:BatchWriteItem
+    - dynamodb:DeleteItem
+    - dynamodb:GetItem
+    - dynamodb:PutItem
+    - dynamodb:Query
+    - dynamodb:UpdateItem
   Resource:
     - ${self:custom.RatingsTable.arn}
     - !Join ['/', ['${self:custom.RatingsTable.arn}', 'index', 'username']]

@@ -1,12 +1,15 @@
 FilmsTableIAM:
   Effect: Allow
   Action:
-    - dynamodb:PutItem
-    - dynamodb:GetItem
-    - dynamodb:DeleteItem
-    - dynamodb:Query
     - dynamodb:BatchGetItem
     - dynamodb:BatchWriteItem
+    - dynamodb:DeleteItem
+    - dynamodb:DescribeTable
+    - dynamodb:GetItem
+    - dynamodb:PutItem
+    - dynamodb:Query
+    - dynamodb:Scan
   Resource:
     - ${self:custom.FilmsTable.arn}
     - !Join ['/', ['${self:custom.FilmsTable.arn}', 'index', 'releaseYear']]
+    - !Join ['/', ['${self:custom.FilmsTable.arn}', 'index', 'title']]
