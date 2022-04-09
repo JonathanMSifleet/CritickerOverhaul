@@ -6,11 +6,15 @@ const usernames = JSON.parse(fs.readFileSync('mockUsernames.json')).map(username
 const reviews = JSON.parse(fs.readFileSync('mockReviews.json')).map(review => review.review);
 const imdbIDs = JSON.parse(fs.readFileSync('myRatings.json')).map(id => id.imdbID);
 
-const generatedReviews = [];
+const generatedRatings = [];
 
-usernames.forEach (username => {
+let i = 0;
+usernames.forEach(username => {
   imdbIDs.forEach((imdbID) => {
-    if (getRandomInt(8) === 0) return;
+    // initial 50 people must have matching reviews
+    if (i > 30) {
+      if (getRandomInt(50) === 0) return;
+    }
 
     let userReview = undefined;
     if (getRandomInt(5) === 4) userReview = reviews[getRandomInt(reviews.length)];
@@ -22,8 +26,9 @@ usernames.forEach (username => {
     };
     if(userReview) review.review = userReview;
 
-    generatedReviews.push(review);
+    generatedRatings.push(review);
+    i++;
   });
 });
 
-fs.writeFileSync('generatedReviews.json', JSON.stringify(generatedReviews));
+fs.writeFileSync('generatedRatings.json', JSON.stringify(generatedRatings));
