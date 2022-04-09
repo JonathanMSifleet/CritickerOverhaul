@@ -8,7 +8,6 @@ import { userInfoState } from '../../store';
 import classes from './Film.module.scss';
 import getColourGradient from '../../utils/getColourGradient';
 import getFilmPoster from '../../utils/getFilmPoster';
-import getUserAvatar from '../../utils/getUserAvatar';
 import httpRequest from '../../utils/httpRequest';
 import IFilm from '../../../../shared/interfaces/IFilm';
 import PageView from '../../components/PageView/PageView';
@@ -189,25 +188,29 @@ const Film: FC<IUrlParams> = ({ id }) => {
           <div className={classes.FilmRatingsWrapper}>
             <h3>Ratings:</h3>
             <div className={classes.FilmRatings}>
-              {ratings.map((rating: IRating) => (
-                <div className={classes.UserRatingWrapper} key={rating.username}>
-                  <UserAvatar username={rating.username} />
+              {ratings.length !== 0 ? (
+                ratings.map((rating: IRating) => (
+                  <div className={classes.UserRatingWrapper} key={rating.username}>
+                    <UserAvatar username={rating.username} />
 
-                  <p className={classes.UserRating}>
-                    <Link href={`#profile/${rating.username}`}>{rating.username}</Link>
-                  </p>
-                  <p
-                    className={classes.UserRatingScore}
-                    style={{ color: determineColourGradient(rating.ratingPercentile) }}
-                  >
-                    {rating.rating}
-                    <span className={classes.UserRatingPercentile}>{rating.ratingPercentile}%</span>
-                  </p>
-                  <div className={classes.UserReviewTextWrapper}>
-                    {rating.review ? <p className={classes.UserReviewText}>{rating.review}</p> : null}
+                    <p className={classes.UserRating}>
+                      <Link href={`#profile/${rating.username}`}>{rating.username}</Link>
+                    </p>
+                    <p
+                      className={classes.UserRatingScore}
+                      style={{ color: determineColourGradient(rating.ratingPercentile) }}
+                    >
+                      {rating.rating}
+                      <span className={classes.UserRatingPercentile}>{rating.ratingPercentile}%</span>
+                    </p>
+                    <div className={classes.UserReviewTextWrapper}>
+                      {rating.review ? <p className={classes.UserReviewText}>{rating.review}</p> : null}
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))
+              ) : (
+                <p>No ratings found</p>
+              )}
             </div>
           </div>
         </>
