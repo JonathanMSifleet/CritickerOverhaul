@@ -4,7 +4,7 @@ export default interface IFilm {
   countries?: string;
   description: string;
   directors?: string;
-  duration: number;
+  duration?: number;
   genres?: string;
   imdbID: number;
   languages?: string;

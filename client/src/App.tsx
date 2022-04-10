@@ -1,17 +1,17 @@
+import { createHashHistory } from 'history';
+import { FC, useEffect, useState } from 'react';
+import { lazy, Suspense } from 'preact/compat';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { userInfoState } from './store';
+import Router from 'preact-router';
+import Spinner from './components/Spinner/Spinner';
+
 const Film = lazy(() => import('./views/Film/Film'));
 const Home = lazy(() => import('./views/Home/Home'));
 const Profile = lazy(() => import('./views/Profile/Profile'));
 const Ratings = lazy(() => import('./views/Ratings/Ratings'));
+const Search = lazy(() => import('./views/Search/Search'));
 const TextOnlyPage = lazy(() => import('./views/TextOnlyPage/TextOnlyPage'));
-
-import { FC, useEffect, useState } from 'react';
-import { lazy, Suspense } from 'preact/compat';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
-
-import { createHashHistory } from 'history';
-import { userInfoState } from './store';
-import Router from 'preact-router';
-import Spinner from './components/Spinner/Spinner';
 
 const App: FC = () => {
   const [fontReady, setFontReady] = useState(false);
@@ -41,10 +41,11 @@ const App: FC = () => {
           {/* @ts-expect-error */}
           <Router history={createHashHistory()} onChange={detectRouteChange}>
             <Home path="/" />
-            <TextOnlyPage path="/information/:path" />
             <Film path={'/film/:id'} />
             <Profile path={'/profile/:username?'} />
             <Ratings path={'/ratings/:username?'} />
+            <Search path={'/search/:searchQuery'} />
+            <TextOnlyPage path="/information/:path" />
           </Router>
         </Suspense>
       ) : (

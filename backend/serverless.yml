@@ -92,6 +92,10 @@ functions:
           method: GET
           path: film/getFilmRatings/{imdbID}
           cors: true
+      - http:
+          method: GET
+          path: film/getFilmRatings/{imdbID}/{username}
+          cors: true
   getFilms:
     handler: aws/handlers/film/getFilms.handler
     events:
@@ -159,6 +163,18 @@ functions:
           path: rating/rateFilm/{username}
           cors: true
           authorizer: ${self:custom.authoriser}
+  searchForFilm:
+    handler: aws/handlers/film/searchForFilm.handler
+    timeout: 30
+    events:
+      - http:
+          method: GET
+          path: film/searchForFilm/{queryString}
+          cors: true
+      - http:
+          method: GET
+          path: film/searchForFilm/{queryString}/{lastEvaluatedKey}
+          cors: true
   signup:
     handler: aws/handlers/user/signup.handler
     events:

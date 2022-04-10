@@ -1,11 +1,10 @@
 import { authModalState, userInfoState } from '../../../store';
 import { FC } from 'react';
-import { lazy, Suspense } from 'preact/compat';
-import { Link } from 'preact-router';
+import { lazy, Suspense, useState } from 'preact/compat';
+import { Link, route } from 'preact-router';
 import {
   MDBContainer,
   MDBIcon,
-  MDBInput,
   MDBNavbar,
   MDBNavbarItem,
   MDBNavbarLink,
@@ -16,6 +15,7 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import Button from '../../Button/Button';
 import classes from './Header.module.scss';
 // import FileSelector from '../../FileSelector/FileSelector';
+import Input from '../../Input/Input';
 import Logo from '../../../assets/svg/Logo.svg';
 import Modal from '../../Modal/Modal';
 import ShrugSVG from '../../../assets/svg/Shrug.svg';
@@ -25,6 +25,7 @@ import Spinner from '../../Spinner/Spinner';
 const Auth = lazy(() => import('../../Auth/Auth'));
 
 const Header: FC = (): JSX.Element => {
+  const [searchInput, setSearchInput] = useState('');
   const [showModal, setShowModal] = useRecoilState(authModalState);
   const resetUserState = useResetRecoilState(userInfoState);
   const userState = useRecoilValue(userInfoState);
@@ -32,6 +33,8 @@ const Header: FC = (): JSX.Element => {
   const displayAuthModal = (): void => setShowModal(true);
 
   const logout = (): void => resetUserState();
+
+  const handleFormSubmission = (): boolean => route(`/search/${searchInput}`);
 
   return (
     <header>
@@ -54,9 +57,16 @@ const Header: FC = (): JSX.Element => {
             </MDBNavbarNav>
           </div>
 
-          {/* <FileSelector onChange={(event: { target: { files: FileList } }): void => uploadFile(event)} /> */}
+          <form onSubmit={handleFormSubmission}>
+            <Input
+              onChange={(event): void => setSearchInput(event.target.value)}
+              className={'bg-light'}
+              placeholder={'Search'}
+              type={'text'}
+            />
+          </form>
 
-          <MDBInput className={`${classes.SearchInput} bg-light`} label="Search" type="text" />
+          {/* <FileSelector onChange={(event: { target: { files: FileList } }): void => uploadFile(event)} /> */}
 
           {userState!.loggedIn ? (
             <>
@@ -82,6 +92,7 @@ const Header: FC = (): JSX.Element => {
           )}
         </MDBContainer>
       </MDBNavbar>
+
       {showModal ? (
         <Modal authState={authModalState}>
           {/* @ts-expect-error works correctly */}

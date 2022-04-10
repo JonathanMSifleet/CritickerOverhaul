@@ -21,6 +21,7 @@ export const IMPORT_GENERATED_RATINGS = `${ROOT}/mockData/importGeneratedRatings
 export const IMPORT_RATINGS = `${ROOT}/rating/importRatings`;
 export const LOGIN = `${ROOT}/user/login`;
 export const RATE_FILM = `${ROOT}/rating/rateFilm`;
+export const SEARCH_FOR_FILM = `${ROOT}/film/searchForFilm`;
 export const SIGNUP = `${ROOT}/user/signup`;
 export const UPDATE_NUM_RATINGS = `${ROOT}/mockData/importGeneratedRatings`;
 export const UPDATE_PERCENTILES = `${ROOT}/mockData/updatePercentiles`;
