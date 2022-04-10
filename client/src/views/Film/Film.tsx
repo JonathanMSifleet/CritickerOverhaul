@@ -51,6 +51,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
       getFilmPoster(id!).then((filmPoster) => setFilmPoster(filmPoster));
 
       httpRequest(`${endpoints.GET_FILM_RATINGS}/${id}`, 'GET').then((ratings) => {
+        if (ratings.statusCode === 404) return;
         setRatings(ratings);
       });
 

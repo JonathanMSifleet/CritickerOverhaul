@@ -9,10 +9,11 @@ const getFilmPoster = async (imdbID: number): Promise<string> => {
 
   const url = `https://api.themoviedb.org/3/find/${formattedID}?api_key=${tmdbKey}&external_source=imdb_id`;
 
-  const response = await httpRequest(url, 'GET');
-
   try {
+    const response = await httpRequest(url, 'GET');
     const poster = response.movie_results[0].poster_path;
+    if (!poster) throw new Error();
+
     return `http://image.tmdb.org/t/p/original${poster}`;
   } catch (error) {
     return ShrugSVG;
