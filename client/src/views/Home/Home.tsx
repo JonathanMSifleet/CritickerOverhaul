@@ -2,7 +2,7 @@ import * as endpoints from '../../constants/endpoints';
 
 import { FC, useEffect, useState } from 'react';
 
-import FilmCard from './FilmCard/FilmCard';
+import FilmCard from '../../components/FilmCard/FilmCard';
 import httpRequest from '../../utils/httpRequest';
 import IFilm from '../../../../shared/interfaces/IFilm';
 import PageView from '../../components/PageView/PageView';
