@@ -1,9 +1,0 @@
-AvatarTableIAM:
-  Effect: Allow
-  Action:
-    - dynamodb:BatchWriteItem
-    - dynamodb:DeleteItem
-    - dynamodb:PutItem
-    - dynamodb:Query
-  Resource:
-    - ${self:custom.AvatarTable.arn}

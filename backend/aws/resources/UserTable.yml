@@ -10,6 +10,8 @@ UserTable:
         AttributeType: S
       - AttributeName: accessToken
         AttributeType: S
+      - AttributeName: avatar
+        AttributeType: S
 
     KeySchema:
       - AttributeName: username

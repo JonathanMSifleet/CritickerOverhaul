@@ -79,7 +79,7 @@ const getUserAvatar = async (username: string): Promise<string | undefined> => {
 const loginUser = async (email: string): Promise<QueryCommandOutput> => {
   const query = createDynamoSearchQuery(
     process.env.USER_TABLE_NAME!,
-    'username, email, password, accessToken',
+    'accessToken, avatar, email, password, username',
     'email',
     email,
     'S',

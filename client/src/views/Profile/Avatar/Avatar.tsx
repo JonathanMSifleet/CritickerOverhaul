@@ -1,51 +1,34 @@
 import * as endpoints from '../../../constants/endpoints';
-
-import { FC, useEffect, useState } from 'react';
-
+import { FC, useState } from 'react';
 import { SetterOrUpdater } from 'recoil';
+import { useEffect } from 'preact/hooks';
 import classes from './Avatar.module.scss';
 import Compress from 'compress.js';
-import getUserAvatar from '../../../utils/getUserAvatar';
 import httpRequest from '../../../utils/httpRequest';
 import IUserState from './../../../interfaces/IUserState';
+import ShrugSVG from '../../../assets/svg/Shrug.svg';
 import Spinner from '../../../components/Spinner/Spinner';
 
 interface IProps {
-  shouldLoadAvatar: boolean;
-  setShouldLoadAvatar: (val: boolean) => void;
+  avatar: string;
   setUserInfo: SetterOrUpdater<IUserState>;
   username: string;
   userState: IUserState;
 }
 
-const Avatar: FC<IProps> = ({ setShouldLoadAvatar, shouldLoadAvatar, setUserInfo, username, userState }) => {
-  const [isLoadingAvatar, setIsLoadingAvatar] = useState(false);
-  const [userAvatar, setUserAvatar] = useState('');
+const Avatar: FC<IProps> = ({ avatar, setUserInfo, username, userState }) => {
+  const [userAvatar, setUserAvatar] = useState(avatar);
 
   useEffect(() => {
-    const getAvatar = async (): Promise<void> => {
-      setIsLoadingAvatar(true);
-
-      try {
-        const result = await getUserAvatar(username, userState);
-        setUserAvatar(result.avatar);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        setIsLoadingAvatar(false);
-        setShouldLoadAvatar(false);
-      }
-    };
-
-    if (shouldLoadAvatar) getAvatar();
-  }, [shouldLoadAvatar]);
+    if (avatar === undefined) setUserAvatar(ShrugSVG);
+  }, []);
 
   const uploadFile = async (image: File): Promise<void> => {
     const resizedImage = await new Compress().compress([image], {
       maxHeight: 200,
       maxWidth: 200,
       quality: 1,
-      size: 0.3
+      size: 0.2
     });
 
     const newImage = `${resizedImage[0].prefix}${resizedImage[0].data}`;
@@ -73,11 +56,7 @@ const Avatar: FC<IProps> = ({ setShouldLoadAvatar, shouldLoadAvatar, setUserInfo
 
   return (
     <div className={classes.ImageWrapper}>
-      {!isLoadingAvatar && (username || userState.loggedIn) ? (
-        <img className={classes.UserAvatar} src={userAvatar} />
-      ) : (
-        <Spinner />
-      )}
+      {username || userState.loggedIn ? <img className={classes.UserAvatar} src={userAvatar} /> : <Spinner />}
 
       {!username && userState.loggedIn ? (
         <>

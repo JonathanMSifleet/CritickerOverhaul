@@ -1,4 +1,5 @@
 export default interface IUserProfile {
+  avatar?: string;
   country?: string;
   email?: string;
   firstName?: string;

@@ -1,6 +1,5 @@
-import { DynamoDBClient, PutItemCommand, PutItemCommandOutput } from '@aws-sdk/client-dynamodb';
-
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
+import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import cors from '@middy/http-cors';
 import IHTTP from '../../shared/interfaces/IHTTP';
 import middy from '@middy/core';
@@ -22,7 +21,8 @@ export const uploadUserAvatar = async (event: {
   const { image } = JSON.parse(event.body);
 
   try {
-    await uploadPicture(username, image);
+    const avatarResult = await uploadPicture(username, image);
+    if (avatarResult instanceof Error) return createAWSResErr(500, 'Error uploading avatar');
 
     console.log('Successfully uploaded image');
     return {
@@ -36,17 +36,26 @@ export const uploadUserAvatar = async (event: {
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
-const uploadPicture = async (username: string, image: string): Promise<PutItemCommandOutput | IHTTP> => {
-  const params = {
-    TableName: process.env.AVATAR_TABLE_NAME!,
-    Item: {
-      username: { S: username },
-      image: { S: image }
+const uploadPicture = async (username: string, image: string): Promise<void | IHTTP> => {
+  const query = {
+    TableName: process.env.USER_TABLE_NAME!,
+    Key: {
+      username: { S: username }
     },
-    ReturnConsumedCapacity: 'TOTAL'
+    UpdateExpression: 'set avatar = :avatar',
+    ExpressionAttributeValues: {
+      ':avatar': { S: image }
+    }
   };
 
-  return await dbClient.send(new PutItemCommand(params));
+  try {
+    await dbClient.send(new UpdateItemCommand(query));
+    return;
+  } catch (error) {
+    if (error instanceof Error) return createAWSResErr(520, error.message);
+  }
+
+  return createAWSResErr(520, 'Unhandled Exception');
 };
 
 export const handler = middy(uploadUserAvatar).use(cors());

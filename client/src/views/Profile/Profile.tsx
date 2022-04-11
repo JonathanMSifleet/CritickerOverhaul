@@ -41,7 +41,6 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   const [isLoadingProfile, setIsLoadingProfile] = useState(false);
   const [isLoadingRecentRatings, setIsLoadingRecentRatings] = useState(false);
   const [recentRatings, setRecentRatings] = useState(null as null | IRecentRating[][]);
-  const [shouldLoadAvatar, setShouldLoadAvatar] = useState(false);
   const [showModal, setShowModal] = useRecoilState(deleteAccountModalState);
   const [showUpdateDetailsForm, setShowUpdateDetailsForm] = useState(false);
   const [userProfile, setUserProfile] = useState(null as null | IUserProfile);
@@ -74,7 +73,6 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
 
         setUserProfile(results);
         setIsLoadingProfile(false);
-        setShouldLoadAvatar(true);
       });
 
       httpRequest(`${endpoints.GET_RECENT_RATINGS}/${localUsername}`, 'GET')
@@ -191,9 +189,8 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
           {userProfile ? (
             <>
               <Avatar
-                setShouldLoadAvatar={setShouldLoadAvatar}
+                avatar={userProfile.avatar!}
                 setUserInfo={setUserInfo}
-                shouldLoadAvatar={shouldLoadAvatar}
                 username={username!}
                 userState={userState}
               />

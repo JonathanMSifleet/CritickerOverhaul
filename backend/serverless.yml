@@ -21,7 +21,6 @@ provider:
     AUTH0_PRIVATE_KEY: ${file(./privateKey.pem)}
     AUTH0_PUBLIC_KEY: ${file(./publicKey.pem)}
     AUTH0_URL: https://dev-btmyx7mm.eu.auth0.com/oauth/token
-    AVATAR_TABLE_NAME: ${self:custom.AvatarTable.name}
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     FILMS_TABLE_NAME: ${self:custom.FilmsTable.name}
     RATINGS_TABLE_NAME: ${self:custom.RatingsTable.name}
@@ -32,7 +31,6 @@ provider:
     role:
       statements:
         - ${file(aws/iam/AggregatePercentilesTableIAM.yml):AggregatePercentilesTableIAM}
-        - ${file(aws/iam/AvatarTableIAM.yml):AvatarTableIAM}
         - ${file(aws/iam/FilmsTableIAM.yml):FilmsTableIAM}
         - ${file(aws/iam/RatingsTableIAM.yml):RatingsTableIAM}
         - ${file(aws/iam/TciTableIAM.yml):TciTableIAM}
@@ -117,19 +115,19 @@ functions:
           method: GET
           path: user/profile/{username}
           cors: true
-  getUserAvatar:
-    handler: aws/handlers/user/getUserAvatar.handler
-    events:
-      - http:
-          method: GET
-          path: user/avatar/{username}
-          cors: true
   getRecentRatings:
     handler: aws/handlers/user/getRecentRatings.handler
     events:
       - http:
           method: GET
           path: user/getRecentRatings/{username}
+          cors: true
+  getUserAvatar:
+    handler: aws/handlers/user/getUserAvatar.handler
+    events:
+      - http:
+          method: GET
+          path: user/avatar/{username}
           cors: true
   getUserRating:
     handler: aws/handlers/rating/getUserRating.handler
@@ -216,14 +214,14 @@ functions:
           method: GET
           path: mockData/aggregateUserPercentiles/{username}
           cors: true
-  # importAvatars:
-  #   handler: aws/handlers/mockData/importAvatars.handler
-  #   timeout: 30
-  #   events:
-  #     - http:
-  #         method: POST
-  #         path: mockData/importAvatars
-  #         cors: true
+  importAvatars:
+    handler: aws/handlers/mockData/importAvatars.handler
+    timeout: 30
+    events:
+      - http:
+          method: POST
+          path: mockData/importAvatars
+          cors: true
   importGeneratedRatings:
     handler: aws/handlers/mockData/importGeneratedRatings.handler
     timeout: 30
@@ -286,7 +284,6 @@ functions:
           authorizer: ${self:custom.authoriser}
 resources:
   Resources:
-    AvatarTable: ${file(aws/resources/AvatarTable.yml):AvatarTable}
     FilmsTable: ${file(aws/resources/FilmsTable.yml):FilmsTable}
     RatingsTable: ${file(aws/resources/RatingsTable.yml):RatingsTable}
     ReactBucket: ${file(aws/resources/ReactBucket.yml):ReactBucket}
@@ -371,9 +368,6 @@ custom:
   AggregatePercentilesTable:
     name: !Ref AggregatePercentilesTable
     arn: !GetAtt AggregatePercentilesTable.Arn
-  AvatarTable:
-    name: !Ref AvatarTable
-    arn: !GetAtt AvatarTable.Arn
   FilmsTable:
     name: !Ref FilmsTable
     arn: !GetAtt FilmsTable.Arn

@@ -32,9 +32,12 @@ const Header: FC = (): JSX.Element => {
 
   const displayAuthModal = (): void => setShowModal(true);
 
-  const logout = (): void => resetUserState();
-
   const handleFormSubmission = (): boolean => route(`/search/${searchInput}`);
+
+  const logout = (): void => {
+    resetUserState();
+    route('/');
+  };
 
   return (
     <header>

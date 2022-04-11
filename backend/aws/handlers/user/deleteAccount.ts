@@ -29,7 +29,6 @@ const deleteAccount = async (event: {
   if (ratings instanceof Error) return createAWSResErr(520, 'Error fetching ratings');
 
   const deleteRequests = [];
-  deleteRequests.push(deleteAvatar(username));
   deleteRequests.push(deleteRatings(username, ratings as IRating[]));
   deleteRequests.push(deleteUserRatingsTableRatings(username));
 
@@ -58,25 +57,6 @@ const deleteAccountFromDB = async (username: string): Promise<IHTTP | void> => {
   try {
     await dbClient.send(new DeleteItemCommand(query));
     console.log('Sucessfully deleted account');
-    return;
-  } catch (error) {
-    if (error instanceof Error) return createAWSResErr(520, error.message);
-  }
-
-  return createAWSResErr(500, 'Unhandled Exception');
-};
-
-const deleteAvatar = async (username: string): Promise<IHTTP | void> => {
-  const query = {
-    TableName: process.env.AVATAR_TABLE_NAME!,
-    Key: {
-      username: { S: username }
-    }
-  };
-
-  try {
-    await dbClient.send(new DeleteItemCommand(query));
-    console.log('Sucessfully deleted avatar');
     return;
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(520, error.message);

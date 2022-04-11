@@ -41,10 +41,10 @@ const Login: FC = () => {
         if (response.statusCode && !response.statusCode.toString().startsWith('2')) throw new Error(response.message);
 
         setUserInfo({
-          username: response.username,
+          accessToken: JSON.parse(response.accessToken),
           avatar: response.avatar,
           loggedIn: true,
-          accessToken: JSON.parse(response.accessToken)
+          username: response.username
         });
 
         setShowModal(false);
