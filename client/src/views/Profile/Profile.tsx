@@ -195,14 +195,6 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                 userState={userState}
               />
 
-              {userState.username === username || username === '' ? (
-                <Button
-                  className={`${classes.DeleteAccountButton} bg-danger`}
-                  onClick={displayDeleteAccountModal}
-                  text={'Delete account'}
-                />
-              ) : null}
-
               <div className={classes.UserDetails}>
                 <h1 className={classes.UsernameHeader}>
                   {userProfile.username}
@@ -210,7 +202,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                 </h1>
 
                 <div className={classes.UserDetailsColumnWrapper}>
-                  <MDBCol className={classes.UserDetailsColumnLeft}>
+                  <MDBCol className={classes.UserDetailsColumn}>
                     <p className={classes.UserProfileText}>
                       {userProfile.numRatings} Film Rating{userProfile.numRatings !== 0 ? 's' : null}
                     </p>
@@ -219,7 +211,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                     </p>
                   </MDBCol>
 
-                  <MDBCol className={classes.UserDetailsColumnRight}>
+                  <MDBCol className={classes.UserDetailsColumn}>
                     {userProfile.firstName ? (
                       <p className={classes.UserProfileText}>
                         <b>First name:</b> {userProfile.firstName}
@@ -241,14 +233,49 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                       </p>
                     ) : null}
                   </MDBCol>
+
+                  <MDBCol className={`${classes.UserDetailsColumn} ${classes.UserDetailsColumnRight}`}>
+                    <div className={classes.FileUploadWrapper}>
+                      <p className={classes.ImportInstructions}>Import Criticker Ratings:</p>
+                      <div className={classes.FileSelectorWrapper}>
+                        <FileSelector onChange={(event): void => uploadFile(event)} />
+                        {importingRatings ? <Spinner className={classes.RatingSpinner} /> : null}
+
+                        {importMessage !== '' ? (
+                          <p
+                            className={
+                              importMessage.split(' ')[0] !== 'Error'
+                                ? classes.SuccessImportMessage
+                                : classes.ErrorImportMessage
+                            }
+                          >
+                            {importMessage}
+                          </p>
+                        ) : null}
+                      </div>
+                    </div>
+
+                    {userState.username === username || username === '' ? (
+                      <div className={classes.DeleteAccountButtonWrapper}>
+                        <Button className="bg-danger" onClick={displayDeleteAccountModal} text={'Delete account'} />
+                      </div>
+                    ) : null}
+                  </MDBCol>
                 </div>
               </div>
+
+              {userProfile.bio ? (
+                <div className={classes.BioWrapper}>
+                  <p className={classes.BioHeading}>Bio:</p>
+                  <p className={classes.BioText}>{userProfile.bio}</p>
+                </div>
+              ) : null}
 
               <div>
                 {userState.username === username || username === '' ? (
                   <>
                     <p
-                      className={classes.UserProfileLink}
+                      className={classes.UpdateInfoText}
                       onClick={(): void => setShowUpdateDetailsForm(!showUpdateDetailsForm)}
                     >
                       Update Personal Information
@@ -259,24 +286,6 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                         <UpdateUserDetailsForm userProfile={userProfile} userState={userState} />
                       </Suspense>
                     ) : null}
-
-                    <p className={classes.ImportInstructions}>Import Criticker Ratings:</p>
-                    <div className={classes.FileSelectorWrapper}>
-                      <FileSelector onChange={(event): void => uploadFile(event)} />
-                      {importingRatings ? <Spinner className={classes.RatingSpinner} /> : null}
-
-                      {importMessage !== '' ? (
-                        <p
-                          className={
-                            importMessage.split(' ')[0] !== 'Error'
-                              ? classes.SuccessImportMessage
-                              : classes.ErrorImportMessage
-                          }
-                        >
-                          {importMessage}
-                        </p>
-                      ) : null}
-                    </div>
                   </>
                 ) : null}
               </div>
@@ -348,6 +357,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
       ) : (
         <Spinner />
       )}
+
       {showModal ? (
         <Modal authState={deleteAccountModalState}>
           <div className={classes.ModalContentWrapper}>

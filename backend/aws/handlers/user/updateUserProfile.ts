@@ -24,30 +24,33 @@ const updateUserProfile = async (event: {
   const validToken = await validateAccessToken(dbClient, username, accessToken);
   if (validToken !== true) return createAWSResErr(401, 'Access token invalid');
 
-  try {
-    const { country, email, firstName, gender, lastName } = JSON.parse(event.body);
+  const { bio, country, email, firstName, gender, lastName } = JSON.parse(event.body);
 
-    try {
-      await updateProfileInDB(
-        {
-          country,
-          email,
-          firstName,
-          gender,
-          lastName
-        },
-        username
-      );
-    } catch (error) {
-      if (error instanceof Error) throw new Error(error.message);
-    }
+  const updatedDetails = {
+    bio,
+    country,
+    email,
+    firstName,
+    gender,
+    lastName
+  };
+
+  Object.entries(updatedDetails).forEach((entry: (string | number)[]) => {
+    // @ts-expect-error can be used as index on updatedDetails
+    if (entry[1] === undefined) delete updatedDetails[entry[0]];
+  });
+
+  console.log('🚀 ~ file: updateUserProfile.ts ~ line 45 ~ Object.entries ~ updatedDetails', updatedDetails);
+
+  try {
+    await updateProfileInDB(updatedDetails, username);
 
     return {
       statusCode: 200,
       body: JSON.stringify('Successfully updated profile')
     };
   } catch (error) {
-    if (error instanceof Error) return createAWSResErr(520, error.message);
+    if (error instanceof Error) return createAWSResErr(500, error.message);
   }
 
   return createAWSResErr(500, 'Unhandled Exception');

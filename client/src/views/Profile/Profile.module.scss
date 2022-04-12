@@ -7,14 +7,11 @@
   height: fit-content;
 }
 
-.DeleteAccountButton {
-  float: right;
-}
-
 .UserDetails {
   float: left;
-  margin: 1%;
-  margin-top: 0;
+  margin: 0;
+  margin-left: 1%;
+  width: 85%;
 }
 
 .UsernameHeader {
@@ -27,12 +24,9 @@
   width: 100%;
 }
 
-.UserDetailsColumnLeft {
+.UserDetailsColumn {
   float: left;
-}
-
-.UserDetailsColumnRight {
-  float: right;
+  width: 25%;
 }
 
 .UserRank {
@@ -44,14 +38,30 @@
   margin-bottom: 0;
 }
 
-.UserProfileLink {
+.UpdateInfoText {
   color: $mainBlue;
   clear: both;
   cursor: pointer;
+  float: right;
   margin-bottom: 0;
+  width: fit-content;
+}
+
+.UserDetailsColumnRight {
+  width: 50%;
+}
+
+.FileUploadWrapper {
+  clear: both;
+  margin: auto;
+  margin-bottom: 4%;
+  overflow: auto;
+  width: fit-content;
 }
 
 .ImportInstructions {
+  clear: both;
+  float: left;
   font-weight: bold;
   margin-bottom: 0.25%;
 }
@@ -65,23 +75,49 @@
 }
 
 .FileSelectorWrapper {
+  clear: both;
   float: left;
+}
+
+.DeleteAccountButtonWrapper {
+  margin: 0 auto;
+  width: fit-content;
 }
 
 .RatingSpinner {
   float: left;
 }
 
+.BioWrapper {
+  clear: both;
+}
+
+.BioHeading {
+  color: $mainBlue;
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 0;
+  padding-left: 1%;
+}
+
+.BioText {
+  font-style: italic;
+  padding-left: 1%;
+  padding-right: 1%;
+  margin-bottom: 0;
+}
+
 .RecentRatingsWrapper {
   clear: both;
   float: left;
-  margin-top: 1%;
   width: 100%;
 }
 
 .RecentRatingsHeader {
   color: $mainBlue;
   font-size: 1.4rem;
+  font-weight: bold;
+  margin-top: -1%;
   width: 100%;
 }
 

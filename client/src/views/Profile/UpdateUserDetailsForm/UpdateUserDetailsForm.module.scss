@@ -32,7 +32,9 @@
 }
 
 .BottomInputsWrapper {
-  margin-top: 3%;
+  clear: both;
+  overflow: auto;
+  margin-top: 5%;
 }
 
 .GenderWrapper {
@@ -55,9 +57,14 @@
   width: fit-content;
 }
 
+.DescriptionWrapper {
+  clear: both;
+  margin-top: -1%;
+  margin-bottom: 1%;
+}
+
 .SubmitButtonWrapper {
   clear: both;
-  margin-top: 3%;
   display: flex;
   align-items: center;
   justify-content: center;
