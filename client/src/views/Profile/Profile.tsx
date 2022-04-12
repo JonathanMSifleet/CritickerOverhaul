@@ -54,11 +54,8 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
       setIsLoadingRecentRatings(true);
 
       let localUsername;
-      if (username) {
-        localUsername = username;
-      } else if (userState.username !== '') {
-        localUsername = userState.username;
-      }
+      if (username) localUsername = username;
+      else if (userState.username !== '') localUsername = userState.username;
 
       if (localUsername === undefined) {
         setIsLoadingProfile(false);
@@ -76,9 +73,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
       });
 
       httpRequest(`${endpoints.GET_RECENT_RATINGS}/${localUsername}`, 'GET')
-        .then((ratings) => {
-          setRecentRatings(chunk(ratings, Math.ceil(ratings.length / 2)));
-        })
+        .then((ratings) => setRecentRatings(chunk(ratings, Math.ceil(ratings.length / 2))))
         .finally(() => setIsLoadingRecentRatings(false));
     })();
   }, [username]);
@@ -103,6 +98,9 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
       setIsDeletingAccount(false);
     }
   };
+
+  const determineColourGradient = (ratingPercentile: number): string =>
+    ratingPercentile !== undefined ? getColourGradient(ratingPercentile) : '#000000';
 
   const displayDeleteAccountModal = (): void => setShowModal(true);
 
@@ -301,42 +299,30 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                         <div className="d-flex align-items-start bg-light mb-2">
                           {recentRatings!.map((column: IRecentRating[], columnIndex: number) => (
                             <MDBCol className={classes.RecentRatingColumn} key={columnIndex}>
-                              {column.map((rating, cellIndex) => {
-                                const cellColour = getCellColour(columnIndex, cellIndex);
-
-                                return (
-                                  <Link
-                                    className={classes.RatingLink}
-                                    style={cellColour}
-                                    href={`/film/${rating.imdbID}`}
-                                    key={rating.imdbID}
+                              {column.map((rating, cellIndex) => (
+                                <Link
+                                  className={classes.RatingLink}
+                                  style={getCellColour(columnIndex, cellIndex)}
+                                  href={`/film/${rating.imdbID}`}
+                                  key={rating.imdbID}
+                                >
+                                  <span style={{ color: determineColourGradient(rating.ratingPercentile) }}>
+                                    {rating.rating}
+                                  </span>
+                                  <span
+                                    className={classes.RatingPercentile}
+                                    style={{ color: determineColourGradient(rating.ratingPercentile) }}
                                   >
-                                    {((): JSX.Element => {
-                                      let colourGradient;
-                                      try {
-                                        colourGradient = getColourGradient(rating.ratingPercentile);
-                                      } catch (error) {
-                                        colourGradient = '#000000';
-                                      }
-
-                                      return (
-                                        <>
-                                          <span style={{ color: colourGradient }}>{rating.rating}</span>
-                                          <span className={classes.RatingPercentile} style={{ color: colourGradient }}>
-                                            {' '}
-                                            {rating.ratingPercentile}%
-                                          </span>
-                                        </>
-                                      );
-                                    })()}{' '}
-                                    <span>
-                                      <b>{rating.title}</b>
-                                    </span>{' '}
-                                    ({rating.releaseYear}){' - '}
-                                    {new Date(rating.createdAt).toLocaleDateString('en-GB')}
-                                  </Link>
-                                );
-                              })}
+                                    {' '}
+                                    {rating.ratingPercentile}%
+                                  </span>{' '}
+                                  <span>
+                                    <b>{rating.title}</b>
+                                  </span>{' '}
+                                  ({rating.releaseYear}){' - '}
+                                  {new Date(rating.createdAt).toLocaleDateString('en-GB')}
+                                </Link>
+                              ))}
                             </MDBCol>
                           ))}
                         </div>

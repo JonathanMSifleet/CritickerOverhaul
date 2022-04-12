@@ -67,7 +67,7 @@ const getRecentRatingsFromDynamo = async (username: string): Promise<IHTTP | IRa
   try {
     return (await getUserRatings(dbClient, username, 'imdbID, createdAt, rating, ratingPercentile', {
       ScanIndexForward: false,
-      Limit: 20,
+      Limit: 24,
       IndexName: 'usernameCreatedAt'
     })) as IRating[];
   } catch (error) {
