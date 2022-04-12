@@ -22,19 +22,10 @@ const UpdateUserDetailsForm: FC<IProps> = ({ userProfile, userState }) => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [tempDate, setTempDate] = useState(new Date());
 
-  /*
-    Bio
-    Profile options:
-      display:
-        location
-        personal info
-      Minimum films in common
-  */
-
   useEffect(() => {
-    console.log(userProfile);
     setFormInfo({
       ...formInfo,
+      bio: userProfile.bio!,
       country: userProfile.country!,
       email: userProfile.email!,
       firstName: userProfile.firstName!,
@@ -148,6 +139,15 @@ const UpdateUserDetailsForm: FC<IProps> = ({ userProfile, userState }) => {
             selected={tempDate}
           />
         </div>
+      </div>
+
+      <div className={classes.DescriptionWrapper}>
+        <Input
+          textarea={true}
+          label={'Bio'}
+          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event.target.value, 'bio')}
+          value={formInfo.bio as string}
+        />
       </div>
 
       <div className={classes.SubmitButtonWrapper}>

@@ -8,6 +8,7 @@ interface IProps {
   checked?: boolean;
   className?: string;
   errors?: string[];
+  label?: string;
   onChange?(event: ChangeEvent<HTMLInputElement>): string | boolean | void;
   placeholder?: string;
   textarea?: boolean;
@@ -20,6 +21,7 @@ const Input: FC<IProps> = ({
   checked,
   className,
   errors,
+  label,
   onChange,
   placeholder,
   textarea,
@@ -33,7 +35,7 @@ const Input: FC<IProps> = ({
         checked={checked}
         className={`${classes.FormInput} ${className} form-control`}
         id="formControlDefault"
-        label={placeholder}
+        label={label}
         // @ts-expect-error
         onChange={onChange}
         type={type}
