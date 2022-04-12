@@ -43,24 +43,23 @@ const Film: FC<IUrlParams> = ({ id }) => {
     (async (): Promise<void> => {
       setIsLoading(true);
 
-      const filmRequests = [
-        httpRequest(`${endpoints.GET_FILM_DETAILS}/${id}`, 'GET'),
-        getFilmPoster(id!),
-        httpRequest(`${endpoints.GET_FILM_RATINGS}/${id}`, 'GET'),
-        getUserRating(id!)
-      ];
-
-      Promise.all(filmRequests).then((responses: any[]): void => {
-        setFilm(parseFilmPeople(responses[0]));
+      httpRequest(`${endpoints.GET_FILM_DETAILS}/${id}`, 'GET').then((film) => {
+        setFilm(parseFilmPeople(film));
         setIsLoading(false);
-        setFilmPoster(responses[1]);
+      });
 
-        if (responses[2].statusCode !== 404) setRatings(responses[2]);
+      getFilmPoster(id!).then((filmPoster) => setFilmPoster(filmPoster));
 
-        if (!userState.loggedIn) return;
+      httpRequest(`${endpoints.GET_FILM_RATINGS}/${id}`, 'GET').then((ratings) => {
+        if (ratings.statusCode === 404) return;
+        setRatings(ratings);
+      });
 
-        setFetchedUserReview(responses[3]);
-        setColourGradient(determineColourGradient(responses[3]!.ratingPercentile!));
+      if (!userState.loggedIn) return;
+
+      getUserRating(id!).then((userRating) => {
+        setFetchedUserReview(userRating);
+        setColourGradient(determineColourGradient(userRating!.ratingPercentile!));
         setReviewAlreadyExists(true);
       });
     })();
