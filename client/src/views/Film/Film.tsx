@@ -43,23 +43,24 @@ const Film: FC<IUrlParams> = ({ id }) => {
     (async (): Promise<void> => {
       setIsLoading(true);
 
-      httpRequest(`${endpoints.GET_FILM_DETAILS}/${id}`, 'GET').then((film) => {
-        setFilm(parseFilmPeople(film));
+      const filmRequests = [
+        httpRequest(`${endpoints.GET_FILM_DETAILS}/${id}`, 'GET'),
+        getFilmPoster(id!),
+        httpRequest(`${endpoints.GET_FILM_RATINGS}/${id}`, 'GET'),
+        getUserRating(id!)
+      ];
+
+      Promise.all(filmRequests).then((responses: any[]): void => {
+        setFilm(parseFilmPeople(responses[0]));
         setIsLoading(false);
-      });
+        setFilmPoster(responses[1]);
 
-      getFilmPoster(id!).then((filmPoster) => setFilmPoster(filmPoster));
+        if (responses[2].statusCode !== 404) setRatings(responses[2]);
 
-      httpRequest(`${endpoints.GET_FILM_RATINGS}/${id}`, 'GET').then((ratings) => {
-        if (ratings.statusCode === 404) return;
-        setRatings(ratings);
-      });
+        if (!userState.loggedIn) return;
 
-      if (!userState.loggedIn) return;
-
-      getUserRating(id!).then((userRating) => {
-        setFetchedUserReview(userRating);
-        setColourGradient(determineColourGradient(userRating!.ratingPercentile!));
+        setFetchedUserReview(responses[3]);
+        setColourGradient(determineColourGradient(responses[3]!.ratingPercentile!));
         setReviewAlreadyExists(true);
       });
     })();
@@ -176,7 +177,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
             <p className={classes.FilmDescription}>{film ? film.description : null}</p>
 
             <div className={classes.FilmInfo}>
-              <h4>Cast and information</h4>
+              <h4 className={classes.InfoHeader}>Cast and information</h4>
               <p>Directed by: {film ? film.directors : 'Unknown'}</p>
               <p>Written by: {film ? film.writers : 'Unknown'} </p>
               <p>Starring: {film ? film.actors : 'Unknown'}</p>
