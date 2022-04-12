@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import { Link } from 'preact-router/match';
 import classes from './TextOnlyPage.module.scss';
 import IUrlParams from '../../interfaces/IUrlParams';
 import PageView from '../../components/PageView/PageView';
@@ -187,7 +186,7 @@ const TextOnlyPage: FC<IUrlParams> = ({ path }) => {
             </h2>
             <span className={classes.ParagraphWrapper}>
               <p>
-                Interesting in advertising with Criticker? Email us at
+                Interesting in advertising with Criticker? Email us at{' '}
                 <a href="mailto:marketing@criticker.com">marketing@criticker.com</a> to inquire about rates and
                 opportunities.
               </p>
@@ -252,62 +251,6 @@ const TextOnlyPage: FC<IUrlParams> = ({ path }) => {
                 They are also the creators of the Ebay-bargain site Lastminute-Auction.com, the entertainment blog
                 Random Good Stuff.com and the travel blog For 91 Days. Want to know anything else about us, or the site?
                 Please feel free to send us a message, and we'll answer as soon as we can.
-              </p>
-            </span>
-            <br />
-          </div>
-        );
-      case 'resources':
-        return (
-          <div className={classes.ContentWrapper}>
-            <h1>
-              <b>Resources & Tools</b>
-            </h1>
-
-            <br />
-            <h2>
-              <b>Submit a New Title</b>
-            </h2>
-            <span className={classes.ParagraphWrapper}>
-              <p>
-                Something missing from our database? Submit it using this form. Please note that new submissions usually
-                take a few days to be approved.
-              </p>
-            </span>
-            <Link href="#submissions">[Placeholder] Go to the Submission Form </Link>
-            <br />
-            <h2>
-              <b>Import Your Scores</b>
-            </h2>
-            <span className={classes.ParagraphWrapper}>
-              <p>
-                Import ratings directly from IMDb into Criticker. With this simple upload tool, you can upload your
-                ratings to Criticker. Tiers are kept intact, and imported ratings are added to a collection so that you
-                can tweak and fine-tune the new ratings at your limport IUrlParams from './../../interfaces/IUrlParams';
-                eisure.
-              </p>
-            </span>
-            <Link href="#submissions">[Placeholder] Go to the Import Tool</Link>
-            <br />
-            <h2>
-              <b>General Feeds</b>
-            </h2>
-            <p>
-              <b>New Films at Criticker</b>
-            </p>
-            <span className={classes.ParagraphWrapper}>
-              <p>[RSS goes here] The latest films which have been added to our database</p>
-            </span>
-            <p>
-              <b>Criticker's Forums</b>
-            </p>
-            <span className={classes.ParagraphWrapper}>
-              <p>
-                {/* eslint-disable-next-line max-len */}
-                Each of Criticker's forum topics has its own RSS feed. <Link href="#forum">
-                  Browse the forums now
-                </Link>{' '}
-                and subscribe to whichever ones you want!
               </p>
             </span>
             <br />
