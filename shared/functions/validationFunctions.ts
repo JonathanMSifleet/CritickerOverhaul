@@ -1,19 +1,12 @@
-import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
-
-import createDynamoSearchQuery from './queries/createDynamoSearchQuery';
+import checkUniqueAttribute from '../../backend/aws/shared/functions/checkUniqueAttribute';
 import EmailValidator from 'email-validator';
 
-export const validateUserInputs = async (
-  username: string,
-  email: string,
-  password: string
-): Promise<(string | null)[]> => {
+export const validateUserInputs = async (username: string, email: string): Promise<(string | null)[]> => {
   const errors = await Promise.all([
     checkUniqueAttribute('email', email, 'email'),
     checkUniqueAttribute('username', username, undefined),
     validateValue(username, 'Username'),
-    validateValue(email, 'Email'),
-    validateValue(password, 'Password')
+    validateValue(email, 'Email')
   ]);
 
   return errors.flat().filter((error) => error !== null);
@@ -56,23 +49,3 @@ export const validateLength = async (
   max: number
 ): Promise<string | null> =>
   value.length < min || value.length > max ? `${valueName} must be between ${min} and ${max} characters` : null;
-
-export const checkUniqueAttribute = async (
-  keyName: string,
-  keyValue: string,
-  indexName?: string
-): Promise<string | null> => {
-  const query = createDynamoSearchQuery(process.env.USER_TABLE_NAME!, keyName, keyName, keyValue, 'S', indexName);
-
-  try {
-    const dbClient = new DynamoDBClient({});
-    const result = await dbClient.send(new QueryCommand(query));
-
-    return result.Items![0] ? `${alphabeticalizeFirstChar(keyName)} already in use` : null;
-  } catch (error) {
-    if (error instanceof Error) console.error(error.message);
-    return null;
-  }
-};
-
-const alphabeticalizeFirstChar = (input: string): string => input.charAt(0).toUpperCase() + input.slice(1);
