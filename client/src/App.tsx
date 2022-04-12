@@ -8,6 +8,7 @@ import Spinner from './components/Spinner/Spinner';
 
 const Film = lazy(() => import('./views/Film/Film'));
 const Home = lazy(() => import('./views/Home/Home'));
+const InvalidRoute = lazy(() => import('./views/InvalidRoute/InvalidRoute'));
 const Profile = lazy(() => import('./views/Profile/Profile'));
 const Ratings = lazy(() => import('./views/Ratings/Ratings'));
 const Search = lazy(() => import('./views/Search/Search'));
@@ -19,9 +20,7 @@ const App: FC = () => {
   const userState = useRecoilValue(userInfoState);
 
   useEffect(() => {
-    document.fonts.load('1rem "Roboto"').then(() => {
-      setFontReady(true);
-    });
+    document.fonts.load('1rem "Roboto"').then(() => setFontReady(true));
   }, []);
 
   const detectRouteChange = (): void => {
@@ -40,12 +39,13 @@ const App: FC = () => {
         <Suspense fallback={<Spinner />}>
           {/* @ts-expect-error */}
           <Router history={createHashHistory()} onChange={detectRouteChange}>
-            <Home path="/" />
+            <Home path={'/'} />
             <Film path={'/film/:id'} />
             <Profile path={'/profile/:username?'} />
-            <Ratings path={'/ratings/:username?'} />
+            <Ratings path={'/ratings/:username'} />
             <Search path={'/search/:searchQuery'} />
-            <TextOnlyPage path="/information/:path" />
+            <TextOnlyPage path={'/information/:path'} />
+            <InvalidRoute path={'/:*'} />
           </Router>
         </Suspense>
       ) : (
