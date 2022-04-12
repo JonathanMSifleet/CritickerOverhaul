@@ -145,7 +145,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
     uploadRatings(processedRatings);
   };
 
-  const uploadFile = (event: { target: { files: FileList } }): void => {
+  const handleRatingsFile = (event: { target: { files: FileList } }): void => {
     try {
       setImportingRatings(true);
 
@@ -236,7 +236,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                     <div className={classes.FileUploadWrapper}>
                       <p className={classes.ImportInstructions}>Import Criticker Ratings:</p>
                       <div className={classes.FileSelectorWrapper}>
-                        <FileSelector onChange={(event): void => uploadFile(event)} />
+                        <FileSelector onChange={(event): void => handleRatingsFile(event)} />
                         {importingRatings ? <Spinner className={classes.RatingSpinner} /> : null}
 
                         {importMessage !== '' ? (

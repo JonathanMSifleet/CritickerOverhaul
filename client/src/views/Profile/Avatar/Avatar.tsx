@@ -23,7 +23,7 @@ const Avatar: FC<IProps> = ({ avatar, setUserInfo, username, userState }) => {
     if (avatar === undefined) setUserAvatar(ShrugSVG);
   }, []);
 
-  const uploadFile = async (image: File): Promise<void> => {
+  const uploadAvatar = async (image: File): Promise<void> => {
     const resizedImage = await new Compress().compress([image], {
       maxHeight: 480,
       maxWidth: 480,
@@ -65,7 +65,7 @@ const Avatar: FC<IProps> = ({ avatar, setUserInfo, username, userState }) => {
             <input
               className={classes.UploadPictureInput}
               type="file"
-              onChange={async (event): Promise<void> => uploadFile(event.target.files![0])}
+              onChange={async (event): Promise<void> => uploadAvatar(event.target.files![0])}
             />
           </label>
         </>
