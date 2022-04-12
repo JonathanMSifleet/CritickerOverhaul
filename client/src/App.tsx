@@ -1,4 +1,5 @@
 import { createHashHistory } from 'history';
+import { detect } from 'detect-browser';
 import { FC, useEffect, useState } from 'react';
 import { lazy, Suspense } from 'preact/compat';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
@@ -18,6 +19,17 @@ const App: FC = () => {
   const [fontReady, setFontReady] = useState(false);
   const resetUserState = useResetRecoilState(userInfoState);
   const userState = useRecoilValue(userInfoState);
+
+  useEffect(() => {
+    const hasShownWarning = localStorage.getItem('hasShownBrowserWarning');
+    if (hasShownWarning) return;
+
+    const browser = detect()!.name;
+    if (!(browser === 'chrome' || browser === 'edge-chromium'))
+      alert('This website may not work properly in your browser. Please use Chrome or Edge.');
+
+    localStorage.setItem('hasShownBrowserWarning', 'true');
+  }, []);
 
   useEffect(() => {
     document.fonts.load('1rem "Roboto"').then(() => setFontReady(true));
