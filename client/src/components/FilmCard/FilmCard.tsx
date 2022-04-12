@@ -40,7 +40,7 @@ const FilmCard: FC<IProps> = ({ film }): JSX.Element => {
             </div>
           )}
         </div>
-        <div className={`${classes.TextColumn} col-md-8`}>
+        <div className={`${classes.TextColumn} col-md-10`}>
           <div className={`${classes.CardBody} card-body`}>
             <Link href={`/film/${film.imdbID}`}>
               <h5 className={`${classes.FilmTitle} card-title`}>

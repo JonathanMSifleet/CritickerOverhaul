@@ -32,10 +32,13 @@
 }
 
 .TextColumn {
+  height: 100%;
+  overflow-y: hidden;
   padding: 0;
 }
 
 .CardBody {
+  height: 100%;
   padding: 0;
   padding-top: 1%;
 }

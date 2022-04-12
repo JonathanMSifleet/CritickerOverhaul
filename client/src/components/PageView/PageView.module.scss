@@ -25,14 +25,19 @@
 
 @media only screen and (max-width: 950px) {
   .Row {
-    height: 100vh;
+    height: 100%;
   }
-  
+
   .Column {
     display: none;
   }
 
   .Body {
     width: 100%;
+  }
+
+  .Footer {
+    bottom: 0;
+    position: absolute;
   }
 }
