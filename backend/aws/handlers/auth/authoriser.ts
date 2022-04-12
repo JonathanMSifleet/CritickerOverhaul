@@ -43,21 +43,17 @@ const authoriser = async (event: { authorizationToken: string; methodArn: string
 
 export const handler = authoriser;
 
-const generatePolicy = (principalId: string, methodArn: string): IPolicy => {
-  const apiGatewayWildcard = methodArn.split('/', 2).join('/') + '/*';
-
-  return {
-    principalId,
-    policyDocument: {
-      // @ts-expect-error Version is part of Policy Document interface
-      Version: '2012-10-17',
-      Statement: [
-        {
-          Action: 'execute-api:Invoke',
-          Effect: 'Allow',
-          Resource: apiGatewayWildcard
-        }
-      ]
-    }
-  };
-};
+const generatePolicy = (principalId: string, methodArn: string): IPolicy => ({
+  principalId,
+  policyDocument: {
+    // @ts-expect-error Version is part of Policy Document interface
+    Version: '2012-10-17',
+    Statement: [
+      {
+        Action: 'execute-api:Invoke',
+        Effect: 'Allow',
+        Resource: methodArn.split('/', 2).join('/') + '/*'
+      }
+    ]
+  }
+});

@@ -44,6 +44,8 @@ const getRecentRatings = async (event: { pathParameters: { username: string } })
   };
 };
 
+export const handler = middy(getRecentRatings).use(cors());
+
 const getFilmDetails = async (imdbID: number): Promise<IHTTP | { [key: string]: number | string }> => {
   const query = {
     TableName: process.env.FILMS_TABLE_NAME!,
@@ -76,5 +78,3 @@ const getRecentRatingsFromDynamo = async (username: string): Promise<IHTTP | IRa
 
   return createAWSResErr(500, 'Unhandled Exception');
 };
-
-export const handler = middy(getRecentRatings).use(cors());

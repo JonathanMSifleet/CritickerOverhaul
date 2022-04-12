@@ -1,5 +1,4 @@
 import { AttributeValue, BatchGetItemCommand, DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
-
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
 import { parse } from 'query-string';
 import { unmarshall } from '@aws-sdk/util-dynamodb';

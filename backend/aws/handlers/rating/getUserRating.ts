@@ -1,6 +1,5 @@
-import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
-
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
+import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import cors from '@middy/http-cors';
 import createDynamoSearchQuery from '../../shared/functions/queries/createDynamoSearchQuery';
@@ -29,6 +28,8 @@ const getUserRating = async (event: { pathParameters: { imdbID: number; username
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
+export const handler = middy(getUserRating).use(cors());
+
 const getUserRatingFromDB = async (imdbID: number, username: string): Promise<IRating | Error> => {
   const query = createDynamoSearchQuery(
     process.env.RATINGS_TABLE_NAME!,
@@ -49,5 +50,3 @@ const getUserRatingFromDB = async (imdbID: number, username: string): Promise<IR
     return new Error();
   }
 };
-
-export const handler = middy(getUserRating).use(cors());

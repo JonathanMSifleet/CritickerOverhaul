@@ -1,7 +1,7 @@
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
 import { DynamoDBClient, PutItemCommand, PutItemCommandOutput } from '@aws-sdk/client-dynamodb';
 import { marshall } from '@aws-sdk/util-dynamodb';
-import { validateUserInputs } from '../../shared/functions/validationFunctions';
+import { validateUserInputs } from '../../../../shared/functions/validationFunctions';
 import cors from '@middy/http-cors';
 import generateAccessToken from '../../shared/functions/generateAccessToken';
 import IAccessToken from '../../../../shared/interfaces/IAccessToken';
@@ -13,7 +13,7 @@ const dbClient = new DynamoDBClient({});
 const signup = async (event: { body: string }): Promise<IHTTP> => {
   const { username, email, password } = JSON.parse(event.body);
 
-  const errors = await validateUserInputs(username, email, password);
+  const errors = await validateUserInputs(username, email);
   if (errors.length !== 0) return createAWSResErr(422, errors as string[]);
 
   const memberSince = getSignupDate();

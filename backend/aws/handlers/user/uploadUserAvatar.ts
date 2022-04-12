@@ -7,7 +7,7 @@ import validateAccessToken from '../../shared/functions/validateAccessToken';
 
 const dbClient = new DynamoDBClient({});
 
-export const uploadUserAvatar = async (event: {
+const uploadUserAvatar = async (event: {
   body: string;
   headers: { Authorization: string };
   pathParameters: { username: string };
@@ -36,6 +36,8 @@ export const uploadUserAvatar = async (event: {
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
+export const handler = middy(uploadUserAvatar).use(cors());
+
 const uploadPicture = async (username: string, image: string): Promise<void | IHTTP> => {
   const query = {
     TableName: process.env.USER_TABLE_NAME!,
@@ -57,5 +59,3 @@ const uploadPicture = async (username: string, image: string): Promise<void | IH
 
   return createAWSResErr(520, 'Unhandled Exception');
 };
-
-export const handler = middy(uploadUserAvatar).use(cors());

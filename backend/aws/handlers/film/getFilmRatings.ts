@@ -1,5 +1,4 @@
 import { BatchGetItemCommand, DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
-
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import chunk from 'chunk';

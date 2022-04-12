@@ -1,5 +1,4 @@
 import { AttributeValue, DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
-
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
 import cors from '@middy/http-cors';
 import IHTTP from '../../shared/interfaces/IHTTP';
@@ -56,6 +55,8 @@ const updateUserProfile = async (event: {
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
+export const handler = middy(updateUserProfile).use(cors());
+
 const updateProfileInDB = async (payload: IUserProfile, username: string): Promise<IHTTP | void> => {
   const params = {
     TableName: process.env.USER_TABLE_NAME!,
@@ -105,5 +106,3 @@ const generateExpressionAttributeValues = (payload: IUserProfile): IExpressionAt
 
   return expressionAttributeValues;
 };
-
-export const handler = middy(updateUserProfile).use(cors());

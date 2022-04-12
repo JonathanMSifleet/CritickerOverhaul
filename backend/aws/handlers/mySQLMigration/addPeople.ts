@@ -1,6 +1,5 @@
-import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
-
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
+import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import cors from '@middy/http-cors';
 import createDynamoUpdateQuery from '../../shared/functions/queries/createDynamoUpdateQuery';
 import IHTTP from '../../shared/interfaces/IHTTP';
