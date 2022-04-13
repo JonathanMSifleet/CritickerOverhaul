@@ -23,11 +23,12 @@ const updateUserProfile = async (event: {
   const validToken = await validateAccessToken(dbClient, username, accessToken);
   if (validToken !== true) return createAWSResErr(401, 'Access token invalid');
 
-  const { bio, country, email, firstName, gender, lastName } = JSON.parse(event.body);
+  const { bio, country, dob, email, firstName, gender, lastName } = JSON.parse(event.body);
 
   const updatedDetails = {
     bio,
     country,
+    dob,
     email,
     firstName,
     gender,
@@ -39,8 +40,10 @@ const updateUserProfile = async (event: {
     if (entry[1] === undefined) delete updatedDetails[entry[0]];
   });
 
-  // @ts-expect-error key can be used as index
-  Object.keys(updatedDetails).forEach((key) => (updatedDetails[key] = updatedDetails[key].trim()));
+  Object.keys(updatedDetails).forEach((key) => {
+    // @ts-expect-error key can be used as index
+    if (typeof updatedDetails[key] === 'string') updatedDetails[key] = updatedDetails[key].trim();
+  });
 
   try {
     await updateProfileInDB(updatedDetails, username);

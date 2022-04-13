@@ -11,6 +11,7 @@ import Avatar from './Avatar/Avatar';
 import Button from '../../components/Button/Button';
 import chunk from 'chunk';
 import classes from './Profile.module.scss';
+import epochToDate from '../../utils/epochToDate';
 import FileSelector from '../../components/FileSelector/FileSelector';
 import getCellColour from '../../utils/getCellColour';
 import getColourGradient from '../../utils/getColourGradient';
@@ -22,8 +23,8 @@ import PageView from '../../components/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
 import SpinnerButton from '../../components/SpinnerButton/SpinnerButton';
 
-const UpdateUserDetailsForm = lazy(() => import('./UpdateUserDetailsForm/UpdateUserDetailsForm'));
 const Modal = lazy(() => import('../../components/Modal/Modal'));
+const UpdateUserDetailsForm = lazy(() => import('./UpdateUserDetailsForm/UpdateUserDetailsForm'));
 
 interface IRecentRating {
   createdAt: number;
@@ -103,8 +104,6 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
     ratingPercentile !== undefined ? getColourGradient(ratingPercentile) : '#000000';
 
   const displayDeleteAccountModal = (): void => setShowModal(true);
-
-  const epochToDate = (epoch: number): string => new Date(epoch).toLocaleDateString('en-GB');
 
   const getRatingRank = (numRatings: number): string => {
     switch (true) {
@@ -230,6 +229,12 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                         <b>Country:</b> {userProfile.country}
                       </p>
                     ) : null}
+                    {console.log(userProfile.dob)}
+                    {userProfile.dob ? (
+                      <p className={classes.UserProfileText}>
+                        <b>Date of birth:</b> {epochToDate(userProfile.dob)}
+                      </p>
+                    ) : null}
                   </MDBCol>
 
                   <MDBCol className={`${classes.UserDetailsColumn} ${classes.UserDetailsColumnRight}`}>
@@ -281,7 +286,11 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                     {showUpdateDetailsForm ? (
                       // @ts-expect-error
                       <Suspense fallback={<Spinner />}>
-                        <UpdateUserDetailsForm userProfile={userProfile} userState={userState} />
+                        <UpdateUserDetailsForm
+                          setShowUpdateDetailsForm={setShowUpdateDetailsForm}
+                          userProfile={userProfile}
+                          userState={userState}
+                        />
                       </Suspense>
                     ) : null}
                   </>

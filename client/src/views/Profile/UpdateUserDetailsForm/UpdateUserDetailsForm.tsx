@@ -13,19 +13,23 @@ import Radio from '../../../components/Radio/Radio';
 import SpinnerButton from '../../../components/SpinnerButton/SpinnerButton';
 
 interface IProps {
+  setShowUpdateDetailsForm: (value: boolean) => void;
   userProfile: IUserProfile;
   userState: IUserState;
 }
 
-const UpdateUserDetailsForm: FC<IProps> = ({ userProfile, userState }) => {
+const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfile, userState }) => {
   const [formInfo, setFormInfo] = useState({} as { [key: string]: string | number });
   const [isUpdating, setIsUpdating] = useState(false);
-  const [tempDate, setTempDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(null as Date | null);
 
   useEffect(() => {
+    userProfile.dob !== undefined ? setSelectedDate(new Date(userProfile.dob!)) : setSelectedDate(new Date());
+
     setFormInfo({
       ...formInfo,
       bio: userProfile.bio!,
+      dob: userProfile.dob!,
       country: userProfile.country!,
       email: userProfile.email!,
       firstName: userProfile.firstName!,
@@ -55,6 +59,8 @@ const UpdateUserDetailsForm: FC<IProps> = ({ userProfile, userState }) => {
         userState.accessToken,
         trimmedFormInfo
       );
+
+      setShowUpdateDetailsForm(false);
     } catch (error) {
       console.error(error);
     } finally {
@@ -138,11 +144,12 @@ const UpdateUserDetailsForm: FC<IProps> = ({ userProfile, userState }) => {
           <p className={classes.DetailText}>Date of birth:</p>
           <DatePicker
             className={classes.DatePicker}
+            dateFormat={'dd/MM/yyyy'}
             onChange={(value: Date): void => {
-              inputChangedHandler(value.getTime() / 1000, 'dob');
-              setTempDate(value);
+              inputChangedHandler(value.getTime(), 'dob');
+              setSelectedDate(value);
             }}
-            selected={tempDate}
+            selected={selectedDate}
           />
         </div>
       </div>
