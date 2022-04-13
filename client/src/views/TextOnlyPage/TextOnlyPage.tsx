@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import classes from './TextOnlyPage.module.scss';
 import IUrlParams from '../../interfaces/IUrlParams';
-import PageView from '../../components/PageView/PageView';
+import PageView from '../../hoc/PageView/PageView';
 
 const TextOnlyPage: FC<IUrlParams> = ({ path }) => {
   const getPage = (): JSX.Element | null => {

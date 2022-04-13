@@ -5,7 +5,7 @@ import httpRequest from '../../utils/httpRequest';
 import InfiniteScroll from 'react-infinite-scroller';
 import ISearchedFilm from './../../../../shared/interfaces/ISearchedFilm';
 import IUrlParams from '../../interfaces/IUrlParams';
-import PageView from '../../components/PageView/PageView';
+import PageView from '../../hoc/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
 
 const Search: FC<IUrlParams> = ({ searchQuery }) => {

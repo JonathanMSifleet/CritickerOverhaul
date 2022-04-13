@@ -9,7 +9,7 @@ import getColourGradient from '../../utils/getColourGradient';
 import getFilmPoster from '../../utils/getFilmPoster';
 import httpRequest from '../../utils/httpRequest';
 import IFilm from '../../../../shared/interfaces/IFilm';
-import PageView from '../../components/PageView/PageView';
+import PageView from '../../hoc/PageView/PageView';
 import RateFilm from './RateFilm/RateFilm';
 import Spinner from '../../components/Spinner/Spinner';
 import UserAvatar from './UserAvatar/UserAvatar';

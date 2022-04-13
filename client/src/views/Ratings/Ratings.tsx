@@ -13,7 +13,7 @@ import getCellColour from '../../utils/getCellColour';
 import getColourGradient from '../../utils/getColourGradient';
 import httpRequest from '../../utils/httpRequest';
 import IUrlParams from '../../interfaces/IUrlParams';
-import PageView from '../../components/PageView/PageView';
+import PageView from '../../hoc/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
 
 interface IFilm {

@@ -2,8 +2,8 @@ import { FC, ReactNode } from 'react';
 import { MDBCol, MDBContainer, MDBRow } from 'mdb-react-ui-kit';
 
 import classes from './PageView.module.scss';
-import Footer from '../../components/PageView/Footer/Footer';
-import Header from '../../components/PageView/Header/Header';
+import Footer from './Footer/Footer';
+import Header from './Header/Header';
 
 interface IProps {
   children?: ReactNode;

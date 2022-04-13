@@ -19,11 +19,11 @@ import httpRequest from '../../utils/httpRequest';
 import IRating from '../../../../shared/interfaces/IRating';
 import IUrlParams from '../../interfaces/IUrlParams';
 import IUserProfile from '../../../../shared/interfaces/IUserProfile';
-import PageView from '../../components/PageView/PageView';
+import PageView from '../../hoc/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
 import SpinnerButton from '../../components/SpinnerButton/SpinnerButton';
 
-const Modal = lazy(() => import('../../components/Modal/Modal'));
+const Modal = lazy(() => import('../../hoc/Modal/Modal'));
 const UpdateUserDetailsForm = lazy(() => import('./UpdateUserDetailsForm/UpdateUserDetailsForm'));
 
 interface IRecentRating {

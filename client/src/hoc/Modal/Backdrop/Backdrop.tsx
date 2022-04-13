@@ -1,9 +1,9 @@
 import { FC } from 'react';
-import { useRecoilState } from 'recoil';
+import { RecoilState, useRecoilState } from 'recoil';
 import classes from './Backdrop.module.scss';
 
 interface IProps {
-  authState: any;
+  authState: RecoilState<boolean>;
 }
 
 const Backdrop: FC<IProps> = ({ authState }): JSX.Element | null => {

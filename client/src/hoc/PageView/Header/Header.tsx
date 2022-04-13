@@ -12,17 +12,17 @@ import {
   MDBNavbarToggler
 } from 'mdb-react-ui-kit';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
-import Button from '../../Button/Button';
+import Button from '../../../components/Button/Button';
 import classes from './Header.module.scss';
 // import FileSelector from '../../FileSelector/FileSelector';
-import Input from '../../Input/Input';
+import Input from '../../../components/Input/Input';
 import Logo from '../../../assets/svg/Logo.svg';
 import Modal from '../../Modal/Modal';
 import ShrugSVG from '../../../assets/svg/Shrug.svg';
-import Spinner from '../../Spinner/Spinner';
+import Spinner from '../../../components/Spinner/Spinner';
 // import uploadFile from '../../../utils/uploadFile';
 
-const Auth = lazy(() => import('../../Auth/Auth'));
+const Auth = lazy(() => import('../../../components/Auth/Auth'));
 
 const Header: FC = (): JSX.Element => {
   const [searchInput, setSearchInput] = useState('');

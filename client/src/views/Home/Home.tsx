@@ -5,7 +5,7 @@ import { FC, useEffect, useState } from 'react';
 import FilmCard from '../../components/FilmCard/FilmCard';
 import httpRequest from '../../utils/httpRequest';
 import IFilm from '../../../../shared/interfaces/IFilm';
-import PageView from '../../components/PageView/PageView';
+import PageView from '../../hoc/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
 
 interface IUrlParams {

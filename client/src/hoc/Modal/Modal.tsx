@@ -1,9 +1,10 @@
 import { FC } from 'react';
+import { RecoilState } from 'recoil';
 import Backdrop from './Backdrop/Backdrop';
 import classes from './Modal.module.scss';
 
 interface IProps {
-  authState: any;
+  authState: RecoilState<boolean>;
   children: React.ReactNode;
 }
 
