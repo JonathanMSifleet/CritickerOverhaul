@@ -11,7 +11,11 @@ import middy from '@middy/core';
 const dbClient = new DynamoDBClient({});
 
 const signup = async (event: { body: string }): Promise<IHTTP> => {
-  const { username, email, password } = JSON.parse(event.body);
+  const password = JSON.parse(event.body).password;
+  let { username, email } = JSON.parse(event.body);
+
+  username = username.trim();
+  email = email.trim();
 
   const errors = await validateUserInputs(username, email);
   if (errors.length !== 0) return createAWSResErr(422, errors as string[]);

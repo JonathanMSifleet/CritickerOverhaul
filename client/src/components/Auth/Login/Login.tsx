@@ -30,33 +30,32 @@ const Login: FC = () => {
   }, [formInfo]);
 
   useEffect(() => {
-    const attemptLogin = async (): Promise<void> => {
-      setIsLoading(true);
+    if (shouldLogin)
+      (async (): Promise<void> => {
+        setIsLoading(true);
 
-      setEmailValidationMessages([]);
-      setPasswordValidationMessages([]);
+        setEmailValidationMessages([]);
+        setPasswordValidationMessages([]);
 
-      try {
-        const response = await HTTPRequest(endpoints.LOGIN, 'POST', undefined, formInfo);
-        if (response.statusCode && !response.statusCode.toString().startsWith('2')) throw new Error(response.message);
+        try {
+          const response = await HTTPRequest(endpoints.LOGIN, 'POST', undefined, formInfo);
+          if (response.statusCode && !response.statusCode.toString().startsWith('2')) throw new Error(response.message);
 
-        setUserInfo({
-          accessToken: JSON.parse(response.accessToken),
-          avatar: response.avatar,
-          loggedIn: true,
-          username: response.username
-        });
+          setUserInfo({
+            accessToken: JSON.parse(response.accessToken),
+            avatar: response.avatar,
+            loggedIn: true,
+            username: response.username
+          });
 
-        setShowModal(false);
-      } catch (error) {
-        handleValidationMessage(extractValidationMessages(error as string));
-      }
+          setShowModal(false);
+        } catch (error) {
+          handleValidationMessage(extractValidationMessages(error as string));
+        }
 
-      setShouldLogin(false);
-      setIsLoading(false);
-    };
-
-    if (shouldLogin) attemptLogin();
+        setShouldLogin(false);
+        setIsLoading(false);
+      })();
   }, [shouldLogin]);
 
   const handleValidationMessage = (valMessages: { [key: string]: string }[]): void => {

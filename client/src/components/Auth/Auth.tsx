@@ -1,5 +1,4 @@
 import { FC, useState } from 'react';
-
 import Button from '../Button/Button';
 import classes from './Auth.module.scss';
 import Login from './Login/Login';

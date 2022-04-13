@@ -66,9 +66,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
   }, [id]);
 
   useEffect(() => {
-    const fetchUserReview = async (): Promise<void> => setFetchedUserReview(await getUserRating(id!));
-
-    if (hasSubmittedRating) fetchUserReview();
+    if (hasSubmittedRating) (async (): Promise<void> => setFetchedUserReview(await getUserRating(id!)))();
   }, [hasSubmittedRating]);
 
   const arrayToString = (input: string): string => {

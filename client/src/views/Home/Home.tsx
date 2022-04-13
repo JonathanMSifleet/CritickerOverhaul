@@ -31,12 +31,6 @@ const Home: FC<IUrlParams> = (): JSX.Element => {
     })();
   }, []);
 
-  useEffect(() => {
-    const error = new URLSearchParams(document.location.search.substring(1)).get('error');
-
-    if (error) console.error('Invalid Route:', error);
-  }, []);
-
   return (
     <PageView>
       {!isLoading ? (

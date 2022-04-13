@@ -42,29 +42,29 @@ const SignUp: FC = () => {
   // cycle is called, updating the state to store the hashed password,
   // so that when it is POSTed to the server, the password is hashed
   useEffect(() => {
-    // trick to allows for await to be used inside a useEffect hook
-    const attemptSignup = async (): Promise<void> => {
-      setIsLoading(true);
-      const preHashPassword = formInfo.password;
+    if (shouldSignup)
+      (async (): Promise<void> => {
+        setIsLoading(true);
+        const preHashPassword = formInfo.password;
 
-      try {
-        if (formInfo.password !== formInfo.repeatPassword) throw new Error('Passwords do not match');
-        formInfo.password = CryptoES.SHA512(formInfo.password).toString();
+        try {
+          if (formInfo.password !== formInfo.repeatPassword) throw new Error('Passwords do not match');
+          formInfo.password = CryptoES.SHA512(formInfo.password).toString();
 
-        await httpRequest(endpoints.SIGNUP, 'POST', undefined, formInfo);
+          delete formInfo.repeatPassword;
 
-        alert('Account created successfully, please login');
-        setShowModal(false);
-      } catch (error) {
-        handleValidationMessage(extractValidationMessages(error as string));
-        setFormInfo({ ...formInfo, password: preHashPassword });
-      } finally {
-        setShouldSignup(false);
-        setIsLoading(false);
-      }
-    };
+          await httpRequest(endpoints.SIGNUP, 'POST', undefined, formInfo);
 
-    if (shouldSignup) attemptSignup();
+          alert('Account created successfully, please login');
+          setShowModal(false);
+        } catch (error) {
+          handleValidationMessage(extractValidationMessages(error as string));
+          setFormInfo({ ...formInfo, password: preHashPassword });
+        } finally {
+          setShouldSignup(false);
+          setIsLoading(false);
+        }
+      })();
   }, [shouldSignup]);
 
   const checkboxHandler = (event: React.ChangeEvent<HTMLInputElement>): void =>

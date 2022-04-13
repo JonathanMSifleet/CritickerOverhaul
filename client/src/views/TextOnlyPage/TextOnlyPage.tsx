@@ -352,7 +352,6 @@ const TextOnlyPage: FC<IUrlParams> = ({ path }) => {
           </div>
         );
       default:
-        // eslint-disable-next-line no-throw-literal
         throw 'Invalid route';
     }
   };

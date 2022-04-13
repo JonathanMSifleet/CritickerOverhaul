@@ -27,8 +27,12 @@ const rateFilm = async (event: {
   headers: { Authorization: string };
   pathParameters: { username: string };
 }): Promise<IHTTP> => {
-  const { imdbID, rating, review, reviewAlreadyExists } = JSON.parse(event.body);
+  const { imdbID, reviewAlreadyExists } = JSON.parse(event.body);
+  let { rating, review } = JSON.parse(event.body);
   const { username } = event.pathParameters;
+
+  rating = rating.trim();
+  review = review.trim();
 
   const accessToken = event.headers.Authorization.split(' ')[1];
 

@@ -39,7 +39,8 @@ const updateUserProfile = async (event: {
     if (entry[1] === undefined) delete updatedDetails[entry[0]];
   });
 
-  console.log('🚀 ~ file: updateUserProfile.ts ~ line 45 ~ Object.entries ~ updatedDetails', updatedDetails);
+  // @ts-expect-error key can be used as index
+  Object.keys(updatedDetails).forEach((key) => (updatedDetails[key] = updatedDetails[key].trim()));
 
   try {
     await updateProfileInDB(updatedDetails, username);
