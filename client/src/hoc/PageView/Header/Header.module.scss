@@ -12,6 +12,38 @@
   width: auto;
 }
 
+.LinkComponent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.LinkComponent :hover {
+  filter: brightness(0.9);
+}
+
+.LinkText {
+  background-color: $mainBlue !important;
+  color: white !important;
+    border: 0;
+  float: left;
+}
+
+.SearchNavItem {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: auto;
+}
+
+.Search {
+  margin-top: 0 !important;
+}
+
+.SearchLabel {
+  background-color: white !important;
+}
+
 .UserAvatarLink {
   margin-left: 0.5%;
   margin-right: 0.5%;

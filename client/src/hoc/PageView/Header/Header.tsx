@@ -1,5 +1,5 @@
 import { authModalState, userInfoState } from '../../../store';
-import { FC } from 'react';
+import { FC } from 'preact/compat';
 import { lazy, Suspense, useState } from 'preact/compat';
 import { Link, route } from 'preact-router';
 import {
@@ -14,17 +14,15 @@ import {
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import Button from '../../../components/Button/Button';
 import classes from './Header.module.scss';
-// import FileSelector from '../../FileSelector/FileSelector';
 import Input from '../../../components/Input/Input';
 import Logo from '../../../assets/svg/Logo.svg';
 import Modal from '../../Modal/Modal';
 import ShrugSVG from '../../../assets/svg/Shrug.svg';
 import Spinner from '../../../components/Spinner/Spinner';
-// import uploadFile from '../../../utils/uploadFile';
 
 const Auth = lazy(() => import('../../../components/Auth/Auth'));
 
-const Header: FC = (): JSX.Element => {
+const Header: FC = () => {
   const [searchInput, setSearchInput] = useState('');
   const [showModal, setShowModal] = useRecoilState(authModalState);
   const resetUserState = useResetRecoilState(userInfoState);
@@ -40,61 +38,63 @@ const Header: FC = (): JSX.Element => {
   };
 
   return (
-    <header>
-      {/* @ts-expect-error */}
-      <MDBNavbar className={classes.Header} expand="lg" light bgColor="white" fixed>
-        <MDBContainer fluid>
+    <>
+      <header>
+        <MDBNavbar className={classes.Header} expand="lg" fixed={'true'}>
           <img className={classes.Logo} src={Logo} alt="Criticker Logo" />
 
-          <MDBNavbarToggler aria-controls="navbarExample01" aria-expanded="false" aria-label="Toggle navigation">
-            <MDBIcon fas icon="bars" />
-          </MDBNavbarToggler>
+          <MDBContainer fluid>
+            <MDBNavbarToggler aria-controls="navbarExample01" aria-expanded="false" aria-label="Toggle navigation">
+              <MDBIcon fas icon="bars" />
+            </MDBNavbarToggler>
 
-          <div className="collapse navbar-collapse" id="navbarExample01">
-            <MDBNavbarNav right className="mb-2 mb-lg-0">
-              <MDBNavbarItem active>
-                <MDBNavbarLink aria-current="page" href="/">
-                  Home
-                </MDBNavbarLink>
-              </MDBNavbarItem>
-            </MDBNavbarNav>
-          </div>
+            <div className="collapse navbar-collapse" id="navbarExample01">
+              <MDBNavbarNav right className="mb-2 mb-lg-0">
+                <Link href="#information/privacy" className={`${classes.LinkComponent} text-white`}>
+                  <li className={`${classes.LinkText} list-group-item bg-primary`}>Home</li>
+                </Link>
+                <MDBNavbarItem>
+                  <MDBNavbarLink>
+                    <form onSubmit={handleFormSubmission}>
+                      <Input
+                        className={`${classes.Search} bg-light`}
+                        // using scss module breaks code so in-line unavoidable
+                        labelStyle={{ backgroundColor: 'white', padding: '0' }}
+                        onChange={(event): void => setSearchInput(event.target.value)}
+                        placeholder={'Search'}
+                        type={'text'}
+                      />
+                    </form>
+                  </MDBNavbarLink>
+                </MDBNavbarItem>
+              </MDBNavbarNav>
+            </div>
 
-          <form onSubmit={handleFormSubmission}>
-            <Input
-              onChange={(event): void => setSearchInput(event.target.value)}
-              className={'bg-light'}
-              placeholder={'Search'}
-              type={'text'}
-            />
-          </form>
+            {userState!.loggedIn ? (
+              <>
+                <Link className={classes.UserAvatarLink} href="#profile">
+                  <img
+                    src={userState.avatar !== undefined ? userState.avatar : ShrugSVG}
+                    className={`${classes.UserAvatar} rounded-circle mb-3`}
+                  />
+                </Link>
 
-          {/* <FileSelector onChange={(event: { target: { files: FileList } }): void => uploadFile(event)} /> */}
-
-          {userState!.loggedIn ? (
-            <>
-              <Link className={classes.UserAvatarLink} href="#profile">
-                <img
-                  src={userState.avatar !== undefined ? userState.avatar : ShrugSVG}
-                  className={`${classes.UserAvatar} rounded-circle mb-3`}
+                <Button
+                  className={`${classes.AuthButton} btn btn-white text-primary me-3 font-weight-bold`}
+                  onClick={(): void => logout()}
+                  text={'Log out'}
                 />
-              </Link>
-
+              </>
+            ) : (
               <Button
                 className={`${classes.AuthButton} btn btn-white text-primary me-3 font-weight-bold`}
-                onClick={(): void => logout()}
-                text={'Log out'}
+                onClick={displayAuthModal}
+                text={'Log in / sign up'}
               />
-            </>
-          ) : (
-            <Button
-              className={`${classes.AuthButton} btn btn-white text-primary me-3 font-weight-bold`}
-              onClick={displayAuthModal}
-              text={'Log in / sign up'}
-            />
-          )}
-        </MDBContainer>
-      </MDBNavbar>
+            )}
+          </MDBContainer>
+        </MDBNavbar>
+      </header>
 
       {showModal ? (
         <Modal authState={authModalState}>
@@ -104,7 +104,7 @@ const Header: FC = (): JSX.Element => {
           </Suspense>
         </Modal>
       ) : null}
-    </header>
+    </>
   );
 };
 
