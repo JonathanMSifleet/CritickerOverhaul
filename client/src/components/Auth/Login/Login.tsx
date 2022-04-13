@@ -87,34 +87,25 @@ const Login: FC = () => {
     setShouldLogin(true);
   };
 
-  const handlePlaceholderText = (type: string): string => {
-    // @ts-expect-error type not required
-    if (formInfo[type]) {
-      return '';
-    } else if (type === 'email') {
-      return 'Email';
-    } else {
-      return 'Password';
-    }
-  };
-
   return (
     <form onSubmit={(event): void => event.preventDefault()}>
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         <Input
-          onChange={(event: { target: { value: string } }): void => inputChangedHandler(event.target.value!, 'email')}
-          autoComplete="new-password"
+          autoComplete="email"
+          className={classes.Input}
           errors={emailValidationMessages}
-          placeholder={handlePlaceholderText('email')}
+          onChange={(event: { target: { value: string } }): void => inputChangedHandler(event.target.value!, 'email')}
+          placeholder={'Email'}
           type={'email'}
         />
         <Input
-          autoComplete="new-password"
+          autoComplete="current-password"
+          className={classes.Input}
+          errors={passwordValidationMessages}
           onChange={(event: { target: { value: string } }): void =>
             inputChangedHandler(event.target.value!, 'password')
           }
-          errors={passwordValidationMessages}
-          placeholder={handlePlaceholderText('password')}
+          placeholder={'Password'}
           type={'password'}
         />
       </div>
