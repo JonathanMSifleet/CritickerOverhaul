@@ -1,11 +1,10 @@
 import * as endpoints from '../../constants/endpoints';
-
 import { FC, useEffect, useState } from 'react';
-
 import { Link } from 'preact-router/match';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../store';
 import classes from './Film.module.scss';
+import epochToDate from '../../utils/epochToDate';
 import getColourGradient from '../../utils/getColourGradient';
 import getFilmPoster from '../../utils/getFilmPoster';
 import httpRequest from '../../utils/httpRequest';
@@ -152,7 +151,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
                 <p>
                   <i>
                     Rated on:{' '}
-                    {new Date(fetchedUserReview.createdAt!).toLocaleDateString('en-GB', {
+                    {epochToDate(fetchedUserReview.createdAt!, {
                       day: 'numeric',
                       month: 'long',
                       year: 'numeric'
