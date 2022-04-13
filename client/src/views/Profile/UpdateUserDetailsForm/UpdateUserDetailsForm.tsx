@@ -42,12 +42,18 @@ const UpdateUserDetailsForm: FC<IProps> = ({ userProfile, userState }) => {
   const updateUserProfile = async (): Promise<void> => {
     setIsUpdating(true);
 
+    const trimmedFormInfo = formInfo;
+    Object.keys(trimmedFormInfo).forEach((key) => {
+      // @ts-expect-error trimmedFormInfo must be string as evaluated by if statement
+      if (typeof trimmedFormInfo[key] === 'string') trimmedFormInfo[key] = trimmedFormInfo[key].trim();
+    });
+
     try {
       await httpRequest(
         `${endpoints.UPDATE_USER_PROFILE}/${userState.username}`,
         'PUT',
         userState.accessToken,
-        formInfo
+        trimmedFormInfo
       );
     } catch (error) {
       console.error(error);
