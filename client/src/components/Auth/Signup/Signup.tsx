@@ -53,7 +53,8 @@ const SignUp: FC = () => {
 
           delete formInfo.repeatPassword;
 
-          await httpRequest(endpoints.SIGNUP, 'POST', undefined, formInfo);
+          const result = await httpRequest(endpoints.SIGNUP, 'POST', undefined, formInfo);
+          if (result.statusCode !== 201) throw new Error(result.message);
 
           alert('Account created successfully, please login');
           setShowModal(false);
@@ -106,7 +107,8 @@ const SignUp: FC = () => {
     <form autoComplete="off" onSubmit={(event): void => event.preventDefault()}>
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         <Input
-          className={classes.AuthInput}
+          autoComplete="username"
+          className={classes.Input}
           errors={usernameValidationMessages}
           onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'username')}
           placeholder={'Username'}
@@ -114,7 +116,8 @@ const SignUp: FC = () => {
         />
 
         <Input
-          autoComplete="new-password"
+          autoComplete="email"
+          className={classes.Input}
           errors={emailValidationMessages}
           onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'email')}
           placeholder={'Email'}
@@ -123,12 +126,14 @@ const SignUp: FC = () => {
 
         <Input
           autoComplete="new-password"
+          className={classes.Input}
           onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'password')}
           placeholder={'Password'}
           type={'password'}
         />
 
         <Input
+          className={classes.Input}
           errors={passwordValidationMessages}
           onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'repeatPassword')}
           placeholder={'Repeat password'}
