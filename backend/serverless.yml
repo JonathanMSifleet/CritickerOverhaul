@@ -198,14 +198,14 @@ functions:
           authorizer: ${self:custom.authoriser}
 
   # dummy data functions:
-  # addAccounts:
-  #   handler: aws/handlers/mockData/addAccounts.handler
-  #   timeout: 30
-  #   events:
-  #     - http:
-  #         method: POST
-  #         path: mockData/addAccounts
-  #         cors: true
+  addAccounts:
+    handler: aws/handlers/mockData/addAccounts.handler
+    timeout: 30
+    events:
+      - http:
+          method: POST
+          path: mockData/addAccounts
+          cors: true
   aggregateUserPercentiles:
     handler: aws/handlers/mockData/aggregateUserPercentiles.handler
     timeout: 30
@@ -248,21 +248,21 @@ functions:
           cors: true
 
   # migration functions:
-  # addPeople:
-  #   handler: aws/handlers/mySQLMigration/addPeople.handler
-  #   events:
-  #     - http:
-  #         method: PUT
-  #         path: migration/addPeople/{type}
-  #         cors: true
-  # importFilmBatch:
-  #   handler: aws/handlers/mySQLMigration/importFilmBatch.handler
-  #   timeout: 30
-  #   events:
-  #     - http:
-  #         method: POST
-  #         path: migration/importFilmBatch
-  #         cors: true
+  addPeople:
+    handler: aws/handlers/mySQLMigration/addPeople.handler
+    events:
+      - http:
+          method: PUT
+          path: migration/addPeople/{type}
+          cors: true
+  importFilmBatch:
+    handler: aws/handlers/mySQLMigration/importFilmBatch.handler
+    timeout: 30
+    events:
+      - http:
+          method: POST
+          path: migration/importFilmBatch
+          cors: true
 
   # auth functions:
   authoriser:
