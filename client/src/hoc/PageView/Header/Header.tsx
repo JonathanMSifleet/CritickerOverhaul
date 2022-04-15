@@ -59,7 +59,7 @@ const Header: FC = () => {
                       <Input
                         className={`${classes.Search} bg-light`}
                         // using scss module breaks code so in-line unavoidable
-                        labelStyle={{ backgroundColor: 'white', padding: '0' }}
+                        labelStyle={{ backgroundColor: 'white', borderRadius: '5px', padding: '0' }}
                         onChange={(event): void => setSearchInput(event.target.value)}
                         placeholder={'Search'}
                         type={'text'}

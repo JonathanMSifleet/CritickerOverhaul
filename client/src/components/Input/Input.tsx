@@ -9,6 +9,7 @@ interface IProps {
   className?: string;
   errors?: string[];
   label?: string;
+  labelStyle?: { [key: string]: string };
   onChange?(event: ChangeEvent<HTMLInputElement>): string | boolean | void;
   placeholder?: string;
   textarea?: boolean;
@@ -22,6 +23,7 @@ const Input: FC<IProps> = ({
   className,
   errors,
   label,
+  labelStyle,
   onChange,
   placeholder,
   textarea,
@@ -48,6 +50,7 @@ const Input: FC<IProps> = ({
         className={`${classes.FormInput} ${className} form-control`}
         id="formControlDefault"
         label={placeholder}
+        labelStyle={labelStyle}
         onChange={onChange}
         type={type}
         value={value}

@@ -4,8 +4,8 @@
   @extend .InputWrapper;
 }
 
-.AuthInput {
-  margin-bottom: 1%;
+.Input {
+  @extend .Input;
 }
 
 .SubmitButtonWrapper {

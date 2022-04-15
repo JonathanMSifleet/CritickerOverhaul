@@ -5,6 +5,10 @@
   @extend .InputWrapper;
 }
 
+.Input {
+  @extend .Input;
+}
+
 .SubmitButtonWrapper {
   @extend .SubmitButtonWrapper;
 }

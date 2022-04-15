@@ -13,8 +13,9 @@
 }
 
 .LinkComponent {
-  display: flex;
   align-items: center;
+  display: flex;
+  height: 100%;
   justify-content: center;
 }
 
@@ -25,7 +26,7 @@
 .LinkText {
   background-color: $mainBlue !important;
   color: white !important;
-    border: 0;
+  border: 0;
   float: left;
 }
 
@@ -37,7 +38,8 @@
 }
 
 .Search {
-  margin-top: 0 !important;
+  height: 100%;
+  line-height: 100%;
 }
 
 .SearchLabel {
