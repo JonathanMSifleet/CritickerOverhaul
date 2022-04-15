@@ -13,19 +13,36 @@ export const validateUserInputs = async (username: string, email: string): Promi
 };
 
 export const validateValue = async (value: string, valueName: string): Promise<(string | null)[]> => {
-  const errors = [validateNotEmpty(value, valueName)];
+  const errors = [];
 
   switch (valueName) {
     case 'Username':
       errors.push(
+        validateNotEmpty(value, valueName),
         validateLength(value, valueName, 3, 16),
         validateAgainstRegex(value, valueName, /[^A-Za-z0-9]+/, 'cannot contain special characters')
       );
       break;
     case 'Email':
-      errors.push(validateLength(value, valueName, 3, 256), validateIsEmail(value));
+      errors.push(validateNotEmpty(value, valueName), validateLength(value, valueName, 3, 256), validateIsEmail(value));
+      break;
+    case 'FirstName':
+    case 'LastName':
+      errors.push(
+        validateLength(value, valueName, 0, 32),
+        validateAgainstRegex(
+          value,
+          valueName,
+          /[!"`'#%&,:;<>=@{}~\$\(\)\*\+\/\\\?\[\]\^\|0-9]/,
+          'cannot contain numbers or special characters'
+        )
+      );
+      break;
+    case 'Bio':
+      errors.push(validateLength(value, valueName, 0, 1000));
       break;
   }
+
   return await Promise.all(errors);
 };
 
@@ -41,6 +58,9 @@ export const validateIsEmail = async (value: string): Promise<string | null> =>
 
 export const validateNotEmpty = async (value: string, name: string): Promise<string | null> =>
   value === null || value === '' || value === undefined ? `${name} must not be empty` : null;
+
+export const validateNotValue = async (value: string, name: string, match: string): Promise<string | null> =>
+  value === match ? `${name} must not be ${match}` : null;
 
 export const validateLength = async (
   value: string,

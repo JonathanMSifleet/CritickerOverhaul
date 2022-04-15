@@ -14,7 +14,7 @@
   display: block;
   margin-top: 11.2846px;
   margin: 0 !important;
-  margin-top: 3% !important;
+  margin-top: 0 !important;
   padding-bottom: 5.28px;
   padding-left: 6px;
   padding-right: 6px;
@@ -59,8 +59,12 @@
 
 .DescriptionWrapper {
   clear: both;
-  margin-top: -1%;
+  margin-top: 1%;
   margin-bottom: 1%;
+}
+
+.DescriptionTextArea {
+  height: 12vh;
 }
 
 .SubmitButtonWrapper {

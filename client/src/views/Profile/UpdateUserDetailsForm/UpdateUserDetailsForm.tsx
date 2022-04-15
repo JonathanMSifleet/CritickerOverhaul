@@ -2,6 +2,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import * as endpoints from '../../../constants/endpoints';
 import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { CountryDropdown } from 'react-country-region-selector';
+import { validateValue } from '../../../../../shared/functions/validationFunctions';
 import Button from '../../../components/Button/Button';
 import classes from './UpdateUserDetailsForm.module.scss';
 import DatePicker from 'react-datepicker';
@@ -19,9 +20,35 @@ interface IProps {
 }
 
 const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfile, userState }) => {
+  const [bioValMessages, setBioValMessages] = useState([] as string[]);
+  const [emailValMessages, setEmailValMessages] = useState([] as string[]);
+  const [firstNameValMessages, setFirstNameValMessages] = useState([] as string[]);
   const [formInfo, setFormInfo] = useState({} as { [key: string]: string | number });
+  const [formIsValid, setFormIsValid] = useState(true);
   const [isUpdating, setIsUpdating] = useState(false);
+  const [lastNameValMessages, setLastNameValMessages] = useState([] as string[]);
   const [selectedDate, setSelectedDate] = useState(null as Date | null);
+
+  useEffect(() => {
+    const errorArray: string[] = [];
+    errorArray.push(
+      ...emailValMessages,
+      ...firstNameValMessages,
+      ...lastNameValMessages,
+      ...emailValMessages,
+      ...firstNameValMessages,
+      ...lastNameValMessages
+    );
+
+    setFormIsValid(errorArray.length === 0);
+  }, [
+    emailValMessages,
+    firstNameValMessages,
+    lastNameValMessages,
+    emailValMessages,
+    firstNameValMessages,
+    lastNameValMessages
+  ]);
 
   useEffect(() => {
     userProfile.dob !== undefined ? setSelectedDate(new Date(userProfile.dob!)) : setSelectedDate(new Date());
@@ -37,6 +64,26 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
       lastName: userProfile.lastName!
     });
   }, []);
+
+  const handleValidation = async (value: string, type: string): Promise<void> => {
+    let messages = (await validateValue(value, type)) as string[];
+    messages = messages.filter((error) => error !== null);
+
+    switch (type) {
+      case 'Email':
+        setEmailValMessages(messages);
+        break;
+      case 'FirstName':
+        setFirstNameValMessages(messages);
+        break;
+      case 'LastName':
+        setLastNameValMessages(messages);
+        break;
+      case 'Bio':
+        setBioValMessages(messages);
+        break;
+    }
+  };
 
   const inputChangedHandler = (value: string | number, inputName: string): void =>
     setFormInfo({ ...formInfo, [inputName]: value });
@@ -73,7 +120,11 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
       <div className={classes.InputsWrapper}>
         <div className={classes.InputWrapper}>
           <Input
-            onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event.target.value, 'email')}
+            errors={emailValMessages!}
+            onChange={(event: ChangeEvent<HTMLInputElement>): void => {
+              inputChangedHandler(event.target.value, 'email');
+              handleValidation(event.target.value, 'Email');
+            }}
             placeholder={'Email'}
             type={'email'}
             value={formInfo.email as string}
@@ -82,9 +133,11 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
 
         <div className={classes.InputWrapper}>
           <Input
-            onChange={(event: ChangeEvent<HTMLInputElement>): void =>
-              inputChangedHandler(event.target.value, 'firstName')
-            }
+            errors={firstNameValMessages!}
+            onChange={(event: ChangeEvent<HTMLInputElement>): void => {
+              inputChangedHandler(event.target.value, 'firstName');
+              handleValidation(event.target.value, 'FirstName');
+            }}
             placeholder={'First name'}
             type={'text'}
             value={formInfo.firstName as string}
@@ -93,9 +146,11 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
 
         <div className={classes.InputWrapper}>
           <Input
-            onChange={(event: ChangeEvent<HTMLInputElement>): void =>
-              inputChangedHandler(event.target.value, 'lastName')
-            }
+            errors={lastNameValMessages!}
+            onChange={(event: ChangeEvent<HTMLInputElement>): void => {
+              inputChangedHandler(event.target.value, 'lastName');
+              handleValidation(event.target.value, 'LastName');
+            }}
             placeholder={'Last name'}
             type={'text'}
             value={formInfo.lastName as string}
@@ -156,16 +211,22 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
 
       <div className={classes.DescriptionWrapper}>
         <Input
-          textarea={true}
+          className={classes.DescriptionTextArea}
+          errors={bioValMessages!}
           label={'Bio'}
-          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event.target.value, 'bio')}
+          onChange={(event: ChangeEvent<HTMLInputElement>): void => {
+            inputChangedHandler(event.target.value, 'bio');
+            handleValidation(event.target.value, 'Bio');
+          }}
+          textarea={true}
           value={formInfo.bio as string}
         />
+        <p>{1000 - (formInfo.bio ? (formInfo.bio as string).length : 0)} characters remaining</p>
       </div>
 
       <div className={classes.SubmitButtonWrapper}>
         {!isUpdating ? (
-          <Button onClick={(): Promise<void> => updateUserProfile()} text={'Submit'} />
+          <Button disabled={!formIsValid} onClick={(): Promise<void> => updateUserProfile()} text={'Submit'} />
         ) : (
           <SpinnerButton />
         )}

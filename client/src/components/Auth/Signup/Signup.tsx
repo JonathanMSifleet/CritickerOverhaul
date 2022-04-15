@@ -1,8 +1,6 @@
 import * as endpoints from '../../../constants/endpoints';
-
-import { ChangeEvent, FC, useEffect, useState } from 'react';
-
 import { authModalState } from '../../../store';
+import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import Button from '../../Button/Button';
 import Checkbox from '../../Checkbox/Checkbox';

@@ -24,7 +24,6 @@ const updateUserProfile = async (event: {
   if (validToken !== true) return createAWSResErr(401, 'Access token invalid');
 
   const { bio, country, dob, email, firstName, gender, lastName } = JSON.parse(event.body);
-
   const updatedDetails = {
     bio,
     country,

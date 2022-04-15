@@ -229,7 +229,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                         <b>Country:</b> {userProfile.country}
                       </p>
                     ) : null}
-                    {console.log(userProfile.dob)}
+
                     {userProfile.dob ? (
                       <p className={classes.UserProfileText}>
                         <b>Date of birth:</b> {epochToDate(userProfile.dob)}
