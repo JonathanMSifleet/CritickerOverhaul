@@ -1,22 +1,30 @@
-import { BatchWriteItemCommand, BatchWriteItemCommandInput, DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
+import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import cors from '@middy/http-cors';
 import IHTTP from '../../shared/interfaces/IHTTP';
 import middy from '@middy/core';
 
 const dbClient = new DynamoDBClient({});
 
-const importAvatars = async (event: { body: string }): Promise<void | IHTTP> => {
-  const images = JSON.parse(event.body);
+const importAvatars = async (event: { body: string; pathParameters: { username: string } }): Promise<void | IHTTP> => {
+  const avatar = JSON.parse(event.body);
+  const username = event.pathParameters.username;
 
-  const params: BatchWriteItemCommandInput = {
-    RequestItems: {
-      [process.env.AVATAR_TABLE_NAME!]: images
-    }
+  const params = {
+    TableName: process.env.USER_TABLE_NAME!,
+    Key: {
+      username: { S: username }
+    },
+    UpdateExpression: 'set avatar = :avatar',
+    ExpressionAttributeValues: {
+      ':avatar': { S: avatar }
+    },
+    ReturnValues: 'UPDATED_NEW'
   };
 
   try {
-    await dbClient.send(new BatchWriteItemCommand(params));
+    const result = await dbClient.send(new UpdateItemCommand(params));
+    console.log('🚀 ~ file: importAvatars.ts ~ line 29 ~ importAvatars ~ result', result);
 
     console.log('Successfully imported avatars');
     return { statusCode: 204 };
