@@ -21,11 +21,3 @@ export const SEARCH_FOR_FILM = `${ROOT}/film/searchForFilm`;
 export const SIGNUP = `${ROOT}/user/signup`;
 export const UPDATE_USER_PROFILE = `${ROOT}/user/profile`;
 export const UPLOAD_USER_AVATAR = `${ROOT}/user/avatar`;
-
-// mock data endpoints:
-export const ADD_ACCOUNTS = `${ROOT}/mockData/addAccounts`;
-export const AGGREGATE_PERCENTILES = `${ROOT}/mockData/aggregateUserPercentiles`;
-export const IMPORT_AVATARS = `${ROOT}/mockData/importAvatars`;
-export const IMPORT_GENERATED_RATINGS = `${ROOT}/mockData/importGeneratedRatings`;
-export const UPDATE_NUM_RATINGS = `${ROOT}/mockData/importGeneratedRatings`;
-export const UPDATE_PERCENTILES = `${ROOT}/mockData/updatePercentiles`;

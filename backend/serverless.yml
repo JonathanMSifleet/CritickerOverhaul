@@ -219,8 +219,8 @@ functions:
     timeout: 30
     events:
       - http:
-          method: POST
-          path: mockData/importAvatars
+          method: PUT
+          path: mockData/importAvatars/{username}
           cors: true
   importGeneratedRatings:
     handler: aws/handlers/mockData/importGeneratedRatings.handler
