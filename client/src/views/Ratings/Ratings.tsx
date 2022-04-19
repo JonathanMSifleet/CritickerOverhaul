@@ -1,7 +1,5 @@
 import * as endpoints from '../../constants/endpoints';
-
 import { FC, useEffect, useState } from 'react';
-
 import { Link } from 'preact-router/match';
 import { MDBCol } from 'mdb-react-ui-kit';
 import { stringify } from 'query-string';
