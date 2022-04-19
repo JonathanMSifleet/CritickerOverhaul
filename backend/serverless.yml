@@ -248,6 +248,13 @@ functions:
           cors: true
 
   # migration functions:
+  addPeople:
+    handler: aws/handlers/mySQLMigration/addPeople.handler
+    events:
+      - http:
+          method: PUT
+          path: migration/addPeople/{type}
+          cors: true
   importFilmBatch:
     handler: aws/handlers/mySQLMigration/importFilmBatch.handler
     timeout: 30
