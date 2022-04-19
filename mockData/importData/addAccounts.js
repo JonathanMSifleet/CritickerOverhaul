@@ -4,7 +4,7 @@ const fetch = require('node-fetch');
 const fs = require('fs');
 
 (async () => {
-  let accounts = JSON.parse(fs.readFileSync('../generateData/accounts/mockAccounts.json'));
+  let accounts = JSON.parse(fs.readFileSync('../../../sharedData/mockAccounts.json'));
 
   accounts = accounts.map((account) => {
     Object.keys(account).forEach((key) => {
