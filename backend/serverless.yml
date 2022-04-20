@@ -211,7 +211,7 @@ functions:
     timeout: 30
     events:
       - http:
-          method: GET
+          method: PUT
           path: mockData/aggregateUserPercentiles/{username}
           cors: true
   importAvatars:
