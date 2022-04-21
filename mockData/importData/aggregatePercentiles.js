@@ -4,6 +4,7 @@ const fs = require('fs');
 
 (async () => {
   const usernames = JSON.parse(fs.readFileSync('../sharedData/mockAccounts.json')).map((username) => username.username);
+  usernames.push('jonathanmsifleet');
 
   console.log('Starting import');
 

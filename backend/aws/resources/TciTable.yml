@@ -4,9 +4,9 @@ TciTable:
     TableName: TciTable
     BillingMode: PAY_PER_REQUEST
     AttributeDefinitions:
-      - AttributeName: usernames
+      - AttributeName: username
         AttributeType: S
 
     KeySchema:
-      - AttributeName: usernames
+      - AttributeName: username
         KeyType: HASH

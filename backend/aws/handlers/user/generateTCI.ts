@@ -2,7 +2,9 @@ import { createAWSResErr } from '../../shared/functions/createAWSResErr';
 import { DynamoDBClient, GetItemCommand, PutItemCommand } from '@aws-sdk/client-dynamodb';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import cors from '@middy/http-cors';
+import getExistingTCI from '../../shared/functions/getExistingTCI';
 import IHTTP from '../../shared/interfaces/IHTTP';
+import ITCI from '../../../../shared/interfaces/ITCI';
 import middy from '@middy/core';
 
 const dbClient = new DynamoDBClient({});
@@ -18,13 +20,13 @@ interface IUserRatings {
 }
 
 const generateTCI = async (event: {
-  pathParameters: { usernameOne: string; usernameTwo: string };
-}): Promise<IHTTP | void> => {
-  const { usernameOne, usernameTwo } = event.pathParameters;
+  pathParameters: { primaryUsername: string; secondaryUsername: string };
+}): Promise<IHTTP> => {
+  const { primaryUsername, secondaryUsername } = event.pathParameters;
 
   const userRatingRequests = [];
-  userRatingRequests.push(getUserRatings(usernameOne));
-  userRatingRequests.push(getUserRatings(usernameTwo));
+  userRatingRequests.push(getUserRatings(primaryUsername));
+  userRatingRequests.push(getUserRatings(secondaryUsername));
 
   const userRatings = (await Promise.all(userRatingRequests)) as IUserRatings[];
   if (userRatings instanceof Error) return createAWSResErr(500, 'Error getting user ratings');
@@ -35,10 +37,17 @@ const generateTCI = async (event: {
   const ratingsOne = filterRatings(userRatings[0], matchingRatings);
   const ratingsTwo = filterRatings(userRatings[1], matchingRatings);
 
-  const tci = calculateTCI(matchingRatings, ratingsOne, ratingsTwo);
-  const tableHash = usernameOne < usernameTwo ? `${usernameOne}-${usernameTwo}` : `${usernameTwo}-${usernameOne}`;
+  const strippedRatingsOne = stripRatings(ratingsOne);
+  const strippedRatingsTwo = stripRatings(ratingsTwo);
 
-  const updatedTCI = await updateDynamoTCI(tableHash, tci);
+  const newTCI = calculateTCI(strippedRatingsOne, strippedRatingsTwo);
+
+  let existingTCIArray = await getExistingTCI(dbClient, primaryUsername);
+
+  existingTCIArray = existingTCIArray.filter((existingTCI) => existingTCI.username !== secondaryUsername);
+  existingTCIArray.push({ username: secondaryUsername, TCI: newTCI });
+
+  const updatedTCI = await updateDynamoTCI(primaryUsername, existingTCIArray);
   if (updatedTCI instanceof Error) return createAWSResErr(500, 'Error updating TCI');
 
   return { statusCode: 204 };
@@ -46,30 +55,10 @@ const generateTCI = async (event: {
 
 export const handler = middy(generateTCI).use(cors());
 
-const calculateAbsolutePercentageDifference = (valOne: number, valTwo: number): number => {
-  if (valOne > valTwo) {
-    const temp = valOne;
-    valOne = valTwo;
-    valTwo = temp;
-  }
-
-  return Math.round(Math.abs(((valOne - valTwo) / valTwo) * 100));
-};
-
-const calculateTCI = (matchingRatings: IRating[], ratingsOne: IUserRatings, ratingsTwo: IUserRatings): number => {
-  const percentageDifferences = matchingRatings.map(
-    (matchingRating) =>
-      ({
-        percentageDifference: calculateAbsolutePercentageDifference(
-          // @ts-expect-error can be used as index
-          ratingsOne[matchingRatings.indexOf(matchingRating)].ratingPercentile,
-          // @ts-expect-error can be used as index
-          ratingsTwo[matchingRatings.indexOf(matchingRating)].ratingPercentile
-        )
-      }.percentageDifference)
-  );
-
-  return Number((percentageDifferences.reduce((a, b) => a + b) / percentageDifferences.length).toFixed(4));
+const calculateTCI = (ratingsOne: number[], ratingsTwo: number[]): number => {
+  const differences = ratingsOne.map((ratingOne, i) => Math.abs(ratingOne - ratingsTwo[i]));
+  const sum = differences.reduce((acc, cur) => acc + cur, 0);
+  return parseFloat((sum / differences.length).toFixed(8));
 };
 
 const getMatchingUserRatings = (ratings: IUserRatings[]): IRating[] =>
@@ -101,18 +90,20 @@ const getUserRatings = async (username: string): Promise<IHTTP | IUserRatings> =
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
-const filterRatings = (userRatings: IUserRatings, matchingRatings: IRating[]): IUserRatings =>
-  // @ts-expect-error ratings does exist on IUserRatings
+const filterRatings = (userRatings: IUserRatings, matchingRatings: IRating[]): IRating[] =>
   userRatings.ratings.filter((rating: { imdbID: number }) =>
     matchingRatings.some((matchingRating) => matchingRating.imdbID === rating.imdbID)
   );
 
-const updateDynamoTCI = async (tableHash: string, tci: number): Promise<IHTTP | void> => {
+const stripRatings = (ratings: IRating[]): number[] =>
+  ratings.sort((a, b) => a.imdbID - b.imdbID).map((rating) => rating.ratingPercentile);
+
+const updateDynamoTCI = async (primaryUsername: string, tci: ITCI[]): Promise<IHTTP | void> => {
   const query = {
     TableName: process.env.TCI_TABLE_NAME!,
     Item: {
-      usernames: { S: tableHash },
-      tci: { N: tci.toString() }
+      username: { S: primaryUsername },
+      TCIs: { S: JSON.stringify(tci) }
     }
   };
 
