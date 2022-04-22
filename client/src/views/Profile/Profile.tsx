@@ -238,30 +238,31 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                   </MDBCol>
 
                   <MDBCol className={`${classes.UserDetailsColumn} ${classes.UserDetailsColumnRight}`}>
-                    <div className={classes.FileUploadWrapper}>
-                      <p className={classes.ImportInstructions}>Import Criticker Ratings:</p>
-                      <div className={classes.FileSelectorWrapper}>
-                        <FileSelector onChange={(event): void => handleRatingsFile(event)} />
-                        {importingRatings ? <Spinner className={classes.RatingSpinner} /> : null}
-
-                        {importMessage !== '' ? (
-                          <p
-                            className={
-                              importMessage.split(' ')[0] !== 'Error'
-                                ? classes.SuccessImportMessage
-                                : classes.ErrorImportMessage
-                            }
-                          >
-                            {importMessage}
-                          </p>
-                        ) : null}
-                      </div>
-                    </div>
-
                     {userState.username === username || username === '' ? (
-                      <div className={classes.DeleteAccountButtonWrapper}>
-                        <Button className="bg-danger" onClick={displayDeleteAccountModal} text={'Delete account'} />
-                      </div>
+                      <>
+                        <div className={classes.FileUploadWrapper}>
+                          <p className={classes.ImportInstructions}>Import Criticker Ratings:</p>
+                          <div className={classes.FileSelectorWrapper}>
+                            <FileSelector onChange={(event): void => handleRatingsFile(event)} />
+                            {importingRatings ? <Spinner className={classes.RatingSpinner} /> : null}
+
+                            {importMessage !== '' ? (
+                              <p
+                                className={
+                                  importMessage.split(' ')[0] !== 'Error'
+                                    ? classes.SuccessImportMessage
+                                    : classes.ErrorImportMessage
+                                }
+                              >
+                                {importMessage}
+                              </p>
+                            ) : null}
+                          </div>
+                        </div>
+                        <div className={classes.DeleteAccountButtonWrapper}>
+                          <Button className="bg-danger" onClick={displayDeleteAccountModal} text={'Delete account'} />
+                        </div>
+                      </>
                     ) : null}
                   </MDBCol>
                 </div>

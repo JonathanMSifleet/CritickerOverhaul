@@ -3,11 +3,12 @@ import { MDBSpinner } from 'mdb-react-ui-kit';
 
 interface IProps {
   className?: string;
+  spinnerClassName?: string;
 }
 
-const Spinner: FC<IProps> = ({ className }) => (
+const Spinner: FC<IProps> = ({ className, spinnerClassName }) => (
   <div className={`${className} d-flex justify-content-center`}>
-    <MDBSpinner role="status" color="primary" />
+    <MDBSpinner className={spinnerClassName} role="status" color="primary" />
   </div>
 );
 

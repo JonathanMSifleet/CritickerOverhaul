@@ -99,7 +99,7 @@ const Header: FC = () => {
       {showModal ? (
         <Modal authState={authModalState}>
           {/* @ts-expect-error works correctly */}
-          <Suspense fallback={<Spinner />}>
+          <Suspense fallback={<Spinner spinnerClassName={classes.Spinner} />}>
             <Auth />
           </Suspense>
         </Modal>

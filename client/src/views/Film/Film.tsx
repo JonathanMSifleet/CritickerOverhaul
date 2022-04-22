@@ -197,11 +197,6 @@ const Film: FC<IUrlParams> = ({ id }) => {
                 ratings.map((rating: IRating) => (
                   <div className={classes.UserRatingWrapper} key={rating.username}>
                     <UserAvatar username={rating.username} />
-
-                    <p className={classes.UserRating}>
-                      <Link href={`#profile/${rating.username}`}>{rating.username}</Link>
-                    </p>
-                    <p>TCI: {getTCI(rating.username)}</p>
                     <p
                       className={classes.UserRatingScore}
                       style={{ color: determineColourGradient(rating.ratingPercentile) }}
@@ -209,6 +204,10 @@ const Film: FC<IUrlParams> = ({ id }) => {
                       {rating.rating}
                       <span className={classes.UserRatingPercentile}>{rating.ratingPercentile}%</span>
                     </p>
+                    <p className={classes.UserRating}>
+                      <Link href={`#profile/${rating.username}`}>{rating.username}</Link>
+                    </p>
+                    <p className={classes.UserTCI}>TCI: {getTCI(rating.username)}</p>
                     <div className={classes.UserReviewTextWrapper}>
                       {rating.review ? <p className={classes.UserReviewText}>{rating.review}</p> : null}
                     </div>

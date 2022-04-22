@@ -140,7 +140,7 @@ const SignUp: FC = () => {
       </div>
 
       <div className={classes.TermsConditionsWrapper}>
-        <label className={classes.TermsConditionsLabel}>
+        <label>
           <Checkbox
             onChange={(event: ChangeEvent<HTMLInputElement>): void => checkboxHandler(event)}
             placeholder={'I have read and agree to the terms'}
