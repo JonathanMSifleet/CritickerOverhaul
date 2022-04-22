@@ -35,7 +35,10 @@ const getToken = async (emailAddress: string): Promise<Error | IToken> => {
     Key: {
       emailAddress: { S: emailAddress }
     },
-    ProjectionExpression: 'token, expires'
+    ProjectionExpression: '#token, expires',
+    ExpressionAttributeNames: {
+      '#token': 'token'
+    }
   };
 
   try {

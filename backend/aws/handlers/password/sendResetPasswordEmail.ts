@@ -55,12 +55,13 @@ const storeToken = async (emailAddress: string, token: string): Promise<void | E
     Item: marshall({
       emailAddress,
       token,
-      expires: Date.now() + 5 * 60 * 1000
+      expires: Date.now() + 10 * 60 * 1000
     })
   };
 
   try {
     await dbClient.send(new PutItemCommand(query));
+
     console.log('Successfully stored token');
     return;
   } catch (error) {
