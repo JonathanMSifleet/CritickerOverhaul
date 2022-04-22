@@ -1,7 +1,6 @@
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
 import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
-import { ScanCommand } from '@aws-sdk/client-dynamodb';
-import { unmarshall } from '@aws-sdk/util-dynamodb';
+import { parallelScan } from '@shelf/dynamodb-parallel-scan';
 import cors from '@middy/http-cors';
 import getNumRatingsFromDB from '../../shared/functions/getNumRatingsFromDB';
 import IHTTP from '../../shared/interfaces/IHTTP';
@@ -10,7 +9,8 @@ import middy from '@middy/core';
 const dbClient = new DynamoDBClient({});
 
 const updateNumRatings = async (): Promise<IHTTP> => {
-  const usernames = await getUsernames();
+  const usernames = (await getUsernames()) as string[];
+  if (usernames instanceof Error) return createAWSResErr(500, 'Error getting usernames');
 
   const updateRatingRequests: Promise<void | IHTTP>[] = [];
   usernames.forEach(async (username) => {
@@ -30,14 +30,22 @@ const updateNumRatings = async (): Promise<IHTTP> => {
 
 export const handler = middy(updateNumRatings).use(cors());
 
-const getUsernames = async (): Promise<string[]> => {
-  const params = {
-    ProjectionExpression: 'username',
-    TableName: process.env.USER_TABLE_NAME
-  };
+const getUsernames = async (): Promise<string[] | IHTTP> => {
+  try {
+    const usernames = await parallelScan(
+      {
+        TableName: process.env.USER_TABLE_NAME!,
+        ProjectionExpression: 'username'
+      },
+      { concurrency: 1000 }
+    );
 
-  const results = await dbClient.send(new ScanCommand(params));
-  return results.Items!.map((item) => unmarshall(item).username);
+    return usernames!.map((item) => item.username);
+  } catch (error) {
+    if (error instanceof Error) return createAWSResErr(520, error.message);
+  }
+
+  return createAWSResErr(500, 'Unhandled Exception');
 };
 
 const updateRatings = async (username: string): Promise<void | IHTTP> => {

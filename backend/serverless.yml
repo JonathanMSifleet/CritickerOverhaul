@@ -61,8 +61,8 @@ functions:
     timeout: 30
     events:
       - http:
-          method: POST
-          path: user/generateTCI/{usernameOne}/{usernameTwo}
+          method: PUT
+          path: user/generateTCI/{primaryUsername}/{secondaryUsername}
           cors: true
   getAllRatings:
     handler: aws/handlers/rating/getAllRatings.handler
@@ -236,7 +236,7 @@ functions:
     events:
       - http:
           method: PUT
-          path: mockData/importGeneratedRatings
+          path: mockData/updateNumRatings
           cors: true
   updatePercentiles:
     handler: aws/handlers/mockData/updatePercentiles.handler

@@ -3,9 +3,11 @@ UserTableIAM:
   Action:
     - dynamodb:BatchWriteItem
     - dynamodb:DeleteItem
+    - dynamodb:DescribeTable
     - dynamodb:GetItem
     - dynamodb:PutItem
     - dynamodb:Query
+    - dynamodb:Scan
     - dynamodb:UpdateItem
   Resource:
     - ${self:custom.UserTable.arn}

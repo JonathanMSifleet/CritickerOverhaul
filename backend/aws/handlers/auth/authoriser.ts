@@ -21,7 +21,7 @@ interface IPayload {
   policyDocument: IPolicyDocument;
 }
 
-const authoriser = async (event: { authorizationToken: string; methodArn: string }): Promise<IPayload | IHTTP> => {
+export const handler = async (event: { authorizationToken: string; methodArn: string }): Promise<IPayload | IHTTP> => {
   if (!event.authorizationToken) return createAWSResErr(401, 'Unauthorized');
 
   const token = event.authorizationToken.replace('Bearer ', '');
@@ -40,8 +40,6 @@ const authoriser = async (event: { authorizationToken: string; methodArn: string
 
   return createAWSResErr(500, 'Unhandled Exception');
 };
-
-export const handler = authoriser;
 
 const generatePolicy = (principalId: string, methodArn: string): IPolicy => ({
   principalId,
