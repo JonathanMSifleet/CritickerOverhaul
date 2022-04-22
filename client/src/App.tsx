@@ -54,7 +54,7 @@ const App: FC = () => {
             <Home path={'/'} />
             <Film path={'/film/:id'} />
             <Profile path={'/profile/:username?'} />
-            <Ratings path={'/ratings/:username'} />
+            <Ratings path={'/ratings/:username?'} />
             <Search path={'/search/:searchQuery'} />
             <TextOnlyPage path={'/information/:path'} />
             <InvalidRoute path={'/:*'} />

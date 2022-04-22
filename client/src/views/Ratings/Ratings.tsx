@@ -34,9 +34,7 @@ interface ILastEvaluatedKey {
 }
 
 const Ratings: FC<IUrlParams> = ({ username }) => {
-  const [_allRatings, setAllRatings] = useState([] as IFilm[]);
   const [isLoadingRatings, setIsLoadingRatings] = useState(false);
-  // const [filters, setFilters] = useState(null as any);
   const [numPages, setNumPages] = useState(-1);
   const [ratings, setRatings] = useState([] as IFilm[]);
   const [paginationKeys, setPaginationKeys] = useState([] as ILastEvaluatedKey[]);
@@ -89,7 +87,6 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
       await fetchPaginationKeys(localUsername, paginationResult.lastEvaluatedKey, localRatings);
     } else {
       setRatings(localRatings);
-      setAllRatings(localRatings);
     }
   };
 
@@ -131,8 +128,7 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
       {!isLoadingRatings && ratings ? (
         <>
           <div className={`${classes.RatingsWrapper} d-flex align-items-start bg-light mb-2`}>
-            <MDBCol md="3">Filter</MDBCol>
-            <MDBCol md="9">
+            <MDBCol md="12">
               <div className={classes.PageSelectorsWrapper}>
                 {Array.from({ length: numPages }, (_, i) => i++).map((pageNumber) => (
                   <div
