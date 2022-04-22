@@ -2,6 +2,7 @@ import * as endpoints from '../../../constants/endpoints';
 import { authModalState, userInfoState } from '../../../store';
 import { FC, useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
+import { validateValue } from '../../../../../shared/functions/validationFunctions';
 import Button from '../../Button/Button';
 import classes from './Login.module.scss';
 import CryptoES from 'crypto-es';
@@ -16,13 +17,15 @@ interface IState {
 }
 
 const Login: FC = () => {
+  const [emailSentStatus, setEmailSentStatus] = useState(null as null | string);
   const [emailValidationMessages, setEmailValidationMessages] = useState([] as string[]);
-  const [passwordValidationMessages, setPasswordValidationMessages] = useState([] as string[]);
   const [formInfo, setFormInfo] = useState<IState>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [passwordValidationMessages, setPasswordValidationMessages] = useState([] as string[]);
   const [resetPasswordEmail, setResetPasswordEmail] = useState(null as null | string);
-  const [showEmailAddressInput, setShowEmailAddressInput] = useState(false);
+  const [resetPasswordValMessages, setResetPasswordValMessages] = useState([] as string[]);
   const [shouldLogin, setShouldLogin] = useState(false);
+  const [showEmailAddressInput, setShowEmailAddressInput] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
   const setShowModal = useSetRecoilState(authModalState);
   const setUserInfo = useSetRecoilState(userInfoState);
@@ -92,10 +95,19 @@ const Login: FC = () => {
 
   const sendResetEmailPassword = async (): Promise<void> => {
     const result = await httpRequest(`${endpoints.SEND_RESET_PASSWORD_EMAIL}/${resetPasswordEmail}`, 'PUT');
-    console.log('🚀 ~ file: Login.tsx ~ line 99 ~ sendResetEmailPassword ~ result', result);
+    result.statusCode === 204
+      ? setEmailSentStatus('Email sent successfully!')
+      : setEmailSentStatus('Error sending email');
   };
 
   const toggleEmailInput = (): void => setShowEmailAddressInput(!showEmailAddressInput);
+
+  const validateEmail = async (value: string): Promise<void> => {
+    let messages = (await validateValue(value, 'Email')) as string[];
+    messages = messages.filter((error) => error !== null);
+
+    setResetPasswordValMessages(messages);
+  };
 
   return (
     <form onSubmit={(event): void => event.preventDefault()}>
@@ -127,21 +139,28 @@ const Login: FC = () => {
       </div>
 
       {showEmailAddressInput ? (
-        <div className={classes.InputWrapper}>
-          <Input
-            onChange={(event): void => setResetPasswordEmail(event.target.value)}
-            className={classes.Input}
-            placeholder={'Email'}
-            type={'email'}
-          />
-        </div>
+        <>
+          <div className={classes.InputWrapper}>
+            <Input
+              errors={resetPasswordValMessages}
+              onChange={(event): void => {
+                setResetPasswordEmail(event.target.value);
+                validateEmail(event.target.value);
+              }}
+              className={classes.Input}
+              placeholder={'Email'}
+              type={'email'}
+            />
+          </div>
+          {emailSentStatus ? <p className={classes.EmailSentStatus}>{emailSentStatus}</p> : null}
+        </>
       ) : null}
 
       <div className={classes.SubmitButtonWrapper}>
         {showEmailAddressInput ? (
           <Button
             className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
-            // disabled={}
+            disabled={resetPasswordValMessages.length !== 0 || !resetPasswordEmail}
             onClick={sendResetEmailPassword}
             text={'Send reset password email'}
           />
