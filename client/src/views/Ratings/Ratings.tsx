@@ -10,7 +10,6 @@ import classes from './Ratings.module.scss';
 import getCellColour from '../../utils/getCellColour';
 import getColourGradient from '../../utils/getColourGradient';
 import httpRequest from '../../utils/httpRequest';
-import IUrlParams from '../../interfaces/IUrlParams';
 import PageView from '../../hoc/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
 
@@ -31,6 +30,11 @@ interface ILastEvaluatedKey {
   imdbID: number;
   rating: number;
   username: string;
+}
+
+interface IUrlParams {
+  path?: string;
+  username?: string;
 }
 
 const Ratings: FC<IUrlParams> = ({ username }) => {

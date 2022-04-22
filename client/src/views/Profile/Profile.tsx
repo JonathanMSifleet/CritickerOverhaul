@@ -17,7 +17,6 @@ import getCellColour from '../../utils/getCellColour';
 import getColourGradient from '../../utils/getColourGradient';
 import httpRequest from '../../utils/httpRequest';
 import IRating from '../../../../shared/interfaces/IRating';
-import IUrlParams from '../../interfaces/IUrlParams';
 import IUserProfile from '../../../../shared/interfaces/IUserProfile';
 import PageView from '../../hoc/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
@@ -33,6 +32,11 @@ interface IRecentRating {
   ratingPercentile: number;
   releaseYear: number;
   title: string;
+}
+
+interface IUrlParams {
+  path?: string;
+  username?: string;
 }
 
 const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {

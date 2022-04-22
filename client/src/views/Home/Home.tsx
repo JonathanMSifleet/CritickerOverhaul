@@ -1,16 +1,11 @@
 import * as endpoints from '../../constants/endpoints';
-
 import { FC, useEffect, useState } from 'react';
-
 import FilmCard from '../../components/FilmCard/FilmCard';
 import httpRequest from '../../utils/httpRequest';
 import IFilm from '../../../../shared/interfaces/IFilm';
+import IUrlParams from '../../interfaces/IUrlParams';
 import PageView from '../../hoc/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
-
-interface IUrlParams {
-  path?: string;
-}
 
 const Home: FC<IUrlParams> = (): JSX.Element => {
   const [films, setFilms] = useState(null as IFilm[] | null);

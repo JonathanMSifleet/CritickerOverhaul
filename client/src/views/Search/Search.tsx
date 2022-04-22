@@ -4,9 +4,13 @@ import FilmCard from '../../components/FilmCard/FilmCard';
 import httpRequest from '../../utils/httpRequest';
 import InfiniteScroll from 'react-infinite-scroller';
 import ISearchedFilm from './../../../../shared/interfaces/ISearchedFilm';
-import IUrlParams from '../../interfaces/IUrlParams';
 import PageView from '../../hoc/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
+
+interface IUrlParams {
+  path?: string;
+  searchQuery?: string;
+}
 
 const Search: FC<IUrlParams> = ({ searchQuery }) => {
   const [filmResults, setFilmResults] = useState([] as ISearchedFilm[]);
