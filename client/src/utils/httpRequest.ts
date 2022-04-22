@@ -8,7 +8,8 @@ interface IHTTPRequest {
   method: string;
 }
 
-const httpRequest = async (url: string, method: string, accessToken?: IAccessToken, body?: any): Promise<any> => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const httpRequest = async (url: string, method: string, accessToken?: IAccessToken, body?: unknown): Promise<any> => {
   const headers: { [key: string]: string } = {
     'Accept-Encoding': 'gzip, br',
     'Content-Type': 'application/json'

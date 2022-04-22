@@ -6,7 +6,7 @@ import Button from '../../Button/Button';
 import classes from './Login.module.scss';
 import CryptoES from 'crypto-es';
 import extractValidationMessages from '../../../utils/extractValidationMessages';
-import HTTPRequest from '../../../utils/httpRequest';
+import httpRequest from '../../../utils/httpRequest';
 import Input from '../../Input/Input';
 import SpinnerButton from './../../SpinnerButton/SpinnerButton';
 
@@ -38,7 +38,7 @@ const Login: FC = () => {
         setPasswordValidationMessages([]);
 
         try {
-          const response = await HTTPRequest(endpoints.LOGIN, 'POST', undefined, formInfo);
+          const response = await httpRequest(endpoints.LOGIN, 'POST', undefined, formInfo);
           if (response.statusCode && !response.statusCode.toString().startsWith('2')) throw new Error(response.message);
 
           setUserInfo({
