@@ -5,8 +5,10 @@ import cors from '@middy/http-cors';
 import createDynamoSearchQuery from '../../shared/functions/queries/createDynamoSearchQuery';
 import createDynamoUpdateQuery from '../../shared/functions/queries/createDynamoUpdateQuery';
 import generateAccessToken from '../../shared/functions/generateAccessToken';
+import getExistingTCI from '../../shared/functions/getExistingTCI';
 import getUserAvatarFromDB from '../../shared/functions/getUserAvatarFromDB';
 import IHTTP from '../../shared/interfaces/IHTTP';
+import ITCI from '../../../../shared/interfaces/ITCI';
 import middy from '@middy/core';
 
 const dbClient = new DynamoDBClient({});
@@ -15,6 +17,7 @@ interface IPayload {
   accessToken: string;
   avatar?: string;
   username: string;
+  TCIs?: ITCI[];
 }
 
 const login = async (event: { body: string }): Promise<IHTTP> => {
@@ -35,8 +38,9 @@ const login = async (event: { body: string }): Promise<IHTTP> => {
     }
 
     const userAvatar = await getUserAvatar(user.username);
+    const TCIs = await getExistingTCI(dbClient, user.username);
 
-    const payload: IPayload = { username: user.username, accessToken: newAccessToken as string };
+    const payload: IPayload = { accessToken: newAccessToken as string, TCIs, username: user.username };
     if (userAvatar !== undefined) payload.avatar = userAvatar;
 
     console.log('Logged in successfully');

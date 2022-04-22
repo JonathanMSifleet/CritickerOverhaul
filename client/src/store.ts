@@ -1,6 +1,7 @@
 import { atom } from 'recoil';
 import { recoilPersist } from 'recoil-persist';
 import IAccessToken from '../../shared/interfaces/IAccessToken';
+import ITCI from '../../shared/interfaces/ITCI';
 import IUserState from './interfaces/IUserState';
 
 const { persistAtom } = recoilPersist({ key: 'userState' });
@@ -21,6 +22,7 @@ export const userInfoState = atom({
     accessToken: null as null | IAccessToken,
     avatar: '',
     loggedIn: false,
+    TCIs: [] as ITCI[],
     username: ''
   } as IUserState,
   effects_UNSTABLE: [persistAtom]

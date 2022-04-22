@@ -98,6 +98,13 @@ const Film: FC<IUrlParams> = ({ id }) => {
   const determineColourGradient = (ratingPercentile: number): string =>
     ratingPercentile !== undefined ? getColourGradient(ratingPercentile) : '#ffffff';
 
+  const getTCI = (username: string): number | string | undefined => {
+    if (username === userState.username) return;
+
+    const TCI = userState.TCIs.find((TCI: { username: string }) => TCI.username === username);
+    return TCI === undefined ? 'N/A' : TCI.TCI;
+  };
+
   const getUserRating = async (id: number): Promise<null | IRating> => {
     const result = await httpRequest(`${endpoints.GET_USER_RATING}/${id}/${userState.username}`, 'GET');
 
@@ -194,6 +201,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
                     <p className={classes.UserRating}>
                       <Link href={`#profile/${rating.username}`}>{rating.username}</Link>
                     </p>
+                    <p>TCI: {getTCI(rating.username)}</p>
                     <p
                       className={classes.UserRatingScore}
                       style={{ color: determineColourGradient(rating.ratingPercentile) }}

@@ -45,16 +45,17 @@ const Login: FC = () => {
             accessToken: JSON.parse(response.accessToken),
             avatar: response.avatar,
             loggedIn: true,
+            TCIs: response.TCIs,
             username: response.username
           });
 
           setShowModal(false);
         } catch (error) {
           handleValidationMessage(extractValidationMessages(error as string));
+        } finally {
+          setShouldLogin(false);
+          setIsLoading(false);
         }
-
-        setShouldLogin(false);
-        setIsLoading(false);
       })();
   }, [shouldLogin]);
 
