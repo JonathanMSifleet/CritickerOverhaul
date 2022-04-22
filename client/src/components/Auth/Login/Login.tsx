@@ -20,6 +20,8 @@ const Login: FC = () => {
   const [passwordValidationMessages, setPasswordValidationMessages] = useState([] as string[]);
   const [formInfo, setFormInfo] = useState<IState>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [resetPasswordEmail, setResetPasswordEmail] = useState(null as null | string);
+  const [showEmailAddressInput, setShowEmailAddressInput] = useState(false);
   const [shouldLogin, setShouldLogin] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
   const setShowModal = useSetRecoilState(authModalState);
@@ -88,6 +90,13 @@ const Login: FC = () => {
     setShouldLogin(true);
   };
 
+  const sendResetEmailPassword = async (): Promise<void> => {
+    const result = await httpRequest(`${endpoints.SEND_RESET_PASSWORD_EMAIL}/${resetPasswordEmail}`, 'PUT');
+    console.log('🚀 ~ file: Login.tsx ~ line 99 ~ sendResetEmailPassword ~ result', result);
+  };
+
+  const toggleEmailInput = (): void => setShowEmailAddressInput(!showEmailAddressInput);
+
   return (
     <form onSubmit={(event): void => event.preventDefault()}>
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
@@ -111,13 +120,32 @@ const Login: FC = () => {
         />
       </div>
 
-      {/* to do */}
       <div className={`${classes.PasswordOptions}`}>
-        <a href="#!">Forgot password?</a>
+        <p className={classes.ForgotPasswordText} onClick={toggleEmailInput}>
+          Forgot password?
+        </p>
       </div>
 
+      {showEmailAddressInput ? (
+        <div className={classes.InputWrapper}>
+          <Input
+            onChange={(event): void => setResetPasswordEmail(event.target.value)}
+            className={classes.Input}
+            placeholder={'Email'}
+            type={'email'}
+          />
+        </div>
+      ) : null}
+
       <div className={classes.SubmitButtonWrapper}>
-        {!isLoading ? (
+        {showEmailAddressInput ? (
+          <Button
+            className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
+            // disabled={}
+            onClick={sendResetEmailPassword}
+            text={'Send reset password email'}
+          />
+        ) : !isLoading ? (
           <Button
             className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
             disabled={submitDisabled}

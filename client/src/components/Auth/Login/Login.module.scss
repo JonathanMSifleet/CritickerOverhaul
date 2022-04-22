@@ -11,6 +11,7 @@
 
 .SubmitButtonWrapper {
   @extend .SubmitButtonWrapper;
+  margin-top: 3%;
 }
 
 .SubmitButton {
@@ -21,4 +22,10 @@
   margin: auto;
   width: fit-content;
   margin-bottom: 2% !important;
+}
+
+.ForgotPasswordText {
+  cursor: pointer;
+  color: $mainBlue;
+  margin-bottom: 1%;
 }

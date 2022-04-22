@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.74.0",
+    "@aws-sdk/client-ses": "^3.75.0",
     "@aws-sdk/util-dynamodb": "^3.74.0",
     "@middy/core": "^2.5.7",
     "@middy/http-cors": "^2.5.7",
@@ -12,7 +13,8 @@
     "jsonwebtoken": "^8.5.1",
     "percentile-rank": "^1.0.6",
     "query-string": "^7.1.1",
-    "serverless": "^3.15.0"
+    "serverless": "^3.15.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "aws-crt": "^1.12.1",

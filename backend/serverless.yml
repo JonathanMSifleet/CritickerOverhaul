@@ -23,6 +23,7 @@ provider:
     AUTH0_URL: https://dev-btmyx7mm.eu.auth0.com/oauth/token
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     FILMS_TABLE_NAME: ${self:custom.FilmsTable.name}
+    RESET_PASSWORD_TOKENS_TABLE_NAME: ${self:custom.ResetPasswordTokensTable.name}
     RATINGS_TABLE_NAME: ${self:custom.RatingsTable.name}
     REACT_BUCKET_NAME: ${self:custom.ReactBucket.name}
     TCI_TABLE_NAME: ${self:custom.TciTable.name}
@@ -32,7 +33,9 @@ provider:
       statements:
         - ${file(aws/iam/AggregatePercentilesTableIAM.yml):AggregatePercentilesTableIAM}
         - ${file(aws/iam/FilmsTableIAM.yml):FilmsTableIAM}
+        - ${file(aws/iam/ResetPasswordTokensTableIAM.yml):ResetPasswordTokensTableIAM}
         - ${file(aws/iam/RatingsTableIAM.yml):RatingsTableIAM}
+        - ${file(aws/iam/SendResetPasswordEmailIAM.yml):SendResetPasswordEmailIAM}
         - ${file(aws/iam/TciTableIAM.yml):TciTableIAM}
         - ${file(aws/iam/UserTableIAM.yml):UserTableIAM}
 
@@ -173,6 +176,13 @@ functions:
           method: GET
           path: film/searchForFilm/{queryString}/{lastEvaluatedKey}
           cors: true
+  sendResetPasswordEmail:
+    handler: aws/handlers/password/sendResetPasswordEmail.handler
+    events:
+      - http:
+          method: PUT
+          path: password/sendResetPasswordEmail/{emailAddress}
+          cors: true
   signup:
     handler: aws/handlers/user/signup.handler
     events:
@@ -196,73 +206,80 @@ functions:
           path: user/avatar/{username}
           cors: true
           authorizer: ${self:custom.authoriser}
+  verifyPasswordResetToken:
+    handler: aws/handlers/password/verifyPasswordResetToken.handler
+    events:
+      - http:
+          method: GET
+          path: password/verifyPasswordResetToken/{emailAddress}/{token}
+          cors: true
 
   # dummy data functions:
-  addAccounts:
-    handler: aws/handlers/mockData/addAccounts.handler
-    timeout: 30
-    events:
-      - http:
-          method: POST
-          path: mockData/addAccounts
-          cors: true
-  aggregateUserPercentiles:
-    handler: aws/handlers/mockData/aggregateUserPercentiles.handler
-    timeout: 30
-    events:
-      - http:
-          method: PUT
-          path: mockData/aggregateUserPercentiles/{username}
-          cors: true
-  importAvatars:
-    handler: aws/handlers/mockData/importAvatars.handler
-    timeout: 30
-    events:
-      - http:
-          method: PUT
-          path: mockData/importAvatars/{username}
-          cors: true
-  importGeneratedRatings:
-    handler: aws/handlers/mockData/importGeneratedRatings.handler
-    timeout: 30
-    events:
-      - http:
-          method: POST
-          path: mockData/importGeneratedRatings
-          cors: true
-  updateNumRatings:
-    handler: aws/handlers/mockData/updateNumRatings.handler
-    timeout: 30
-    events:
-      - http:
-          method: PUT
-          path: mockData/updateNumRatings
-          cors: true
-  updatePercentiles:
-    handler: aws/handlers/mockData/updatePercentiles.handler
-    timeout: 30
-    events:
-      - http:
-          method: PUT
-          path: mockData/updatePercentiles/{username}
-          cors: true
+  # addAccounts:
+  #   handler: aws/handlers/mockData/addAccounts.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         method: POST
+  #         path: mockData/addAccounts
+  #         cors: true
+  # aggregateUserPercentiles:
+  #   handler: aws/handlers/mockData/aggregateUserPercentiles.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         method: PUT
+  #         path: mockData/aggregateUserPercentiles/{username}
+  #         cors: true
+  # importAvatars:
+  #   handler: aws/handlers/mockData/importAvatars.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         method: PUT
+  #         path: mockData/importAvatars/{username}
+  #         cors: true
+  # importGeneratedRatings:
+  #   handler: aws/handlers/mockData/importGeneratedRatings.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         method: POST
+  #         path: mockData/importGeneratedRatings
+  #         cors: true
+  # updateNumRatings:
+  #   handler: aws/handlers/mockData/updateNumRatings.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         method: PUT
+  #         path: mockData/updateNumRatings
+  #         cors: true
+  # updatePercentiles:
+  #   handler: aws/handlers/mockData/updatePercentiles.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         method: PUT
+  #         path: mockData/updatePercentiles/{username}
+  #         cors: true
 
   # migration functions:
-  addPeople:
-    handler: aws/handlers/mySQLMigration/addPeople.handler
-    events:
-      - http:
-          method: PUT
-          path: migration/addPeople/{type}
-          cors: true
-  importFilmBatch:
-    handler: aws/handlers/mySQLMigration/importFilmBatch.handler
-    timeout: 30
-    events:
-      - http:
-          method: POST
-          path: migration/importFilmBatch
-          cors: true
+  # addPeople:
+  #   handler: aws/handlers/mySQLMigration/addPeople.handler
+  #   events:
+  #     - http:
+  #         method: PUT
+  #         path: migration/addPeople/{type}
+  #         cors: true
+  # importFilmBatch:
+  #   handler: aws/handlers/mySQLMigration/importFilmBatch.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         method: POST
+  #         path: migration/importFilmBatch
+  #         cors: true
 
   # auth functions:
   authoriser:
@@ -288,6 +305,7 @@ resources:
     RatingsTable: ${file(aws/resources/RatingsTable.yml):RatingsTable}
     ReactBucket: ${file(aws/resources/ReactBucket.yml):ReactBucket}
     ReactBucketPolicy: ${file(aws/resources/ReactBucket.yml):ReactBucketPolicy}
+    ResetPasswordTokensTable: ${file(aws/resources/ResetPasswordTokensTable.yml):ResetPasswordTokensTable}
     TciTable: ${file(aws/resources/TciTable.yml):TciTable}
     AggregatePercentilesTable: ${file(aws/resources/AggregatePercentilesTable.yml):AggregatePercentilesTable}
     UserTable: ${file(aws/resources/UserTable.yml):UserTable}
@@ -371,6 +389,9 @@ custom:
   FilmsTable:
     name: !Ref FilmsTable
     arn: !GetAtt FilmsTable.Arn
+  ResetPasswordTokensTable:
+    name: !Ref ResetPasswordTokensTable
+    arn: !GetAtt ResetPasswordTokensTable.Arn
   RatingsTable:
     name: !Ref RatingsTable
     arn: !GetAtt RatingsTable.Arn
@@ -380,13 +401,17 @@ custom:
   UserTable:
     name: !Ref UserTable
     arn: !GetAtt UserTable.Arn
+
+  # frontend bucket
   ReactBucket:
     name: react-bucket-x3blze4m-${self:provider.stage}
   BucketFolder:
     name: CritickerOverhaul
   ReactBucketTargetOrigin:
     name: S3-${self:custom.ReactBucket.name}/${self:custom.BucketFolder.name}
+
   authoriser: arn:aws:lambda:${aws:region}:${aws:accountId}:function:CritickerOverhaul-${self:provider.stage}-authoriser
+  SendResetPasswordEmailLambda: arn:aws:lambda:${aws:region}:${aws:accountId}:function:CritickerOverhaul-${self:provider.stage}-sendResetPasswordEmail
   bundle:
     linting: true
   cloudfrontInvalidate:
