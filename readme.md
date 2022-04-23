@@ -1,11 +1,6 @@
-To do:
-
-- update 'updatePercentiles' lambda to update 'user-ratings-table' percentiles too
-- User bio
-- search page
-- generate probable score indicator
----
-
+Issues:
+  - Email cannot be verified through Serverless file, must be configured manually
+  
 Mockaroo schema: https://www.mockaroo.com/b73a8170
 
 ---

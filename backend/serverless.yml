@@ -190,6 +190,13 @@ functions:
           method: POST
           path: user/signup
           cors: true
+  updatePassword:
+    handler: aws/handlers/password/updatePassword.handler
+    events:
+      - http:
+          method: PUT
+          path: password/resetPassword/{emailAddress}
+          cors: true
   updateUserProfile:
     handler: aws/handlers/user/updateUserProfile.handler
     events:
