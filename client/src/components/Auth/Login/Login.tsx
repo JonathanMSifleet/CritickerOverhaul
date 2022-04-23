@@ -152,7 +152,15 @@ const Login: FC = () => {
               type={'email'}
             />
           </div>
-          {emailSentStatus ? <p className={classes.EmailSentStatus}>{emailSentStatus}</p> : null}
+          {emailSentStatus && showEmailAddressInput ? (
+            <p
+              className={`${classes.EmailSentStatus} ${
+                emailSentStatus.includes('success') ? classes.SuccessMessage : classes.ErrorMesssage
+              } `}
+            >
+              {emailSentStatus}
+            </p>
+          ) : null}
         </>
       ) : null}
 
