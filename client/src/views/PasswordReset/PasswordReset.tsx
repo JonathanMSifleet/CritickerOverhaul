@@ -86,7 +86,7 @@ const PasswordReset: FC<IUrlParams> = ({ emailAddress, token }) => {
     try {
       const hashedPassword = SHA512(formInfo.password).toString();
 
-      const result = await httpRequest(`${endpoints.UPDATE_PASSWORD}/${emailAddress}`, 'PUT', undefined, {
+      const result = await httpRequest(`${endpoints.UPDATE_PASSWORD}/${emailAddress}/${token}`, 'PUT', undefined, {
         password: hashedPassword
       });
       console.log('🚀 ~ file: PasswordReset.tsx ~ line 88 ~ updatePassword ~ result', result);

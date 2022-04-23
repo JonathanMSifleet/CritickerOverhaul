@@ -195,7 +195,7 @@ functions:
     events:
       - http:
           method: PUT
-          path: password/resetPassword/{emailAddress}
+          path: password/resetPassword/{emailAddress}/{token}
           cors: true
   updateUserProfile:
     handler: aws/handlers/user/updateUserProfile.handler

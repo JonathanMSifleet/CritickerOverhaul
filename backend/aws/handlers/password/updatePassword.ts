@@ -1,5 +1,5 @@
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
-import { DynamoDBClient, QueryCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, GetItemCommand, QueryCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import cors from '@middy/http-cors';
 import createDynamoSearchQuery from '../../shared/functions/queries/createDynamoSearchQuery';
@@ -8,9 +8,16 @@ import middy from '@middy/core';
 
 const dbClient = new DynamoDBClient({});
 
-const updatePassword = async (event: { body: string; pathParameters: { emailAddress: string } }): Promise<IHTTP> => {
-  const emailAddress = event.pathParameters.emailAddress;
+const updatePassword = async (event: {
+  body: string;
+  pathParameters: { emailAddress: string; token: string };
+}): Promise<IHTTP> => {
+  const { emailAddress, token } = event.pathParameters;
   const password = JSON.parse(event.body).password;
+
+  const dbToken = await validateToken(emailAddress);
+  if (dbToken instanceof Error) return createAWSResErr(500, 'Error getting existing token');
+  if (dbToken !== token) return createAWSResErr(400, 'Invalid token');
 
   const username = await getUsername(emailAddress);
   if (username instanceof Error) return createAWSResErr(404, 'Email address is not associated with any user');
@@ -57,6 +64,24 @@ const updatePasswordInDB = async (username: string, password: string): Promise<v
     console.log('Password updated successfully');
     return;
   } catch (error) {
+    return new Error();
+  }
+};
+
+const validateToken = async (email: string): Promise<string | Error> => {
+  const query = {
+    TableName: process.env.RESET_PASSWORD_TOKENS_TABLE_NAME!,
+    Key: {
+      emailAddress: { S: email }
+    },
+    ProjectionExpression: 'token'
+  };
+
+  try {
+    const results = await dbClient.send(new GetItemCommand(query));
+    return unmarshall(results.Item!).token;
+  } catch (error) {
+    console.log('Token is invalid');
     return new Error();
   }
 };
