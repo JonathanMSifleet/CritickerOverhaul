@@ -10,6 +10,7 @@ import classes from './Login.module.scss';
 import extractValidationMessages from '../../../utils/extractValidationMessages';
 import httpRequest from '../../../utils/httpRequest';
 import Input from '../../Input/Input';
+import Spinner from '../../Spinner/Spinner';
 import SpinnerButton from './../../SpinnerButton/SpinnerButton';
 
 interface IState {
@@ -22,6 +23,7 @@ const Login: FC = () => {
   const [emailValidationMessages, setEmailValidationMessages] = useState([] as string[]);
   const [formInfo, setFormInfo] = useState<IState>({});
   const [isLoading, setIsLoading] = useState(false);
+  const [isSendingEmail, setIsSendingEmail] = useState(false);
   const [passwordValidationMessages, setPasswordValidationMessages] = useState([] as string[]);
   const [resetPasswordEmail, setResetPasswordEmail] = useState(null as null | string);
   const [resetPasswordValMessages, setResetPasswordValMessages] = useState([] as string[]);
@@ -95,10 +97,16 @@ const Login: FC = () => {
   };
 
   const sendResetEmailPassword = async (): Promise<void> => {
-    const result = await httpRequest(`${endpoints.SEND_RESET_PASSWORD_EMAIL}/${resetPasswordEmail}`, 'PUT');
-    result.statusCode === 204
-      ? setEmailSentStatus('Email sent successfully!')
-      : setEmailSentStatus('Error sending email');
+    setIsSendingEmail(true);
+
+    try {
+      const result = await httpRequest(`${endpoints.SEND_RESET_PASSWORD_EMAIL}/${resetPasswordEmail}`, 'PUT');
+      result.statusCode === 204
+        ? setEmailSentStatus('Email sent successfully!')
+        : setEmailSentStatus('Error sending email');
+    } finally {
+      setIsSendingEmail(false);
+    }
   };
 
   const toggleEmailInput = (): void => setShowEmailAddressInput(!showEmailAddressInput);
@@ -151,6 +159,9 @@ const Login: FC = () => {
               type={'email'}
             />
           </div>
+
+          {isSendingEmail ? <Spinner /> : null}
+
           {emailSentStatus && showEmailAddressInput ? (
             <p
               className={`${classes.EmailSentStatus} ${
