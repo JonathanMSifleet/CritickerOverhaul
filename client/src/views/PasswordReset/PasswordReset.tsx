@@ -1,6 +1,6 @@
 import * as endpoints from '../../constants/endpoints';
 import { FC } from 'preact/compat';
-import { route } from 'preact-router';
+import { Link, route } from 'preact-router';
 // @ts-expect-error no declaration file
 import { SHA512 } from 'crypto-es/lib/sha512.js';
 import { useEffect, useState } from 'preact/hooks';
@@ -33,6 +33,7 @@ const PasswordReset: FC<IUrlParams> = ({ emailAddress, token }) => {
   const [secondsRemaining, setSecondsRemaining] = useState(null as null | number);
   const [shouldRedirect, setShouldRedirect] = useState(false);
   const [tokenValid, setTokenValid] = useState(null as null | boolean);
+  const [updateStatus, setUpdateStatus] = useState(null as null | string);
   const [validationMessage, setValidationMessage] = useState('');
 
   useEffect(() => {
@@ -89,10 +90,8 @@ const PasswordReset: FC<IUrlParams> = ({ emailAddress, token }) => {
       const result = await httpRequest(`${endpoints.UPDATE_PASSWORD}/${emailAddress}/${token}`, 'PUT', undefined, {
         password: hashedPassword
       });
-      console.log('🚀 ~ file: PasswordReset.tsx ~ line 88 ~ updatePassword ~ result', result);
-    } catch (error) {
-      console.log('🚀 ~ file: PasswordReset.tsx ~ line 90 ~ updatePassword ~ error', error);
-    }
+      result.statusCode === 204 ? setUpdateStatus('success') : setUpdateStatus(result.message);
+    } catch (error) {}
   };
 
   const validatePassword = async (value: string): Promise<void> => {
@@ -130,7 +129,22 @@ const PasswordReset: FC<IUrlParams> = ({ emailAddress, token }) => {
                   />
                 </div>
               </div>
-              <Button disabled={passwordValMessages.length !== 0} onClick={updatePassword} text={'Submit'}></Button>
+              {updateStatus === 'success' ? (
+                <>
+                  <p className={classes.SuccessStatus}>Successfully updated password</p>
+                  <Link className={classes.HomeLink} href={'/'}>
+                    Home page
+                  </Link>
+                </>
+              ) : (
+                <p className={classes.ErrorStatus}>{updateStatus}</p>
+              )}
+
+              <Button
+                disabled={passwordValMessages.length !== 0 || updateStatus === 'success'}
+                onClick={updatePassword}
+                text={'Submit'}
+              ></Button>
             </div>
           ) : (
             <>
