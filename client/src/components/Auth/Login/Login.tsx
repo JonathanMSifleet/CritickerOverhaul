@@ -1,11 +1,12 @@
 import * as endpoints from '../../../constants/endpoints';
 import { authModalState, userInfoState } from '../../../store';
 import { FC, useEffect, useState } from 'react';
+// @ts-expect-error no declaration file
+import { SHA512 } from 'crypto-es/lib/sha512.js';
 import { useSetRecoilState } from 'recoil';
 import { validateValue } from '../../../../../shared/functions/validationFunctions';
 import Button from '../../Button/Button';
 import classes from './Login.module.scss';
-import CryptoES from 'crypto-es';
 import extractValidationMessages from '../../../utils/extractValidationMessages';
 import httpRequest from '../../../utils/httpRequest';
 import Input from '../../Input/Input';
@@ -87,7 +88,7 @@ const Login: FC = () => {
     setFormInfo({ ...formInfo, [inputName]: eventValue });
 
   const handleLoginAttempt = async (): Promise<void> => {
-    const hashedPassword = CryptoES.SHA512(formInfo.password).toString();
+    const hashedPassword = SHA512(formInfo.password).toString();
 
     setFormInfo({ ...formInfo, password: hashedPassword });
     setShouldLogin(true);
