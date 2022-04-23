@@ -33,20 +33,20 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
     const errorArray: string[] = [];
     errorArray.push(
       ...emailValMessages,
-      ...firstNameValMessages,
-      ...lastNameValMessages,
       ...emailValMessages,
       ...firstNameValMessages,
+      ...firstNameValMessages,
+      ...lastNameValMessages,
       ...lastNameValMessages
     );
 
     setFormIsValid(errorArray.length === 0);
   }, [
     emailValMessages,
-    firstNameValMessages,
-    lastNameValMessages,
     emailValMessages,
     firstNameValMessages,
+    firstNameValMessages,
+    lastNameValMessages,
     lastNameValMessages
   ]);
 
@@ -56,8 +56,8 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
     setFormInfo({
       ...formInfo,
       bio: userProfile.bio!,
-      dob: userProfile.dob!,
       country: userProfile.country!,
+      dob: userProfile.dob!,
       email: userProfile.email!,
       firstName: userProfile.firstName!,
       gender: userProfile.gender!,
@@ -70,6 +70,9 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
     messages = messages.filter((error) => error !== null);
 
     switch (type) {
+      case 'Bio':
+        setBioValMessages(messages);
+        break;
       case 'Email':
         setEmailValMessages(messages);
         break;
@@ -78,9 +81,6 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
         break;
       case 'LastName':
         setLastNameValMessages(messages);
-        break;
-      case 'Bio':
-        setBioValMessages(messages);
         break;
     }
   };
