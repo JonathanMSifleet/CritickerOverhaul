@@ -1,11 +1,13 @@
 import * as endpoints from '../../../constants/endpoints';
 import { authModalState } from '../../../store';
-import { ChangeEvent, FC, useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
+// @ts-expect-error no declaration file
+import { SHA512 } from 'crypto-es/lib/sha512.js';
 import { useSetRecoilState } from 'recoil';
+import { validateValue } from '../../../../../shared/functions/validationFunctions';
 import Button from '../../Button/Button';
 import Checkbox from '../../Checkbox/Checkbox';
 import classes from './Signup.module.scss';
-import CryptoES from 'crypto-es';
 import extractValidationMessages from './../../../utils/extractValidationMessages';
 import httpRequest from '../../../utils/httpRequest';
 import Input from '../../Input/Input';
@@ -23,7 +25,7 @@ const SignUp: FC = () => {
   const [emailValidationMessages, setEmailValidationMessages] = useState([] as string[]);
   const [formInfo, setFormInfo] = useState<IState>({});
   const [isLoading, setIsLoading] = useState(false);
-  const [passwordValidationMessages, setPasswordValidationMessages] = useState([] as string[]);
+  const [passwordValMessages, setPasswordValMessages] = useState([] as string[]);
   const [shouldSignup, setShouldSignup] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
   const [usernameValidationMessages, setUsernameValidationMessages] = useState([] as string[]);
@@ -46,8 +48,7 @@ const SignUp: FC = () => {
         const preHashPassword = formInfo.password;
 
         try {
-          if (formInfo.password !== formInfo.repeatPassword) throw new Error('Passwords do not match');
-          formInfo.password = CryptoES.SHA512(formInfo.password).toString();
+          formInfo.password = SHA512(formInfo.password).toString();
 
           delete formInfo.repeatPassword;
 
@@ -66,12 +67,21 @@ const SignUp: FC = () => {
       })();
   }, [shouldSignup]);
 
-  const checkboxHandler = (event: React.ChangeEvent<HTMLInputElement>): void =>
-    setFormInfo({ ...formInfo, termsChecked: event.target.checked });
+  useEffect(() => {
+    (async (): Promise<void> => {
+      let messages = (await validateValue(formInfo.password!, 'Password')) as string[];
+      messages = messages.filter((error) => error !== null);
+
+      if (formInfo.password !== formInfo.repeatPassword) messages.push('Passwords do not match');
+
+      setPasswordValMessages(messages);
+    })();
+  }, [formInfo.password, formInfo.repeatPassword]);
+
+  const checkboxHandler = (value: boolean): void => setFormInfo({ ...formInfo, termsChecked: value });
 
   const handleValidationMessage = (valMessages: { [key: string]: string }[]): void => {
     const replacementEmailValList: string[] = [];
-    const replacementPasswordValList: string[] = [];
     const replacementUsernameValList: string[] = [];
 
     valMessages.forEach((message) => {
@@ -84,9 +94,6 @@ const SignUp: FC = () => {
         case 'Email':
           replacementEmailValList.push(`${validationKey} ${message.Email}`);
           break;
-        case 'Passwords':
-          replacementPasswordValList.push(`${validationKey} ${message.Passwords}`);
-          break;
         default:
           console.error('Unhandled validation key:', validationKey);
           console.error('Validation message:', message);
@@ -95,11 +102,10 @@ const SignUp: FC = () => {
 
     setUsernameValidationMessages(replacementUsernameValList);
     setEmailValidationMessages(replacementEmailValList);
-    setPasswordValidationMessages(replacementPasswordValList);
   };
 
-  const inputChangedHandler = (event: React.ChangeEvent<HTMLInputElement>, inputName: string): void =>
-    setFormInfo({ ...formInfo, [inputName]: event.target.value });
+  const inputChangedHandler = (value: string, inputName: string): void =>
+    setFormInfo({ ...formInfo, [inputName]: value });
 
   return (
     <form autoComplete="off" onSubmit={(event): void => event.preventDefault()}>
@@ -108,7 +114,7 @@ const SignUp: FC = () => {
           autoComplete="username"
           className={classes.Input}
           errors={usernameValidationMessages}
-          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'username')}
+          onChange={(event): void => inputChangedHandler(event.target.value, 'username')}
           placeholder={'Username'}
           type={'text'}
         />
@@ -117,7 +123,7 @@ const SignUp: FC = () => {
           autoComplete="email"
           className={classes.Input}
           errors={emailValidationMessages}
-          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'email')}
+          onChange={(event): void => inputChangedHandler(event.target.value, 'email')}
           placeholder={'Email'}
           type={'email'}
         />
@@ -125,15 +131,19 @@ const SignUp: FC = () => {
         <Input
           autoComplete="new-password"
           className={classes.Input}
-          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'password')}
+          errors={passwordValMessages}
+          onChange={(event): void => {
+            inputChangedHandler(event.target.value, 'password');
+          }}
           placeholder={'Password'}
           type={'password'}
         />
 
         <Input
           className={classes.Input}
-          errors={passwordValidationMessages}
-          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'repeatPassword')}
+          onChange={(event): void => {
+            inputChangedHandler(event.target.value, 'repeatPassword');
+          }}
           placeholder={'Repeat password'}
           type={'password'}
         />
@@ -142,7 +152,7 @@ const SignUp: FC = () => {
       <div className={classes.TermsConditionsWrapper}>
         <label>
           <Checkbox
-            onChange={(event: ChangeEvent<HTMLInputElement>): void => checkboxHandler(event)}
+            onChange={(event): void => checkboxHandler(event.target.checked)}
             placeholder={'I have read and agree to the terms'}
             value={formInfo.termsChecked}
           />
@@ -164,4 +174,5 @@ const SignUp: FC = () => {
     </form>
   );
 };
+
 export default SignUp;

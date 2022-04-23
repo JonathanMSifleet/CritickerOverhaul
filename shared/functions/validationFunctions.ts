@@ -16,12 +16,8 @@ export const validateValue = async (value: string, valueName: string): Promise<(
   const errors = [];
 
   switch (valueName) {
-    case 'Username':
-      errors.push(
-        validateNotEmpty(value, valueName),
-        validateLength(value, valueName, 3, 16),
-        validateAgainstRegex(value, valueName, /[^A-Za-z0-9]+/, 'cannot contain special characters')
-      );
+    case 'Bio':
+      errors.push(validateLength(value, valueName, 0, 1000));
       break;
     case 'Email':
       errors.push(validateNotEmpty(value, valueName), validateLength(value, valueName, 3, 256), validateIsEmail(value));
@@ -38,8 +34,15 @@ export const validateValue = async (value: string, valueName: string): Promise<(
         )
       );
       break;
-    case 'Bio':
-      errors.push(validateLength(value, valueName, 0, 1000));
+    case 'Password':
+      errors.push(validateNotEmpty(value, valueName), validateLength(value, valueName, 8, 32));
+      break;
+    case 'Username':
+      errors.push(
+        validateNotEmpty(value, valueName),
+        validateLength(value, valueName, 3, 16),
+        validateAgainstRegex(value, valueName, /[^A-Za-z0-9]+/, 'cannot contain special characters')
+      );
       break;
   }
 
