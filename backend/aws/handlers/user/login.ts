@@ -1,5 +1,5 @@
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
-import { DynamoDBClient, QueryCommand, QueryCommandOutput, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, QueryCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import cors from '@middy/http-cors';
 import createDynamoSearchQuery from '../../shared/functions/queries/createDynamoSearchQuery';
@@ -20,19 +20,26 @@ interface IPayload {
   TCIs?: ITCI[];
 }
 
+interface IUser {
+  accessToken?: string;
+  avatar?: string;
+  email: string;
+  password: string;
+  username: string;
+}
+
 const login = async (event: { body: string }): Promise<IHTTP> => {
   const { email, password } = JSON.parse(event.body);
 
   try {
-    const result = await loginUser(email);
-    if (result.Count === 0) return createAWSResErr(404, 'Email address is not associated with any user');
+    const user = await loginUser(email);
+    if (user instanceof Error) return createAWSResErr(404, 'Email address is not associated with any user');
 
-    const user = unmarshall(result.Items![0]);
     if (password !== user.password) return createAWSResErr(401, 'Password is incorrect');
 
-    let newAccessToken;
+    let newAccessToken: string;
     try {
-      newAccessToken = await verifyAccessToken(user.username, user.accessToken);
+      newAccessToken = (await verifyAccessToken(user.username, user.accessToken!)) as string;
     } catch (error) {
       return createAWSResErr(500, 'Error verifying / creating access token');
     }
@@ -40,7 +47,7 @@ const login = async (event: { body: string }): Promise<IHTTP> => {
     const userAvatar = await getUserAvatar(user.username);
     const TCIs = await getExistingTCI(dbClient, user.username);
 
-    const payload: IPayload = { accessToken: newAccessToken as string, TCIs, username: user.username };
+    const payload: IPayload = { accessToken: newAccessToken, TCIs, username: user.username };
     if (userAvatar !== undefined) payload.avatar = userAvatar;
 
     console.log('Logged in successfully');
@@ -80,7 +87,7 @@ const getUserAvatar = async (username: string): Promise<string | undefined> => {
   return avatar instanceof Error ? undefined : avatar;
 };
 
-const loginUser = async (email: string): Promise<QueryCommandOutput> => {
+const loginUser = async (email: string): Promise<Error | IUser> => {
   const query = createDynamoSearchQuery(
     process.env.USER_TABLE_NAME!,
     'accessToken, avatar, email, password, username',
@@ -89,8 +96,12 @@ const loginUser = async (email: string): Promise<QueryCommandOutput> => {
     'S',
     'email'
   );
-
-  return await dbClient.send(new QueryCommand(query));
+  try {
+    const results = await dbClient.send(new QueryCommand(query));
+    return unmarshall(results.Items![0]) as IUser;
+  } catch (error) {
+    return new Error();
+  }
 };
 
 const verifyAccessToken = async (username: string, oldAccessToken: string): Promise<string | IHTTP> => {
