@@ -23,9 +23,10 @@ provider:
     AUTH0_URL: https://dev-btmyx7mm.eu.auth0.com/oauth/token
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     FILMS_TABLE_NAME: ${self:custom.FilmsTable.name}
-    RESET_PASSWORD_TOKENS_TABLE_NAME: ${self:custom.ResetPasswordTokensTable.name}
     RATINGS_TABLE_NAME: ${self:custom.RatingsTable.name}
     REACT_BUCKET_NAME: ${self:custom.ReactBucket.name}
+    RESET_PASSWORD_TOKENS_TABLE_NAME: ${self:custom.ResetPasswordTokensTable.name}
+    SOURCE_EMAIL_ADDRESS: jonathanmsifleet@gmail.com
     TCI_TABLE_NAME: ${self:custom.TciTable.name}
     USER_TABLE_NAME: ${self:custom.UserTable.name}
   iam:

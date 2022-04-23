@@ -1,11 +1,12 @@
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
 import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb';
 import { marshall } from '@aws-sdk/util-dynamodb';
-import { SendEmailCommand, SESClient } from '@aws-sdk/client-ses';
+import { SESClient } from '@aws-sdk/client-ses';
 import { v4 as uuid } from 'uuid';
 import cors from '@middy/http-cors';
 import IHTTP from '../../shared/interfaces/IHTTP';
 import middy from '@middy/core';
+import sendEmail from '../../shared/functions/sendEmail';
 
 const dbClient = new DynamoDBClient({});
 const sesClient = new SESClient({});
@@ -19,32 +20,12 @@ const sendResetPasswordEmail = async (event: { pathParameters: { emailAddress: s
   const tokenResult = await storeToken(emailAddress, token);
   if (tokenResult instanceof Error) return createAWSResErr(500, 'Unable to store token');
 
-  try {
-    const params = {
-      Destination: {
-        ToAddresses: [emailAddress]
-      },
-      Message: {
-        Body: {
-          Html: {
-            Charset: 'UTF-8',
-            Data: `<p>Please follow the link below, and follow the instructions:</p><br><p>${url}</p>`
-          }
-        },
-        Subject: {
-          Charset: 'UTF-8',
-          Data: 'CritickerOverhaul Password Reset'
-        }
-      },
-      Source: 'jonathanmsifleet@gmail.com'
-    };
+  const emailContent = `<p>Please follow the link below, and follow the instructions:</p><br><p>${url}</p>`;
 
-    await sesClient.send(new SendEmailCommand(params));
+  const emailResult = await sendEmail(sesClient, emailAddress, 'CritickerOverhaul Password Reset', emailContent);
+  if (emailResult instanceof Error) return createAWSResErr(500, 'Unable to send email');
 
-    return { statusCode: 204 };
-  } catch (error) {
-    return createAWSResErr(500, 'Unable to send email');
-  }
+  return { statusCode: 204 };
 };
 
 export const handler = middy(sendResetPasswordEmail).use(cors());
