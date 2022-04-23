@@ -8,6 +8,11 @@ import middy from '@middy/core';
 
 const dbClient = new DynamoDBClient({});
 
+interface IToken {
+  expires: number;
+  token: string;
+}
+
 const updatePassword = async (event: {
   body: string;
   pathParameters: { emailAddress: string; token: string };
@@ -15,9 +20,10 @@ const updatePassword = async (event: {
   const { emailAddress, token } = event.pathParameters;
   const password = JSON.parse(event.body).password;
 
-  const dbToken = await validateToken(emailAddress);
+  const dbToken = (await validateToken(emailAddress)) as IToken;
   if (dbToken instanceof Error) return createAWSResErr(500, 'Error getting existing token');
-  if (dbToken !== token) return createAWSResErr(400, 'Invalid token');
+  if (dbToken.expires < Date.now()) return createAWSResErr(400, 'Token has expired');
+  if (dbToken.token !== token) return createAWSResErr(400, 'Invalid token');
 
   const username = await getUsername(emailAddress);
   if (username instanceof Error) return createAWSResErr(404, 'Email address is not associated with any user');
@@ -68,20 +74,22 @@ const updatePasswordInDB = async (username: string, password: string): Promise<v
   }
 };
 
-const validateToken = async (email: string): Promise<string | Error> => {
+const validateToken = async (email: string): Promise<IToken | Error> => {
   const query = {
     TableName: process.env.RESET_PASSWORD_TOKENS_TABLE_NAME!,
     Key: {
       emailAddress: { S: email }
     },
-    ProjectionExpression: 'token'
+    ProjectionExpression: 'expires, #token',
+    ExpressionAttributeNames: {
+      '#token': 'token'
+    }
   };
 
   try {
     const results = await dbClient.send(new GetItemCommand(query));
-    return unmarshall(results.Item!).token;
+    return unmarshall(results.Item!) as IToken;
   } catch (error) {
-    console.log('Token is invalid');
     return new Error();
   }
 };
