@@ -1,7 +1,5 @@
 import * as endpoints from '../../../constants/endpoints';
-
-import { ChangeEvent, FC, useState } from 'react';
-
+import { FC, useState } from 'react';
 import Button from '../../../components/Button/Button';
 import classes from './RateFilm.module.scss';
 import httpRequest from '../../../utils/httpRequest';
@@ -21,8 +19,8 @@ const RateFilm: FC<IProps> = ({ filmID, reviewAlreadyExists, setHasSubmittedRati
   const [userRating, setUserRating] = useState(null as null | number);
   const [userReview, setUserReview] = useState(null as null | string);
 
-  const inputChangedHandler = (event: React.ChangeEvent<HTMLInputElement>, inputName: string): void =>
-    inputName === 'rating' ? setUserRating(Number(event.target.value)) : setUserReview(event.target.value);
+  const inputChangedHandler = (value: string, inputName: string): void =>
+    inputName === 'rating' ? setUserRating(Number(value)) : setUserReview(value);
 
   const rateFilm = async (): Promise<void> => {
     setIsRating(true);
@@ -49,12 +47,12 @@ const RateFilm: FC<IProps> = ({ filmID, reviewAlreadyExists, setHasSubmittedRati
     <div className={classes.RateFilmWrapper}>
       <form onSubmit={(event): void => event.preventDefault()}>
         <Input
-          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'rating')}
+          onChange={(event): void => inputChangedHandler(event.target.value, 'rating')}
           placeholder={'Rating'}
           type={'text'}
         />
         <Input
-          onChange={(event: ChangeEvent<HTMLInputElement>): void => inputChangedHandler(event, 'review')}
+          onChange={(event): void => inputChangedHandler(event.target.value, 'review')}
           placeholder={'Review'}
           type={'text'}
           textarea={true}

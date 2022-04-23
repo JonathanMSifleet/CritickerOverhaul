@@ -1,9 +1,9 @@
-import { FC } from 'react';
+import { ChangeEvent, FC } from 'react';
 import classes from './Checkbox.module.scss';
 
 interface IProps {
   checked?: boolean;
-  onChange?(event: React.ChangeEvent<HTMLInputElement>): string | boolean | void;
+  onChange?(event: ChangeEvent<HTMLInputElement>): string | boolean | void;
   placeholder?: string;
   value?: boolean;
 }

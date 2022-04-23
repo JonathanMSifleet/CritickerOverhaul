@@ -1,7 +1,7 @@
 import 'react-datepicker/dist/react-datepicker.css';
 import * as endpoints from '../../../constants/endpoints';
-import { ChangeEvent, FC, useEffect, useState } from 'react';
 import { CountryDropdown } from 'react-country-region-selector';
+import { FC, useEffect, useState } from 'react';
 import { validateValue } from '../../../../../shared/functions/validationFunctions';
 import Button from '../../../components/Button/Button';
 import classes from './UpdateUserDetailsForm.module.scss';
@@ -121,7 +121,7 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
         <div className={classes.InputWrapper}>
           <Input
             errors={emailValMessages!}
-            onChange={(event: ChangeEvent<HTMLInputElement>): void => {
+            onChange={(event): void => {
               inputChangedHandler(event.target.value, 'email');
               handleValidation(event.target.value, 'Email');
             }}
@@ -134,7 +134,7 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
         <div className={classes.InputWrapper}>
           <Input
             errors={firstNameValMessages!}
-            onChange={(event: ChangeEvent<HTMLInputElement>): void => {
+            onChange={(event): void => {
               inputChangedHandler(event.target.value, 'firstName');
               handleValidation(event.target.value, 'FirstName');
             }}
@@ -147,7 +147,7 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
         <div className={classes.InputWrapper}>
           <Input
             errors={lastNameValMessages!}
-            onChange={(event: ChangeEvent<HTMLInputElement>): void => {
+            onChange={(event): void => {
               inputChangedHandler(event.target.value, 'lastName');
               handleValidation(event.target.value, 'LastName');
             }}
@@ -172,25 +172,19 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
           <Radio
             checked={formInfo.gender === 'Female'}
             name={'GenderRadio'}
-            onChange={(event: { target: { value: string } }): void =>
-              setFormInfo({ ...formInfo, gender: event.target.value })
-            }
+            onChange={(event): void => setFormInfo({ ...formInfo, gender: event.target.value })}
             value={'Female'}
           />
           <Radio
             checked={formInfo.gender === 'Male'}
             name={'GenderRadio'}
-            onChange={(event: { target: { value: string } }): void =>
-              setFormInfo({ ...formInfo, gender: event.target.value })
-            }
+            onChange={(event): void => setFormInfo({ ...formInfo, gender: event.target.value })}
             value={'Male'}
           />
           <Radio
             checked={formInfo.gender === 'Other'}
             name={'GenderRadio'}
-            onChange={(event: { target: { value: string } }): void =>
-              setFormInfo({ ...formInfo, gender: event.target.value })
-            }
+            onChange={(event): void => setFormInfo({ ...formInfo, gender: event.target.value })}
             value={'Other'}
           />
         </div>
@@ -214,7 +208,7 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
           className={classes.DescriptionTextArea}
           errors={bioValMessages!}
           label={'Bio'}
-          onChange={(event: ChangeEvent<HTMLInputElement>): void => {
+          onChange={(event): void => {
             inputChangedHandler(event.target.value, 'bio');
             handleValidation(event.target.value, 'Bio');
           }}

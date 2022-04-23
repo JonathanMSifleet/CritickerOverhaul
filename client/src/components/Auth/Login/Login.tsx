@@ -117,7 +117,7 @@ const Login: FC = () => {
           autoComplete="email"
           className={classes.Input}
           errors={emailValidationMessages}
-          onChange={(event: { target: { value: string } }): void => inputChangedHandler(event.target.value!, 'email')}
+          onChange={(event): void => inputChangedHandler(event.target.value!, 'email')}
           placeholder={'Email'}
           type={'email'}
         />
@@ -125,9 +125,7 @@ const Login: FC = () => {
           autoComplete="current-password"
           className={classes.Input}
           errors={passwordValidationMessages}
-          onChange={(event: { target: { value: string } }): void =>
-            inputChangedHandler(event.target.value!, 'password')
-          }
+          onChange={(event): void => inputChangedHandler(event.target.value!, 'password')}
           placeholder={'Password'}
           type={'password'}
         />

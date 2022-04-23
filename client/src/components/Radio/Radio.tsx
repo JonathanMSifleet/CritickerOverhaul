@@ -1,5 +1,4 @@
 import { ChangeEvent, FC } from 'react';
-
 import { MDBRadio } from 'mdb-react-ui-kit';
 
 interface IProps {
