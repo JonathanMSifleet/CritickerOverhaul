@@ -24,6 +24,7 @@ interface IUser {
   accessToken?: string;
   avatar?: string;
   email: string;
+  isVerified?: boolean;
   password: string;
   username: string;
 }
@@ -34,7 +35,7 @@ const login = async (event: { body: string }): Promise<IHTTP> => {
   try {
     const user = await loginUser(email);
     if (user instanceof Error) return createAWSResErr(404, 'Email address is not associated with any user');
-
+    if (user.isVerified === false) return createAWSResErr(401, 'User has not verified their email address');
     if (password !== user.password) return createAWSResErr(401, 'Password is incorrect');
 
     let newAccessToken: string;
@@ -90,7 +91,7 @@ const getUserAvatar = async (username: string): Promise<string | undefined> => {
 const loginUser = async (email: string): Promise<Error | IUser> => {
   const query = createDynamoSearchQuery(
     process.env.USER_TABLE_NAME!,
-    'accessToken, avatar, email, password, username',
+    'accessToken, avatar, email, isVerified, password, username',
     'email',
     email,
     'S',
