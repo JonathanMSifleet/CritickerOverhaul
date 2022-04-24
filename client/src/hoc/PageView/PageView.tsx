@@ -20,7 +20,7 @@ const PageView: FC<IProps> = ({ children, backgroundCSS }): JSX.Element => (
       </MDBCol>
       <MDBCol className={classes.Column} md="2" />
     </MDBRow>
-    <Footer />
+    <Footer className={classes.Footer} />
   </MDBContainer>
 );
 

@@ -2,8 +2,12 @@ import { FC } from 'react';
 import { Link } from 'preact-router/match';
 import classes from './Footer.module.scss';
 
-const Footer: FC = (): JSX.Element => (
-  <footer className={`${classes.Footer} bg-primary text-center text-white text-lg-start`}>
+interface IProps {
+  className: string;
+}
+
+const Footer: FC<IProps> = ({ className }): JSX.Element => (
+  <footer className={`${classes.Footer} ${className} bg-primary text-center text-white text-lg-start`}>
     <ul className={`${classes.FooterLinksWrapper} list-group list-group-horizontal`}>
       <Link href="#information/privacy" className={`${classes.LinkComponent} text-white`}>
         <li className={`${classes.LinkText} list-group-item bg-primary`}>Privacy Policy</li>
