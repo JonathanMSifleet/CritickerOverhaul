@@ -1,15 +1,14 @@
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
 import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb';
 import { marshall } from '@aws-sdk/util-dynamodb';
-import { SESClient } from '@aws-sdk/client-ses';
 import { v4 as uuid } from 'uuid';
 import cors from '@middy/http-cors';
 import IHTTP from '../../shared/interfaces/IHTTP';
 import middy from '@middy/core';
 import sendEmail from '../../shared/functions/sendEmail';
+import sendGrid from '@sendgrid/mail';
 
 const dbClient = new DynamoDBClient({});
-const sesClient = new SESClient({});
 
 const sendResetPasswordEmail = async (event: { pathParameters: { emailAddress: string } }): Promise<IHTTP> => {
   const emailAddress = event.pathParameters.emailAddress;
@@ -22,7 +21,7 @@ const sendResetPasswordEmail = async (event: { pathParameters: { emailAddress: s
 
   const emailContent = `<p>Please follow the link below, and follow the instructions:</p><br><p>${url}</p>`;
 
-  const emailResult = await sendEmail(sesClient, emailAddress, 'CritickerOverhaul Password Reset', emailContent);
+  const emailResult = await sendEmail(sendGrid, emailAddress, 'CritickerOverhaul Password Reset', emailContent);
   if (emailResult instanceof Error) return createAWSResErr(500, 'Unable to send email');
 
   return { statusCode: 204 };

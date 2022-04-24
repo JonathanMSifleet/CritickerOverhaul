@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.74.0",
-    "@aws-sdk/client-ses": "^3.75.0",
     "@aws-sdk/util-dynamodb": "^3.74.0",
     "@middy/core": "^2.5.7",
     "@middy/http-cors": "^2.5.7",
+    "@sendgrid/mail": "^7.6.2",
     "@shelf/dynamodb-parallel-scan": "^3.0.1",
     "chunk": "^0.0.3",
     "email-validator": "^2.0.4",
