@@ -18,6 +18,11 @@
   @extend .SubmitButton;
 }
 
+.WarningWrapper {
+  width: 80%;
+  margin: 0 auto;
+}
+
 .PasswordOptions {
   margin: auto;
   width: fit-content;
@@ -30,15 +35,7 @@
   margin-bottom: 1%;
 }
 
-.EmailSentStatus {
-  text-align: center;
-  margin-bottom: 0;
+.ForgotPasswordTextDisabled {
+  margin-bottom: 1%;
 }
 
-.SuccessMessage {
-  color: green;
-}
-
-.ErrorMessage {
-  color: red;
-}
