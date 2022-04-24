@@ -24,10 +24,7 @@ interface IUrlParams {
 }
 
 const PasswordReset: FC<IUrlParams> = ({ emailAddress, token }) => {
-  const [formInfo, setFormInfo] = useState<IFormInfo>({
-    password: '',
-    repeatPassword: ''
-  });
+  const [formInfo, setFormInfo] = useState<IFormInfo>();
   const [isLoading, setIsLoading] = useState(false);
   const [passwordValMessages, setPasswordValMessages] = useState<string[]>([]);
   const [secondsRemaining, setSecondsRemaining] = useState(null as null | number);
@@ -38,14 +35,14 @@ const PasswordReset: FC<IUrlParams> = ({ emailAddress, token }) => {
 
   useEffect(() => {
     (async (): Promise<void> => {
-      let messages = (await validateValue(formInfo.password!, 'Password')) as string[];
+      let messages = (await validateValue(formInfo!.password!, 'Password')) as string[];
       messages = messages.filter((error) => error !== null);
 
-      if (formInfo.password !== formInfo.repeatPassword) messages.push('Passwords do not match');
+      if (formInfo!.password !== formInfo!.repeatPassword) messages.push('Passwords do not match');
 
       setPasswordValMessages(messages);
     })();
-  }, [formInfo.password, formInfo.repeatPassword]);
+  }, [formInfo]);
 
   useEffect(() => {
     (async (): Promise<void> => {
@@ -85,7 +82,7 @@ const PasswordReset: FC<IUrlParams> = ({ emailAddress, token }) => {
 
   const updatePassword = async (): Promise<void> => {
     try {
-      const hashedPassword = SHA512(formInfo.password).toString();
+      const hashedPassword = SHA512(formInfo!.password).toString();
 
       const result = await httpRequest(`${endpoints.UPDATE_PASSWORD}/${emailAddress}/${token}`, 'PUT', undefined, {
         password: hashedPassword
