@@ -1,7 +1,8 @@
 # files that should be removed go here:
 **/.DS_Store
 **/Folder.jpg
-**/privateKey.pem
+**/auth0PrivateKey.pem
+**/sendGridAPIKey
 **/thumbs.db
 *.tsbuildinfo
 .DS_Store
