@@ -53,7 +53,7 @@ const SignUp: FC = () => {
           delete formInfo.repeatPassword;
 
           const result = await httpRequest(endpoints.SIGNUP, 'POST', undefined, formInfo);
-          if (result.statusCode !== 201) throw new Error(result.message);
+          if (result.statusCode === 422) throw new Error(result.message);
 
           alert('Account created successfully, please login');
           setShowModal(false);
