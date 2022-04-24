@@ -1,12 +1,15 @@
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
-import { DynamoDBClient, PutItemCommand, PutItemCommandOutput } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, PutItemCommand, PutItemCommandOutput, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import { marshall } from '@aws-sdk/util-dynamodb';
+import { v4 as uuid } from 'uuid';
 import { validateUserInputs } from '../../../../shared/functions/validationFunctions';
 import cors from '@middy/http-cors';
 import generateAccessToken from '../../shared/functions/generateAccessToken';
 import IAccessToken from '../../../../shared/interfaces/IAccessToken';
 import IHTTP from '../../shared/interfaces/IHTTP';
 import middy from '@middy/core';
+import sendEmail from '../../shared/functions/sendEmail';
+import sendGrid from '@sendgrid/mail';
 
 const dbClient = new DynamoDBClient({});
 
@@ -24,12 +27,25 @@ const signup = async (event: { body: string }): Promise<IHTTP> => {
   const accessToken = (await generateAccessToken()) as IAccessToken;
 
   try {
-    const result = await insertUserToDB(username, email, password, memberSince, accessToken);
+    await insertUserToDB(username, email, password, memberSince, accessToken);
 
     console.log('Signed up successfully');
+
+    const token = await storeVerificationToken(username);
+
+    const emailContent =
+      '<p>Please go to the link below to verify your email address:</p><br>' +
+      `<p>http://localhost:3000/#/verifyEmail/${username}/${token}</p>`;
+
+    try {
+      await sendEmail(sendGrid, email, 'Criticker Overhaul - Verify email address', emailContent);
+    } catch (error) {
+      return createAWSResErr(500, 'Failed to send verification email');
+    }
+
     return {
       statusCode: 201,
-      body: JSON.stringify(result)
+      body: JSON.stringify('Signup successful')
     };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(500, error.message);
@@ -52,15 +68,35 @@ const insertUserToDB = async (
   const params = {
     TableName: process.env.USER_TABLE_NAME!,
     Item: marshall({
+      accessToken: JSON.stringify(accessToken),
       email,
-      username,
-      password,
+      isVerified: false,
       memberSince,
       numRatings: 0,
-      accessToken: JSON.stringify(accessToken)
+      password,
+      username
     }),
     ReturnConsumedCapacity: 'TOTAL'
   };
 
   return await dbClient.send(new PutItemCommand(params));
+};
+
+const storeVerificationToken = async (username: string): Promise<string> => {
+  const token = uuid();
+
+  const query = {
+    TableName: process.env.USER_TABLE_NAME!,
+    Key: {
+      username: { S: username }
+    },
+    UpdateExpression: 'set verificationToken = :token',
+    ExpressionAttributeValues: {
+      ':token': { S: token }
+    },
+    ReturnValues: 'UPDATED_NEW'
+  };
+
+  await dbClient.send(new UpdateItemCommand(query));
+  return token;
 };
