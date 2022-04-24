@@ -20,13 +20,13 @@ const updatePassword = async (event: {
   const { emailAddress, token } = event.pathParameters;
   const password = JSON.parse(event.body).password;
 
+  const username = await getUsername(emailAddress);
+  if (username instanceof Error) return createAWSResErr(404, 'Email address is not associated with any user');
+
   const dbToken = (await validateToken(emailAddress)) as IToken;
   if (dbToken instanceof Error) return createAWSResErr(500, 'Error getting existing token');
   if (dbToken.expires < Date.now()) return createAWSResErr(400, 'Token has expired');
   if (dbToken.token !== token) return createAWSResErr(400, 'Invalid token');
-
-  const username = await getUsername(emailAddress);
-  if (username instanceof Error) return createAWSResErr(404, 'Email address is not associated with any user');
 
   try {
     await updatePasswordInDB(username, password);
