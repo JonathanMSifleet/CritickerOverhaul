@@ -1,12 +1,12 @@
 import * as endpoints from '../../../../constants/endpoints';
-import { FC, useState } from 'preact/compat';
+import { FC, useEffect, useState } from 'preact/compat';
 import { validateValue } from '../../../../../../shared/functions/validationFunctions';
 import Alert from '../../../Alert/Alert';
 import Button from '../../../Button/Button';
 import classes from './ResetEmailForm.module.scss';
 import httpRequest from '../../../../utils/httpRequest';
 import Input from '../../../Input/Input';
-import Spinner from '../../../Spinner/Spinner';
+import SpinnerButton from '../../../SpinnerButton/SpinnerButton';
 
 interface IProps {
   toggleEmailInput: () => void;
@@ -17,6 +17,10 @@ const ResetEmailForm: FC<IProps> = ({ toggleEmailInput }) => {
   const [isSendingEmail, setIsSendingEmail] = useState(false);
   const [resetPasswordEmail, setResetPasswordEmail] = useState(null as null | string);
   const [resetPasswordValMessages, setResetPasswordValMessages] = useState([] as string[]);
+
+  useEffect(() => {
+    if (isSendingEmail) setEmailSentStatus(null);
+  }, [isSendingEmail]);
 
   const sendResetEmailPassword = async (): Promise<void> => {
     setIsSendingEmail(true);
@@ -57,8 +61,6 @@ const ResetEmailForm: FC<IProps> = ({ toggleEmailInput }) => {
         />
       </div>
 
-      {isSendingEmail ? <Spinner /> : null}
-
       {emailSentStatus ? (
         <div className={classes.AlertWrapper}>
           <Alert text={emailSentStatus} type={emailSentStatus.includes('success') ? 'success' : 'warning'} />
@@ -66,12 +68,16 @@ const ResetEmailForm: FC<IProps> = ({ toggleEmailInput }) => {
       ) : null}
 
       <div className={classes.SubmitButtonWrapper}>
-        <Button
-          className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
-          disabled={resetPasswordValMessages.length !== 0 || !resetPasswordEmail}
-          onClick={sendResetEmailPassword}
-          text={'Send reset password email'}
-        />
+        {!isSendingEmail ? (
+          <Button
+            className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
+            disabled={resetPasswordValMessages.length !== 0 || !resetPasswordEmail}
+            onClick={sendResetEmailPassword}
+            text={'Send reset password email'}
+          />
+        ) : (
+          <SpinnerButton />
+        )}
       </div>
     </>
   );

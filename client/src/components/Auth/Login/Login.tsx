@@ -14,7 +14,7 @@ import Input from '../../Input/Input';
 import Spinner from './../../Spinner/Spinner';
 import SpinnerButton from './../../SpinnerButton/SpinnerButton';
 
-const ResetEmailForm = lazy(() => import('./ResetEmailForm/ResetEmailForm'));
+const ResetEmailForm = lazy(() => import('./ResetPasswordForm/ResetPasswordForm'));
 
 interface IState {
   email?: string;
