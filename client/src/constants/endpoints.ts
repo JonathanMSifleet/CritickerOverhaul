@@ -23,4 +23,3 @@ export const SIGNUP = `${ROOT}/user/signup`;
 export const UPDATE_PASSWORD = `${ROOT}/password/resetPassword`;
 export const UPDATE_USER_PROFILE = `${ROOT}/user/profile`;
 export const UPLOAD_USER_AVATAR = `${ROOT}/user/avatar`;
-export const VERIFY_PASSWORD_RESET_TOKEN = `${ROOT}/password/verifyPasswordResetToken`;
