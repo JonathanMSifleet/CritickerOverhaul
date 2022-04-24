@@ -1,7 +1,7 @@
 import { ChangeEvent, FC } from 'react';
 import { MDBInput, MDBTextArea } from 'mdb-react-ui-kit';
+import Alert from '../Alert/Alert';
 import classes from './Input.module.scss';
-import Warning from './Warning/Warning';
 
 interface IProps {
   autoComplete?: string;
@@ -56,7 +56,9 @@ const Input: FC<IProps> = ({
         value={value}
       />
     )}
-    {errors && errors!.length > 0 ? errors!.map((message: string) => <Warning key={message} text={message} />) : null}
+    {errors && errors!.length > 0
+      ? errors!.map((message: string) => <Alert key={message} text={message} type={'warning'} />)
+      : null}
   </>
 );
 
