@@ -184,6 +184,13 @@ functions:
           method: PUT
           path: password/sendResetPasswordEmail/{emailAddress}
           cors: true
+  sendVerificationEmail:
+    handler: aws/handlers/verification/sendVerificationEmail.handler
+    events:
+      - http:
+          method: GET
+          path: verification/sendVerificationEmail/{username}
+          cors: true
   signup:
     handler: aws/handlers/user/signup.handler
     events:
@@ -215,11 +222,11 @@ functions:
           cors: true
           authorizer: ${self:custom.authoriser}
   verifyEmail:
-    handler: aws/handlers/user/verifyEmail.handler
+    handler: aws/handlers/verification/verifyEmail.handler
     events:
       - http:
           method: GET
-          path: user/verifyEmail/{username}/{token}
+          path: verification/verifyEmail/{username}/{token}
           cors: true
 
   # dummy data functions:
