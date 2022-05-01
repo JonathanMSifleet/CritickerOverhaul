@@ -16,17 +16,14 @@ interface IPayload {
 }
 
 const searchForFilm = async (event: {
-  pathParameters: { queryString: string; lastEvaluatedKey?: number };
+  pathParameters: { queryString: string; lastEvaluatedKey?: string };
 }): Promise<IHTTP> => {
   let queryString = event.pathParameters.queryString;
-  const lastEvaluatedKey = event.pathParameters.lastEvaluatedKey;
+  const lastEvaluatedKey = event.pathParameters.lastEvaluatedKey!;
+  console.log('🚀 ~ file: searchForFilm.ts ~ line 24 ~ lastEvaluatedKey', lastEvaluatedKey);
   queryString = decodeURIComponent(queryString);
 
-  const films =
-    event.pathParameters.lastEvaluatedKey !== undefined
-      ? await queryDB(queryString, lastEvaluatedKey)
-      : await queryDB(queryString);
-
+  const films = lastEvaluatedKey ? await queryDB(queryString, Number(lastEvaluatedKey)) : await queryDB(queryString);
   if (films instanceof Error) return createAWSResErr(500, 'Error getting films');
 
   return { statusCode: 200, body: JSON.stringify(films) };
@@ -35,7 +32,7 @@ const searchForFilm = async (event: {
 export const handler = middy(searchForFilm).use(cors());
 
 const queryDB = async (queryString: string, lastEvaluatedKey?: number): Promise<IHTTP | IPayload> => {
-  const query = {
+  const query: ScanCommandInput = {
     TableName: process.env.FILMS_TABLE_NAME!,
     FilterExpression: 'contains(#title, :title)',
     ExpressionAttributeNames: {
@@ -45,7 +42,7 @@ const queryDB = async (queryString: string, lastEvaluatedKey?: number): Promise<
       ':title': { S: queryString }
     },
     ProjectionExpression: 'title, releaseYear, description, imdbID'
-  } as ScanCommandInput;
+  };
 
   if (lastEvaluatedKey) query.ExclusiveStartKey = { imdbID: { N: lastEvaluatedKey.toString() } };
 
@@ -53,9 +50,12 @@ const queryDB = async (queryString: string, lastEvaluatedKey?: number): Promise<
     const result = await dbClient.send(new ScanCommand(query));
     const unmarshalledFilms = result.Items!.map((film) => unmarshall(film)) as ISearchedFilm[];
 
+    let lastEvaluatedKey = undefined;
+    if (result.LastEvaluatedKey) lastEvaluatedKey = unmarshall(result.LastEvaluatedKey!).imdbID;
+
     return {
       films: unmarshalledFilms,
-      LastEvaluatedKey: unmarshall(result.LastEvaluatedKey!).imdbID
+      LastEvaluatedKey: lastEvaluatedKey
     };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(500, error.message);
