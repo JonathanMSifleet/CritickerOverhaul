@@ -23,8 +23,14 @@ const httpRequest = async (url: string, method: string, accessToken?: IAccessTok
   if (body) options.body = JSON.stringify(body);
   if (accessToken !== undefined) options.headers = { ...headers, Authorization: `Bearer ${accessToken?.accessToken}` };
 
-  const result = await fetch(url, options);
-  return result.status === 204 ? { statusCode: 204 } : await result.json();
+  let result: Response;
+  try {
+    result = await fetch(url, options);
+  } finally {
+    if (result!.status === 204) return { statusCode: 204 };
+
+    return await result!.json();
+  }
 };
 
 export default httpRequest;
