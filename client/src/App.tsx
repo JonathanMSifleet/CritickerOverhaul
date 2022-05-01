@@ -15,6 +15,7 @@ const PasswordReset = lazy(() => import('./views/PasswordReset/PasswordReset'));
 const Ratings = lazy(() => import('./views/Ratings/Ratings'));
 const Search = lazy(() => import('./views/Search/Search'));
 const TextOnlyPage = lazy(() => import('./views/TextOnlyPage/TextOnlyPage'));
+const VerifyEmail = lazy(() => import('./views/VerifyEmail/VerifyEmail'));
 
 const App: FC = () => {
   const [fontReady, setFontReady] = useState(false);
@@ -59,6 +60,7 @@ const App: FC = () => {
             <Ratings path={'/ratings/:username?'} />
             <Search path={'/search/:searchQuery'} />
             <TextOnlyPage path={'/information/:path'} />
+            <VerifyEmail path={'/verifyEmail/:username/:token'} />
             <InvalidRoute path={'/:*'} />
           </Router>
         </Suspense>
