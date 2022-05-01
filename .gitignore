@@ -2,7 +2,7 @@
 **/.DS_Store
 **/Folder.jpg
 **/auth0PrivateKey.pem
-**/sendGridAPIKey
+backend/keys/sendGridAPIKey
 **/thumbs.db
 *.tsbuildinfo
 .DS_Store
