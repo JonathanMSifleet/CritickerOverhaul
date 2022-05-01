@@ -8,7 +8,6 @@ interface IProps {
   checked?: boolean;
   className?: string;
   errors?: string[];
-  label?: string;
   labelStyle?: { [key: string]: string };
   onChange?(event: ChangeEvent<HTMLInputElement>): string | boolean | void;
   placeholder?: string;
@@ -22,7 +21,6 @@ const Input: FC<IProps> = ({
   checked,
   className,
   errors,
-  label,
   labelStyle,
   onChange,
   placeholder,
@@ -37,7 +35,7 @@ const Input: FC<IProps> = ({
         checked={checked}
         className={`${classes.FormInput} ${className} form-control`}
         id="formControlDefault"
-        label={label}
+        label={placeholder}
         // @ts-expect-error
         onChange={onChange}
         type={type}
@@ -56,6 +54,7 @@ const Input: FC<IProps> = ({
         value={value}
       />
     )}
+
     {errors && errors!.length > 0
       ? errors!.map((message: string) => <Alert key={message} text={message} type={'warning'} />)
       : null}
