@@ -50,7 +50,7 @@ const Header: FC = () => {
 
             <div className="collapse navbar-collapse" id="navbarExample01">
               <MDBNavbarNav right className="mb-2 mb-lg-0">
-                <Link href="#information/privacy" className={`${classes.LinkComponent} text-white`}>
+                <Link href="/" className={`${classes.LinkComponent} text-white`}>
                   <li className={`${classes.LinkText} list-group-item bg-primary`}>Home</li>
                 </Link>
                 <MDBNavbarItem>
