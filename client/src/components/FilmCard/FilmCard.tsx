@@ -3,6 +3,7 @@ import { Link } from 'preact-router/match';
 import classes from './FilmCard.module.scss';
 import getFilmPoster from '../../utils/getFilmPoster';
 import IFilm from '../../../../shared/interfaces/IFilm';
+import RateFilm from '../RateFilm/RateFilm';
 import ShrugSVG from '../../assets/svg/Shrug.svg';
 import Spinner from '../Spinner/Spinner';
 
@@ -40,7 +41,8 @@ const FilmCard: FC<IProps> = ({ film }): JSX.Element => {
             </div>
           )}
         </div>
-        <div className={`${classes.TextColumn} col-md-10`}>
+
+        <div className={`${classes.TextColumn} col-md-8`}>
           <div className={`${classes.CardBody} card-body`}>
             <Link href={`/film/${film.imdbID}`}>
               <h5 className={`${classes.FilmTitle} card-title`}>
@@ -49,6 +51,10 @@ const FilmCard: FC<IProps> = ({ film }): JSX.Element => {
             </Link>
             <p className={`${classes.FilmDescription} card-text`}>{film.description}</p>
           </div>
+        </div>
+
+        <div className={`${classes.RateFilmWrapper} col-md-2`}>
+          <RateFilm filmID={film.imdbID} reviewAlreadyExists={reviewAlreadyExists} />
         </div>
       </div>
     </div>

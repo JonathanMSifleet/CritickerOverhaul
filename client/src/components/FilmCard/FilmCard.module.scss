@@ -1,7 +1,7 @@
 @import '../../styles/variables';
 
 .CardWrapper {
-  height: 15vh;
+  height: 18vh;
 }
 
 .CardContainer {
@@ -46,8 +46,17 @@
 .FilmTitle {
   font-weight: bold;
   margin-bottom: 0.5%;
+  width: fit-content;
+  margin-right: 0;
 }
 
 .FilmDescription {
-  width: 50%;
+  max-width: 50%;
+  margin: 0;
+}
+
+.RateFilmWrapper {
+  align-items: center;
+  display: flex;
+  padding: 1%;
 }
