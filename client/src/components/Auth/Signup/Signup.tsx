@@ -50,12 +50,10 @@ const SignUp: FC = () => {
         try {
           formInfo.password = SHA512(formInfo.password).toString();
 
-          delete formInfo.repeatPassword;
-
           const result = await httpRequest(endpoints.SIGNUP, 'POST', undefined, formInfo);
           if (result.statusCode === 422) throw new Error(result.message);
 
-          alert('Account created successfully, please login');
+          alert('Account created successfully, please check your emails to verify your account');
           setShowModal(false);
         } catch (error) {
           handleValidationMessage(extractValidationMessages(error as string));

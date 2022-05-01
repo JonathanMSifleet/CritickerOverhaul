@@ -3,7 +3,7 @@ import { FC, useEffect, useState } from 'preact/compat';
 import { validateValue } from '../../../../../../shared/functions/validationFunctions';
 import Alert from '../../../Alert/Alert';
 import Button from '../../../Button/Button';
-import classes from './ResetEmailForm.module.scss';
+import classes from './ResetPasswordForm.module.scss';
 import httpRequest from '../../../../utils/httpRequest';
 import Input from '../../../Input/Input';
 import SpinnerButton from '../../../SpinnerButton/SpinnerButton';
