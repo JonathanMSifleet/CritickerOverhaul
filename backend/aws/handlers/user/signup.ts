@@ -1,7 +1,6 @@
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
-import { DynamoDBClient, PutItemCommand, PutItemCommandOutput, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, PutItemCommand, PutItemCommandOutput } from '@aws-sdk/client-dynamodb';
 import { marshall } from '@aws-sdk/util-dynamodb';
-import { v4 as uuid } from 'uuid';
 import { validateUserInputs } from '../../../../shared/functions/validationFunctions';
 import cors from '@middy/http-cors';
 import generateAccessToken from '../../shared/functions/generateAccessToken';
@@ -10,6 +9,7 @@ import IHTTP from '../../shared/interfaces/IHTTP';
 import middy from '@middy/core';
 import sendEmail from '../../shared/functions/sendEmail';
 import sendGrid from '@sendgrid/mail';
+import storeVerificationToken from '../../shared/functions/storeVerificationToken';
 
 const dbClient = new DynamoDBClient({});
 
@@ -31,7 +31,7 @@ const signup = async (event: { body: string }): Promise<IHTTP> => {
 
     console.log('Signed up successfully');
 
-    const token = await storeVerificationToken(username);
+    const token = await storeVerificationToken(dbClient, username);
 
     const emailContent =
       '<p>Please go to the link below to verify your email address:</p><br>' +
@@ -80,23 +80,4 @@ const insertUserToDB = async (
   };
 
   return await dbClient.send(new PutItemCommand(params));
-};
-
-const storeVerificationToken = async (username: string): Promise<string> => {
-  const token = uuid();
-
-  const query = {
-    TableName: process.env.USER_TABLE_NAME!,
-    Key: {
-      username: { S: username }
-    },
-    UpdateExpression: 'set verificationToken = :token',
-    ExpressionAttributeValues: {
-      ':token': { S: token }
-    },
-    ReturnValues: 'UPDATED_NEW'
-  };
-
-  await dbClient.send(new UpdateItemCommand(query));
-  return token;
 };
