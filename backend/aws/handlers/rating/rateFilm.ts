@@ -31,8 +31,10 @@ const rateFilm = async (event: {
   let { rating, review } = JSON.parse(event.body);
   const { username } = event.pathParameters;
 
-  rating = rating.trim();
-  review = review.trim();
+  try {
+    rating = rating.trim();
+    review = review.trim();
+  } catch (error) {}
 
   const accessToken = event.headers.Authorization.split(' ')[1];
 
@@ -63,7 +65,7 @@ const rateFilm = async (event: {
       if (numRatings % 25 === 0) await regeneratePercentiles(username);
     }
 
-    await updateUserRatingsRating(username, payload);
+    await updateAggregatePercentiles(username, payload);
 
     return {
       statusCode: 201,
@@ -214,7 +216,7 @@ const regeneratePercentiles = async (username: string): Promise<IHTTP | void> =>
   return createAWSResErr(500, 'Unhandled Exception');
 };
 
-const updateUserRatingsRating = async (username: string, payload: IRating): Promise<IHTTP | void> => {
+const updateAggregatePercentiles = async (username: string, payload: IRating): Promise<IHTTP | void> => {
   const query = {
     TableName: process.env.AGGREGATE_PERCENTILES_TABLE_NAME!,
     Key: {
