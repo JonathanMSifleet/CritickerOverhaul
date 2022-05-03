@@ -54,7 +54,7 @@ const App: FC = () => {
           {/* @ts-expect-error */}
           <Router history={createHashHistory()} onChange={detectRouteChange}>
             <Home path={'/'} />
-            <Film path={'/film/:id'} />
+            <Film path={'/film/:imdbID'} />
             <PasswordReset path={'/passwordReset/:emailAddress/:token'} />
             <Profile path={'/profile/:username?'} />
             <Ratings path={'/ratings/:username?'} />

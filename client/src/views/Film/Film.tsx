@@ -4,14 +4,17 @@ import { Link } from 'preact-router/match';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../store';
 import classes from './Film.module.scss';
+import ColouredText from '../../components/ColouredText/ColouredText';
 import epochToDate from '../../utils/epochToDate';
+import FilmPoster from '../../components/FilmPoster/FilmPoster';
 import getColourGradient from '../../utils/getColourGradient';
-import getFilmPoster from '../../utils/getFilmPoster';
+import getUserRating from '../../utils/getUserRating';
 import httpRequest from '../../utils/httpRequest';
 import IFilm from '../../../../shared/interfaces/IFilm';
 import PageView from '../../hoc/PageView/PageView';
-import RateFilm from './RateFilm/RateFilm';
+import RateFilm from '../../components/RateFilm/RateFilm';
 import Spinner from '../../components/Spinner/Spinner';
+import Toggle from '../../components/Toggle/Toggle';
 import UserAvatar from './UserAvatar/UserAvatar';
 
 interface IRating {
@@ -19,53 +22,79 @@ interface IRating {
   rating: number;
   ratingPercentile: number;
   review?: string;
+  TCI?: string | number;
   username: string;
 }
 
 interface IUrlParams {
   path?: string;
-  id?: number;
+  imdbID?: number;
 }
 
-const Film: FC<IUrlParams> = ({ id }) => {
+const Film: FC<IUrlParams> = ({ imdbID }) => {
   const [colourGradient, setColourGradient] = useState('');
   const [fetchedUserReview, setFetchedUserReview] = useState(null as null | IRating);
   const [film, setFilm] = useState(null as null | IFilm);
-  const [filmPoster, setFilmPoster] = useState(null as string | null);
   const [hasSubmittedRating, setHasSubmittedRating] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [reviewAlreadyExists, setReviewAlreadyExists] = useState(false);
+  const [isLoadingRatings, setIsLoadingRatings] = useState(false);
   const [ratings, setRatings] = useState([] as IRating[]);
+  const [sortByTCI, setSortByTCI] = useState(false);
+  const [originalRatings, setOriginalRatings] = useState([] as IRating[]);
   const userState = useRecoilValue(userInfoState);
 
   useEffect(() => {
     (async (): Promise<void> => {
       setIsLoading(true);
 
-      httpRequest(`${endpoints.GET_FILM_DETAILS}/${id}`, 'GET').then((film) => {
+      httpRequest(`${endpoints.GET_FILM_DETAILS}/${imdbID}`, 'GET').then((film) => {
         setFilm(parseFilmPeople(film));
         setIsLoading(false);
       });
 
-      getFilmPoster(id!).then((filmPoster) => setFilmPoster(filmPoster));
-
-      httpRequest(`${endpoints.GET_FILM_RATINGS}/${id}`, 'GET').then((ratings) => {
+      setIsLoadingRatings(true);
+      httpRequest(`${endpoints.GET_FILM_RATINGS}/${imdbID}`, 'GET').then((ratings) => {
         if (ratings.statusCode === 404) return;
-        setRatings(ratings);
+
+        const filteredRatings = ratings.filter((rating: IRating) => rating.username !== userState.username);
+
+        setRatings(filteredRatings);
+        setOriginalRatings(filteredRatings);
+        setIsLoadingRatings(false);
       });
 
       if (!userState.loggedIn) return;
 
-      getUserRating(id!).then((userRating) => {
-        setFetchedUserReview(userRating);
-        setColourGradient(determineColourGradient(userRating!.ratingPercentile!));
-        setReviewAlreadyExists(true);
-      });
+      const userRating = await getUserRating(userState.username, imdbID!);
+      setFetchedUserReview(userRating as IRating);
+      setColourGradient(determineColourGradient(userRating!.ratingPercentile!));
     })();
-  }, [id]);
+  }, [imdbID]);
 
   useEffect(() => {
-    if (hasSubmittedRating) (async (): Promise<void> => setFetchedUserReview(await getUserRating(id!)))();
+    if (!sortByTCI) {
+      setRatings(originalRatings);
+      return;
+    }
+
+    let tempRatings = ratings;
+    tempRatings = tempRatings.map((rating) => ({ ...rating, TCI: getTCI(rating.username) }));
+
+    tempRatings.sort((a, b) => {
+      if (a.TCI === 'N/A') return 1;
+      if (b.TCI === 'N/A') return -1;
+
+      // @ts-expect-error works as intended
+      return a.TCI - b.TCI;
+    });
+
+    setRatings(tempRatings);
+  }, [sortByTCI]);
+
+  useEffect(() => {
+    if (hasSubmittedRating)
+      (async (): Promise<void> =>
+        setFetchedUserReview((await getUserRating(userState.username, imdbID!)) as IRating))();
   }, [hasSubmittedRating]);
 
   const arrayToString = (input: string): string => {
@@ -79,7 +108,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
   const deleteReview = async (): Promise<void> => {
     try {
       const result = await httpRequest(
-        `${endpoints.DELETE_RATING}/${id}/${userState.username}/${userState.accessToken.accessToken}`,
+        `${endpoints.DELETE_RATING}/${imdbID}/${userState.username}/${userState.accessToken.accessToken}`,
         'DELETE',
         userState.accessToken
       );
@@ -89,7 +118,6 @@ const Film: FC<IUrlParams> = ({ id }) => {
 
       setFetchedUserReview(null);
       setHasSubmittedRating(false);
-      setReviewAlreadyExists(false);
     } catch (error) {
       alert(error);
     }
@@ -105,11 +133,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
     return TCI === undefined ? 'N/A' : TCI.TCI;
   };
 
-  const getUserRating = async (id: number): Promise<null | IRating> => {
-    const result = await httpRequest(`${endpoints.GET_USER_RATING}/${id}/${userState.username}`, 'GET');
-
-    return result.statusCode === 404 ? null : result;
-  };
+  const handleToggle = (event: { target: { checked: boolean } }): void => setSortByTCI(event.target.checked);
 
   const parseFilmPeople = (film: IFilm): IFilm => {
     if (film.directors !== undefined) film.directors = arrayToString(film.directors);
@@ -124,7 +148,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
       {!isLoading ? (
         <>
           <div className={classes.FilmDetails}>
-            <img className={classes.Poster} src={filmPoster!} />
+            <FilmPoster className={classes.Poster} imdbID={imdbID!} />
             <h1 className={classes.FilmTitle}>
               {film ? film.title : null}
               <span className={classes.FilmYear}>{film ? `${film.releaseYear}` : null}</span>
@@ -132,9 +156,7 @@ const Film: FC<IUrlParams> = ({ id }) => {
 
             {fetchedUserReview ? (
               <>
-                <p className={classes.RatingValue} style={{ backgroundColor: colourGradient }}>
-                  {fetchedUserReview.rating}
-                </p>
+                <ColouredText colourGradient={colourGradient} text={fetchedUserReview.rating!} />
 
                 {fetchedUserReview.ratingPercentile !== undefined ? (
                   <p className={classes.FilmPercentile} style={{ color: colourGradient }}>
@@ -146,7 +168,13 @@ const Film: FC<IUrlParams> = ({ id }) => {
                 {fetchedUserReview.review ? <p>{fetchedUserReview.review}</p> : null}
 
                 <p>
-                  <span className={classes.ModifyReview} onClick={(): void => setFetchedUserReview(null)}>
+                  <span
+                    className={classes.ModifyReview}
+                    onClick={(): void => {
+                      setFetchedUserReview(null);
+                      setHasSubmittedRating(false);
+                    }}
+                  >
                     Update Rating
                   </span>
                   {' - '}
@@ -168,12 +196,11 @@ const Film: FC<IUrlParams> = ({ id }) => {
               </>
             ) : !hasSubmittedRating && userState.loggedIn ? (
               <RateFilm
-                filmID={id!}
-                reviewAlreadyExists={reviewAlreadyExists}
-                setHasSubmittedRating={(hasSubmittedRating: boolean): void => {
-                  setHasSubmittedRating(hasSubmittedRating);
-                }}
-                userState={userState}
+                filmID={imdbID!}
+                reviewAlreadyExists={fetchedUserReview !== null}
+                // setHasSubmittedRating={(hasSubmittedRating: boolean): void => {
+                //   setHasSubmittedRating(hasSubmittedRating);
+                // }}
               />
             ) : null}
 
@@ -191,32 +218,38 @@ const Film: FC<IUrlParams> = ({ id }) => {
           </div>
 
           <div className={classes.FilmRatingsWrapper}>
-            <h3>Ratings:</h3>
-            <div className={classes.FilmRatings}>
-              {ratings.length !== 0 ? (
-                ratings.map((rating: IRating) => (
-                  <div className={classes.UserRatingWrapper} key={rating.username}>
-                    <UserAvatar username={rating.username} />
-                    <p
-                      className={classes.UserRatingScore}
-                      style={{ color: determineColourGradient(rating.ratingPercentile) }}
-                    >
-                      {rating.rating}
-                      <span className={classes.UserRatingPercentile}>{rating.ratingPercentile}%</span>
-                    </p>
-                    <p className={classes.UserRating}>
-                      <Link href={`#profile/${rating.username}`}>{rating.username}</Link>
-                    </p>
-                    <p className={classes.UserTCI}>TCI: {getTCI(rating.username)}</p>
-                    <div className={classes.UserReviewTextWrapper}>
-                      {rating.review ? <p className={classes.UserReviewText}>{rating.review}</p> : null}
+            <h3 className={classes.RatingsHeader}>Ratings</h3>
+            <Toggle onClick={handleToggle} checked={sortByTCI} label={'Sort by TCI'} />
+
+            {!isLoadingRatings ? (
+              <div className={classes.FilmRatings}>
+                {ratings.length !== 0 ? (
+                  ratings.map((rating: IRating) => (
+                    <div className={classes.UserRatingWrapper} key={rating.username}>
+                      <UserAvatar username={rating.username} />
+                      <p
+                        className={classes.UserRatingScore}
+                        style={{ color: determineColourGradient(rating.ratingPercentile) }}
+                      >
+                        {rating.rating}
+                        <span className={classes.UserRatingPercentile}>{rating.ratingPercentile}%</span>
+                      </p>
+                      <p className={classes.UserRating}>
+                        <Link href={`#profile/${rating.username}`}>{rating.username}</Link>
+                      </p>
+                      <p className={classes.UserTCI}>TCI: {getTCI(rating.username)}</p>
+                      <div className={classes.UserReviewTextWrapper}>
+                        {rating.review ? <p className={classes.UserReviewText}>{rating.review}</p> : null}
+                      </div>
                     </div>
-                  </div>
-                ))
-              ) : (
-                <p>No ratings found</p>
-              )}
-            </div>
+                  ))
+                ) : (
+                  <p>No ratings found</p>
+                )}
+              </div>
+            ) : (
+              <Spinner />
+            )}
           </div>
         </>
       ) : (
