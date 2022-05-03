@@ -23,8 +23,7 @@ const importAvatars = async (event: { body: string; pathParameters: { username: 
   };
 
   try {
-    const result = await dbClient.send(new UpdateItemCommand(params));
-    console.log('🚀 ~ file: importAvatars.ts ~ line 29 ~ importAvatars ~ result', result);
+    await dbClient.send(new UpdateItemCommand(params));
 
     console.log('Successfully imported avatars');
     return { statusCode: 204 };

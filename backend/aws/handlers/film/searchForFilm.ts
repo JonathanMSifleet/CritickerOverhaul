@@ -20,7 +20,6 @@ const searchForFilm = async (event: {
 }): Promise<IHTTP> => {
   let queryString = event.pathParameters.queryString;
   const lastEvaluatedKey = event.pathParameters.lastEvaluatedKey!;
-  console.log('🚀 ~ file: searchForFilm.ts ~ line 24 ~ lastEvaluatedKey', lastEvaluatedKey);
   queryString = decodeURIComponent(queryString);
 
   const films = lastEvaluatedKey ? await queryDB(queryString, Number(lastEvaluatedKey)) : await queryDB(queryString);
