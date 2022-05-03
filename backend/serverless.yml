@@ -94,10 +94,6 @@ functions:
           method: GET
           path: film/getFilmRatings/{imdbID}
           cors: true
-      - http:
-          method: GET
-          path: film/getFilmRatings/{imdbID}/{username}
-          cors: true
   getFilms:
     handler: aws/handlers/film/getFilms.handler
     events:
