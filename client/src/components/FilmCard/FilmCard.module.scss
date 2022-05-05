@@ -40,7 +40,7 @@
 .CardBody {
   height: 100%;
   padding: 0;
-  padding-top: 1%;
+  padding-top: 0.5%;
 }
 
 .FilmTitle {
@@ -53,10 +53,4 @@
 .FilmDescription {
   max-width: 50%;
   margin: 0;
-}
-
-.RateFilmWrapper {
-  align-items: center;
-  display: flex;
-  padding: 1%;
 }

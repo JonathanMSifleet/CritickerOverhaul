@@ -1,10 +1,12 @@
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import { Link } from 'preact-router/match';
+import { Suspense } from 'preact/compat';
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../../store';
 import classes from './FilmCard.module.scss';
-import getFilmPoster from '../../utils/getFilmPoster';
+import FilmPoster from '../FilmPoster/FilmPoster';
 import IFilm from '../../../../shared/interfaces/IFilm';
-import RateFilm from '../RateFilm/RateFilm';
-import ShrugSVG from '../../assets/svg/Shrug.svg';
+import Rating from './Rating/Rating';
 import Spinner from '../Spinner/Spinner';
 
 interface IProps {
@@ -12,34 +14,13 @@ interface IProps {
 }
 
 const FilmCard: FC<IProps> = ({ film }): JSX.Element => {
-  const [filmPoster, setFilmPoster] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    (async (): Promise<void> => {
-      setIsLoading(true);
-
-      try {
-        setFilmPoster(await getFilmPoster(film.imdbID));
-      } catch (error) {
-        setFilmPoster(ShrugSVG);
-      } finally {
-        setIsLoading(false);
-      }
-    })();
-  }, []);
+  const userState = useRecoilValue(userInfoState);
 
   return (
     <div className={`${classes.CardWrapper} card mb-3`}>
       <div className={`${classes.CardContainer} row g-0`}>
         <div className={`${classes.ImageColumn} col-md-1`}>
-          {!isLoading ? (
-            <img src={filmPoster} className={`${classes.Image} img-fluid rounded-start`} />
-          ) : (
-            <div className={classes.SpinnerWrapper}>
-              <Spinner />
-            </div>
-          )}
+          <FilmPoster className={`${classes.Image} img-fluid rounded-start`} imdbID={film.imdbID} />
         </div>
 
         <div className={`${classes.TextColumn} col-md-8`}>
@@ -53,9 +34,12 @@ const FilmCard: FC<IProps> = ({ film }): JSX.Element => {
           </div>
         </div>
 
-        <div className={`${classes.RateFilmWrapper} col-md-2`}>
-          <RateFilm filmID={film.imdbID} reviewAlreadyExists={reviewAlreadyExists} />
-        </div>
+        {userState.loggedIn ? (
+          // @ts-expect-error
+          <Suspense fallback={<Spinner />}>
+            <Rating film={film} userState={userState} />
+          </Suspense>
+        ) : null}
       </div>
     </div>
   );
