@@ -13,6 +13,7 @@ import httpRequest from '../../utils/httpRequest';
 import IFilm from '../../../../shared/interfaces/IFilm';
 import PageView from '../../hoc/PageView/PageView';
 import RateFilm from '../../components/RateFilm/RateFilm';
+import RatingOptions from '../../components/RatingOptions/RatingOptions';
 import Spinner from '../../components/Spinner/Spinner';
 import Toggle from '../../components/Toggle/Toggle';
 import UserAvatar from './UserAvatar/UserAvatar';
@@ -36,9 +37,11 @@ const Film: FC<IUrlParams> = ({ imdbID }) => {
   const [fetchedUserReview, setFetchedUserReview] = useState(null as null | IRating);
   const [film, setFilm] = useState(null as null | IFilm);
   const [hasSubmittedRating, setHasSubmittedRating] = useState(false);
+  const [isDeletingReview, setIsDeletingReview] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingRatings, setIsLoadingRatings] = useState(false);
   const [ratings, setRatings] = useState([] as IRating[]);
+  const [reviewAlreadyExists, setReviewAlreadyExists] = useState(false);
   const [sortByTCI, setSortByTCI] = useState(false);
   const [originalRatings, setOriginalRatings] = useState([] as IRating[]);
   const userState = useRecoilValue(userInfoState);
@@ -66,8 +69,12 @@ const Film: FC<IUrlParams> = ({ imdbID }) => {
       if (!userState.loggedIn) return;
 
       const userRating = await getUserRating(userState.username, imdbID!);
-      setFetchedUserReview(userRating as IRating);
-      setColourGradient(determineColourGradient(userRating!.ratingPercentile!));
+
+      if (userRating) {
+        setFetchedUserReview(userRating as IRating);
+        setColourGradient(determineColourGradient(userRating!.ratingPercentile!));
+        setReviewAlreadyExists(true);
+      }
     })();
   }, [imdbID]);
 
@@ -93,8 +100,11 @@ const Film: FC<IUrlParams> = ({ imdbID }) => {
 
   useEffect(() => {
     if (hasSubmittedRating)
-      (async (): Promise<void> =>
-        setFetchedUserReview((await getUserRating(userState.username, imdbID!)) as IRating))();
+      (async (): Promise<void> => {
+        const userRating = await getUserRating(userState.username, imdbID!);
+        setFetchedUserReview(userRating as IRating);
+        setColourGradient(determineColourGradient(userRating!.ratingPercentile!));
+      })();
   }, [hasSubmittedRating]);
 
   const arrayToString = (input: string): string => {
@@ -103,24 +113,6 @@ const Film: FC<IUrlParams> = ({ imdbID }) => {
 
     parsedInput.forEach((person: { name: string }) => (localString += `${person.name}, `));
     return localString.slice(0, -2);
-  };
-
-  const deleteReview = async (): Promise<void> => {
-    try {
-      const result = await httpRequest(
-        `${endpoints.DELETE_RATING}/${imdbID}/${userState.username}/${userState.accessToken.accessToken}`,
-        'DELETE',
-        userState.accessToken
-      );
-
-      if (result.statusCode === 401) throw new Error('Invalid access token');
-      if (result.statusCode === 500) throw new Error('Error deleting rating');
-
-      setFetchedUserReview(null);
-      setHasSubmittedRating(false);
-    } catch (error) {
-      alert(error);
-    }
   };
 
   const determineColourGradient = (ratingPercentile: number): string =>
@@ -156,32 +148,34 @@ const Film: FC<IUrlParams> = ({ imdbID }) => {
 
             {fetchedUserReview ? (
               <>
-                <ColouredText colourGradient={colourGradient} text={fetchedUserReview.rating!} />
-
-                {fetchedUserReview.ratingPercentile !== undefined ? (
-                  <p className={classes.FilmPercentile} style={{ color: colourGradient }}>
-                    {fetchedUserReview.ratingPercentile}
-                    {fetchedUserReview.ratingPercentile ? '%' : null}
-                  </p>
-                ) : null}
+                <p className={classes.FilmRating}>
+                  <ColouredText colourGradient={colourGradient} text={fetchedUserReview.rating!} />
+                  {fetchedUserReview.ratingPercentile !== undefined ? (
+                    <span className={classes.FilmPercentile} style={{ color: colourGradient }}>
+                      {fetchedUserReview.ratingPercentile}
+                      {fetchedUserReview.ratingPercentile ? '%' : null}
+                    </span>
+                  ) : null}
+                </p>
 
                 {fetchedUserReview.review ? <p>{fetchedUserReview.review}</p> : null}
 
-                <p>
-                  <span
-                    className={classes.ModifyReview}
-                    onClick={(): void => {
-                      setFetchedUserReview(null);
-                      setHasSubmittedRating(false);
-                    }}
-                  >
-                    Update Rating
-                  </span>
-                  {' - '}
-                  <span className={classes.ModifyReview} onClick={deleteReview}>
-                    Delete Rating
-                  </span>
-                </p>
+                {!isDeletingReview ? (
+                  <RatingOptions
+                    imdbID={imdbID!}
+                    setFetchedUserReview={(fetchedUserReview): void =>
+                      setFetchedUserReview(fetchedUserReview as IRating)
+                    }
+                    setHasSubmittedRating={(hasSubmittedRating): void => setHasSubmittedRating(hasSubmittedRating)}
+                    setIsDeletingReview={(isDeletingReview): void => setIsDeletingReview(isDeletingReview)}
+                    setReviewAlreadyExists={(reviewAlreadyExists: boolean): void =>
+                      setReviewAlreadyExists(reviewAlreadyExists)
+                    }
+                    userState={userState}
+                  />
+                ) : (
+                  <Spinner />
+                )}
 
                 <p>
                   <i>
@@ -197,10 +191,10 @@ const Film: FC<IUrlParams> = ({ imdbID }) => {
             ) : !hasSubmittedRating && userState.loggedIn ? (
               <RateFilm
                 filmID={imdbID!}
-                reviewAlreadyExists={fetchedUserReview !== null}
-                // setHasSubmittedRating={(hasSubmittedRating: boolean): void => {
-                //   setHasSubmittedRating(hasSubmittedRating);
-                // }}
+                reviewAlreadyExists={reviewAlreadyExists}
+                setHasSubmittedRating={(hasSubmittedRating: boolean): void => {
+                  setHasSubmittedRating(hasSubmittedRating);
+                }}
               />
             ) : null}
 
