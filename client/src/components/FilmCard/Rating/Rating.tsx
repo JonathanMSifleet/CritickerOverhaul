@@ -23,23 +23,28 @@ const Rating: FC<IProps> = ({ film, userState }) => {
   const [reviewAlreadyExists, setReviewAlreadyExists] = useState(false);
 
   useEffect(() => {
-    if (hasSubmittedRating)
-      (async (): Promise<void> => {
-        setIsLoadingReview(true);
+    fetchReview();
+  }, []);
 
-        try {
-          const result = await getUserRating(userState.username, film.imdbID);
-
-          if (result) {
-            setHasSubmittedRating(true);
-            setFetchedUserReview(result as IRating);
-            setReviewAlreadyExists(true);
-          }
-        } finally {
-          setIsLoadingReview(false);
-        }
-      })();
+  useEffect(() => {
+    if (hasSubmittedRating) fetchReview();
   }, [hasSubmittedRating]);
+
+  const fetchReview = async (): Promise<void> => {
+    setIsLoadingReview(true);
+
+    try {
+      const result = await getUserRating(userState.username, film.imdbID);
+
+      if (result) {
+        setHasSubmittedRating(true);
+        setFetchedUserReview(result as IRating);
+        setReviewAlreadyExists(true);
+      }
+    } finally {
+      setIsLoadingReview(false);
+    }
+  };
 
   return (
     <div className={`${classes.RateFilmWrapper} col-md-3`}>
