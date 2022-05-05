@@ -289,14 +289,16 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                       Update Personal Information
                     </p>
                     {showUpdateDetailsForm ? (
-                      // @ts-expect-error
-                      <Suspense fallback={<Spinner />}>
-                        <UpdateUserDetailsForm
-                          setShowUpdateDetailsForm={setShowUpdateDetailsForm}
-                          userProfile={userProfile}
-                          userState={userState}
-                        />
-                      </Suspense>
+                      <div className={classes.UpdateUserDetailsFormWrapper}>
+                        {/* @ts-expect-error */}
+                        <Suspense fallback={<Spinner />}>
+                          <UpdateUserDetailsForm
+                            setShowUpdateDetailsForm={setShowUpdateDetailsForm}
+                            userProfile={userProfile}
+                            userState={userState}
+                          />
+                        </Suspense>
+                      </div>
                     ) : null}
                   </>
                 ) : null}
