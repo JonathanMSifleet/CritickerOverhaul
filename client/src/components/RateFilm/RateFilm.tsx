@@ -1,23 +1,24 @@
-import * as endpoints from '../../../constants/endpoints';
+import * as endpoints from '../../constants/endpoints';
 import { FC, useState } from 'react';
-import Button from '../../../components/Button/Button';
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../../store';
+import Button from '../Button/Button';
 import classes from './RateFilm.module.scss';
-import httpRequest from '../../../utils/httpRequest';
-import Input from '../../../components/Input/Input';
-import IUserState from '../../../interfaces/IUserState';
-import SpinnerButton from '../../../components/SpinnerButton/SpinnerButton';
+import httpRequest from '../../utils/httpRequest';
+import Input from '../Input/Input';
+import SpinnerButton from '../SpinnerButton/SpinnerButton';
 
 interface IProps {
   filmID: number;
   reviewAlreadyExists: boolean;
   setHasSubmittedRating: (hasSubmittedRating: boolean) => void;
-  userState: IUserState;
 }
 
-const RateFilm: FC<IProps> = ({ filmID, reviewAlreadyExists, setHasSubmittedRating, userState }): JSX.Element => {
+const RateFilm: FC<IProps> = ({ filmID, reviewAlreadyExists, setHasSubmittedRating }): JSX.Element => {
   const [isRating, setIsRating] = useState(false);
   const [userRating, setUserRating] = useState(null as null | number);
   const [userReview, setUserReview] = useState(null as null | string);
+  const userState = useRecoilValue(userInfoState);
 
   const inputChangedHandler = (value: string, inputName: string): void =>
     inputName === 'rating' ? setUserRating(Number(value)) : setUserReview(value);
@@ -33,11 +34,11 @@ const RateFilm: FC<IProps> = ({ filmID, reviewAlreadyExists, setHasSubmittedRati
         reviewAlreadyExists
       });
 
-      if (result.statusCode === 401) throw new Error('Invalid access token');
-      setHasSubmittedRating(true);
-    } catch (error) {
-      alert(error);
-      setHasSubmittedRating(false);
+      if (result.statusCode === 401) {
+        throw new Error('Invalid access token');
+      } else {
+        setHasSubmittedRating(true);
+      }
     } finally {
       setIsRating(false);
     }
@@ -45,29 +46,29 @@ const RateFilm: FC<IProps> = ({ filmID, reviewAlreadyExists, setHasSubmittedRati
 
   return (
     <div className={classes.RateFilmWrapper}>
-      <form onSubmit={(event): void => event.preventDefault()}>
-        <Input
-          onChange={(event): void => inputChangedHandler(event.target.value, 'rating')}
-          placeholder={'Rating'}
-          type={'text'}
-        />
+      <Input
+        onChange={(event): void => inputChangedHandler(event.target.value, 'rating')}
+        placeholder={'Rating'}
+        type={'text'}
+      />
+      <div className={classes.ReviewInputWrapper}>
         <Input
           onChange={(event): void => inputChangedHandler(event.target.value, 'review')}
           placeholder={'Review'}
           type={'text'}
           textarea={true}
         />
+      </div>
 
-        {isRating ? (
-          <SpinnerButton />
-        ) : (
-          <Button
-            className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
-            onClick={(): Promise<void> => rateFilm()}
-            text={'Rate film'}
-          />
-        )}
-      </form>
+      {!isRating ? (
+        <Button
+          className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
+          onClick={(): Promise<void> => rateFilm()}
+          text={'Rate film'}
+        />
+      ) : (
+        <SpinnerButton />
+      )}
     </div>
   );
 };
