@@ -207,11 +207,11 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
         <Input
           className={classes.DescriptionTextArea}
           errors={bioValMessages!}
-          label={'Bio'}
           onChange={(event): void => {
             inputChangedHandler(event.target.value, 'bio');
             handleValidation(event.target.value, 'Bio');
           }}
+          placeholder={'Bio'}
           textarea={true}
           value={formInfo.bio as string}
         />
