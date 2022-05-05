@@ -37,6 +37,12 @@ export const validateValue = async (value: string, valueName: string): Promise<(
     case 'Password':
       errors.push(validateNotEmpty(value, valueName), validateLength(value, valueName, 8, 32));
       break;
+    case 'Rating':
+      errors.push(validateIsNumber(value, valueName), validateLength(value, valueName, 1, 3));
+      break;
+    case 'Review':
+      errors.push(validateLength(value, valueName, 0, 500));
+      break;
     case 'Username':
       errors.push(
         validateNotEmpty(value, valueName),
@@ -58,6 +64,9 @@ export const validateAgainstRegex = async (
 
 export const validateIsEmail = async (value: string): Promise<string | null> =>
   !EmailValidator.validate(value) ? `Email must be valid` : null;
+
+export const validateIsNumber = async (value: string, name: string): Promise<string | null> =>
+  !Number.isInteger(Number(value)) ? `${name} must be a number` : null;
 
 export const validateNotEmpty = async (value: string, name: string): Promise<string | null> =>
   value === null || value === '' || value === undefined ? `${name} must not be empty` : null;

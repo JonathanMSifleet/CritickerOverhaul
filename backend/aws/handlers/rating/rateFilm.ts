@@ -34,6 +34,7 @@ const rateFilm = async (event: {
   try {
     rating = rating.trim();
     review = review.trim();
+    if (review.length === 0) review = null;
   } catch (error) {}
 
   const accessToken = event.headers.Authorization.split(' ')[1];

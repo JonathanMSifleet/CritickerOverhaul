@@ -2,6 +2,7 @@ import * as endpoints from '../../constants/endpoints';
 import { FC, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../store';
+import { validateValue } from '../../../../shared/functions/validationFunctions';
 import Button from '../Button/Button';
 import classes from './RateFilm.module.scss';
 import httpRequest from '../../utils/httpRequest';
@@ -16,6 +17,8 @@ interface IProps {
 
 const RateFilm: FC<IProps> = ({ filmID, reviewAlreadyExists, setHasSubmittedRating }): JSX.Element => {
   const [isRating, setIsRating] = useState(false);
+  const [ratingValMessages, setRatingValMessages] = useState(null as null | string[]);
+  const [reviewValMessages, setReviewValMessages] = useState(null as null | string[]);
   const [userRating, setUserRating] = useState(null as null | number);
   const [userReview, setUserReview] = useState(null as null | string);
   const userState = useRecoilValue(userInfoState);
@@ -44,28 +47,54 @@ const RateFilm: FC<IProps> = ({ filmID, reviewAlreadyExists, setHasSubmittedRati
     }
   };
 
+  const validateRating = async (value: string): Promise<void> => {
+    let messages = (await validateValue(value, 'Rating')) as string[];
+    messages = messages.filter((error) => error !== null);
+
+    setRatingValMessages(messages);
+  };
+
+  const validateReview = async (value: string): Promise<void> => {
+    let messages = (await validateValue(value, 'Review')) as string[];
+    messages = messages.filter((error) => error !== null);
+
+    setReviewValMessages(messages);
+  };
+
   return (
     <div className={classes.RateFilmWrapper}>
       <Input
-        onChange={(event): void => inputChangedHandler(event.target.value, 'rating')}
+        errors={ratingValMessages!}
+        onChange={(event): void => {
+          inputChangedHandler(event.target.value, 'rating');
+          validateRating(event.target.value);
+        }}
         placeholder={'Rating'}
         type={'text'}
       />
-      <div className={classes.ReviewInputWrapper}>
-        <Input
-          onChange={(event): void => inputChangedHandler(event.target.value, 'review')}
-          placeholder={'Review'}
-          type={'text'}
-          textarea={true}
-        />
-      </div>
+      {ratingValMessages && ratingValMessages.length === 0 ? (
+        <div className={classes.ReviewInputWrapper}>
+          <Input
+            errors={reviewValMessages!}
+            onChange={(event): void => {
+              inputChangedHandler(event.target.value, 'review');
+              validateReview(event.target.value);
+            }}
+            placeholder={'Review'}
+            type={'text'}
+            textarea={true}
+          />
+        </div>
+      ) : null}
 
       {!isRating ? (
-        <Button
-          className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
-          onClick={(): Promise<void> => rateFilm()}
-          text={'Rate film'}
-        />
+        ratingValMessages && ratingValMessages!.length === 0 && reviewValMessages && reviewValMessages!.length === 0 ? (
+          <Button
+            className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
+            onClick={(): Promise<void> => rateFilm()}
+            text={'Rate film'}
+          />
+        ) : null
       ) : (
         <SpinnerButton />
       )}
