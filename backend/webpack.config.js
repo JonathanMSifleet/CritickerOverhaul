@@ -24,17 +24,17 @@ module.exports = {
   },
   target: 'node',
   optimization: {
-    minimize: false
-    // minimizer: [
-    //   new TerserPlugin({
-    //     terserOptions: {
-    //       output: {
-    //         comments: false
-    //       }
-    //     },
-    //     extractComments: false
-    //   })
-    // ]
+    minimize: true,
+    minimizer: [
+      new TerserPlugin({
+        terserOptions: {
+          output: {
+            comments: false
+          }
+        },
+        extractComments: false
+      })
+    ]
   },
   module: {
     rules: [
