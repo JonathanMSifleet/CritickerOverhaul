@@ -80,6 +80,13 @@ functions:
           method: GET
           path: rating/getAllRatings/{username}/{lastEvaluatedKey}
           cors: true
+  getFilmByID:
+    handler: aws/handlers/film/getFilmByID.handler
+    events:
+      - http:
+          method: GET
+          path: film/getFilmByID/{imdbID}
+          cors: true
   getFilmDetails:
     handler: aws/handlers/film/getFilmDetails.handler
     events:
