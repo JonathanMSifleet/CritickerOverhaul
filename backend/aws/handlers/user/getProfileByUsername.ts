@@ -1,34 +1,32 @@
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
-import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, GetItemCommand } from '@aws-sdk/client-dynamodb';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import cors from '@middy/http-cors';
-import createDynamoSearchQuery from '../../shared/functions/queries/createDynamoSearchQuery';
 import IHTTP from '../../shared/interfaces/IHTTP';
 import middy from '@middy/core';
 
 const dbClient = new DynamoDBClient({});
 
 const getProfileByUsername = async (event: { pathParameters: { username: string } }): Promise<IHTTP> => {
-  const { username } = event.pathParameters;
+  const username = event.pathParameters.username;
 
-  const query = createDynamoSearchQuery(
-    process.env.USER_TABLE_NAME!,
-    'avatar, bio, country, dob, email, firstName, gender, lastName, memberSince, numRatings, username',
-    'username',
-    username,
-    'S'
-  );
+  const query = {
+    TableName: process.env.USER_TABLE_NAME!,
+    Key: { username: { S: username } },
+    ProjectionExpression:
+      'avatar, bio, country, dob, email, firstName, gender, lastName, memberSince, numRatings, username'
+  };
 
   try {
-    const result = await dbClient.send(new QueryCommand(query));
-    if (result.Items!.length === 0) return createAWSResErr(404, 'No user found');
+    const result = await dbClient.send(new GetItemCommand(query));
+    if (!result.Item) return createAWSResErr(404, 'No user found');
 
-    const user = unmarshall(result.Items![0]);
+    const user = unmarshall(result.Item);
 
     console.log('Sucessfully fetched user profile');
     return {
       statusCode: 200,
-      body: JSON.stringify({ ...user })
+      body: JSON.stringify(user)
     };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(500, error.message);
