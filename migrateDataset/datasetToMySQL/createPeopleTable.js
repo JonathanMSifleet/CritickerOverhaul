@@ -1,6 +1,3 @@
-// this scripts swaps back to the original csvtojson package method
-// as I got the following error:
-
 const mysql = require('mysql2');
 const util = require('util');
 const csvtojson = require('csvtojson');
