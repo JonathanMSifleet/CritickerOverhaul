@@ -23,6 +23,10 @@ const App: FC = () => {
   const userState = useRecoilValue(userInfoState);
 
   useEffect(() => {
+    document.fonts.load('1rem "Roboto"').then(() => setFontReady(true));
+  }, []);
+
+  useEffect(() => {
     const hasShownWarning = localStorage.getItem('hasShownBrowserWarning');
     if (hasShownWarning) return;
 
@@ -31,10 +35,6 @@ const App: FC = () => {
       alert('This website may not work properly in your browser. Please use Chrome or Edge.');
 
     localStorage.setItem('hasShownBrowserWarning', 'true');
-  }, []);
-
-  useEffect(() => {
-    document.fonts.load('1rem "Roboto"').then(() => setFontReady(true));
   }, []);
 
   const detectRouteChange = (): void => {

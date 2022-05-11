@@ -9,5 +9,5 @@ render(
   <RecoilRoot>
     <App />
   </RecoilRoot>,
-  document.getElementById('app')!
+  document.body
 );
