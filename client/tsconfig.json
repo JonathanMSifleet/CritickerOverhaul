@@ -4,20 +4,17 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "/",
     "checkJs": false,
-    "declaration": false,
+    "declaration": true,
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
     "incremental": true,
     "isolatedModules": true,
-    "jsx": "preserve",
-    "jsxFactory": "h",
-    "jsxFragmentFactory": "Fragment",
-    "lib": ["DOM", "DOM.Iterable", "ESNext"],
-    "module": "ESNext",
-    "moduleResolution": "Node",
-    "noEmit": true,
+    "jsx": "react-jsx",
+    "lib": ["dom", "dom.iterable", "es2020"],
+    "module": "es2020",
+    "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -27,11 +24,10 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "strict": true,
-    "target": "ESNext",
-    "types": ["node"],
-    "useDefineForClassFields": true
+    "target": "es2020",
+    "types": ["node"]
   },
-  "include": ["**/*"],
+  "include": ["**/*.ts", "**/*.tsx"],
   "exclude": [
     "node_modules/**/*",
     ".webpack/**/*",
@@ -39,6 +35,5 @@
     ".vscode/**/*",
     "*/*.bak",
     "./lib/**/*"
-  ],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  ]
 }

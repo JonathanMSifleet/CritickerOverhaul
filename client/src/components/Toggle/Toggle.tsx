@@ -3,6 +3,7 @@ import { FC } from 'react';
 interface IProps {
   checked?: boolean;
   label: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onClick: (event: any) => void;
 }
 
