@@ -1,7 +1,7 @@
 import * as endpoints from '../../../constants/endpoints';
 import { FC, useState } from 'react';
 import { SetterOrUpdater } from 'recoil';
-import { useEffect } from 'preact/hooks';
+import { useEffect } from 'react';
 import classes from './Avatar.module.scss';
 import Compress from 'compress.js';
 import httpRequest from '../../../utils/httpRequest';

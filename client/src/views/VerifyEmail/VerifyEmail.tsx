@@ -1,5 +1,5 @@
 import * as endpoints from '../../constants/endpoints';
-import { FC, useEffect, useState } from 'preact/compat';
+import { FC, useEffect, useState } from 'react';
 import Alert from '../../components/Alert/Alert';
 import Button from '../../components/Button/Button';
 import classes from './VerifyEmail.module.scss';

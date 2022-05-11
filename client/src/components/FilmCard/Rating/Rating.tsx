@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'preact/compat';
+import { FC, useEffect, useState } from 'react';
 import classes from './Rating.module.scss';
 import ColouredText from '../../ColouredText/ColouredText';
 import getColourGradient from '../../../utils/getColourGradient';

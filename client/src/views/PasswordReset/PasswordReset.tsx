@@ -1,9 +1,9 @@
 import * as endpoints from '../../constants/endpoints';
-import { FC } from 'preact/compat';
-import { Link } from 'preact-router';
+import { FC } from 'react';
+import { Link } from 'react-router-dom';
 // @ts-expect-error no declaration file
 import { SHA512 } from 'crypto-es/lib/sha512.js';
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useState } from 'react';
 import { validateValue } from '../../../../shared/functions/validationFunctions';
 import Alert from '../../components/Alert/Alert';
 import Button from '../../components/Button/Button';
@@ -97,7 +97,7 @@ const PasswordReset: FC<IUrlParams> = ({ emailAddress, token }) => {
         {updateStatus === 'success' ? (
           <>
             <p className={classes.SuccessStatus}>Successfully updated password</p>
-            <Link className={classes.HomeLink} href={'/'}>
+            <Link className={classes.HomeLink} to={'/'}>
               Home page
             </Link>
           </>
@@ -107,7 +107,7 @@ const PasswordReset: FC<IUrlParams> = ({ emailAddress, token }) => {
             <Alert text={"Please go to login, and resubmit the 'forgot password' form"} type={'warning'} />
 
             <div className={classes.HomeLinkWrapper}>
-              <Link href={'/'}>Home</Link>
+              <Link to={'/'}>Home</Link>
             </div>
           </div>
         ) : null}

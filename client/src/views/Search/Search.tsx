@@ -1,5 +1,5 @@
 import * as endpoints from '../../constants/endpoints';
-import { FC, useEffect, useState } from 'preact/compat';
+import { FC, useEffect, useState } from 'react';
 import Alert from '../../components/Alert/Alert';
 import classes from './Search.module.scss';
 import FilmCard from '../../components/FilmCard/FilmCard';

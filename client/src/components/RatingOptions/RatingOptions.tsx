@@ -1,5 +1,5 @@
 import * as endpoints from '../../constants/endpoints';
-import { FC } from 'preact/compat';
+import { FC } from 'react';
 import classes from './RatingOptions.module.scss';
 import httpRequest from '../../utils/httpRequest';
 import IRating from '../../../../shared/interfaces/IRating';

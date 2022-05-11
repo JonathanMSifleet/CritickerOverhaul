@@ -1,10 +1,9 @@
 import * as endpoints from '../../constants/endpoints';
 import { deleteAccountModalState, userInfoState } from '../../store';
 import { FC, useEffect, useState } from 'react';
-import { lazy, Suspense } from 'preact/compat';
-import { Link } from 'preact-router/match';
+import { lazy, Suspense } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { MDBCol } from 'mdb-react-ui-kit';
-import { route } from 'preact-router';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { XMLParser } from 'fast-xml-parser';
 import Avatar from './Avatar/Avatar';
@@ -53,6 +52,8 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
   const setUserInfo = useSetRecoilState(userInfoState);
   const userState = useRecoilValue(userInfoState);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     (async (): Promise<void> => {
       setIsLoadingProfile(true);
@@ -95,7 +96,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
       if (result.statusCode === 204) {
         resetUserState();
         alert('Account deleted successfully');
-        route('/');
+        navigate('/');
       }
     } catch (error) {
       console.error(error);
@@ -290,7 +291,6 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                     </p>
                     {showUpdateDetailsForm ? (
                       <div className={classes.UpdateUserDetailsFormWrapper}>
-                        {/* @ts-expect-error */}
                         <Suspense fallback={<Spinner />}>
                           <UpdateUserDetailsForm
                             setShowUpdateDetailsForm={setShowUpdateDetailsForm}
@@ -310,7 +310,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                     {recentRatings!.length !== 0 ? (
                       <>
                         <h2 className={classes.RecentRatingsHeader}>Recent Ratings</h2>
-                        <Link href={'/ratings'}>View all ratings</Link>
+                        <Link to={'/ratings'}>View all ratings</Link>
 
                         <div className="d-flex align-items-start bg-light mb-2">
                           {recentRatings!.map((column: IRecentRating[], columnIndex: number) => (
@@ -319,7 +319,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                                 <Link
                                   className={classes.RatingLink}
                                   style={getCellColour(columnIndex, cellIndex)}
-                                  href={`/film/${rating.imdbID}`}
+                                  to={`/film/${rating.imdbID}`}
                                   key={rating.imdbID}
                                 >
                                   <span style={{ color: determineColourGradient(rating.ratingPercentile) }}>

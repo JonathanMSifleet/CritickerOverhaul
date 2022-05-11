@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { Link } from 'preact-router/match';
-import { Suspense } from 'preact/compat';
+import { Link } from 'react-router-dom';
+import { Suspense } from 'react';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../store';
 import classes from './FilmCard.module.scss';
@@ -25,7 +25,7 @@ const FilmCard: FC<IProps> = ({ film }): JSX.Element => {
 
         <div className={`${classes.TextColumn} col-md-8`}>
           <div className={`${classes.CardBody} card-body`}>
-            <Link href={`/film/${film.imdbID}`}>
+            <Link to={`/film/${film.imdbID}`}>
               <h5 className={`${classes.FilmTitle} card-title`}>
                 {film.title} ({film.releaseYear})
               </h5>
@@ -35,7 +35,6 @@ const FilmCard: FC<IProps> = ({ film }): JSX.Element => {
         </div>
 
         {userState.loggedIn ? (
-          // @ts-expect-error
           <Suspense fallback={<Spinner />}>
             <Rating film={film} userState={userState} />
           </Suspense>

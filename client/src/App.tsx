@@ -1,10 +1,7 @@
-import { createHashHistory } from 'history';
 import { detect } from 'detect-browser';
 import { FC, useEffect, useState } from 'react';
-import { lazy, Suspense } from 'preact/compat';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
-import { userInfoState } from './store';
-import Router from 'preact-router';
+import { HashRouter, Route, Routes } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import Spinner from './components/Spinner/Spinner';
 
 const Film = lazy(() => import('./views/Film/Film'));
@@ -19,8 +16,8 @@ const VerifyEmail = lazy(() => import('./views/VerifyEmail/VerifyEmail'));
 
 const App: FC = () => {
   const [fontReady, setFontReady] = useState(false);
-  const resetUserState = useResetRecoilState(userInfoState);
-  const userState = useRecoilValue(userInfoState);
+  // const resetUserState = useResetRecoilState(userInfoState);
+  // const userState = useRecoilValue(userInfoState);
 
   useEffect(() => {
     const hasShownWarning = localStorage.getItem('hasShownBrowserWarning');
@@ -37,32 +34,38 @@ const App: FC = () => {
     document.fonts.load('1rem "Roboto"').then(() => setFontReady(true));
   }, []);
 
-  const detectRouteChange = (): void => {
-    if (!userState.loggedIn) return;
+  // const detectRouteChange = (): void => {
+  //   if (!userState.loggedIn) return;
 
-    if (userState.accessToken.accessTokenExpiry < Date.now()) {
-      alert('Your access token has expired. Please log in again');
-      resetUserState();
-    }
-  };
+  //   if (userState.accessToken.accessTokenExpiry < Date.now()) {
+  //     alert('Your access token has expired. Please log in again');
+  //     resetUserState();
+  //   }
+  // };
 
   return (
     <>
       {fontReady ? (
-        // @ts-expect-error
         <Suspense fallback={<Spinner />}>
-          {/* @ts-expect-error */}
-          <Router history={createHashHistory()} onChange={detectRouteChange}>
-            <Home path={'/'} />
-            <Film path={'/film/:imdbID'} />
-            <PasswordReset path={'/passwordReset/:emailAddress/:token'} />
-            <Profile path={'/profile/:username?'} />
-            <Ratings path={'/ratings/:username?'} />
-            <Search path={'/search/:searchQuery'} />
-            <TextOnlyPage path={'/information/:path'} />
-            <VerifyEmail path={'/verifyEmail/:username/:token'} />
-            <InvalidRoute path={'/:*'} />
-          </Router>
+          <HashRouter>
+            <Routes>
+              <Route path={'/'} element={<Home />} />
+              <Route path={'/film/:imdbID'} element={<Film />} />
+              <Route path={'/profile/:username'} element={<Profile />} />
+              <Route path={'/passwordReset/:emailAddress/:token'} element={<PasswordReset />} />
+              <Route path={'/ratings/:username'} element={<Ratings />} />
+              <Route path={'/search/:searchQuery'} element={<Search />} />
+              <Route path={'/verifyEmail/:username/:token'} element={<VerifyEmail />} />
+
+              <Route path={'/privacy'} element={<TextOnlyPage />} />
+              <Route path={'/abuse'} element={<TextOnlyPage />} />
+              <Route path={'/contact'} element={<TextOnlyPage />} />
+              <Route path={'/about'} element={<TextOnlyPage />} />
+              <Route path={'/resources'} element={<TextOnlyPage />} />
+              <Route path={'/terms'} element={<TextOnlyPage />} />
+              <Route path="/*" element={<InvalidRoute />} />
+            </Routes>
+          </HashRouter>
         </Suspense>
       ) : (
         <Spinner />

@@ -1,7 +1,7 @@
 import { authModalState, userInfoState } from '../../../store';
-import { FC } from 'preact/compat';
-import { lazy, Suspense, useState } from 'preact/compat';
-import { Link, route } from 'preact-router';
+import { FC } from 'react';
+import { lazy, Suspense, useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
   MDBContainer,
   MDBIcon,
@@ -11,6 +11,7 @@ import {
   MDBNavbarNav,
   MDBNavbarToggler
 } from 'mdb-react-ui-kit';
+import { useNavigate } from 'react-router-dom';
 import { useRecoilState, useRecoilValue, useResetRecoilState } from 'recoil';
 import Button from '../../../components/Button/Button';
 import classes from './Header.module.scss';
@@ -27,14 +28,15 @@ const Header: FC = () => {
   const [showModal, setShowModal] = useRecoilState(authModalState);
   const resetUserState = useResetRecoilState(userInfoState);
   const userState = useRecoilValue(userInfoState);
+  const navigate = useNavigate();
 
   const displayAuthModal = (): void => setShowModal(true);
 
-  const handleFormSubmission = (): boolean => route(`/search/${searchInput}`);
+  const handleFormSubmission = (): void => navigate(`/search/${searchInput}`);
 
   const logout = (): void => {
     resetUserState();
-    route('/');
+    navigate('/');
   };
 
   return (
@@ -50,7 +52,7 @@ const Header: FC = () => {
 
             <div className="collapse navbar-collapse" id="navbarExample01">
               <MDBNavbarNav right className="mb-2 mb-lg-0">
-                <Link href="/" className={`${classes.LinkComponent} text-white`}>
+                <Link to="/" className={`${classes.LinkComponent} text-white`}>
                   <li className={`${classes.LinkText} list-group-item bg-primary`}>Home</li>
                 </Link>
                 <MDBNavbarItem>
@@ -72,7 +74,7 @@ const Header: FC = () => {
 
             {userState!.loggedIn ? (
               <>
-                <Link className={classes.UserAvatarLink} href="#profile">
+                <Link className={classes.UserAvatarLink} to="#profile">
                   <img
                     src={userState.avatar !== undefined ? userState.avatar : ShrugSVG}
                     className={`${classes.UserAvatar} rounded-circle mb-3`}
@@ -98,7 +100,6 @@ const Header: FC = () => {
 
       {showModal ? (
         <Modal authState={authModalState}>
-          {/* @ts-expect-error works correctly */}
           <Suspense fallback={<Spinner spinnerClassName={classes.Spinner} />}>
             <Auth />
           </Suspense>

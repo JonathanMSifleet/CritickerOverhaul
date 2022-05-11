@@ -1,4 +1,4 @@
-import { FC } from 'preact/compat';
+import { FC } from 'react';
 import classes from './ColouredText.module.scss';
 
 interface IProps {

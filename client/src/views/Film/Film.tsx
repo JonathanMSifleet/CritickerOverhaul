@@ -1,6 +1,6 @@
 import * as endpoints from '../../constants/endpoints';
 import { FC, useEffect, useState } from 'react';
-import { Link } from 'preact-router/match';
+import { Link } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../store';
 import classes from './Film.module.scss';
@@ -229,7 +229,7 @@ const Film: FC<IUrlParams> = ({ imdbID }) => {
                         <span className={classes.UserRatingPercentile}>{rating.ratingPercentile}%</span>
                       </p>
                       <p className={classes.UserRating}>
-                        <Link href={`#profile/${rating.username}`}>{rating.username}</Link>
+                        <Link to={`#profile/${rating.username}`}>{rating.username}</Link>
                       </p>
                       <p className={classes.UserTCI}>TCI: {getTCI(rating.username)}</p>
                       <div className={classes.UserReviewTextWrapper}>

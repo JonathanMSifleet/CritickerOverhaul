@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { Link } from 'preact-router/match';
+import { Link } from 'react-router-dom';
 import classes from './Footer.module.scss';
 
 interface IProps {
@@ -9,23 +9,23 @@ interface IProps {
 const Footer: FC<IProps> = ({ className }): JSX.Element => (
   <footer className={`${classes.Footer} ${className} bg-primary text-center text-white text-lg-start`}>
     <ul className={`${classes.FooterLinksWrapper} list-group list-group-horizontal`}>
-      <Link href="#information/privacy" className={`${classes.LinkComponent} text-white`}>
+      <Link to="#information/privacy" className={`${classes.LinkComponent} text-white`}>
         <li className={`${classes.LinkText} list-group-item bg-primary`}>Privacy Policy</li>
       </Link>
 
-      <Link href="#information/abuse" className={`${classes.LinkComponent} text-white`}>
+      <Link to="#information/abuse" className={`${classes.LinkComponent} text-white`}>
         <li className={`${classes.LinkText} list-group-item bg-primary`}>Abuse Policy</li>
       </Link>
 
-      <Link href="#information/contact" className={`${classes.LinkComponent} text-white`}>
+      <Link to="#information/contact" className={`${classes.LinkComponent} text-white`}>
         <li className={`${classes.LinkText} list-group-item bg-primary`}>Contact</li>
       </Link>
 
-      <Link href="#information/about" className={`${classes.LinkComponent} text-white`}>
+      <Link to="#information/about" className={`${classes.LinkComponent} text-white`}>
         <li className={`${classes.LinkText} list-group-item bg-primary`}>About us</li>
       </Link>
 
-      <Link href="#information/terms" className={`${classes.LinkComponent} text-white`}>
+      <Link to="#information/terms" className={`${classes.LinkComponent} text-white`}>
         <li className={`${classes.LinkText} list-group-item bg-primary`}>Terms & Conditions</li>
       </Link>
     </ul>

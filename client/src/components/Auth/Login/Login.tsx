@@ -1,7 +1,7 @@
 import * as endpoints from '../../../constants/endpoints';
 import { authModalState, userInfoState } from '../../../store';
 import { FC, useEffect, useState } from 'react';
-import { lazy, Suspense } from 'preact/compat';
+import { lazy, Suspense } from 'react';
 // @ts-expect-error no declaration file
 import { SHA512 } from 'crypto-es/lib/sha512.js';
 import { useSetRecoilState } from 'recoil';
@@ -154,7 +154,6 @@ const Login: FC = () => {
           </div>
         </>
       ) : (
-        // @ts-expect-error
         <Suspense fallback={<Spinner />}>
           <ResetEmailForm toggleEmailInput={toggleEmailInput} />
         </Suspense>

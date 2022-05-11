@@ -1,5 +1,5 @@
-import { FC } from 'preact/compat';
-import { useEffect, useState } from 'preact/hooks';
+import { FC } from 'react';
+import { useEffect, useState } from 'react';
 import getFilmPoster from '../../utils/getFilmPoster';
 import ShrugSVG from '../../assets/svg/Shrug.svg';
 import Spinner from '../Spinner/Spinner';

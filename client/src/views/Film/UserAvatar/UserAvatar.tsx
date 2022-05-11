@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'preact/compat';
+import { FC, useEffect, useState } from 'react';
 import classes from './UserAvatar.module.scss';
 import getUserAvatar from '../../../utils/getUserAvatar';
 import Spinner from '../../../components/Spinner/Spinner';

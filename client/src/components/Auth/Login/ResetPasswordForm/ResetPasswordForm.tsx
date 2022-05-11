@@ -1,5 +1,5 @@
 import * as endpoints from '../../../../constants/endpoints';
-import { FC, useEffect, useState } from 'preact/compat';
+import { FC, useEffect, useState } from 'react';
 import { validateValue } from '../../../../../../shared/functions/validationFunctions';
 import Alert from '../../../Alert/Alert';
 import Button from '../../../Button/Button';

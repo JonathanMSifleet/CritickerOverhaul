@@ -1,6 +1,6 @@
 import * as endpoints from '../../constants/endpoints';
 import { FC, useEffect, useState } from 'react';
-import { Link } from 'preact-router/match';
+import { Link } from 'react-router-dom';
 import { MDBCol } from 'mdb-react-ui-kit';
 import { stringify } from 'query-string';
 import { useRecoilValue } from 'recoil';
@@ -113,7 +113,7 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
             <Link
               className={classes.FilmCell}
               style={getCellColour(columnIndex, cellIndex)}
-              href={`/film/${film.imdbID}`}
+              to={`/film/${film.imdbID}`}
               key={film.imdbID}
             >
               <span style={{ color: getColourGradient(film.ratingPercentile) }} className={classes.FilmCellRating}>
