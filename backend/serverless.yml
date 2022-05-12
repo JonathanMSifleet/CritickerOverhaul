@@ -87,6 +87,20 @@ functions:
           method: GET
           path: film/getFilmDetails/{imdbID}
           cors: true
+  getFilmDetailsMySQL:
+    handler: aws/handlers/film/getFilmDetailsMySQL.handler
+    events:
+      - http:
+          method: GET
+          path: film/getFilmDetailsMySQL/{imdbID}
+          cors: true
+  getFilmDetailsMySQLSplit:
+    handler: aws/handlers/film/getFilmDetailsMySQLSplit.handler
+    events:
+      - http:
+          method: GET
+          path: film/getFilmDetailsMySQLSplit/{imdbID}
+          cors: true
   getFilmRatings:
     handler: aws/handlers/film/getFilmRatings.handler
     events:
