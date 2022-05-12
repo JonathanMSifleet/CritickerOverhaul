@@ -29,6 +29,7 @@ provider:
     SENDGRID_API_KEY: ${file(./keys/sendGridAPIKey)}
     SOURCE_EMAIL_ADDRESS: 18014017@stu.mmu.ac.uk
     TCI_TABLE_NAME: ${self:custom.TciTable.name}
+    USER_AVATAR_BUCKET_NAME: ${self:custom.UserAvatarBucket.name}
     USER_TABLE_NAME: ${self:custom.UserTable.name}
   iam:
     role:
@@ -128,6 +129,13 @@ functions:
       - http:
           method: GET
           path: user/avatar/{username}
+          cors: true
+  getUserAvatarS3:
+    handler: aws/handlers/user/getUserAvatarS3.handler
+    events:
+      - http:
+          method: GET
+          path: user/avatar/s3/{username}
           cors: true
   getUserRating:
     handler: aws/handlers/rating/getUserRating.handler
@@ -313,13 +321,15 @@ functions:
 
 resources:
   Resources:
+    AggregatePercentilesTable: ${file(aws/resources/AggregatePercentilesTable.yml):AggregatePercentilesTable}
     FilmsTable: ${file(aws/resources/FilmsTable.yml):FilmsTable}
     RatingsTable: ${file(aws/resources/RatingsTable.yml):RatingsTable}
     ReactBucket: ${file(aws/resources/ReactBucket.yml):ReactBucket}
     ReactBucketPolicy: ${file(aws/resources/ReactBucket.yml):ReactBucketPolicy}
     ResetPasswordTokensTable: ${file(aws/resources/ResetPasswordTokensTable.yml):ResetPasswordTokensTable}
     TciTable: ${file(aws/resources/TciTable.yml):TciTable}
-    AggregatePercentilesTable: ${file(aws/resources/AggregatePercentilesTable.yml):AggregatePercentilesTable}
+    UserAvatarBucket: ${file(aws/resources/UserAvatarBucket.yml):UserAvatarBucket}
+    UserAvatarBucketPolicy: ${file(aws/resources/UserAvatarBucket.yml):UserAvatarBucketPolicy}
     UserTable: ${file(aws/resources/UserTable.yml):UserTable}
 
     CloudFrontOriginAccessIdentity:
@@ -421,6 +431,9 @@ custom:
     name: CritickerOverhaul
   ReactBucketTargetOrigin:
     name: S3-${self:custom.ReactBucket.name}/${self:custom.BucketFolder.name}
+
+  UserAvatarBucket:
+    name: user-avatar-bucket-tr628eqe-${self:provider.stage}
 
   authoriser: arn:aws:lambda:${aws:region}:${aws:accountId}:function:CritickerOverhaul-${self:provider.stage}-authoriser
   SendResetPasswordEmailLambda: arn:aws:lambda:${aws:region}:${aws:accountId}:function:CritickerOverhaul-${self:provider.stage}-sendResetPasswordEmail
