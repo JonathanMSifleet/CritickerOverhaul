@@ -25,10 +25,10 @@ const Avatar: FC<IProps> = ({ avatar, setUserInfo, username, userState }) => {
 
   const uploadAvatar = async (image: File): Promise<void> => {
     const resizedImage = await new Compress().compress([image], {
-      maxHeight: 480,
-      maxWidth: 480,
+      maxHeight: 400,
+      maxWidth: 400,
       quality: 1,
-      size: 0.3
+      size: 0.256
     });
 
     const newImage = `${resizedImage[0].prefix}${resizedImage[0].data}`;
