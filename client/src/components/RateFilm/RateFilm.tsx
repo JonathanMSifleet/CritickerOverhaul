@@ -73,7 +73,8 @@ const RateFilm: FC<IProps> = ({ filmID, reviewAlreadyExists, setHasSubmittedRati
         placeholder={'Rating'}
         type={'text'}
       />
-      {ratingValMessages && ratingValMessages.length === 0 ? (
+
+      {ratingValMessages && ratingValMessages.length === 0 && userRating !== null && userRating !== 0 ? (
         <div className={classes.ReviewInputWrapper}>
           <Input
             autoComplete={'off'}
