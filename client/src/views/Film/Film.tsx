@@ -213,7 +213,8 @@ const Film: FC<IUrlParams> = ({ imdbID }) => {
 
           <div className={classes.FilmRatingsWrapper}>
             <h3 className={classes.RatingsHeader}>Ratings</h3>
-            <Toggle onClick={handleToggle} checked={sortByTCI} label={'Sort by TCI'} />
+            {/* @ts-expect-error */}
+            <Toggle onClick={(event): void => handleToggle(event)} checked={sortByTCI} label={'Sort by TCI'} />
 
             {!isLoadingRatings ? (
               <div className={classes.FilmRatings}>

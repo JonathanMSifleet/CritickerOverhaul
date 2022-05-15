@@ -3,7 +3,7 @@ import { FC } from 'preact/compat';
 interface IProps {
   checked?: boolean;
   label: string;
-  onClick: (event: any) => void;
+  onClick: React.MouseEventHandler<HTMLInputElement>;
 }
 
 const Toggle: FC<IProps> = ({ checked, label, onClick }) => (
