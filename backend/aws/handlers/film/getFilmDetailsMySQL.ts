@@ -7,45 +7,51 @@ import serverlessMysql from 'serverless-mysql';
 
 const mysql = serverlessMysql({ config: connectionDetails });
 
-const getFilmDetailsMySQL = async (event: { pathParameters: { id: number } }): Promise<IHTTP> => {
-  const { id } = event.pathParameters;
+const getFilmDetails = async (event: { pathParameters: { imdbID: number } }): Promise<IHTTP> => {
+  const { imdbID } = event.pathParameters;
 
   try {
-    const getFilm = mysql.query(mainSQL, [id]);
-    const getDirector = mysql.query(directorSQL, [id]);
-    const getWriters = mysql.query(writerSQL, [id]);
-    const getOrderedFilmActors = mysql.query(orderedActorSQL, [id]);
-    const getUnorderedActorResult = mysql.query(unorderedActorSQL, [id, id]);
-
-    const [film, director, writers, filmActors, unorderedFilmActors] = (await Promise.all([
-      getFilm,
-      getDirector,
-      getWriters,
-      getOrderedFilmActors,
-      getUnorderedActorResult
-    ])) as any;
-
+    const details = await getDetails(imdbID);
     mysql.quit();
-
-    const result = {
-      ...film[0],
-      ...director[0],
-      ...writers[0],
-      ...filmActors[0]
-    };
-
-    if (unorderedFilmActors[0].actors) result.actors = `${result.actors}, ${unorderedFilmActors[0].actors}`;
 
     console.log('Sucessfully fetched results');
     return {
       statusCode: 200,
-      body: JSON.stringify(result)
+      body: JSON.stringify(details)
     };
   } catch (error) {
     if (error instanceof Error) return createAWSResErr(500, error.message);
   }
 
   return createAWSResErr(500, 'Unhandled Exception');
+};
+
+export const handler = middy(getFilmDetails).use(cors());
+
+const getDetails = async (imdbID: number): Promise<any> => {
+  const getFilm = mysql.query(mainSQL, [imdbID]);
+  const getDirector = mysql.query(directorSQL, [imdbID]);
+  const getWriters = mysql.query(writerSQL, [imdbID]);
+  const getOrderedFilmActors = mysql.query(orderedActorSQL, [imdbID]);
+  const getUnorderedActorResult = mysql.query(unorderedActorSQL, [imdbID, imdbID]);
+
+  const [film, director, writers, filmActors, unorderedFilmActors] = (await Promise.all([
+    getFilm,
+    getDirector,
+    getWriters,
+    getOrderedFilmActors,
+    getUnorderedActorResult
+  ])) as any;
+
+  const result = {
+    ...film[0],
+    ...director[0],
+    ...writers[0],
+    ...filmActors[0]
+  };
+
+  if (unorderedFilmActors[0].actors) result.actors = `${result.actors}, ${unorderedFilmActors[0].actors}`;
+  return result;
 };
 
 const mainSQL =
@@ -103,5 +109,3 @@ const unorderedActorSQL =
   ') as fromSubQuery ' +
   'LEFT JOIN people ' +
   'ON fromSubQuery.imdb_name_id = people.imdb_name_id';
-
-export const handler = middy(getFilmDetailsMySQL).use(cors());
