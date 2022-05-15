@@ -4,7 +4,7 @@ import { FC, useEffect, useState } from 'react';
 // @ts-expect-error no declaration file
 import { SHA512 } from 'crypto-es/lib/sha512.js';
 import { useSetRecoilState } from 'recoil';
-import { validateValue } from '../../../../../shared/functions/validationFunctions';
+import { validateInput } from '../../../../../shared/functions/validationFunctions';
 import Button from '../../Button/Button';
 import Checkbox from '../../Checkbox/Checkbox';
 import classes from './Signup.module.scss';
@@ -67,7 +67,7 @@ const SignUp: FC = () => {
 
   useEffect(() => {
     (async (): Promise<void> => {
-      let messages = (await validateValue(formInfo.password!, 'Password')) as string[];
+      let messages = (await validateInput(formInfo.password!, 'Password')) as string[];
       messages = messages.filter((error) => error !== null);
 
       if (formInfo.password !== formInfo.repeatPassword) messages.push('Passwords do not match');

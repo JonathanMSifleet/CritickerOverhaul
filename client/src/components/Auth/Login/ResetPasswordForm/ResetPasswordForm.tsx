@@ -1,6 +1,6 @@
 import * as endpoints from '../../../../constants/endpoints';
 import { FC, useEffect, useState } from 'preact/compat';
-import { validateValue } from '../../../../../../shared/functions/validationFunctions';
+import { validateInput } from '../../../../../../shared/functions/validationFunctions';
 import Alert from '../../../Alert/Alert';
 import Button from '../../../Button/Button';
 import classes from './ResetPasswordForm.module.scss';
@@ -36,7 +36,7 @@ const ResetEmailForm: FC<IProps> = ({ toggleEmailInput }) => {
   };
 
   const validateEmail = async (value: string): Promise<void> => {
-    let messages = (await validateValue(value, 'Email')) as string[];
+    let messages = (await validateInput(value, 'Email')) as string[];
     messages = messages.filter((error) => error !== null);
 
     setResetPasswordValMessages(messages);

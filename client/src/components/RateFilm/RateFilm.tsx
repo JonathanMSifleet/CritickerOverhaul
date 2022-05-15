@@ -2,7 +2,7 @@ import * as endpoints from '../../constants/endpoints';
 import { FC, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../store';
-import { validateValue } from '../../../../shared/functions/validationFunctions';
+import { validateInput } from '../../../../shared/functions/validationFunctions';
 import Button from '../Button/Button';
 import classes from './RateFilm.module.scss';
 import httpRequest from '../../utils/httpRequest';
@@ -48,14 +48,14 @@ const RateFilm: FC<IProps> = ({ filmID, reviewAlreadyExists, setHasSubmittedRati
   };
 
   const validateRating = async (value: string): Promise<void> => {
-    let messages = (await validateValue(value, 'Rating')) as string[];
+    let messages = (await validateInput(value, 'Rating')) as string[];
     messages = messages.filter((error) => error !== null);
 
     setRatingValMessages(messages);
   };
 
   const validateReview = async (value: string): Promise<void> => {
-    let messages = (await validateValue(value, 'Review')) as string[];
+    let messages = (await validateInput(value, 'Review')) as string[];
     messages = messages.filter((error) => error !== null);
 
     setReviewValMessages(messages);
@@ -64,6 +64,7 @@ const RateFilm: FC<IProps> = ({ filmID, reviewAlreadyExists, setHasSubmittedRati
   return (
     <div className={classes.RateFilmWrapper}>
       <Input
+        autoComplete={'off'}
         errors={ratingValMessages!}
         onChange={(event): void => {
           inputChangedHandler(event.target.value, 'rating');
@@ -75,6 +76,7 @@ const RateFilm: FC<IProps> = ({ filmID, reviewAlreadyExists, setHasSubmittedRati
       {ratingValMessages && ratingValMessages.length === 0 ? (
         <div className={classes.ReviewInputWrapper}>
           <Input
+            autoComplete={'off'}
             errors={reviewValMessages!}
             onChange={(event): void => {
               inputChangedHandler(event.target.value, 'review');

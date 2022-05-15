@@ -5,14 +5,14 @@ export const validateUserInputs = async (username: string, email: string): Promi
   const errors = await Promise.all([
     checkUniqueAttribute('email', email, 'email'),
     checkUniqueAttribute('username', username, undefined),
-    validateValue(username, 'Username'),
-    validateValue(email, 'Email')
+    validateInput(username, 'Username'),
+    validateInput(email, 'Email')
   ]);
 
   return errors.flat().filter((error) => error !== null);
 };
 
-export const validateValue = async (value: string, valueName: string): Promise<(string | null)[]> => {
+export const validateInput = async (value: string, valueName: string): Promise<(string | null)[]> => {
   const errors = [];
 
   switch (valueName) {
@@ -38,7 +38,8 @@ export const validateValue = async (value: string, valueName: string): Promise<(
       errors.push(validateNotEmpty(value, valueName), validateLength(value, valueName, 8, 32));
       break;
     case 'Rating':
-      errors.push(validateIsNumber(value, valueName), validateLength(value, valueName, 1, 3));
+      errors.push(validateIsWholeNumber(value, valueName));
+      if (errors.length !== 0) errors.push(validateValue(Number(value), valueName, 0, 100));
       break;
     case 'Review':
       errors.push(validateLength(value, valueName, 0, 500));
@@ -65,14 +66,11 @@ export const validateAgainstRegex = async (
 export const validateIsEmail = async (value: string): Promise<string | null> =>
   !EmailValidator.validate(value) ? `Email must be valid` : null;
 
-export const validateIsNumber = async (value: string, name: string): Promise<string | null> =>
-  !Number.isInteger(Number(value)) ? `${name} must be a number` : null;
+export const validateIsWholeNumber = async (value: string, name: string): Promise<string | null> => {
+  if (isNaN(Number(value))) return `${name} must be a whole number`;
 
-export const validateNotEmpty = async (value: string, name: string): Promise<string | null> =>
-  value === null || value === '' || value === undefined ? `${name} must not be empty` : null;
-
-export const validateNotValue = async (value: string, name: string, match: string): Promise<string | null> =>
-  value === match ? `${name} must not be ${match}` : null;
+  return value.includes('.') ? `${name} must not contain a decimal` : null;
+};
 
 export const validateLength = async (
   value: string,
@@ -81,3 +79,20 @@ export const validateLength = async (
   max: number
 ): Promise<string | null> =>
   value.length < min || value.length > max ? `${valueName} must be between ${min} and ${max} characters` : null;
+
+export const validateNotEmpty = async (value: string, name: string): Promise<string | null> =>
+  value === null || value === '' || value === undefined ? `${name} must not be empty` : null;
+
+export const validateNotValue = async (value: string, name: string, match: string): Promise<string | null> =>
+  value === match ? `${name} must not be ${match}` : null;
+
+export const validateValue = async (
+  value: number,
+  name: string,
+  lowerBound: number | undefined,
+  upperBound: number | undefined
+): Promise<string | null> =>
+  value < lowerBound! || value > upperBound! ? `${name} must be between ${lowerBound} and ${upperBound}` : null;
+
+export const validateWholeNumber = async (value: number, name: string): Promise<string | null> =>
+  value.toString().includes('.') ? `${name} must be a whole number` : null;

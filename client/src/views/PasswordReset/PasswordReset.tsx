@@ -4,7 +4,7 @@ import { Link } from 'preact-router';
 // @ts-expect-error no declaration file
 import { SHA512 } from 'crypto-es/lib/sha512.js';
 import { useEffect, useState } from 'preact/hooks';
-import { validateValue } from '../../../../shared/functions/validationFunctions';
+import { validateInput } from '../../../../shared/functions/validationFunctions';
 import Alert from '../../components/Alert/Alert';
 import Button from '../../components/Button/Button';
 import classes from './PasswordReset.module.scss';
@@ -34,7 +34,7 @@ const PasswordReset: FC<IUrlParams> = ({ emailAddress, token }) => {
     (async (): Promise<void> => {
       if (formInfo === undefined) return;
 
-      let messages = (await validateValue(formInfo!.password!, 'Password')) as string[];
+      let messages = (await validateInput(formInfo!.password!, 'Password')) as string[];
       messages = messages.filter((error) => error !== null);
 
       if (formInfo!.password !== formInfo!.repeatPassword) messages.push('Passwords do not match');
@@ -62,7 +62,7 @@ const PasswordReset: FC<IUrlParams> = ({ emailAddress, token }) => {
   };
 
   const validatePassword = async (value: string): Promise<void> => {
-    let messages = (await validateValue(value, 'Password')) as string[];
+    let messages = (await validateInput(value, 'Password')) as string[];
     messages = messages.filter((error) => error !== null);
 
     setPasswordValMessages(messages);

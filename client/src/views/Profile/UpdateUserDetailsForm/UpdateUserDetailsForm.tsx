@@ -2,7 +2,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import * as endpoints from '../../../constants/endpoints';
 import { CountryDropdown } from 'react-country-region-selector';
 import { FC, useEffect, useState } from 'react';
-import { validateValue } from '../../../../../shared/functions/validationFunctions';
+import { validateInput } from '../../../../../shared/functions/validationFunctions';
 import Button from '../../../components/Button/Button';
 import classes from './UpdateUserDetailsForm.module.scss';
 import DatePicker from 'react-datepicker';
@@ -66,7 +66,7 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
   }, []);
 
   const handleValidation = async (value: string, type: string): Promise<void> => {
-    let messages = (await validateValue(value, type)) as string[];
+    let messages = (await validateInput(value, type)) as string[];
     messages = messages.filter((error) => error !== null);
 
     switch (type) {
