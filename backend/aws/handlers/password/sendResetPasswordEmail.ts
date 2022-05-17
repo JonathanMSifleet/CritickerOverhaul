@@ -14,7 +14,7 @@ const sendResetPasswordEmail = async (event: { pathParameters: { emailAddress: s
   const emailAddress = event.pathParameters.emailAddress;
 
   const token = uuid();
-  const url = `http://localhost:3000/#/passwordReset/${emailAddress}/${token}`;
+  const url = `https://dpldmuafup7cw.cloudfront.net/#/passwordReset/${emailAddress}/${token}`;
 
   const tokenResult = await storeToken(emailAddress, token);
   if (tokenResult instanceof Error) return createAWSResErr(500, 'Unable to store token');

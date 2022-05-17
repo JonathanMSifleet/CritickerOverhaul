@@ -20,7 +20,7 @@ const sendVerificationEmail = async (event: { pathParameters: { username: string
 
   const emailContent =
     '<p>Please go to the link below to verify your email address:</p><br>' +
-    `<p>http://localhost:3000/#/verifyEmail/${username}/${token}</p>`;
+    `<p>https://dpldmuafup7cw.cloudfront.net/#/verifyEmail/${username}/${token}</p>`;
 
   try {
     await sendEmail(sendGrid, email, 'Criticker Overhaul - Verify email address', emailContent);
