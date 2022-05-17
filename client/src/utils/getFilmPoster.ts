@@ -15,7 +15,7 @@ const getFilmPoster = async (imdbID: number): Promise<string> => {
     if (!poster) throw new Error();
 
     return `http://image.tmdb.org/t/p/original${poster}`;
-  } finally {
+  } catch (error) {
     return ShrugSVG;
   }
 };
