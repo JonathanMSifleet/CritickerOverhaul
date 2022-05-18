@@ -5,7 +5,7 @@ import { useEffect } from 'preact/hooks';
 import classes from './Avatar.module.scss';
 import Compress from 'compress.js';
 import httpRequest from '../../../utils/httpRequest';
-import IUserState from './../../../interfaces/IUserState';
+import IUserState from '../../../interfaces/IUserState';
 import ShrugSVG from '../../../assets/svg/Shrug.svg';
 import Spinner from '../../../components/Spinner/Spinner';
 

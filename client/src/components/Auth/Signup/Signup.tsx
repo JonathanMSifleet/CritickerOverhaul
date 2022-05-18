@@ -8,10 +8,10 @@ import { validateInput } from '../../../../../shared/functions/validationFunctio
 import Button from '../../Button/Button';
 import Checkbox from '../../Checkbox/Checkbox';
 import classes from './Signup.module.scss';
-import extractValidationMessages from './../../../utils/extractValidationMessages';
+import extractValidationMessages from '../../../utils/extractValidationMessages';
 import httpRequest from '../../../utils/httpRequest';
 import Input from '../../Input/Input';
-import SpinnerButton from './../../SpinnerButton/SpinnerButton';
+import SpinnerButton from '../../SpinnerButton/SpinnerButton';
 
 interface IState {
   email?: string;

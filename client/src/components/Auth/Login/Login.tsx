@@ -11,8 +11,8 @@ import classes from './Login.module.scss';
 import extractValidationMessages from '../../../utils/extractValidationMessages';
 import httpRequest from '../../../utils/httpRequest';
 import Input from '../../Input/Input';
-import Spinner from './../../Spinner/Spinner';
-import SpinnerButton from './../../SpinnerButton/SpinnerButton';
+import Spinner from '../../Spinner/Spinner';
+import SpinnerButton from '../../SpinnerButton/SpinnerButton';
 
 const ResetEmailForm = lazy(() => import('./ResetPasswordForm/ResetPasswordForm'));
 
