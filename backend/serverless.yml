@@ -122,6 +122,13 @@ functions:
           method: GET
           path: user/getRecentRatings/{username}
           cors: true
+  getRecentRatingsMySQL:
+    handler: aws/handlers/rating/getRecentRatingsMySQL.handler
+    events:
+      - http:
+          method: GET
+          path: ratings/getRecentRatings/MySQL/{username}
+          cors: true
   getUserAvatar:
     handler: aws/handlers/user/getUserAvatar.handler
     events:
