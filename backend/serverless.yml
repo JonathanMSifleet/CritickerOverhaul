@@ -116,11 +116,11 @@ functions:
           path: user/profile/{username}
           cors: true
   getRecentRatings:
-    handler: aws/handlers/user/getRecentRatings.handler
+    handler: aws/handlers/rating/getRecentRatings.handler
     events:
       - http:
           method: GET
-          path: user/getRecentRatings/{username}
+          path: ratings/getRecentRatings/{username}
           cors: true
   getUserAvatar:
     handler: aws/handlers/user/getUserAvatar.handler
