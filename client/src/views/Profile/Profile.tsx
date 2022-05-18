@@ -310,7 +310,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
                     {recentRatings!.length !== 0 ? (
                       <>
                         <h2 className={classes.RecentRatingsHeader}>Recent Ratings</h2>
-                        <Link href={'/ratings'}>View all ratings</Link>
+                        <Link href={`/ratings/${username}`}>View all ratings</Link>
 
                         <div className="d-flex align-items-start bg-light mb-2">
                           {recentRatings!.map((column: IRecentRating[], columnIndex: number) => (
