@@ -25,7 +25,6 @@ provider:
     FILMS_TABLE_NAME: ${self:custom.FilmsTable.name}
     RATINGS_TABLE_NAME: ${self:custom.RatingsTable.name}
     REACT_BUCKET_NAME: ${self:custom.ReactBucket.name}
-    RESET_PASSWORD_TOKENS_TABLE_NAME: ${self:custom.ResetPasswordTokensTable.name}
     SENDGRID_API_KEY: ${file(./keys/sendGridAPIKey)}
     SOURCE_EMAIL_ADDRESS: 18014017@stu.mmu.ac.uk
     TCI_TABLE_NAME: ${self:custom.TciTable.name}
@@ -35,7 +34,6 @@ provider:
       statements:
         - ${file(aws/iam/AggregatePercentilesTableIAM.yml):AggregatePercentilesTableIAM}
         - ${file(aws/iam/FilmsTableIAM.yml):FilmsTableIAM}
-        - ${file(aws/iam/ResetPasswordTokensTableIAM.yml):ResetPasswordTokensTableIAM}
         - ${file(aws/iam/RatingsTableIAM.yml):RatingsTableIAM}
         - ${file(aws/iam/TciTableIAM.yml):TciTableIAM}
         - ${file(aws/iam/UserTableIAM.yml):UserTableIAM}
@@ -313,13 +311,12 @@ functions:
 
 resources:
   Resources:
+    AggregatePercentilesTable: ${file(aws/resources/AggregatePercentilesTable.yml):AggregatePercentilesTable}
     FilmsTable: ${file(aws/resources/FilmsTable.yml):FilmsTable}
     RatingsTable: ${file(aws/resources/RatingsTable.yml):RatingsTable}
     ReactBucket: ${file(aws/resources/ReactBucket.yml):ReactBucket}
     ReactBucketPolicy: ${file(aws/resources/ReactBucket.yml):ReactBucketPolicy}
-    ResetPasswordTokensTable: ${file(aws/resources/ResetPasswordTokensTable.yml):ResetPasswordTokensTable}
     TciTable: ${file(aws/resources/TciTable.yml):TciTable}
-    AggregatePercentilesTable: ${file(aws/resources/AggregatePercentilesTable.yml):AggregatePercentilesTable}
     UserTable: ${file(aws/resources/UserTable.yml):UserTable}
 
     CloudFrontOriginAccessIdentity:
@@ -401,9 +398,6 @@ custom:
   FilmsTable:
     name: !Ref FilmsTable
     arn: !GetAtt FilmsTable.Arn
-  ResetPasswordTokensTable:
-    name: !Ref ResetPasswordTokensTable
-    arn: !GetAtt ResetPasswordTokensTable.Arn
   RatingsTable:
     name: !Ref RatingsTable
     arn: !GetAtt RatingsTable.Arn

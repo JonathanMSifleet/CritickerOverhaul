@@ -23,7 +23,7 @@ const updatePassword = async (event: {
   const username = await getUsername(dbClient, emailAddress);
   if (username instanceof Error) return createAWSResErr(404, 'Email address is not associated with any user');
 
-  const dbToken = (await validateToken(emailAddress)) as IToken;
+  const dbToken = (await validateToken(username)) as IToken;
   if (dbToken instanceof Error) return createAWSResErr(500, 'Error getting existing token');
   if (dbToken.expires < Date.now()) return createAWSResErr(400, 'Token has expired');
   if (dbToken.token !== token) return createAWSResErr(400, 'Invalid token');
@@ -63,21 +63,18 @@ const updatePasswordInDB = async (username: string, password: string): Promise<v
   }
 };
 
-const validateToken = async (email: string): Promise<IToken | Error> => {
+const validateToken = async (username: string): Promise<IToken | Error> => {
   const query = {
-    TableName: process.env.RESET_PASSWORD_TOKENS_TABLE_NAME!,
+    TableName: process.env.USER_TABLE_NAME!,
     Key: {
-      emailAddress: { S: email }
+      username: { S: username }
     },
-    ProjectionExpression: 'expires, #token',
-    ExpressionAttributeNames: {
-      '#token': 'token'
-    }
+    ProjectionExpression: 'resetPasswordToken'
   };
 
   try {
     const results = await dbClient.send(new GetItemCommand(query));
-    return unmarshall(results.Item!) as IToken;
+    return JSON.parse(unmarshall(results.Item!).resetPasswordToken) as IToken;
   } catch (error) {
     return new Error();
   }
