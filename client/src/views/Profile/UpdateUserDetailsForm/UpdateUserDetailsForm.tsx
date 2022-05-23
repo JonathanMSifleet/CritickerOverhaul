@@ -22,7 +22,6 @@ interface IProps {
 
 const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfile, userState }) => {
   const [bioValMessages, setBioValMessages] = useState([] as string[]);
-  const [emailValMessages, setEmailValMessages] = useState([] as string[]);
   const [firstNameValMessages, setFirstNameValMessages] = useState([] as string[]);
   const [formInfo, setFormInfo] = useState({} as { [key: string]: string | number });
   const [formIsValid, setFormIsValid] = useState(true);
@@ -32,24 +31,10 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
 
   useEffect(() => {
     const errorArray: string[] = [];
-    errorArray.push(
-      ...emailValMessages,
-      ...emailValMessages,
-      ...firstNameValMessages,
-      ...firstNameValMessages,
-      ...lastNameValMessages,
-      ...lastNameValMessages
-    );
+    errorArray.push(...firstNameValMessages, ...lastNameValMessages);
 
     setFormIsValid(errorArray.length === 0);
-  }, [
-    emailValMessages,
-    emailValMessages,
-    firstNameValMessages,
-    firstNameValMessages,
-    lastNameValMessages,
-    lastNameValMessages
-  ]);
+  }, [firstNameValMessages, lastNameValMessages]);
 
   useEffect(() => {
     userProfile.dob !== undefined ? setSelectedDate(new Date(userProfile.dob!)) : setSelectedDate(new Date());
@@ -59,7 +44,6 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
       bio: userProfile.bio!,
       country: userProfile.country!,
       dob: userProfile.dob!,
-      email: userProfile.email!,
       firstName: userProfile.firstName!,
       gender: userProfile.gender!,
       lastName: userProfile.lastName!
@@ -84,9 +68,6 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
     switch (type) {
       case 'Bio':
         setBioValMessages(messages);
-        break;
-      case 'Email':
-        setEmailValMessages(messages);
         break;
       case 'FirstName':
         setFirstNameValMessages(messages);
@@ -130,19 +111,6 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
   return (
     <>
       <div className={classes.InputsWrapper}>
-        <div className={classes.InputWrapper}>
-          <Input
-            errors={emailValMessages!}
-            onChange={(event): void => {
-              inputChangedHandler(event.target.value, 'email');
-              handleValidation(event.target.value, 'Email');
-            }}
-            placeholder={'Email'}
-            type={'email'}
-            value={formInfo.email as string}
-          />
-        </div>
-
         <div className={classes.InputWrapper}>
           <Input
             errors={firstNameValMessages!}
@@ -228,7 +196,9 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
           textarea={true}
           value={formInfo.bio as string}
         />
-        <p>{1000 - (formInfo.bio ? (formInfo.bio as string).length : 0)} characters remaining</p>
+        <p className={classes.CharsRemaining}>
+          {1000 - (formInfo.bio ? (formInfo.bio as string).length : 0)} characters remaining
+        </p>
       </div>
 
       <div className={classes.SubmitButtonWrapper}>
