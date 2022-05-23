@@ -49,6 +49,7 @@ const Header: FC = () => {
             </MDBNavbarToggler>
 
             <div className="collapse navbar-collapse" id="navbarExample01">
+              {/* @ts-expect-error works as intended*/}
               <MDBNavbarNav right className="mb-2 mb-lg-0">
                 <Link href="/" className={`${classes.LinkComponent} text-white`}>
                   <li className={`${classes.LinkText} list-group-item bg-primary`}>Home</li>
