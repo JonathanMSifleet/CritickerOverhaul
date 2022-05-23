@@ -1,8 +1,8 @@
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
-import { DynamoDBClient, GetItemCommand, QueryCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
+import { DynamoDBClient, GetItemCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import cors from '@middy/http-cors';
-import createDynamoSearchQuery from '../../shared/functions/queries/createDynamoSearchQuery';
+import getUsername from '../../shared/functions/getUsername';
 import IHTTP from '../../shared/interfaces/IHTTP';
 import middy from '@middy/core';
 
@@ -20,7 +20,7 @@ const updatePassword = async (event: {
   const { emailAddress, token } = event.pathParameters;
   const password = JSON.parse(event.body).password;
 
-  const username = await getUsername(emailAddress);
+  const username = await getUsername(dbClient, emailAddress);
   if (username instanceof Error) return createAWSResErr(404, 'Email address is not associated with any user');
 
   const dbToken = (await validateToken(emailAddress)) as IToken;
@@ -39,17 +39,6 @@ const updatePassword = async (event: {
 };
 
 export const handler = middy(updatePassword).use(cors());
-
-const getUsername = async (email: string): Promise<string | Error> => {
-  const query = createDynamoSearchQuery(process.env.USER_TABLE_NAME!, 'username', 'email', email, 'S', 'email');
-
-  try {
-    const results = await dbClient.send(new QueryCommand(query));
-    return unmarshall(results.Items![0]).username;
-  } catch (error) {
-    return new Error();
-  }
-};
 
 const updatePasswordInDB = async (username: string, password: string): Promise<void | Error> => {
   const query = {
