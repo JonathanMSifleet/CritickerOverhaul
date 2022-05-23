@@ -1,6 +1,7 @@
 import * as endpoints from '../../constants/endpoints';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'preact/compat';
 import { Link } from 'preact-router/match';
+import { useEffect, useState } from 'preact/hooks';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../store';
 import classes from './Film.module.scss';
@@ -162,6 +163,7 @@ const Film: FC<IUrlParams> = ({ imdbID }) => {
 
                 {!isDeletingReview ? (
                   <RatingOptions
+                    className={classes.RatingOptions}
                     imdbID={imdbID!}
                     setFetchedUserReview={(fetchedUserReview): void =>
                       setFetchedUserReview(fetchedUserReview as IRating)
