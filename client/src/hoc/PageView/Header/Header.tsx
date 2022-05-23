@@ -72,7 +72,7 @@ const Header: FC = () => {
 
             {userState!.loggedIn ? (
               <>
-                <Link className={classes.UserAvatarLink} href="#profile">
+                <Link className={classes.UserAvatarLink} href={`#/profile/${userState.username}`}>
                   <img
                     src={userState.avatar !== undefined ? userState.avatar : ShrugSVG}
                     className={`${classes.UserAvatar} rounded-circle mb-3`}
