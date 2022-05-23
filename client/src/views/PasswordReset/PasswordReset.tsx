@@ -96,7 +96,7 @@ const PasswordReset: FC<IUrlParams> = ({ emailAddress, token }) => {
 
         {updateStatus === 'success' ? (
           <>
-            <p className={classes.SuccessStatus}>Successfully updated password</p>
+            <Alert className={classes.SuccessStatus} text={'Successfully updated password'} type={'success'} />
             <Link className={classes.HomeLink} href={'/'}>
               Home page
             </Link>
@@ -113,7 +113,7 @@ const PasswordReset: FC<IUrlParams> = ({ emailAddress, token }) => {
         ) : null}
 
         {!isLoading ? (
-          updateStatus && updateStatus !== 'success' ? null : (
+          updateStatus === 'success' ? null : (
             <Button
               disabled={passwordValMessages.length !== 0 || updateStatus === 'success'}
               onClick={updatePassword}
