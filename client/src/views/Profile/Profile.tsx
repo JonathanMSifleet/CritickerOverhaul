@@ -205,9 +205,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
 
                 <div className={classes.UserDetailsColumnWrapper}>
                   <MDBCol className={classes.UserDetailsColumn}>
-                    <p className={classes.UserProfileText}>
-                      {userProfile.numRatings} Film Rating{userProfile.numRatings !== 0 ? 's' : null}
-                    </p>
+                    <p className={classes.UserProfileText}>{userProfile.numRatings} Film Ratings</p>
                     <p className={classes.UserProfileText}>
                       <b>Member since:</b> {epochToDate(userProfile.memberSince!)}
                     </p>
