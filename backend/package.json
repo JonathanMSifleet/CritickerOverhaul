@@ -2,29 +2,29 @@
   "name": "critickeroverhaul",
   "version": "1.0.0",
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.82.0",
-    "@aws-sdk/util-dynamodb": "^3.82.0",
-    "@middy/core": "^2.5.7",
-    "@middy/http-cors": "^2.5.7",
-    "@sendgrid/mail": "^7.6.2",
+    "@aws-sdk/client-dynamodb": "^3.95.0",
+    "@aws-sdk/util-dynamodb": "^3.95.0",
+    "@middy/core": "^3.0.3",
+    "@middy/http-cors": "^3.0.3",
+    "@sendgrid/mail": "^7.7.0",
     "@shelf/dynamodb-parallel-scan": "^3.0.1",
     "chunk": "^0.0.3",
     "email-validator": "^2.0.4",
     "jsonwebtoken": "^8.5.1",
     "percentile-rank": "^1.0.6",
     "query-string": "^7.1.1",
-    "serverless": "^3.16.0",
+    "serverless": "^3.18.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "aws-crt": "^1.12.1",
+    "aws-crt": "^1.12.2",
     "fork-ts-checker-webpack-plugin": "^7.2.11",
     "serverless-cloudfront-invalidate": "^1.11.0",
-    "serverless-webpack": "^5.7.0",
+    "serverless-webpack": "^5.7.1",
     "terser-webpack-plugin": "^5.3.1",
     "ts-loader": "^9.3.0",
     "typescript": "^4.6.4",
-    "webpack": "^5.72.0",
+    "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2"
   }
 }
