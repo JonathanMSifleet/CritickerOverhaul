@@ -110,7 +110,7 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
 
   return (
     <>
-      <div className={classes.InputsWrapper}>
+      <div className={classes.TopInputsWrapper}>
         <div className={classes.InputWrapper}>
           <Input
             errors={firstNameValMessages!}
