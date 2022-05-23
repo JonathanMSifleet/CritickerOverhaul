@@ -31,7 +31,7 @@ const VerifyEmail: FC<IUrlParams> = ({ token, username }) => {
           setStatusMessage('Your email has been verified, you may now login');
           setStatus('success');
         } else {
-          setStatusMessage(`${result.message}, please try again or request a new verification email:`);
+          setStatusMessage(`${result.message}, please try again or request a new verification email`);
           setStatus('warning');
         }
       } finally {
@@ -61,7 +61,7 @@ const VerifyEmail: FC<IUrlParams> = ({ token, username }) => {
                 <Button onClick={sendVerificationEmail} text={'Resend verification email'} />
               </div>
             ) : (
-              <SpinnerButton />
+              <SpinnerButton className={classes.SpinnerButton} />
             )
           ) : null}
         </>
