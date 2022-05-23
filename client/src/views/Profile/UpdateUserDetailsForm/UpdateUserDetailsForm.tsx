@@ -65,6 +65,17 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
     });
   }, []);
 
+  useEffect(() => {
+    setSelectedDate(determineLatestDate());
+  }, []);
+
+  const determineLatestDate = (): Date => {
+    const currentDate = new Date();
+    currentDate.setFullYear(currentDate.getFullYear() - 13);
+
+    return currentDate;
+  };
+
   const handleValidation = async (value: string, type: string): Promise<void> => {
     let messages = (await validateInput(value, type)) as string[];
     messages = messages.filter((error) => error !== null);
@@ -198,6 +209,7 @@ const UpdateUserDetailsForm: FC<IProps> = ({ setShowUpdateDetailsForm, userProfi
               inputChangedHandler(value.getTime(), 'dob');
               setSelectedDate(value);
             }}
+            maxDate={determineLatestDate()}
             selected={selectedDate}
           />
         </div>
