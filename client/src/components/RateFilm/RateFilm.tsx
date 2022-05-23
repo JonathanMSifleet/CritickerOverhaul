@@ -1,7 +1,8 @@
 import * as endpoints from '../../constants/endpoints';
-import { FC, useState } from 'react';
+import { FC } from 'preact/compat';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../store';
+import { useState } from 'preact/hooks';
 import { validateInput } from '../../../../shared/functions/validationFunctions';
 import Button from '../Button/Button';
 import classes from './RateFilm.module.scss';

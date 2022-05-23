@@ -1,4 +1,5 @@
-import { ChangeEvent, FC } from 'react';
+import { ChangeEvent } from 'react';
+import { FC } from 'preact/compat';
 import { MDBRadio } from 'mdb-react-ui-kit';
 
 interface IProps {

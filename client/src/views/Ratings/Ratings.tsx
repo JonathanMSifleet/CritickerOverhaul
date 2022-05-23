@@ -1,8 +1,9 @@
 import * as endpoints from '../../constants/endpoints';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'preact/compat';
 import { Link } from 'preact-router/match';
 import { MDBCol } from 'mdb-react-ui-kit';
 import { stringify } from 'query-string';
+import { useEffect, useState } from 'preact/hooks';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../store';
 import chunk from 'chunk';

@@ -1,4 +1,5 @@
-import { FC, useState } from 'react';
+import { FC } from 'preact/compat';
+import { useState } from 'preact/hooks';
 import Button from '../Button/Button';
 import classes from './Auth.module.scss';
 import Login from './Login/Login';

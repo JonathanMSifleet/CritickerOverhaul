@@ -1,5 +1,6 @@
 import * as endpoints from '../../constants/endpoints';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'preact/compat';
+import { useEffect, useState } from 'preact/hooks';
 import FilmCard from '../../components/FilmCard/FilmCard';
 import httpRequest from '../../utils/httpRequest';
 import IFilm from '../../../../shared/interfaces/IFilm';

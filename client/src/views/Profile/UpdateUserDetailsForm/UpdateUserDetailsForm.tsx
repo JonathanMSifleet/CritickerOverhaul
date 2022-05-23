@@ -1,7 +1,8 @@
 import 'react-datepicker/dist/react-datepicker.css';
 import * as endpoints from '../../../constants/endpoints';
 import { CountryDropdown } from 'react-country-region-selector';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'preact/compat';
+import { useEffect, useState } from 'preact/hooks';
 import { validateInput } from '../../../../../shared/functions/validationFunctions';
 import Button from '../../../components/Button/Button';
 import classes from './UpdateUserDetailsForm.module.scss';

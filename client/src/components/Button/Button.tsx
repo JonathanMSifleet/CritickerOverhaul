@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC } from 'preact/compat';
 import { MDBBtn } from 'mdb-react-ui-kit';
 
 interface IProps {

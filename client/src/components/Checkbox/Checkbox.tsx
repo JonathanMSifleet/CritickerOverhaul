@@ -1,4 +1,5 @@
-import { ChangeEvent, FC } from 'react';
+import { ChangeEvent } from 'react';
+import { FC } from 'preact/compat';
 import classes from './Checkbox.module.scss';
 
 interface IProps {

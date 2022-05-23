@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC } from 'preact/compat';
 import { Link } from 'preact-router/match';
 import { Suspense } from 'preact/compat';
 import { useRecoilValue } from 'recoil';

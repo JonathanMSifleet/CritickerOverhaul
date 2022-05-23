@@ -1,7 +1,8 @@
 import { createHashHistory } from 'history';
 import { detect } from 'detect-browser';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'preact/compat';
 import { lazy, Suspense } from 'preact/compat';
+import { useEffect, useState } from 'preact/hooks';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
 import { userInfoState } from './store';
 import Router from 'preact-router';

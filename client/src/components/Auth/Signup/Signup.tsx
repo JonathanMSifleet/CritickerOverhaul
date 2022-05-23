@@ -1,6 +1,7 @@
 import * as endpoints from '../../../constants/endpoints';
 import { authModalState } from '../../../store';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'preact/compat';
+import { useEffect, useState } from 'preact/hooks';
 // @ts-expect-error no declaration file
 import { SHA512 } from 'crypto-es/lib/sha512.js';
 import { useSetRecoilState } from 'recoil';

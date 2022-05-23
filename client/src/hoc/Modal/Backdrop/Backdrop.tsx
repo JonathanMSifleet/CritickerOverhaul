@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC } from 'preact/compat';
 import { RecoilState, useRecoilState } from 'recoil';
 import classes from './Backdrop.module.scss';
 

@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC } from 'preact/compat';
 import classes from './TextOnlyPage.module.scss';
 import IUrlParams from '../../interfaces/IUrlParams';
 import PageView from '../../hoc/PageView/PageView';

@@ -1,11 +1,12 @@
-import { FC } from 'react';
+import { ComponentChildren } from 'preact';
+import { FC } from 'preact/compat';
 import { RecoilState } from 'recoil';
 import Backdrop from './Backdrop/Backdrop';
 import classes from './Modal.module.scss';
 
 interface IProps {
   authState: RecoilState<boolean>;
-  children: React.ReactNode;
+  children: ComponentChildren;
 }
 
 const Modal: FC<IProps> = ({ authState, children }) => (

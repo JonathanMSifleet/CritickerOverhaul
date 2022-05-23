@@ -1,10 +1,11 @@
 import * as endpoints from '../../constants/endpoints';
 import { deleteAccountModalState, userInfoState } from '../../store';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'preact/compat';
 import { lazy, Suspense } from 'preact/compat';
 import { Link } from 'preact-router/match';
 import { MDBCol } from 'mdb-react-ui-kit';
 import { route } from 'preact-router';
+import { useEffect, useState } from 'preact/hooks';
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { XMLParser } from 'fast-xml-parser';
 import Avatar from './Avatar/Avatar';
