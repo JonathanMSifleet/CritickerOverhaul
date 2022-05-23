@@ -17,14 +17,19 @@ interface IProps {
 
 const RateFilm: FC<IProps> = ({ filmID, reviewAlreadyExists, setHasSubmittedRating }): JSX.Element => {
   const [isRating, setIsRating] = useState(false);
-  const [ratingValMessages, setRatingValMessages] = useState(null as null | string[]);
-  const [reviewValMessages, setReviewValMessages] = useState(null as null | string[]);
+  const [ratingValMessages, setRatingValMessages] = useState([] as string[]);
+  const [reviewValMessages, setReviewValMessages] = useState([] as string[]);
   const [userRating, setUserRating] = useState(null as null | number);
   const [userReview, setUserReview] = useState(null as null | string);
   const userState = useRecoilValue(userInfoState);
 
-  const inputChangedHandler = (value: string, inputName: string): void =>
-    inputName === 'rating' ? setUserRating(Number(value)) : setUserReview(value);
+  const inputChangedHandler = (value: string, inputName: string): void => {
+    if (inputName === 'rating') {
+      value === '' ? setUserRating(null) : setUserRating(Number(value));
+    } else {
+      setUserReview(value);
+    }
+  };
 
   const rateFilm = async (): Promise<void> => {
     setIsRating(true);
@@ -91,7 +96,10 @@ const RateFilm: FC<IProps> = ({ filmID, reviewAlreadyExists, setHasSubmittedRati
       ) : null}
 
       {!isRating ? (
-        ratingValMessages && ratingValMessages!.length === 0 && reviewValMessages && reviewValMessages!.length === 0 ? (
+        userRating !== null &&
+        ratingValMessages &&
+        ratingValMessages!.length === 0 &&
+        reviewValMessages!.length === 0 ? (
           <Button
             className={`${classes.SubmitButton} btn btn-primary btn-block mb-4`}
             onClick={(): Promise<void> => rateFilm()}
