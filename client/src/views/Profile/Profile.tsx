@@ -18,11 +18,11 @@ import getColourGradient from '../../utils/getColourGradient';
 import httpRequest from '../../utils/httpRequest';
 import IRating from '../../../../shared/interfaces/IRating';
 import IUserProfile from '../../../../shared/interfaces/IUserProfile';
+import Modal from '../../hoc/Modal/Modal';
 import PageView from '../../hoc/PageView/PageView';
 import Spinner from '../../components/Spinner/Spinner';
 import SpinnerButton from '../../components/SpinnerButton/SpinnerButton';
 
-const Modal = lazy(() => import('../../hoc/Modal/Modal'));
 const UpdateUserDetailsForm = lazy(() => import('./UpdateUserDetailsForm/UpdateUserDetailsForm'));
 
 interface IRecentRating {
@@ -363,7 +363,7 @@ const Profile: FC<IUrlParams> = ({ username }): JSX.Element => {
       {showModal ? (
         <Modal authState={deleteAccountModalState}>
           <div className={classes.ModalContentWrapper}>
-            <p>Are you sure you wish to delete your account? Deletion is permanent and CANNOT be undone: </p>
+            <p>Are you sure you wish to delete your account? Deletion is permanent and CANNOT be undone</p>
             <div className={classes.ModalButtonWrapper}>
               {!isDeletingAccount ? (
                 <Button
