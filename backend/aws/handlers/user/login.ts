@@ -35,7 +35,7 @@ const login = async (event: { body: string }): Promise<IHTTP> => {
   try {
     const user = await loginUser(email);
     if (user instanceof Error) return createAWSResErr(404, 'Email address is not associated with any user');
-    if (user.isVerified === false) return createAWSResErr(401, 'User has not verified their email address');
+    if (user.isVerified === false) return createAWSResErr(401, 'Email address is not verified');
     if (password !== user.password) return createAWSResErr(401, 'Password is incorrect');
 
     let newAccessToken: string;
