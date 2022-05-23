@@ -22,19 +22,31 @@ interface IState {
 }
 
 const SignUp: FC = () => {
-  const [emailValidationMessages, setEmailValidationMessages] = useState([] as string[]);
+  const [emailValMessages, setEmailValMessages] = useState([] as string[]);
   const [formInfo, setFormInfo] = useState<IState>({});
   const [isLoading, setIsLoading] = useState(false);
   const [passwordValMessages, setPasswordValMessages] = useState([] as string[]);
   const [shouldSignup, setShouldSignup] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
-  const [usernameValidationMessages, setUsernameValidationMessages] = useState([] as string[]);
+  const [usernameValMessages, setUsernameValMessages] = useState([] as string[]);
   const setShowModal = useSetRecoilState(authModalState);
 
   useEffect(() => {
-    setSubmitDisabled(
-      !formInfo.email || !formInfo.password || !formInfo.repeatPassword || !formInfo.termsChecked || !formInfo.username
-    );
+    let submittable = true;
+
+    if (
+      !formInfo.email ||
+      !formInfo.password ||
+      !formInfo.repeatPassword ||
+      !formInfo.termsChecked ||
+      !formInfo.username
+    )
+      submittable = false;
+
+    if (emailValMessages.length !== 0 || passwordValMessages.length !== 0 || usernameValMessages.length !== 0)
+      submittable = false;
+
+    setSubmitDisabled(!submittable);
   }, [formInfo]);
 
   // when hashing the password client-side, React does not update the
@@ -45,25 +57,35 @@ const SignUp: FC = () => {
     if (shouldSignup)
       (async (): Promise<void> => {
         setIsLoading(true);
-        const preHashPassword = formInfo.password;
 
         try {
-          formInfo.password = SHA512(formInfo.password).toString();
-
-          const result = await httpRequest(endpoints.SIGNUP, 'POST', undefined, formInfo);
+          const result = await httpRequest(endpoints.SIGNUP, 'POST', undefined, {
+            email: formInfo.email,
+            password: SHA512(formInfo.password).toString(),
+            termsChecked: formInfo.termsChecked,
+            username: formInfo.username
+          });
           if (result.statusCode === 422) throw new Error(result.message);
 
           alert('Account created successfully, please check your emails to verify your account');
           setShowModal(false);
         } catch (error) {
           handleValidationMessage(extractValidationMessages(error as string));
-          setFormInfo({ ...formInfo, password: preHashPassword });
         } finally {
           setShouldSignup(false);
           setIsLoading(false);
         }
       })();
   }, [shouldSignup]);
+
+  useEffect(() => {
+    (async (): Promise<void> => {
+      let messages = (await validateInput(formInfo.email!, 'Email')) as string[];
+      messages = messages.filter((error) => error !== null);
+
+      setEmailValMessages(messages);
+    })();
+  }, [formInfo.email]);
 
   useEffect(() => {
     (async (): Promise<void> => {
@@ -75,6 +97,15 @@ const SignUp: FC = () => {
       setPasswordValMessages(messages);
     })();
   }, [formInfo.password, formInfo.repeatPassword]);
+
+  useEffect(() => {
+    (async (): Promise<void> => {
+      let messages = (await validateInput(formInfo.username!, 'Username')) as string[];
+      messages = messages.filter((error) => error !== null);
+
+      setUsernameValMessages(messages);
+    })();
+  }, [formInfo.username]);
 
   const checkboxHandler = (value: boolean): void => setFormInfo({ ...formInfo, termsChecked: value });
 
@@ -98,20 +129,20 @@ const SignUp: FC = () => {
       }
     });
 
-    setUsernameValidationMessages(replacementUsernameValList);
-    setEmailValidationMessages(replacementEmailValList);
+    setUsernameValMessages(replacementUsernameValList);
+    setEmailValMessages(replacementEmailValList);
   };
 
   const inputChangedHandler = (value: string, inputName: string): void =>
     setFormInfo({ ...formInfo, [inputName]: value });
 
   return (
-    <form autoComplete="off" onSubmit={(event): void => event.preventDefault()}>
+    <>
       <div className={`${classes.InputWrapper} form-outline mb-4`}>
         <Input
-          autoComplete="username"
+          autoComplete="off"
           className={classes.Input}
-          errors={usernameValidationMessages}
+          errors={usernameValMessages}
           onChange={(event): void => inputChangedHandler(event.target.value, 'username')}
           placeholder={'Username'}
           type={'text'}
@@ -120,7 +151,7 @@ const SignUp: FC = () => {
         <Input
           autoComplete="email"
           className={classes.Input}
-          errors={emailValidationMessages}
+          errors={emailValMessages}
           onChange={(event): void => inputChangedHandler(event.target.value, 'email')}
           placeholder={'Email'}
           type={'email'}
@@ -144,6 +175,7 @@ const SignUp: FC = () => {
           }}
           placeholder={'Repeat password'}
           type={'password'}
+          value={formInfo.repeatPassword}
         />
       </div>
 
@@ -169,7 +201,7 @@ const SignUp: FC = () => {
           <SpinnerButton />
         )}
       </div>
-    </form>
+    </>
   );
 };
 
