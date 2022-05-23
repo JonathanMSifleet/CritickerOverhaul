@@ -56,9 +56,9 @@ const Avatar: FC<IProps> = ({ avatar, setUserInfo, username, userState }) => {
 
   return (
     <div className={classes.ImageWrapper}>
-      {username || userState.loggedIn ? <img className={classes.UserAvatar} src={userAvatar} /> : <Spinner />}
+      {username ? <img className={classes.UserAvatar} src={userAvatar} /> : <Spinner />}
 
-      {!username && userState.loggedIn ? (
+      {username === userState.username && userState.loggedIn ? (
         <>
           <label className={classes.UploadPictureText}>
             Upload new picture
