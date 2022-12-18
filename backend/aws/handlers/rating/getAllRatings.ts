@@ -1,6 +1,5 @@
 import { AttributeValue, BatchGetItemCommand, DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
 import { createAWSResErr } from '../../shared/functions/createAWSResErr';
-import { parse } from 'query-string';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import chunk from 'chunk';
 import cors from '@middy/http-cors';
@@ -8,6 +7,7 @@ import createDynamoSearchQuery from '../../shared/functions/queries/createDynamo
 import IFilm from '../../../../shared/interfaces/IFilm';
 import IHTTP from '../../shared/interfaces/IHTTP';
 import middy from '@middy/core';
+import queryString from 'query-string';
 
 const dbClient = new DynamoDBClient({});
 
@@ -114,7 +114,7 @@ const getDynamoRatings = async (
 const getLastEvaluatedKey = (passedLastEvaluatedKey: string): IExtractedLastEvaluatedKey | undefined => {
   if (passedLastEvaluatedKey === undefined) return undefined;
 
-  const lastEvaluatedKey = parse(passedLastEvaluatedKey) as unknown as ILastEvaluatedKey;
+  const lastEvaluatedKey = queryString.parse(passedLastEvaluatedKey) as unknown as ILastEvaluatedKey;
 
   return {
     imdbID: { N: lastEvaluatedKey.imdbID },

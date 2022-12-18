@@ -2,7 +2,6 @@ import * as endpoints from '../../constants/endpoints';
 import { FC } from 'preact/compat';
 import { Link } from 'preact-router/match';
 import { MDBCol } from 'mdb-react-ui-kit';
-import { stringify } from 'query-string';
 import { useEffect, useState } from 'preact/hooks';
 import { useRecoilValue } from 'recoil';
 import { userInfoState } from '../../store';
@@ -12,6 +11,7 @@ import getCellColour from '../../utils/getCellColour';
 import getColourGradient from '../../utils/getColourGradient';
 import httpRequest from '../../utils/httpRequest';
 import PageView from '../../hoc/PageView/PageView';
+import queryString from 'query-string';
 import Spinner from '../../components/Spinner/Spinner';
 
 interface IFilm {
@@ -80,7 +80,7 @@ const Ratings: FC<IUrlParams> = ({ username }) => {
     localRatings: IFilm[]
   ): Promise<void> => {
     const paginationResult = await httpRequest(
-      `${endpoints.GET_ALL_RATINGS}/${localUsername}/${stringify(lastEvaluatedKey)}`,
+      `${endpoints.GET_ALL_RATINGS}/${localUsername}/${queryString.stringify(lastEvaluatedKey)}`,
       'GET'
     );
 
