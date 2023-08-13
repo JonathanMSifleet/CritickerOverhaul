@@ -3,7 +3,6 @@ import { FC } from 'preact/compat';
 interface IProps {
   checked?: boolean;
   label: string;
-  // @ts-expect-error Preact doesn't have a type for this
   onClick: React.MouseEventHandler<HTMLInputElement>;
 }
 

@@ -16,8 +16,8 @@ provider:
   region: eu-west-2
   environment:
     AGGREGATE_PERCENTILES_TABLE_NAME: ${self:custom.AggregatePercentilesTable.name}
-    AUTH0_AUDIENCE: https://71tyzaqaa5.execute-api.eu-west-2.amazonaws.com/dev/user/signup
-    AUTH0_ID: 35MqftfUFxJ46068alwJj47UQXySn2be
+    AUTH0_AUDIENCE: https://fl6lwlunp9.execute-api.eu-west-2.amazonaws.com/dev/signup
+    AUTH0_ID: uftV0Jb8KRKl7rGzmzEZXPwIgoEr77tR
     AUTH0_PRIVATE_KEY: ${file(./keys/auth0PrivateKey.pem)}
     AUTH0_PUBLIC_KEY: ${file(./keys/auth0PublicKey.pem)}
     AUTH0_URL: https://dev-btmyx7mm.eu.auth0.com/oauth/token
@@ -421,7 +421,7 @@ custom:
   bundle:
     linting: true
   cloudfrontInvalidate:
-    - distributionId: 'E34PO2D1X35SCI'
+    - distributionId: 'E25ASI4SIUBGJK'
       autoInvalidate: true
       items:
         - '/*'

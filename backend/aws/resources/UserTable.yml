@@ -30,9 +30,3 @@ UserTable:
             KeyType: HASH
         Projection:
           ProjectionType: ALL
-      - IndexName: avatar
-        KeySchema:
-          - AttributeName: avatar
-            KeyType: HASH
-        Projection:
-          ProjectionType: ALL
