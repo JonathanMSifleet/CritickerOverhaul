@@ -2,7 +2,7 @@ service: CritickerOverhaul
 frameworkVersion: '3'
 
 plugins:
-  - serverless-webpack
+  - serverless-esbuild
 
 provider:
   name: aws
@@ -345,5 +345,7 @@ custom:
   SendResetPasswordEmailLambda: arn:aws:lambda:${aws:region}:${aws:accountId}:function:CritickerOverhaul-${self:provider.stage}-sendResetPasswordEmail
   bundle:
     linting: true
-  webpack:
-    webpackConfig: ../webpack.config.js
+  esbuild:
+    bundle: true
+    minify: true
+    target: node18

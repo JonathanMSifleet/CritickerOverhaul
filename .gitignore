@@ -2,7 +2,6 @@
 **/.DS_Store
 **/Folder.jpg
 **/auth0PrivateKey.pem
-src/keys/sendGridAPIKey
 **/thumbs.db
 *.tsbuildinfo
 .DS_Store
@@ -14,6 +13,7 @@ src/keys/sendGridAPIKey
 .env.local
 .env.production.local
 .env.test.local
+.esbuild
 .gitattributes
 .idea
 .pnp.js
@@ -26,7 +26,6 @@ src/keys/sendGridAPIKey
 /coverage
 /node_modules
 Extras/
-src/lib/tsconfig.tsbuildinfo
 createSecret.txt
 dist
 generateData/avatars/*.json
@@ -35,6 +34,8 @@ generateData/usernamePairs/*.json
 node_modules
 npm-debug.log*
 secret.pem
+src/keys/sendGridAPIKey
+src/lib/tsconfig.tsbuildinfo
 tsconfig.tsbuildinfo
 yarn-debug.log*
 yarn-error.log*
