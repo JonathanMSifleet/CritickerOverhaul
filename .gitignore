@@ -2,7 +2,7 @@
 **/.DS_Store
 **/Folder.jpg
 **/auth0PrivateKey.pem
-backend/keys/sendGridAPIKey
+src/keys/sendGridAPIKey
 **/thumbs.db
 *.tsbuildinfo
 .DS_Store
@@ -26,7 +26,7 @@ backend/keys/sendGridAPIKey
 /coverage
 /node_modules
 Extras/
-backend/lib/tsconfig.tsbuildinfo
+src/lib/tsconfig.tsbuildinfo
 createSecret.txt
 dist
 generateData/avatars/*.json

@@ -1,0 +1,349 @@
+service: CritickerOverhaul
+frameworkVersion: '3'
+
+plugins:
+  - serverless-webpack
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  apiGateway:
+    minimumCompressionSize: 1024
+    shouldStartNameWithService: true
+  memorySize: 256
+  stage: ${opt:stage, 'dev'}
+  region: eu-west-2
+  environment:
+    AGGREGATE_PERCENTILES_TABLE_NAME: ${self:custom.AggregatePercentilesTable.name}
+    AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
+    FILMS_TABLE_NAME: ${self:custom.FilmsTable.name}
+    RATINGS_TABLE_NAME: ${self:custom.RatingsTable.name}
+    SENDGRID_API_KEY: ${file(./keys/sendGridAPIKey)}
+    SOURCE_EMAIL_ADDRESS: 18014017@stu.mmu.ac.uk
+    TCI_TABLE_NAME: ${self:custom.TciTable.name}
+    USER_TABLE_NAME: ${self:custom.UserTable.name}
+  iam:
+    role:
+      statements:
+        - ${file(aws/iam/AggregatePercentilesTableIAM.yml):AggregatePercentilesTableIAM}
+        - ${file(aws/iam/FilmsTableIAM.yml):FilmsTableIAM}
+        - ${file(aws/iam/RatingsTableIAM.yml):RatingsTableIAM}
+        - ${file(aws/iam/TciTableIAM.yml):TciTableIAM}
+        - ${file(aws/iam/UserTableIAM.yml):UserTableIAM}
+
+package:
+  individually: true
+
+functions:
+  deleteAccount:
+    handler: aws/handlers/user/deleteAccount.handler
+    events:
+      - http:
+          method: DELETE
+          path: user/deleteAccount/{username}
+          cors: true
+  deleteRating:
+    handler: aws/handlers/rating/deleteRating.handler
+    events:
+      - http:
+          method: DELETE
+          path: rating/deleteRating/{imdbID}/{username}/{accessToken}
+          cors: true
+  generateTCI:
+    handler: aws/handlers/user/generateTCI.handler
+    timeout: 30
+    events:
+      - http:
+          method: PUT
+          path: user/generateTCI/{primaryUsername}/{secondaryUsername}
+          cors: true
+  getAllRatings:
+    handler: aws/handlers/rating/getAllRatings.handler
+    timeout: 30
+    events:
+      - http:
+          method: GET
+          path: rating/getAllRatings/{username}
+          cors: true
+      - http:
+          method: GET
+          path: rating/getAllRatings/{username}/{lastEvaluatedKey}
+          cors: true
+  getFilmDetails:
+    handler: aws/handlers/film/getFilmDetails.handler
+    events:
+      - http:
+          method: GET
+          path: film/getFilmDetails/{imdbID}
+          cors: true
+  getFilmRatings:
+    handler: aws/handlers/film/getFilmRatings.handler
+    events:
+      - http:
+          method: GET
+          path: film/getFilmRatings/{imdbID}
+          cors: true
+  getFilms:
+    handler: aws/handlers/film/getFilms.handler
+    events:
+      - http:
+          method: GET
+          path: film/getFilms
+          cors: true
+  getNumRatings:
+    handler: aws/handlers/user/getNumRatings.handler
+    events:
+      - http:
+          method: GET
+          path: user/getNumRatings/{username}
+          cors: true
+  getProfileByUsername:
+    handler: aws/handlers/user/getProfileByUsername.handler
+    events:
+      - http:
+          method: GET
+          path: user/profile/{username}
+          cors: true
+  getRecentRatings:
+    handler: aws/handlers/user/getRecentRatings.handler
+    events:
+      - http:
+          method: GET
+          path: user/getRecentRatings/{username}
+          cors: true
+  getUserAvatar:
+    handler: aws/handlers/user/getUserAvatar.handler
+    events:
+      - http:
+          method: GET
+          path: user/avatar/{username}
+          cors: true
+  getUserRating:
+    handler: aws/handlers/rating/getUserRating.handler
+    events:
+      - http:
+          method: GET
+          path: rating/getUserRating/{imdbID}/{username}
+          cors: true
+  importRatings:
+    handler: aws/handlers/rating/importRatings.handler
+    timeout: 30
+    events:
+      - http:
+          method: POST
+          path: rating/importRatings/{username}
+          cors: true
+  login:
+    handler: aws/handlers/user/login.handler
+    events:
+      - http:
+          method: POST
+          path: user/login
+          cors: true
+  rateFilm:
+    handler: aws/handlers/rating/rateFilm.handler
+    timeout: 30
+    events:
+      - http:
+          method: POST
+          path: rating/rateFilm/{username}
+          cors: true
+  searchForFilm:
+    handler: aws/handlers/film/searchForFilm.handler
+    timeout: 30
+    events:
+      - http:
+          method: GET
+          path: film/searchForFilm/{queryString}
+          cors: true
+      - http:
+          method: GET
+          path: film/searchForFilm/{queryString}/{lastEvaluatedKey}
+          cors: true
+  sendResetPasswordEmail:
+    handler: aws/handlers/password/sendResetPasswordEmail.handler
+    events:
+      - http:
+          method: PUT
+          path: password/sendResetPasswordEmail/{emailAddress}
+          cors: true
+  sendVerificationEmail:
+    handler: aws/handlers/verification/sendVerificationEmail.handler
+    events:
+      - http:
+          method: GET
+          path: verification/sendVerificationEmail/{username}
+          cors: true
+  signup:
+    handler: aws/handlers/user/signup.handler
+    events:
+      - http:
+          method: POST
+          path: user/signup
+          cors: true
+  updatePassword:
+    handler: aws/handlers/password/updatePassword.handler
+    events:
+      - http:
+          method: PUT
+          path: password/resetPassword/{emailAddress}/{token}
+          cors: true
+  updateUserProfile:
+    handler: aws/handlers/user/updateUserProfile.handler
+    events:
+      - http:
+          method: PUT
+          path: user/profile/{username}
+          cors: true
+  uploadUserAvatar:
+    handler: aws/handlers/user/uploadUserAvatar.handler
+    events:
+      - http:
+          method: POST
+          path: user/avatar/{username}
+          cors: true
+  verifyEmail:
+    handler: aws/handlers/verification/verifyEmail.handler
+    events:
+      - http:
+          method: GET
+          path: verification/verifyEmail/{username}/{token}
+          cors: true
+
+  # dummy data functions:
+  # addAccounts:
+  #   handler: aws/handlers/mockData/addAccounts.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         method: POST
+  #         path: mockData/addAccounts
+  #         cors: true
+  # aggregateUserPercentiles:
+  #   handler: aws/handlers/mockData/aggregateUserPercentiles.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         method: PUT
+  #         path: mockData/aggregateUserPercentiles/{username}
+  #         cors: true
+  # importAvatars:
+  #   handler: aws/handlers/mockData/importAvatars.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         method: PUT
+  #         path: mockData/importAvatars/{username}
+  #         cors: true
+  # importGeneratedRatings:
+  #   handler: aws/handlers/mockData/importGeneratedRatings.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         method: POST
+  #         path: mockData/importGeneratedRatings
+  #         cors: true
+  # updateNumRatings:
+  #   handler: aws/handlers/mockData/updateNumRatings.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         method: PUT
+  #         path: mockData/updateNumRatings
+  #         cors: true
+  # updatePercentiles:
+  #   handler: aws/handlers/mockData/updatePercentiles.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         method: PUT
+  #         path: mockData/updatePercentiles/{username}
+  #         cors: true
+
+  # migration functions:
+  # addPeople:
+  #   handler: aws/handlers/mySQLMigration/addPeople.handler
+  #   events:
+  #     - http:
+  #         method: PUT
+  #         path: migration/addPeople/{type}
+  #         cors: true
+  # importFilmBatch:
+  #   handler: aws/handlers/mySQLMigration/importFilmBatch.handler
+  #   timeout: 30
+  #   events:
+  #     - http:
+  #         method: POST
+  #         path: migration/importFilmBatch
+  #         cors: true
+
+  # auth functions:
+  authoriser:
+    handler: aws/handlers/auth/authoriser.handler
+  publicEndpoint:
+    handler: aws/handlers/auth/public.handler
+    events:
+      - http:
+          path: public
+          method: POST
+          cors: true
+  privateEndpoint:
+    handler: aws/handlers/auth/private.handler
+    events:
+      - http:
+          path: private
+          method: POST
+          cors: true
+
+resources:
+  Resources:
+    AggregatePercentilesTable: ${file(aws/resources/AggregatePercentilesTable.yml):AggregatePercentilesTable}
+    FilmsTable: ${file(aws/resources/FilmsTable.yml):FilmsTable}
+    RatingsTable: ${file(aws/resources/RatingsTable.yml):RatingsTable}
+    TciTable: ${file(aws/resources/TciTable.yml):TciTable}
+    UserTable: ${file(aws/resources/UserTable.yml):UserTable}
+
+    # This response is needed for custom authorizer failures cors support
+    GatewayResponse:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: EXPIRED_TOKEN
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
+        StatusCode: '401'
+    AuthFailureGatewayResponse:
+      Type: 'AWS::ApiGateway::GatewayResponse'
+      Properties:
+        ResponseParameters:
+          gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
+          gatewayresponse.header.Access-Control-Allow-Headers: "'*'"
+        ResponseType: UNAUTHORIZED
+        RestApiId:
+          Ref: 'ApiGatewayRestApi'
+        StatusCode: '401'
+
+custom:
+  AggregatePercentilesTable:
+    name: !Ref AggregatePercentilesTable
+    arn: !GetAtt AggregatePercentilesTable.Arn
+  FilmsTable:
+    name: !Ref FilmsTable
+    arn: !GetAtt FilmsTable.Arn
+  RatingsTable:
+    name: !Ref RatingsTable
+    arn: !GetAtt RatingsTable.Arn
+  TciTable:
+    name: !Ref TciTable
+    arn: !GetAtt TciTable.Arn
+  UserTable:
+    name: !Ref UserTable
+    arn: !GetAtt UserTable.Arn
+
+  SendResetPasswordEmailLambda: arn:aws:lambda:${aws:region}:${aws:accountId}:function:CritickerOverhaul-${self:provider.stage}-sendResetPasswordEmail
+  bundle:
+    linting: true
+  webpack:
+    webpackConfig: ../webpack.config.js
