@@ -1,4 +1,4 @@
-import { createAWSResErr } from '../../shared/functions/createAWSResErr';
+import createAWSResErr from '../../shared/functions/createAWSResErr';
 import { DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import { v4 as uuid } from 'uuid';
 import cors from '@middy/http-cors';

@@ -1,10 +1,10 @@
 import { AttributeValue, DynamoDBClient, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
-import { createAWSResErr } from '../../shared/functions/createAWSResErr';
+import createAWSResErr from '../../shared/functions/createAWSResErr';
 import cors from '@middy/http-cors';
 import IHTTP from '../../interfaces/IHTTP';
-import IUserProfile from '../../../../shared/interfaces/IUserProfile';
 import middy from '@middy/core';
 import validateAccessToken from '../../shared/functions/validateAccessToken';
+import IUserProfile from '../../interfaces/IUserProfile';
 
 const dbClient = new DynamoDBClient({});
 

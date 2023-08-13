@@ -1,11 +1,11 @@
-import { createAWSResErr } from '../../shared/functions/createAWSResErr';
+import createAWSResErr from '../../shared/functions/createAWSResErr';
 import { DynamoDBClient, GetItemCommand, PutItemCommand } from '@aws-sdk/client-dynamodb';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import cors from '@middy/http-cors';
 import getExistingTCI from '../../shared/functions/getExistingTCI';
 import IHTTP from '../../interfaces/IHTTP';
-import ITCI from '../../../../shared/interfaces/ITCI';
 import middy from '@middy/core';
+import ITCI from '../../interfaces/ITCI';
 
 const dbClient = new DynamoDBClient({});
 

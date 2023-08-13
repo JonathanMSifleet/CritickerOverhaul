@@ -1,9 +1,9 @@
 import { AttributeValue, DynamoDBClient, ScanCommand, ScanCommandInput } from '@aws-sdk/client-dynamodb';
-import { createAWSResErr } from '../../shared/functions/createAWSResErr';
+import createAWSResErr from '../../shared/functions/createAWSResErr';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import cors from '@middy/http-cors';
 import IHTTP from '../../interfaces/IHTTP';
-import ISearchedFilm from '../../../../shared/interfaces/ISearchedFilm';
+import ISearchedFilm from '../../interfaces/ISearchedFilm';
 import middy from '@middy/core';
 
 const dbClient = new DynamoDBClient({});

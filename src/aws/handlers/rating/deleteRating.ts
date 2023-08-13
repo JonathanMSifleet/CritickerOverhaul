@@ -1,4 +1,4 @@
-import { createAWSResErr } from '../../shared/functions/createAWSResErr';
+import createAWSResErr from '../../shared/functions/createAWSResErr';
 import { DeleteItemCommand, DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import alterNumRatings from '../../shared/functions/alterNumRatings';
 import cors from '@middy/http-cors';

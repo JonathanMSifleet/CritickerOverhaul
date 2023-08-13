@@ -1,4 +1,4 @@
-import { createAWSResErr } from '../../shared/functions/createAWSResErr';
+import createAWSResErr from '../../shared/functions/createAWSResErr';
 import { verify } from 'jsonwebtoken';
 import IHTTP from '../../interfaces/IHTTP';
 

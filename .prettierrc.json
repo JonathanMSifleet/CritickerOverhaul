@@ -1,5 +1,5 @@
 {
-  "endOfLine": "crlf",
+  "endOfLine": "lf",
   "parser": "typescript",
   "printWidth": 120,
   "semi": true,

@@ -1,5 +1,5 @@
-import checkUniqueAttribute from '../shared/functions/checkUniqueAttribute';
 import EmailValidator from 'email-validator';
+import checkUniqueAttribute from './checkUniqueAttribute';
 
 export const validateUserInputs = async (username: string, email: string): Promise<(string | null)[]> => {
   const errors = await Promise.all([

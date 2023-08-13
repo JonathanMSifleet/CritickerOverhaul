@@ -1,5 +1,5 @@
 import { BatchWriteItemCommand, BatchWriteItemCommandOutput, DynamoDBClient } from '@aws-sdk/client-dynamodb';
-import { createAWSResErr } from '../../shared/functions/createAWSResErr';
+import createAWSResErr from '../../shared/functions/createAWSResErr';
 import { DeleteItemCommand } from '@aws-sdk/client-dynamodb';
 import chunk from 'chunk';
 import cors from '@middy/http-cors';

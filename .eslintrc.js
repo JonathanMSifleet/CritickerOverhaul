@@ -1,18 +1,10 @@
 module.exports = {
-  extends: [
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
-    'eslint-config-prettier'
-  ],
+  extends: ['plugin:@typescript-eslint/recommended', 'plugin:prettier/recommended', 'eslint-config-prettier'],
   env: {
     node: true
   },
   parser: '@typescript-eslint/parser',
-  plugins: [
-    '@typescript-eslint',
-    'prettier',
-    'sort-imports-es6-autofix'
-  ],
+  plugins: ['@typescript-eslint', 'prettier'],
   settings: {
     'import/parsers': {
       '@typescript-eslint/parser': ['.ts', '.tsx']
@@ -36,8 +28,6 @@ module.exports = {
     'eol-last': [2, 'windows'],
     'eslint/no-throw-literal': 'off',
     'max-len': ['error', 120, 2],
-    'sort-imports-es6-autofix/sort-imports-es6': [2, {
-      'ignoreCase': true
-    }]
+    'sort-imports': ['error', { ignoreCase: true, ignoreDeclarationSort: true }]
   }
 };

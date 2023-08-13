@@ -1,4 +1,4 @@
-import { createAWSResErr } from '../../shared/functions/createAWSResErr';
+import createAWSResErr from '../../shared/functions/createAWSResErr';
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import cors from '@middy/http-cors';
 import getNumRatingsFromDB from '../../shared/functions/getNumRatingsFromDB';

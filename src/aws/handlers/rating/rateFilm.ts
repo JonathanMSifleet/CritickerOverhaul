@@ -1,4 +1,4 @@
-import { createAWSResErr } from '../../shared/functions/createAWSResErr';
+import createAWSResErr from '../../shared/functions/createAWSResErr';
 import {
   DynamoDBClient,
   GetItemCommand,
@@ -15,7 +15,7 @@ import createDynamoSearchQuery from '../../shared/functions/queries/createDynamo
 import createDynamoUpdateQuery from '../../shared/functions/queries/createDynamoUpdateQuery';
 import getUserRatings from '../../shared/functions/getUserRatings';
 import IHTTP from '../../interfaces/IHTTP';
-import IRating from '../../../../shared/interfaces/IRating';
+import IRating from '../../interfaces/IRating';
 import middy from '@middy/core';
 import percentRank from 'percentile-rank';
 import validateAccessToken from '../../shared/functions/validateAccessToken';

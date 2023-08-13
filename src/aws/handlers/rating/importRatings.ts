@@ -8,14 +8,14 @@ import {
   UpdateItemCommand,
   UpdateItemCommandOutput
 } from '@aws-sdk/client-dynamodb';
-import { createAWSResErr } from '../../shared/functions/createAWSResErr';
+import createAWSResErr from '../../shared/functions/createAWSResErr';
 import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 import chunk from 'chunk';
 import cors from '@middy/http-cors';
 import createDynamoSearchQuery from '../../shared/functions/queries/createDynamoSearchQuery';
 import createDynamoUpdateQuery from '../../shared/functions/queries/createDynamoUpdateQuery';
 import IHTTP from '../../interfaces/IHTTP';
-import IRating from '../../../../shared/interfaces/IRating';
+import IRating from '../../interfaces/IRating';
 import middy from '@middy/core';
 import percentRank from 'percentile-rank';
 import validateAccessToken from '../../shared/functions/validateAccessToken';

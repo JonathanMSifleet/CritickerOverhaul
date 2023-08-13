@@ -1,10 +1,10 @@
-import { createAWSResErr } from '../../shared/functions/createAWSResErr';
+import createAWSResErr from '../../shared/functions/createAWSResErr';
 import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import cors from '@middy/http-cors';
 import createDynamoSearchQuery from '../../shared/functions/queries/createDynamoSearchQuery';
 import IHTTP from '../../interfaces/IHTTP';
-import IRating from '../../../../shared/interfaces/IRating';
+import IRating from '../../interfaces/IRating';
 import middy from '@middy/core';
 
 const dbClient = new DynamoDBClient({});

@@ -1,15 +1,15 @@
-import { createAWSResErr } from '../../shared/functions/createAWSResErr';
+import createAWSResErr from '../../shared/functions/createAWSResErr';
 import { DynamoDBClient, QueryCommand, UpdateItemCommand } from '@aws-sdk/client-dynamodb';
 import { unmarshall } from '@aws-sdk/util-dynamodb';
 import cors from '@middy/http-cors';
-import createDynamoSearchQuery from '../../shared/functions/queries/createDynamoSearchQuery';
-import createDynamoUpdateQuery from '../../shared/functions/queries/createDynamoUpdateQuery';
 import generateAccessToken from '../../shared/functions/generateAccessToken';
 import getExistingTCI from '../../shared/functions/getExistingTCI';
 import getUserAvatarFromDB from '../../shared/functions/getUserAvatarFromDB';
 import IHTTP from '../../interfaces/IHTTP';
-import ITCI from '../../../../shared/interfaces/ITCI';
 import middy from '@middy/core';
+import ITCI from '../../interfaces/ITCI';
+import createDynamoSearchQuery from '../../shared/functions/queries/createDynamoSearchQuery';
+import createDynamoUpdateQuery from '../../shared/functions/queries/createDynamoUpdateQuery';
 
 const dbClient = new DynamoDBClient({});
 

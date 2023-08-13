@@ -1,5 +1,5 @@
 import { DynamoDBClient, QueryCommand } from '@aws-sdk/client-dynamodb';
-import createDynamoSearchQuery from '../queries/createDynamoSearchQuery';
+import createDynamoSearchQuery from './queries/createDynamoSearchQuery';
 
 const checkUniqueAttribute = async (keyName: string, keyValue: string, indexName?: string): Promise<string | null> => {
   const query = createDynamoSearchQuery(process.env.USER_TABLE_NAME!, keyName, keyName, keyValue, 'S', indexName);
