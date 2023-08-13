@@ -10,6 +10,7 @@ import middy from '@middy/core';
 import ITCI from '../../interfaces/ITCI';
 import createDynamoSearchQuery from '../../shared/functions/queries/createDynamoSearchQuery';
 import createDynamoUpdateQuery from '../../shared/functions/queries/createDynamoUpdateQuery';
+import bcrypt from 'bcryptjs';
 
 const dbClient = new DynamoDBClient({});
 
@@ -35,8 +36,8 @@ const login = async (event: { body: string }): Promise<IHTTP> => {
   try {
     const user = await loginUser(email);
     if (user instanceof Error) return createAWSResErr(404, 'Email address is not associated with any user');
-    if (user.isVerified === false) return createAWSResErr(401, 'Email address is not verified');
-    if (password !== user.password) return createAWSResErr(401, 'Password is incorrect');
+    if (!user.isVerified) return createAWSResErr(401, 'Email address is not verified');
+    if (!bcrypt.compareSync(password, user.password)) return createAWSResErr(401, 'Password is incorrect');
 
     let newAccessToken: string;
     try {
@@ -49,7 +50,7 @@ const login = async (event: { body: string }): Promise<IHTTP> => {
     const TCIs = await getExistingTCI(dbClient, user.username);
 
     const payload: IPayload = { accessToken: newAccessToken, TCIs, username: user.username };
-    if (userAvatar !== undefined) payload.avatar = userAvatar;
+    if (userAvatar) payload.avatar = userAvatar;
 
     console.log('Logged in successfully');
     return {
@@ -106,10 +107,10 @@ const loginUser = async (email: string): Promise<Error | IUser> => {
 };
 
 const verifyAccessToken = async (username: string, oldAccessToken: string): Promise<string | IHTTP> => {
-  if (oldAccessToken === undefined) return await createNewAccessToken(username);
+  if (!oldAccessToken) return await createNewAccessToken(username);
 
   const { accessTokenExpiry } = JSON.parse(oldAccessToken);
-  if (accessTokenExpiry !== undefined && accessTokenExpiry > Date.now()) return oldAccessToken;
+  if (accessTokenExpiry && accessTokenExpiry > Date.now()) return oldAccessToken;
 
   return await createNewAccessToken(username);
 };

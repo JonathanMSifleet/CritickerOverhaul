@@ -10,6 +10,7 @@ import sendGrid from '@sendgrid/mail';
 import storeVerificationToken from '../../shared/functions/storeVerificationToken';
 import IAccessToken from '../../interfaces/IAccessToken';
 import { validateUserInputs } from '../../shared/functions/validationFunctions';
+import bcrypt from 'bcryptjs';
 
 const dbClient = new DynamoDBClient({});
 
@@ -27,7 +28,8 @@ const signup = async (event: { body: string }): Promise<IHTTP> => {
   const accessToken = (await generateAccessToken()) as IAccessToken;
 
   try {
-    await insertUserToDB(username, email, password, memberSince, accessToken);
+    const salt = bcrypt.genSaltSync(10);
+    await insertUserToDB(username, email, bcrypt.hashSync(password, salt), memberSince, accessToken);
 
     console.log('Signed up successfully');
 
