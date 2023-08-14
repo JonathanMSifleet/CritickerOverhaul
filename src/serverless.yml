@@ -18,8 +18,6 @@ provider:
     AWS_NODEJS_CONNECTION_REUSE_ENABLED: 1
     FILMS_TABLE_NAME: ${self:custom.FilmsTable.name}
     RATINGS_TABLE_NAME: ${self:custom.RatingsTable.name}
-    SENDGRID_API_KEY: ${file(./keys/sendGridAPIKey)}
-    SOURCE_EMAIL_ADDRESS: 18014017@stu.mmu.ac.uk
     TCI_TABLE_NAME: ${self:custom.TciTable.name}
     USER_TABLE_NAME: ${self:custom.UserTable.name}
   iam:
@@ -342,10 +340,10 @@ custom:
     name: !Ref UserTable
     arn: !GetAtt UserTable.Arn
 
-  SendResetPasswordEmailLambda: arn:aws:lambda:${aws:region}:${aws:accountId}:function:CritickerOverhaul-${self:provider.stage}-sendResetPasswordEmail
   bundle:
     linting: true
   esbuild:
     bundle: true
     minify: true
     target: node18
+    legalComments: none
