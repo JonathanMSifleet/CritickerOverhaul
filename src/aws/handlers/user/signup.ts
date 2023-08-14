@@ -17,7 +17,7 @@ const signup = async (event: { body: string }): Promise<IHTTP> => {
   email = email.trim();
 
   const errors = await validateUserInputs(username, email);
-  if (errors.length !== 0) return createAWSResErr(422, errors as string[]);
+  if (errors.length !== 0) return createAWSResErr(400, errors as string[]);
 
   const memberSince = getSignupDate();
 
